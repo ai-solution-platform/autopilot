@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thai Government Document Parser | Autopilot v2 by ANTS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #2563EB;
+  --purple: #7C3AED;
+  --green: #059669;
+  --red: #DC2626;
+  --orange: #D97706;
+  --grad: linear-gradient(135deg, #2563EB, #7C3AED);
+  --bg: #0F172A;
+  --surface: #1E293B;
+  --surface2: #334155;
+  --text: #F8FAFC;
+  --text-dim: #94A3B8;
+  --border: #475569;
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Noto Sans Thai', 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Header */
+.header {
+  background: rgba(15,23,42,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(71,85,105,0.4);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-brand .logo {
+  width: 36px;
+  height: 36px;
+  background: var(--grad);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 800;
+  color: white;
+}
+
+.header-brand h1 {
+  font-size: 18px;
+  font-weight: 700;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header-brand span {
+  font-size: 12px;
+  color: var(--text-dim);
+  display: block;
+  margin-top: -2px;
+}
+
+.header-badge {
+  padding: 6px 14px;
+  background: rgba(5,150,105,0.15);
+  border: 1px solid rgba(5,150,105,0.3);
+  border-radius: 20px;
+  font-size: 12px;
+  color: #34D399;
+  font-weight: 600;
+}
+
+/* Main Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+/* Page Title */
+.page-title {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.page-title h2 {
+  font-size: 32px;
+  font-weight: 800;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
+}
+
+.page-title p {
+  color: var(--text-dim);
+  font-size: 16px;
+}
+
+/* Section Titles */
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-title .icon {
+  font-size: 24px;
+}
+
+/* Document Grid */
+.doc-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 900px) {
+  .doc-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+  .doc-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.doc-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 18px 12px;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-align: center;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.doc-btn:hover {
+  border-color: var(--blue);
+  background: rgba(37,99,235,0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(37,99,235,0.2);
+}
+
+.doc-btn.active {
+  border-color: var(--blue);
+  background: rgba(37,99,235,0.15);
+  box-shadow: 0 0 20px rgba(37,99,235,0.25);
+}
+
+.doc-btn .emoji {
+  font-size: 32px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.doc-btn .name {
+  font-weight: 600;
+  margin-bottom: 2px;
+  font-size: 13px;
+}
+
+.doc-btn .code {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+/* Card */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.card h4 {
+  font-size: 14px;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Demo Area */
+.demo-area {
+  display: none;
+}
+
+.demo-area.active {
+  display: block;
+  animation: fadeSlideUp 0.5s ease;
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Document Visual */
+.doc-visual {
+  background: #FFFEF7;
+  color: #1C1917;
+  border-radius: 8px;
+  padding: 24px 20px;
+  font-size: 13px;
+  line-height: 1.8;
+  position: relative;
+  min-height: 300px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  border: 1px solid #D4D4D8;
+}
+
+.doc-visual .doc-header-thai {
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  color: #1E3A5F;
+  margin-bottom: 4px;
+  font-family: 'Noto Sans Thai', serif;
+}
+
+.doc-visual .doc-subheader {
+  text-align: center;
+  font-size: 12px;
+  color: #64748B;
+  margin-bottom: 12px;
+}
+
+.doc-visual .garuda {
+  text-align: center;
+  font-size: 40px;
+  margin-bottom: 8px;
+}
+
+.doc-visual .field-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
+  border-bottom: 1px dotted #CBD5E1;
+}
+
+.doc-visual .field-label {
+  color: #64748B;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.doc-visual .field-value {
+  font-weight: 600;
+  color: #1E293B;
+  font-size: 12px;
+}
+
+.doc-visual table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 11px;
+}
+
+.doc-visual table th {
+  background: #E2E8F0;
+  color: #334155;
+  padding: 6px 8px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 11px;
+}
+
+.doc-visual table td {
+  padding: 5px 8px;
+  border-bottom: 1px solid #E2E8F0;
+  color: #1E293B;
+}
+
+/* OCR Scan Line */
+.scan-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #2563EB, transparent);
+  opacity: 0;
+  z-index: 5;
+}
+
+.scan-line.scanning {
+  opacity: 1;
+  animation: scanDown 2.5s ease-in-out;
+}
+
+@keyframes scanDown {
+  0% { top: 0; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: calc(100% - 3px); opacity: 0; }
+}
+
+/* Split Layout */
+.split-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+  .split-layout { grid-template-columns: 1fr; }
+}
+
+/* Extracted Data */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th {
+  background: rgba(37,99,235,0.15);
+  color: var(--text);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(71,85,105,0.3);
+  font-size: 13px;
+}
+
+.data-table tr:hover td {
+  background: rgba(37,99,235,0.05);
+}
+
+.data-table .field-name {
+  color: var(--text-dim);
+  font-weight: 600;
+  width: 40%;
+}
+
+.data-table .field-val {
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* Residents Table */
+.residents-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+
+.residents-table th {
+  background: rgba(37,99,235,0.15);
+  color: var(--text);
+  padding: 8px 10px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 11px;
+  border-bottom: 1px solid var(--border);
+}
+
+.residents-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(71,85,105,0.3);
+  font-size: 12px;
+}
+
+/* Status Badge */
+.status-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.status-badge.owner {
+  background: rgba(37,99,235,0.15);
+  color: #60A5FA;
+  border: 1px solid rgba(37,99,235,0.3);
+}
+
+.status-badge.resident {
+  background: rgba(5,150,105,0.15);
+  color: #34D399;
+  border: 1px solid rgba(5,150,105,0.3);
+}
+
+/* Progress Bar */
+.progress-bar {
+  height: 6px;
+  background: var(--surface2);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 8px 0;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 1.5s ease;
+  width: 0%;
+}
+
+.progress-fill.blue { background: var(--blue); }
+.progress-fill.green { background: var(--green); }
+.progress-fill.purple { background: var(--purple); }
+
+/* Btn */
+.btn-primary {
+  background: var(--grad);
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.25s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(37,99,235,0.35);
+}
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.25s;
+}
+
+.btn-secondary:hover {
+  border-color: var(--blue);
+  background: rgba(37,99,235,0.1);
+}
+
+/* Cross-Reference */
+.xref-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .xref-grid { grid-template-columns: 1fr; }
+}
+
+.xref-item {
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  text-align: center;
+  border: 1px solid transparent;
+  transition: all 0.3s;
+}
+
+.xref-item.match {
+  border-color: rgba(5,150,105,0.4);
+  background: rgba(5,150,105,0.08);
+}
+
+.xref-item.mismatch {
+  border-color: rgba(220,38,38,0.4);
+  background: rgba(220,38,38,0.08);
+}
+
+.xref-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.xref-label {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+
+.xref-detail {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.xref-result {
+  font-size: 12px;
+  margin-top: 6px;
+  font-weight: 700;
+}
+
+.xref-result.pass { color: #34D399; }
+.xref-result.fail { color: #F87171; }
+
+/* Quality Score */
+.quality-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 600px) {
+  .quality-grid { grid-template-columns: 1fr; }
+}
+
+.quality-item {
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  text-align: center;
+}
+
+.quality-score {
+  font-size: 36px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.quality-score.high { color: #34D399; }
+.quality-score.mid { color: #FBBF24; }
+.quality-score.low { color: #F87171; }
+
+.quality-label {
+  font-size: 13px;
+  color: var(--text-dim);
+  font-weight: 600;
+}
+
+/* Tabs */
+.tab-bar {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+  padding: 4px;
+  overflow-x: auto;
+}
+
+.tab-btn {
+  padding: 10px 18px;
+  border: none;
+  background: transparent;
+  color: var(--text-dim);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  color: var(--text);
+  background: rgba(255,255,255,0.05);
+}
+
+.tab-btn.active {
+  background: var(--blue);
+  color: white;
+}
+
+/* Overall Score Card */
+.overall-score {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 24px;
+}
+
+.score-circle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 800;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.score-circle::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 4px solid var(--surface2);
+}
+
+.score-circle.green { color: #34D399; border: 4px solid rgba(5,150,105,0.4); background: rgba(5,150,105,0.1); }
+
+.score-info h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.score-info p {
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
+/* Typewriter effect */
+.typewriter-cell {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Loading spinner */
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--surface2);
+  border-top-color: var(--blue);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Highlight row animation */
+@keyframes highlightRow {
+  0% { background: rgba(37,99,235,0.2); }
+  100% { background: transparent; }
+}
+
+.row-highlight td {
+  animation: highlightRow 1s ease;
+}
+
+/* Pulse */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.processing-text {
+  animation: pulse 1.5s ease-in-out infinite;
+  color: #60A5FA;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Steps indicator */
+.steps {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: var(--surface2);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dim);
+  transition: all 0.3s;
+}
+
+.step.active {
+  background: rgba(37,99,235,0.2);
+  color: #60A5FA;
+  border: 1px solid rgba(37,99,235,0.3);
+}
+
+.step.done {
+  background: rgba(5,150,105,0.15);
+  color: #34D399;
+  border: 1px solid rgba(5,150,105,0.3);
+}
+
+.step-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.step.active .step-num { background: var(--blue); color: white; }
+.step.done .step-num { background: var(--green); color: white; }
+
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-brand">
+    <div class="logo">A</div>
+    <div>
+      <h1>Autopilot v2</h1>
+      <span>AI Solution Hub by ANTS</span>
+    </div>
+  </div>
+  <div class="header-badge">Finance Document Hub</div>
+</div>
+
+<div class="container">
+
+  <!-- Page Title -->
+  <div class="page-title">
+    <h2>Thai Government Document Parser</h2>
+    <p>AI-powered OCR + Extraction สำหรับเอกสารราชการไทย 10 ประเภท -- แปลงเป็นข้อมูลเชิงโครงสร้างอัตโนมัติ</p>
+  </div>
+
+  <!-- Supported Documents Grid -->
+  <div class="section-title"><span class="icon">📑</span> เลือกประเภทเอกสารเพื่อดูตัวอย่าง</div>
+  <div class="doc-grid" id="docGrid">
+    <button class="doc-btn" data-doc="tabien-ban" onclick="selectDoc(this)">
+      <span class="emoji">🏠</span>
+      <div class="name">ทะเบียนบ้าน</div>
+      <div class="code">ทร.14</div>
+    </button>
+    <button class="doc-btn" data-doc="id-card" onclick="selectDoc(this)">
+      <span class="emoji">🪪</span>
+      <div class="name">บัตรประชาชน</div>
+      <div class="code">ID Card</div>
+    </button>
+    <button class="doc-btn" data-doc="dbd" onclick="selectDoc(this)">
+      <span class="emoji">📋</span>
+      <div class="name">หนังสือรับรองบริษัท</div>
+      <div class="code">DBD</div>
+    </button>
+    <button class="doc-btn" data-doc="pp20" onclick="selectDoc(this)">
+      <span class="emoji">📄</span>
+      <div class="name">ภ.พ.20</div>
+      <div class="code">ทะเบียน VAT</div>
+    </button>
+    <button class="doc-btn" data-doc="pnd91" onclick="selectDoc(this)">
+      <span class="emoji">📄</span>
+      <div class="name">ภ.ง.ด.91</div>
+      <div class="code">ภาษีบุคคลธรรมดา</div>
+    </button>
+    <button class="doc-btn" data-doc="salary-cert" onclick="selectDoc(this)">
+      <span class="emoji">📋</span>
+      <div class="name">หนังสือรับรองเงินเดือน</div>
+      <div class="code">Salary Certificate</div>
+    </button>
+    <button class="doc-btn" data-doc="chanod" onclick="selectDoc(this)">
+      <span class="emoji">📜</span>
+      <div class="name">โฉนดที่ดิน</div>
+      <div class="code">น.ส.4 จ.</div>
+    </button>
+    <button class="doc-btn" data-doc="car-reg" onclick="selectDoc(this)">
+      <span class="emoji">🚗</span>
+      <div class="name">สำเนาทะเบียนรถ</div>
+      <div class="code">Vehicle Registration</div>
+    </button>
+    <button class="doc-btn" data-doc="marriage" onclick="selectDoc(this)">
+      <span class="emoji">💍</span>
+      <div class="name">ทะเบียนสมรส</div>
+      <div class="code">Marriage Certificate</div>
+    </button>
+    <button class="doc-btn" data-doc="driver" onclick="selectDoc(this)">
+      <span class="emoji">📄</span>
+      <div class="name">ใบขับขี่</div>
+      <div class="code">Driver's License</div>
+    </button>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- DEMO 1: ทะเบียนบ้าน -->
+  <!-- ============================================ -->
+  <div class="demo-area" id="demo-tabien-ban">
+    <div class="section-title"><span class="icon">🏠</span> Demo: ทะเบียนบ้าน (ทร.14)</div>
+
+    <!-- Steps -->
+    <div class="steps" id="steps-tb">
+      <div class="step" id="step-tb-1"><div class="step-num">1</div> อัปโหลด</div>
+      <div class="step" id="step-tb-2"><div class="step-num">2</div> OCR Scan</div>
+      <div class="step" id="step-tb-3"><div class="step-num">3</div> AI Extract</div>
+      <div class="step" id="step-tb-4"><div class="step-num">4</div> ข้อมูลสำเร็จ</div>
+    </div>
+
+    <div style="text-align:center; margin-bottom:20px;">
+      <button class="btn-primary" onclick="runTabienBanDemo()">
+        <span class="spinner" style="display:none" id="spinTB"></span>
+        เริ่ม OCR Extraction
+      </button>
+    </div>
+
+    <div class="split-layout">
+      <!-- Document Visual -->
+      <div class="card">
+        <h4>เอกสารต้นฉบับ (Mock)</h4>
+        <div class="doc-visual" id="docVisualTB" style="position:relative;">
+          <div class="scan-line" id="scanLineTB"></div>
+          <div class="garuda">&#x0E3F;</div>
+          <div class="doc-header-thai">สำเนาทะเบียนบ้าน</div>
+          <div class="doc-subheader">ตามพระราชบัญญัติการทะเบียนราษฎร พ.ศ. 2534</div>
+          <hr style="border:none; border-top:2px solid #1E3A5F; margin:10px 0;">
+          <div class="field-row"><span class="field-label">เลขรหัสประจำบ้าน</span><span class="field-value">1101-000567-8</span></div>
+          <div class="field-row"><span class="field-label">เลขที่</span><span class="field-value">88/12</span></div>
+          <div class="field-row"><span class="field-label">หมู่ที่</span><span class="field-value">-</span></div>
+          <div class="field-row"><span class="field-label">ถนน</span><span class="field-value">สุขุมวิท</span></div>
+          <div class="field-row"><span class="field-label">ตำบล/แขวง</span><span class="field-value">คลองตัน</span></div>
+          <div class="field-row"><span class="field-label">อำเภอ/เขต</span><span class="field-value">คลองเตย</span></div>
+          <div class="field-row"><span class="field-label">จังหวัด</span><span class="field-value">กรุงเทพมหานคร</span></div>
+          <div class="field-row"><span class="field-label">รหัสไปรษณีย์</span><span class="field-value">10110</span></div>
+          <hr style="border:none; border-top:1px solid #CBD5E1; margin:8px 0;">
+          <table>
+            <thead><tr><th>ลำดับ</th><th>ชื่อ-สกุล</th><th>เลขบัตร</th><th>สถานะ</th><th>วันเข้า</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>นายสมชาย ใจดี</td><td>1-1001-12345-67-8</td><td>เจ้าบ้าน</td><td>15 มี.ค. 2548</td></tr>
+              <tr><td>2</td><td>นางสมศรี ใจดี</td><td>1-1001-12345-68-6</td><td>ผู้อาศัย</td><td>15 มี.ค. 2548</td></tr>
+              <tr><td>3</td><td>น.ส.สมหญิง ใจดี</td><td>1-1001-12345-69-4</td><td>ผู้อาศัย</td><td>20 ก.ค. 2553</td></tr>
+              <tr><td>4</td><td>ด.ช.สมภพ ใจดี</td><td>1-1001-12345-70-1</td><td>ผู้อาศัย</td><td>5 ม.ค. 2558</td></tr>
+              <tr><td>5</td><td>นางมาลี สุขสม</td><td>3-3401-00987-65-4</td><td>ผู้อาศัย</td><td>10 พ.ค. 2563</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Extracted Data -->
+      <div class="card">
+        <h4>ข้อมูลที่สกัดได้ (Structured Data)</h4>
+        <div id="extractedTB">
+          <div style="text-align:center; padding:60px 0; color:var(--text-dim);">
+            กดปุ่ม "เริ่ม OCR Extraction" เพื่อดูผลลัพธ์
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quality Score for TB -->
+    <div class="card" id="qualityTB" style="display:none;">
+      <h4>Data Quality Score -- ทะเบียนบ้าน</h4>
+      <div class="quality-grid">
+        <div class="quality-item">
+          <div class="quality-score high" id="qClarityTB">--</div>
+          <div class="quality-label">ความชัดเจน (Clarity)</div>
+          <div class="progress-bar"><div class="progress-fill blue" id="qClarityBarTB"></div></div>
+        </div>
+        <div class="quality-item">
+          <div class="quality-score high" id="qCompletenessTB">--</div>
+          <div class="quality-label">ความครบถ้วน (Completeness)</div>
+          <div class="progress-bar"><div class="progress-fill green" id="qCompletenessBarTB"></div></div>
+        </div>
+        <div class="quality-item">
+          <div class="quality-score high" id="qAccuracyTB">--</div>
+          <div class="quality-label">ความถูกต้อง (Accuracy)</div>
+          <div class="progress-bar"><div class="progress-fill purple" id="qAccuracyBarTB"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- DEMO 2: โฉนดที่ดิน -->
+  <!-- ============================================ -->
+  <div class="demo-area" id="demo-chanod">
+    <div class="section-title"><span class="icon">📜</span> Demo: โฉนดที่ดิน (น.ส.4 จ.)</div>
+
+    <div class="steps" id="steps-ch">
+      <div class="step" id="step-ch-1"><div class="step-num">1</div> อัปโหลด</div>
+      <div class="step" id="step-ch-2"><div class="step-num">2</div> OCR Scan</div>
+      <div class="step" id="step-ch-3"><div class="step-num">3</div> AI Extract</div>
+      <div class="step" id="step-ch-4"><div class="step-num">4</div> ข้อมูลสำเร็จ</div>
+    </div>
+
+    <div style="text-align:center; margin-bottom:20px;">
+      <button class="btn-primary" onclick="runChanodDemo()">
+        <span class="spinner" style="display:none" id="spinCH"></span>
+        เริ่ม AI Extraction
+      </button>
+    </div>
+
+    <div class="split-layout">
+      <div class="card">
+        <h4>เอกสารต้นฉบับ (Mock)</h4>
+        <div class="doc-visual" id="docVisualCH" style="position:relative;">
+          <div class="scan-line" id="scanLineCH"></div>
+          <div class="garuda">&#x0E3F;</div>
+          <div class="doc-header-thai">โฉนดที่ดิน</div>
+          <div class="doc-subheader">น.ส.4 จ. -- กรมที่ดิน กระทรวงมหาดไทย</div>
+          <hr style="border:none; border-top:2px solid #1E3A5F; margin:10px 0;">
+          <div class="field-row"><span class="field-label">เลขที่โฉนด</span><span class="field-value">123456</span></div>
+          <div class="field-row"><span class="field-label">เลขที่ดิน</span><span class="field-value">78</span></div>
+          <div class="field-row"><span class="field-label">หน้าสำรวจ</span><span class="field-value">2345</span></div>
+          <div class="field-row"><span class="field-label">ตำบล</span><span class="field-value">บางนา</span></div>
+          <div class="field-row"><span class="field-label">อำเภอ</span><span class="field-value">บางนา</span></div>
+          <div class="field-row"><span class="field-label">จังหวัด</span><span class="field-value">กรุงเทพมหานคร</span></div>
+          <hr style="border:none; border-top:1px solid #CBD5E1; margin:8px 0;">
+          <div class="field-row"><span class="field-label">เนื้อที่</span><span class="field-value">1 ไร่ 2 งาน 50 ตารางวา</span></div>
+          <div class="field-row"><span class="field-label">ราคาประเมิน</span><span class="field-value">12,500,000 บาท</span></div>
+          <hr style="border:none; border-top:1px solid #CBD5E1; margin:8px 0;">
+          <div style="font-size:12px; font-weight:600; color:#1E3A5F; margin-bottom:6px;">เจ้าของกรรมสิทธิ์:</div>
+          <table>
+            <thead><tr><th>ชื่อ-สกุล</th><th>สัดส่วน</th></tr></thead>
+            <tbody>
+              <tr><td>นายสมชาย ใจดี</td><td>1/2</td></tr>
+              <tr><td>นางสมศรี ใจดี</td><td>1/2</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h4>ข้อมูลที่สกัดได้ (Structured Data)</h4>
+        <div id="extractedCH">
+          <div style="text-align:center; padding:60px 0; color:var(--text-dim);">
+            กดปุ่ม "เริ่ม AI Extraction" เพื่อดูผลลัพธ์
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="qualityCH" style="display:none;">
+      <h4>Data Quality Score -- โฉนดที่ดิน</h4>
+      <div class="quality-grid">
+        <div class="quality-item">
+          <div class="quality-score high" id="qClarityCH">--</div>
+          <div class="quality-label">ความชัดเจน (Clarity)</div>
+          <div class="progress-bar"><div class="progress-fill blue" id="qClarityBarCH"></div></div>
+        </div>
+        <div class="quality-item">
+          <div class="quality-score high" id="qCompletenessCH">--</div>
+          <div class="quality-label">ความครบถ้วน (Completeness)</div>
+          <div class="progress-bar"><div class="progress-fill green" id="qCompletenessBarCH"></div></div>
+        </div>
+        <div class="quality-item">
+          <div class="quality-score high" id="qAccuracyCH">--</div>
+          <div class="quality-label">ความถูกต้อง (Accuracy)</div>
+          <div class="progress-bar"><div class="progress-fill purple" id="qAccuracyBarCH"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- DEMO 3: หนังสือรับรองบริษัท (DBD) -->
+  <!-- ============================================ -->
+  <div class="demo-area" id="demo-dbd">
+    <div class="section-title"><span class="icon">📋</span> Demo: หนังสือรับรองบริษัท (DBD)</div>
+
+    <div class="steps" id="steps-dbd">
+      <div class="step" id="step-dbd-1"><div class="step-num">1</div> อัปโหลด</div>
+      <div class="step" id="step-dbd-2"><div class="step-num">2</div> OCR Scan</div>
+      <div class="step" id="step-dbd-3"><div class="step-num">3</div> AI Extract</div>
+      <div class="step" id="step-dbd-4"><div class="step-num">4</div> ข้อมูลสำเร็จ</div>
+    </div>
+
+    <div style="text-align:center; margin-bottom:20px;">
+      <button class="btn-primary" onclick="runDBDDemo()">
+        <span class="spinner" style="display:none" id="spinDBD"></span>
+        เริ่ม AI Extraction
+      </button>
+    </div>
+
+    <div class="split-layout">
+      <div class="card">
+        <h4>เอกสารต้นฉบับ (Mock)</h4>
+        <div class="doc-visual" id="docVisualDBD" style="position:relative;">
+          <div class="scan-line" id="scanLineDBD"></div>
+          <div class="garuda">&#x0E3F;</div>
+          <div class="doc-header-thai">หนังสือรับรอง</div>
+          <div class="doc-subheader">กรมพัฒนาธุรกิจการค้า กระทรวงพาณิชย์</div>
+          <hr style="border:none; border-top:2px solid #1E3A5F; margin:10px 0;">
+          <div class="field-row"><span class="field-label">ชื่อบริษัท</span><span class="field-value">บริษัท เอ็นท์ เทคโนโลยี จำกัด</span></div>
+          <div class="field-row"><span class="field-label">เลขทะเบียนนิติบุคคล</span><span class="field-value">0105567012345</span></div>
+          <div class="field-row"><span class="field-label">วันจดทะเบียน</span><span class="field-value">15 มกราคม 2567</span></div>
+          <div class="field-row"><span class="field-label">ทุนจดทะเบียน</span><span class="field-value">10,000,000 บาท</span></div>
+          <div class="field-row"><span class="field-label">หุ้นจำนวน</span><span class="field-value">100,000 หุ้น มูลค่าหุ้นละ 100 บาท</span></div>
+          <hr style="border:none; border-top:1px solid #CBD5E1; margin:8px 0;">
+          <div style="font-size:12px; font-weight:600; color:#1E3A5F; margin-bottom:6px;">กรรมการ:</div>
+          <table>
+            <thead><tr><th>ลำดับ</th><th>ชื่อ-สกุล</th><th>ตำแหน่ง</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>นายสมชาย ใจดี</td><td>กรรมการผู้มีอำนาจ</td></tr>
+              <tr><td>2</td><td>นางสาวพิมพ์ใจ รักษ์ดี</td><td>กรรมการ</td></tr>
+              <tr><td>3</td><td>นายวิชัย สร้างสรรค์</td><td>กรรมการ</td></tr>
+            </tbody>
+          </table>
+          <hr style="border:none; border-top:1px solid #CBD5E1; margin:8px 0;">
+          <div class="field-row"><span class="field-label">สำนักงานใหญ่</span><span class="field-value">88/12 ถ.สุขุมวิท แขวงคลองตัน เขตคลองเตย กรุงเทพฯ 10110</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h4>ข้อมูลที่สกัดได้ (Structured Data)</h4>
+        <div id="extractedDBD">
+          <div style="text-align:center; padding:60px 0; color:var(--text-dim);">
+            กดปุ่ม "เริ่ม AI Extraction" เพื่อดูผลลัพธ์
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="qualityDBD" style="display:none;">
+      <h4>Data Quality Score -- หนังสือรับรองบริษัท</h4>
+      <div class="quality-grid">
+        <div class="quality-item">
+          <div class="quality-score high" id="qClarityDBD">--</div>
+          <div class="quality-label">ความชัดเจน (Clarity)</div>
+          <div class="progress-bar"><div class="progress-fill blue" id="qClarityBarDBD"></div></div>
+        </div>
+        <div class="quality-item">
+          <div class="quality-score high" id="qCompletenessDBD">--</div>
+          <div class="quality-label">ความครบถ้วน (Completeness)</div>
+          <div class="progress-bar"><div class="progress-fill green" id="qCompletenessBarDBD"></div></div>
+        </div>
+        <div class="quality-item">
+          <div class="quality-score high" id="qAccuracyDBD">--</div>
+          <div class="quality-label">ความถูกต้อง (Accuracy)</div>
+          <div class="progress-bar"><div class="progress-fill purple" id="qAccuracyBarDBD"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- CROSS-REFERENCE VERIFICATION -->
+  <!-- ============================================ -->
+  <div class="demo-area" id="crossRefSection" style="display:none;">
+    <div class="section-title"><span class="icon">🔗</span> Cross-Reference Verification</div>
+    <p style="color:var(--text-dim); margin-bottom:20px; font-size:14px;">ระบบตรวจสอบข้อมูลข้ามเอกสารอัตโนมัติ เพื่อยืนยันความถูกต้องก่อนอนุมัติ</p>
+
+    <div style="text-align:center; margin-bottom:20px;">
+      <button class="btn-primary" onclick="runCrossRef()">
+        <span class="spinner" style="display:none" id="spinXRef"></span>
+        เริ่มตรวจสอบข้ามเอกสาร
+      </button>
+    </div>
+
+    <div class="xref-grid" id="xrefResults">
+      <div class="xref-item" id="xref1">
+        <div class="xref-icon">🪪 ↔ 🏠</div>
+        <div class="xref-label">เลขบัตรประชาชนในทะเบียนบ้าน</div>
+        <div class="xref-detail">1-1001-12345-67-8</div>
+        <div class="xref-label" style="margin-top:4px;">↔ สำเนาบัตรประชาชน</div>
+        <div class="xref-detail">รอตรวจสอบ...</div>
+        <div class="xref-result" id="xrefResult1">--</div>
+      </div>
+      <div class="xref-item" id="xref2">
+        <div class="xref-icon">📜 ↔ 🧑</div>
+        <div class="xref-label">ชื่อในโฉนดที่ดิน</div>
+        <div class="xref-detail">นายสมชาย ใจดี</div>
+        <div class="xref-label" style="margin-top:4px;">↔ ชื่อผู้กู้ในระบบ</div>
+        <div class="xref-detail">รอตรวจสอบ...</div>
+        <div class="xref-result" id="xrefResult2">--</div>
+      </div>
+      <div class="xref-item" id="xref3">
+        <div class="xref-icon">📋 ↔ 🏠</div>
+        <div class="xref-label">ที่อยู่ในหนังสือรับรอง</div>
+        <div class="xref-detail">88/12 ถ.สุขุมวิท</div>
+        <div class="xref-label" style="margin-top:4px;">↔ ที่อยู่ทะเบียนบ้าน</div>
+        <div class="xref-detail">รอตรวจสอบ...</div>
+        <div class="xref-result" id="xrefResult3">--</div>
+      </div>
+    </div>
+
+    <!-- Overall Score -->
+    <div class="overall-score" id="overallScore" style="display:none; margin-top:24px;">
+      <div class="score-circle green" id="overallCircle">--</div>
+      <div class="score-info">
+        <h3>ผลการตรวจสอบข้ามเอกสาร</h3>
+        <p id="overallText">กำลังรอผลตรวจสอบ...</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ========== Doc Selector ==========
+let currentDoc = null;
+
+function selectDoc(btn) {
+  document.querySelectorAll('.doc-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const docType = btn.dataset.doc;
+  currentDoc = docType;
+
+  // Hide all demos
+  document.querySelectorAll('.demo-area').forEach(d => d.style.display = 'none');
+
+  // Show relevant demo
+  const demoMap = {
+    'tabien-ban': 'demo-tabien-ban',
+    'chanod': 'demo-chanod',
+    'dbd': 'demo-dbd'
+  };
+
+  if (demoMap[docType]) {
+    const el = document.getElementById(demoMap[docType]);
+    el.style.display = 'block';
+    el.classList.add('active');
+  }
+
+  // Show cross-reference section if at least one demo ran
+  if (demosCompleted.size > 0) {
+    document.getElementById('crossRefSection').style.display = 'block';
+  }
+}
+
+// ========== Step Animation Helper ==========
+function animateSteps(prefix, callback) {
+  const steps = [1,2,3,4];
+  let i = 0;
+
+  function nextStep() {
+    if (i >= steps.length) { callback && callback(); return; }
+    const stepEl = document.getElementById(`step-${prefix}-${steps[i]}`);
+    // Mark previous as done
+    if (i > 0) {
+      document.getElementById(`step-${prefix}-${steps[i-1]}`).classList.remove('active');
+      document.getElementById(`step-${prefix}-${steps[i-1]}`).classList.add('done');
+    }
+    stepEl.classList.add('active');
+    i++;
+    const delay = i === 2 ? 2500 : i === 3 ? 1500 : 800;
+    setTimeout(nextStep, delay);
+  }
+  nextStep();
+}
+
+// ========== Track completed demos ==========
+const demosCompleted = new Set();
+
+// ========== Quality Score Helper ==========
+function animateQuality(prefix, clarity, completeness, accuracy) {
+  const qCard = document.getElementById(`quality${prefix}`);
+  qCard.style.display = 'block';
+  qCard.style.animation = 'fadeSlideUp 0.5s ease';
+
+  setTimeout(() => {
+    const cl = document.getElementById(`qClarity${prefix}`);
+    const co = document.getElementById(`qCompleteness${prefix}`);
+    const ac = document.getElementById(`qAccuracy${prefix}`);
+    cl.textContent = clarity + '%';
+    co.textContent = completeness + '%';
+    ac.textContent = accuracy + '%';
+
+    document.getElementById(`qClarityBar${prefix}`).style.width = clarity + '%';
+    document.getElementById(`qCompletenessBar${prefix}`).style.width = completeness + '%';
+    document.getElementById(`qAccuracyBar${prefix}`).style.width = accuracy + '%';
+  }, 300);
+}
+
+// ========== DEMO: ทะเบียนบ้าน ==========
+function runTabienBanDemo() {
+  const spin = document.getElementById('spinTB');
+  spin.style.display = 'inline-block';
+  const scanLine = document.getElementById('scanLineTB');
+
+  // Reset steps
+  for(let i=1;i<=4;i++){
+    const s = document.getElementById('step-tb-'+i);
+    s.classList.remove('active','done');
+  }
+
+  // Step animation
+  animateSteps('tb', () => {
+    spin.style.display = 'none';
+    demosCompleted.add('tabien-ban');
+    showCrossRefIfReady();
+  });
+
+  // Scan line
+  setTimeout(() => {
+    scanLine.classList.add('scanning');
+    setTimeout(() => scanLine.classList.remove('scanning'), 2600);
+  }, 800);
+
+  // Show extracted data
+  setTimeout(() => {
+    document.getElementById('extractedTB').innerHTML = `
+      <table class="data-table">
+        <tr><td class="field-name">เลขรหัสประจำบ้าน</td><td class="field-val">1101-000567-8</td></tr>
+        <tr><td class="field-name">ที่อยู่</td><td class="field-val">88/12 ถ.สุขุมวิท แขวงคลองตัน เขตคลองเตย กรุงเทพฯ 10110</td></tr>
+        <tr><td class="field-name">จังหวัด</td><td class="field-val">กรุงเทพมหานคร</td></tr>
+        <tr><td class="field-name">อำเภอ/เขต</td><td class="field-val">คลองเตย</td></tr>
+        <tr><td class="field-name">ตำบล/แขวง</td><td class="field-val">คลองตัน</td></tr>
+      </table>
+
+      <div style="margin-top:16px;">
+        <h4 style="font-size:13px; color:var(--text-dim); margin-bottom:10px; font-weight:600;">รายชื่อผู้อาศัย (5 คน)</h4>
+        <table class="residents-table">
+          <thead><tr><th>#</th><th>ชื่อ-สกุล</th><th>เลขบัตรประชาชน</th><th>สถานะ</th><th>วันเข้า</th></tr></thead>
+          <tbody>
+            <tr class="row-highlight"><td>1</td><td>นายสมชาย ใจดี</td><td style="font-family:monospace;font-size:11px;">1-1001-12345-67-8</td><td><span class="status-badge owner">เจ้าบ้าน</span></td><td>15 มี.ค. 2548</td></tr>
+            <tr class="row-highlight"><td>2</td><td>นางสมศรี ใจดี</td><td style="font-family:monospace;font-size:11px;">1-1001-12345-68-6</td><td><span class="status-badge resident">ผู้อาศัย</span></td><td>15 มี.ค. 2548</td></tr>
+            <tr class="row-highlight"><td>3</td><td>น.ส.สมหญิง ใจดี</td><td style="font-family:monospace;font-size:11px;">1-1001-12345-69-4</td><td><span class="status-badge resident">ผู้อาศัย</span></td><td>20 ก.ค. 2553</td></tr>
+            <tr class="row-highlight"><td>4</td><td>ด.ช.สมภพ ใจดี</td><td style="font-family:monospace;font-size:11px;">1-1001-12345-70-1</td><td><span class="status-badge resident">ผู้อาศัย</span></td><td>5 ม.ค. 2558</td></tr>
+            <tr class="row-highlight"><td>5</td><td>นางมาลี สุขสม</td><td style="font-family:monospace;font-size:11px;">3-3401-00987-65-4</td><td><span class="status-badge resident">ผู้อาศัย</span></td><td>10 พ.ค. 2563</td></tr>
+          </tbody>
+        </table>
+      </div>
+    `;
+  }, 3500);
+
+  // Quality score
+  setTimeout(() => animateQuality('TB', 96, 100, 98), 5200);
+}
+
+// ========== DEMO: โฉนดที่ดิน ==========
+function runChanodDemo() {
+  const spin = document.getElementById('spinCH');
+  spin.style.display = 'inline-block';
+  const scanLine = document.getElementById('scanLineCH');
+
+  for(let i=1;i<=4;i++){
+    document.getElementById('step-ch-'+i).classList.remove('active','done');
+  }
+
+  animateSteps('ch', () => {
+    spin.style.display = 'none';
+    demosCompleted.add('chanod');
+    showCrossRefIfReady();
+  });
+
+  setTimeout(() => {
+    scanLine.classList.add('scanning');
+    setTimeout(() => scanLine.classList.remove('scanning'), 2600);
+  }, 800);
+
+  setTimeout(() => {
+    document.getElementById('extractedCH').innerHTML = `
+      <table class="data-table">
+        <tr><td class="field-name">เลขที่โฉนด</td><td class="field-val">123456</td></tr>
+        <tr><td class="field-name">เลขที่ดิน</td><td class="field-val">78</td></tr>
+        <tr><td class="field-name">หน้าสำรวจ</td><td class="field-val">2345</td></tr>
+        <tr><td class="field-name">ตำบล</td><td class="field-val">บางนา</td></tr>
+        <tr><td class="field-name">อำเภอ</td><td class="field-val">บางนา</td></tr>
+        <tr><td class="field-name">จังหวัด</td><td class="field-val">กรุงเทพมหานคร</td></tr>
+        <tr><td class="field-name">เนื้อที่</td><td class="field-val">1 ไร่ 2 งาน 50 ตารางวา</td></tr>
+        <tr><td class="field-name">ราคาประเมิน</td><td class="field-val" style="color:#34D399; font-weight:700;">12,500,000 บาท</td></tr>
+      </table>
+
+      <div style="margin-top:16px;">
+        <h4 style="font-size:13px; color:var(--text-dim); margin-bottom:10px; font-weight:600;">เจ้าของกรรมสิทธิ์</h4>
+        <table class="residents-table">
+          <thead><tr><th>ชื่อ-สกุล</th><th>สัดส่วน</th></tr></thead>
+          <tbody>
+            <tr class="row-highlight"><td>นายสมชาย ใจดี</td><td>1/2 (50%)</td></tr>
+            <tr class="row-highlight"><td>นางสมศรี ใจดี</td><td>1/2 (50%)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    `;
+  }, 3500);
+
+  setTimeout(() => animateQuality('CH', 94, 100, 97), 5200);
+}
+
+// ========== DEMO: หนังสือรับรองบริษัท (DBD) ==========
+function runDBDDemo() {
+  const spin = document.getElementById('spinDBD');
+  spin.style.display = 'inline-block';
+  const scanLine = document.getElementById('scanLineDBD');
+
+  for(let i=1;i<=4;i++){
+    document.getElementById('step-dbd-'+i).classList.remove('active','done');
+  }
+
+  animateSteps('dbd', () => {
+    spin.style.display = 'none';
+    demosCompleted.add('dbd');
+    showCrossRefIfReady();
+  });
+
+  setTimeout(() => {
+    scanLine.classList.add('scanning');
+    setTimeout(() => scanLine.classList.remove('scanning'), 2600);
+  }, 800);
+
+  setTimeout(() => {
+    document.getElementById('extractedDBD').innerHTML = `
+      <table class="data-table">
+        <tr><td class="field-name">ชื่อบริษัท</td><td class="field-val">บริษัท เอ็นท์ เทคโนโลยี จำกัด</td></tr>
+        <tr><td class="field-name">เลขทะเบียนนิติบุคคล</td><td class="field-val" style="font-family:monospace;">0105567012345</td></tr>
+        <tr><td class="field-name">วันจดทะเบียน</td><td class="field-val">15 มกราคม 2567</td></tr>
+        <tr><td class="field-name">ทุนจดทะเบียน</td><td class="field-val" style="color:#34D399; font-weight:700;">10,000,000 บาท</td></tr>
+        <tr><td class="field-name">จำนวนหุ้น</td><td class="field-val">100,000 หุ้น (มูลค่าหุ้นละ 100 บาท)</td></tr>
+        <tr><td class="field-name">สำนักงานใหญ่</td><td class="field-val">88/12 ถ.สุขุมวิท แขวงคลองตัน เขตคลองเตย กรุงเทพฯ 10110</td></tr>
+      </table>
+
+      <div style="margin-top:16px;">
+        <h4 style="font-size:13px; color:var(--text-dim); margin-bottom:10px; font-weight:600;">กรรมการบริษัท (3 คน)</h4>
+        <table class="residents-table">
+          <thead><tr><th>#</th><th>ชื่อ-สกุล</th><th>ตำแหน่ง</th></tr></thead>
+          <tbody>
+            <tr class="row-highlight"><td>1</td><td>นายสมชาย ใจดี</td><td><span class="status-badge owner">กรรมการผู้มีอำนาจ</span></td></tr>
+            <tr class="row-highlight"><td>2</td><td>นางสาวพิมพ์ใจ รักษ์ดี</td><td><span class="status-badge resident">กรรมการ</span></td></tr>
+            <tr class="row-highlight"><td>3</td><td>นายวิชัย สร้างสรรค์</td><td><span class="status-badge resident">กรรมการ</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    `;
+  }, 3500);
+
+  setTimeout(() => animateQuality('DBD', 98, 100, 99), 5200);
+}
+
+// ========== Show cross-ref if ready ==========
+function showCrossRefIfReady() {
+  if (demosCompleted.size >= 1) {
+    document.getElementById('crossRefSection').style.display = 'block';
+    document.getElementById('crossRefSection').classList.add('active');
+  }
+}
+
+// ========== Cross-Reference Verification ==========
+function runCrossRef() {
+  const spin = document.getElementById('spinXRef');
+  spin.style.display = 'inline-block';
+
+  const items = [
+    { id: 'xref1', elId: 'xrefResult1', match: true, text: 'ตรงกัน', detail1: '1-1001-12345-67-8', detail2: '1-1001-12345-67-8' },
+    { id: 'xref2', elId: 'xrefResult2', match: true, text: 'ตรงกัน', detail1: 'นายสมชาย ใจดี', detail2: 'นายสมชาย ใจดี' },
+    { id: 'xref3', elId: 'xrefResult3', match: true, text: 'ตรงกัน', detail1: '88/12 ถ.สุขุมวิท', detail2: '88/12 ถ.สุขุมวิท' }
+  ];
+
+  // Reset
+  items.forEach(item => {
+    document.getElementById(item.id).classList.remove('match','mismatch');
+    document.getElementById(item.elId).textContent = '--';
+    document.getElementById(item.elId).className = 'xref-result';
+  });
+
+  // Animate sequentially
+  items.forEach((item, i) => {
+    setTimeout(() => {
+      const el = document.getElementById(item.id);
+      const resultEl = document.getElementById(item.elId);
+
+      if (item.match) {
+        el.classList.add('match');
+        resultEl.textContent = '✅ ' + item.text;
+        resultEl.classList.add('pass');
+      } else {
+        el.classList.add('mismatch');
+        resultEl.textContent = '❌ ไม่ตรงกัน';
+        resultEl.classList.add('fail');
+      }
+
+      // Update detail texts
+      const details = el.querySelectorAll('.xref-detail');
+      if (details.length >= 2) {
+        details[1].textContent = item.detail2;
+      }
+    }, 800 + i * 1000);
+  });
+
+  // Show overall
+  setTimeout(() => {
+    spin.style.display = 'none';
+    const overall = document.getElementById('overallScore');
+    overall.style.display = 'flex';
+    overall.style.animation = 'fadeSlideUp 0.5s ease';
+
+    const circle = document.getElementById('overallCircle');
+    const text = document.getElementById('overallText');
+
+    const allMatch = items.every(i => i.match);
+    if (allMatch) {
+      circle.textContent = '3/3';
+      text.textContent = 'เอกสารทุกฉบับมีข้อมูลตรงกัน -- พร้อมส่งอนุมัติ';
+    } else {
+      circle.textContent = '2/3';
+      circle.classList.remove('green');
+      circle.style.borderColor = 'rgba(217,119,6,0.4)';
+      circle.style.color = '#FBBF24';
+      circle.style.background = 'rgba(217,119,6,0.1)';
+      text.textContent = 'พบข้อมูลไม่ตรงกัน -- ต้องตรวจสอบเพิ่มเติม';
+    }
+  }, 800 + items.length * 1000 + 500);
+}
+
+// ========== Auto-select first doc on load ==========
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelector('.doc-btn[data-doc="tabien-ban"]').click();
+});
+</script>
+
+</body>
+</html>

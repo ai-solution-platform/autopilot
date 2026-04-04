@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Landed Cost Calculator — Autopilot v2</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
+:root{--bg:#F8FAFC;--bg2:#F1F5F9;--white:#FFF;--border:#E2E8F0;--border2:#CBD5E1;--text:#0F172A;--text2:#334155;--muted:#64748B;--light:#94A3B8;--blue:#2563EB;--blue-l:#EFF6FF;--blue-d:#1D4ED8;--purple:#7C3AED;--purple-l:#F5F3FF;--cyan:#0891B2;--cyan-l:#ECFEFF;--green:#059669;--green-l:#ECFDF5;--green-d:#047857;--orange:#D97706;--orange-l:#FFFBEB;--red:#DC2626;--red-l:#FEF2F2;--pink:#DB2777;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--sh:0 1px 3px rgba(0,0,0,.06);--sh2:0 4px 20px rgba(0,0,0,.08);--sh3:0 12px 40px rgba(0,0,0,.12);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;}
+::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+
+.page{max-width:1440px;margin:0 auto;padding:24px;}
+
+/* Header */
+.page-header{margin-bottom:24px;}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--muted);margin-bottom:8px;}
+.breadcrumb a{color:var(--blue);text-decoration:none;font-weight:500;}
+.breadcrumb a:hover{text-decoration:underline;}
+.page-title-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.page-title{font-size:1.5rem;font-weight:800;display:flex;align-items:center;gap:10px;}
+.page-subtitle{font-size:.82rem;color:var(--muted);margin-top:2px;}
+.header-actions{display:flex;align-items:center;gap:8px;}
+.brand-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;background:var(--grad);color:#fff;border-radius:20px;font-size:.68rem;font-weight:700;letter-spacing:.3px;}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:.82rem;font-weight:600;border:none;cursor:pointer;transition:all .2s;font-family:inherit;}
+.btn-primary{background:var(--grad);color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.2);}
+.btn-primary:hover{box-shadow:0 6px 16px rgba(37,99,235,.3);transform:translateY(-1px);}
+.btn-secondary{background:var(--white);color:var(--text2);border:1px solid var(--border);}.btn-secondary:hover{border-color:var(--blue);color:var(--blue);}
+.btn-green{background:var(--green);color:#fff;}.btn-green:hover{background:var(--green-d);}
+.btn-outline{background:transparent;color:var(--blue);border:1px solid var(--blue);}.btn-outline:hover{background:var(--blue-l);}
+.btn-sm{padding:5px 10px;font-size:.72rem;border-radius:6px;}
+.btn-icon{width:36px;height:36px;padding:0;justify-content:center;border-radius:9px;border:1px solid var(--border);background:var(--white);cursor:pointer;font-size:1rem;transition:all .15s;display:inline-flex;align-items:center;}
+.btn-icon:hover{background:var(--bg);border-color:var(--blue);}
+
+/* Cards */
+.card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:20px;box-shadow:var(--sh);}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.card-title{font-size:.92rem;font-weight:700;}
+
+/* Main Grid */
+.main-grid{display:grid;grid-template-columns:420px 1fr;gap:20px;margin-bottom:20px;}
+@media(max-width:960px){.main-grid{grid-template-columns:1fr;}}
+
+/* Form */
+.form-group{margin-bottom:14px;}
+.form-label{display:block;font-size:.72rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;}
+.form-input{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:.85rem;font-family:inherit;background:var(--white);color:var(--text);transition:all .15s;outline:none;}
+.form-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+.form-input::placeholder{color:var(--light);}
+.form-row{display:flex;gap:8px;}
+.form-row .form-input{flex:1;}
+.form-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;}
+.form-suffix{position:relative;}
+.form-suffix .unit{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:.72rem;color:var(--muted);font-weight:600;pointer-events:none;}
+.form-suffix .form-input{padding-right:40px;}
+.divider{height:1px;background:var(--border);margin:16px 0;}
+.section-label{font-size:.72rem;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+
+/* Breakdown */
+.breakdown-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:.82rem;border-bottom:1px solid var(--border);}
+.breakdown-item:last-child{border-bottom:none;}
+.breakdown-item .label{color:var(--text2);display:flex;align-items:center;gap:6px;}
+.breakdown-item .label .dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+.breakdown-item .value{font-weight:700;font-family:'Inter',sans-serif;}
+.breakdown-total{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:var(--grad);color:#fff;border-radius:10px;margin-top:12px;font-size:.95rem;}
+.breakdown-total .value{font-size:1.3rem;font-weight:800;font-family:'Inter',sans-serif;}
+.breakdown-per-unit{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:var(--purple-l);border:1px solid #DDD6FE;border-radius:10px;margin-top:8px;font-size:.82rem;color:var(--purple);}
+.breakdown-per-unit .value{font-weight:800;font-size:1rem;font-family:'Inter',sans-serif;}
+
+/* FX Panel */
+.fx-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;}
+.fx-card{padding:10px;border:2px solid var(--border);border-radius:10px;text-align:center;cursor:pointer;transition:all .2s;position:relative;}
+.fx-card:hover{border-color:var(--blue);background:var(--blue-l);}
+.fx-card.active{border-color:var(--blue);background:var(--blue-l);box-shadow:0 0 0 3px rgba(37,99,235,.15);}
+.fx-card.best::after{content:'Best';position:absolute;top:-8px;right:-4px;background:var(--green);color:#fff;font-size:.58rem;font-weight:700;padding:2px 6px;border-radius:4px;}
+.fx-bank{font-size:.68rem;font-weight:700;color:var(--text2);margin-bottom:2px;}
+.fx-rate{font-size:1.05rem;font-weight:800;font-family:'Inter',sans-serif;color:var(--blue);}
+.fx-savings{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;background:var(--green-l);border:1px solid #A7F3D0;border-radius:8px;font-size:.78rem;color:var(--green);font-weight:600;}
+
+/* Waterfall Chart */
+.waterfall-container{position:relative;width:100%;overflow-x:auto;}
+.waterfall-svg{width:100%;min-width:600px;}
+.wf-bar{transition:all .3s ease;}
+.wf-bar:hover{filter:brightness(1.1);}
+.wf-label{font-size:10px;fill:var(--muted);font-family:'Noto Sans Thai','Inter',sans-serif;font-weight:500;}
+.wf-value{font-size:10px;font-weight:700;font-family:'Inter',sans-serif;}
+.wf-connector{stroke:var(--border2);stroke-width:1;stroke-dasharray:3,3;}
+.wf-total-bar{rx:4;}
+
+/* Comparison */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.compare-col{padding:0 16px;}
+.compare-col:first-child{border-right:1px solid var(--border);}
+.compare-header{text-align:center;padding:12px;font-weight:700;font-size:.88rem;border-radius:10px;margin-bottom:12px;}
+.compare-header.a{background:var(--blue-l);color:var(--blue);}
+.compare-header.b{background:var(--purple-l);color:var(--purple);}
+.compare-row{display:grid;grid-template-columns:1fr 1fr;font-size:.78rem;border-bottom:1px solid var(--border);}
+.compare-row:last-child{border-bottom:none;}
+.compare-cell{padding:8px 12px;display:flex;align-items:center;justify-content:space-between;}
+.compare-cell.cheaper{background:var(--green-l);}
+.compare-cell .diff{font-size:.65rem;font-weight:600;color:var(--green);margin-left:6px;}
+.compare-label-col{font-size:.78rem;font-weight:600;color:var(--text2);padding:8px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;}
+.compare-table{width:100%;}
+.compare-table th{font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;padding:10px 12px;text-align:center;border-bottom:2px solid var(--border);}
+.compare-table th:first-child{text-align:left;}
+.compare-table td{padding:9px 12px;border-bottom:1px solid var(--border);font-size:.82rem;text-align:right;}
+.compare-table td:first-child{text-align:left;color:var(--text2);font-weight:500;}
+.compare-table td.win{background:var(--green-l);color:var(--green);font-weight:700;border-radius:4px;}
+.compare-table .total-row td{font-weight:800;font-size:.92rem;border-top:2px solid var(--border);}
+
+/* Tabs */
+.tabs{display:flex;gap:2px;background:var(--bg2);border-radius:10px;padding:3px;margin-bottom:16px;}
+.tab{flex:1;padding:8px 14px;text-align:center;font-size:.78rem;font-weight:600;border-radius:8px;cursor:pointer;transition:all .2s;color:var(--muted);border:none;background:none;font-family:inherit;}
+.tab.active{background:var(--white);color:var(--text);box-shadow:var(--sh);}
+.tab:hover:not(.active){color:var(--text2);}
+
+/* History */
+.history-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;cursor:pointer;transition:all .15s;}
+.history-item:hover{border-color:var(--blue);background:var(--blue-l);transform:translateX(2px);}
+.history-item:last-child{margin-bottom:0;}
+.history-info{flex:1;}
+.history-name{font-size:.82rem;font-weight:600;}
+.history-meta{font-size:.68rem;color:var(--muted);margin-top:2px;}
+.history-cost{font-size:.88rem;font-weight:800;font-family:'Inter',sans-serif;color:var(--blue);}
+.history-actions{display:flex;gap:4px;margin-left:8px;}
+
+/* Toggle */
+.toggle-wrap{display:flex;align-items:center;gap:8px;font-size:.78rem;font-weight:500;color:var(--text2);}
+.toggle{width:40px;height:22px;background:var(--border2);border-radius:11px;position:relative;cursor:pointer;transition:background .2s;}
+.toggle.on{background:var(--blue);}
+.toggle::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;background:#fff;border-radius:50%;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.15);}
+.toggle.on::after{transform:translateX(18px);}
+
+/* Tooltip */
+.chart-tooltip{position:absolute;background:var(--text);color:#fff;padding:6px 12px;border-radius:8px;font-size:.72rem;font-weight:600;pointer-events:none;opacity:0;transition:opacity .15s;z-index:10;white-space:nowrap;}
+
+/* Modal */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(15,23,42,.5);backdrop-filter:blur(4px);z-index:1000;display:none;align-items:center;justify-content:center;padding:24px;}
+.modal-overlay.show{display:flex;}
+.modal{background:var(--white);border-radius:18px;box-shadow:var(--sh3);width:100%;max-width:680px;max-height:90vh;overflow-y:auto;animation:modalIn .25s ease;}
+@keyframes modalIn{from{opacity:0;transform:translateY(20px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--border);}
+.modal-title{font-size:1.05rem;font-weight:800;}
+.modal-close{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;transition:all .15s;}
+.modal-close:hover{background:var(--red-l);border-color:var(--red);color:var(--red);}
+.modal-body{padding:24px;}
+
+/* Status Badge */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:700;}
+.badge-blue{background:var(--blue-l);color:var(--blue);}
+.badge-green{background:var(--green-l);color:var(--green);}
+.badge-orange{background:var(--orange-l);color:var(--orange);}
+.badge-purple{background:var(--purple-l);color:var(--purple);}
+
+/* Responsive */
+@media(max-width:768px){
+  .page{padding:16px;}
+  .fx-grid{grid-template-columns:repeat(2,1fr);}
+  .compare-grid{grid-template-columns:1fr;}
+  .compare-col:first-child{border-right:none;border-bottom:1px solid var(--border);padding-bottom:16px;margin-bottom:16px;}
+}
+
+/* Print */
+@media print{
+  body{background:#fff;font-size:11px;}
+  .page{max-width:none;padding:10px;}
+  .btn,.header-actions,.tabs,.history-item,.toggle-wrap,.fx-card{break-inside:avoid;}
+  .no-print{display:none !important;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="../pitching-v2.html">Autopilot v2</a>
+      <span>/</span>
+      <span>Logistics</span>
+      <span>/</span>
+      <span>Landed Cost Calculator</span>
+    </div>
+    <div class="page-title-row">
+      <div>
+        <div class="page-title">&#128230; Landed Cost Calculator</div>
+        <div class="page-subtitle">คำนวณต้นทุนนำเข้าสินค้าแบบครบวงจร &#183; Real-time Calculation</div>
+      </div>
+      <div class="header-actions">
+        <div class="brand-tag">&#9889; ANTS &#8212; AI Solution Hub</div>
+        <button class="btn btn-secondary no-print" onclick="exportPDF()">&#128196; PDF</button>
+        <button class="btn btn-green no-print" onclick="exportExcel()">&#128202; Excel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs no-print">
+    <button class="tab active" onclick="switchTab('calc',this)">&#9997;&#65039; คำนวณ</button>
+    <button class="tab" onclick="switchTab('compare',this)">&#8596;&#65039; เปรียบเทียบ</button>
+    <button class="tab" onclick="switchTab('history',this)">&#128336; ประวัติ</button>
+  </div>
+
+  <!-- TAB: Calculator -->
+  <div id="tab-calc">
+    <div class="main-grid">
+      <!-- Left: Form -->
+      <div>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-header">
+            <div class="card-title">&#128221; ข้อมูลสินค้าและต้นทุน</div>
+            <button class="btn btn-sm btn-outline no-print" onclick="resetForm()">&#128260; รีเซ็ต</button>
+          </div>
+
+          <div class="section-label">&#128230; ข้อมูลสินค้า</div>
+          <div class="form-group">
+            <label class="form-label">สินค้า / รายการ</label>
+            <input class="form-input" id="itemName" placeholder="เช่น ชิ้นส่วนอิเล็กทรอนิกส์" oninput="calc()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">จำนวน (หน่วย)</label>
+            <input class="form-input" id="qty" type="number" min="1" placeholder="1" value="1" oninput="calc()">
+          </div>
+
+          <div class="divider"></div>
+          <div class="section-label">&#128176; มูลค่าและค่าใช้จ่าย</div>
+
+          <div class="form-group">
+            <label class="form-label">มูลค่าสินค้า (FOB)</label>
+            <div class="form-row">
+              <input class="form-input" id="fob" type="number" min="0" step="0.01" placeholder="0.00" oninput="calc()">
+              <select class="form-input form-select" id="currency" style="max-width:100px;" onchange="calc()">
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="JPY">JPY</option>
+                <option value="CNY">CNY</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">ค่าขนส่ง (Freight)</label>
+            <div class="form-suffix">
+              <input class="form-input" id="freight" type="number" min="0" step="0.01" placeholder="0.00" oninput="calc()">
+              <span class="unit" id="freightUnit">USD</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">ค่าประกัน (Insurance)</label>
+            <div class="form-row">
+              <div class="form-suffix" style="flex:1;">
+                <input class="form-input" id="insurance" type="number" min="0" step="0.01" placeholder="0.00" oninput="calc()">
+                <span class="unit" id="insUnit">USD</span>
+              </div>
+              <span style="padding:9px 4px;color:var(--muted);font-size:.78rem;">หรือ</span>
+              <div class="form-suffix" style="width:90px;">
+                <input class="form-input" id="insurancePct" type="number" min="0" max="100" step="0.01" placeholder="%" oninput="calcInsFromPct()">
+                <span class="unit">%CIF</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+          <div class="section-label">&#127970; อากรและภาษี</div>
+
+          <div class="form-group">
+            <label class="form-label">อัตราอากรขาเข้า (Duty %)</label>
+            <div class="form-suffix">
+              <input class="form-input" id="dutyPct" type="number" min="0" max="100" step="0.01" value="5" oninput="calc()">
+              <span class="unit">%</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">ภาษีมูลค่าเพิ่ม (VAT)</label>
+            <div class="form-suffix">
+              <input class="form-input" id="vatPct" type="number" min="0" max="100" step="0.01" value="7" oninput="calc()" style="background:var(--bg2);">
+              <span class="unit">%</span>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+          <div class="section-label">&#128666; ค่าใช้จ่ายเพิ่มเติม (THB)</div>
+
+          <div class="form-group">
+            <label class="form-label">ค่าท่าเรือ (THC / D.O.)</label>
+            <div class="form-suffix">
+              <input class="form-input" id="thc" type="number" min="0" step="1" placeholder="0" oninput="calc()">
+              <span class="unit">THB</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">ค่าผ่านพิธีศุลกากร</label>
+            <div class="form-suffix">
+              <input class="form-input" id="customs" type="number" min="0" step="1" placeholder="0" oninput="calc()">
+              <span class="unit">THB</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">ค่าขนส่งภายในประเทศ</label>
+            <div class="form-suffix">
+              <input class="form-input" id="inland" type="number" min="0" step="1" placeholder="0" oninput="calc()">
+              <span class="unit">THB</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">อื่นๆ</label>
+            <div class="form-suffix">
+              <input class="form-input" id="other" type="number" min="0" step="1" placeholder="0" oninput="calc()">
+              <span class="unit">THB</span>
+            </div>
+          </div>
+
+          <button class="btn btn-primary no-print" style="width:100%;justify-content:center;margin-top:8px;" onclick="saveToHistory()">&#128190; บันทึกการคำนวณ</button>
+        </div>
+      </div>
+
+      <!-- Right: Results -->
+      <div>
+        <!-- FX Rate -->
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-header">
+            <div class="card-title">&#128177; อัตราแลกเปลี่ยน (<span id="fxCurrLabel">USD</span>/THB)</div>
+            <span class="badge badge-green" id="fxBadge">Best Rate</span>
+          </div>
+          <div class="fx-grid" id="fxGrid"></div>
+          <div class="fx-savings" id="fxSavings" style="display:none;">
+            &#127881; ประหยัดได้ <strong id="savingsAmt">0</strong> บาท เทียบกับอัตราสูงสุด
+          </div>
+        </div>
+
+        <!-- Cost Breakdown -->
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-header">
+            <div class="card-title">&#128200; สรุปต้นทุนนำเข้า</div>
+            <span class="badge badge-blue" id="itemBadge">-</span>
+          </div>
+
+          <div class="breakdown-item"><span class="label"><span class="dot" style="background:#3B82F6;"></span>FOB Value</span><span class="value" id="bdFob">0.00</span></div>
+          <div class="breakdown-item"><span class="label"><span class="dot" style="background:#06B6D4;"></span>Freight</span><span class="value" id="bdFreight">0.00</span></div>
+          <div class="breakdown-item"><span class="label"><span class="dot" style="background:#8B5CF6;"></span>Insurance</span><span class="value" id="bdInsurance">0.00</span></div>
+          <div class="breakdown-item" style="font-weight:600;"><span class="label"><span class="dot" style="background:#0EA5E9;"></span>CIF Value</span><span class="value" id="bdCif">0.00</span></div>
+          <div class="breakdown-item"><span class="label"><span class="dot" style="background:#F59E0B;"></span>อากรขาเข้า (Duty)</span><span class="value" id="bdDuty">0.00</span></div>
+          <div class="breakdown-item"><span class="label"><span class="dot" style="background:#EF4444;"></span>VAT</span><span class="value" id="bdVat">0.00</span></div>
+          <div class="breakdown-item"><span class="label"><span class="dot" style="background:#10B981;"></span>ค่าท่าเรือ</span><span class="value" id="bdThc">0.00</span></div>
+          <div class="breakdown-item"><span class="label"><span class="dot" style="background:#EC4899;"></span>ค่าพิธีศุลกากร</span><span class="value" id="bdCustoms">0.00</span></div>
+          <div class="breakdown-item"><span class="label"><span class="dot" style="background:#14B8A6;"></span>ขนส่งภายใน</span><span class="value" id="bdInland">0.00</span></div>
+          <div class="breakdown-item"><span class="label"><span class="dot" style="background:#A855F7;"></span>อื่นๆ</span><span class="value" id="bdOther">0.00</span></div>
+
+          <div class="breakdown-total">
+            <span>&#127919; Total Landed Cost</span>
+            <span class="value" id="bdTotal">0.00 THB</span>
+          </div>
+          <div class="breakdown-per-unit" id="perUnitRow">
+            <span>&#128230; ต้นทุนต่อหน่วย</span>
+            <span class="value" id="bdPerUnit">0.00 THB</span>
+          </div>
+        </div>
+
+        <!-- Waterfall Chart -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">&#128202; Cost Waterfall Chart</div>
+          </div>
+          <div class="waterfall-container">
+            <svg id="waterfallSvg" class="waterfall-svg" viewBox="0 0 700 320"></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: Compare -->
+  <div id="tab-compare" style="display:none;">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">&#8596;&#65039; เปรียบเทียบ 2 การจัดส่ง</div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-sm btn-outline no-print" onclick="loadCompareFromHistory('A')">&#128196; โหลด A จากประวัติ</button>
+          <button class="btn btn-sm btn-outline no-print" onclick="loadCompareFromHistory('B')">&#128196; โหลด B จากประวัติ</button>
+        </div>
+      </div>
+
+      <div class="compare-grid" style="margin-bottom:20px;">
+        <!-- Shipment A -->
+        <div class="compare-col">
+          <div class="compare-header a">&#128230; Shipment A</div>
+          <div class="form-group"><label class="form-label">ชื่อ</label><input class="form-input" id="cmpA_name" placeholder="Shipment A" oninput="calcCompare()"></div>
+          <div class="form-group"><label class="form-label">FOB</label>
+            <div class="form-row"><input class="form-input" id="cmpA_fob" type="number" min="0" step="0.01" placeholder="0" oninput="calcCompare()"><select class="form-input form-select" id="cmpA_curr" style="max-width:80px;" onchange="calcCompare()"><option>USD</option><option>EUR</option><option>JPY</option><option>CNY</option></select></div>
+          </div>
+          <div class="form-group"><label class="form-label">Freight</label><input class="form-input" id="cmpA_freight" type="number" min="0" step="0.01" placeholder="0" oninput="calcCompare()"></div>
+          <div class="form-group"><label class="form-label">Insurance</label><input class="form-input" id="cmpA_ins" type="number" min="0" step="0.01" placeholder="0" oninput="calcCompare()"></div>
+          <div class="form-group"><label class="form-label">Duty %</label><input class="form-input" id="cmpA_duty" type="number" min="0" max="100" step="0.01" value="5" oninput="calcCompare()"></div>
+          <div class="form-group"><label class="form-label">ค่าท่าเรือ (THB)</label><input class="form-input" id="cmpA_thc" type="number" min="0" placeholder="0" oninput="calcCompare()"></div>
+          <div class="form-group"><label class="form-label">ค่าพิธีศุลกากร (THB)</label><input class="form-input" id="cmpA_customs" type="number" min="0" placeholder="0" oninput="calcCompare()"></div>
+          <div class="form-group"><label class="form-label">ขนส่งภายใน (THB)</label><input class="form-input" id="cmpA_inland" type="number" min="0" placeholder="0" oninput="calcCompare()"></div>
+          <div class="form-group"><label class="form-label">อื่นๆ (THB)</label><input class="form-input" id="cmpA_other" type="number" min="0" placeholder="0" oninput="calcCompare()"></div>
+        </div>
+        <!-- Shipment B -->
+        <div class="compare-col">
+          <div class="compare-header b">&#128230; Shipment B</div>
+          <div class="form-group"><label class="form-label">ชื่อ</label><input class="form-input" id="cmpB_name" placeholder="Shipment B" oninput="calcCompare()"></div>
+          <div class="form-group"><label class="form-label">FOB</label>
+            <div class="form-row"><input class="form-input" id="cmpB_fob" type="number" min="0" step="0.01" placeholder="0" oninput="calcCompare()"><select class="form-input form-select" id="cmpB_curr" style="max-width:80px;" onchange="calcCompare()"><option>USD</option><option>EUR</option><option>JPY</option><option>CNY</option></select></div>
+          </div>
+          <div class="form-group"><label class="form-label">Freight</label><input class="form-input" id="cmpB_freight" type="number" min="0" step="0.01" placeholder="0" oninput="calcCompare()"></div>
+          <div class="form-group"><label class="form-label">Insurance</label><input class="form-input" id="cmpB_ins" type="number" min="0" step="0.01" placeholder="0" oninput="calcCompare()"></div>
+          <div class="form-group"><label class="form-label">Duty %</label><input class="form-input" id="cmpB_duty" type="number" min="0" max="100" step="0.01" value="5" oninput="calcCompare()"></div>
+          <div class="form-group"><label class="form-label">ค่าท่าเรือ (THB)</label><input class="form-input" id="cmpB_thc" type="number" min="0" placeholder="0" oninput="calcCompare()"></div>
+          <div class="form-group"><label class="form-label">ค่าพิธีศุลกากร (THB)</label><input class="form-input" id="cmpB_customs" type="number" min="0" placeholder="0" oninput="calcCompare()"></div>
+          <div class="form-group"><label class="form-label">ขนส่งภายใน (THB)</label><input class="form-input" id="cmpB_inland" type="number" min="0" placeholder="0" oninput="calcCompare()"></div>
+          <div class="form-group"><label class="form-label">อื่นๆ (THB)</label><input class="form-input" id="cmpB_other" type="number" min="0" placeholder="0" oninput="calcCompare()"></div>
+        </div>
+      </div>
+
+      <!-- Comparison Results Table -->
+      <div id="compareResults" style="display:none;">
+        <div class="divider"></div>
+        <div class="section-label">&#128200; ผลเปรียบเทียบ</div>
+        <table class="compare-table" id="compareTable">
+          <thead><tr><th>รายการ</th><th id="cmpThA" style="color:var(--blue);">Shipment A</th><th id="cmpThB" style="color:var(--purple);">Shipment B</th><th>ส่วนต่าง</th></tr></thead>
+          <tbody id="compareBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: History -->
+  <div id="tab-history" style="display:none;">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">&#128336; ประวัติการคำนวณ (5 รายการล่าสุด)</div>
+        <button class="btn btn-sm btn-secondary no-print" onclick="clearHistory()">&#128465;&#65039; ล้างทั้งหมด</button>
+      </div>
+      <div id="historyList">
+        <div style="text-align:center;padding:40px;color:var(--muted);">
+          <div style="font-size:2rem;margin-bottom:8px;">&#128203;</div>
+          <div>ยังไม่มีประวัติการคำนวณ</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ========== FX RATES (simulated multi-bank) ==========
+const bankRates = {
+  USD: [
+    {bank:'BOT',rate:34.85},{bank:'BBL',rate:34.92},{bank:'KBANK',rate:34.88},{bank:'SCB',rate:34.90}
+  ],
+  EUR: [
+    {bank:'BOT',rate:37.20},{bank:'BBL',rate:37.35},{bank:'KBANK',rate:37.28},{bank:'SCB',rate:37.31}
+  ],
+  JPY: [
+    {bank:'BOT',rate:0.2310},{bank:'BBL',rate:0.2325},{bank:'KBANK',rate:0.2318},{bank:'SCB',rate:0.2320}
+  ],
+  CNY: [
+    {bank:'BOT',rate:4.78},{bank:'BBL',rate:4.85},{bank:'KBANK',rate:4.81},{bank:'SCB',rate:4.83}
+  ]
+};
+
+let selectedBank = null;
+
+function renderFxGrid() {
+  const curr = document.getElementById('currency').value;
+  const rates = bankRates[curr];
+  document.getElementById('fxCurrLabel').textContent = curr;
+
+  // Update unit labels
+  document.getElementById('freightUnit').textContent = curr;
+  document.getElementById('insUnit').textContent = curr;
+
+  const best = rates.reduce((a,b) => a.rate < b.rate ? a : b);
+  const worst = rates.reduce((a,b) => a.rate > b.rate ? a : b);
+
+  if (!selectedBank) selectedBank = best.bank;
+  // Check if selectedBank exists in current currency rates
+  if (!rates.find(r => r.bank === selectedBank)) selectedBank = best.bank;
+
+  let html = '';
+  rates.forEach(r => {
+    const isBest = r.bank === best.bank;
+    const isActive = r.bank === selectedBank;
+    html += `<div class="fx-card${isActive?' active':''}${isBest?' best':''}" onclick="selectBank('${r.bank}')">
+      <div class="fx-bank">${r.bank}</div>
+      <div class="fx-rate">${r.rate.toFixed(curr==='JPY'?4:2)}</div>
+    </div>`;
+  });
+  document.getElementById('fxGrid').innerHTML = html;
+  document.getElementById('fxBadge').textContent = `ใช้อัตราของ ${selectedBank}`;
+}
+
+function selectBank(bank) {
+  selectedBank = bank;
+  renderFxGrid();
+  calc();
+}
+
+function getSelectedRate() {
+  const curr = document.getElementById('currency').value;
+  const rates = bankRates[curr];
+  const r = rates.find(r => r.bank === selectedBank);
+  return r ? r.rate : rates[0].rate;
+}
+
+function getBestRate(curr) {
+  return bankRates[curr].reduce((a,b) => a.rate < b.rate ? a : b);
+}
+
+function getWorstRate(curr) {
+  return bankRates[curr].reduce((a,b) => a.rate > b.rate ? a : b);
+}
+
+// ========== MAIN CALCULATION ==========
+function val(id) { return parseFloat(document.getElementById(id).value) || 0; }
+function fmt(n) { return n.toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
+function calcInsFromPct() {
+  const pct = val('insurancePct');
+  if (pct > 0) {
+    const fob = val('fob');
+    const freight = val('freight');
+    // Insurance % of CIF => ins = pct/100 * (fob + freight + ins) => ins = (pct/100)*(fob+freight) / (1 - pct/100)
+    const p = pct / 100;
+    const ins = p < 1 ? (p * (fob + freight)) / (1 - p) : 0;
+    document.getElementById('insurance').value = ins.toFixed(2);
+  }
+  calc();
+}
+
+function calc() {
+  renderFxGrid();
+  const rate = getSelectedRate();
+  const curr = document.getElementById('currency').value;
+
+  const fob = val('fob');
+  const freight = val('freight');
+  const ins = val('insurance');
+  const dutyPct = val('dutyPct');
+  const vatPct = val('vatPct');
+  const thc = val('thc');
+  const customs = val('customs');
+  const inland = val('inland');
+  const other = val('other');
+  const qty = Math.max(1, val('qty'));
+
+  // Convert to THB
+  const fobThb = fob * rate;
+  const freightThb = freight * rate;
+  const insThb = ins * rate;
+  const cifThb = fobThb + freightThb + insThb;
+  const dutyThb = cifThb * (dutyPct / 100);
+  const vatThb = (cifThb + dutyThb) * (vatPct / 100);
+  const totalLanded = cifThb + dutyThb + vatThb + thc + customs + inland + other;
+  const perUnit = totalLanded / qty;
+
+  // Update breakdown
+  document.getElementById('bdFob').textContent = fmt(fobThb) + ' THB';
+  document.getElementById('bdFreight').textContent = fmt(freightThb) + ' THB';
+  document.getElementById('bdInsurance').textContent = fmt(insThb) + ' THB';
+  document.getElementById('bdCif').textContent = fmt(cifThb) + ' THB';
+  document.getElementById('bdDuty').textContent = fmt(dutyThb) + ' THB';
+  document.getElementById('bdVat').textContent = fmt(vatThb) + ' THB';
+  document.getElementById('bdThc').textContent = fmt(thc) + ' THB';
+  document.getElementById('bdCustoms').textContent = fmt(customs) + ' THB';
+  document.getElementById('bdInland').textContent = fmt(inland) + ' THB';
+  document.getElementById('bdOther').textContent = fmt(other) + ' THB';
+  document.getElementById('bdTotal').textContent = fmt(totalLanded) + ' THB';
+  document.getElementById('bdPerUnit').textContent = fmt(perUnit) + ' THB';
+
+  const name = document.getElementById('itemName').value || '-';
+  document.getElementById('itemBadge').textContent = name;
+
+  // FX savings
+  const worst = getWorstRate(curr);
+  const cifWorst = fob * worst.rate + freight * worst.rate + ins * worst.rate;
+  const dutyWorst = cifWorst * (dutyPct / 100);
+  const vatWorst = (cifWorst + dutyWorst) * (vatPct / 100);
+  const totalWorst = cifWorst + dutyWorst + vatWorst + thc + customs + inland + other;
+  const savings = totalWorst - totalLanded;
+
+  if (savings > 0 && fob > 0) {
+    document.getElementById('fxSavings').style.display = 'flex';
+    document.getElementById('savingsAmt').textContent = fmt(savings);
+  } else {
+    document.getElementById('fxSavings').style.display = 'none';
+  }
+
+  // Waterfall
+  drawWaterfall({fobThb,freightThb,insThb,dutyThb,vatThb,thc,customs,inland,other,totalLanded});
+}
+
+// ========== WATERFALL CHART ==========
+function drawWaterfall(d) {
+  const svg = document.getElementById('waterfallSvg');
+  const items = [
+    {label:'FOB',value:d.fobThb,color:'#3B82F6'},
+    {label:'Freight',value:d.freightThb,color:'#06B6D4'},
+    {label:'Insurance',value:d.insThb,color:'#8B5CF6'},
+    {label:'Duty',value:d.dutyThb,color:'#F59E0B'},
+    {label:'VAT',value:d.vatThb,color:'#EF4444'},
+    {label:'THC/DO',value:d.thc,color:'#10B981'},
+    {label:'Customs',value:d.customs,color:'#EC4899'},
+    {label:'Inland',value:d.inland,color:'#14B8A6'},
+    {label:'Other',value:d.other,color:'#A855F7'},
+  ];
+
+  const total = d.totalLanded;
+  const W = 700, H = 320;
+  const pad = {top:30, right:20, bottom:55, left:20};
+  const chartW = W - pad.left - pad.right;
+  const chartH = H - pad.top - pad.bottom;
+
+  const allItems = items.concat([{label:'Total',value:total,color:'url(#gradBar)'}]);
+  const n = allItems.length;
+  const barW = Math.min(50, (chartW / n) * 0.6);
+  const gap = (chartW - barW * n) / (n - 1);
+
+  const maxVal = total > 0 ? total * 1.1 : 100;
+  const scaleY = v => chartH - (v / maxVal) * chartH;
+
+  let html = `<defs>
+    <linearGradient id="gradBar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
+    </linearGradient>
+  </defs>`;
+
+  let runningTotal = 0;
+
+  items.forEach((item, i) => {
+    const x = pad.left + i * (barW + gap);
+    const bottom = runningTotal;
+    const top = runningTotal + item.value;
+    runningTotal = top;
+
+    const y1 = pad.top + scaleY(top);
+    const y2 = pad.top + scaleY(bottom);
+    const barH = Math.max(0, y2 - y1);
+
+    // Bar
+    html += `<rect class="wf-bar" x="${x}" y="${y1}" width="${barW}" height="${barH}" rx="3" fill="${item.color}" opacity="0.85">
+      <title>${item.label}: ${fmt(item.value)} THB</title>
+    </rect>`;
+
+    // Value on top
+    if (item.value > 0) {
+      html += `<text class="wf-value" x="${x + barW/2}" y="${y1 - 6}" text-anchor="middle" fill="${item.color}">${shortFmt(item.value)}</text>`;
+    }
+
+    // Connector line to next bar
+    if (i < items.length - 1) {
+      const nextX = pad.left + (i+1) * (barW + gap);
+      html += `<line class="wf-connector" x1="${x + barW}" y1="${y1}" x2="${nextX}" y2="${y1}"/>`;
+    }
+
+    // Label
+    html += `<text class="wf-label" x="${x + barW/2}" y="${H - pad.bottom + 14}" text-anchor="middle">${item.label}</text>`;
+  });
+
+  // Total bar
+  const ti = n - 1;
+  const tx = pad.left + ti * (barW + gap);
+  const ty1 = pad.top + scaleY(total);
+  const ty2 = pad.top + scaleY(0);
+  const tBarH = Math.max(0, ty2 - ty1);
+
+  html += `<rect class="wf-bar wf-total-bar" x="${tx}" y="${ty1}" width="${barW}" height="${tBarH}" fill="url(#gradBar)" opacity="0.95">
+    <title>Total: ${fmt(total)} THB</title>
+  </rect>`;
+  html += `<text class="wf-value" x="${tx + barW/2}" y="${ty1 - 6}" text-anchor="middle" fill="#2563EB" style="font-size:12px;font-weight:800;">${shortFmt(total)}</text>`;
+  html += `<text class="wf-label" x="${tx + barW/2}" y="${H - pad.bottom + 14}" text-anchor="middle" style="font-weight:700;fill:var(--text);">TOTAL</text>`;
+
+  // Baseline
+  html += `<line x1="${pad.left}" y1="${pad.top + chartH}" x2="${W - pad.right}" y2="${pad.top + chartH}" stroke="var(--border)" stroke-width="1"/>`;
+
+  svg.innerHTML = html;
+}
+
+function shortFmt(n) {
+  if (n >= 1e6) return (n/1e6).toFixed(1)+'M';
+  if (n >= 1e3) return (n/1e3).toFixed(1)+'K';
+  return n.toFixed(0);
+}
+
+// ========== COMPARISON ==========
+function calcShipment(prefix) {
+  const fob = parseFloat(document.getElementById(prefix+'_fob').value) || 0;
+  const curr = document.getElementById(prefix+'_curr').value;
+  const freight = parseFloat(document.getElementById(prefix+'_freight').value) || 0;
+  const ins = parseFloat(document.getElementById(prefix+'_ins').value) || 0;
+  const dutyPct = parseFloat(document.getElementById(prefix+'_duty').value) || 0;
+  const thc = parseFloat(document.getElementById(prefix+'_thc').value) || 0;
+  const customs = parseFloat(document.getElementById(prefix+'_customs').value) || 0;
+  const inland = parseFloat(document.getElementById(prefix+'_inland').value) || 0;
+  const other = parseFloat(document.getElementById(prefix+'_other').value) || 0;
+  const name = document.getElementById(prefix+'_name').value || prefix.replace('cmp','Shipment ');
+
+  const rate = getBestRate(curr).rate;
+  const fobThb = fob * rate;
+  const freightThb = freight * rate;
+  const insThb = ins * rate;
+  const cifThb = fobThb + freightThb + insThb;
+  const dutyThb = cifThb * (dutyPct / 100);
+  const vatThb = (cifThb + dutyThb) * 0.07;
+  const total = cifThb + dutyThb + vatThb + thc + customs + inland + other;
+
+  return {name, fobThb, freightThb, insThb, cifThb, dutyThb, vatThb, thc, customs, inland, other, total};
+}
+
+function calcCompare() {
+  const a = calcShipment('cmpA');
+  const b = calcShipment('cmpB');
+
+  if (a.total === 0 && b.total === 0) {
+    document.getElementById('compareResults').style.display = 'none';
+    return;
+  }
+  document.getElementById('compareResults').style.display = 'block';
+  document.getElementById('cmpThA').textContent = a.name || 'Shipment A';
+  document.getElementById('cmpThB').textContent = b.name || 'Shipment B';
+
+  const rows = [
+    ['FOB (THB)', a.fobThb, b.fobThb],
+    ['Freight (THB)', a.freightThb, b.freightThb],
+    ['Insurance (THB)', a.insThb, b.insThb],
+    ['CIF Value', a.cifThb, b.cifThb],
+    ['Duty', a.dutyThb, b.dutyThb],
+    ['VAT 7%', a.vatThb, b.vatThb],
+    ['ค่าท่าเรือ', a.thc, b.thc],
+    ['ค่าพิธีศุลกากร', a.customs, b.customs],
+    ['ขนส่งภายใน', a.inland, b.inland],
+    ['อื่นๆ', a.other, b.other],
+  ];
+
+  let html = '';
+  rows.forEach(([label, va, vb]) => {
+    const aWin = va < vb && va > 0 && vb > 0;
+    const bWin = vb < va && va > 0 && vb > 0;
+    const diff = va - vb;
+    html += `<tr>
+      <td>${label}</td>
+      <td class="${aWin?'win':''}">${fmt(va)}</td>
+      <td class="${bWin?'win':''}">${fmt(vb)}</td>
+      <td style="color:${diff>0?'var(--red)':diff<0?'var(--green)':'var(--muted)'};font-weight:600;">${diff>0?'+':''}${fmt(diff)}</td>
+    </tr>`;
+  });
+
+  // Total row
+  const diffT = a.total - b.total;
+  html += `<tr class="total-row">
+    <td style="font-weight:800;">Total Landed Cost</td>
+    <td class="${a.total<b.total&&a.total>0?'win':''}" style="font-weight:800;">${fmt(a.total)}</td>
+    <td class="${b.total<a.total&&b.total>0?'win':''}" style="font-weight:800;">${fmt(b.total)}</td>
+    <td style="color:${diffT>0?'var(--red)':diffT<0?'var(--green)':'var(--muted)'};font-weight:800;">${diffT>0?'+':''}${fmt(diffT)}</td>
+  </tr>`;
+
+  document.getElementById('compareBody').innerHTML = html;
+}
+
+function loadCompareFromHistory(side) {
+  const history = JSON.parse(localStorage.getItem('lcc_history') || '[]');
+  if (history.length === 0) {
+    alert('ยังไม่มีประวัติการคำนวณ');
+    return;
+  }
+  let msg = 'เลือกรายการ:\n';
+  history.forEach((h,i) => { msg += `${i+1}. ${h.name} (${fmt(h.total)} THB)\n`; });
+  const choice = prompt(msg + '\nพิมพ์หมายเลข:');
+  const idx = parseInt(choice) - 1;
+  if (isNaN(idx) || idx < 0 || idx >= history.length) return;
+
+  const h = history[idx];
+  const prefix = side === 'A' ? 'cmpA' : 'cmpB';
+  document.getElementById(prefix+'_name').value = h.name;
+  document.getElementById(prefix+'_fob').value = h.fob;
+  document.getElementById(prefix+'_curr').value = h.currency;
+  document.getElementById(prefix+'_freight').value = h.freight;
+  document.getElementById(prefix+'_ins').value = h.insurance;
+  document.getElementById(prefix+'_duty').value = h.dutyPct;
+  document.getElementById(prefix+'_thc').value = h.thc;
+  document.getElementById(prefix+'_customs').value = h.customs;
+  document.getElementById(prefix+'_inland').value = h.inland;
+  document.getElementById(prefix+'_other').value = h.other;
+  calcCompare();
+}
+
+// ========== TABS ==========
+function switchTab(tab, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-calc').style.display = tab==='calc' ? '' : 'none';
+  document.getElementById('tab-compare').style.display = tab==='compare' ? '' : 'none';
+  document.getElementById('tab-history').style.display = tab==='history' ? '' : 'none';
+  if (tab === 'history') renderHistory();
+}
+
+// ========== HISTORY ==========
+function saveToHistory() {
+  const name = document.getElementById('itemName').value || 'Unnamed';
+  const rate = getSelectedRate();
+  const curr = document.getElementById('currency').value;
+  const fob = val('fob');
+  const freight = val('freight');
+  const insurance = val('insurance');
+  const dutyPct = val('dutyPct');
+  const thc = val('thc');
+  const customs = val('customs');
+  const inland = val('inland');
+  const other = val('other');
+  const qty = Math.max(1, val('qty'));
+
+  const fobThb = fob * rate;
+  const freightThb = freight * rate;
+  const insThb = insurance * rate;
+  const cifThb = fobThb + freightThb + insThb;
+  const dutyThb = cifThb * (dutyPct / 100);
+  const vatThb = (cifThb + dutyThb) * (val('vatPct') / 100);
+  const total = cifThb + dutyThb + vatThb + thc + customs + inland + other;
+
+  const entry = {
+    name, currency: curr, fob, freight, insurance, dutyPct, thc, customs, inland, other, qty,
+    rate, bank: selectedBank, total,
+    date: new Date().toISOString()
+  };
+
+  let history = JSON.parse(localStorage.getItem('lcc_history') || '[]');
+  history.unshift(entry);
+  if (history.length > 5) history = history.slice(0, 5);
+  localStorage.setItem('lcc_history', JSON.stringify(history));
+
+  // Flash feedback
+  const btn = event.target;
+  const orig = btn.innerHTML;
+  btn.innerHTML = '&#10003; บันทึกแล้ว!';
+  btn.style.background = 'var(--green)';
+  setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; }, 1200);
+}
+
+function renderHistory() {
+  const history = JSON.parse(localStorage.getItem('lcc_history') || '[]');
+  const container = document.getElementById('historyList');
+
+  if (history.length === 0) {
+    container.innerHTML = `<div style="text-align:center;padding:40px;color:var(--muted);">
+      <div style="font-size:2rem;margin-bottom:8px;">&#128203;</div>
+      <div>ยังไม่มีประวัติการคำนวณ</div>
+    </div>`;
+    return;
+  }
+
+  let html = '';
+  history.forEach((h, i) => {
+    const d = new Date(h.date);
+    const dateStr = d.toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'numeric'}) + ' ' + d.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});
+    html += `<div class="history-item" onclick="loadFromHistory(${i})">
+      <div class="history-info">
+        <div class="history-name">&#128230; ${h.name}</div>
+        <div class="history-meta">${dateStr} &middot; ${h.currency} &middot; Rate: ${h.rate} (${h.bank})</div>
+      </div>
+      <div class="history-cost">${fmt(h.total)} THB</div>
+      <div class="history-actions">
+        <button class="btn-icon btn-sm" onclick="event.stopPropagation();deleteHistory(${i})" title="ลบ">&#128465;&#65039;</button>
+      </div>
+    </div>`;
+  });
+  container.innerHTML = html;
+}
+
+function loadFromHistory(idx) {
+  const history = JSON.parse(localStorage.getItem('lcc_history') || '[]');
+  const h = history[idx];
+  if (!h) return;
+
+  document.getElementById('itemName').value = h.name;
+  document.getElementById('qty').value = h.qty || 1;
+  document.getElementById('fob').value = h.fob;
+  document.getElementById('currency').value = h.currency;
+  document.getElementById('freight').value = h.freight;
+  document.getElementById('insurance').value = h.insurance;
+  document.getElementById('dutyPct').value = h.dutyPct;
+  document.getElementById('thc').value = h.thc;
+  document.getElementById('customs').value = h.customs;
+  document.getElementById('inland').value = h.inland;
+  document.getElementById('other').value = h.other;
+  if (h.bank) selectedBank = h.bank;
+
+  // Switch to calc tab
+  document.querySelectorAll('.tab')[0].click();
+  calc();
+}
+
+function deleteHistory(idx) {
+  let history = JSON.parse(localStorage.getItem('lcc_history') || '[]');
+  history.splice(idx, 1);
+  localStorage.setItem('lcc_history', JSON.stringify(history));
+  renderHistory();
+}
+
+function clearHistory() {
+  if (!confirm('ล้างประวัติทั้งหมด?')) return;
+  localStorage.removeItem('lcc_history');
+  renderHistory();
+}
+
+// ========== RESET ==========
+function resetForm() {
+  ['itemName','fob','freight','insurance','insurancePct','thc','customs','inland','other'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('qty').value = 1;
+  document.getElementById('dutyPct').value = 5;
+  document.getElementById('vatPct').value = 7;
+  document.getElementById('currency').value = 'USD';
+  selectedBank = null;
+  calc();
+}
+
+// ========== EXPORT PDF ==========
+function exportPDF() {
+  window.print();
+}
+
+// ========== EXPORT EXCEL ==========
+function exportExcel() {
+  const rate = getSelectedRate();
+  const curr = document.getElementById('currency').value;
+  const name = document.getElementById('itemName').value || 'Unnamed';
+  const fob = val('fob');
+  const freight = val('freight');
+  const ins = val('insurance');
+  const dutyPct = val('dutyPct');
+  const vatPct = val('vatPct');
+  const thc = val('thc');
+  const customs = val('customs');
+  const inland = val('inland');
+  const other = val('other');
+  const qty = Math.max(1, val('qty'));
+
+  const fobThb = fob * rate;
+  const freightThb = freight * rate;
+  const insThb = ins * rate;
+  const cifThb = fobThb + freightThb + insThb;
+  const dutyThb = cifThb * (dutyPct / 100);
+  const vatThb = (cifThb + dutyThb) * (vatPct / 100);
+  const total = cifThb + dutyThb + vatThb + thc + customs + inland + other;
+  const perUnit = total / qty;
+
+  const rows = [
+    ['Landed Cost Calculator - Autopilot v2 by ANTS'],
+    [],
+    ['Item', name],
+    ['Currency', curr],
+    ['FX Rate', rate, `(${selectedBank})`],
+    ['Quantity', qty],
+    [],
+    ['Component', `Original (${curr})`, 'THB'],
+    ['FOB', fob, fobThb.toFixed(2)],
+    ['Freight', freight, freightThb.toFixed(2)],
+    ['Insurance', ins, insThb.toFixed(2)],
+    ['CIF Value', fob+freight+ins, cifThb.toFixed(2)],
+    [`Duty (${dutyPct}%)`, '', dutyThb.toFixed(2)],
+    [`VAT (${vatPct}%)`, '', vatThb.toFixed(2)],
+    ['THC/D.O.', '', thc.toFixed(2)],
+    ['Customs Clearance', '', customs.toFixed(2)],
+    ['Inland Transport', '', inland.toFixed(2)],
+    ['Others', '', other.toFixed(2)],
+    [],
+    ['TOTAL LANDED COST', '', total.toFixed(2)],
+    ['Cost per Unit', '', perUnit.toFixed(2)],
+  ];
+
+  let csv = rows.map(r => r.map(c => `"${c}"`).join(',')).join('\n');
+  const bom = '\uFEFF';
+  const blob = new Blob([bom + csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `landed-cost-${name.replace(/\s+/g,'-')}-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ========== INIT ==========
+document.addEventListener('DOMContentLoaded', () => {
+  calc();
+});
+</script>
+</body>
+</html>

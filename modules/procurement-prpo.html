@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Procurement PR/PO Module — Autopilot v2 by ANTS</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
+:root{--bg:#F8FAFC;--bg2:#F1F5F9;--white:#FFF;--border:#E2E8F0;--border2:#CBD5E1;--text:#0F172A;--text2:#334155;--muted:#64748B;--light:#94A3B8;--blue:#2563EB;--blue-l:#EFF6FF;--blue-d:#1D4ED8;--purple:#7C3AED;--purple-l:#F5F3FF;--cyan:#0891B2;--cyan-l:#ECFEFF;--green:#059669;--green-l:#ECFDF5;--green-d:#047857;--orange:#D97706;--orange-l:#FFFBEB;--red:#DC2626;--red-l:#FEF2F2;--pink:#DB2777;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--sh:0 1px 3px rgba(0,0,0,.06);--sh2:0 4px 20px rgba(0,0,0,.08);--sh3:0 12px 40px rgba(0,0,0,.12);--sidebar-w:260px;--header-h:56px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;}
+::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+
+/* Layout */
+.app-layout{display:flex;min-height:100vh;}
+.sidebar{width:var(--sidebar-w);background:var(--white);border-right:1px solid var(--border);position:fixed;top:0;left:0;bottom:0;z-index:50;display:flex;flex-direction:column;overflow-y:auto;}
+.main-wrap{margin-left:var(--sidebar-w);flex:1;min-height:100vh;display:flex;flex-direction:column;}
+.header{height:var(--header-h);background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:40;}
+.main{flex:1;padding:24px;overflow-y:auto;}
+
+/* Sidebar */
+.sidebar-logo{padding:16px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
+.logo-icon{width:36px;height:36px;background:var(--grad);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.9rem;font-weight:800;flex-shrink:0;}
+.logo-text{font-weight:700;font-size:.92rem;line-height:1.2;}.logo-sub{font-size:.62rem;color:var(--muted);font-weight:500;}
+.nav-section{padding:8px 12px 4px;}
+.nav-label{font-size:.6rem;font-weight:700;color:var(--light);letter-spacing:1.2px;text-transform:uppercase;padding:0 8px;margin-bottom:4px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:8px;cursor:pointer;font-size:.78rem;color:var(--text2);transition:all .15s;border:none;background:none;width:100%;text-align:left;font-family:inherit;}
+.nav-item:hover{background:var(--blue-l);color:var(--blue);}
+.nav-item.active{background:var(--blue-l);color:var(--blue);font-weight:600;}
+.nav-item .icon{width:18px;text-align:center;font-size:.85rem;}
+.nav-item .badge{margin-left:auto;font-size:.6rem;font-weight:700;background:var(--blue);color:#fff;padding:1px 6px;border-radius:10px;min-width:18px;text-align:center;}
+.nav-item .badge.warn{background:var(--orange);}
+.nav-item .badge.green{background:var(--green);}
+.sidebar-footer{margin-top:auto;padding:12px;border-top:1px solid var(--border);}
+.plan-badge{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--purple-l);border-radius:10px;font-size:.72rem;color:var(--purple);font-weight:600;}
+
+/* Header */
+.header-left{display:flex;align-items:center;gap:12px;}
+.header-title{font-size:1rem;font-weight:700;}
+.header-right{display:flex;align-items:center;gap:8px;}
+.header-btn{width:36px;height:36px;border-radius:9px;border:1px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;position:relative;transition:all .15s;}
+.header-btn:hover{background:var(--bg);border-color:var(--blue);}
+.header-btn .dot{position:absolute;top:6px;right:6px;width:8px;height:8px;background:var(--red);border-radius:50%;border:2px solid var(--white);}
+.user-pill{display:flex;align-items:center;gap:8px;padding:4px 12px 4px 4px;border-radius:20px;border:1px solid var(--border);background:var(--white);cursor:pointer;font-size:.78rem;font-weight:500;}
+.user-avatar{width:28px;height:28px;border-radius:50%;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;}
+
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+.kpi{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:var(--sh);position:relative;overflow:hidden;}
+.kpi::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.kpi:nth-child(1)::after{background:var(--blue);}
+.kpi:nth-child(2)::after{background:var(--green);}
+.kpi:nth-child(3)::after{background:var(--purple);}
+.kpi:nth-child(4)::after{background:var(--orange);}
+.kpi-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:10px;}
+.kpi:nth-child(1) .kpi-icon{background:var(--blue-l);color:var(--blue);}
+.kpi:nth-child(2) .kpi-icon{background:var(--green-l);color:var(--green);}
+.kpi:nth-child(3) .kpi-icon{background:var(--purple-l);color:var(--purple);}
+.kpi:nth-child(4) .kpi-icon{background:var(--orange-l);color:var(--orange);}
+.kpi-label{font-size:.72rem;color:var(--muted);font-weight:500;display:flex;align-items:center;gap:6px;}
+.kpi-value{font-size:1.8rem;font-weight:800;margin-top:4px;line-height:1;}
+.kpi-change{display:inline-flex;align-items:center;gap:3px;font-size:.68rem;font-weight:600;padding:2px 6px;border-radius:4px;margin-top:6px;}
+.kpi-change.up{background:var(--green-l);color:var(--green);}
+.kpi-change.down{background:var(--red-l);color:var(--red);}
+
+/* Cards & Buttons */
+.card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:20px;box-shadow:var(--sh);}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.card-title{font-size:.92rem;font-weight:700;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:.82rem;font-weight:600;border:none;cursor:pointer;transition:all .2s;font-family:inherit;}
+.btn-primary{background:var(--grad);color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.2);}
+.btn-primary:hover{box-shadow:0 6px 16px rgba(37,99,235,.3);transform:translateY(-1px);}
+.btn-secondary{background:var(--white);color:var(--text2);border:1px solid var(--border);}
+.btn-secondary:hover{border-color:var(--blue);color:var(--blue);}
+.btn-sm{padding:5px 12px;font-size:.75rem;border-radius:6px;}
+.btn-success{background:var(--green);color:#fff;}
+.btn-success:hover{background:var(--green-d);}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text2);}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue);}
+.btn-danger{background:var(--red-l);color:var(--red);border:1px solid transparent;}
+.btn-danger:hover{background:var(--red);color:#fff;}
+.btn-icon{width:32px;height:32px;padding:0;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid var(--border);background:var(--white);cursor:pointer;font-size:.85rem;transition:all .15s;}
+.btn-icon:hover{border-color:var(--blue);color:var(--blue);}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;margin-bottom:20px;background:var(--bg2);padding:4px;border-radius:12px;width:fit-content;}
+.tab{padding:8px 20px;border-radius:8px;font-size:.82rem;font-weight:500;cursor:pointer;color:var(--muted);transition:all .2s;border:none;background:none;font-family:inherit;}
+.tab:hover{color:var(--text);}
+.tab.active{background:var(--white);color:var(--blue);font-weight:600;box-shadow:var(--sh);}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
+/* Table */
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px;}
+table{width:100%;border-collapse:collapse;font-size:.82rem;}
+thead{background:var(--bg2);}
+th{padding:10px 14px;text-align:left;font-weight:600;font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);}
+td{padding:10px 14px;border-bottom:1px solid var(--border);}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:var(--blue-l);}
+.status{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:600;}
+.status-draft{background:var(--bg2);color:var(--muted);}
+.status-pending{background:var(--orange-l);color:var(--orange);}
+.status-approved{background:var(--green-l);color:var(--green);}
+.status-converted{background:var(--blue-l);color:var(--blue);}
+.status-sent{background:var(--cyan-l);color:var(--cyan);}
+.status-received{background:var(--purple-l);color:var(--purple);}
+.status-closed{background:var(--bg2);color:var(--muted);}
+.status-rejected{background:var(--red-l);color:var(--red);}
+.link-text{color:var(--blue);font-weight:500;cursor:pointer;text-decoration:none;}
+.link-text:hover{text-decoration:underline;}
+
+/* Search Bar */
+.search-bar{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+.search-input{display:flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid var(--border);border-radius:8px;background:var(--white);flex:1;min-width:200px;}
+.search-input input{border:none;outline:none;font-family:inherit;font-size:.82rem;width:100%;background:transparent;}
+.filter-select{padding:8px 14px;border:1px solid var(--border);border-radius:8px;font-size:.82rem;font-family:inherit;background:var(--white);cursor:pointer;color:var(--text2);}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);}
+.modal-overlay.show{display:flex;}
+.modal{background:var(--white);border-radius:16px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:var(--sh3);animation:modalIn .25s ease;}
+.modal-sm{max-width:600px;}
+.modal-md{max-width:800px;}
+.modal-lg{max-width:1000px;}
+.modal-xl{max-width:1200px;}
+@keyframes modalIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--border);}
+.modal-header h3{font-size:1rem;font-weight:700;}
+.modal-close{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;transition:all .15s;}
+.modal-close:hover{background:var(--red-l);color:var(--red);border-color:var(--red);}
+.modal-body{padding:24px;}
+.modal-footer{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:16px 24px;border-top:1px solid var(--border);}
+
+/* Form */
+.form-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;}
+.form-group{display:flex;flex-direction:column;gap:4px;}
+.form-group.full{grid-column:1/-1;}
+.form-label{font-size:.72rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
+.form-input,.form-select,.form-textarea{padding:9px 14px;border:1px solid var(--border);border-radius:8px;font-size:.82rem;font-family:inherit;transition:border-color .2s;background:var(--white);}
+.form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+.form-textarea{resize:vertical;min-height:80px;}
+
+/* Items Table in Form */
+.items-table{width:100%;border-collapse:collapse;font-size:.82rem;margin-bottom:12px;}
+.items-table th{padding:8px 10px;background:var(--bg2);text-align:left;font-weight:600;font-size:.7rem;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border);}
+.items-table td{padding:6px 8px;border-bottom:1px solid var(--border);}
+.items-table input,.items-table select{padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:.8rem;font-family:inherit;width:100%;}
+.items-table input:focus,.items-table select:focus{outline:none;border-color:var(--blue);}
+.items-table .remove-row{width:28px;height:28px;border:none;background:var(--red-l);color:var(--red);border-radius:6px;cursor:pointer;font-size:.8rem;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.items-table .remove-row:hover{background:var(--red);color:#fff;}
+
+/* AI Suggestion */
+.ai-suggestion{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;background:linear-gradient(135deg,rgba(37,99,235,.04),rgba(124,58,237,.06));border:1px solid rgba(124,58,237,.15);border-radius:12px;margin-bottom:16px;}
+.ai-suggestion .ai-icon{width:32px;height:32px;border-radius:8px;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;}
+.ai-suggestion .ai-text{font-size:.8rem;color:var(--text2);line-height:1.5;}
+.ai-suggestion .ai-text strong{color:var(--purple);font-weight:700;}
+
+/* Budget Indicator */
+.budget-bar{margin-bottom:16px;}
+.budget-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.budget-header span{font-size:.75rem;font-weight:600;}
+.budget-track{height:8px;background:var(--bg2);border-radius:4px;overflow:hidden;}
+.budget-fill{height:100%;border-radius:4px;transition:width .5s ease;}
+.budget-ok{background:var(--green);}
+.budget-warn{background:var(--orange);}
+.budget-danger{background:var(--red);}
+
+/* Approval Workflow */
+.workflow{display:flex;align-items:center;gap:0;overflow-x:auto;padding:20px 0;justify-content:center;}
+.workflow-step{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:100px;position:relative;}
+.workflow-circle{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;border:3px solid var(--border);background:var(--white);transition:all .3s;position:relative;z-index:2;}
+.workflow-step.done .workflow-circle{border-color:var(--green);background:var(--green-l);color:var(--green);}
+.workflow-step.current .workflow-circle{border-color:var(--blue);background:var(--blue-l);color:var(--blue);box-shadow:0 0 0 4px rgba(37,99,235,.15);}
+.workflow-step.pending .workflow-circle{border-color:var(--border);color:var(--light);}
+.workflow-step.conditional .workflow-circle{border-color:var(--orange);background:var(--orange-l);color:var(--orange);}
+.workflow-name{font-size:.7rem;font-weight:600;color:var(--text2);text-align:center;}
+.workflow-role{font-size:.6rem;color:var(--muted);text-align:center;}
+.workflow-connector{width:60px;height:3px;background:var(--border);margin-bottom:26px;position:relative;}
+.workflow-connector.done{background:var(--green);}
+.workflow-connector.active{background:linear-gradient(90deg,var(--green),var(--blue));}
+
+/* PO Document Preview */
+.po-document{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--white);}
+.po-doc-header{background:var(--bg2);padding:24px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--border);}
+.po-company{display:flex;flex-direction:column;gap:4px;}
+.po-company .company-name{font-size:1.1rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.po-company .company-detail{font-size:.72rem;color:var(--muted);}
+.po-number-block{text-align:right;}
+.po-number-block .po-num{font-size:1.3rem;font-weight:800;color:var(--blue);}
+.po-number-block .po-date{font-size:.72rem;color:var(--muted);margin-top:2px;}
+.po-parties{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:20px 24px;border-bottom:1px solid var(--border);}
+.po-party h4{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;}
+.po-party p{font-size:.8rem;color:var(--text2);line-height:1.5;}
+.po-items{padding:20px 24px;}
+.po-items table{width:100%;border-collapse:collapse;font-size:.82rem;}
+.po-items th{padding:10px 12px;background:var(--bg2);font-weight:600;font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;text-align:left;}
+.po-items td{padding:10px 12px;border-bottom:1px solid var(--border);}
+.po-items .total-row td{font-weight:700;border-top:2px solid var(--text);border-bottom:none;}
+.po-terms{padding:20px 24px;border-top:1px solid var(--border);}
+.po-terms h4{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:8px;}
+.po-terms p{font-size:.78rem;color:var(--text2);line-height:1.6;}
+.po-signatures{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding:24px;border-top:1px solid var(--border);}
+.po-sig{text-align:center;padding-top:40px;border-top:1px dashed var(--border2);position:relative;}
+.po-sig .sig-img{position:absolute;top:-10px;left:50%;transform:translateX(-50%);font-size:1.4rem;color:var(--blue);font-style:italic;font-weight:700;opacity:.5;}
+.po-sig .sig-name{font-size:.8rem;font-weight:600;margin-bottom:2px;}
+.po-sig .sig-title{font-size:.68rem;color:var(--muted);}
+
+/* 3-Way Match */
+.match-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;}
+.match-card{border:1px solid var(--border);border-radius:12px;padding:16px;background:var(--white);}
+.match-card h4{font-size:.78rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.match-card .match-icon{font-size:1rem;}
+.match-item{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:.78rem;}
+.match-item:last-child{border-bottom:none;}
+.match-status{display:flex;align-items:center;gap:6px;font-size:.75rem;font-weight:600;padding:8px 14px;border-radius:8px;margin-top:12px;}
+.match-ok{background:var(--green-l);color:var(--green);}
+.match-warn{background:var(--orange-l);color:var(--orange);}
+.match-err{background:var(--red-l);color:var(--red);}
+
+/* Approval List */
+.approval-item{display:flex;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid var(--border);}
+.approval-item:last-child{border-bottom:none;}
+.approval-avatar{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.approval-info{flex:1;}
+.approval-info .doc-num{font-weight:700;font-size:.85rem;}
+.approval-info .doc-desc{font-size:.75rem;color:var(--muted);margin-top:2px;}
+.approval-info .doc-meta{font-size:.7rem;color:var(--light);margin-top:4px;}
+.approval-actions{display:flex;gap:6px;}
+
+/* Responsive */
+@media(max-width:1200px){.kpi-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:768px){
+  .sidebar{display:none;}.main-wrap{margin-left:0;}
+  .kpi-grid{grid-template-columns:1fr;}
+  .form-grid{grid-template-columns:1fr;}
+  .match-cards{grid-template-columns:1fr;}
+  .po-parties{grid-template-columns:1fr;}
+  .po-signatures{grid-template-columns:1fr;}
+  .workflow{flex-wrap:wrap;gap:8px;}
+  .tabs{flex-wrap:wrap;}
+}
+</style>
+</head>
+<body>
+
+<div class="app-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">A</div>
+      <div><div class="logo-text">Autopilot v2</div><div class="logo-sub">ANTS - AI Solution Hub</div></div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">หลัก</div>
+      <button class="nav-item"><span class="icon">&#9783;</span> แดชบอร์ด</button>
+      <button class="nav-item"><span class="icon">&#128276;</span> การแจ้งเตือน <span class="badge warn">5</span></button>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">จัดซื้อจัดจ้าง</div>
+      <button class="nav-item active"><span class="icon">&#128220;</span> PR / PO</button>
+      <button class="nav-item"><span class="icon">&#128101;</span> Vendor Management</button>
+      <button class="nav-item"><span class="icon">&#128202;</span> เปรียบเทียบราคา</button>
+      <button class="nav-item"><span class="icon">&#128230;</span> รับสินค้า (GR)</button>
+      <button class="nav-item"><span class="icon">&#128179;</span> ใบแจ้งหนี้ (Invoice)</button>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">การเงิน</div>
+      <button class="nav-item"><span class="icon">&#128176;</span> งบประมาณ</button>
+      <button class="nav-item"><span class="icon">&#128200;</span> รายงาน</button>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">ตั้งค่า</div>
+      <button class="nav-item"><span class="icon">&#9881;</span> การตั้งค่าระบบ</button>
+      <button class="nav-item"><span class="icon">&#128100;</span> ผู้ใช้งาน</button>
+    </div>
+    <div class="sidebar-footer">
+      <div class="plan-badge">&#128142; Enterprise Plan - Active</div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main-wrap">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <div class="header-title">&#128220; Procurement - PR/PO</div>
+      </div>
+      <div class="header-right">
+        <button class="header-btn">&#128269;</button>
+        <button class="header-btn">&#128276;<span class="dot"></span></button>
+        <div class="user-pill">
+          <div class="user-avatar">SP</div>
+          <span>สมชาย พ.</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="main">
+      <!-- KPI Cards -->
+      <div class="kpi-grid">
+        <div class="kpi">
+          <div class="kpi-icon">&#128196;</div>
+          <div class="kpi-label">PR เดือนนี้</div>
+          <div class="kpi-value">87</div>
+          <div class="kpi-change up">&#9650; 12% จากเดือนที่แล้ว</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-icon">&#128203;</div>
+          <div class="kpi-label">PO ออกแล้ว</div>
+          <div class="kpi-value">62</div>
+          <div class="kpi-change up">&#9650; 8% จากเดือนที่แล้ว</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-icon">&#128176;</div>
+          <div class="kpi-label">มูลค่ารวม</div>
+          <div class="kpi-value" style="font-size:1.5rem;">&#3647;12.4M</div>
+          <div class="kpi-change up">&#9650; 15% จากเดือนที่แล้ว</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-icon">&#128178;</div>
+          <div class="kpi-label">ประหยัดจากการเปรียบเทียบ</div>
+          <div class="kpi-value" style="font-size:1.5rem;">&#3647;1.8M</div>
+          <div class="kpi-change up">&#9650; ลดต้นทุน 14.5%</div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('pr')">&#128196; ใบขอซื้อ (PR)</button>
+        <button class="tab" onclick="switchTab('po')">&#128203; ใบสั่งซื้อ (PO)</button>
+        <button class="tab" onclick="switchTab('match')">&#128260; 3-Way Match</button>
+        <button class="tab" onclick="switchTab('approval')">&#9989; อนุมัติ</button>
+      </div>
+
+      <!-- PR Tab -->
+      <div id="tab-pr" class="tab-content active">
+        <div class="search-bar">
+          <div class="search-input">
+            <span>&#128269;</span>
+            <input type="text" placeholder="ค้นหา PR Number, ผู้ขอ, รายการ...">
+          </div>
+          <select class="filter-select">
+            <option>ทุกสถานะ</option>
+            <option>ร่าง</option>
+            <option>รออนุมัติ</option>
+            <option>อนุมัติแล้ว</option>
+            <option>แปลงเป็น PO แล้ว</option>
+          </select>
+          <select class="filter-select">
+            <option>ทุกแผนก</option>
+            <option>IT</option>
+            <option>Marketing</option>
+            <option>Operations</option>
+            <option>HR</option>
+          </select>
+          <button class="btn btn-primary" onclick="openModal('prCreateModal')">+ สร้าง PR ใหม่</button>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>PR Number</th>
+                <th>ผู้ขอ</th>
+                <th>แผนก</th>
+                <th>รายการ</th>
+                <th>มูลค่าประมาณ</th>
+                <th>สถานะ</th>
+                <th>วันที่</th>
+                <th>ดำเนินการ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="link-text">PR-2026-0087</span></td>
+                <td>สมชาย พรหมมา</td>
+                <td>IT</td>
+                <td>5 รายการ</td>
+                <td>&#3647;385,000</td>
+                <td><span class="status status-approved">&#9679; อนุมัติแล้ว</span></td>
+                <td>04/04/2026</td>
+                <td><button class="btn btn-success btn-sm" onclick="openModal('prCreateModal')">&#128196;&#8594;&#128203; สร้าง PO</button></td>
+              </tr>
+              <tr>
+                <td><span class="link-text">PR-2026-0086</span></td>
+                <td>วิภา สุขสมบูรณ์</td>
+                <td>Marketing</td>
+                <td>3 รายการ</td>
+                <td>&#3647;125,000</td>
+                <td><span class="status status-pending">&#9679; รออนุมัติ</span></td>
+                <td>03/04/2026</td>
+                <td><button class="btn btn-outline btn-sm" disabled>รอดำเนินการ</button></td>
+              </tr>
+              <tr>
+                <td><span class="link-text">PR-2026-0085</span></td>
+                <td>ประยุทธ์ แก้วมณี</td>
+                <td>Operations</td>
+                <td>8 รายการ</td>
+                <td>&#3647;1,250,000</td>
+                <td><span class="status status-approved">&#9679; อนุมัติแล้ว</span></td>
+                <td>02/04/2026</td>
+                <td><button class="btn btn-success btn-sm" onclick="openModal('prCreateModal')">&#128196;&#8594;&#128203; สร้าง PO</button></td>
+              </tr>
+              <tr>
+                <td><span class="link-text">PR-2026-0084</span></td>
+                <td>นภา จันทร์ดี</td>
+                <td>HR</td>
+                <td>2 รายการ</td>
+                <td>&#3647;45,000</td>
+                <td><span class="status status-draft">&#9679; ร่าง</span></td>
+                <td>02/04/2026</td>
+                <td><button class="btn btn-outline btn-sm">&#9998; แก้ไข</button></td>
+              </tr>
+              <tr>
+                <td><span class="link-text">PR-2026-0083</span></td>
+                <td>กิตติ วงศ์สวัสดิ์</td>
+                <td>IT</td>
+                <td>4 รายการ</td>
+                <td>&#3647;520,000</td>
+                <td><span class="status status-converted">&#9679; แปลงเป็น PO แล้ว</span></td>
+                <td>01/04/2026</td>
+                <td><span class="link-text" onclick="switchTab('po')">PO-2026-0058 &#8594;</span></td>
+              </tr>
+              <tr>
+                <td><span class="link-text">PR-2026-0082</span></td>
+                <td>ปิยะ รัตนกุล</td>
+                <td>Operations</td>
+                <td>6 รายการ</td>
+                <td>&#3647;890,000</td>
+                <td><span class="status status-pending">&#9679; รออนุมัติ</span></td>
+                <td>31/03/2026</td>
+                <td><button class="btn btn-outline btn-sm" disabled>รอดำเนินการ</button></td>
+              </tr>
+              <tr>
+                <td><span class="link-text">PR-2026-0081</span></td>
+                <td>อรุณ เพ็ญศรี</td>
+                <td>Marketing</td>
+                <td>2 รายการ</td>
+                <td>&#3647;78,500</td>
+                <td><span class="status status-converted">&#9679; แปลงเป็น PO แล้ว</span></td>
+                <td>30/03/2026</td>
+                <td><span class="link-text" onclick="switchTab('po')">PO-2026-0057 &#8594;</span></td>
+              </tr>
+              <tr>
+                <td><span class="link-text">PR-2026-0080</span></td>
+                <td>ธนา ศรีสุข</td>
+                <td>IT</td>
+                <td>10 รายการ</td>
+                <td>&#3647;2,100,000</td>
+                <td><span class="status status-approved">&#9679; อนุมัติแล้ว</span></td>
+                <td>29/03/2026</td>
+                <td><button class="btn btn-success btn-sm" onclick="openModal('prCreateModal')">&#128196;&#8594;&#128203; สร้าง PO</button></td>
+              </tr>
+              <tr>
+                <td><span class="link-text">PR-2026-0079</span></td>
+                <td>สุนิสา ทองคำ</td>
+                <td>HR</td>
+                <td>3 รายการ</td>
+                <td>&#3647;165,000</td>
+                <td><span class="status status-converted">&#9679; แปลงเป็น PO แล้ว</span></td>
+                <td>28/03/2026</td>
+                <td><span class="link-text" onclick="switchTab('po')">PO-2026-0055 &#8594;</span></td>
+              </tr>
+              <tr>
+                <td><span class="link-text">PR-2026-0078</span></td>
+                <td>พงศ์ภัค ดีมาก</td>
+                <td>Operations</td>
+                <td>7 รายการ</td>
+                <td>&#3647;430,000</td>
+                <td><span class="status status-pending">&#9679; รออนุมัติ</span></td>
+                <td>27/03/2026</td>
+                <td><button class="btn btn-outline btn-sm" disabled>รอดำเนินการ</button></td>
+              </tr>
+              <tr>
+                <td><span class="link-text">PR-2026-0077</span></td>
+                <td>รัตนา พลอยงาม</td>
+                <td>Marketing</td>
+                <td>4 รายการ</td>
+                <td>&#3647;210,000</td>
+                <td><span class="status status-converted">&#9679; แปลงเป็น PO แล้ว</span></td>
+                <td>26/03/2026</td>
+                <td><span class="link-text" onclick="switchTab('po')">PO-2026-0053 &#8594;</span></td>
+              </tr>
+              <tr>
+                <td><span class="link-text">PR-2026-0076</span></td>
+                <td>ชัยวัฒน์ สมบูรณ์</td>
+                <td>IT</td>
+                <td>1 รายการ</td>
+                <td>&#3647;35,000</td>
+                <td><span class="status status-draft">&#9679; ร่าง</span></td>
+                <td>25/03/2026</td>
+                <td><button class="btn btn-outline btn-sm">&#9998; แก้ไข</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PO Tab -->
+      <div id="tab-po" class="tab-content">
+        <div class="search-bar">
+          <div class="search-input">
+            <span>&#128269;</span>
+            <input type="text" placeholder="ค้นหา PO Number, Vendor, รายการ...">
+          </div>
+          <select class="filter-select">
+            <option>ทุกสถานะ</option>
+            <option>ส่งแล้ว</option>
+            <option>รับสินค้าแล้ว</option>
+            <option>ปิด PO</option>
+          </select>
+          <button class="btn btn-primary" onclick="openModal('prCreateModal')">+ สร้าง PO จาก PR</button>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>PO Number</th>
+                <th>Vendor</th>
+                <th>รายการ</th>
+                <th>มูลค่ารวม</th>
+                <th>จาก PR</th>
+                <th>สถานะ</th>
+                <th>วันที่ออก</th>
+                <th>ดำเนินการ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="link-text" onclick="openModal('poDetailModal')">PO-2026-0062</span></td>
+                <td>บจก. ศรีรุ่งเรือง ซัพพลาย</td>
+                <td>5 รายการ</td>
+                <td>&#3647;375,000</td>
+                <td><span class="link-text">PR-2026-0083</span></td>
+                <td><span class="status status-sent">&#9679; ส่งแล้ว</span></td>
+                <td>03/04/2026</td>
+                <td><button class="btn-icon" onclick="openModal('poDetailModal')">&#128065;</button></td>
+              </tr>
+              <tr>
+                <td><span class="link-text" onclick="openModal('poDetailModal')">PO-2026-0061</span></td>
+                <td>บจก. เอ็นเทค โซลูชั่น</td>
+                <td>3 รายการ</td>
+                <td>&#3647;820,000</td>
+                <td><span class="link-text">PR-2026-0080</span></td>
+                <td><span class="status status-sent">&#9679; ส่งแล้ว</span></td>
+                <td>02/04/2026</td>
+                <td><button class="btn-icon" onclick="openModal('poDetailModal')">&#128065;</button></td>
+              </tr>
+              <tr>
+                <td><span class="link-text" onclick="openModal('poDetailModal')">PO-2026-0060</span></td>
+                <td>บจก. ไทยออฟฟิศ เซ็นเตอร์</td>
+                <td>8 รายการ</td>
+                <td>&#3647;156,400</td>
+                <td><span class="link-text">PR-2026-0081</span></td>
+                <td><span class="status status-received">&#9679; รับสินค้าแล้ว</span></td>
+                <td>01/04/2026</td>
+                <td><button class="btn-icon" onclick="openModal('poDetailModal')">&#128065;</button></td>
+              </tr>
+              <tr>
+                <td><span class="link-text" onclick="openModal('poDetailModal')">PO-2026-0059</span></td>
+                <td>บจก. อินโนเวท เทรดดิ้ง</td>
+                <td>4 รายการ</td>
+                <td>&#3647;290,000</td>
+                <td><span class="link-text">PR-2026-0079</span></td>
+                <td><span class="status status-received">&#9679; รับสินค้าแล้ว</span></td>
+                <td>30/03/2026</td>
+                <td><button class="btn-icon" onclick="openModal('poDetailModal')">&#128065;</button></td>
+              </tr>
+              <tr>
+                <td><span class="link-text" onclick="openModal('poDetailModal')">PO-2026-0058</span></td>
+                <td>บจก. ศรีรุ่งเรือง ซัพพลาย</td>
+                <td>4 รายการ</td>
+                <td>&#3647;510,000</td>
+                <td><span class="link-text">PR-2026-0083</span></td>
+                <td><span class="status status-closed">&#9679; ปิด PO</span></td>
+                <td>28/03/2026</td>
+                <td><button class="btn-icon" onclick="openModal('poDetailModal')">&#128065;</button></td>
+              </tr>
+              <tr>
+                <td><span class="link-text" onclick="openModal('poDetailModal')">PO-2026-0057</span></td>
+                <td>บจก. กรุงเทพ อิเล็กทรอนิกส์</td>
+                <td>2 รายการ</td>
+                <td>&#3647;72,500</td>
+                <td><span class="link-text">PR-2026-0081</span></td>
+                <td><span class="status status-closed">&#9679; ปิด PO</span></td>
+                <td>27/03/2026</td>
+                <td><button class="btn-icon" onclick="openModal('poDetailModal')">&#128065;</button></td>
+              </tr>
+              <tr>
+                <td><span class="link-text" onclick="openModal('poDetailModal')">PO-2026-0056</span></td>
+                <td>บจก. เอเชีย คอมพิวเตอร์</td>
+                <td>6 รายการ</td>
+                <td>&#3647;1,450,000</td>
+                <td><span class="link-text">PR-2026-0078</span></td>
+                <td><span class="status status-sent">&#9679; ส่งแล้ว</span></td>
+                <td>26/03/2026</td>
+                <td><button class="btn-icon" onclick="openModal('poDetailModal')">&#128065;</button></td>
+              </tr>
+              <tr>
+                <td><span class="link-text" onclick="openModal('poDetailModal')">PO-2026-0055</span></td>
+                <td>บจก. ไทยออฟฟิศ เซ็นเตอร์</td>
+                <td>3 รายการ</td>
+                <td>&#3647;158,000</td>
+                <td><span class="link-text">PR-2026-0079</span></td>
+                <td><span class="status status-closed">&#9679; ปิด PO</span></td>
+                <td>25/03/2026</td>
+                <td><button class="btn-icon" onclick="openModal('poDetailModal')">&#128065;</button></td>
+              </tr>
+              <tr>
+                <td><span class="link-text" onclick="openModal('poDetailModal')">PO-2026-0054</span></td>
+                <td>บจก. สมาร์ท เซอร์วิส</td>
+                <td>5 รายการ</td>
+                <td>&#3647;340,000</td>
+                <td><span class="link-text">PR-2026-0077</span></td>
+                <td><span class="status status-received">&#9679; รับสินค้าแล้ว</span></td>
+                <td>24/03/2026</td>
+                <td><button class="btn-icon" onclick="openModal('poDetailModal')">&#128065;</button></td>
+              </tr>
+              <tr>
+                <td><span class="link-text" onclick="openModal('poDetailModal')">PO-2026-0053</span></td>
+                <td>บจก. อินโนเวท เทรดดิ้ง</td>
+                <td>4 รายการ</td>
+                <td>&#3647;205,000</td>
+                <td><span class="link-text">PR-2026-0077</span></td>
+                <td><span class="status status-closed">&#9679; ปิด PO</span></td>
+                <td>23/03/2026</td>
+                <td><button class="btn-icon" onclick="openModal('poDetailModal')">&#128065;</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 3-Way Match Tab -->
+      <div id="tab-match" class="tab-content">
+        <div style="margin-bottom:20px;">
+          <h3 style="font-size:.95rem;font-weight:700;margin-bottom:4px;">&#128260; 3-Way Matching</h3>
+          <p style="font-size:.8rem;color:var(--muted);">เปรียบเทียบ PO, ใบรับสินค้า (GR), และใบแจ้งหนี้ (Invoice) โดยอัตโนมัติ</p>
+        </div>
+
+        <!-- Match Example 1 -->
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-header">
+            <div>
+              <div style="font-weight:700;font-size:.88rem;">PO-2026-0060 &mdash; บจก. ไทยออฟฟิศ เซ็นเตอร์</div>
+              <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">มูลค่า PO: &#3647;156,400</div>
+            </div>
+            <div class="match-status match-ok">&#9989; Match สำเร็จ</div>
+          </div>
+          <div class="match-cards">
+            <div class="match-card">
+              <h4><span class="match-icon">&#128203;</span> Purchase Order</h4>
+              <div class="match-item"><span>กระดาษ A4 (80 แกรม)</span><span>&#3647;45,000</span></div>
+              <div class="match-item"><span>หมึกพิมพ์ HP</span><span>&#3647;68,400</span></div>
+              <div class="match-item"><span>อุปกรณ์สำนักงาน</span><span>&#3647;43,000</span></div>
+              <div class="match-item" style="font-weight:700;"><span>รวม</span><span>&#3647;156,400</span></div>
+            </div>
+            <div class="match-card">
+              <h4><span class="match-icon">&#128230;</span> Goods Receipt</h4>
+              <div class="match-item"><span>กระดาษ A4 (80 แกรม)</span><span>&#3647;45,000</span></div>
+              <div class="match-item"><span>หมึกพิมพ์ HP</span><span>&#3647;68,400</span></div>
+              <div class="match-item"><span>อุปกรณ์สำนักงาน</span><span>&#3647;43,000</span></div>
+              <div class="match-item" style="font-weight:700;"><span>รวม</span><span>&#3647;156,400</span></div>
+            </div>
+            <div class="match-card">
+              <h4><span class="match-icon">&#128179;</span> Invoice</h4>
+              <div class="match-item"><span>กระดาษ A4 (80 แกรม)</span><span>&#3647;45,000</span></div>
+              <div class="match-item"><span>หมึกพิมพ์ HP</span><span>&#3647;68,400</span></div>
+              <div class="match-item"><span>อุปกรณ์สำนักงาน</span><span>&#3647;43,000</span></div>
+              <div class="match-item" style="font-weight:700;"><span>รวม</span><span>&#3647;156,400</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Match Example 2 - Discrepancy -->
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-header">
+            <div>
+              <div style="font-weight:700;font-size:.88rem;">PO-2026-0059 &mdash; บจก. อินโนเวท เทรดดิ้ง</div>
+              <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">มูลค่า PO: &#3647;290,000</div>
+            </div>
+            <div class="match-status match-warn">&#9888; พบความแตกต่าง</div>
+          </div>
+          <div class="match-cards">
+            <div class="match-card">
+              <h4><span class="match-icon">&#128203;</span> Purchase Order</h4>
+              <div class="match-item"><span>เครื่องพิมพ์ Laser</span><span>&#3647;185,000</span></div>
+              <div class="match-item"><span>สายเคเบิล Cat6</span><span>&#3647;25,000</span></div>
+              <div class="match-item"><span>Switch 24 Port</span><span>&#3647;80,000</span></div>
+              <div class="match-item" style="font-weight:700;"><span>รวม</span><span>&#3647;290,000</span></div>
+            </div>
+            <div class="match-card">
+              <h4><span class="match-icon">&#128230;</span> Goods Receipt</h4>
+              <div class="match-item"><span>เครื่องพิมพ์ Laser</span><span>&#3647;185,000</span></div>
+              <div class="match-item"><span>สายเคเบิล Cat6</span><span>&#3647;25,000</span></div>
+              <div class="match-item"><span>Switch 24 Port</span><span>&#3647;80,000</span></div>
+              <div class="match-item" style="font-weight:700;"><span>รวม</span><span>&#3647;290,000</span></div>
+            </div>
+            <div class="match-card" style="border-color:var(--orange);">
+              <h4><span class="match-icon">&#128179;</span> Invoice <span style="color:var(--orange);font-size:.65rem;margin-left:auto;">&#9888; ไม่ตรงกัน</span></h4>
+              <div class="match-item"><span>เครื่องพิมพ์ Laser</span><span>&#3647;185,000</span></div>
+              <div class="match-item"><span>สายเคเบิล Cat6</span><span style="color:var(--red);font-weight:700;">&#3647;28,500</span></div>
+              <div class="match-item"><span>Switch 24 Port</span><span>&#3647;80,000</span></div>
+              <div class="match-item" style="font-weight:700;"><span>รวม</span><span style="color:var(--red);">&#3647;293,500 (+&#3647;3,500)</span></div>
+            </div>
+          </div>
+          <div class="ai-suggestion">
+            <div class="ai-icon">AI</div>
+            <div class="ai-text"><strong>AI ตรวจพบ:</strong> Invoice สายเคเบิล Cat6 สูงกว่า PO &#3647;3,500 (14%) - ไม่อยู่ในเกณฑ์ยอมรับ (5%) แนะนำให้ติดต่อ vendor เพื่อขอ Credit Note หรือ Invoice ฉบับแก้ไข</div>
+          </div>
+        </div>
+
+        <!-- Match Example 3 - Error -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div style="font-weight:700;font-size:.88rem;">PO-2026-0054 &mdash; บจก. สมาร์ท เซอร์วิส</div>
+              <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">มูลค่า PO: &#3647;340,000</div>
+            </div>
+            <div class="match-status match-err">&#10060; รับสินค้าไม่ครบ</div>
+          </div>
+          <div class="match-cards">
+            <div class="match-card">
+              <h4><span class="match-icon">&#128203;</span> Purchase Order</h4>
+              <div class="match-item"><span>จอมอนิเตอร์ 27"</span><span>5 เครื่อง</span></div>
+              <div class="match-item"><span>คีย์บอร์ด Mechanical</span><span>10 ตัว</span></div>
+              <div class="match-item"><span>เมาส์ Wireless</span><span>10 ตัว</span></div>
+            </div>
+            <div class="match-card" style="border-color:var(--red);">
+              <h4><span class="match-icon">&#128230;</span> Goods Receipt <span style="color:var(--red);font-size:.65rem;margin-left:auto;">&#10060; ไม่ครบ</span></h4>
+              <div class="match-item"><span>จอมอนิเตอร์ 27"</span><span>5 เครื่อง</span></div>
+              <div class="match-item"><span>คีย์บอร์ด Mechanical</span><span style="color:var(--red);font-weight:700;">7 ตัว (-3)</span></div>
+              <div class="match-item"><span>เมาส์ Wireless</span><span>10 ตัว</span></div>
+            </div>
+            <div class="match-card">
+              <h4><span class="match-icon">&#128179;</span> Invoice</h4>
+              <div class="match-item" style="color:var(--muted);font-style:italic;" colspan="2"><span>ยังไม่ได้รับ Invoice</span><span></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Approval Tab -->
+      <div id="tab-approval" class="tab-content">
+        <!-- Approval Workflow Visual -->
+        <div class="card" style="margin-bottom:20px;">
+          <div class="card-header">
+            <div class="card-title">&#128260; ขั้นตอนการอนุมัติ (Approval Workflow)</div>
+          </div>
+          <div class="workflow">
+            <div class="workflow-step done">
+              <div class="workflow-circle">&#128100;</div>
+              <div class="workflow-name">ผู้ขอ</div>
+              <div class="workflow-role">สร้างเอกสาร</div>
+            </div>
+            <div class="workflow-connector done"></div>
+            <div class="workflow-step done">
+              <div class="workflow-circle">&#128101;</div>
+              <div class="workflow-name">หัวหน้าแผนก</div>
+              <div class="workflow-role">ตรวจสอบ & อนุมัติ</div>
+            </div>
+            <div class="workflow-connector active"></div>
+            <div class="workflow-step current">
+              <div class="workflow-circle">&#128188;</div>
+              <div class="workflow-name">แผนกจัดซื้อ</div>
+              <div class="workflow-role">ตรวจสอบราคา & vendor</div>
+            </div>
+            <div class="workflow-connector"></div>
+            <div class="workflow-step pending">
+              <div class="workflow-circle">&#128188;</div>
+              <div class="workflow-name">ผู้จัดการ</div>
+              <div class="workflow-role">อนุมัติทั่วไป</div>
+            </div>
+            <div class="workflow-connector"></div>
+            <div class="workflow-step conditional">
+              <div class="workflow-circle">&#128176;</div>
+              <div class="workflow-name">CFO</div>
+              <div class="workflow-role">> &#3647;500K เท่านั้น</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pending Approvals -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">&#128221; รายการรออนุมัติ</div>
+            <span style="font-size:.72rem;color:var(--muted);">4 รายการที่รอดำเนินการ</span>
+          </div>
+
+          <div class="approval-item">
+            <div class="approval-avatar" style="background:var(--blue-l);color:var(--blue);">&#128196;</div>
+            <div class="approval-info">
+              <div class="doc-num">PR-2026-0086 - วัสดุส่งเสริมการขาย</div>
+              <div class="doc-desc">ผู้ขอ: วิภา สุขสมบูรณ์ (Marketing) &bull; 3 รายการ &bull; &#3647;125,000</div>
+              <div class="doc-meta">ส่งเมื่อ 03/04/2026 &bull; รอ: หัวหน้าแผนก Marketing</div>
+            </div>
+            <div class="approval-actions">
+              <button class="btn btn-success btn-sm">&#9989; อนุมัติ</button>
+              <button class="btn btn-danger btn-sm">&#10060; ปฏิเสธ</button>
+              <button class="btn btn-outline btn-sm">&#128172; หมายเหตุ</button>
+            </div>
+          </div>
+
+          <div class="approval-item">
+            <div class="approval-avatar" style="background:var(--purple-l);color:var(--purple);">&#128196;</div>
+            <div class="approval-info">
+              <div class="doc-num">PR-2026-0082 - อุปกรณ์ซ่อมบำรุงเครื่องจักร</div>
+              <div class="doc-desc">ผู้ขอ: ปิยะ รัตนกุล (Operations) &bull; 6 รายการ &bull; &#3647;890,000</div>
+              <div class="doc-meta">ส่งเมื่อ 31/03/2026 &bull; รอ: ผู้จัดการ (> &#3647;500K ต้องส่ง CFO ด้วย)</div>
+            </div>
+            <div class="approval-actions">
+              <button class="btn btn-success btn-sm">&#9989; อนุมัติ</button>
+              <button class="btn btn-danger btn-sm">&#10060; ปฏิเสธ</button>
+              <button class="btn btn-outline btn-sm">&#128172; หมายเหตุ</button>
+            </div>
+          </div>
+
+          <div class="approval-item">
+            <div class="approval-avatar" style="background:var(--orange-l);color:var(--orange);">&#128196;</div>
+            <div class="approval-info">
+              <div class="doc-num">PR-2026-0078 - อะไหล่คอมพิวเตอร์</div>
+              <div class="doc-desc">ผู้ขอ: พงศ์ภัค ดีมาก (Operations) &bull; 7 รายการ &bull; &#3647;430,000</div>
+              <div class="doc-meta">ส่งเมื่อ 27/03/2026 &bull; รอ: แผนกจัดซื้อตรวจสอบราคา</div>
+            </div>
+            <div class="approval-actions">
+              <button class="btn btn-success btn-sm">&#9989; อนุมัติ</button>
+              <button class="btn btn-danger btn-sm">&#10060; ปฏิเสธ</button>
+              <button class="btn btn-outline btn-sm">&#128172; หมายเหตุ</button>
+            </div>
+          </div>
+
+          <div class="approval-item">
+            <div class="approval-avatar" style="background:var(--green-l);color:var(--green);">&#128203;</div>
+            <div class="approval-info">
+              <div class="doc-num">PO-2026-0056 - อุปกรณ์คอมพิวเตอร์ (เร่งด่วน)</div>
+              <div class="doc-desc">Vendor: บจก. เอเชีย คอมพิวเตอร์ &bull; 6 รายการ &bull; &#3647;1,450,000</div>
+              <div class="doc-meta">ส่งเมื่อ 26/03/2026 &bull; รอ: CFO (มูลค่า > &#3647;500K)</div>
+            </div>
+            <div class="approval-actions">
+              <button class="btn btn-success btn-sm">&#9989; อนุมัติ</button>
+              <button class="btn btn-danger btn-sm">&#10060; ปฏิเสธ</button>
+              <button class="btn btn-outline btn-sm">&#128172; หมายเหตุ</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PR Creation Modal -->
+<div id="prCreateModal" class="modal-overlay" onclick="if(event.target===this)closeModal('prCreateModal')">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <h3>&#128196; สร้างใบขอซื้อ (Purchase Request)</h3>
+      <button class="modal-close" onclick="closeModal('prCreateModal')">&#10005;</button>
+    </div>
+    <div class="modal-body">
+      <!-- AI Suggestion -->
+      <div class="ai-suggestion">
+        <div class="ai-icon">AI</div>
+        <div class="ai-text"><strong>ระบบแนะนำ vendor จากประวัติ:</strong> บริษัท ศรีรุ่งเรือง ซัพพลาย (คะแนน 4.5/5.0) - ส่งมอบตรงเวลา 98%, ราคาแข่งขันได้ดี, ประวัติ 3 ปี</div>
+      </div>
+
+      <!-- Budget Indicator -->
+      <div class="budget-bar">
+        <div class="budget-header">
+          <span>&#128176; งบประมาณแผนก IT ไตรมาส 2/2026</span>
+          <span style="color:var(--green);">เหลือ &#3647;2,850,000 / &#3647;5,000,000</span>
+        </div>
+        <div class="budget-track">
+          <div class="budget-fill budget-ok" style="width:43%;"></div>
+        </div>
+        <div style="font-size:.68rem;color:var(--muted);margin-top:4px;">ใช้ไป 43% (&#3647;2,150,000) &bull; คงเหลือ 57%</div>
+      </div>
+
+      <!-- Form Fields -->
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">ผู้ขอ</label>
+          <input class="form-input" type="text" value="สมชาย พรหมมา" readonly style="background:var(--bg2);">
+        </div>
+        <div class="form-group">
+          <label class="form-label">แผนก</label>
+          <select class="form-select">
+            <option>IT</option>
+            <option>Marketing</option>
+            <option>Operations</option>
+            <option>HR</option>
+            <option>Finance</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">โครงการ</label>
+          <select class="form-select">
+            <option>โครงการ Digital Transformation 2026</option>
+            <option>โครงการ IT Infrastructure Upgrade</option>
+            <option>โครงการ Office Renovation</option>
+            <option>ค่าใช้จ่ายประจำ</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Items Table -->
+      <div style="font-weight:700;font-size:.85rem;margin-bottom:10px;">รายการสินค้า/บริการ</div>
+      <div style="overflow-x:auto;">
+        <table class="items-table" id="prItemsTable">
+          <thead>
+            <tr>
+              <th style="width:5%;">#</th>
+              <th style="width:35%;">รายการ</th>
+              <th style="width:10%;">จำนวน</th>
+              <th style="width:10%;">หน่วย</th>
+              <th style="width:15%;">ราคา/หน่วย (โดยประมาณ)</th>
+              <th style="width:15%;">รวม</th>
+              <th style="width:10%;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><input type="text" placeholder="ชื่อรายการ" value="Notebook Dell Latitude 5540"></td>
+              <td><input type="number" value="5" min="1" style="width:70px;"></td>
+              <td><select><option>เครื่อง</option><option>ชิ้น</option><option>ชุด</option><option>กล่อง</option></select></td>
+              <td><input type="text" value="35,000"></td>
+              <td style="font-weight:600;">&#3647;175,000</td>
+              <td><button class="remove-row">&#10005;</button></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><input type="text" placeholder="ชื่อรายการ" value="จอมอนิเตอร์ Dell 27 นิ้ว"></td>
+              <td><input type="number" value="5" min="1" style="width:70px;"></td>
+              <td><select><option>เครื่อง</option><option>ชิ้น</option><option>ชุด</option><option>กล่อง</option></select></td>
+              <td><input type="text" value="12,000"></td>
+              <td style="font-weight:600;">&#3647;60,000</td>
+              <td><button class="remove-row">&#10005;</button></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><input type="text" placeholder="ชื่อรายการ" value="เมาส์ Logitech MX Master 3"></td>
+              <td><input type="number" value="5" min="1" style="width:70px;"></td>
+              <td><select><option selected>ตัว</option><option>ชิ้น</option><option>ชุด</option></select></td>
+              <td><input type="text" value="3,500"></td>
+              <td style="font-weight:600;">&#3647;17,500</td>
+              <td><button class="remove-row">&#10005;</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;">
+        <button class="btn btn-outline btn-sm" onclick="addPrItem()">+ เพิ่มรายการ</button>
+        <div style="font-size:.92rem;font-weight:700;">รวมทั้งสิ้น: <span style="color:var(--blue);">&#3647;252,500</span></div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div class="form-group full">
+          <label class="form-label">หมายเหตุ</label>
+          <textarea class="form-textarea" placeholder="รายละเอียดเพิ่มเติม, เหตุผลในการจัดซื้อ...">สำหรับพนักงานใหม่ 5 คน เริ่มงาน พ.ค. 2026 - จำเป็นต้องมีอุปกรณ์พร้อมก่อนวันเริ่มงาน</textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('prCreateModal')">ยกเลิก</button>
+      <button class="btn btn-outline">&#128190; บันทึกร่าง</button>
+      <button class="btn btn-primary">&#128228; ส่งอนุมัติ</button>
+    </div>
+  </div>
+</div>
+
+<!-- PO Detail Modal -->
+<div id="poDetailModal" class="modal-overlay" onclick="if(event.target===this)closeModal('poDetailModal')">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <h3>&#128203; รายละเอียดใบสั่งซื้อ</h3>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn btn-outline btn-sm">&#128424; พิมพ์</button>
+        <button class="btn btn-outline btn-sm">&#128231; ส่ง Email</button>
+        <button class="btn btn-primary btn-sm">&#128196; Export PDF</button>
+        <button class="modal-close" onclick="closeModal('poDetailModal')">&#10005;</button>
+      </div>
+    </div>
+    <div class="modal-body" style="padding:0;">
+      <div class="po-document">
+        <!-- PO Header -->
+        <div class="po-doc-header">
+          <div class="po-company">
+            <div class="company-name">AUTOPILOT ENTERPRISE CO., LTD.</div>
+            <div class="company-detail">123/45 อาคารออโตไพลอต ชั้น 15 ถนนสุขุมวิท</div>
+            <div class="company-detail">แขวงคลองเตย เขตคลองเตย กรุงเทพฯ 10110</div>
+            <div class="company-detail">Tax ID: 0-1234-56789-01-2</div>
+            <div class="company-detail">Tel: 02-123-4567 | Fax: 02-123-4568</div>
+          </div>
+          <div class="po-number-block">
+            <div style="font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Purchase Order</div>
+            <div class="po-num">PO-2026-0062</div>
+            <div class="po-date">วันที่ออก: 03/04/2026</div>
+            <div class="po-date">กำหนดส่ง: 17/04/2026</div>
+            <div style="margin-top:6px;"><span class="status status-sent">&#9679; ส่งแล้ว</span></div>
+          </div>
+        </div>
+
+        <!-- Parties -->
+        <div class="po-parties">
+          <div class="po-party">
+            <h4>ผู้ซื้อ (Buyer)</h4>
+            <p><strong>บริษัท ออโตไพลอต เอ็นเตอร์ไพรส์ จำกัด</strong></p>
+            <p>แผนกจัดซื้อ<br>ผู้ติดต่อ: คุณสมชาย พรหมมา<br>Tel: 02-123-4567 ต่อ 201<br>Email: somchai@autopilot.co.th</p>
+          </div>
+          <div class="po-party">
+            <h4>ผู้ขาย (Vendor)</h4>
+            <p><strong>บริษัท ศรีรุ่งเรือง ซัพพลาย จำกัด</strong></p>
+            <p>456/78 ถนนพระราม 4<br>เขตคลองเตย กรุงเทพฯ 10110<br>Tax ID: 0-9876-54321-09-8<br>Tel: 02-987-6543<br>Email: sales@srr-supply.co.th</p>
+          </div>
+        </div>
+
+        <!-- Items -->
+        <div class="po-items">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>รายการ</th>
+                <th>จำนวน</th>
+                <th>หน่วย</th>
+                <th style="text-align:right;">ราคา/หน่วย</th>
+                <th style="text-align:right;">จำนวนเงิน</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Notebook Dell Latitude 5540 (i7/16GB/512GB)</td>
+                <td>3</td>
+                <td>เครื่อง</td>
+                <td style="text-align:right;">&#3647;34,500.00</td>
+                <td style="text-align:right;">&#3647;103,500.00</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>จอมอนิเตอร์ Dell P2723QE 27" 4K USB-C</td>
+                <td>3</td>
+                <td>เครื่อง</td>
+                <td style="text-align:right;">&#3647;15,900.00</td>
+                <td style="text-align:right;">&#3647;47,700.00</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Docking Station Dell WD22TB4</td>
+                <td>3</td>
+                <td>ตัว</td>
+                <td style="text-align:right;">&#3647;8,500.00</td>
+                <td style="text-align:right;">&#3647;25,500.00</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>เมาส์ Logitech MX Master 3S</td>
+                <td>3</td>
+                <td>ตัว</td>
+                <td style="text-align:right;">&#3647;3,200.00</td>
+                <td style="text-align:right;">&#3647;9,600.00</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>คีย์บอร์ด Logitech MX Keys S</td>
+                <td>3</td>
+                <td>ตัว</td>
+                <td style="text-align:right;">&#3647;3,900.00</td>
+                <td style="text-align:right;">&#3647;11,700.00</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td colspan="4" style="text-align:right;font-weight:600;">รวมก่อน VAT</td>
+                <td style="text-align:right;font-weight:600;">&#3647;198,000.00</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td colspan="4" style="text-align:right;">VAT 7%</td>
+                <td style="text-align:right;">&#3647;13,860.00</td>
+              </tr>
+              <tr class="total-row">
+                <td></td>
+                <td colspan="4" style="text-align:right;font-size:.95rem;">รวมทั้งสิ้น</td>
+                <td style="text-align:right;font-size:.95rem;color:var(--blue);">&#3647;211,860.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Terms -->
+        <div class="po-terms">
+          <h4>เงื่อนไขและข้อตกลง</h4>
+          <p>
+            1. กำหนดส่งมอบ: ภายใน 14 วันทำการ นับจากวันที่ออก PO<br>
+            2. สถานที่ส่งมอบ: บริษัท ออโตไพลอต เอ็นเตอร์ไพรส์ จำกัด (สำนักงานใหญ่)<br>
+            3. เงื่อนไขการชำระ: Credit 30 วัน นับจากวันรับสินค้าครบ<br>
+            4. การรับประกัน: อย่างน้อย 3 ปี สำหรับอุปกรณ์คอมพิวเตอร์<br>
+            5. ใบสั่งซื้อนี้มีผลผูกพันเมื่อผู้ขายลงนามยืนยัน
+          </p>
+        </div>
+
+        <!-- Signatures -->
+        <div class="po-signatures">
+          <div class="po-sig">
+            <div class="sig-img">สมชาย พ.</div>
+            <div class="sig-name">สมชาย พรหมมา</div>
+            <div class="sig-title">เจ้าหน้าที่จัดซื้อ</div>
+            <div style="font-size:.65rem;color:var(--green);margin-top:4px;">&#9989; อนุมัติเมื่อ 03/04/2026</div>
+          </div>
+          <div class="po-sig">
+            <div class="sig-img">วรพจน์ ศ.</div>
+            <div class="sig-name">วรพจน์ ศรีสมบัติ</div>
+            <div class="sig-title">ผู้จัดการแผนกจัดซื้อ</div>
+            <div style="font-size:.65rem;color:var(--green);margin-top:4px;">&#9989; อนุมัติเมื่อ 03/04/2026</div>
+          </div>
+          <div class="po-sig">
+            <div class="sig-img" style="opacity:.3;">รอลงนาม</div>
+            <div class="sig-name">ผู้มีอำนาจ Vendor</div>
+            <div class="sig-title">บจก. ศรีรุ่งเรือง ซัพพลาย</div>
+            <div style="font-size:.65rem;color:var(--orange);margin-top:4px;">&#9888; รอลงนาม</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Tab Switching
+function switchTab(tabId) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + tabId).classList.add('active');
+  event.target.classList.add('active');
+  // Fix: if called programmatically, find the right tab button
+  document.querySelectorAll('.tab').forEach(t => {
+    if (tabId === 'pr' && t.textContent.includes('PR')) t.classList.add('active');
+    if (tabId === 'po' && t.textContent.includes('PO') && !t.textContent.includes('PR')) t.classList.add('active');
+    if (tabId === 'match' && t.textContent.includes('Match')) t.classList.add('active');
+    if (tabId === 'approval' && t.textContent.includes('อนุมัติ')) t.classList.add('active');
+  });
+}
+
+// Modal
+function openModal(id) {
+  document.getElementById(id).classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+// Add PR Item row
+let itemCount = 3;
+function addPrItem() {
+  itemCount++;
+  const tbody = document.querySelector('#prItemsTable tbody');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>${itemCount}</td>
+    <td><input type="text" placeholder="ชื่อรายการ"></td>
+    <td><input type="number" value="1" min="1" style="width:70px;"></td>
+    <td><select><option>ชิ้น</option><option>เครื่อง</option><option>ตัว</option><option>ชุด</option><option>กล่อง</option><option>แพ็ค</option></select></td>
+    <td><input type="text" placeholder="0"></td>
+    <td style="font-weight:600;">&#3647;0</td>
+    <td><button class="remove-row" onclick="this.closest('tr').remove()">&#10005;</button></td>
+  `;
+  tbody.appendChild(tr);
+}
+
+// Close modal on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.show').forEach(m => {
+      m.classList.remove('show');
+      document.body.style.overflow = '';
+    });
+  }
+});
+</script>
+
+</body>
+</html>

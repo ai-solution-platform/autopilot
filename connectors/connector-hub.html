@@ -1,0 +1,1800 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connector Hub | Autopilot v2 by ANTS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #2563EB;
+  --purple: #7C3AED;
+  --green: #059669;
+  --yellow: #D97706;
+  --red: #DC2626;
+  --orange: #EA580C;
+  --cyan: #0891B2;
+  --pink: #DB2777;
+  --grad: linear-gradient(135deg, #2563EB, #7C3AED);
+  --grad-green: linear-gradient(135deg, #059669, #0D9488);
+  --grad-orange: linear-gradient(135deg, #EA580C, #D97706);
+  --grad-pink: linear-gradient(135deg, #DB2777, #7C3AED);
+  --bg: #0F172A;
+  --surface: #1E293B;
+  --surface2: #334155;
+  --surface3: #1a2332;
+  --text: #F8FAFC;
+  --text-dim: #94A3B8;
+  --border: #475569;
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Noto Sans Thai', 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 3px; }
+
+/* Header */
+.header {
+  background: rgba(15,23,42,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(71,85,105,0.4);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-brand .logo {
+  width: 36px;
+  height: 36px;
+  background: var(--grad);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 800;
+  color: white;
+}
+
+.header-brand h1 {
+  font-size: 18px;
+  font-weight: 700;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header-brand span {
+  font-size: 12px;
+  color: var(--text-dim);
+  display: block;
+  margin-top: -2px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn {
+  padding: 8px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.btn-primary {
+  background: var(--grad);
+  color: white;
+}
+
+.btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+
+.btn-secondary {
+  background: var(--surface2);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover { background: var(--border); }
+
+.btn-sm { padding: 5px 12px; font-size: 12px; }
+
+.btn-success { background: var(--green); color: white; }
+.btn-warning { background: var(--yellow); color: white; }
+.btn-danger { background: var(--red); color: white; }
+
+/* Main Layout */
+.main { padding: 24px 32px; max-width: 1600px; margin: 0 auto; }
+
+/* Page Title */
+.page-title {
+  margin-bottom: 28px;
+}
+
+.page-title h2 {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.page-title p {
+  color: var(--text-dim);
+  font-size: 14px;
+}
+
+/* KPI Row */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.kpi-card {
+  background: var(--surface);
+  border: 1px solid rgba(71,85,105,0.4);
+  border-radius: var(--radius);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.kpi-card:nth-child(1)::before { background: var(--grad); }
+.kpi-card:nth-child(2)::before { background: var(--green); }
+.kpi-card:nth-child(3)::before { background: var(--cyan); }
+.kpi-card:nth-child(4)::before { background: var(--yellow); }
+.kpi-card:nth-child(5)::before { background: var(--purple); }
+
+.kpi-label {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.kpi-value {
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.kpi-card:nth-child(1) .kpi-value { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.kpi-card:nth-child(2) .kpi-value { color: var(--green); }
+.kpi-card:nth-child(3) .kpi-value { color: var(--cyan); }
+.kpi-card:nth-child(4) .kpi-value { color: var(--yellow); }
+.kpi-card:nth-child(5) .kpi-value { color: var(--purple); }
+
+.kpi-sub {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 6px;
+}
+
+.kpi-sub .up { color: var(--green); }
+.kpi-sub .down { color: var(--red); }
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 24px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 4px;
+  border: 1px solid rgba(71,85,105,0.3);
+  overflow-x: auto;
+  flex-wrap: nowrap;
+}
+
+.tab {
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text-dim);
+  white-space: nowrap;
+  transition: all 0.2s;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+.tab:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+.tab.active { background: var(--grad); color: white; }
+
+.tab-count {
+  background: rgba(255,255,255,0.15);
+  padding: 1px 7px;
+  border-radius: 10px;
+  font-size: 11px;
+  margin-left: 6px;
+}
+
+.tab.active .tab-count { background: rgba(255,255,255,0.25); }
+
+/* Section Card */
+.section {
+  background: var(--surface);
+  border: 1px solid rgba(71,85,105,0.4);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Connector Grid */
+.connector-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.connector-card {
+  background: var(--surface3);
+  border: 1px solid rgba(71,85,105,0.3);
+  border-radius: var(--radius-sm);
+  padding: 18px;
+  transition: all 0.25s;
+  cursor: pointer;
+  position: relative;
+}
+
+.connector-card:hover {
+  border-color: var(--blue);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+.connector-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.connector-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.connector-info { flex: 1; min-width: 0; }
+
+.connector-name {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.connector-category {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(37,99,235,0.15);
+  color: #60A5FA;
+  display: inline-block;
+}
+
+.connector-status {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-active .status-dot { background: #22C55E; box-shadow: 0 0 8px rgba(34,197,94,0.5); }
+.status-active { color: #22C55E; }
+
+.status-degraded .status-dot { background: #F59E0B; box-shadow: 0 0 8px rgba(245,158,11,0.5); }
+.status-degraded { color: #F59E0B; }
+
+.status-down .status-dot { background: #EF4444; box-shadow: 0 0 8px rgba(239,68,68,0.5); }
+.status-down { color: #EF4444; }
+
+.status-inactive .status-dot { background: #64748B; }
+.status-inactive { color: #64748B; }
+
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 0 4px rgba(34,197,94,0.4); }
+  50% { box-shadow: 0 0 12px rgba(34,197,94,0.8); }
+}
+
+.status-active .status-dot { animation: pulse-green 2s infinite; }
+
+.connector-stats {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(71,85,105,0.3);
+}
+
+.connector-stat {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.connector-stat strong {
+  display: block;
+  font-size: 13px;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.connector-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.connector-actions .btn { flex: 1; justify-content: center; font-size: 11px; padding: 6px 10px; }
+
+/* Two Column Layout */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.three-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+}
+
+/* Smart Routing */
+.routing-flow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(37,99,235,0.08), rgba(124,58,237,0.08));
+  border-radius: var(--radius-sm);
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.routing-node {
+  background: var(--surface2);
+  border: 1px solid rgba(71,85,105,0.5);
+  border-radius: var(--radius-sm);
+  padding: 12px 20px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  min-width: 140px;
+}
+
+.routing-node.highlight {
+  background: var(--grad);
+  border-color: transparent;
+  color: white;
+}
+
+.routing-arrow {
+  font-size: 20px;
+  color: var(--blue);
+}
+
+/* Table */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.data-table th {
+  text-align: left;
+  padding: 10px 14px;
+  background: rgba(15,23,42,0.5);
+  color: var(--text-dim);
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid rgba(71,85,105,0.3);
+}
+
+.data-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(71,85,105,0.2);
+  vertical-align: middle;
+}
+
+.data-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+.priority-badge {
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.priority-high { background: rgba(239,68,68,0.15); color: #F87171; }
+.priority-medium { background: rgba(245,158,11,0.15); color: #FBBF24; }
+.priority-low { background: rgba(34,197,94,0.15); color: #4ADE80; }
+
+/* Charts */
+.chart-container {
+  background: var(--surface3);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  border: 1px solid rgba(71,85,105,0.2);
+}
+
+.chart-title {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--text-dim);
+}
+
+.chart-area {
+  height: 180px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Area chart SVG */
+.area-chart { width: 100%; height: 100%; }
+
+/* Bar chart */
+.h-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.h-bar-label {
+  width: 100px;
+  font-size: 12px;
+  color: var(--text-dim);
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.h-bar-track {
+  flex: 1;
+  height: 22px;
+  background: rgba(71,85,105,0.3);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.h-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1s ease;
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: white;
+}
+
+/* Donut chart */
+.donut-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.donut-svg { width: 140px; height: 140px; }
+
+.donut-legend {
+  flex: 1;
+}
+
+.donut-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.legend-value {
+  margin-left: auto;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Error rate mini chart */
+.mini-line-chart {
+  width: 100%;
+  height: 100%;
+}
+
+/* Health Monitor */
+.health-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.latency-bar {
+  width: 60px;
+  height: 6px;
+  background: rgba(71,85,105,0.3);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.latency-fill {
+  height: 100%;
+  border-radius: 3px;
+}
+
+/* Webhook section */
+.webhook-group {
+  margin-bottom: 16px;
+}
+
+.webhook-group h4 {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--text-dim);
+}
+
+.webhook-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--surface3);
+  border-radius: var(--radius-sm);
+  margin-bottom: 6px;
+  border: 1px solid rgba(71,85,105,0.2);
+  font-size: 13px;
+}
+
+.webhook-url {
+  font-family: 'Inter', monospace;
+  font-size: 11px;
+  color: var(--cyan);
+  background: rgba(8,145,178,0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.event-log {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.event-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(71,85,105,0.15);
+  font-size: 12px;
+}
+
+.event-time {
+  color: var(--text-dim);
+  font-family: 'Inter', monospace;
+  font-size: 11px;
+  flex-shrink: 0;
+  width: 70px;
+}
+
+.event-badge {
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.event-in { background: rgba(34,197,94,0.15); color: #4ADE80; }
+.event-out { background: rgba(37,99,235,0.15); color: #60A5FA; }
+.event-err { background: rgba(239,68,68,0.15); color: #F87171; }
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-overlay.show { display: flex; }
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  width: 560px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 28px;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.wizard-steps {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 24px;
+}
+
+.wizard-step {
+  flex: 1;
+  text-align: center;
+  padding: 10px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--surface2);
+  color: var(--text-dim);
+  position: relative;
+}
+
+.wizard-step.active {
+  background: var(--grad);
+  color: white;
+}
+
+.wizard-step.done {
+  background: rgba(5,150,105,0.2);
+  color: var(--green);
+}
+
+.wizard-step .step-num {
+  display: block;
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 2px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+
+.form-input, .form-select {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-input:focus, .form-select:focus { border-color: var(--blue); }
+
+.form-select option { background: var(--bg); }
+
+.provider-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.provider-option {
+  padding: 12px;
+  border: 2px solid rgba(71,85,105,0.3);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.provider-option:hover { border-color: var(--blue); }
+.provider-option.selected { border-color: var(--blue); background: rgba(37,99,235,0.1); }
+
+.provider-option .picon { font-size: 24px; margin-bottom: 4px; }
+
+.test-result {
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  margin-top: 12px;
+  display: none;
+}
+
+.test-result.success {
+  background: rgba(5,150,105,0.15);
+  border: 1px solid rgba(5,150,105,0.3);
+  color: #4ADE80;
+  display: block;
+}
+
+.test-result.fail {
+  background: rgba(220,38,38,0.15);
+  border: 1px solid rgba(220,38,38,0.3);
+  color: #F87171;
+  display: block;
+}
+
+/* Chart Grid */
+.chart-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .kpi-row { grid-template-columns: repeat(3, 1fr); }
+  .two-col, .chart-grid { grid-template-columns: 1fr; }
+  .three-col { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  .main { padding: 16px; }
+  .kpi-row { grid-template-columns: 1fr 1fr; }
+  .connector-grid { grid-template-columns: 1fr; }
+  .tabs { flex-wrap: wrap; }
+  .three-col { grid-template-columns: 1fr; }
+}
+
+/* Link styling */
+a.connector-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Category badge colors */
+.cat-ocr { background: rgba(37,99,235,0.15); color: #60A5FA; }
+.cat-ekyc { background: rgba(124,58,237,0.15); color: #A78BFA; }
+.cat-bank { background: rgba(5,150,105,0.15); color: #4ADE80; }
+.cat-doc { background: rgba(234,88,12,0.15); color: #FB923C; }
+.cat-comm { background: rgba(219,39,119,0.15); color: #F472B6; }
+.cat-cloud { background: rgba(8,145,178,0.15); color: #22D3EE; }
+
+/* Animate fade in */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up { animation: fadeUp 0.4s ease forwards; }
+
+/* Search */
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  width: 280px;
+}
+
+.search-bar input {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 13px;
+  outline: none;
+  width: 100%;
+  font-family: inherit;
+}
+
+.search-bar input::placeholder { color: var(--text-dim); }
+
+/* Live update pulse */
+@keyframes livePulse {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.live-dot {
+  width: 6px; height: 6px;
+  background: #EF4444;
+  border-radius: 50%;
+  display: inline-block;
+  animation: livePulse 1.5s infinite;
+  margin-right: 4px;
+}
+
+.connector-card[data-hidden="true"] { display: none; }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-brand">
+    <div class="logo">A</div>
+    <div>
+      <h1>Autopilot v2</h1>
+      <span>Connector Hub &mdash; Integration Management</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <div class="search-bar">
+      <span>&#128269;</span>
+      <input type="text" id="searchInput" placeholder="ค้นหา connector..." oninput="filterConnectors()">
+    </div>
+    <button class="btn btn-secondary" onclick="location.href='../modules/expense-dashboard.html'">&#127968; Dashboard</button>
+    <button class="btn btn-primary" onclick="openWizard()">&#10133; เพิ่ม Connector ใหม่</button>
+  </div>
+</div>
+
+<!-- Main -->
+<div class="main">
+
+  <!-- Page Title -->
+  <div class="page-title fade-up">
+    <h2>&#128279; Connector Hub</h2>
+    <p>ศูนย์กลางจัดการ Connectors ทั้งหมด &mdash; OCR, eKYC, Banking, Documents, Communication, Cloud Storage</p>
+  </div>
+
+  <!-- KPI Row -->
+  <div class="kpi-row fade-up">
+    <div class="kpi-card">
+      <div class="kpi-label">&#128268; Connectors ทั้งหมด</div>
+      <div class="kpi-value">24</div>
+      <div class="kpi-sub">6 หมวดหมู่ | 4 providers ใหม่เดือนนี้</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">&#9989; Active Connectors</div>
+      <div class="kpi-value">18</div>
+      <div class="kpi-sub"><span class="up">+3</span> จากเดือนที่แล้ว | 2 degraded</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">&#128225; API Calls วันนี้</div>
+      <div class="kpi-value">12,847</div>
+      <div class="kpi-sub"><span class="up">+18.2%</span> เทียบวันก่อน</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">&#9202; Avg Response Time</div>
+      <div class="kpi-value">1.8s</div>
+      <div class="kpi-sub"><span class="down">-0.3s</span> ปรับปรุงจากสัปดาห์ก่อน</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">&#128994; Uptime</div>
+      <div class="kpi-value">99.7%</div>
+      <div class="kpi-sub">30 วันย้อนหลัง | SLA target 99.5%</div>
+    </div>
+  </div>
+
+  <!-- Category Tabs -->
+  <div class="tabs fade-up" id="categoryTabs">
+    <button class="tab active" onclick="switchTab('all', this)">&#128218; ทั้งหมด <span class="tab-count">24</span></button>
+    <button class="tab" onclick="switchTab('ocr', this)">&#128270; OCR Providers <span class="tab-count">6</span></button>
+    <button class="tab" onclick="switchTab('ekyc', this)">&#129682; eKYC & Identity <span class="tab-count">4</span></button>
+    <button class="tab" onclick="switchTab('bank', this)">&#127974; Banking & Finance <span class="tab-count">5</span></button>
+    <button class="tab" onclick="switchTab('doc', this)">&#128196; Document Types <span class="tab-count">6</span></button>
+    <button class="tab" onclick="switchTab('comm', this)">&#128279; Communication <span class="tab-count">4</span></button>
+    <button class="tab" onclick="switchTab('cloud', this)">&#9729;&#65039; Cloud Storage <span class="tab-count">4</span></button>
+  </div>
+
+  <!-- Connector Grid Section -->
+  <div class="section fade-up" id="connectorSection">
+    <div class="section-header">
+      <div class="section-title">&#128268; Connector Directory</div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span style="font-size:12px;color:var(--text-dim);">แสดง <strong id="visibleCount">24</strong> connectors</span>
+      </div>
+    </div>
+    <div class="connector-grid" id="connectorGrid">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+  <!-- Smart Routing Engine -->
+  <div class="section fade-up">
+    <div class="section-header">
+      <div class="section-title">&#129504; Smart Routing Engine</div>
+      <button class="btn btn-primary btn-sm" onclick="addRule()">&#10133; เพิ่ม Rule</button>
+    </div>
+
+    <div class="routing-flow">
+      <div class="routing-node">&#128196; เอกสาร Input</div>
+      <div class="routing-arrow">&#10140;</div>
+      <div class="routing-node highlight">&#129302; AI Classifier</div>
+      <div class="routing-arrow">&#10140;</div>
+      <div class="routing-node">&#128270; ตรวจจับประเภท</div>
+      <div class="routing-arrow">&#10140;</div>
+      <div class="routing-node highlight">&#9889; Route to Best Provider</div>
+      <div class="routing-arrow">&#10140;</div>
+      <div class="routing-node">&#9989; ผลลัพธ์</div>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ประเภทเอกสาร</th>
+          <th>Primary Provider</th>
+          <th>Fallback Provider</th>
+          <th>Priority</th>
+          <th>Success Rate</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>ใบเสร็จรับเงิน</strong></td>
+          <td>Google Document AI</td>
+          <td>ANTS OCR Thai</td>
+          <td><span class="priority-badge priority-high">สูง</span></td>
+          <td style="color:#22C55E;">98.5%</td>
+          <td><button class="btn btn-secondary btn-sm">แก้ไข</button></td>
+        </tr>
+        <tr>
+          <td><strong>บัตรประชาชน</strong></td>
+          <td>ANTS Thai ID OCR</td>
+          <td>iApp Thai OCR</td>
+          <td><span class="priority-badge priority-high">สูง</span></td>
+          <td style="color:#22C55E;">99.2%</td>
+          <td><button class="btn btn-secondary btn-sm">แก้ไข</button></td>
+        </tr>
+        <tr>
+          <td><strong>ใบกำกับภาษี</strong></td>
+          <td>ANTS OCR Thai</td>
+          <td>Azure Form Recognizer</td>
+          <td><span class="priority-badge priority-high">สูง</span></td>
+          <td style="color:#22C55E;">97.8%</td>
+          <td><button class="btn btn-secondary btn-sm">แก้ไข</button></td>
+        </tr>
+        <tr>
+          <td><strong>หนังสือเดินทาง</strong></td>
+          <td>AWS Textract</td>
+          <td>Google Document AI</td>
+          <td><span class="priority-badge priority-medium">กลาง</span></td>
+          <td style="color:#FBBF24;">96.1%</td>
+          <td><button class="btn btn-secondary btn-sm">แก้ไข</button></td>
+        </tr>
+        <tr>
+          <td><strong>ใบสั่งซื้อ (PO)</strong></td>
+          <td>Azure Form Recognizer</td>
+          <td>Google Document AI</td>
+          <td><span class="priority-badge priority-medium">กลาง</span></td>
+          <td style="color:#22C55E;">97.3%</td>
+          <td><button class="btn btn-secondary btn-sm">แก้ไข</button></td>
+        </tr>
+        <tr>
+          <td><strong>สัญญา / Contract</strong></td>
+          <td>Google Document AI</td>
+          <td>AWS Textract</td>
+          <td><span class="priority-badge priority-low">ต่ำ</span></td>
+          <td style="color:#22C55E;">95.4%</td>
+          <td><button class="btn btn-secondary btn-sm">แก้ไข</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- API Usage Dashboard -->
+  <div class="section fade-up">
+    <div class="section-header">
+      <div class="section-title">&#128202; API Usage Dashboard</div>
+      <div style="display:flex;gap:6px;">
+        <button class="btn btn-secondary btn-sm active-filter" onclick="setTimeRange(this, '24h')">24 ชม.</button>
+        <button class="btn btn-secondary btn-sm" onclick="setTimeRange(this, '7d')">7 วัน</button>
+        <button class="btn btn-secondary btn-sm" onclick="setTimeRange(this, '30d')">30 วัน</button>
+      </div>
+    </div>
+
+    <div class="chart-grid">
+      <!-- API Calls Over Time -->
+      <div class="chart-container">
+        <div class="chart-title">API Calls ต่อชั่วโมง (24 ชม.)</div>
+        <div class="chart-area">
+          <svg class="area-chart" viewBox="0 0 400 160" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#2563EB" stop-opacity="0.4"/>
+                <stop offset="100%" stop-color="#2563EB" stop-opacity="0.02"/>
+              </linearGradient>
+            </defs>
+            <path d="M0,140 L17,130 L33,120 L50,125 L67,110 L83,100 L100,95 L117,85 L133,70 L150,55 L167,40 L183,35 L200,30 L217,25 L233,20 L250,28 L267,35 L283,45 L300,55 L317,50 L333,40 L350,35 L367,30 L383,25 L400,20 L400,160 L0,160Z" fill="url(#areaGrad)"/>
+            <path d="M0,140 L17,130 L33,120 L50,125 L67,110 L83,100 L100,95 L117,85 L133,70 L150,55 L167,40 L183,35 L200,30 L217,25 L233,20 L250,28 L267,35 L283,45 L300,55 L317,50 L333,40 L350,35 L367,30 L383,25 L400,20" fill="none" stroke="#2563EB" stroke-width="2"/>
+            <!-- Grid lines -->
+            <line x1="0" y1="40" x2="400" y2="40" stroke="rgba(71,85,105,0.2)" stroke-dasharray="4"/>
+            <line x1="0" y1="80" x2="400" y2="80" stroke="rgba(71,85,105,0.2)" stroke-dasharray="4"/>
+            <line x1="0" y1="120" x2="400" y2="120" stroke="rgba(71,85,105,0.2)" stroke-dasharray="4"/>
+          </svg>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-dim);margin-top:4px;">
+          <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>ปัจจุบัน</span>
+        </div>
+      </div>
+
+      <!-- Calls by Provider -->
+      <div class="chart-container">
+        <div class="chart-title">API Calls ตาม Provider</div>
+        <div style="padding-top:8px;">
+          <div class="h-bar">
+            <div class="h-bar-label">Google AI</div>
+            <div class="h-bar-track"><div class="h-bar-fill" style="width:85%;background:var(--grad);">3,842</div></div>
+          </div>
+          <div class="h-bar">
+            <div class="h-bar-label">ANTS OCR</div>
+            <div class="h-bar-track"><div class="h-bar-fill" style="width:72%;background:var(--green);">3,256</div></div>
+          </div>
+          <div class="h-bar">
+            <div class="h-bar-label">AWS Textract</div>
+            <div class="h-bar-track"><div class="h-bar-fill" style="width:55%;background:var(--orange);">2,487</div></div>
+          </div>
+          <div class="h-bar">
+            <div class="h-bar-label">Azure Form</div>
+            <div class="h-bar-track"><div class="h-bar-fill" style="width:40%;background:var(--cyan);">1,810</div></div>
+          </div>
+          <div class="h-bar">
+            <div class="h-bar-label">iApp Thai</div>
+            <div class="h-bar-track"><div class="h-bar-fill" style="width:22%;background:var(--purple);">998</div></div>
+          </div>
+          <div class="h-bar">
+            <div class="h-bar-label">อื่นๆ</div>
+            <div class="h-bar-track"><div class="h-bar-fill" style="width:10%;background:var(--text-dim);">454</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Error Rate -->
+      <div class="chart-container">
+        <div class="chart-title">Error Rate (%)</div>
+        <div class="chart-area">
+          <svg class="mini-line-chart" viewBox="0 0 400 160" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="errGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#EF4444" stop-opacity="0.2"/>
+                <stop offset="100%" stop-color="#EF4444" stop-opacity="0.01"/>
+              </linearGradient>
+            </defs>
+            <line x1="0" y1="80" x2="400" y2="80" stroke="rgba(71,85,105,0.2)" stroke-dasharray="4"/>
+            <line x1="0" y1="40" x2="400" y2="40" stroke="rgba(239,68,68,0.15)" stroke-dasharray="4"/>
+            <path d="M0,140 L25,138 L50,135 L75,130 L100,132 L125,128 L150,135 L175,120 L200,125 L225,118 L250,122 L275,115 L300,120 L325,110 L350,115 L375,108 L400,112 L400,160 L0,160Z" fill="url(#errGrad)"/>
+            <path d="M0,140 L25,138 L50,135 L75,130 L100,132 L125,128 L150,135 L175,120 L200,125 L225,118 L250,122 L275,115 L300,120 L325,110 L350,115 L375,108 L400,112" fill="none" stroke="#EF4444" stroke-width="2"/>
+            <text x="380" y="105" fill="#EF4444" font-size="12" font-weight="bold">0.3%</text>
+          </svg>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-dim);margin-top:4px;">
+          <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>ปัจจุบัน</span>
+        </div>
+      </div>
+
+      <!-- Cost Breakdown -->
+      <div class="chart-container">
+        <div class="chart-title">ค่าใช้จ่าย API เดือนนี้</div>
+        <div class="donut-container">
+          <svg class="donut-svg" viewBox="0 0 140 140">
+            <circle cx="70" cy="70" r="54" fill="none" stroke="rgba(71,85,105,0.2)" stroke-width="16"/>
+            <circle cx="70" cy="70" r="54" fill="none" stroke="#2563EB" stroke-width="16" stroke-dasharray="118 221" stroke-dashoffset="0" transform="rotate(-90 70 70)"/>
+            <circle cx="70" cy="70" r="54" fill="none" stroke="#059669" stroke-width="16" stroke-dasharray="85 254" stroke-dashoffset="-118" transform="rotate(-90 70 70)"/>
+            <circle cx="70" cy="70" r="54" fill="none" stroke="#EA580C" stroke-width="16" stroke-dasharray="68 271" stroke-dashoffset="-203" transform="rotate(-90 70 70)"/>
+            <circle cx="70" cy="70" r="54" fill="none" stroke="#7C3AED" stroke-width="16" stroke-dasharray="40 299" stroke-dashoffset="-271" transform="rotate(-90 70 70)"/>
+            <circle cx="70" cy="70" r="54" fill="none" stroke="#0891B2" stroke-width="16" stroke-dasharray="28 311" stroke-dashoffset="-311" transform="rotate(-90 70 70)"/>
+            <text x="70" y="66" text-anchor="middle" fill="white" font-size="16" font-weight="800">฿18.5K</text>
+            <text x="70" y="82" text-anchor="middle" fill="#94A3B8" font-size="9">รวมเดือนนี้</text>
+          </svg>
+          <div class="donut-legend">
+            <div class="donut-legend-item"><div class="legend-dot" style="background:#2563EB;"></div><span>Google AI</span><span class="legend-value">฿6,420</span></div>
+            <div class="donut-legend-item"><div class="legend-dot" style="background:#059669;"></div><span>ANTS OCR</span><span class="legend-value">฿4,630</span></div>
+            <div class="donut-legend-item"><div class="legend-dot" style="background:#EA580C;"></div><span>AWS Textract</span><span class="legend-value">฿3,700</span></div>
+            <div class="donut-legend-item"><div class="legend-dot" style="background:#7C3AED;"></div><span>Azure Form</span><span class="legend-value">฿2,180</span></div>
+            <div class="donut-legend-item"><div class="legend-dot" style="background:#0891B2;"></div><span>อื่นๆ</span><span class="legend-value">฿1,570</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Health Monitor + Webhook Config -->
+  <div class="two-col">
+    <!-- Health Monitor -->
+    <div class="section fade-up">
+      <div class="section-header">
+        <div class="section-title"><span class="live-dot"></span> Health Monitor (Real-time)</div>
+        <span style="font-size:11px;color:var(--text-dim);">อัปเดตล่าสุด: <span id="lastUpdate">--</span></span>
+      </div>
+
+      <table class="data-table" id="healthTable">
+        <thead>
+          <tr>
+            <th>Provider</th>
+            <th>Status</th>
+            <th>Latency</th>
+            <th>Error Rate</th>
+            <th>Last Check</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Google Document AI</strong></td>
+            <td><span class="health-status status-active"><span class="status-dot"></span> Active</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div class="latency-bar"><div class="latency-fill" style="width:35%;background:#22C55E;"></div></div>
+                <span style="font-size:12px;">1.2s</span>
+              </div>
+            </td>
+            <td style="color:#22C55E;">0.1%</td>
+            <td style="font-size:11px;color:var(--text-dim);">12 วิ ที่แล้ว</td>
+          </tr>
+          <tr>
+            <td><strong>ANTS OCR Thai</strong></td>
+            <td><span class="health-status status-active"><span class="status-dot"></span> Active</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div class="latency-bar"><div class="latency-fill" style="width:28%;background:#22C55E;"></div></div>
+                <span style="font-size:12px;">0.9s</span>
+              </div>
+            </td>
+            <td style="color:#22C55E;">0.05%</td>
+            <td style="font-size:11px;color:var(--text-dim);">8 วิ ที่แล้ว</td>
+          </tr>
+          <tr>
+            <td><strong>AWS Textract</strong></td>
+            <td><span class="health-status status-active"><span class="status-dot"></span> Active</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div class="latency-bar"><div class="latency-fill" style="width:50%;background:#FBBF24;"></div></div>
+                <span style="font-size:12px;">2.1s</span>
+              </div>
+            </td>
+            <td style="color:#22C55E;">0.2%</td>
+            <td style="font-size:11px;color:var(--text-dim);">15 วิ ที่แล้ว</td>
+          </tr>
+          <tr>
+            <td><strong>Azure Form Recognizer</strong></td>
+            <td><span class="health-status status-degraded"><span class="status-dot"></span> Degraded</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div class="latency-bar"><div class="latency-fill" style="width:75%;background:#F59E0B;"></div></div>
+                <span style="font-size:12px;">3.4s</span>
+              </div>
+            </td>
+            <td style="color:#F59E0B;">1.8%</td>
+            <td style="font-size:11px;color:var(--text-dim);">5 วิ ที่แล้ว</td>
+          </tr>
+          <tr>
+            <td><strong>iApp Thai OCR</strong></td>
+            <td><span class="health-status status-active"><span class="status-dot"></span> Active</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div class="latency-bar"><div class="latency-fill" style="width:40%;background:#22C55E;"></div></div>
+                <span style="font-size:12px;">1.5s</span>
+              </div>
+            </td>
+            <td style="color:#22C55E;">0.3%</td>
+            <td style="font-size:11px;color:var(--text-dim);">10 วิ ที่แล้ว</td>
+          </tr>
+          <tr>
+            <td><strong>LINE Messaging</strong></td>
+            <td><span class="health-status status-active"><span class="status-dot"></span> Active</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div class="latency-bar"><div class="latency-fill" style="width:15%;background:#22C55E;"></div></div>
+                <span style="font-size:12px;">0.4s</span>
+              </div>
+            </td>
+            <td style="color:#22C55E;">0.0%</td>
+            <td style="font-size:11px;color:var(--text-dim);">3 วิ ที่แล้ว</td>
+          </tr>
+          <tr>
+            <td><strong>PromptPay Gateway</strong></td>
+            <td><span class="health-status status-active"><span class="status-dot"></span> Active</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div class="latency-bar"><div class="latency-fill" style="width:20%;background:#22C55E;"></div></div>
+                <span style="font-size:12px;">0.6s</span>
+              </div>
+            </td>
+            <td style="color:#22C55E;">0.0%</td>
+            <td style="font-size:11px;color:var(--text-dim);">7 วิ ที่แล้ว</td>
+          </tr>
+          <tr>
+            <td><strong>Dropbox API</strong></td>
+            <td><span class="health-status status-down"><span class="status-dot"></span> Down</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div class="latency-bar"><div class="latency-fill" style="width:100%;background:#EF4444;"></div></div>
+                <span style="font-size:12px;">Timeout</span>
+              </div>
+            </td>
+            <td style="color:#EF4444;">100%</td>
+            <td style="font-size:11px;color:var(--text-dim);">2 นาที ที่แล้ว</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Webhook Configuration -->
+    <div class="section fade-up">
+      <div class="section-header">
+        <div class="section-title">&#128268; Webhook Configuration</div>
+        <button class="btn btn-secondary btn-sm">&#10133; เพิ่ม Webhook</button>
+      </div>
+
+      <div class="webhook-group">
+        <h4>&#11015;&#65039; Incoming Webhooks</h4>
+        <div class="webhook-item">
+          <div>
+            <strong style="font-size:13px;">LINE Official Account</strong>
+            <div class="webhook-url">/api/webhooks/line-oa</div>
+          </div>
+          <span class="health-status status-active" style="font-size:11px;"><span class="status-dot"></span> Active</span>
+        </div>
+        <div class="webhook-item">
+          <div>
+            <strong style="font-size:13px;">Email Inbound (SendGrid)</strong>
+            <div class="webhook-url">/api/webhooks/email-inbound</div>
+          </div>
+          <span class="health-status status-active" style="font-size:11px;"><span class="status-dot"></span> Active</span>
+        </div>
+        <div class="webhook-item">
+          <div>
+            <strong style="font-size:13px;">Telegram Bot</strong>
+            <div class="webhook-url">/api/webhooks/telegram</div>
+          </div>
+          <span class="health-status status-active" style="font-size:11px;"><span class="status-dot"></span> Active</span>
+        </div>
+      </div>
+
+      <div class="webhook-group">
+        <h4>&#11014;&#65039; Outgoing Webhooks</h4>
+        <div class="webhook-item">
+          <div>
+            <strong style="font-size:13px;">ERP System (SAP)</strong>
+            <div class="webhook-url">https://erp.company.com/api/v2/hook</div>
+          </div>
+          <span class="health-status status-active" style="font-size:11px;"><span class="status-dot"></span> Active</span>
+        </div>
+        <div class="webhook-item">
+          <div>
+            <strong style="font-size:13px;">Accounting (PEAK)</strong>
+            <div class="webhook-url">https://api.peakaccount.com/webhook</div>
+          </div>
+          <span class="health-status status-degraded" style="font-size:11px;"><span class="status-dot"></span> Retry</span>
+        </div>
+        <div class="webhook-item">
+          <div>
+            <strong style="font-size:13px;">Data Warehouse</strong>
+            <div class="webhook-url">https://dwh.company.com/ingest</div>
+          </div>
+          <span class="health-status status-active" style="font-size:11px;"><span class="status-dot"></span> Active</span>
+        </div>
+      </div>
+
+      <div class="webhook-group">
+        <h4>&#128220; Event Log (ล่าสุด)</h4>
+        <div class="event-log" id="eventLog">
+          <div class="event-item">
+            <span class="event-time">14:32:18</span>
+            <span class="event-badge event-in">IN</span>
+            <span>LINE: รับใบเสร็จจากผู้ใช้ #4821</span>
+          </div>
+          <div class="event-item">
+            <span class="event-time">14:31:45</span>
+            <span class="event-badge event-out">OUT</span>
+            <span>ERP: ส่งข้อมูลใบเสร็จ #INV-2847</span>
+          </div>
+          <div class="event-item">
+            <span class="event-time">14:30:22</span>
+            <span class="event-badge event-in">IN</span>
+            <span>Email: รับเอกสารแนบ 3 ไฟล์</span>
+          </div>
+          <div class="event-item">
+            <span class="event-time">14:29:58</span>
+            <span class="event-badge event-err">ERR</span>
+            <span>PEAK: Connection timeout (retry 2/3)</span>
+          </div>
+          <div class="event-item">
+            <span class="event-time">14:28:11</span>
+            <span class="event-badge event-out">OUT</span>
+            <span>Accounting: อัปเดตบัญชีลูกหนี้</span>
+          </div>
+          <div class="event-item">
+            <span class="event-time">14:27:33</span>
+            <span class="event-badge event-in">IN</span>
+            <span>Telegram: รับคำสั่งตรวจสอบสถานะ</span>
+          </div>
+          <div class="event-item">
+            <span class="event-time">14:25:07</span>
+            <span class="event-badge event-out">OUT</span>
+            <span>DWH: sync batch 847 records</span>
+          </div>
+          <div class="event-item">
+            <span class="event-time">14:24:19</span>
+            <span class="event-badge event-in">IN</span>
+            <span>LINE: สแกน QR ใบกำกับภาษี</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Quick Setup Wizard Modal -->
+<div class="modal-overlay" id="wizardModal">
+  <div class="modal">
+    <div class="modal-title">
+      <span>&#9889; เพิ่ม Connector ใหม่</span>
+      <button class="modal-close" onclick="closeWizard()">&times;</button>
+    </div>
+
+    <div class="wizard-steps" id="wizardSteps">
+      <div class="wizard-step active" data-step="1"><span class="step-num">1</span>หมวดหมู่</div>
+      <div class="wizard-step" data-step="2"><span class="step-num">2</span>Provider</div>
+      <div class="wizard-step" data-step="3"><span class="step-num">3</span>API Key</div>
+      <div class="wizard-step" data-step="4"><span class="step-num">4</span>ทดสอบ</div>
+      <div class="wizard-step" data-step="5"><span class="step-num">5</span>เปิดใช้งาน</div>
+    </div>
+
+    <!-- Step 1: Category -->
+    <div class="wizard-content" id="wizStep1">
+      <div class="form-group">
+        <label class="form-label">เลือกหมวดหมู่ Connector</label>
+        <div class="provider-grid" style="grid-template-columns: repeat(2,1fr);">
+          <div class="provider-option" onclick="selectCategory(this, 'ocr')"><div class="picon">&#128270;</div>OCR Providers</div>
+          <div class="provider-option" onclick="selectCategory(this, 'ekyc')"><div class="picon">&#129682;</div>eKYC & Identity</div>
+          <div class="provider-option" onclick="selectCategory(this, 'bank')"><div class="picon">&#127974;</div>Banking & Finance</div>
+          <div class="provider-option" onclick="selectCategory(this, 'doc')"><div class="picon">&#128196;</div>Document Types</div>
+          <div class="provider-option" onclick="selectCategory(this, 'comm')"><div class="picon">&#128279;</div>Communication</div>
+          <div class="provider-option" onclick="selectCategory(this, 'cloud')"><div class="picon">&#9729;&#65039;</div>Cloud Storage</div>
+        </div>
+      </div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="nextStep(2)">ถัดไป &#10140;</button>
+    </div>
+
+    <!-- Step 2: Provider -->
+    <div class="wizard-content" id="wizStep2" style="display:none;">
+      <div class="form-group">
+        <label class="form-label">เลือก Provider</label>
+        <div class="provider-grid" id="providerOptions">
+          <!-- Dynamic -->
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-secondary" style="flex:1;justify-content:center;" onclick="nextStep(1)">&#10094; กลับ</button>
+        <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="nextStep(3)">ถัดไป &#10140;</button>
+      </div>
+    </div>
+
+    <!-- Step 3: API Key -->
+    <div class="wizard-content" id="wizStep3" style="display:none;">
+      <div class="form-group">
+        <label class="form-label">API Key / Secret</label>
+        <input class="form-input" type="password" placeholder="กรอก API Key ของ Provider..." id="apiKeyInput">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Endpoint URL (ถ้ามี)</label>
+        <input class="form-input" type="text" placeholder="https://api.provider.com/v1/" id="endpointInput">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Region / Environment</label>
+        <select class="form-select">
+          <option>Asia Pacific (Bangkok)</option>
+          <option>Asia Pacific (Singapore)</option>
+          <option>Asia Pacific (Tokyo)</option>
+          <option>US East</option>
+          <option>EU West</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-secondary" style="flex:1;justify-content:center;" onclick="nextStep(2)">&#10094; กลับ</button>
+        <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="nextStep(4)">ถัดไป &#10140;</button>
+      </div>
+    </div>
+
+    <!-- Step 4: Test -->
+    <div class="wizard-content" id="wizStep4" style="display:none;">
+      <div style="text-align:center;padding:20px 0;">
+        <div style="font-size:48px;margin-bottom:12px;">&#128268;</div>
+        <p style="color:var(--text-dim);margin-bottom:20px;">คลิกเพื่อทดสอบการเชื่อมต่อ</p>
+        <button class="btn btn-primary" style="padding:12px 32px;font-size:14px;" onclick="testConnection()">&#9889; ทดสอบการเชื่อมต่อ</button>
+      </div>
+      <div class="test-result" id="testResult"></div>
+      <div style="display:flex;gap:8px;margin-top:16px;">
+        <button class="btn btn-secondary" style="flex:1;justify-content:center;" onclick="nextStep(3)">&#10094; กลับ</button>
+        <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="nextStep(5)" id="btnToStep5" disabled>ถัดไป &#10140;</button>
+      </div>
+    </div>
+
+    <!-- Step 5: Activate -->
+    <div class="wizard-content" id="wizStep5" style="display:none;">
+      <div style="text-align:center;padding:20px 0;">
+        <div style="font-size:48px;margin-bottom:12px;">&#9989;</div>
+        <h3 style="margin-bottom:8px;">เชื่อมต่อสำเร็จ!</h3>
+        <p style="color:var(--text-dim);margin-bottom:20px;">Connector พร้อมใช้งาน กรุณายืนยันการเปิดใช้งาน</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">ตั้งค่าเริ่มต้น</label>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
+            <input type="checkbox" checked> เปิดใช้งานทันที (Set as Active)
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
+            <input type="checkbox" checked> เพิ่มใน Smart Routing
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
+            <input type="checkbox"> ตั้งเป็น Primary Provider
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
+            <input type="checkbox" checked> เปิด Health Monitoring
+          </label>
+        </div>
+      </div>
+      <button class="btn btn-success" style="width:100%;justify-content:center;padding:12px;font-size:14px;" onclick="activateConnector()">&#9989; เปิดใช้งาน Connector</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// =======================
+// Connector Data
+// =======================
+const connectors = [
+  // OCR Providers (6)
+  { name:'Google Document AI', cat:'ocr', icon:'&#127468;', iconBg:'linear-gradient(135deg,#4285F4,#34A853)', status:'active', lastActivity:'2 นาทีที่แล้ว', apiCalls:'3,842', link:'global-ocr-providers.html' },
+  { name:'ANTS OCR Thai', cat:'ocr', icon:'&#129716;', iconBg:'linear-gradient(135deg,#2563EB,#7C3AED)', status:'active', lastActivity:'30 วินาทีที่แล้ว', apiCalls:'3,256', link:'thai-ocr-providers.html' },
+  { name:'AWS Textract', cat:'ocr', icon:'&#9729;&#65039;', iconBg:'linear-gradient(135deg,#FF9900,#EC7211)', status:'active', lastActivity:'5 นาทีที่แล้ว', apiCalls:'2,487', link:'global-ocr-providers.html' },
+  { name:'Azure Form Recognizer', cat:'ocr', icon:'&#9883;', iconBg:'linear-gradient(135deg,#0078D4,#00BCF2)', status:'degraded', lastActivity:'1 นาทีที่แล้ว', apiCalls:'1,810', link:'global-ocr-providers.html' },
+  { name:'iApp Thai OCR', cat:'ocr', icon:'&#127481;&#127469;', iconBg:'linear-gradient(135deg,#059669,#10B981)', status:'active', lastActivity:'8 นาทีที่แล้ว', apiCalls:'998', link:'thai-ocr-providers.html' },
+  { name:'Tesseract Thai', cat:'ocr', icon:'&#128300;', iconBg:'linear-gradient(135deg,#6366F1,#8B5CF6)', status:'active', lastActivity:'15 นาทีที่แล้ว', apiCalls:'454', link:'thai-ocr-providers.html' },
+
+  // eKYC & Identity (4)
+  { name:'ANTS Thai ID Verify', cat:'ekyc', icon:'&#129682;', iconBg:'linear-gradient(135deg,#7C3AED,#A855F7)', status:'active', lastActivity:'1 นาทีที่แล้ว', apiCalls:'1,245', link:'thai-ocr-providers.html' },
+  { name:'NDID Gateway', cat:'ekyc', icon:'&#128273;', iconBg:'linear-gradient(135deg,#0E7490,#06B6D4)', status:'active', lastActivity:'3 นาทีที่แล้ว', apiCalls:'876', link:'thai-ocr-providers.html' },
+  { name:'Jumio Identity', cat:'ekyc', icon:'&#128274;', iconBg:'linear-gradient(135deg,#DC2626,#EF4444)', status:'inactive', lastActivity:'ไม่เคยเชื่อมต่อ', apiCalls:'0', link:'#' },
+  { name:'Onfido KYC', cat:'ekyc', icon:'&#127757;', iconBg:'linear-gradient(135deg,#2563EB,#3B82F6)', status:'inactive', lastActivity:'ไม่เคยเชื่อมต่อ', apiCalls:'0', link:'#' },
+
+  // Banking & Finance (5)
+  { name:'PromptPay Gateway', cat:'bank', icon:'&#128179;', iconBg:'linear-gradient(135deg,#059669,#34D399)', status:'active', lastActivity:'45 วินาทีที่แล้ว', apiCalls:'2,134', link:'#' },
+  { name:'BOT API (ธปท.)', cat:'bank', icon:'&#127974;', iconBg:'linear-gradient(135deg,#1D4ED8,#2563EB)', status:'active', lastActivity:'1 ชม. ที่แล้ว', apiCalls:'156', link:'#' },
+  { name:'SCB Open Banking', cat:'bank', icon:'&#128156;', iconBg:'linear-gradient(135deg,#7C3AED,#6D28D9)', status:'active', lastActivity:'12 นาทีที่แล้ว', apiCalls:'543', link:'#' },
+  { name:'KBank API', cat:'bank', icon:'&#128154;', iconBg:'linear-gradient(135deg,#059669,#047857)', status:'active', lastActivity:'20 นาทีที่แล้ว', apiCalls:'421', link:'#' },
+  { name:'BBL Corporate', cat:'bank', icon:'&#128309;', iconBg:'linear-gradient(135deg,#1E40AF,#1D4ED8)', status:'degraded', lastActivity:'5 นาทีที่แล้ว', apiCalls:'287', link:'#' },
+
+  // Document Types (6)
+  { name:'ใบเสร็จรับเงิน OCR', cat:'doc', icon:'&#129534;', iconBg:'linear-gradient(135deg,#EA580C,#F97316)', status:'active', lastActivity:'1 นาทีที่แล้ว', apiCalls:'4,521', link:'../modules/expense-receipt-ocr.html' },
+  { name:'ใบกำกับภาษี Parser', cat:'doc', icon:'&#128196;', iconBg:'linear-gradient(135deg,#059669,#10B981)', status:'active', lastActivity:'3 นาทีที่แล้ว', apiCalls:'2,187', link:'#' },
+  { name:'บัตรประชาชน Reader', cat:'doc', icon:'&#129682;', iconBg:'linear-gradient(135deg,#2563EB,#3B82F6)', status:'active', lastActivity:'10 นาทีที่แล้ว', apiCalls:'1,034', link:'#' },
+  { name:'หนังสือเดินทาง OCR', cat:'doc', icon:'&#128218;', iconBg:'linear-gradient(135deg,#DC2626,#EF4444)', status:'active', lastActivity:'25 นาทีที่แล้ว', apiCalls:'312', link:'#' },
+  { name:'ใบสั่งซื้อ (PO) Reader', cat:'doc', icon:'&#128230;', iconBg:'linear-gradient(135deg,#D97706,#F59E0B)', status:'active', lastActivity:'8 นาทีที่แล้ว', apiCalls:'678', link:'#' },
+  { name:'สัญญา / Contract AI', cat:'doc', icon:'&#128221;', iconBg:'linear-gradient(135deg,#7C3AED,#A855F7)', status:'inactive', lastActivity:'ไม่เคยเปิดใช้', apiCalls:'0', link:'#' },
+
+  // Communication (4)
+  { name:'LINE Official Account', cat:'comm', icon:'&#128172;', iconBg:'linear-gradient(135deg,#06C755,#00B900)', status:'active', lastActivity:'10 วินาทีที่แล้ว', apiCalls:'5,432', link:'#' },
+  { name:'Email (SendGrid)', cat:'comm', icon:'&#128231;', iconBg:'linear-gradient(135deg,#2563EB,#1D4ED8)', status:'active', lastActivity:'2 นาทีที่แล้ว', apiCalls:'1,876', link:'#' },
+  { name:'Telegram Bot', cat:'comm', icon:'&#9992;&#65039;', iconBg:'linear-gradient(135deg,#0088CC,#229ED9)', status:'active', lastActivity:'5 นาทีที่แล้ว', apiCalls:'543', link:'#' },
+  { name:'MS Teams', cat:'comm', icon:'&#128225;', iconBg:'linear-gradient(135deg,#5B5FC7,#7B83EB)', status:'inactive', lastActivity:'ไม่เคยเชื่อมต่อ', apiCalls:'0', link:'#' },
+
+  // Cloud Storage (4)
+  { name:'Google Drive', cat:'cloud', icon:'&#128194;', iconBg:'linear-gradient(135deg,#4285F4,#34A853)', status:'active', lastActivity:'1 นาทีที่แล้ว', apiCalls:'2,341', link:'#' },
+  { name:'OneDrive', cat:'cloud', icon:'&#9729;&#65039;', iconBg:'linear-gradient(135deg,#0078D4,#00A4EF)', status:'active', lastActivity:'15 นาทีที่แล้ว', apiCalls:'876', link:'#' },
+  { name:'Dropbox', cat:'cloud', icon:'&#128230;', iconBg:'linear-gradient(135deg,#0061FE,#0070FF)', status:'down', lastActivity:'ขัดข้อง 15 นาที', apiCalls:'0', link:'#' },
+  { name:'Amazon S3', cat:'cloud', icon:'&#128463;&#65039;', iconBg:'linear-gradient(135deg,#FF9900,#EC7211)', status:'active', lastActivity:'30 วินาทีที่แล้ว', apiCalls:'3,456', link:'#' },
+];
+
+const catLabels = {
+  ocr: 'OCR Providers',
+  ekyc: 'eKYC & Identity',
+  bank: 'Banking & Finance',
+  doc: 'Document Types',
+  comm: 'Communication',
+  cloud: 'Cloud Storage'
+};
+
+const catClasses = {
+  ocr: 'cat-ocr',
+  ekyc: 'cat-ekyc',
+  bank: 'cat-bank',
+  doc: 'cat-doc',
+  comm: 'cat-comm',
+  cloud: 'cat-cloud'
+};
+
+const statusLabels = {
+  active: { label:'Active', cls:'status-active' },
+  degraded: { label:'Degraded', cls:'status-degraded' },
+  down: { label:'Down', cls:'status-down' },
+  inactive: { label:'Not Connected', cls:'status-inactive' }
+};
+
+// =======================
+// Render Connector Grid
+// =======================
+function renderConnectors() {
+  const grid = document.getElementById('connectorGrid');
+  grid.innerHTML = connectors.map((c, i) => {
+    const st = statusLabels[c.status];
+    return `
+    <div class="connector-card" data-cat="${c.cat}" data-name="${c.name.toLowerCase()}">
+      <div class="connector-top">
+        <div class="connector-icon" style="background:${c.iconBg};">${c.icon}</div>
+        <div class="connector-info">
+          <div class="connector-name">${c.name}</div>
+          <span class="connector-category ${catClasses[c.cat]}">${catLabels[c.cat]}</span>
+        </div>
+        <div class="connector-status ${st.cls}"><span class="status-dot"></span> ${st.label}</div>
+      </div>
+      <div class="connector-stats">
+        <div class="connector-stat"><strong>${c.apiCalls}</strong>API calls วันนี้</div>
+        <div class="connector-stat"><strong>${c.lastActivity}</strong>กิจกรรมล่าสุด</div>
+      </div>
+      <div class="connector-actions">
+        <a href="${c.link}" class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;text-decoration:none;">&#9881; ตั้งค่า</a>
+        <button class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;" onclick="testSingle('${c.name}')">&#9889; ทดสอบ</button>
+        <button class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;" onclick="toggleConnector('${c.name}', '${c.status}')">${c.status === 'active' || c.status === 'degraded' ? '&#9940; ปิด' : '&#9989; เปิด'}</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+renderConnectors();
+
+// =======================
+// Tab Filtering
+// =======================
+let currentTab = 'all';
+
+function switchTab(cat, el) {
+  currentTab = cat;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  applyFilters();
+}
+
+function filterConnectors() {
+  applyFilters();
+}
+
+function applyFilters() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const cards = document.querySelectorAll('.connector-card');
+  let visible = 0;
+  cards.forEach(card => {
+    const matchCat = currentTab === 'all' || card.dataset.cat === currentTab;
+    const matchSearch = !search || card.dataset.name.includes(search);
+    const hide = !(matchCat && matchSearch);
+    card.setAttribute('data-hidden', hide);
+    if (!hide) visible++;
+  });
+  document.getElementById('visibleCount').textContent = visible;
+}
+
+// =======================
+// Wizard
+// =======================
+let wizardStep = 1;
+let selectedCategory = '';
+let selectedProvider = '';
+
+function openWizard() {
+  document.getElementById('wizardModal').classList.add('show');
+  wizardStep = 1;
+  updateWizardUI();
+}
+
+function closeWizard() {
+  document.getElementById('wizardModal').classList.remove('show');
+}
+
+function nextStep(step) {
+  wizardStep = step;
+  updateWizardUI();
+  if (step === 2) renderProviderOptions();
+}
+
+function updateWizardUI() {
+  for (let i = 1; i <= 5; i++) {
+    const el = document.getElementById('wizStep' + i);
+    if (el) el.style.display = i === wizardStep ? 'block' : 'none';
+  }
+  document.querySelectorAll('.wizard-step').forEach(s => {
+    const n = parseInt(s.dataset.step);
+    s.classList.remove('active', 'done');
+    if (n === wizardStep) s.classList.add('active');
+    else if (n < wizardStep) s.classList.add('done');
+  });
+}
+
+function selectCategory(el, cat) {
+  document.querySelectorAll('#wizStep1 .provider-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedCategory = cat;
+}
+
+const providersByCat = {
+  ocr: ['Google Document AI','AWS Textract','Azure Form Recognizer','ANTS OCR Thai','iApp Thai OCR','Tesseract'],
+  ekyc: ['ANTS Thai ID','NDID Gateway','Jumio','Onfido'],
+  bank: ['PromptPay','BOT API','SCB Open Banking','KBank API','BBL Corporate'],
+  doc: ['ใบเสร็จ OCR','ใบกำกับภาษี','บัตรประชาชน','หนังสือเดินทาง','PO Reader','สัญญา AI'],
+  comm: ['LINE OA','SendGrid Email','Telegram Bot','MS Teams'],
+  cloud: ['Google Drive','OneDrive','Dropbox','Amazon S3']
+};
+
+function renderProviderOptions() {
+  const el = document.getElementById('providerOptions');
+  const providers = providersByCat[selectedCategory] || [];
+  el.innerHTML = providers.map(p =>
+    `<div class="provider-option" onclick="selectProvider(this, '${p}')"><div class="picon">&#128268;</div>${p}</div>`
+  ).join('');
+}
+
+function selectProvider(el, prov) {
+  document.querySelectorAll('#providerOptions .provider-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedProvider = prov;
+}
+
+function testConnection() {
+  const result = document.getElementById('testResult');
+  result.className = 'test-result';
+  result.style.display = 'block';
+  result.innerHTML = '&#9203; กำลังทดสอบการเชื่อมต่อ...';
+  result.style.background = 'rgba(37,99,235,0.15)';
+  result.style.borderColor = 'rgba(37,99,235,0.3)';
+  result.style.color = '#60A5FA';
+
+  setTimeout(() => {
+    result.className = 'test-result success';
+    result.innerHTML = '&#9989; เชื่อมต่อสำเร็จ! Response time: 1.2s | API version: v2.1';
+    document.getElementById('btnToStep5').disabled = false;
+  }, 2000);
+}
+
+function activateConnector() {
+  alert('Connector ถูกเปิดใช้งานเรียบร้อยแล้ว!');
+  closeWizard();
+}
+
+// =======================
+// Misc Actions
+// =======================
+function testSingle(name) {
+  alert('กำลังทดสอบ ' + name + '...\n\nผลลัพธ์: เชื่อมต่อสำเร็จ (1.4s)');
+}
+
+function toggleConnector(name, status) {
+  if (status === 'active' || status === 'degraded') {
+    if (confirm('ต้องการปิดการใช้งาน ' + name + ' หรือไม่?')) {
+      alert(name + ' ถูกปิดการใช้งานแล้ว');
+    }
+  } else {
+    alert('กำลังเปิดใช้งาน ' + name + '...');
+  }
+}
+
+function addRule() {
+  alert('เปิดหน้าจัดการ Routing Rules\n(ฟีเจอร์เต็มรูปแบบจะพร้อมใน Phase ถัดไป)');
+}
+
+function setTimeRange(el, range) {
+  document.querySelectorAll('.active-filter').forEach(b => b.classList.remove('active-filter'));
+  el.classList.add('active-filter');
+}
+
+// =======================
+// Live Clock Update
+// =======================
+function updateClock() {
+  const now = new Date();
+  const t = now.toLocaleTimeString('th-TH', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+  const el = document.getElementById('lastUpdate');
+  if (el) el.textContent = t;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+// Click outside modal to close
+document.getElementById('wizardModal').addEventListener('click', function(e) {
+  if (e.target === this) closeWizard();
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1790 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freight Invoice OCR | Autopilot v2 by ANTS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #2563EB;
+  --purple: #7C3AED;
+  --green: #059669;
+  --orange: #EA580C;
+  --amber: #D97706;
+  --grad: linear-gradient(135deg, #2563EB, #7C3AED);
+  --grad-green: linear-gradient(135deg, #059669, #10B981);
+  --bg: #0F172A;
+  --surface: #1E293B;
+  --surface2: #334155;
+  --text: #F8FAFC;
+  --text-dim: #94A3B8;
+  --border: #475569;
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Noto Sans Thai', 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 3px; }
+
+/* Header */
+.header {
+  background: rgba(15,23,42,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(71,85,105,0.4);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-brand .logo {
+  width: 36px;
+  height: 36px;
+  background: var(--grad);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 800;
+  color: white;
+}
+
+.header-brand h1 {
+  font-size: 18px;
+  font-weight: 700;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header-brand span {
+  font-size: 12px;
+  color: var(--text-dim);
+  display: block;
+  margin-top: -2px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-badge {
+  padding: 6px 14px;
+  background: rgba(5,150,105,0.15);
+  border: 1px solid rgba(5,150,105,0.3);
+  border-radius: 20px;
+  font-size: 12px;
+  color: #34D399;
+  font-weight: 600;
+}
+
+.header-module {
+  padding: 6px 14px;
+  background: rgba(234,88,12,0.15);
+  border: 1px solid rgba(234,88,12,0.3);
+  border-radius: 20px;
+  font-size: 12px;
+  color: #FB923C;
+  font-weight: 600;
+}
+
+/* Main Container */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+/* Page Title */
+.page-title {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.page-title h2 {
+  font-size: 32px;
+  font-weight: 800;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
+}
+
+.page-title p {
+  color: var(--text-dim);
+  font-size: 16px;
+}
+
+/* Upload Zone */
+.upload-zone {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 48px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: rgba(30,41,59,0.5);
+  margin-bottom: 24px;
+}
+
+.upload-zone:hover, .upload-zone.dragover {
+  border-color: var(--blue);
+  background: rgba(37,99,235,0.08);
+  transform: translateY(-2px);
+}
+
+.upload-zone .icon {
+  font-size: 56px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.upload-zone .title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.upload-zone .subtitle {
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+.upload-zone .formats {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.upload-zone .format-tag {
+  padding: 4px 10px;
+  background: var(--surface2);
+  border-radius: 6px;
+  font-size: 11px;
+  color: var(--text-dim);
+  font-weight: 600;
+}
+
+/* Mock Documents Grid */
+.mock-section {
+  margin-bottom: 32px;
+}
+
+.mock-section h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.mock-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .mock-grid { grid-template-columns: 1fr; }
+}
+
+.mock-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 24px 16px;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-align: center;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.mock-btn:hover {
+  border-color: var(--blue);
+  background: rgba(37,99,235,0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(37,99,235,0.2);
+}
+
+.mock-btn.active {
+  border-color: var(--green);
+  background: rgba(5,150,105,0.1);
+  box-shadow: 0 0 20px rgba(5,150,105,0.15);
+}
+
+.mock-btn .emoji {
+  font-size: 36px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.mock-btn .name {
+  font-weight: 700;
+  margin-bottom: 4px;
+  font-size: 15px;
+}
+
+.mock-btn .cat {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.mock-btn .provider {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 3px 10px;
+  background: rgba(124,58,237,0.15);
+  border: 1px solid rgba(124,58,237,0.3);
+  border-radius: 12px;
+  font-size: 11px;
+  color: #A78BFA;
+  font-weight: 600;
+}
+
+/* OCR Processing Area */
+#ocrArea {
+  display: none;
+  margin-bottom: 32px;
+}
+
+#ocrArea.active {
+  display: block;
+  animation: fadeSlideUp 0.5s ease;
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.ocr-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 900px) {
+  .ocr-split { grid-template-columns: 1fr; }
+}
+
+/* Document Visual Panel */
+.doc-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.doc-panel h4 {
+  font-size: 14px;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.doc-visual {
+  background: #FFFBEB;
+  color: #1C1917;
+  border-radius: 8px;
+  padding: 28px 24px;
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-size: 12px;
+  line-height: 1.6;
+  position: relative;
+  overflow: hidden;
+  min-height: 520px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.doc-visual .doc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 3px solid #1E40AF;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+}
+
+.doc-visual .company-logo {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1E40AF;
+  letter-spacing: -0.5px;
+}
+
+.doc-visual .company-sub {
+  font-size: 9px;
+  color: #64748B;
+  margin-top: 2px;
+}
+
+.doc-visual .doc-type-label {
+  text-align: right;
+  font-size: 16px;
+  font-weight: 800;
+  color: #DC2626;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.doc-visual .doc-number {
+  font-size: 10px;
+  color: #64748B;
+  text-align: right;
+  margin-top: 2px;
+}
+
+.doc-visual .info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.doc-visual .info-box {
+  background: rgba(241,245,249,0.7);
+  border: 1px solid #CBD5E1;
+  border-radius: 4px;
+  padding: 8px 10px;
+}
+
+.doc-visual .info-box .label {
+  font-size: 8px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #64748B;
+  letter-spacing: 0.5px;
+  margin-bottom: 3px;
+}
+
+.doc-visual .info-box .value {
+  font-size: 11px;
+  font-weight: 600;
+  color: #0F172A;
+}
+
+.doc-visual .info-box .value-sm {
+  font-size: 9px;
+  color: #475569;
+  margin-top: 1px;
+}
+
+.doc-visual table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 14px;
+  font-size: 10px;
+}
+
+.doc-visual thead th {
+  background: #1E40AF;
+  color: white;
+  padding: 6px 8px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.doc-visual thead th:first-child {
+  border-radius: 4px 0 0 0;
+}
+
+.doc-visual thead th:last-child {
+  border-radius: 0 4px 0 0;
+  text-align: right;
+}
+
+.doc-visual tbody td {
+  padding: 5px 8px;
+  border-bottom: 1px solid #E2E8F0;
+  color: #334155;
+}
+
+.doc-visual tbody td:last-child {
+  text-align: right;
+  font-weight: 600;
+}
+
+.doc-visual .charges-section {
+  border: 1px solid #CBD5E1;
+  border-radius: 4px;
+  margin-bottom: 14px;
+}
+
+.doc-visual .charges-section .ch-title {
+  background: #F1F5F9;
+  padding: 5px 10px;
+  font-size: 9px;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  border-bottom: 1px solid #CBD5E1;
+}
+
+.doc-visual .charge-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 10px;
+  font-size: 10px;
+  color: #334155;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.doc-visual .charge-row:last-child {
+  border-bottom: none;
+}
+
+.doc-visual .total-section {
+  background: #1E40AF;
+  color: white;
+  border-radius: 6px;
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.doc-visual .total-section .total-label {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.doc-visual .total-section .total-amount {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.doc-visual .currency-note {
+  text-align: right;
+  font-size: 9px;
+  color: #64748B;
+  margin-bottom: 8px;
+}
+
+.doc-visual .footer-note {
+  border-top: 1px dashed #CBD5E1;
+  padding-top: 8px;
+  font-size: 8px;
+  color: #94A3B8;
+  text-align: center;
+}
+
+/* Scan Line Animation */
+.scan-line {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #059669, #34D399, #059669, transparent);
+  box-shadow: 0 0 15px rgba(5,150,105,0.6), 0 0 40px rgba(5,150,105,0.3);
+  z-index: 10;
+  display: none;
+}
+
+.scan-line.active {
+  display: block;
+  animation: scanDown 3s ease-in-out forwards;
+}
+
+@keyframes scanDown {
+  0% { top: 0; opacity: 0; }
+  5% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: calc(100% - 3px); opacity: 0; }
+}
+
+/* Highlight overlay for scanned fields */
+.field-highlight {
+  position: absolute;
+  background: rgba(5,150,105,0.15);
+  border: 1.5px solid rgba(52,211,153,0.6);
+  border-radius: 3px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.field-highlight.visible {
+  opacity: 1;
+  animation: pulseGreen 1.5s ease infinite;
+}
+
+@keyframes pulseGreen {
+  0%, 100% { box-shadow: 0 0 4px rgba(52,211,153,0.3); }
+  50% { box-shadow: 0 0 12px rgba(52,211,153,0.6); }
+}
+
+/* Extraction Panel */
+.extract-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.extract-panel h4 {
+  font-size: 14px;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.extract-log {
+  flex: 1;
+  min-height: 520px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.log-entry {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(71,85,105,0.3);
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.4s ease;
+}
+
+.log-entry.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.log-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.log-icon.scanning {
+  background: rgba(37,99,235,0.15);
+  border: 1px solid rgba(37,99,235,0.3);
+}
+
+.log-icon.extracted {
+  background: rgba(5,150,105,0.15);
+  border: 1px solid rgba(5,150,105,0.3);
+}
+
+.log-icon.ai {
+  background: rgba(124,58,237,0.15);
+  border: 1px solid rgba(124,58,237,0.3);
+}
+
+.log-icon.warning {
+  background: rgba(217,119,6,0.15);
+  border: 1px solid rgba(217,119,6,0.3);
+}
+
+.log-content {
+  flex: 1;
+}
+
+.log-step {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.log-detail {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.log-data {
+  margin-top: 4px;
+  background: rgba(15,23,42,0.5);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-family: 'Inter', monospace;
+  font-size: 11px;
+  color: #34D399;
+}
+
+.log-time {
+  font-size: 10px;
+  color: var(--text-dim);
+  opacity: 0.6;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+/* Progress bar */
+.progress-bar-wrap {
+  background: var(--surface2);
+  border-radius: 8px;
+  height: 6px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--grad-green);
+  border-radius: 8px;
+  width: 0%;
+  transition: width 0.4s ease;
+}
+
+/* Extracted Data Table Section */
+#dataSection {
+  display: none;
+  margin-bottom: 32px;
+}
+
+#dataSection.active {
+  display: block;
+  animation: fadeSlideUp 0.5s ease;
+}
+
+.section-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.section-card h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-card h3 .icon {
+  font-size: 20px;
+}
+
+/* Editable data fields */
+.data-field-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.data-field {
+  background: rgba(15,23,42,0.4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  transition: all 0.2s;
+}
+
+.data-field:hover {
+  border-color: var(--blue);
+}
+
+.data-field .field-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.data-field .field-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  outline: none;
+  width: 100%;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  padding: 2px 0;
+}
+
+.data-field .field-value:focus {
+  color: #60A5FA;
+}
+
+.data-field .ai-badge {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 2px 8px;
+  background: rgba(124,58,237,0.15);
+  border: 1px solid rgba(124,58,237,0.3);
+  border-radius: 8px;
+  font-size: 9px;
+  color: #A78BFA;
+  font-weight: 600;
+}
+
+/* Line items table */
+.items-table-wrap {
+  overflow-x: auto;
+  margin-bottom: 12px;
+}
+
+.items-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.items-table thead th {
+  background: var(--surface2);
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--text-dim);
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+
+.items-table thead th:last-child {
+  text-align: right;
+}
+
+.items-table tbody td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(71,85,105,0.3);
+  color: var(--text);
+}
+
+.items-table tbody td:last-child {
+  text-align: right;
+  font-weight: 600;
+}
+
+.items-table tbody tr:hover {
+  background: rgba(37,99,235,0.05);
+}
+
+.items-table .editable {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 4px 6px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+
+.items-table .editable:focus {
+  border-color: var(--blue);
+  outline: none;
+  background: rgba(37,99,235,0.05);
+}
+
+/* Currency conversion card */
+.currency-card {
+  background: linear-gradient(135deg, rgba(5,150,105,0.1), rgba(16,185,129,0.05));
+  border: 1px solid rgba(5,150,105,0.3);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.currency-card h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #34D399;
+  margin-bottom: 12px;
+}
+
+.rate-comparison {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.rate-item {
+  background: rgba(15,23,42,0.4);
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+.rate-item .bank-name {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+
+.rate-item .rate-val {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.rate-item .rate-val.best {
+  color: #34D399;
+}
+
+.rate-item .rate-label {
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+.rate-item .savings {
+  font-size: 10px;
+  color: #FB923C;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* Cost Breakdown */
+#chartSection {
+  display: none;
+  margin-bottom: 32px;
+}
+
+#chartSection.active {
+  display: block;
+  animation: fadeSlideUp 0.5s ease;
+}
+
+.chart-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .chart-container { grid-template-columns: 1fr; }
+}
+
+.chart-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+.chart-box h4 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* Stacked Bar Chart */
+.stacked-bar-chart {
+  margin-bottom: 16px;
+}
+
+.bar-group {
+  margin-bottom: 14px;
+}
+
+.bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.bar-label .name { font-weight: 600; }
+.bar-label .amount { color: var(--text-dim); }
+
+.bar-track {
+  height: 28px;
+  background: rgba(15,23,42,0.4);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  color: white;
+  transition: width 1s ease;
+  width: 0%;
+}
+
+/* Pie chart (CSS-only) */
+.pie-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.pie-chart {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.pie-legend {
+  flex: 1;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.legend-item .pct {
+  margin-left: auto;
+  font-weight: 700;
+  color: var(--text-dim);
+}
+
+/* Actions Section */
+#actionSection {
+  display: none;
+  margin-bottom: 40px;
+}
+
+#actionSection.active {
+  display: block;
+  animation: fadeSlideUp 0.5s ease;
+}
+
+.actions-bar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s;
+  border: none;
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.btn-primary {
+  background: var(--grad);
+  color: white;
+}
+
+.btn-success {
+  background: var(--grad-green);
+  color: white;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--border);
+  color: var(--text);
+}
+
+.btn-outline:hover {
+  border-color: var(--blue);
+  background: rgba(37,99,235,0.08);
+}
+
+/* Toast notification */
+.toast {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  background: var(--surface);
+  border: 1px solid var(--green);
+  border-radius: var(--radius-sm);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.4s ease;
+  z-index: 200;
+}
+
+.toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Confidence badges */
+.confidence {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.confidence.high {
+  background: rgba(5,150,105,0.15);
+  color: #34D399;
+  border: 1px solid rgba(5,150,105,0.3);
+}
+
+.confidence.medium {
+  background: rgba(217,119,6,0.15);
+  color: #FBBF24;
+  border: 1px solid rgba(217,119,6,0.3);
+}
+
+/* Spinner */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--text-dim);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+/* Historical comparison */
+.history-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(71,85,105,0.2);
+  font-size: 12px;
+}
+
+.history-row .date { color: var(--text-dim); width: 80px; }
+.history-row .rate-hist { font-weight: 600; width: 80px; }
+.history-row .diff { font-weight: 700; }
+.history-row .diff.up { color: #EF4444; }
+.history-row .diff.down { color: #34D399; }
+
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-brand">
+    <div class="logo">A</div>
+    <div>
+      <h1>Autopilot v2</h1>
+      <span>by ANTS -- AI Solution Hub</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="header-module">Logistics & Freight</div>
+    <div class="header-badge">AI OCR Active</div>
+  </div>
+</div>
+
+<!-- Main -->
+<div class="container">
+
+  <!-- Page Title -->
+  <div class="page-title">
+    <h2>Freight Invoice OCR Scanner</h2>
+    <p>สแกนและแปลงข้อมูลจากเอกสารขนส่งสินค้าด้วย AI อัตโนมัติ</p>
+  </div>
+
+  <!-- Upload Zone -->
+  <div class="upload-zone" id="uploadZone">
+    <span class="icon">🚢</span>
+    <div class="title">อัพโหลด Freight Invoice / Bill of Lading / Customs Declaration</div>
+    <div class="subtitle">ลากไฟล์มาวาง หรือคลิกเพื่อเลือกไฟล์</div>
+    <div class="formats">
+      <span class="format-tag">PDF</span>
+      <span class="format-tag">JPG / PNG</span>
+      <span class="format-tag">TIFF</span>
+      <span class="format-tag">XLSX</span>
+    </div>
+  </div>
+
+  <!-- Mock Document Types -->
+  <div class="mock-section">
+    <h3>หรือเลือกเอกสารตัวอย่างเพื่อทดลองใช้งาน</h3>
+    <div class="mock-grid">
+      <button class="mock-btn" onclick="startOCR('freight')">
+        <span class="emoji">📄</span>
+        <div class="name">Freight Invoice</div>
+        <div class="cat">ใบแจ้งหนี้ค่าขนส่งสินค้าระหว่างประเทศ</div>
+        <div class="provider">DHL Global Forwarding</div>
+      </button>
+      <button class="mock-btn" onclick="startOCR('bol')">
+        <span class="emoji">📄</span>
+        <div class="name">Bill of Lading</div>
+        <div class="cat">ใบตราส่งสินค้าทางทะเล</div>
+        <div class="provider">COSCO Shipping Lines</div>
+      </button>
+      <button class="mock-btn" onclick="startOCR('customs')">
+        <span class="emoji">📄</span>
+        <div class="name">Customs Declaration</div>
+        <div class="cat">ใบขนสินค้าขาเข้า กรมศุลกากร</div>
+        <div class="provider">Thai Customs</div>
+      </button>
+    </div>
+  </div>
+
+  <!-- OCR Processing Area -->
+  <div id="ocrArea">
+    <div class="ocr-split">
+      <!-- Left: Document Preview -->
+      <div class="doc-panel">
+        <h4>📋 ตัวอย่างเอกสาร</h4>
+        <div class="doc-visual" id="docVisual">
+          <div class="scan-line" id="scanLine"></div>
+        </div>
+      </div>
+      <!-- Right: Extraction Log -->
+      <div class="extract-panel">
+        <h4>🤖 AI OCR Extraction Log</h4>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+        <div class="extract-log" id="extractLog"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Extracted Data Section -->
+  <div id="dataSection">
+    <!-- Header Fields -->
+    <div class="section-card">
+      <h3><span class="icon">📋</span> ข้อมูลที่สกัดได้ -- แก้ไขได้</h3>
+      <div class="data-field-grid" id="headerFields"></div>
+    </div>
+
+    <!-- Line Items -->
+    <div class="section-card">
+      <h3><span class="icon">📦</span> รายการสินค้า</h3>
+      <div class="items-table-wrap">
+        <table class="items-table" id="lineItemsTable">
+          <thead id="lineItemsHead"></thead>
+          <tbody id="lineItemsBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Freight Charges -->
+    <div class="section-card">
+      <h3><span class="icon">💰</span> รายละเอียดค่าใช้จ่าย Freight</h3>
+      <div class="items-table-wrap">
+        <table class="items-table" id="chargesTable">
+          <thead>
+            <tr>
+              <th>รายการ</th>
+              <th>คำอธิบาย</th>
+              <th>สกุลเงิน</th>
+              <th>จำนวนเงิน</th>
+            </tr>
+          </thead>
+          <tbody id="chargesBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Currency Conversion -->
+    <div class="section-card">
+      <h3><span class="icon">💱</span> AI แนะนำอัตราแลกเปลี่ยน</h3>
+      <div class="currency-card" id="currencyCard"></div>
+      <div id="historyComparison"></div>
+    </div>
+  </div>
+
+  <!-- Cost Breakdown Chart -->
+  <div id="chartSection">
+    <div class="chart-container">
+      <div class="chart-box">
+        <h4>📊 สัดส่วนค่าใช้จ่าย -- Stacked Bar</h4>
+        <div class="stacked-bar-chart" id="barChart"></div>
+      </div>
+      <div class="chart-box">
+        <h4>🥧 สัดส่วนค่าใช้จ่าย -- Pie Chart</h4>
+        <div class="pie-wrapper">
+          <div class="pie-chart" id="pieChart"></div>
+          <div class="pie-legend" id="pieLegend"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div id="actionSection">
+    <div class="actions-bar">
+      <button class="action-btn btn-primary" onclick="showToast('บันทึกข้อมูลสำเร็จ')">
+        💾 บันทึก
+      </button>
+      <button class="action-btn btn-success" onclick="showToast('ส่งข้อมูลเข้าระบบบัญชีสำเร็จ')">
+        📤 ส่งเข้าระบบบัญชี
+      </button>
+      <button class="action-btn btn-outline" onclick="showToast('เปรียบเทียบกับ PO #4420187 -- ตรงกัน 98.5%')">
+        🔍 เปรียบเทียบกับ PO
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <span>✅</span>
+  <span id="toastMsg"></span>
+</div>
+
+<script>
+// ====== MOCK DATA ======
+const DOCS = {
+  freight: {
+    company: 'DHL Global Forwarding',
+    companySub: 'DHL Global Forwarding (Thailand) Ltd.',
+    docType: 'FREIGHT INVOICE',
+    docNumber: 'INV-2026-TH-00482',
+    date: '28/03/2026',
+    dueDate: '27/04/2026',
+    shipper: { name: 'Shenzhen HiTech Electronics Co., Ltd.', addr: '88 Nanshan Blvd, Shenzhen 518000, China', tax: 'CN91440300MA5G2XYZ' },
+    consignee: { name: 'บจก. สมาร์ทอิเล็กทรอนิกส์ (ไทยแลนด์)', addr: '999/1 ถ.พระราม 3 แขวงบางคอแหลม กทม. 10120', tax: '0105563089012' },
+    vesselFlight: 'COSCO PRIDE V.2603E',
+    portLoad: 'Shekou, China (CNSHK)',
+    portDischarge: 'Laem Chabang, Thailand (THLCH)',
+    blNumber: 'COSU6284750210',
+    containerNo: 'CSLU7654321 / 40\'HC',
+    incoterms: 'CIF Bangkok',
+    lineItems: [
+      { desc: 'PCB Circuit Board Model X-200', qty: '2,000', weight: '1,200 KG', dims: '120x80x60 cm', rate: '12.50', amount: '25,000.00' },
+      { desc: 'LED Display Module 15.6"', qty: '500', weight: '800 KG', dims: '100x60x50 cm', rate: '18.00', amount: '9,000.00' },
+      { desc: 'Power Supply Unit 500W', qty: '1,000', weight: '600 KG', dims: '80x50x40 cm', rate: '8.50', amount: '8,500.00' },
+    ],
+    charges: [
+      { code: 'OFR', name: 'Ocean Freight', desc: '40\'HC FCL Shekou - Laem Chabang', currency: 'USD', amount: '1,850.00' },
+      { code: 'BAF', name: 'Bunker Adjustment Factor', desc: 'Fuel surcharge', currency: 'USD', amount: '320.00' },
+      { code: 'CAF', name: 'Currency Adjustment Factor', desc: 'Currency fluctuation adj.', currency: 'USD', amount: '85.00' },
+      { code: 'THC', name: 'Terminal Handling Charge', desc: 'Origin THC', currency: 'USD', amount: '210.00' },
+      { code: 'THC-D', name: 'Terminal Handling (Dest)', desc: 'Destination THC Laem Chabang', currency: 'THB', amount: '7,500' },
+      { code: 'D/O', name: 'Delivery Order Fee', desc: 'D/O issuance fee', currency: 'THB', amount: '2,500' },
+      { code: 'DOC', name: 'Documentation Fee', desc: 'B/L + documentation', currency: 'THB', amount: '1,800' },
+      { code: 'SEAL', name: 'Container Seal', desc: 'Seal charge', currency: 'THB', amount: '500' },
+    ],
+    totalUSD: '2,465.00',
+    totalTHB: '12,300',
+    exchangeRate: '34.85',
+    grandTotalTHB: '98,205.25',
+    currency: 'USD'
+  },
+  bol: {
+    company: 'COSCO Shipping Lines',
+    companySub: 'COSCO SHIPPING Lines (Thailand) Co., Ltd.',
+    docType: 'BILL OF LADING',
+    docNumber: 'COSU6284750210',
+    date: '15/03/2026',
+    dueDate: '--',
+    shipper: { name: 'Osaka Manufacturing Corp.', addr: '3-5-1 Umeda, Kita-ku, Osaka 530-0001, Japan', tax: 'JP7012345678' },
+    consignee: { name: 'บจก. ไทยเทคอิมปอร์ต', addr: '123/45 นิคมอุตสาหกรรมอมตะ ชลบุรี 20160', tax: '0105567012345' },
+    vesselFlight: 'COSCO GALAXY V.2605N',
+    portLoad: 'Osaka, Japan (JPOSA)',
+    portDischarge: 'Laem Chabang, Thailand (THLCH)',
+    blNumber: 'COSU6284750210',
+    containerNo: 'OOLU8812345 / 20\'GP',
+    incoterms: 'FOB Osaka',
+    lineItems: [
+      { desc: 'Auto Parts - Brake Assembly Set', qty: '500', weight: '3,200 KG', dims: '110x110x90 cm', rate: '22.00', amount: '11,000.00' },
+      { desc: 'Transmission Gear Box Unit', qty: '200', weight: '2,400 KG', dims: '90x80x70 cm', rate: '35.00', amount: '7,000.00' },
+    ],
+    charges: [
+      { code: 'OFR', name: 'Ocean Freight', desc: '20\'GP FCL Osaka - Laem Chabang', currency: 'USD', amount: '980.00' },
+      { code: 'BAF', name: 'Bunker Adjustment Factor', desc: 'Fuel surcharge Q1/2026', currency: 'USD', amount: '180.00' },
+      { code: 'EBS', name: 'Emergency Bunker Surcharge', desc: 'Emergency fuel adj.', currency: 'USD', amount: '45.00' },
+      { code: 'THC', name: 'Terminal Handling Charge', desc: 'Origin THC Osaka', currency: 'JPY', amount: '35,000' },
+      { code: 'THC-D', name: 'Terminal Handling (Dest)', desc: 'Destination THC Laem Chabang', currency: 'THB', amount: '5,200' },
+      { code: 'D/O', name: 'Delivery Order Fee', desc: 'D/O issuance', currency: 'THB', amount: '2,000' },
+    ],
+    totalUSD: '1,205.00',
+    totalTHB: '7,200',
+    exchangeRate: '34.85',
+    grandTotalTHB: '49,205.25',
+    currency: 'USD'
+  },
+  customs: {
+    company: 'กรมศุลกากร',
+    companySub: 'Thai Customs Department',
+    docType: 'ใบขนสินค้าขาเข้า',
+    docNumber: 'A1 ENT-2026-03-15892',
+    date: '25/03/2026',
+    dueDate: '25/03/2026',
+    shipper: { name: 'Guangzhou Trading Co., Ltd.', addr: '126 Tianhe Road, Guangzhou 510630, China', tax: 'CN440106MA5D2ABC' },
+    consignee: { name: 'บจก. สยามเทรดดิ้ง กรุ๊ป', addr: '789 ถ.สาทร แขวงทุ่งมหาเมฆ กทม. 10120', tax: '0105559078901' },
+    vesselFlight: 'OOCL BANGKOK V.006E',
+    portLoad: 'Nansha, China (CNNSA)',
+    portDischarge: 'Laem Chabang, Thailand (THLCH)',
+    blNumber: 'OOLU7715890320',
+    containerNo: 'TCLU9988776 / 40\'GP',
+    incoterms: 'CIF Bangkok',
+    lineItems: [
+      { desc: 'เครื่องใช้ไฟฟ้าในครัวเรือน - หม้อหุงข้าว', qty: '3,000', weight: '4,500 KG', dims: '130x100x80 cm', rate: '8.20', amount: '24,600.00' },
+      { desc: 'เครื่องปั่นอเนกประสงค์', qty: '2,000', weight: '2,000 KG', dims: '100x70x60 cm', rate: '5.50', amount: '11,000.00' },
+      { desc: 'กาต้มน้ำไฟฟ้า', qty: '5,000', weight: '3,000 KG', dims: '90x60x50 cm', rate: '3.00', amount: '15,000.00' },
+    ],
+    charges: [
+      { code: 'OFR', name: 'Ocean Freight', desc: '40\'GP FCL Nansha - Laem Chabang', currency: 'USD', amount: '1,650.00' },
+      { code: 'INS', name: 'Cargo Insurance', desc: 'Marine insurance 110% CIF', currency: 'USD', amount: '285.00' },
+      { code: 'DUTY', name: 'Import Duty', desc: 'อากรขาเข้า 20%', currency: 'THB', amount: '352,920' },
+      { code: 'VAT', name: 'VAT', desc: 'ภาษีมูลค่าเพิ่ม 7%', currency: 'THB', amount: '149,362' },
+      { code: 'THC-D', name: 'Terminal Handling (Dest)', desc: 'THC Laem Chabang', currency: 'THB', amount: '8,200' },
+      { code: 'CFS', name: 'CFS Charge', desc: 'Container freight station', currency: 'THB', amount: '3,500' },
+      { code: 'CUSTOMS', name: 'Customs Broker Fee', desc: 'ค่าบริการดำเนินพิธีการศุลกากร', currency: 'THB', amount: '5,500' },
+    ],
+    totalUSD: '1,935.00',
+    totalTHB: '519,482',
+    exchangeRate: '34.85',
+    grandTotalTHB: '586,929.75',
+    currency: 'USD'
+  }
+};
+
+const BANK_RATES = [
+  { bank: 'ธนาคารกรุงเทพ (BBL)', rate: 34.92, buy: 34.72 },
+  { bank: 'ธนาคารกสิกรไทย (KBANK)', rate: 34.88, buy: 34.68 },
+  { bank: 'ธนาคารไทยพาณิชย์ (SCB)', rate: 34.85, buy: 34.65 },
+  { bank: 'ธนาคารกรุงไทย (KTB)', rate: 34.90, buy: 34.70 },
+];
+
+const HISTORY_RATES = [
+  { date: '28/03/26', rate: 34.85, diff: 0 },
+  { date: '21/03/26', rate: 34.72, diff: +0.13 },
+  { date: '14/03/26', rate: 34.95, diff: -0.10 },
+  { date: '07/03/26', rate: 35.10, diff: -0.25 },
+  { date: '28/02/26', rate: 35.22, diff: -0.37 },
+];
+
+// ====== STATE ======
+let currentDoc = null;
+let isProcessing = false;
+
+// ====== FUNCTIONS ======
+function startOCR(type) {
+  if (isProcessing) return;
+  isProcessing = true;
+  currentDoc = DOCS[type];
+
+  // Reset
+  document.querySelectorAll('.mock-btn').forEach(b => b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById('dataSection').classList.remove('active');
+  document.getElementById('chartSection').classList.remove('active');
+  document.getElementById('actionSection').classList.remove('active');
+  document.getElementById('extractLog').innerHTML = '';
+  document.getElementById('progressBar').style.width = '0%';
+
+  // Show OCR area
+  const ocrArea = document.getElementById('ocrArea');
+  ocrArea.classList.add('active');
+  ocrArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // Render document
+  renderDocument(currentDoc);
+
+  // Start scan animation
+  setTimeout(() => {
+    const scanLine = document.getElementById('scanLine');
+    scanLine.classList.remove('active');
+    void scanLine.offsetWidth;
+    scanLine.classList.add('active');
+  }, 300);
+
+  // Run extraction steps
+  runExtraction(currentDoc);
+}
+
+function renderDocument(doc) {
+  const vis = document.getElementById('docVisual');
+  const scanLine = '<div class="scan-line" id="scanLine"></div>';
+
+  let chargesHTML = '';
+  doc.charges.forEach(c => {
+    chargesHTML += `<div class="charge-row"><span>${c.code} - ${c.name}</span><span>${c.currency} ${c.amount}</span></div>`;
+  });
+
+  let itemsHTML = '';
+  doc.lineItems.forEach(item => {
+    itemsHTML += `<tr>
+      <td>${item.desc}</td>
+      <td style="text-align:center">${item.qty}</td>
+      <td style="text-align:center">${item.weight}</td>
+      <td style="text-align:right">${item.amount}</td>
+    </tr>`;
+  });
+
+  vis.innerHTML = `
+    ${scanLine}
+    <div class="doc-header">
+      <div>
+        <div class="company-logo">${doc.company}</div>
+        <div class="company-sub">${doc.companySub}</div>
+      </div>
+      <div>
+        <div class="doc-type-label">${doc.docType}</div>
+        <div class="doc-number">${doc.docNumber}</div>
+      </div>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <div class="label">Shipper / ผู้ส่ง</div>
+        <div class="value">${doc.shipper.name}</div>
+        <div class="value-sm">${doc.shipper.addr}</div>
+        <div class="value-sm">Tax ID: ${doc.shipper.tax}</div>
+      </div>
+      <div class="info-box">
+        <div class="label">Consignee / ผู้รับ</div>
+        <div class="value">${doc.consignee.name}</div>
+        <div class="value-sm">${doc.consignee.addr}</div>
+        <div class="value-sm">Tax ID: ${doc.consignee.tax}</div>
+      </div>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <div class="label">Vessel / เที่ยวเรือ</div>
+        <div class="value">${doc.vesselFlight}</div>
+      </div>
+      <div class="info-box">
+        <div class="label">B/L Number</div>
+        <div class="value">${doc.blNumber}</div>
+      </div>
+      <div class="info-box">
+        <div class="label">Port of Loading</div>
+        <div class="value">${doc.portLoad}</div>
+      </div>
+      <div class="info-box">
+        <div class="label">Port of Discharge</div>
+        <div class="value">${doc.portDischarge}</div>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th style="text-align:center">Qty</th>
+          <th style="text-align:center">Weight</th>
+          <th style="text-align:right">Amount (USD)</th>
+        </tr>
+      </thead>
+      <tbody>${itemsHTML}</tbody>
+    </table>
+
+    <div class="charges-section">
+      <div class="ch-title">Freight Charges Breakdown</div>
+      ${chargesHTML}
+    </div>
+
+    <div class="total-section">
+      <div class="total-label">GRAND TOTAL (THB)</div>
+      <div class="total-amount">฿${doc.grandTotalTHB}</div>
+    </div>
+
+    <div class="currency-note">Exchange Rate: 1 USD = ${doc.exchangeRate} THB | Date: ${doc.date}</div>
+
+    <div class="footer-note">This is a computer-generated document. No signature required.</div>
+  `;
+}
+
+async function runExtraction(doc) {
+  const log = document.getElementById('extractLog');
+  const bar = document.getElementById('progressBar');
+  let stepNum = 0;
+
+  const steps = [
+    { icon: 'scanning', emoji: '🔍', step: 'เริ่มสแกนเอกสาร...', detail: `ตรวจพบเอกสาร: ${doc.docType}`, data: `Document Type: ${doc.docType}\nProvider: ${doc.company}`, pct: 5 },
+    { icon: 'scanning', emoji: '📐', step: 'วิเคราะห์โครงสร้างเอกสาร', detail: 'ตรวจจับตำแหน่ง Header, Table, Footer', data: 'Layout: 3 sections detected\nConfidence: 98.7%', pct: 12 },
+    { icon: 'extracted', emoji: '🏢', step: 'สกัดข้อมูล Shipper', detail: doc.shipper.name, data: `Address: ${doc.shipper.addr}\nTax ID: ${doc.shipper.tax}`, pct: 22 },
+    { icon: 'extracted', emoji: '📍', step: 'สกัดข้อมูล Consignee', detail: doc.consignee.name, data: `Address: ${doc.consignee.addr}\nTax ID: ${doc.consignee.tax}`, pct: 30 },
+    { icon: 'extracted', emoji: '📝', step: 'สกัดเลขที่เอกสาร & วันที่', detail: `Invoice: ${doc.docNumber}`, data: `Date: ${doc.date}\nDue Date: ${doc.dueDate}\nIncoterms: ${doc.incoterms}`, pct: 38 },
+    { icon: 'extracted', emoji: '🚢', step: 'สกัดข้อมูลการขนส่ง', detail: doc.vesselFlight, data: `B/L: ${doc.blNumber}\nContainer: ${doc.containerNo}\nPOL: ${doc.portLoad}\nPOD: ${doc.portDischarge}`, pct: 48 },
+    { icon: 'extracted', emoji: '📦', step: `สกัดรายการสินค้า (${doc.lineItems.length} รายการ)`, detail: 'OCR line items with table detection', data: doc.lineItems.map(i => `${i.desc}: ${i.qty} pcs, ${i.weight}`).join('\n'), pct: 58 },
+    { icon: 'extracted', emoji: '💰', step: `สกัดค่าใช้จ่าย Freight (${doc.charges.length} รายการ)`, detail: 'Parsing freight charges breakdown', data: doc.charges.map(c => `${c.code}: ${c.currency} ${c.amount}`).join('\n'), pct: 72 },
+    { icon: 'ai', emoji: '💱', step: 'AI วิเคราะห์อัตราแลกเปลี่ยน', detail: `1 USD = ${doc.exchangeRate} THB (อัตราในเอกสาร)`, data: `เปรียบเทียบกับอัตราตลาด...\nBest Rate: SCB 34.85 THB/USD\nSavings potential: ฿2,340`, pct: 82 },
+    { icon: 'ai', emoji: '🧮', step: 'คำนวณยอดรวม', detail: `USD ${doc.totalUSD} + THB ${doc.totalTHB}`, data: `Grand Total: ฿${doc.grandTotalTHB}\nExchange Rate Applied: ${doc.exchangeRate}`, pct: 90 },
+    { icon: 'ai', emoji: '✅', step: 'ตรวจสอบความถูกต้อง', detail: 'Cross-validation complete', data: 'Accuracy: 99.2%\nFields extracted: ' + (6 + doc.lineItems.length + doc.charges.length) + '\nWarnings: 0', pct: 100 },
+  ];
+
+  for (const s of steps) {
+    await delay(450 + Math.random() * 350);
+    stepNum++;
+    const elapsed = (stepNum * 0.4 + Math.random() * 0.3).toFixed(1);
+
+    const entry = document.createElement('div');
+    entry.className = 'log-entry';
+    entry.innerHTML = `
+      <div class="log-icon ${s.icon}">${s.emoji}</div>
+      <div class="log-content">
+        <div class="log-step">${s.step}</div>
+        <div class="log-detail">${s.detail}</div>
+        ${s.data ? `<div class="log-data">${s.data.replace(/\n/g, '<br>')}</div>` : ''}
+      </div>
+      <div class="log-time">${elapsed}s</div>
+    `;
+    log.appendChild(entry);
+    requestAnimationFrame(() => entry.classList.add('visible'));
+    log.scrollTop = log.scrollHeight;
+    bar.style.width = s.pct + '%';
+  }
+
+  // Done -- show extracted data
+  await delay(500);
+  renderExtractedData(doc);
+  isProcessing = false;
+}
+
+function renderExtractedData(doc) {
+  // Header fields
+  const hf = document.getElementById('headerFields');
+  const fields = [
+    { label: 'ประเภทเอกสาร', value: doc.docType, conf: 'high' },
+    { label: 'เลขที่เอกสาร', value: doc.docNumber, conf: 'high' },
+    { label: 'วันที่', value: doc.date, conf: 'high' },
+    { label: 'วันครบกำหนด', value: doc.dueDate, conf: 'high' },
+    { label: 'Shipper', value: doc.shipper.name, conf: 'high' },
+    { label: 'Consignee', value: doc.consignee.name, conf: 'high' },
+    { label: 'Vessel / Flight', value: doc.vesselFlight, conf: 'high' },
+    { label: 'B/L Number', value: doc.blNumber, conf: 'high' },
+    { label: 'Container No.', value: doc.containerNo, conf: 'high' },
+    { label: 'Port of Loading', value: doc.portLoad, conf: 'high' },
+    { label: 'Port of Discharge', value: doc.portDischarge, conf: 'high' },
+    { label: 'Incoterms', value: doc.incoterms, conf: 'medium' },
+    { label: 'อัตราแลกเปลี่ยน', value: `1 USD = ${doc.exchangeRate} THB`, ai: true },
+    { label: 'ยอดรวม (THB)', value: `฿${doc.grandTotalTHB}`, conf: 'high' },
+  ];
+
+  hf.innerHTML = fields.map(f => `
+    <div class="data-field">
+      <div class="field-label">${f.label}</div>
+      <input class="field-value" value="${f.value}" />
+      ${f.conf ? `<span class="confidence ${f.conf}">${f.conf === 'high' ? '99%+ ถูกต้อง' : '~95% ถูกต้อง'}</span>` : ''}
+      ${f.ai ? '<span class="ai-badge">AI Suggested</span>' : ''}
+    </div>
+  `).join('');
+
+  // Line Items
+  const lHead = document.getElementById('lineItemsHead');
+  const lBody = document.getElementById('lineItemsBody');
+  lHead.innerHTML = '<tr><th>รายละเอียด</th><th>จำนวน</th><th>น้ำหนัก</th><th>ขนาด</th><th>Rate (USD)</th><th>Amount (USD)</th></tr>';
+  lBody.innerHTML = doc.lineItems.map(i => `
+    <tr>
+      <td><input class="editable" value="${i.desc}" /></td>
+      <td><input class="editable" value="${i.qty}" style="width:70px;text-align:center" /></td>
+      <td><input class="editable" value="${i.weight}" style="width:90px;text-align:center" /></td>
+      <td><input class="editable" value="${i.dims}" style="width:120px;text-align:center" /></td>
+      <td><input class="editable" value="${i.rate}" style="width:70px;text-align:right" /></td>
+      <td>${i.amount}</td>
+    </tr>
+  `).join('');
+
+  // Charges
+  const cBody = document.getElementById('chargesBody');
+  cBody.innerHTML = doc.charges.map(c => `
+    <tr>
+      <td><strong>${c.code}</strong> - ${c.name}</td>
+      <td>${c.desc}</td>
+      <td>${c.currency}</td>
+      <td>${c.amount}</td>
+    </tr>
+  `).join('');
+
+  // Currency card
+  const cc = document.getElementById('currencyCard');
+  const bestRate = BANK_RATES.reduce((a, b) => a.rate < b.rate ? a : b);
+  cc.innerHTML = `
+    <h4>💱 เปรียบเทียบอัตราแลกเปลี่ยน USD/THB วันนี้</h4>
+    <div class="rate-comparison">
+      ${BANK_RATES.map(b => `
+        <div class="rate-item">
+          <div class="bank-name">${b.bank}</div>
+          <div class="rate-val ${b === bestRate ? 'best' : ''}">${b.rate.toFixed(2)} <span style="font-size:11px;color:var(--text-dim)">THB/USD</span></div>
+          ${b === bestRate ? '<div class="savings">แนะนำ -- ประหยัดที่สุด</div>' : `<div class="rate-label">ต่างจาก Best: +${(b.rate - bestRate.rate).toFixed(2)}</div>`}
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  // History comparison
+  const hc = document.getElementById('historyComparison');
+  hc.innerHTML = `
+    <div style="margin-top:16px">
+      <h4 style="font-size:13px;font-weight:600;color:var(--text-dim);margin-bottom:10px">📈 เปรียบเทียบอัตราย้อนหลัง 5 สัปดาห์</h4>
+      ${HISTORY_RATES.map(h => `
+        <div class="history-row">
+          <span class="date">${h.date}</span>
+          <span class="rate-hist">${h.rate.toFixed(2)}</span>
+          <span class="diff ${h.diff > 0 ? 'up' : h.diff < 0 ? 'down' : ''}">${h.diff > 0 ? '+' : ''}${h.diff.toFixed(2)}</span>
+          <span style="color:var(--text-dim);font-size:11px">${h.diff > 0 ? 'สูงกว่าปัจจุบัน' : h.diff < 0 ? 'ต่ำกว่าปัจจุบัน' : 'อัตราปัจจุบัน'}</span>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  document.getElementById('dataSection').classList.add('active');
+
+  // Charts
+  setTimeout(() => {
+    renderCharts(doc);
+    document.getElementById('chartSection').classList.add('active');
+    document.getElementById('actionSection').classList.add('active');
+  }, 400);
+}
+
+function renderCharts(doc) {
+  // Colors
+  const colors = ['#2563EB', '#7C3AED', '#059669', '#EA580C', '#D97706', '#EC4899', '#06B6D4', '#84CC16'];
+
+  // Calculate values for charges
+  const chargeValues = doc.charges.map(c => {
+    let val = parseFloat(c.amount.replace(/,/g, ''));
+    if (c.currency === 'USD') val *= parseFloat(doc.exchangeRate);
+    return { name: `${c.code} - ${c.name}`, value: val, currency: c.currency, original: c.amount };
+  });
+  const total = chargeValues.reduce((s, c) => s + c.value, 0);
+
+  // Bar chart
+  const barEl = document.getElementById('barChart');
+  barEl.innerHTML = chargeValues.map((c, i) => {
+    const pct = (c.value / total * 100).toFixed(1);
+    return `
+      <div class="bar-group">
+        <div class="bar-label">
+          <span class="name">${c.name}</span>
+          <span class="amount">${c.currency} ${c.original} ${c.currency !== 'THB' ? `(฿${Math.round(c.value).toLocaleString()})` : ''}</span>
+        </div>
+        <div class="bar-track">
+          <div class="bar-fill" style="background:${colors[i % colors.length]}" data-width="${pct}">${pct}%</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Animate bars
+  setTimeout(() => {
+    barEl.querySelectorAll('.bar-fill').forEach(bar => {
+      bar.style.width = bar.dataset.width + '%';
+    });
+  }, 100);
+
+  // Pie chart
+  const pieEl = document.getElementById('pieChart');
+  const legEl = document.getElementById('pieLegend');
+  let cumPct = 0;
+  const gradStops = [];
+
+  chargeValues.forEach((c, i) => {
+    const pct = c.value / total * 100;
+    const color = colors[i % colors.length];
+    gradStops.push(`${color} ${cumPct}% ${cumPct + pct}%`);
+    cumPct += pct;
+  });
+
+  pieEl.style.background = `conic-gradient(${gradStops.join(', ')})`;
+
+  legEl.innerHTML = chargeValues.map((c, i) => {
+    const pct = (c.value / total * 100).toFixed(1);
+    return `
+      <div class="legend-item">
+        <span class="legend-dot" style="background:${colors[i % colors.length]}"></span>
+        <span>${c.name}</span>
+        <span class="pct">${pct}%</span>
+      </div>
+    `;
+  }).join('');
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+function delay(ms) {
+  return new Promise(r => setTimeout(r, ms));
+}
+
+// Upload zone drag & drop visual feedback
+const uz = document.getElementById('uploadZone');
+uz.addEventListener('dragover', e => { e.preventDefault(); uz.classList.add('dragover'); });
+uz.addEventListener('dragleave', () => uz.classList.remove('dragover'));
+uz.addEventListener('drop', e => { e.preventDefault(); uz.classList.remove('dragover'); showToast('ไฟล์ถูกอัพโหลดแล้ว -- กำลังประมวลผล...'); });
+uz.addEventListener('click', () => showToast('กรุณาเลือกเอกสารตัวอย่างด้านล่างเพื่อทดลองใช้งาน'));
+</script>
+
+</body>
+</html>

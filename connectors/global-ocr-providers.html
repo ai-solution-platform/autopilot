@@ -1,0 +1,1812 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global OCR Providers Connector | Autopilot v2 by ANTS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #2563EB;
+  --purple: #7C3AED;
+  --green: #059669;
+  --cyan: #06B6D4;
+  --orange: #F59E0B;
+  --red: #EF4444;
+  --pink: #EC4899;
+  --grad: linear-gradient(135deg, #2563EB, #7C3AED);
+  --grad2: linear-gradient(135deg, #06B6D4, #2563EB);
+  --grad3: linear-gradient(135deg, #7C3AED, #EC4899);
+  --grad4: linear-gradient(135deg, #059669, #06B6D4);
+  --bg: #0F172A;
+  --surface: #1E293B;
+  --surface2: #334155;
+  --surface3: #475569;
+  --text: #F8FAFC;
+  --text-dim: #94A3B8;
+  --text-muted: #64748B;
+  --border: #475569;
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Noto Sans Thai', 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 3px; }
+
+/* Header */
+.header {
+  background: rgba(15,23,42,0.9);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(71,85,105,0.4);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-brand .logo {
+  width: 38px;
+  height: 38px;
+  background: var(--grad);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 800;
+  color: white;
+}
+
+.header-brand h1 {
+  font-size: 18px;
+  font-weight: 700;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header-brand span {
+  font-size: 12px;
+  color: var(--text-dim);
+  display: block;
+  margin-top: -2px;
+}
+
+.header-nav {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.header-nav .nav-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.nav-btn.active {
+  background: var(--grad);
+  color: white;
+}
+
+.nav-btn:not(.active) {
+  background: var(--surface);
+  color: var(--text-dim);
+  border: 1px solid rgba(71,85,105,0.4);
+}
+
+.nav-btn:not(.active):hover {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+.header-badge {
+  padding: 6px 14px;
+  background: rgba(5,150,105,0.15);
+  border: 1px solid rgba(5,150,105,0.3);
+  border-radius: 20px;
+  font-size: 12px;
+  color: #34D399;
+  font-weight: 600;
+}
+
+/* Container */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+
+/* Page Title */
+.page-title {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.page-title h2 {
+  font-size: 32px;
+  font-weight: 800;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
+}
+
+.page-title p {
+  color: var(--text-dim);
+  font-size: 16px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Stats Strip */
+.stats-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid rgba(71,85,105,0.3);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+}
+
+.stat-card .stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin: 0 auto 12px;
+}
+
+.stat-card .stat-val {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.stat-card .stat-label {
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+/* Section Titles */
+.section-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-title .icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+/* Tab System */
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 28px;
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 4px;
+  border: 1px solid rgba(71,85,105,0.3);
+  overflow-x: auto;
+}
+
+.tab-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--text-dim);
+  font-family: inherit;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.tab-btn.active {
+  background: var(--grad);
+  color: white;
+}
+
+.tab-btn:hover:not(.active) {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* Provider Cards */
+.providers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.provider-card {
+  background: var(--surface);
+  border: 1px solid rgba(71,85,105,0.3);
+  border-radius: var(--radius);
+  padding: 24px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.provider-card:hover {
+  border-color: rgba(37,99,235,0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(37,99,235,0.1);
+}
+
+.provider-card .card-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+
+.provider-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.provider-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.provider-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.provider-name {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.provider-sub {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.status-badge.connected {
+  background: rgba(5,150,105,0.15);
+  border: 1px solid rgba(5,150,105,0.3);
+  color: #34D399;
+}
+
+.status-badge.available {
+  background: rgba(37,99,235,0.12);
+  border: 1px solid rgba(37,99,235,0.3);
+  color: #60A5FA;
+}
+
+.status-badge.offline {
+  background: rgba(239,68,68,0.12);
+  border: 1px solid rgba(239,68,68,0.3);
+  color: #F87171;
+}
+
+.provider-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.metric {
+  background: rgba(15,23,42,0.6);
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+}
+
+.metric .label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.metric .value {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.metric .value.green { color: #34D399; }
+.metric .value.blue { color: #60A5FA; }
+.metric .value.cyan { color: #22D3EE; }
+.metric .value.yellow { color: #FBBF24; }
+.metric .value.purple { color: #A78BFA; }
+
+.provider-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.tag {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  background: rgba(99,102,241,0.12);
+  color: #818CF8;
+  border: 1px solid rgba(99,102,241,0.2);
+}
+
+.tag.lang { background: rgba(6,182,212,0.12); color: #22D3EE; border-color: rgba(6,182,212,0.2); }
+.tag.free { background: rgba(5,150,105,0.12); color: #34D399; border-color: rgba(5,150,105,0.2); }
+.tag.premium { background: rgba(245,158,11,0.12); color: #FBBF24; border-color: rgba(245,158,11,0.2); }
+.tag.thai { background: rgba(236,72,153,0.12); color: #F472B6; border-color: rgba(236,72,153,0.2); }
+
+.provider-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  transition: all 0.2s;
+  flex: 1;
+  text-align: center;
+}
+
+.btn-primary {
+  background: var(--grad);
+  color: white;
+}
+
+.btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+
+.btn-secondary {
+  background: var(--surface2);
+  color: var(--text-dim);
+  border: 1px solid rgba(71,85,105,0.4);
+}
+
+.btn-secondary:hover {
+  background: var(--surface3);
+  color: var(--text);
+}
+
+.btn-success {
+  background: rgba(5,150,105,0.2);
+  color: #34D399;
+  border: 1px solid rgba(5,150,105,0.3);
+}
+
+.btn-danger {
+  background: rgba(239,68,68,0.12);
+  color: #F87171;
+  border: 1px solid rgba(239,68,68,0.3);
+}
+
+/* Comparison Table */
+.comparison-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius);
+  border: 1px solid rgba(71,85,105,0.3);
+}
+
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+.comparison-table th {
+  background: rgba(15,23,42,0.8);
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid rgba(71,85,105,0.3);
+  white-space: nowrap;
+}
+
+.comparison-table td {
+  padding: 14px 16px;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(71,85,105,0.15);
+  background: var(--surface);
+}
+
+.comparison-table tr:hover td {
+  background: rgba(37,99,235,0.05);
+}
+
+.comparison-table .provider-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.comparison-table .mini-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.rating {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.rating.excellent { background: rgba(5,150,105,0.15); color: #34D399; }
+.rating.good { background: rgba(6,182,212,0.12); color: #22D3EE; }
+.rating.fair { background: rgba(245,158,11,0.12); color: #FBBF24; }
+.rating.limited { background: rgba(239,68,68,0.12); color: #F87171; }
+
+.check-icon { color: #34D399; font-weight: 700; }
+.cross-icon { color: #64748B; }
+
+/* Pipeline Section */
+.pipeline-visual {
+  background: var(--surface);
+  border: 1px solid rgba(71,85,105,0.3);
+  border-radius: var(--radius);
+  padding: 40px 32px;
+  margin-bottom: 28px;
+}
+
+.pipeline-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: wrap;
+}
+
+.pipeline-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  min-width: 120px;
+  position: relative;
+}
+
+.pipeline-step .step-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.pipeline-step .step-label {
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.pipeline-step .step-sub {
+  font-size: 11px;
+  color: var(--text-dim);
+  text-align: center;
+}
+
+.pipeline-arrow {
+  font-size: 24px;
+  color: var(--text-muted);
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+.pipeline-config {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.config-card {
+  background: var(--surface);
+  border: 1px solid rgba(71,85,105,0.3);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+
+.config-card h4 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rule-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background: rgba(15,23,42,0.5);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.rule-item .rule-label { color: var(--text-dim); }
+.rule-item .rule-value { font-weight: 600; }
+
+.toggle {
+  width: 40px;
+  height: 22px;
+  border-radius: 11px;
+  background: var(--surface2);
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.toggle.on { background: rgba(5,150,105,0.4); }
+
+.toggle::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: white;
+  top: 2px;
+  left: 2px;
+  transition: all 0.3s;
+}
+
+.toggle.on::after {
+  left: 20px;
+  background: #34D399;
+}
+
+/* A/B Testing */
+.ab-panel {
+  background: var(--surface);
+  border: 1px solid rgba(71,85,105,0.3);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.ab-config {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.ab-side {
+  background: rgba(15,23,42,0.5);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+}
+
+.ab-vs {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--grad3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 800;
+  color: white;
+  flex-shrink: 0;
+}
+
+.ab-select {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(71,85,105,0.4);
+  background: var(--surface2);
+  color: var(--text);
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 600;
+  margin-top: 12px;
+  cursor: pointer;
+  appearance: none;
+}
+
+.ab-select option { background: var(--surface); }
+
+.upload-drop {
+  border: 2px dashed rgba(71,85,105,0.5);
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-bottom: 20px;
+}
+
+.upload-drop:hover {
+  border-color: var(--blue);
+  background: rgba(37,99,235,0.05);
+}
+
+.upload-drop .drop-icon { font-size: 36px; margin-bottom: 8px; }
+.upload-drop .drop-text { font-size: 14px; color: var(--text-dim); }
+
+.ab-results {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.ab-result-side {
+  background: rgba(15,23,42,0.5);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.ab-result-side h4 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.result-metric {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(71,85,105,0.15);
+  font-size: 13px;
+}
+
+.result-metric:last-child { border: none; }
+.result-metric .rm-label { color: var(--text-dim); }
+.result-metric .rm-value { font-weight: 700; }
+.rm-value.winner { color: #34D399; }
+.rm-value.loser { color: #F87171; }
+
+.diff-bar {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--surface2);
+  margin-top: 6px;
+  overflow: hidden;
+}
+
+.diff-bar .fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.8s ease;
+}
+
+/* Health Dashboard */
+.health-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.health-card {
+  background: var(--surface);
+  border: 1px solid rgba(71,85,105,0.3);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+
+.health-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.health-head .hh-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.health-head .hh-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.health-head .hh-name {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.health-status {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.health-status.up { background: #34D399; box-shadow: 0 0 8px rgba(52,211,153,0.5); }
+.health-status.degraded { background: #FBBF24; box-shadow: 0 0 8px rgba(251,191,36,0.5); }
+.health-status.down { background: #F87171; box-shadow: 0 0 8px rgba(248,113,113,0.5); }
+
+.health-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.hm {
+  text-align: center;
+  padding: 10px;
+  background: rgba(15,23,42,0.5);
+  border-radius: 8px;
+}
+
+.hm .hm-val {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 2px;
+}
+
+.hm .hm-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.uptime-bar {
+  display: flex;
+  gap: 2px;
+  height: 24px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.uptime-bar .day {
+  flex: 1;
+  border-radius: 2px;
+  transition: all 0.2s;
+  cursor: pointer;
+  position: relative;
+}
+
+.uptime-bar .day.up { background: rgba(52,211,153,0.6); }
+.uptime-bar .day.up:hover { background: rgba(52,211,153,0.9); }
+.uptime-bar .day.degraded { background: rgba(251,191,36,0.6); }
+.uptime-bar .day.degraded:hover { background: rgba(251,191,36,0.9); }
+.uptime-bar .day.down { background: rgba(248,113,113,0.6); }
+.uptime-bar .day.down:hover { background: rgba(248,113,113,0.9); }
+
+.uptime-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+/* Modal */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-overlay.show { display: flex; }
+
+.modal {
+  background: var(--surface);
+  border: 1px solid rgba(71,85,105,0.4);
+  border-radius: var(--radius);
+  padding: 32px;
+  width: 90%;
+  max-width: 540px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(71,85,105,0.4);
+  background: rgba(15,23,42,0.6);
+  color: var(--text);
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--blue);
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-in {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.pulse { animation: pulse 2s infinite; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header { flex-wrap: wrap; gap: 12px; padding: 12px 16px; }
+  .container { padding: 20px 16px; }
+  .stats-strip { grid-template-columns: repeat(2, 1fr); }
+  .providers-grid { grid-template-columns: 1fr; }
+  .ab-config { grid-template-columns: 1fr; }
+  .ab-results { grid-template-columns: 1fr; }
+  .pipeline-flow { flex-direction: column; }
+  .pipeline-arrow { transform: rotate(90deg); }
+  .page-title h2 { font-size: 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-brand">
+    <div class="logo">A</div>
+    <div>
+      <h1>Autopilot v2</h1>
+      <span>Global OCR Providers Connector</span>
+    </div>
+  </div>
+  <div class="header-nav">
+    <button class="nav-btn active" onclick="switchTab('providers')">Providers</button>
+    <button class="nav-btn" onclick="switchTab('comparison')">Comparison</button>
+    <button class="nav-btn" onclick="switchTab('pipeline')">Pipeline</button>
+    <button class="nav-btn" onclick="switchTab('ab-testing')">A/B Testing</button>
+    <button class="nav-btn" onclick="switchTab('health')">Health</button>
+  </div>
+  <div class="header-badge">ANTS AI Solution Hub</div>
+</div>
+
+<!-- Main Content -->
+<div class="container">
+
+  <!-- Page Title -->
+  <div class="page-title animate-in">
+    <h2>Global OCR Providers Connector</h2>
+    <p>จัดการและเชื่อมต่อ OCR Provider ชั้นนำระดับโลก รองรับการประมวลผลเอกสารอัตโนมัติแบบ Multi-Provider</p>
+  </div>
+
+  <!-- Stats Strip -->
+  <div class="stats-strip animate-in">
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(37,99,235,0.15);color:#60A5FA;">&#128279;</div>
+      <div class="stat-val" style="color:#60A5FA;">8</div>
+      <div class="stat-label">OCR Providers</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(5,150,105,0.15);color:#34D399;">&#9989;</div>
+      <div class="stat-val" style="color:#34D399;">5</div>
+      <div class="stat-label">เชื่อมต่อแล้ว</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(124,58,237,0.15);color:#A78BFA;">&#128196;</div>
+      <div class="stat-val" style="color:#A78BFA;">47,832</div>
+      <div class="stat-label">เอกสารประมวลผลเดือนนี้</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(6,182,212,0.15);color:#22D3EE;">&#9889;</div>
+      <div class="stat-val" style="color:#22D3EE;">97.4%</div>
+      <div class="stat-label">ความแม่นยำเฉลี่ย</div>
+    </div>
+  </div>
+
+  <!-- Tab Panels -->
+
+  <!-- ========== 1. PROVIDER CARDS ========== -->
+  <div id="tab-providers" class="tab-panel active">
+    <div class="section-title">
+      <div class="icon" style="background:var(--grad);">&#128279;</div>
+      OCR Providers ทั้งหมด
+    </div>
+    <div class="providers-grid" id="providersGrid"></div>
+  </div>
+
+  <!-- ========== 2. COMPARISON TABLE ========== -->
+  <div id="tab-comparison" class="tab-panel">
+    <div class="section-title">
+      <div class="icon" style="background:var(--grad2);">&#128202;</div>
+      เปรียบเทียบ Provider แบบ Side-by-Side
+    </div>
+    <div class="comparison-wrap">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Provider</th>
+            <th>Thai Support</th>
+            <th>Accuracy</th>
+            <th>Speed</th>
+            <th>Cost / 1K</th>
+            <th>Invoice</th>
+            <th>Receipt</th>
+            <th>ID Card</th>
+            <th>Custom</th>
+          </tr>
+        </thead>
+        <tbody id="comparisonBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ========== 3. MULTI-PROVIDER PIPELINE ========== -->
+  <div id="tab-pipeline" class="tab-panel">
+    <div class="section-title">
+      <div class="icon" style="background:var(--grad4);">&#9881;</div>
+      Multi-Provider Pipeline
+    </div>
+
+    <div class="pipeline-visual">
+      <div class="pipeline-flow">
+        <div class="pipeline-step">
+          <div class="step-icon" style="background:rgba(37,99,235,0.15);color:#60A5FA;">&#128196;</div>
+          <div class="step-label">Document Upload</div>
+          <div class="step-sub">PDF, Image, Scan</div>
+        </div>
+        <div class="pipeline-arrow">&#10140;</div>
+        <div class="pipeline-step">
+          <div class="step-icon" style="background:rgba(124,58,237,0.15);color:#A78BFA;">&#129504;</div>
+          <div class="step-label">AI Classifier</div>
+          <div class="step-sub">แยกประเภทเอกสาร</div>
+        </div>
+        <div class="pipeline-arrow">&#10140;</div>
+        <div class="pipeline-step">
+          <div class="step-icon" style="background:rgba(236,72,153,0.15);color:#F472B6;">&#128268;</div>
+          <div class="step-label">Route to Provider</div>
+          <div class="step-sub">เลือก Provider ที่ดีที่สุด</div>
+        </div>
+        <div class="pipeline-arrow">&#10140;</div>
+        <div class="pipeline-step">
+          <div class="step-icon" style="background:rgba(6,182,212,0.15);color:#22D3EE;">&#128270;</div>
+          <div class="step-label">OCR Extract</div>
+          <div class="step-sub">สกัดข้อมูลจากเอกสาร</div>
+        </div>
+        <div class="pipeline-arrow">&#10140;</div>
+        <div class="pipeline-step">
+          <div class="step-icon" style="background:rgba(245,158,11,0.15);color:#FBBF24;">&#9989;</div>
+          <div class="step-label">Validate</div>
+          <div class="step-sub">ตรวจสอบความถูกต้อง</div>
+        </div>
+        <div class="pipeline-arrow">&#10140;</div>
+        <div class="pipeline-step">
+          <div class="step-icon" style="background:rgba(5,150,105,0.15);color:#34D399;">&#128203;</div>
+          <div class="step-label">Structured Data</div>
+          <div class="step-sub">JSON / Database</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pipeline-config">
+      <div class="config-card">
+        <h4>&#128268; Routing Rules</h4>
+        <div class="rule-item">
+          <span class="rule-label">Invoice (ใบแจ้งหนี้)</span>
+          <span class="rule-value" style="color:#60A5FA;">Azure AI</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-label">Receipt (ใบเสร็จ)</span>
+          <span class="rule-value" style="color:#60A5FA;">Google Vision</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-label">ID Card (บัตรประชาชน)</span>
+          <span class="rule-value" style="color:#60A5FA;">Azure AI</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-label">Thai Handwriting</span>
+          <span class="rule-value" style="color:#60A5FA;">EasyOCR</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-label">General Document</span>
+          <span class="rule-value" style="color:#60A5FA;">ABBYY</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-label">Batch Processing</span>
+          <span class="rule-value" style="color:#60A5FA;">AWS Textract</span>
+        </div>
+      </div>
+
+      <div class="config-card">
+        <h4>&#9881; Fallback Configuration</h4>
+        <div class="rule-item">
+          <span class="rule-label">Primary Timeout</span>
+          <span class="rule-value">5 วินาที</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-label">Auto Fallback</span>
+          <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+        </div>
+        <div class="rule-item">
+          <span class="rule-label">Fallback Provider 1</span>
+          <span class="rule-value" style="color:#22D3EE;">Google Vision</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-label">Fallback Provider 2</span>
+          <span class="rule-value" style="color:#22D3EE;">Tesseract (Local)</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-label">Max Retries</span>
+          <span class="rule-value">3</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-label">Confidence Threshold</span>
+          <span class="rule-value" style="color:#34D399;">85%</span>
+        </div>
+      </div>
+
+      <div class="config-card">
+        <h4>&#128200; Cost Optimization</h4>
+        <div class="rule-item">
+          <span class="rule-label">Monthly Budget</span>
+          <span class="rule-value" style="color:#FBBF24;">$500</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-label">ใช้ไปแล้วเดือนนี้</span>
+          <span class="rule-value" style="color:#F87171;">$347.20</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-label">Auto-downgrade เมื่อเกิน Budget</span>
+          <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+        </div>
+        <div class="rule-item">
+          <span class="rule-label">Downgrade Target</span>
+          <span class="rule-value" style="color:#22D3EE;">Tesseract</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-label">เฉลี่ยต่อเอกสาร</span>
+          <span class="rule-value">$0.0073</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-label">ประหยัด vs เดือนก่อน</span>
+          <span class="rule-value" style="color:#34D399;">-18%</span>
+        </div>
+      </div>
+
+      <div class="config-card">
+        <h4>&#128736; Post-Processing</h4>
+        <div class="rule-item">
+          <span class="rule-label">Auto-correction (Thai)</span>
+          <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+        </div>
+        <div class="rule-item">
+          <span class="rule-label">Field Mapping</span>
+          <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+        </div>
+        <div class="rule-item">
+          <span class="rule-label">Duplicate Detection</span>
+          <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+        </div>
+        <div class="rule-item">
+          <span class="rule-label">Data Enrichment</span>
+          <div class="toggle" onclick="this.classList.toggle('on')"></div>
+        </div>
+        <div class="rule-item">
+          <span class="rule-label">Export Format</span>
+          <span class="rule-value">JSON + CSV</span>
+        </div>
+        <div class="rule-item">
+          <span class="rule-label">Webhook Notification</span>
+          <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 4. A/B TESTING ========== -->
+  <div id="tab-ab-testing" class="tab-panel">
+    <div class="section-title">
+      <div class="icon" style="background:var(--grad3);">&#128300;</div>
+      A/B Testing Panel
+    </div>
+
+    <div class="ab-panel">
+      <div class="ab-config">
+        <div class="ab-side">
+          <div style="font-size:13px;color:var(--text-dim);font-weight:600;margin-bottom:4px;">PROVIDER A</div>
+          <div style="font-size:20px;font-weight:800;color:#60A5FA;">&#9398;</div>
+          <select class="ab-select" id="providerA">
+            <option>Google Cloud Vision AI</option>
+            <option>Azure AI Document Intelligence</option>
+            <option>AWS Textract</option>
+            <option>Tesseract OCR</option>
+            <option>EasyOCR</option>
+            <option selected>ABBYY FineReader</option>
+            <option>Nanonets</option>
+            <option>Rossum</option>
+          </select>
+        </div>
+        <div class="ab-vs">VS</div>
+        <div class="ab-side">
+          <div style="font-size:13px;color:var(--text-dim);font-weight:600;margin-bottom:4px;">PROVIDER B</div>
+          <div style="font-size:20px;font-weight:800;color:#A78BFA;">&#9399;</div>
+          <select class="ab-select" id="providerB">
+            <option selected>Google Cloud Vision AI</option>
+            <option>Azure AI Document Intelligence</option>
+            <option>AWS Textract</option>
+            <option>Tesseract OCR</option>
+            <option>EasyOCR</option>
+            <option>ABBYY FineReader</option>
+            <option>Nanonets</option>
+            <option>Rossum</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="upload-drop" onclick="runABTest()">
+        <div class="drop-icon">&#128228;</div>
+        <div class="drop-text">ลากไฟล์มาวางที่นี่ หรือ คลิกเพื่อเลือกเอกสารตัวอย่าง</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">รองรับ PDF, JPG, PNG (สูงสุด 10MB)</div>
+      </div>
+
+      <div id="abResults" style="display:none;">
+        <div style="text-align:center;margin-bottom:20px;">
+          <span style="font-size:13px;color:var(--text-dim);">ผลทดสอบจากเอกสาร:</span>
+          <span style="font-weight:700;color:#60A5FA;"> sample_invoice_001.pdf</span>
+        </div>
+
+        <div class="ab-results">
+          <div class="ab-result-side" style="border:1px solid rgba(37,99,235,0.3);">
+            <h4><span style="color:#60A5FA;">&#9398;</span> ABBYY FineReader</h4>
+            <div class="result-metric">
+              <span class="rm-label">Accuracy</span>
+              <span class="rm-value winner">98.5%</span>
+            </div>
+            <div class="result-metric">
+              <span class="rm-label">Speed</span>
+              <span class="rm-value winner">0.92s</span>
+            </div>
+            <div class="result-metric">
+              <span class="rm-label">Cost</span>
+              <span class="rm-value loser">$0.0020</span>
+            </div>
+            <div class="result-metric">
+              <span class="rm-label">Fields Extracted</span>
+              <span class="rm-value winner">24/24</span>
+            </div>
+            <div class="result-metric">
+              <span class="rm-label">Thai Accuracy</span>
+              <span class="rm-value">96.2%</span>
+            </div>
+            <div class="result-metric">
+              <span class="rm-label">Confidence Score</span>
+              <span class="rm-value winner">0.97</span>
+            </div>
+            <div style="margin-top:12px;">
+              <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">Overall Score</div>
+              <div class="diff-bar"><div class="fill" style="width:96%;background:var(--grad);"></div></div>
+            </div>
+          </div>
+
+          <div class="ab-result-side" style="border:1px solid rgba(124,58,237,0.3);">
+            <h4><span style="color:#A78BFA;">&#9399;</span> Google Cloud Vision AI</h4>
+            <div class="result-metric">
+              <span class="rm-label">Accuracy</span>
+              <span class="rm-value">98.1%</span>
+            </div>
+            <div class="result-metric">
+              <span class="rm-label">Speed</span>
+              <span class="rm-value">1.18s</span>
+            </div>
+            <div class="result-metric">
+              <span class="rm-label">Cost</span>
+              <span class="rm-value winner">$0.0015</span>
+            </div>
+            <div class="result-metric">
+              <span class="rm-label">Fields Extracted</span>
+              <span class="rm-value">23/24</span>
+            </div>
+            <div class="result-metric">
+              <span class="rm-label">Thai Accuracy</span>
+              <span class="rm-value winner">97.1%</span>
+            </div>
+            <div class="result-metric">
+              <span class="rm-label">Confidence Score</span>
+              <span class="rm-value">0.95</span>
+            </div>
+            <div style="margin-top:12px;">
+              <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">Overall Score</div>
+              <div class="diff-bar"><div class="fill" style="width:93%;background:var(--grad3);"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:20px;background:rgba(5,150,105,0.1);border:1px solid rgba(5,150,105,0.2);border-radius:12px;padding:16px;text-align:center;">
+          <div style="font-size:13px;color:var(--text-dim);margin-bottom:4px;">&#127942; ผลสรุป A/B Test</div>
+          <div style="font-size:16px;font-weight:700;color:#34D399;">ABBYY FineReader ชนะด้านความแม่นยำและความเร็ว (+0.4% accuracy, +22% faster)</div>
+          <div style="font-size:13px;color:var(--text-dim);margin-top:4px;">Google Vision ชนะด้านต้นทุน (-25% cheaper) และ Thai Accuracy (+0.9%)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 5. HEALTH DASHBOARD ========== -->
+  <div id="tab-health" class="tab-panel">
+    <div class="section-title">
+      <div class="icon" style="background:var(--grad4);">&#128154;</div>
+      Provider Health Dashboard
+      <span style="font-size:13px;color:var(--text-dim);font-weight:400;margin-left:auto;">30 วันล่าสุด</span>
+    </div>
+    <div class="health-grid" id="healthGrid"></div>
+  </div>
+
+</div>
+
+<!-- Configure Modal -->
+<div class="modal-overlay" id="configModal">
+  <div class="modal">
+    <h3 id="modalTitle">&#9881; Configure Provider</h3>
+    <div class="form-group">
+      <label>API Key</label>
+      <input class="form-input" type="password" placeholder="sk-xxxx-xxxx-xxxx" id="modalApiKey">
+    </div>
+    <div class="form-group">
+      <label>Endpoint URL</label>
+      <input class="form-input" type="text" placeholder="https://api.provider.com/v1/ocr" id="modalEndpoint">
+    </div>
+    <div class="form-group">
+      <label>Region</label>
+      <select class="form-input" id="modalRegion">
+        <option>Asia Southeast (Singapore)</option>
+        <option>Asia East (Tokyo)</option>
+        <option>US East (Virginia)</option>
+        <option>EU West (Frankfurt)</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Rate Limit (requests/min)</label>
+      <input class="form-input" type="number" value="100" id="modalRateLimit">
+    </div>
+    <div class="form-group">
+      <label>Timeout (ms)</label>
+      <input class="form-input" type="number" value="5000" id="modalTimeout">
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" style="flex:1;" onclick="saveConfig()">&#128190; บันทึกการตั้งค่า</button>
+      <button class="btn btn-secondary" style="flex:1;" onclick="closeModal()">ยกเลิก</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== Provider Data =====
+const providers = [
+  {
+    id: 'google-vision',
+    name: 'Google Cloud Vision AI',
+    sub: 'Google Cloud Platform',
+    logo: 'G',
+    logoColor: '#4285F4',
+    logoBg: 'rgba(66,133,244,0.15)',
+    glow: 'linear-gradient(90deg, #4285F4, #34A853)',
+    status: 'connected',
+    statusLabel: 'เชื่อมต่อแล้ว',
+    accuracy: '98.1%',
+    speed: '~1.2s',
+    cost: '$1.50',
+    languages: '100+',
+    thaiSupport: 'excellent',
+    thaiLabel: 'ดีเยี่ยม',
+    features: ['OCR', 'Document AI', 'Handwriting', 'PDF', 'Multi-lang'],
+    tags: [
+      { text: '100+ ภาษา', cls: 'lang' },
+      { text: 'Thai', cls: 'thai' },
+      { text: 'Cloud', cls: '' }
+    ],
+    invoice: true, receipt: true, idcard: true, custom: true
+  },
+  {
+    id: 'azure-ai',
+    name: 'Azure AI Document Intelligence',
+    sub: 'formerly Form Recognizer',
+    logo: 'Az',
+    logoColor: '#0078D4',
+    logoBg: 'rgba(0,120,212,0.15)',
+    glow: 'linear-gradient(90deg, #0078D4, #50E6FF)',
+    status: 'connected',
+    statusLabel: 'เชื่อมต่อแล้ว',
+    accuracy: '97.8%',
+    speed: '~1.5s',
+    cost: '$1.00',
+    languages: '90+',
+    thaiSupport: 'excellent',
+    thaiLabel: 'ดีเยี่ยม',
+    features: ['Layout', 'Invoice', 'Receipt', 'ID', 'Custom Models'],
+    tags: [
+      { text: 'Pre-built Models', cls: '' },
+      { text: 'Thai', cls: 'thai' },
+      { text: 'Enterprise', cls: 'premium' }
+    ],
+    invoice: true, receipt: true, idcard: true, custom: true
+  },
+  {
+    id: 'aws-textract',
+    name: 'AWS Textract',
+    sub: 'Amazon Web Services',
+    logo: 'Tx',
+    logoColor: '#FF9900',
+    logoBg: 'rgba(255,153,0,0.15)',
+    glow: 'linear-gradient(90deg, #FF9900, #FF6600)',
+    status: 'connected',
+    statusLabel: 'เชื่อมต่อแล้ว',
+    accuracy: '97.5%',
+    speed: '~1.8s',
+    cost: '$1.50',
+    languages: '30+',
+    thaiSupport: 'good',
+    thaiLabel: 'ดี',
+    features: ['Tables', 'Forms', 'Queries', 'Lending', 'Expenses'],
+    tags: [
+      { text: 'Tables & Forms', cls: '' },
+      { text: 'Lending', cls: '' },
+      { text: 'AWS Ecosystem', cls: 'premium' }
+    ],
+    invoice: true, receipt: true, idcard: false, custom: true
+  },
+  {
+    id: 'tesseract',
+    name: 'Tesseract OCR',
+    sub: 'Open Source by Google',
+    logo: 'Te',
+    logoColor: '#34D399',
+    logoBg: 'rgba(52,211,153,0.15)',
+    glow: 'linear-gradient(90deg, #34D399, #059669)',
+    status: 'connected',
+    statusLabel: 'เชื่อมต่อแล้ว',
+    accuracy: '92.0%',
+    speed: '~3.0s',
+    cost: 'Free',
+    languages: '100+',
+    thaiSupport: 'fair',
+    thaiLabel: 'พอใช้',
+    features: ['Self-hosted', '100+ Languages', 'CLI', 'Batch'],
+    tags: [
+      { text: 'Open Source', cls: 'free' },
+      { text: 'Self-hosted', cls: 'free' },
+      { text: 'Free', cls: 'free' }
+    ],
+    invoice: false, receipt: false, idcard: false, custom: false
+  },
+  {
+    id: 'easyocr',
+    name: 'EasyOCR',
+    sub: 'Open Source — JaidedAI',
+    logo: 'EZ',
+    logoColor: '#22D3EE',
+    logoBg: 'rgba(34,211,238,0.15)',
+    glow: 'linear-gradient(90deg, #22D3EE, #06B6D4)',
+    status: 'connected',
+    statusLabel: 'เชื่อมต่อแล้ว',
+    accuracy: '93.5%',
+    speed: '~2.5s',
+    cost: 'Free',
+    languages: '80+',
+    thaiSupport: 'excellent',
+    thaiLabel: 'ดีเยี่ยม (เก่งภาษาไทย)',
+    features: ['80+ Languages', 'Thai Optimized', 'GPU Support', 'Python'],
+    tags: [
+      { text: 'Open Source', cls: 'free' },
+      { text: 'Thai ดีเยี่ยม', cls: 'thai' },
+      { text: 'Free', cls: 'free' }
+    ],
+    invoice: false, receipt: true, idcard: false, custom: false
+  },
+  {
+    id: 'abbyy',
+    name: 'ABBYY FineReader',
+    sub: 'Enterprise OCR Solution',
+    logo: 'AB',
+    logoColor: '#EF4444',
+    logoBg: 'rgba(239,68,68,0.15)',
+    glow: 'linear-gradient(90deg, #EF4444, #F59E0B)',
+    status: 'available',
+    statusLabel: 'พร้อมเชื่อมต่อ',
+    accuracy: '98.5%',
+    speed: '~1.0s',
+    cost: '$2.00',
+    languages: '200+',
+    thaiSupport: 'excellent',
+    thaiLabel: 'ดีเยี่ยม',
+    features: ['Premium OCR', 'Enterprise', '200+ Languages', 'PDF Conversion'],
+    tags: [
+      { text: 'Premium', cls: 'premium' },
+      { text: 'Enterprise', cls: 'premium' },
+      { text: 'Thai', cls: 'thai' }
+    ],
+    invoice: true, receipt: true, idcard: true, custom: true
+  },
+  {
+    id: 'nanonets',
+    name: 'Nanonets',
+    sub: 'AI-Powered OCR Platform',
+    logo: 'Nn',
+    logoColor: '#A78BFA',
+    logoBg: 'rgba(167,139,250,0.15)',
+    glow: 'linear-gradient(90deg, #A78BFA, #7C3AED)',
+    status: 'available',
+    statusLabel: 'พร้อมเชื่อมต่อ',
+    accuracy: '96.0%',
+    speed: '~2.0s',
+    cost: '$3.00',
+    languages: '40+',
+    thaiSupport: 'good',
+    thaiLabel: 'ดี',
+    features: ['AI-powered', 'Custom Models', 'Auto-learning', 'API'],
+    tags: [
+      { text: 'AI-Powered', cls: '' },
+      { text: 'Auto-learning', cls: '' },
+      { text: 'Custom Models', cls: 'premium' }
+    ],
+    invoice: true, receipt: true, idcard: false, custom: true
+  },
+  {
+    id: 'rossum',
+    name: 'Rossum',
+    sub: 'Invoice Processing Specialist',
+    logo: 'Rs',
+    logoColor: '#F472B6',
+    logoBg: 'rgba(244,114,182,0.15)',
+    glow: 'linear-gradient(90deg, #F472B6, #EC4899)',
+    status: 'available',
+    statusLabel: 'พร้อมเชื่อมต่อ',
+    accuracy: '97.0%',
+    speed: '~1.5s',
+    cost: '$2.50',
+    languages: '30+',
+    thaiSupport: 'fair',
+    thaiLabel: 'พอใช้',
+    features: ['Invoice Specialist', 'AI Extraction', 'Validation', 'ERP Integration'],
+    tags: [
+      { text: 'Invoice Specialist', cls: '' },
+      { text: 'AI Extraction', cls: '' },
+      { text: 'ERP', cls: 'premium' }
+    ],
+    invoice: true, receipt: false, idcard: false, custom: true
+  }
+];
+
+// ===== Render Provider Cards =====
+function renderProviders() {
+  const grid = document.getElementById('providersGrid');
+  grid.innerHTML = providers.map((p, i) => `
+    <div class="provider-card animate-in" style="animation-delay:${i * 60}ms">
+      <div class="card-glow" style="background:${p.glow};"></div>
+      <div class="provider-head">
+        <div class="provider-info">
+          <div class="provider-logo" style="background:${p.logoBg};color:${p.logoColor};">${p.logo}</div>
+          <div>
+            <div class="provider-name">${p.name}</div>
+            <div class="provider-sub">${p.sub}</div>
+          </div>
+        </div>
+        <div class="status-badge ${p.status}">
+          <span class="pulse" style="display:inline-block;width:6px;height:6px;border-radius:50%;background:currentColor;"></span>
+          ${p.statusLabel}
+        </div>
+      </div>
+      <div class="provider-metrics">
+        <div class="metric">
+          <div class="label">Accuracy</div>
+          <div class="value green">${p.accuracy}</div>
+        </div>
+        <div class="metric">
+          <div class="label">Speed</div>
+          <div class="value cyan">${p.speed}</div>
+        </div>
+        <div class="metric">
+          <div class="label">Cost/1K</div>
+          <div class="value ${p.cost === 'Free' ? 'green' : 'yellow'}">${p.cost}</div>
+        </div>
+      </div>
+      <div class="provider-tags">
+        ${p.tags.map(t => `<span class="tag ${t.cls}">${t.text}</span>`).join('')}
+      </div>
+      <div class="provider-actions">
+        ${p.status === 'connected'
+          ? `<button class="btn btn-success" onclick="openConfig('${p.name}')">&#9881; ตั้งค่า</button>
+             <button class="btn btn-danger" onclick="toggleProvider('${p.id}')">Disconnect</button>`
+          : `<button class="btn btn-primary" onclick="openConfig('${p.name}')">&#128279; เชื่อมต่อ</button>
+             <button class="btn btn-secondary">&#128196; เอกสาร</button>`
+        }
+      </div>
+    </div>
+  `).join('');
+}
+
+// ===== Render Comparison Table =====
+function renderComparison() {
+  const tbody = document.getElementById('comparisonBody');
+  tbody.innerHTML = providers.map(p => {
+    const thaiClass = p.thaiSupport === 'excellent' ? 'excellent' : p.thaiSupport === 'good' ? 'good' : 'fair';
+    const accVal = parseFloat(p.accuracy);
+    const accClass = accVal >= 97 ? 'excellent' : accVal >= 95 ? 'good' : accVal >= 93 ? 'fair' : 'limited';
+    return `
+      <tr>
+        <td>
+          <div class="provider-cell">
+            <div class="mini-logo" style="background:${p.logoBg};color:${p.logoColor};">${p.logo}</div>
+            <div>
+              <div>${p.name}</div>
+              <div style="font-size:11px;color:var(--text-muted);font-weight:400;">${p.sub}</div>
+            </div>
+          </div>
+        </td>
+        <td><span class="rating ${thaiClass}">${p.thaiLabel}</span></td>
+        <td><span class="rating ${accClass}">${p.accuracy}</span></td>
+        <td style="font-weight:600;">${p.speed}</td>
+        <td style="font-weight:600;color:${p.cost === 'Free' ? '#34D399' : '#FBBF24'};">${p.cost}</td>
+        <td>${p.invoice ? '<span class="check-icon">&#10003;</span>' : '<span class="cross-icon">&#10005;</span>'}</td>
+        <td>${p.receipt ? '<span class="check-icon">&#10003;</span>' : '<span class="cross-icon">&#10005;</span>'}</td>
+        <td>${p.idcard ? '<span class="check-icon">&#10003;</span>' : '<span class="cross-icon">&#10005;</span>'}</td>
+        <td>${p.custom ? '<span class="check-icon">&#10003;</span>' : '<span class="cross-icon">&#10005;</span>'}</td>
+      </tr>
+    `;
+  }).join('');
+}
+
+// ===== Health Data =====
+const healthData = [
+  { id: 'google-vision', name: 'Google Vision', logo: 'G', color: '#4285F4', bg: 'rgba(66,133,244,0.15)', status: 'up', uptime: '99.98%', latency: '1.18s', errors: '0.02%', days: generateDays(30, 0.98) },
+  { id: 'azure-ai', name: 'Azure AI', logo: 'Az', color: '#0078D4', bg: 'rgba(0,120,212,0.15)', status: 'up', uptime: '99.95%', latency: '1.42s', errors: '0.05%', days: generateDays(30, 0.96) },
+  { id: 'aws-textract', name: 'AWS Textract', logo: 'Tx', color: '#FF9900', bg: 'rgba(255,153,0,0.15)', status: 'up', uptime: '99.99%', latency: '1.76s', errors: '0.01%', days: generateDays(30, 0.99) },
+  { id: 'tesseract', name: 'Tesseract (Local)', logo: 'Te', color: '#34D399', bg: 'rgba(52,211,153,0.15)', status: 'up', uptime: '100%', latency: '2.95s', errors: '0%', days: generateDays(30, 1.0) },
+  { id: 'easyocr', name: 'EasyOCR (Local)', logo: 'EZ', color: '#22D3EE', bg: 'rgba(34,211,238,0.15)', status: 'degraded', uptime: '99.85%', latency: '2.62s', errors: '0.15%', days: generateDays(30, 0.93) },
+  { id: 'abbyy', name: 'ABBYY FineReader', logo: 'AB', color: '#EF4444', bg: 'rgba(239,68,68,0.15)', status: 'up', uptime: '99.92%', latency: '0.98s', errors: '0.08%', days: generateDays(30, 0.97) },
+  { id: 'nanonets', name: 'Nanonets', logo: 'Nn', color: '#A78BFA', bg: 'rgba(167,139,250,0.15)', status: 'up', uptime: '99.90%', latency: '1.95s', errors: '0.10%', days: generateDays(30, 0.95) },
+  { id: 'rossum', name: 'Rossum', logo: 'Rs', color: '#F472B6', bg: 'rgba(244,114,182,0.15)', status: 'up', uptime: '99.88%', latency: '1.52s', errors: '0.12%', days: generateDays(30, 0.94) }
+];
+
+function generateDays(count, reliability) {
+  const days = [];
+  for (let i = 0; i < count; i++) {
+    const r = Math.random();
+    if (r > reliability * 1.02) days.push('down');
+    else if (r > reliability * 0.98) days.push('degraded');
+    else days.push('up');
+  }
+  return days;
+}
+
+function renderHealth() {
+  const grid = document.getElementById('healthGrid');
+  grid.innerHTML = healthData.map((h, i) => `
+    <div class="health-card animate-in" style="animation-delay:${i * 60}ms">
+      <div class="health-head">
+        <div class="hh-info">
+          <div class="hh-logo" style="background:${h.bg};color:${h.color};">${h.logo}</div>
+          <div class="hh-name">${h.name}</div>
+        </div>
+        <div class="health-status ${h.status}"></div>
+      </div>
+      <div class="health-metrics">
+        <div class="hm">
+          <div class="hm-val" style="color:#34D399;">${h.uptime}</div>
+          <div class="hm-label">Uptime</div>
+        </div>
+        <div class="hm">
+          <div class="hm-val" style="color:#60A5FA;">${h.latency}</div>
+          <div class="hm-label">Avg Latency</div>
+        </div>
+        <div class="hm">
+          <div class="hm-val" style="color:${parseFloat(h.errors) > 0.1 ? '#F87171' : '#FBBF24'};">${h.errors}</div>
+          <div class="hm-label">Error Rate</div>
+        </div>
+      </div>
+      <div class="uptime-bar">
+        ${h.days.map((d, di) => `<div class="day ${d}" title="Day ${di + 1}: ${d}"></div>`).join('')}
+      </div>
+      <div class="uptime-label">
+        <span>30 วันก่อน</span>
+        <span>วันนี้</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ===== Tab Switching =====
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tabId).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ===== Modal =====
+function openConfig(providerName) {
+  document.getElementById('modalTitle').innerHTML = '&#9881; Configure ' + providerName;
+  document.getElementById('configModal').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('configModal').classList.remove('show');
+}
+
+function saveConfig() {
+  closeModal();
+  showNotification('บันทึกการตั้งค่าสำเร็จ');
+}
+
+// ===== A/B Testing =====
+function runABTest() {
+  const results = document.getElementById('abResults');
+  results.style.display = 'none';
+  // Simulate loading
+  const dropZone = document.querySelector('.upload-drop');
+  dropZone.innerHTML = '<div class="drop-icon pulse" style="color:#60A5FA;">&#9881;</div><div class="drop-text" style="color:#60A5FA;">กำลังประมวลผล...</div>';
+  setTimeout(() => {
+    dropZone.innerHTML = '<div class="drop-icon">&#9989;</div><div class="drop-text" style="color:#34D399;">ประมวลผลเสร็จสิ้น! คลิกเพื่อทดสอบใหม่</div>';
+    results.style.display = 'block';
+    results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 1500);
+}
+
+function toggleProvider(id) {
+  showNotification('ยกเลิกการเชื่อมต่อ ' + id + ' แล้ว');
+}
+
+// ===== Notification =====
+function showNotification(msg) {
+  const n = document.createElement('div');
+  n.style.cssText = 'position:fixed;bottom:24px;right:24px;background:rgba(5,150,105,0.9);color:white;padding:14px 24px;border-radius:12px;font-size:14px;font-weight:600;z-index:300;backdrop-filter:blur(8px);animation:fadeIn 0.3s ease;font-family:inherit;';
+  n.textContent = msg;
+  document.body.appendChild(n);
+  setTimeout(() => { n.style.opacity = '0'; n.style.transition = 'opacity 0.3s'; setTimeout(() => n.remove(), 300); }, 2500);
+}
+
+// ===== Init =====
+renderProviders();
+renderComparison();
+renderHealth();
+
+// Close modal on overlay click
+document.getElementById('configModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+</script>
+</body>
+</html>

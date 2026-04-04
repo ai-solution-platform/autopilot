@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Receipt OCR Scanner | Autopilot v2 by ANTS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #2563EB;
+  --purple: #7C3AED;
+  --green: #059669;
+  --grad: linear-gradient(135deg, #2563EB, #7C3AED);
+  --bg: #0F172A;
+  --surface: #1E293B;
+  --surface2: #334155;
+  --text: #F8FAFC;
+  --text-dim: #94A3B8;
+  --border: #475569;
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Noto Sans Thai', 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Header */
+.header {
+  background: rgba(15,23,42,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(71,85,105,0.4);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-brand .logo {
+  width: 36px;
+  height: 36px;
+  background: var(--grad);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 800;
+  color: white;
+}
+
+.header-brand h1 {
+  font-size: 18px;
+  font-weight: 700;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header-brand span {
+  font-size: 12px;
+  color: var(--text-dim);
+  display: block;
+  margin-top: -2px;
+}
+
+.header-badge {
+  padding: 6px 14px;
+  background: rgba(5,150,105,0.15);
+  border: 1px solid rgba(5,150,105,0.3);
+  border-radius: 20px;
+  font-size: 12px;
+  color: #34D399;
+  font-weight: 600;
+}
+
+/* Main Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+/* Page Title */
+.page-title {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.page-title h2 {
+  font-size: 32px;
+  font-weight: 800;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
+}
+
+.page-title p {
+  color: var(--text-dim);
+  font-size: 16px;
+}
+
+/* Upload Zone */
+.upload-zone {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 48px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: rgba(30,41,59,0.5);
+  margin-bottom: 24px;
+}
+
+.upload-zone:hover, .upload-zone.dragover {
+  border-color: var(--blue);
+  background: rgba(37,99,235,0.08);
+  transform: translateY(-2px);
+}
+
+.upload-zone .icon {
+  font-size: 56px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.upload-zone .title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.upload-zone .subtitle {
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+/* Mock Receipts Grid */
+.mock-section {
+  margin-bottom: 32px;
+}
+
+.mock-section h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.mock-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .mock-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.mock-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px 12px;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-align: center;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.mock-btn:hover {
+  border-color: var(--blue);
+  background: rgba(37,99,235,0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(37,99,235,0.2);
+}
+
+.mock-btn .emoji {
+  font-size: 32px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.mock-btn .name {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.mock-btn .cat {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.mock-btn .price {
+  font-size: 16px;
+  font-weight: 700;
+  color: #34D399;
+  margin-top: 4px;
+}
+
+/* OCR Processing Area */
+#ocrArea {
+  display: none;
+  margin-bottom: 32px;
+}
+
+#ocrArea.active {
+  display: block;
+  animation: fadeSlideUp 0.5s ease;
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.ocr-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .ocr-split { grid-template-columns: 1fr; }
+}
+
+/* Receipt Visual */
+.receipt-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.receipt-panel h4 {
+  font-size: 14px;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.receipt-visual {
+  background: #FEFCE8;
+  color: #1C1917;
+  border-radius: 8px;
+  padding: 24px 20px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  position: relative;
+  overflow: hidden;
+  min-height: 320px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.receipt-visual::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 8px;
+  background: repeating-linear-gradient(90deg, transparent, transparent 8px, #FEFCE8 8px, #FEFCE8 16px);
+  background-color: #D4D4D8;
+}
+
+.receipt-visual .store-name {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 12px 0 4px;
+}
+
+.receipt-visual .store-branch {
+  text-align: center;
+  font-size: 11px;
+  margin-bottom: 4px;
+  color: #57534E;
+}
+
+.receipt-visual .divider {
+  border: none;
+  border-top: 1px dashed #A8A29E;
+  margin: 8px 0;
+}
+
+.receipt-visual .item-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.receipt-visual .total-row {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.receipt-visual .tax-id {
+  text-align: center;
+  font-size: 10px;
+  color: #78716C;
+  margin-top: 8px;
+}
+
+/* Scan Line Animation */
+.scan-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #059669, #34D399, #059669, transparent);
+  box-shadow: 0 0 15px rgba(5,150,105,0.6), 0 0 40px rgba(5,150,105,0.3);
+  z-index: 10;
+  display: none;
+}
+
+.scan-line.active {
+  display: block;
+  animation: scanDown 2.5s ease-in-out forwards;
+}
+
+@keyframes scanDown {
+  0% { top: 0; opacity: 0; }
+  5% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: calc(100% - 3px); opacity: 0; }
+}
+
+/* Extracted Data Panel */
+.extract-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+.extract-panel h4 {
+  font-size: 14px;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.extract-field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.4s ease;
+  background: transparent;
+}
+
+.extract-field.revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.extract-field.highlight {
+  background: rgba(5,150,105,0.12);
+  border: 1px solid rgba(5,150,105,0.3);
+}
+
+.extract-field .field-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  background: var(--surface2);
+  flex-shrink: 0;
+}
+
+.extract-field .field-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-bottom: 2px;
+}
+
+.extract-field .field-value {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Processing Log */
+.log-panel {
+  background: #0D1117;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  max-height: 180px;
+  overflow-y: auto;
+  line-height: 1.8;
+}
+
+.log-panel .log-line {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.log-panel .log-line.show { opacity: 1; }
+.log-panel .log-tag-ocr { color: #34D399; }
+.log-panel .log-tag-ai { color: #818CF8; }
+.log-panel .log-tag-ok { color: #FBBF24; }
+.log-panel .log-tag-done { color: #F472B6; }
+.log-panel .log-text { color: #94A3B8; }
+
+/* Claim Form */
+#claimForm {
+  display: none;
+  margin-bottom: 32px;
+}
+
+#claimForm.active {
+  display: block;
+  animation: fadeSlideUp 0.5s ease;
+}
+
+.form-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+}
+
+.form-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .form-grid { grid-template-columns: 1fr; }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.full { grid-column: 1 / -1; }
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--text);
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--blue);
+}
+
+.form-group textarea { resize: vertical; min-height: 60px; }
+.form-group select { cursor: pointer; }
+
+/* Policy Check */
+#policyResult {
+  display: none;
+  margin-bottom: 24px;
+}
+
+#policyResult.active {
+  display: block;
+  animation: fadeSlideUp 0.4s ease;
+}
+
+.policy-card {
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.policy-card .policy-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.policy-card .policy-text h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.policy-card .policy-text p {
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.policy-green {
+  background: rgba(5,150,105,0.12);
+  border: 1px solid rgba(5,150,105,0.3);
+  color: #34D399;
+}
+
+.policy-orange {
+  background: rgba(245,158,11,0.12);
+  border: 1px solid rgba(245,158,11,0.3);
+  color: #FBBF24;
+}
+
+.policy-red {
+  background: rgba(239,68,68,0.12);
+  border: 1px solid rgba(239,68,68,0.3);
+  color: #F87171;
+}
+
+/* Submit Area */
+#submitArea {
+  display: none;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+#submitArea.active {
+  display: block;
+  animation: fadeSlideUp 0.4s ease;
+}
+
+.btn-submit {
+  background: var(--grad);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 48px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 20px rgba(37,99,235,0.3);
+}
+
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(37,99,235,0.4);
+}
+
+.btn-submit:active {
+  transform: translateY(0);
+}
+
+.btn-reset {
+  background: transparent;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 32px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  margin-left: 12px;
+  transition: all 0.2s;
+}
+
+.btn-reset:hover {
+  border-color: var(--text-dim);
+  color: var(--text);
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--green);
+  color: white;
+  padding: 16px 32px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 15px;
+  z-index: 9999;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 8px 30px rgba(5,150,105,0.4);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Progress indicator */
+.progress-steps {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+.progress-step {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--surface);
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  transition: all 0.3s;
+}
+
+.progress-step.active {
+  background: rgba(37,99,235,0.15);
+  color: #60A5FA;
+  border-color: rgba(37,99,235,0.4);
+}
+
+.progress-step.done {
+  background: rgba(5,150,105,0.15);
+  color: #34D399;
+  border-color: rgba(5,150,105,0.4);
+}
+
+.progress-step .step-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  background: var(--surface2);
+}
+
+.progress-step.active .step-num {
+  background: var(--blue);
+  color: white;
+}
+
+.progress-step.done .step-num {
+  background: var(--green);
+  color: white;
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-brand">
+    <div class="logo">A</div>
+    <div>
+      <h1>Autopilot v2</h1>
+      <span>ANTS -- AI Solution Hub</span>
+    </div>
+  </div>
+  <div class="header-badge">Receipt OCR Scanner</div>
+</div>
+
+<!-- Main -->
+<div class="container">
+
+  <!-- Page Title -->
+  <div class="page-title">
+    <h2>Receipt OCR Scanner</h2>
+    <p>สแกนใบเสร็จอัตโนมัติด้วย AI เพื่อเบิกจ่ายค่าใช้จ่าย</p>
+  </div>
+
+  <!-- Progress Steps -->
+  <div class="progress-steps">
+    <div class="progress-step active" id="step1">
+      <span class="step-num">1</span> อัปโหลดใบเสร็จ
+    </div>
+    <div class="progress-step" id="step2">
+      <span class="step-num">2</span> OCR สแกน
+    </div>
+    <div class="progress-step" id="step3">
+      <span class="step-num">3</span> กรอกฟอร์ม
+    </div>
+    <div class="progress-step" id="step4">
+      <span class="step-num">4</span> ส่งเบิก
+    </div>
+  </div>
+
+  <!-- Upload Zone -->
+  <div class="upload-zone" id="uploadZone">
+    <span class="icon">&#x1F4F8;</span>
+    <div class="title">&#x1F4F8; ถ่ายรูปหรือลากใบเสร็จมาวาง</div>
+    <div class="subtitle">รองรับ JPG, PNG, PDF -- หรือเลือกใบเสร็จตัวอย่างด้านล่าง</div>
+  </div>
+
+  <!-- Mock Receipt Templates -->
+  <div class="mock-section" id="mockSection">
+    <h3>&#x1F4CB; เลือกใบเสร็จตัวอย่างเพื่อทดลอง</h3>
+    <div class="mock-grid">
+      <button class="mock-btn" onclick="startOCR('seven')">
+        <span class="emoji">&#x1F3EA;</span>
+        <div class="name">7-Eleven</div>
+        <div class="cat">ค่าอาหาร</div>
+        <div class="price">&#x0E3F;245</div>
+      </button>
+      <button class="mock-btn" onclick="startOCR('ptt')">
+        <span class="emoji">&#x26FD;</span>
+        <div class="name">PTT Station</div>
+        <div class="cat">น้ำมัน</div>
+        <div class="price">&#x0E3F;1,850</div>
+      </button>
+      <button class="mock-btn" onclick="startOCR('grab')">
+        <span class="emoji">&#x1F695;</span>
+        <div class="name">Grab Taxi</div>
+        <div class="cat">ค่าเดินทาง</div>
+        <div class="price">&#x0E3F;385</div>
+      </button>
+      <button class="mock-btn" onclick="startOCR('mk')">
+        <span class="emoji">&#x1F37D;</span>
+        <div class="name">MK Restaurant</div>
+        <div class="cat">ค่าอาหาร</div>
+        <div class="price">&#x0E3F;1,240</div>
+      </button>
+      <button class="mock-btn" onclick="startOCR('hotel')">
+        <span class="emoji">&#x1F3E8;</span>
+        <div class="name">Holiday Inn</div>
+        <div class="cat">ค่าที่พัก</div>
+        <div class="price">&#x0E3F;3,500</div>
+      </button>
+    </div>
+  </div>
+
+  <!-- OCR Processing Area -->
+  <div id="ocrArea">
+    <div class="ocr-split">
+      <!-- Receipt Visual -->
+      <div class="receipt-panel">
+        <h4>&#x1F4C4; ใบเสร็จรับเงิน</h4>
+        <div class="receipt-visual" id="receiptVisual">
+          <div class="scan-line" id="scanLine"></div>
+        </div>
+      </div>
+
+      <!-- Extracted Data -->
+      <div class="extract-panel">
+        <h4>&#x1F50D; ข้อมูลที่สกัดได้</h4>
+        <div id="extractedFields"></div>
+      </div>
+    </div>
+
+    <!-- Processing Log -->
+    <div class="log-panel" id="logPanel"></div>
+  </div>
+
+  <!-- Claim Form -->
+  <div id="claimForm">
+    <div class="form-card">
+      <h3>&#x1F4DD; ฟอร์มเบิกค่าใช้จ่าย</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>&#x1F3EA; ร้านค้า / Merchant</label>
+          <input type="text" id="fMerchant" readonly>
+        </div>
+        <div class="form-group">
+          <label>&#x1F4C5; วันที่</label>
+          <input type="text" id="fDate" readonly>
+        </div>
+        <div class="form-group">
+          <label>&#x1F4B0; จำนวนเงิน (บาท)</label>
+          <input type="text" id="fAmount" readonly>
+        </div>
+        <div class="form-group">
+          <label>&#x1F4CA; VAT 7%</label>
+          <input type="text" id="fVat" readonly>
+        </div>
+        <div class="form-group">
+          <label>&#x1F3F7;&#xFE0F; หมวดหมู่</label>
+          <select id="fCategory">
+            <option>ค่าเดินทาง</option>
+            <option>น้ำมัน</option>
+            <option>ค่าอาหาร</option>
+            <option>ค่าที่พัก</option>
+            <option>จิปาถะ</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>&#x1F4C1; แนบโครงการ / งาน</label>
+          <select id="fProject">
+            <option>PRJ-2026-001 Digital Transformation</option>
+            <option>PRJ-2026-002 Marketing Campaign Q2</option>
+            <option>PRJ-2026-003 Client Visit - SCB</option>
+            <option>PRJ-2026-004 Team Building</option>
+            <option>PRJ-2026-005 Office Supplies</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>&#x1F4DD; หมายเหตุ</label>
+          <textarea id="fNote" placeholder="เพิ่มรายละเอียดหรือหมายเหตุ..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Policy Check Result -->
+  <div id="policyResult"></div>
+
+  <!-- Submit Area -->
+  <div id="submitArea">
+    <button class="btn-submit" onclick="submitClaim()">&#x1F680; ส่งเบิกค่าใช้จ่าย</button>
+    <button class="btn-reset" onclick="resetAll()">&#x1F504; เริ่มใหม่</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  &#x2705; เบิกจ่ายถูกส่งเข้าระบบอนุมัติเรียบร้อย
+</div>
+
+<script>
+// Receipt Data
+const receipts = {
+  seven: {
+    store: '7-Eleven',
+    branch: 'สาขา สีลม ซอย 3 (00847)',
+    taxId: 'เลขประจำตัวผู้เสียภาษี: 0-1075-43002-71-9',
+    date: '04/04/2569 15:32',
+    formDate: '4 เมษายน 2569',
+    items: [
+      ['ข้าวกล่อง ไก่ทอด', '69.00'],
+      ['น้ำดื่ม Crystal 600ml', '10.00'],
+      ['ขนมปัง 7Fresh', '35.00'],
+      ['กาแฟ All Cafe (L)', '55.00'],
+      ['ซาลาเปาหมูแดง', '29.00'],
+      ['ถุงพลาสติก', '2.00']
+    ],
+    subtotal: '200.00',
+    vat: '14.00',
+    vatCalc: '14.00',
+    total: '245.00',
+    totalNum: 245,
+    payment: 'QR Code PromptPay',
+    category: 'ค่าอาหาร',
+    catIndex: 2,
+    policy: 'green',
+    policyMsg: 'ภายในวงเงิน',
+    policyDetail: 'ค่าอาหารต่อมื้อไม่เกิน 500 บาท (ใช้ไป 245 บาท)'
+  },
+  ptt: {
+    store: 'PTT Station',
+    branch: 'สาขา ถ.วิภาวดีรังสิต กม.12 (PV-1203)',
+    taxId: 'เลขประจำตัวผู้เสียภาษี: 0-1055-44000-83-2',
+    date: '03/04/2569 08:15',
+    formDate: '3 เมษายน 2569',
+    items: [
+      ['แก๊สโซฮอล์ 95 x 48.52 ลิตร', '1,650.00'],
+      ['น้ำยาล้างกระจก Rain-X', '120.00'],
+      ['น้ำดื่ม', '15.00']
+    ],
+    subtotal: '1,785.00',
+    vat: '121.03',
+    vatCalc: '121.03',
+    total: '1,850.00',
+    totalNum: 1850,
+    payment: 'บัตรเครดิต VISA ****4821',
+    category: 'น้ำมัน',
+    catIndex: 1,
+    policy: 'orange',
+    policyMsg: 'เกินวงเงิน',
+    policyDetail: 'ค่าน้ำมันต่อครั้งไม่เกิน 1,500 บาท (เกิน 350 บาท -- ต้องขออนุมัติหัวหน้า)'
+  },
+  grab: {
+    store: 'Grab Taxi',
+    branch: 'Grab Thailand Co., Ltd.',
+    taxId: 'เลขประจำตัวผู้เสียภาษี: 0-1055-60123-45-6',
+    date: '04/04/2569 09:45',
+    formDate: '4 เมษายน 2569',
+    items: [
+      ['GrabCar Premium', ''],
+      ['จุดรับ: สีลม', ''],
+      ['จุดส่ง: สาทร', ''],
+      ['ค่าโดยสาร', '320.00'],
+      ['ส่วนลด Promo', '-15.00'],
+      ['ค่าทางด่วน', '50.00']
+    ],
+    subtotal: '355.00',
+    vat: '24.85',
+    vatCalc: '24.85',
+    total: '385.00',
+    totalNum: 385,
+    payment: 'GrabPay Wallet',
+    category: 'ค่าเดินทาง',
+    catIndex: 0,
+    policy: 'green',
+    policyMsg: 'ภายในวงเงิน',
+    policyDetail: 'ค่าเดินทางต่อเที่ยวไม่เกิน 500 บาท (ใช้ไป 385 บาท)'
+  },
+  mk: {
+    store: 'MK Restaurant',
+    branch: 'สาขา เซ็นทรัล ลาดพร้าว ชั้น 6',
+    taxId: 'เลขประจำตัวผู้เสียภาษี: 0-1075-53001-22-8',
+    date: '02/04/2569 12:30',
+    formDate: '2 เมษายน 2569',
+    items: [
+      ['ชุดสุกี้ MK Gold (2 ท่าน)', '598.00'],
+      ['เกี๊ยวกุ้ง', '159.00'],
+      ['เป็ดย่าง MK', '189.00'],
+      ['น้ำจิ้มพิเศษ x2', '40.00'],
+      ['ชาเย็น x2', '98.00'],
+      ['Service Charge 10%', '108.40']
+    ],
+    subtotal: '1,192.40',
+    vat: '81.09',
+    vatCalc: '81.09',
+    total: '1,240.00',
+    totalNum: 1240,
+    payment: 'บัตรเดบิต K-Plus ****9102',
+    category: 'ค่าอาหาร',
+    catIndex: 2,
+    policy: 'orange',
+    policyMsg: 'เกินวงเงิน',
+    policyDetail: 'ค่าอาหารต่อมื้อไม่เกิน 500 บาท/คน (2 คน = วงเงิน 1,000 บาท -- เกิน 240 บาท)'
+  },
+  hotel: {
+    store: 'Holiday Inn',
+    branch: 'Holiday Inn Bangkok Silom',
+    taxId: 'เลขประจำตัวผู้เสียภาษี: 0-1055-34500-12-7',
+    date: '01/04/2569 14:00',
+    formDate: '1 เมษายน 2569',
+    items: [
+      ['Superior Room 1 คืน', '2,800.00'],
+      ['อาหารเช้า Buffet x1', '450.00'],
+      ['Mini Bar', '150.00']
+    ],
+    subtotal: '3,400.00',
+    vat: '228.97',
+    vatCalc: '228.97',
+    total: '3,500.00',
+    totalNum: 3500,
+    payment: 'บัตรเครดิต AMEX ****7755',
+    category: 'ค่าที่พัก',
+    catIndex: 3,
+    policy: 'red',
+    policyMsg: 'ไม่อยู่ในนโยบาย',
+    policyDetail: 'ค่าที่พักต่อคืนไม่เกิน 2,500 บาท -- รายการนี้รวม Mini Bar ซึ่งไม่อยู่ในนโยบายเบิกจ่าย'
+  }
+};
+
+let currentReceipt = null;
+let animTimers = [];
+
+function clearTimers() {
+  animTimers.forEach(t => clearTimeout(t));
+  animTimers = [];
+}
+
+function setStep(n) {
+  for (let i = 1; i <= 4; i++) {
+    const el = document.getElementById('step' + i);
+    el.className = 'progress-step';
+    if (i < n) el.classList.add('done');
+    if (i === n) el.classList.add('active');
+  }
+}
+
+function startOCR(key) {
+  clearTimers();
+  currentReceipt = receipts[key];
+  const r = currentReceipt;
+
+  // Hide upload and mock section
+  document.getElementById('uploadZone').style.display = 'none';
+  document.getElementById('mockSection').style.display = 'none';
+  document.getElementById('claimForm').className = '';
+  document.getElementById('policyResult').className = '';
+  document.getElementById('submitArea').className = '';
+
+  // Show OCR area
+  const ocrArea = document.getElementById('ocrArea');
+  ocrArea.className = 'active';
+  setStep(2);
+
+  // Build receipt HTML
+  let itemsHtml = '';
+  r.items.forEach(it => {
+    if (it[1]) {
+      itemsHtml += `<div class="item-row"><span>${it[0]}</span><span>${it[1]}</span></div>`;
+    } else {
+      itemsHtml += `<div style="color:#57534E;font-size:11px">${it[0]}</div>`;
+    }
+  });
+
+  document.getElementById('receiptVisual').innerHTML = `
+    <div class="scan-line" id="scanLine"></div>
+    <div class="store-name">${r.store}</div>
+    <div class="store-branch">${r.branch}</div>
+    <hr class="divider">
+    <div style="font-size:11px;color:#57534E;margin-bottom:4px">วันที่: ${r.date}</div>
+    <hr class="divider">
+    ${itemsHtml}
+    <hr class="divider">
+    <div class="item-row"><span>รวมก่อน VAT</span><span>${r.subtotal}</span></div>
+    <div class="item-row"><span>VAT 7%</span><span>${r.vat}</span></div>
+    <hr class="divider">
+    <div class="total-row"><span>รวมทั้งสิ้น</span><span>&#x0E3F;${r.total}</span></div>
+    <hr class="divider">
+    <div style="font-size:11px;color:#57534E">ชำระเงิน: ${r.payment}</div>
+    <div class="tax-id">${r.taxId}</div>
+    <div class="tax-id">*** ขอบคุณที่ใช้บริการ ***</div>
+  `;
+
+  // Clear extracted fields
+  document.getElementById('extractedFields').innerHTML = '';
+  document.getElementById('logPanel').innerHTML = '';
+
+  // Start scan animation
+  animTimers.push(setTimeout(() => {
+    document.getElementById('scanLine').classList.add('active');
+  }, 300));
+
+  // Extracted data fields
+  const fields = [
+    { icon: '\uD83C\uDFEA', label: 'ร้านค้า', value: r.store + ' ' + r.branch },
+    { icon: '\uD83D\uDCC5', label: 'วันที่', value: r.formDate },
+    { icon: '\uD83D\uDED2', label: 'รายการสินค้า', value: r.items.filter(i=>i[1]).map(i=>i[0]).join(', ') },
+    { icon: '\uD83D\uDCB0', label: 'จำนวนเงิน', value: '\u0E3F' + r.total },
+    { icon: '\uD83D\uDCCA', label: 'VAT 7%', value: '\u0E3F' + r.vat },
+    { icon: '\uD83C\uDFF7\uFE0F', label: 'ประเภท', value: r.category }
+  ];
+
+  // Build field HTML
+  let fieldsHtml = '';
+  fields.forEach((f, i) => {
+    fieldsHtml += `
+      <div class="extract-field" id="exField${i}">
+        <div class="field-icon">${f.icon}</div>
+        <div>
+          <div class="field-label">${f.label}</div>
+          <div class="field-value">${f.value}</div>
+        </div>
+      </div>
+    `;
+  });
+  document.getElementById('extractedFields').innerHTML = fieldsHtml;
+
+  // Log messages
+  const logs = [
+    { tag: 'ocr', tagLabel: '[OCR]', text: 'Analyzing document structure...' },
+    { tag: 'ocr', tagLabel: '[OCR]', text: 'Detecting text regions... 12 regions found' },
+    { tag: 'ai', tagLabel: '[AI]', text: 'Extracting merchant name...' },
+    { tag: 'ai', tagLabel: '[AI]', text: 'Parsing transaction date...' },
+    { tag: 'ai', tagLabel: '[AI]', text: 'Identifying line items...' },
+    { tag: 'ai', tagLabel: '[AI]', text: 'Calculating total amount & VAT...' },
+    { tag: 'ok', tagLabel: '[AI]', text: 'Auto-classifying expense category: ' + r.category },
+    { tag: 'done', tagLabel: '[DONE]', text: 'Extraction complete -- Confidence: 98.7%' }
+  ];
+
+  // Animate each field and log with timing
+  const baseDelay = 600;
+  const stepDelay = 450;
+
+  logs.forEach((log, i) => {
+    animTimers.push(setTimeout(() => {
+      const div = document.createElement('div');
+      div.className = 'log-line';
+      div.innerHTML = `<span class="log-tag-${log.tag}">${log.tagLabel}</span> <span class="log-text">${log.text}</span>`;
+      document.getElementById('logPanel').appendChild(div);
+      requestAnimationFrame(() => div.classList.add('show'));
+      document.getElementById('logPanel').scrollTop = 99999;
+    }, baseDelay + i * stepDelay));
+  });
+
+  // Reveal fields one by one (synced with related log messages)
+  const fieldTimings = [
+    baseDelay + 2 * stepDelay, // merchant after 3rd log
+    baseDelay + 3 * stepDelay, // date after 4th log
+    baseDelay + 4 * stepDelay, // items after 5th log
+    baseDelay + 5 * stepDelay, // amount after 6th log
+    baseDelay + 5 * stepDelay + 200, // vat shortly after
+    baseDelay + 6 * stepDelay  // category after 7th log
+  ];
+
+  fieldTimings.forEach((delay, i) => {
+    animTimers.push(setTimeout(() => {
+      const el = document.getElementById('exField' + i);
+      if (el) {
+        el.classList.add('revealed', 'highlight');
+        // Remove highlight after a moment
+        animTimers.push(setTimeout(() => el.classList.remove('highlight'), 800));
+      }
+    }, delay));
+  });
+
+  // After OCR complete, show claim form
+  const formDelay = baseDelay + logs.length * stepDelay + 600;
+  animTimers.push(setTimeout(() => {
+    showClaimForm(r);
+  }, formDelay));
+}
+
+function showClaimForm(r) {
+  setStep(3);
+  document.getElementById('fMerchant').value = r.store + ' - ' + r.branch;
+  document.getElementById('fDate').value = r.formDate;
+  document.getElementById('fAmount').value = r.total + ' บาท';
+  document.getElementById('fVat').value = r.vatCalc + ' บาท';
+  document.getElementById('fCategory').selectedIndex = r.catIndex;
+  document.getElementById('fNote').value = '';
+
+  document.getElementById('claimForm').className = 'active';
+
+  // Show policy check after a beat
+  animTimers.push(setTimeout(() => showPolicyCheck(r), 700));
+}
+
+function showPolicyCheck(r) {
+  let iconStr, cssClass;
+  if (r.policy === 'green') {
+    iconStr = '\u2705';
+    cssClass = 'policy-green';
+  } else if (r.policy === 'orange') {
+    iconStr = '\u26A0\uFE0F';
+    cssClass = 'policy-orange';
+  } else {
+    iconStr = '\u274C';
+    cssClass = 'policy-red';
+  }
+
+  document.getElementById('policyResult').innerHTML = `
+    <div class="policy-card ${cssClass}">
+      <div class="policy-icon">${iconStr}</div>
+      <div class="policy-text">
+        <h4>${r.policyMsg}</h4>
+        <p>${r.policyDetail}</p>
+      </div>
+    </div>
+  `;
+  document.getElementById('policyResult').className = 'active';
+
+  // Show submit button
+  animTimers.push(setTimeout(() => {
+    setStep(4);
+    document.getElementById('submitArea').className = 'active';
+  }, 500));
+}
+
+function submitClaim() {
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3500);
+}
+
+function resetAll() {
+  clearTimers();
+  currentReceipt = null;
+  setStep(1);
+  document.getElementById('uploadZone').style.display = '';
+  document.getElementById('mockSection').style.display = '';
+  document.getElementById('ocrArea').className = '';
+  document.getElementById('claimForm').className = '';
+  document.getElementById('policyResult').className = '';
+  document.getElementById('submitArea').className = '';
+  document.getElementById('receiptVisual').innerHTML = '<div class="scan-line" id="scanLine"></div>';
+  document.getElementById('extractedFields').innerHTML = '';
+  document.getElementById('logPanel').innerHTML = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Drag and drop visual feedback
+const uploadZone = document.getElementById('uploadZone');
+uploadZone.addEventListener('dragover', e => {
+  e.preventDefault();
+  uploadZone.classList.add('dragover');
+});
+uploadZone.addEventListener('dragleave', () => {
+  uploadZone.classList.remove('dragover');
+});
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault();
+  uploadZone.classList.remove('dragover');
+  // Demo: pick a random receipt
+  const keys = Object.keys(receipts);
+  startOCR(keys[Math.floor(Math.random() * keys.length)]);
+});
+uploadZone.addEventListener('click', () => {
+  const keys = Object.keys(receipts);
+  startOCR(keys[Math.floor(Math.random() * keys.length)]);
+});
+</script>
+</body>
+</html>

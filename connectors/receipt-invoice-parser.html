@@ -1,0 +1,1925 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Receipt & Invoice Parser | Autopilot v2 by ANTS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #2563EB;
+  --purple: #7C3AED;
+  --green: #059669;
+  --orange: #EA580C;
+  --red: #DC2626;
+  --grad: linear-gradient(135deg, #2563EB, #7C3AED);
+  --grad-green: linear-gradient(135deg, #059669, #10B981);
+  --bg: #0F172A;
+  --surface: #1E293B;
+  --surface2: #334155;
+  --text: #F8FAFC;
+  --text-dim: #94A3B8;
+  --border: #475569;
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Noto Sans Thai', 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Header */
+.header {
+  background: rgba(15,23,42,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(71,85,105,0.4);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-brand .logo {
+  width: 36px;
+  height: 36px;
+  background: var(--grad);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 800;
+  color: white;
+}
+
+.header-brand h1 {
+  font-size: 18px;
+  font-weight: 700;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header-brand span {
+  font-size: 12px;
+  color: var(--text-dim);
+  display: block;
+  margin-top: -2px;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-badge {
+  padding: 6px 14px;
+  background: rgba(5,150,105,0.15);
+  border: 1px solid rgba(5,150,105,0.3);
+  border-radius: 20px;
+  font-size: 12px;
+  color: #34D399;
+  font-weight: 600;
+}
+
+.header-btn {
+  padding: 8px 16px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.header-btn:hover { background: var(--surface); border-color: var(--blue); }
+
+/* Container */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+/* Page Title */
+.page-title {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.page-title h2 {
+  font-size: 36px;
+  font-weight: 800;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
+}
+
+.page-title p {
+  color: var(--text-dim);
+  font-size: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Section Titles */
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-title .icon { font-size: 24px; }
+
+/* ===== SECTION 1: Supported Document Types ===== */
+.doc-types-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+  margin-bottom: 48px;
+}
+
+.doc-type-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 16px;
+  text-align: center;
+  transition: all 0.3s;
+  cursor: default;
+}
+
+.doc-type-card:hover {
+  border-color: var(--blue);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(37,99,235,0.15);
+}
+
+.doc-type-card .emoji { font-size: 40px; display: block; margin-bottom: 12px; }
+.doc-type-card .name { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+.doc-type-card .name-en { font-size: 12px; color: var(--text-dim); }
+
+/* ===== SECTION 2: Mock Documents ===== */
+.mock-docs-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 48px;
+}
+
+.mock-doc {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 18px 14px;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-align: center;
+  font-family: inherit;
+  color: var(--text);
+  font-size: 13px;
+  position: relative;
+  overflow: hidden;
+}
+
+.mock-doc::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--grad);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.mock-doc:hover::before { opacity: 1; }
+
+.mock-doc:hover {
+  border-color: var(--blue);
+  background: rgba(37,99,235,0.08);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(37,99,235,0.2);
+}
+
+.mock-doc.active {
+  border-color: var(--blue);
+  background: rgba(37,99,235,0.12);
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.3);
+}
+
+.mock-doc .emoji { font-size: 28px; display: block; margin-bottom: 8px; }
+.mock-doc .doc-name { font-weight: 600; margin-bottom: 4px; }
+.mock-doc .doc-type { font-size: 11px; color: var(--text-dim); }
+.mock-doc .doc-amount { font-size: 15px; font-weight: 700; color: #34D399; margin-top: 6px; }
+
+/* ===== SECTION 3: Parsing Demo ===== */
+#parseArea {
+  display: none;
+  margin-bottom: 48px;
+}
+
+#parseArea.active {
+  display: block;
+  animation: fadeSlideUp 0.5s ease;
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.parse-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+/* Left: Document Preview */
+.doc-preview-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.doc-preview-header {
+  padding: 14px 20px;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.doc-preview-header h4 {
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.scan-badge {
+  padding: 4px 10px;
+  background: rgba(37,99,235,0.15);
+  border: 1px solid rgba(37,99,235,0.3);
+  border-radius: 12px;
+  font-size: 11px;
+  color: #60A5FA;
+  font-weight: 600;
+  animation: pulse 2s infinite;
+}
+
+.scan-badge.done {
+  background: rgba(5,150,105,0.15);
+  border-color: rgba(5,150,105,0.3);
+  color: #34D399;
+  animation: none;
+}
+
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+.doc-preview-body {
+  padding: 0;
+  min-height: 500px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* Receipt Styles */
+.receipt-thermal {
+  background: #FFFEF5;
+  color: #1a1a1a;
+  font-family: 'Courier New', monospace;
+  padding: 24px 20px;
+  width: 100%;
+  max-width: 320px;
+  margin: 20px auto;
+  font-size: 12px;
+  line-height: 1.6;
+  border-left: 2px dashed #ddd;
+  border-right: 2px dashed #ddd;
+  position: relative;
+}
+
+.receipt-thermal::before, .receipt-thermal::after {
+  content: '';
+  display: block;
+  height: 12px;
+  background: repeating-linear-gradient(90deg, #FFFEF5 0, #FFFEF5 4px, transparent 4px, transparent 8px);
+}
+
+.receipt-thermal .store-name {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 8px 0 4px;
+}
+
+.receipt-thermal .store-branch {
+  text-align: center;
+  font-size: 11px;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.receipt-thermal .divider {
+  border: none;
+  border-top: 1px dashed #999;
+  margin: 8px 0;
+}
+
+.receipt-thermal .item-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.receipt-thermal .total-row {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.receipt-thermal .center { text-align: center; }
+.receipt-thermal .small { font-size: 10px; color: #777; }
+
+/* Tax Invoice */
+.tax-invoice {
+  background: #fff;
+  color: #1a1a1a;
+  padding: 32px 28px;
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.tax-invoice .inv-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #2563EB;
+}
+
+.tax-invoice .inv-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #2563EB;
+}
+
+.tax-invoice .inv-no { color: #666; font-size: 12px; }
+
+.tax-invoice table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+}
+
+.tax-invoice th {
+  background: #f0f4ff;
+  padding: 8px 12px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  color: #333;
+  border-bottom: 2px solid #2563EB;
+}
+
+.tax-invoice td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #eee;
+  font-size: 12px;
+}
+
+.tax-invoice .td-right { text-align: right; }
+
+.tax-invoice .inv-summary {
+  text-align: right;
+  margin-top: 12px;
+}
+
+.tax-invoice .inv-summary .row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 40px;
+  padding: 4px 0;
+  font-size: 13px;
+}
+
+.tax-invoice .inv-summary .row.total {
+  font-weight: 800;
+  font-size: 16px;
+  color: #2563EB;
+  border-top: 2px solid #2563EB;
+  padding-top: 8px;
+  margin-top: 4px;
+}
+
+/* Transfer Slip */
+.transfer-slip {
+  background: linear-gradient(180deg, #4B2D8E 0%, #2D1B69 100%);
+  color: #fff;
+  padding: 28px 24px;
+  width: 100%;
+  max-width: 340px;
+  margin: 20px auto;
+  border-radius: 16px;
+  font-size: 13px;
+  text-align: center;
+  position: relative;
+}
+
+.transfer-slip.kbank {
+  background: linear-gradient(180deg, #00A850 0%, #006633 100%);
+}
+
+.transfer-slip .bank-logo {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.transfer-slip .bank-name {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.transfer-slip .slip-amount {
+  font-size: 36px;
+  font-weight: 800;
+  margin: 16px 0;
+}
+
+.transfer-slip .slip-label {
+  font-size: 11px;
+  opacity: 0.7;
+  margin-bottom: 2px;
+}
+
+.transfer-slip .slip-value {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.transfer-slip .slip-divider {
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  margin: 12px 0;
+}
+
+.transfer-slip .slip-ref {
+  font-size: 11px;
+  opacity: 0.6;
+  margin-top: 8px;
+}
+
+/* Invoice / Bill style */
+.bill-style {
+  background: #fff;
+  color: #1a1a1a;
+  padding: 28px 24px;
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+}
+
+.bill-style .bill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.bill-style .bill-logo { font-size: 28px; }
+.bill-style .bill-title { font-size: 18px; font-weight: 700; color: #333; }
+.bill-style .bill-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f0f0f0; font-size: 12px; }
+.bill-style .bill-total { font-size: 18px; font-weight: 800; color: #2563EB; text-align: right; margin-top: 12px; }
+
+/* Right: Extracted Fields */
+.extract-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.extract-header {
+  padding: 14px 20px;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.extract-header h4 {
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.extract-body {
+  padding: 20px;
+  min-height: 500px;
+}
+
+.field-group {
+  margin-bottom: 16px;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.4s ease;
+}
+
+.field-group.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.field-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.field-label .check {
+  color: #34D399;
+  font-size: 13px;
+}
+
+.field-value {
+  font-size: 15px;
+  font-weight: 600;
+  padding: 10px 14px;
+  background: rgba(37,99,235,0.08);
+  border: 1px solid rgba(37,99,235,0.2);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.field-value::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--grad);
+  border-radius: 3px 0 0 3px;
+}
+
+.field-value.highlight {
+  background: rgba(5,150,105,0.1);
+  border-color: rgba(5,150,105,0.3);
+}
+
+.field-value.highlight::after {
+  background: var(--grad-green);
+}
+
+/* Items table in extract */
+.items-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.items-table th {
+  background: var(--surface2);
+  padding: 8px 10px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.items-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.items-table .td-right { text-align: right; }
+
+/* Confidence bar */
+.confidence-bar {
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: rgba(5,150,105,0.1);
+  border: 1px solid rgba(5,150,105,0.2);
+  border-radius: 10px;
+}
+
+.confidence-bar .conf-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 12px;
+}
+
+.confidence-bar .conf-track {
+  height: 6px;
+  background: var(--surface2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.confidence-bar .conf-fill {
+  height: 100%;
+  background: var(--grad-green);
+  border-radius: 3px;
+  width: 0;
+  transition: width 1.5s ease;
+}
+
+/* ===== SECTION 4: Smart Categorization ===== */
+.categorization-panel {
+  display: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 48px;
+}
+
+.categorization-panel.active {
+  display: block;
+  animation: fadeSlideUp 0.5s ease;
+}
+
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.cat-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  transition: all 0.3s;
+}
+
+.cat-card.selected {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.2);
+}
+
+.cat-card-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.cat-card-value {
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cat-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.cat-tag.food { background: rgba(234,88,12,0.15); color: #FB923C; }
+.cat-tag.transport { background: rgba(37,99,235,0.15); color: #60A5FA; }
+.cat-tag.fuel { background: rgba(220,38,38,0.15); color: #F87171; }
+.cat-tag.utility { background: rgba(124,58,237,0.15); color: #A78BFA; }
+.cat-tag.shopping { background: rgba(5,150,105,0.15); color: #34D399; }
+.cat-tag.other { background: rgba(148,163,184,0.15); color: #94A3B8; }
+
+.cat-suggest {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cat-suggest .ai-badge {
+  padding: 2px 6px;
+  background: var(--grad);
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  color: white;
+}
+
+/* ===== SECTION 5: Batch Processing ===== */
+.batch-section {
+  margin-bottom: 48px;
+}
+
+.batch-trigger {
+  width: 100%;
+  padding: 20px;
+  background: var(--surface);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: inherit;
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.batch-trigger:hover {
+  border-color: var(--purple);
+  background: rgba(124,58,237,0.08);
+}
+
+.batch-panel {
+  display: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-top: 16px;
+}
+
+.batch-panel.active {
+  display: block;
+  animation: fadeSlideUp 0.5s ease;
+}
+
+.batch-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.batch-item:last-child { border-bottom: none; }
+
+.batch-item .bi-icon { font-size: 28px; flex-shrink: 0; }
+
+.batch-item .bi-info { flex: 1; }
+.batch-item .bi-name { font-weight: 600; font-size: 14px; }
+.batch-item .bi-detail { font-size: 12px; color: var(--text-dim); }
+
+.batch-item .bi-progress { width: 200px; }
+
+.progress-track {
+  height: 8px;
+  background: var(--surface2);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  width: 0;
+  transition: width 0.3s ease;
+}
+
+.progress-fill.blue { background: var(--grad); }
+.progress-fill.green { background: var(--grad-green); }
+
+.batch-item .bi-status {
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 80px;
+  text-align: right;
+}
+
+.bi-status.pending { color: var(--text-dim); }
+.bi-status.processing { color: #60A5FA; }
+.bi-status.done { color: #34D399; }
+
+.batch-summary {
+  display: none;
+  margin-top: 16px;
+  padding: 16px;
+  background: rgba(5,150,105,0.1);
+  border: 1px solid rgba(5,150,105,0.2);
+  border-radius: var(--radius-sm);
+  text-align: center;
+}
+
+.batch-summary.active { display: block; animation: fadeSlideUp 0.4s ease; }
+
+.batch-summary .bs-title { font-size: 18px; font-weight: 700; color: #34D399; margin-bottom: 4px; }
+.batch-summary .bs-detail { font-size: 13px; color: var(--text-dim); }
+
+/* ===== SECTION 6: Export ===== */
+.export-section {
+  margin-bottom: 48px;
+}
+
+.export-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.export-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.export-card:hover {
+  border-color: var(--purple);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(124,58,237,0.15);
+}
+
+.export-card .ex-icon { font-size: 32px; margin-bottom: 10px; display: block; }
+.export-card .ex-name { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+.export-card .ex-desc { font-size: 12px; color: var(--text-dim); }
+
+/* Stats Bar */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 48px;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  text-align: center;
+}
+
+.stat-card .stat-num {
+  font-size: 28px;
+  font-weight: 800;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stat-card .stat-label {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+  z-index: 200;
+  display: none;
+  animation: slideInRight 0.4s ease;
+}
+
+.toast.active { display: flex; align-items: center; gap: 10px; }
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Scanning overlay lines */
+.scan-line {
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #2563EB, transparent);
+  animation: scanDown 2s linear infinite;
+  pointer-events: none;
+  z-index: 10;
+}
+
+@keyframes scanDown {
+  0% { top: 0; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .doc-types-grid { grid-template-columns: repeat(3, 1fr); }
+  .mock-docs-grid { grid-template-columns: repeat(3, 1fr); }
+  .parse-split { grid-template-columns: 1fr; }
+  .cat-grid { grid-template-columns: 1fr 1fr; }
+  .export-grid { grid-template-columns: repeat(2, 1fr); }
+  .stats-bar { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .doc-types-grid { grid-template-columns: repeat(2, 1fr); }
+  .mock-docs-grid { grid-template-columns: repeat(2, 1fr); }
+  .cat-grid { grid-template-columns: 1fr; }
+  .export-grid { grid-template-columns: 1fr 1fr; }
+  .stats-bar { grid-template-columns: 1fr 1fr; }
+}
+
+/* Highlight animation for scanned fields */
+@keyframes fieldHighlight {
+  0% { background: rgba(37,99,235,0.3); }
+  100% { background: rgba(37,99,235,0.08); }
+}
+
+.field-flash {
+  animation: fieldHighlight 0.8s ease;
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-brand">
+    <div class="logo">A</div>
+    <div>
+      <h1>Autopilot v2 — AI Solution Hub</h1>
+      <span>Receipt & Invoice Parser Module</span>
+    </div>
+  </div>
+  <div class="header-nav">
+    <span class="header-badge">AI-Powered OCR</span>
+    <button class="header-btn" onclick="window.history.back()">&#8592; กลับ</button>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="container">
+
+  <!-- Page Title -->
+  <div class="page-title">
+    <h2>Thai Receipt & Invoice Parser</h2>
+    <p>ระบบ AI อ่านและแยกข้อมูลจากใบเสร็จ ใบกำกับภาษี ใบแจ้งหนี้ และสลิปโอนเงิน รองรับเอกสารภาษาไทยทุกรูปแบบ</p>
+  </div>
+
+  <!-- Stats Bar -->
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-num" id="statDocs">12,847</div>
+      <div class="stat-label">เอกสารที่ประมวลผลแล้ว</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">99.2%</div>
+      <div class="stat-label">ความแม่นยำเฉลี่ย</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">&lt;2 วิ</div>
+      <div class="stat-label">เวลาประมวลผลเฉลี่ย</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">6</div>
+      <div class="stat-label">ประเภทเอกสารที่รองรับ</div>
+    </div>
+  </div>
+
+  <!-- Section 1: Supported Document Types -->
+  <div class="section-title"><span class="icon">&#128196;</span> ประเภทเอกสารที่รองรับ</div>
+  <div class="doc-types-grid">
+    <div class="doc-type-card">
+      <span class="emoji">&#x1F9FE;</span>
+      <div class="name">ใบเสร็จรับเงิน</div>
+      <div class="name-en">Receipt</div>
+    </div>
+    <div class="doc-type-card">
+      <span class="emoji">&#x1F4C3;</span>
+      <div class="name">ใบกำกับภาษี</div>
+      <div class="name-en">Tax Invoice</div>
+    </div>
+    <div class="doc-type-card">
+      <span class="emoji">&#x1F4C4;</span>
+      <div class="name">ใบแจ้งหนี้</div>
+      <div class="name-en">Invoice</div>
+    </div>
+    <div class="doc-type-card">
+      <span class="emoji">&#x1F4CB;</span>
+      <div class="name">ใบเสนอราคา</div>
+      <div class="name-en">Quotation</div>
+    </div>
+    <div class="doc-type-card">
+      <span class="emoji">&#x1F4B3;</span>
+      <div class="name">สลิปโอนเงิน</div>
+      <div class="name-en">Transfer Slip</div>
+    </div>
+    <div class="doc-type-card">
+      <span class="emoji">&#x1F3EA;</span>
+      <div class="name">ใบเสร็จ POS</div>
+      <div class="name-en">POS Receipt</div>
+    </div>
+  </div>
+
+  <!-- Section 2: Mock Documents -->
+  <div class="section-title"><span class="icon">&#128203;</span> เลือกเอกสารตัวอย่างเพื่อทดสอบ</div>
+  <div class="mock-docs-grid" id="mockGrid">
+    <!-- Filled by JS -->
+  </div>
+
+  <!-- Section 3: Parsing Demo -->
+  <div id="parseArea">
+    <div class="section-title"><span class="icon">&#x1F50D;</span> ผลการวิเคราะห์เอกสาร</div>
+    <div class="parse-split">
+      <div class="doc-preview-panel">
+        <div class="doc-preview-header">
+          <h4>&#x1F4C4; ตัวอย่างเอกสาร</h4>
+          <span class="scan-badge" id="scanBadge">&#x23F3; กำลังสแกน...</span>
+        </div>
+        <div class="doc-preview-body" id="docPreview">
+          <!-- Dynamic doc preview -->
+        </div>
+      </div>
+      <div class="extract-panel">
+        <div class="extract-header">
+          <h4>&#x1F4CA; ข้อมูลที่แยกได้</h4>
+          <span class="scan-badge" id="extractBadge">&#x23F3; กำลังประมวลผล...</span>
+        </div>
+        <div class="extract-body" id="extractBody">
+          <!-- Dynamic fields -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 4: Smart Categorization -->
+    <div class="categorization-panel" id="catPanel">
+      <div class="section-title" style="margin-bottom:0"><span class="icon">&#x1F916;</span> AI Smart Categorization</div>
+      <div class="cat-grid" id="catGrid">
+        <!-- Dynamic -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5: Batch Processing -->
+  <div class="batch-section">
+    <div class="section-title"><span class="icon">&#x1F4E6;</span> Batch Processing</div>
+    <button class="batch-trigger" id="batchTrigger" onclick="startBatch()">
+      &#x1F4C2; อัพโหลดหลายใบเสร็จ — คลิกเพื่อทดสอบ Demo
+    </button>
+    <div class="batch-panel" id="batchPanel">
+      <div id="batchItems"></div>
+      <div class="batch-summary" id="batchSummary">
+        <div class="bs-title">&#x2705; ประมวลผลสำเร็จทั้งหมด 5 รายการ</div>
+        <div class="bs-detail">รวมยอดเงิน 8,547.75 บาท | เวลาทั้งหมด 4.2 วินาที</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 6: Export -->
+  <div class="export-section">
+    <div class="section-title"><span class="icon">&#x1F4E4;</span> ส่งออกข้อมูล</div>
+    <div class="export-grid">
+      <div class="export-card" onclick="showToast('&#x2705; ส่งออก JSON สำเร็จ')">
+        <span class="ex-icon">&#x1F4CB;</span>
+        <div class="ex-name">JSON</div>
+        <div class="ex-desc">โครงสร้างข้อมูลดิบ สำหรับ API</div>
+      </div>
+      <div class="export-card" onclick="showToast('&#x2705; ส่งออก CSV สำเร็จ')">
+        <span class="ex-icon">&#x1F4CA;</span>
+        <div class="ex-name">CSV / Excel</div>
+        <div class="ex-desc">ตารางข้อมูลสำหรับ Spreadsheet</div>
+      </div>
+      <div class="export-card" onclick="showToast('&#x2705; ส่งออกรูปแบบ SAP สำเร็จ')">
+        <span class="ex-icon">&#x1F3E2;</span>
+        <div class="ex-name">SAP / Oracle</div>
+        <div class="ex-desc">รูปแบบระบบบัญชีองค์กร</div>
+      </div>
+      <div class="export-card" onclick="showToast('&#x2705; ส่งออกรูปแบบ Xero สำเร็จ')">
+        <span class="ex-icon">&#x2601;</span>
+        <div class="ex-name">Xero / QBO</div>
+        <div class="ex-desc">Cloud Accounting Format</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== MOCK DATA =====
+const mockDocs = [
+  {
+    id: 'seveneleven',
+    name: '7-Eleven',
+    type: 'ใบเสร็จ POS',
+    emoji: '&#x1F3EA;',
+    amount: '127.00',
+    category: 'food',
+    catLabel: 'ค่าอาหาร',
+    dept: 'ฝ่ายการตลาด',
+    project: 'Campaign Q2/2026',
+    docStyle: 'thermal',
+    preview: `<div class="receipt-thermal">
+      <div class="scan-line"></div>
+      <div class="store-name">7-ELEVEN</div>
+      <div class="store-branch">สาขา สีลม ซอย 3 (00456)</div>
+      <div class="center small">เลขประจำตัวผู้เสียภาษี 0-1075-4400-1-0785</div>
+      <hr class="divider">
+      <div class="center small">22/03/2026 14:32:05</div>
+      <div class="center small">เครื่อง: 01 ใบเสร็จ: 0892</div>
+      <hr class="divider">
+      <div class="item-row"><span>แซนวิช ทูน่า</span><span>45.00</span></div>
+      <div class="item-row"><span>กาแฟ เบอร์ดี้</span><span>25.00</span></div>
+      <div class="item-row"><span>น้ำเปล่า สิงห์ 600ml</span><span>12.00</span></div>
+      <div class="item-row"><span>ขนมปังกรอบ</span><span>35.00</span></div>
+      <div class="item-row"><span>หมากฝรั่ง</span><span>10.00</span></div>
+      <hr class="divider">
+      <div class="total-row"><span>รวม 5 รายการ</span><span>127.00</span></div>
+      <div class="item-row"><span>VAT 7%</span><span>8.31</span></div>
+      <div class="item-row"><span>มูลค่าก่อน VAT</span><span>118.69</span></div>
+      <hr class="divider">
+      <div class="total-row"><span>สุทธิ</span><span>127.00</span></div>
+      <div class="center small" style="margin-top:4px">ชำระเงินสด: 200.00</div>
+      <div class="center small">ทอน: 73.00</div>
+      <hr class="divider">
+      <div class="center small">ขอบคุณที่ใช้บริการ</div>
+      <div class="center small">www.7eleven.co.th</div>
+    </div>`,
+    fields: [
+      { label: 'ร้านค้า', value: '7-ELEVEN' },
+      { label: 'สาขา', value: 'สีลม ซอย 3 (00456)' },
+      { label: 'เลขประจำตัวผู้เสียภาษี', value: '0-1075-4400-1-0785' },
+      { label: 'วันที่', value: '22/03/2026' },
+      { label: 'เวลา', value: '14:32:05' },
+      { label: 'รายการสินค้า', value: 'table', items: [
+        ['แซนวิช ทูน่า','1','45.00'],
+        ['กาแฟ เบอร์ดี้','1','25.00'],
+        ['น้ำเปล่า สิงห์ 600ml','1','12.00'],
+        ['ขนมปังกรอบ','1','35.00'],
+        ['หมากฝรั่ง','1','10.00']
+      ]},
+      { label: 'จำนวนเงิน', value: '127.00 บาท' },
+      { label: 'VAT 7%', value: '8.31 บาท' },
+      { label: 'สุทธิ', value: '127.00 บาท', highlight: true },
+      { label: 'ช่องทางชำระ', value: 'เงินสด' }
+    ],
+    confidence: 98.5
+  },
+  {
+    id: 'bigc',
+    name: 'Big C',
+    type: 'ใบเสร็จ POS',
+    emoji: '&#x1F6D2;',
+    amount: '1,543.50',
+    category: 'shopping',
+    catLabel: 'ค่าใช้จ่ายสำนักงาน',
+    dept: 'ฝ่ายจัดซื้อ',
+    project: 'Office Supplies Q2',
+    docStyle: 'thermal',
+    preview: `<div class="receipt-thermal">
+      <div class="scan-line"></div>
+      <div class="store-name">BIG C SUPERCENTER</div>
+      <div class="store-branch">สาขา ราชดำริ</div>
+      <div class="center small">บจก. บิ๊กซี ซูเปอร์เซ็นเตอร์</div>
+      <div class="center small">TAX ID: 0-1055-3600-8-6890</div>
+      <hr class="divider">
+      <div class="center small">25/03/2026 18:45:21</div>
+      <div class="center small">POS: 12 RCPT: 5623</div>
+      <hr class="divider">
+      <div class="item-row"><span>น้ำมัน Sunflower 1L</span><span>89.00</span></div>
+      <div class="item-row"><span>ข้าวสาร 5kg</span><span>189.00</span></div>
+      <div class="item-row"><span>นม UHT x6</span><span>125.00</span></div>
+      <div class="item-row"><span>ผงซักฟอก 3kg</span><span>235.00</span></div>
+      <div class="item-row"><span>กระดาษ A4 x5 รีม</span><span>625.00</span></div>
+      <div class="item-row"><span>ปากกา x10</span><span>150.00</span></div>
+      <div class="item-row"><span>ถุงขยะ 30 ใบ</span><span>45.00</span></div>
+      <div class="item-row"><span>น้ำยาล้างจาน</span><span>85.50</span></div>
+      <hr class="divider">
+      <div class="total-row"><span>รวม 8 รายการ</span><span>1,543.50</span></div>
+      <div class="item-row"><span>VAT 7%</span><span>100.95</span></div>
+      <hr class="divider">
+      <div class="total-row"><span>สุทธิ</span><span>1,543.50</span></div>
+      <div class="center small" style="margin-top:4px">VISA **** 8821</div>
+      <div class="center small">APP: 089234</div>
+    </div>`,
+    fields: [
+      { label: 'ร้านค้า', value: 'BIG C SUPERCENTER' },
+      { label: 'สาขา', value: 'ราชดำริ' },
+      { label: 'เลขประจำตัวผู้เสียภาษี', value: '0-1055-3600-8-6890' },
+      { label: 'วันที่', value: '25/03/2026' },
+      { label: 'เวลา', value: '18:45:21' },
+      { label: 'รายการสินค้า', value: 'table', items: [
+        ['น้ำมัน Sunflower 1L','1','89.00'],
+        ['ข้าวสาร 5kg','1','189.00'],
+        ['นม UHT x6','1','125.00'],
+        ['ผงซักฟอก 3kg','1','235.00'],
+        ['กระดาษ A4 x5 รีม','1','625.00'],
+        ['ปากกา x10','1','150.00'],
+        ['ถุงขยะ 30 ใบ','1','45.00'],
+        ['น้ำยาล้างจาน','1','85.50']
+      ]},
+      { label: 'จำนวนเงิน', value: '1,543.50 บาท' },
+      { label: 'VAT 7%', value: '100.95 บาท' },
+      { label: 'สุทธิ', value: '1,543.50 บาท', highlight: true },
+      { label: 'ช่องทางชำระ', value: 'VISA **** 8821' }
+    ],
+    confidence: 97.8
+  },
+  {
+    id: 'ptt',
+    name: 'PTT Station',
+    type: 'ใบเสร็จ POS',
+    emoji: '&#x26FD;',
+    amount: '1,850.00',
+    category: 'fuel',
+    catLabel: 'ค่าน้ำมัน',
+    dept: 'ฝ่ายขาย',
+    project: 'Field Sales Team',
+    docStyle: 'thermal',
+    preview: `<div class="receipt-thermal">
+      <div class="scan-line"></div>
+      <div class="store-name">PTT STATION</div>
+      <div class="store-branch">สาขา วิภาวดีรังสิต 42</div>
+      <div class="center small">บจก. ปตท. น้ำมันและการค้าปลีก</div>
+      <div class="center small">TAX ID: 0-1055-5600-1-1234</div>
+      <hr class="divider">
+      <div class="center small">20/03/2026 08:15:33</div>
+      <div class="center small">หัวจ่าย: 05 | ใบเสร็จ: 7823</div>
+      <hr class="divider">
+      <div class="item-row"><span>Gasohol 95</span><span></span></div>
+      <div class="item-row"><span>50.00 ลิตร x 37.00</span><span>1,850.00</span></div>
+      <hr class="divider">
+      <div class="total-row"><span>รวม</span><span>1,850.00</span></div>
+      <div class="item-row"><span>VAT 7%</span><span>121.03</span></div>
+      <div class="item-row"><span>ก่อน VAT</span><span>1,728.97</span></div>
+      <hr class="divider">
+      <div class="total-row"><span>สุทธิ</span><span>1,850.00</span></div>
+      <div class="center small" style="margin-top:4px">Fleet Card **** 3345</div>
+      <div class="center small">ทะเบียนรถ: กร 5567 กทม</div>
+      <div class="center small">เลขไมล์: 45,230 km</div>
+    </div>`,
+    fields: [
+      { label: 'ร้านค้า', value: 'PTT STATION' },
+      { label: 'สาขา', value: 'วิภาวดีรังสิต 42' },
+      { label: 'เลขประจำตัวผู้เสียภาษี', value: '0-1055-5600-1-1234' },
+      { label: 'วันที่', value: '20/03/2026' },
+      { label: 'เวลา', value: '08:15:33' },
+      { label: 'ประเภทน้ำมัน', value: 'Gasohol 95' },
+      { label: 'ปริมาณ', value: '50.00 ลิตร @ 37.00 บาท/ลิตร' },
+      { label: 'จำนวนเงิน', value: '1,850.00 บาท' },
+      { label: 'VAT 7%', value: '121.03 บาท' },
+      { label: 'สุทธิ', value: '1,850.00 บาท', highlight: true },
+      { label: 'ช่องทางชำระ', value: 'Fleet Card **** 3345' },
+      { label: 'ทะเบียนรถ', value: 'กร 5567 กทม' }
+    ],
+    confidence: 99.1
+  },
+  {
+    id: 'taxinvoice',
+    name: 'ใบกำกับภาษี',
+    type: 'ใบกำกับภาษี',
+    emoji: '&#x1F4C3;',
+    amount: '53,500.00',
+    category: 'other',
+    catLabel: 'ค่าบริการ',
+    dept: 'ฝ่ายบัญชี',
+    project: 'IT Infrastructure',
+    docStyle: 'taxinvoice',
+    preview: `<div class="tax-invoice">
+      <div class="scan-line"></div>
+      <div class="inv-header">
+        <div>
+          <div class="inv-title">ใบกำกับภาษี / Tax Invoice</div>
+          <div class="inv-no">เลขที่: INV-2026-03-0451</div>
+          <div class="inv-no">วันที่: 18 มีนาคม 2569</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-weight:700;font-size:15px">บจก. เทคโนโลยี สยาม</div>
+          <div style="font-size:11px;color:#666">55/1 อาคาร CW Tower ชั้น 12<br>ถ.รัชดาภิเษก แขวงห้วยขวาง<br>กรุงเทพฯ 10310</div>
+          <div style="font-size:11px;color:#2563EB;margin-top:4px">TAX ID: 0-1055-6200-4-2311</div>
+        </div>
+      </div>
+      <div style="font-size:12px;margin-bottom:12px">
+        <strong>ลูกค้า:</strong> บจก. ANTS Digital Solutions<br>
+        <strong>TAX ID:</strong> 0-1055-6700-1-8834<br>
+        <strong>ที่อยู่:</strong> 123/45 อาคาร ซัมเมอร์ฮิลล์ ถ.สุขุมวิท กรุงเทพฯ 10110
+      </div>
+      <table>
+        <thead>
+          <tr><th>รายการ</th><th>จำนวน</th><th>หน่วยละ</th><th style="text-align:right">จำนวนเงิน</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Cloud Server (Monthly)</td><td>1</td><td>25,000.00</td><td class="td-right">25,000.00</td></tr>
+          <tr><td>SSL Certificate</td><td>2</td><td>3,500.00</td><td class="td-right">7,000.00</td></tr>
+          <tr><td>Maintenance Fee</td><td>1</td><td>15,000.00</td><td class="td-right">15,000.00</td></tr>
+          <tr><td>Backup Service</td><td>1</td><td>6,500.00</td><td class="td-right">6,500.00</td></tr>
+        </tbody>
+      </table>
+      <div class="inv-summary">
+        <div class="row"><span>มูลค่าก่อนภาษี</span><span>50,000.00</span></div>
+        <div class="row"><span>ภาษีมูลค่าเพิ่ม 7%</span><span>3,500.00</span></div>
+        <div class="row total"><span>รวมทั้งสิ้น (บาท)</span><span>53,500.00</span></div>
+      </div>
+    </div>`,
+    fields: [
+      { label: 'ผู้ออก', value: 'บจก. เทคโนโลยี สยาม' },
+      { label: 'เลขประจำตัวผู้เสียภาษี (ผู้ออก)', value: '0-1055-6200-4-2311' },
+      { label: 'เลขที่เอกสาร', value: 'INV-2026-03-0451' },
+      { label: 'วันที่', value: '18 มีนาคม 2569' },
+      { label: 'ลูกค้า', value: 'บจก. ANTS Digital Solutions' },
+      { label: 'TAX ID ลูกค้า', value: '0-1055-6700-1-8834' },
+      { label: 'รายการ', value: 'table', items: [
+        ['Cloud Server (Monthly)','1','25,000.00'],
+        ['SSL Certificate','2','7,000.00'],
+        ['Maintenance Fee','1','15,000.00'],
+        ['Backup Service','1','6,500.00']
+      ]},
+      { label: 'มูลค่าก่อนภาษี', value: '50,000.00 บาท' },
+      { label: 'VAT 7%', value: '3,500.00 บาท' },
+      { label: 'รวมทั้งสิ้น', value: '53,500.00 บาท', highlight: true }
+    ],
+    confidence: 99.4
+  },
+  {
+    id: 'supplier',
+    name: 'Invoice Supplier',
+    type: 'ใบแจ้งหนี้',
+    emoji: '&#x1F4C4;',
+    amount: '28,890.00',
+    category: 'other',
+    catLabel: 'ค่าวัตถุดิบ',
+    dept: 'ฝ่ายผลิต',
+    project: 'Production Batch #47',
+    docStyle: 'taxinvoice',
+    preview: `<div class="tax-invoice">
+      <div class="scan-line"></div>
+      <div class="inv-header">
+        <div>
+          <div class="inv-title">ใบแจ้งหนี้ / Invoice</div>
+          <div class="inv-no">เลขที่: IV-2026-0312</div>
+          <div class="inv-no">วันที่: 15 มีนาคม 2569</div>
+          <div class="inv-no">ครบกำหนด: 14 เมษายน 2569</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-weight:700;font-size:15px">บจก. สยาม ซัพพลาย</div>
+          <div style="font-size:11px;color:#666">789 ถ.พระราม 3<br>แขวงบางโพงพาง<br>กรุงเทพฯ 10120</div>
+          <div style="font-size:11px;color:#2563EB;margin-top:4px">TAX ID: 0-1055-4900-7-5521</div>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr><th>รายการ</th><th>จำนวน</th><th>หน่วยละ</th><th style="text-align:right">จำนวนเงิน</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>วัตถุดิบ Type A</td><td>100 kg</td><td>150.00</td><td class="td-right">15,000.00</td></tr>
+          <tr><td>วัตถุดิบ Type B</td><td>50 kg</td><td>180.00</td><td class="td-right">9,000.00</td></tr>
+          <tr><td>ค่าขนส่ง</td><td>1</td><td>3,000.00</td><td class="td-right">3,000.00</td></tr>
+        </tbody>
+      </table>
+      <div class="inv-summary">
+        <div class="row"><span>มูลค่าก่อนภาษี</span><span>27,000.00</span></div>
+        <div class="row"><span>ภาษีมูลค่าเพิ่ม 7%</span><span>1,890.00</span></div>
+        <div class="row total"><span>รวมทั้งสิ้น (บาท)</span><span>28,890.00</span></div>
+      </div>
+    </div>`,
+    fields: [
+      { label: 'ผู้ออก', value: 'บจก. สยาม ซัพพลาย' },
+      { label: 'เลขประจำตัวผู้เสียภาษี', value: '0-1055-4900-7-5521' },
+      { label: 'เลขที่เอกสาร', value: 'IV-2026-0312' },
+      { label: 'วันที่', value: '15 มีนาคม 2569' },
+      { label: 'ครบกำหนดชำระ', value: '14 เมษายน 2569' },
+      { label: 'รายการ', value: 'table', items: [
+        ['วัตถุดิบ Type A','100 kg','15,000.00'],
+        ['วัตถุดิบ Type B','50 kg','9,000.00'],
+        ['ค่าขนส่ง','1','3,000.00']
+      ]},
+      { label: 'มูลค่าก่อนภาษี', value: '27,000.00 บาท' },
+      { label: 'VAT 7%', value: '1,890.00 บาท' },
+      { label: 'รวมทั้งสิ้น', value: '28,890.00 บาท', highlight: true }
+    ],
+    confidence: 98.2
+  },
+  {
+    id: 'scb',
+    name: 'สลิปโอน SCB',
+    type: 'สลิปโอนเงิน',
+    emoji: '&#x1F4B3;',
+    amount: '15,000.00',
+    category: 'other',
+    catLabel: 'โอนเงิน',
+    dept: 'ฝ่ายการเงิน',
+    project: 'Vendor Payments',
+    docStyle: 'slip',
+    preview: `<div class="transfer-slip">
+      <div class="scan-line"></div>
+      <div class="bank-logo">&#x1F3E6;</div>
+      <div class="bank-name">SCB</div>
+      <div style="font-size:12px;opacity:0.8">โอนเงินสำเร็จ</div>
+      <div class="slip-amount">15,000.00</div>
+      <div style="font-size:12px;opacity:0.7">บาท</div>
+      <hr class="slip-divider">
+      <div class="slip-label">จาก</div>
+      <div class="slip-value">นาย สมชาย ใจดี</div>
+      <div style="font-size:11px;opacity:0.6">xxx-x-x4567-8</div>
+      <hr class="slip-divider">
+      <div class="slip-label">ถึง</div>
+      <div class="slip-value">บจก. เทคโนโลยี สยาม</div>
+      <div style="font-size:11px;opacity:0.6">xxx-x-x8901-2</div>
+      <hr class="slip-divider">
+      <div class="slip-label">วันเวลา</div>
+      <div class="slip-value">22 มี.ค. 2569 10:30:45</div>
+      <div class="slip-ref">Ref: SCB20260322103045789</div>
+    </div>`,
+    fields: [
+      { label: 'ธนาคาร', value: 'SCB (ไทยพาณิชย์)' },
+      { label: 'ผู้โอน', value: 'นาย สมชาย ใจดี' },
+      { label: 'เลขบัญชีผู้โอน', value: 'xxx-x-x4567-8' },
+      { label: 'ผู้รับ', value: 'บจก. เทคโนโลยี สยาม' },
+      { label: 'เลขบัญชีผู้รับ', value: 'xxx-x-x8901-2' },
+      { label: 'จำนวนเงิน', value: '15,000.00 บาท', highlight: true },
+      { label: 'วันเวลา', value: '22 มี.ค. 2569 10:30:45' },
+      { label: 'เลขอ้างอิง', value: 'SCB20260322103045789' }
+    ],
+    confidence: 99.7
+  },
+  {
+    id: 'kbank',
+    name: 'สลิปโอน KBank',
+    type: 'สลิปโอนเงิน',
+    emoji: '&#x1F4B3;',
+    amount: '8,500.00',
+    category: 'other',
+    catLabel: 'โอนเงิน',
+    dept: 'ฝ่ายการเงิน',
+    project: 'Freelancer Payments',
+    docStyle: 'slip-kbank',
+    preview: `<div class="transfer-slip kbank">
+      <div class="scan-line"></div>
+      <div class="bank-logo">&#x1F3E6;</div>
+      <div class="bank-name">KBank</div>
+      <div style="font-size:12px;opacity:0.8">โอนสำเร็จ</div>
+      <div class="slip-amount">8,500.00</div>
+      <div style="font-size:12px;opacity:0.7">บาท</div>
+      <hr class="slip-divider">
+      <div class="slip-label">จาก</div>
+      <div class="slip-value">น.ส. วิภา แสงทอง</div>
+      <div style="font-size:11px;opacity:0.6">xxx-x-x2345-6</div>
+      <hr class="slip-divider">
+      <div class="slip-label">ถึง</div>
+      <div class="slip-value">นาย ธนา กรพัฒน์</div>
+      <div style="font-size:11px;opacity:0.6">xxx-x-x7890-1 (กสิกรไทย)</div>
+      <hr class="slip-divider">
+      <div class="slip-label">วันเวลา</div>
+      <div class="slip-value">28 มี.ค. 2569 16:22:10</div>
+      <div class="slip-ref">Ref: KB20260328162210456</div>
+    </div>`,
+    fields: [
+      { label: 'ธนาคาร', value: 'KBank (กสิกรไทย)' },
+      { label: 'ผู้โอน', value: 'น.ส. วิภา แสงทอง' },
+      { label: 'เลขบัญชีผู้โอน', value: 'xxx-x-x2345-6' },
+      { label: 'ผู้รับ', value: 'นาย ธนา กรพัฒน์' },
+      { label: 'เลขบัญชีผู้รับ', value: 'xxx-x-x7890-1 (กสิกรไทย)' },
+      { label: 'จำนวนเงิน', value: '8,500.00 บาท', highlight: true },
+      { label: 'วันเวลา', value: '28 มี.ค. 2569 16:22:10' },
+      { label: 'เลขอ้างอิง', value: 'KB20260328162210456' }
+    ],
+    confidence: 99.5
+  },
+  {
+    id: 'grab',
+    name: 'Grab Receipt',
+    type: 'ใบเสร็จรับเงิน',
+    emoji: '&#x1F695;',
+    amount: '187.00',
+    category: 'transport',
+    catLabel: 'ค่าเดินทาง',
+    dept: 'ฝ่ายการตลาด',
+    project: 'Client Visit - March',
+    docStyle: 'bill',
+    preview: `<div class="bill-style">
+      <div class="scan-line"></div>
+      <div class="bill-header">
+        <span class="bill-logo">&#x1F695;</span>
+        <span class="bill-title">Grab Receipt</span>
+      </div>
+      <div class="bill-row"><span>Ride ID</span><span>GR-TH-20260321-8834</span></div>
+      <div class="bill-row"><span>วันที่</span><span>21 มี.ค. 2569 09:15</span></div>
+      <div class="bill-row"><span>ประเภท</span><span>GrabCar</span></div>
+      <hr style="border:none;border-top:1px solid #eee;margin:8px 0">
+      <div class="bill-row"><span>จุดรับ</span><span>BTS อโศก</span></div>
+      <div class="bill-row"><span>จุดส่ง</span><span>สาทร สแควร์</span></div>
+      <div class="bill-row"><span>ระยะทาง</span><span>8.3 km</span></div>
+      <div class="bill-row"><span>ระยะเวลา</span><span>22 นาที</span></div>
+      <hr style="border:none;border-top:1px solid #eee;margin:8px 0">
+      <div class="bill-row"><span>ค่าโดยสาร</span><span>165.00</span></div>
+      <div class="bill-row"><span>ค่าทางด่วน</span><span>22.00</span></div>
+      <div class="bill-total">รวม 187.00 บาท</div>
+      <div style="text-align:center;font-size:11px;color:#999;margin-top:12px">ชำระผ่าน GrabPay Wallet</div>
+    </div>`,
+    fields: [
+      { label: 'ร้านค้า/บริการ', value: 'Grab (GrabCar)' },
+      { label: 'เลขที่', value: 'GR-TH-20260321-8834' },
+      { label: 'วันที่', value: '21 มี.ค. 2569 09:15' },
+      { label: 'จุดรับ', value: 'BTS อโศก' },
+      { label: 'จุดส่ง', value: 'สาทร สแควร์' },
+      { label: 'ระยะทาง', value: '8.3 km (22 นาที)' },
+      { label: 'ค่าโดยสาร', value: '165.00 บาท' },
+      { label: 'ค่าทางด่วน', value: '22.00 บาท' },
+      { label: 'สุทธิ', value: '187.00 บาท', highlight: true },
+      { label: 'ช่องทางชำระ', value: 'GrabPay Wallet' }
+    ],
+    confidence: 98.9
+  },
+  {
+    id: 'lazada',
+    name: 'Lazada Invoice',
+    type: 'ใบแจ้งหนี้',
+    emoji: '&#x1F4E6;',
+    amount: '3,290.00',
+    category: 'shopping',
+    catLabel: 'อุปกรณ์สำนักงาน',
+    dept: 'ฝ่าย IT',
+    project: 'Equipment Q2',
+    docStyle: 'bill',
+    preview: `<div class="bill-style">
+      <div class="scan-line"></div>
+      <div class="bill-header">
+        <span class="bill-logo">&#x1F4E6;</span>
+        <span class="bill-title">Lazada Invoice</span>
+      </div>
+      <div class="bill-row"><span>Order ID</span><span>LZD-603921847</span></div>
+      <div class="bill-row"><span>วันที่สั่งซื้อ</span><span>19 มี.ค. 2569</span></div>
+      <div class="bill-row"><span>ผู้ขาย</span><span>TechGear Official</span></div>
+      <hr style="border:none;border-top:1px solid #eee;margin:8px 0">
+      <div class="bill-row"><span>Wireless Mouse x2</span><span>990.00</span></div>
+      <div class="bill-row"><span>USB-C Hub 7-in-1</span><span>1,590.00</span></div>
+      <div class="bill-row"><span>Mouse Pad XL</span><span>390.00</span></div>
+      <div class="bill-row"><span>Webcam Cover x5</span><span>250.00</span></div>
+      <hr style="border:none;border-top:1px solid #eee;margin:8px 0">
+      <div class="bill-row"><span>ค่าสินค้า</span><span>3,220.00</span></div>
+      <div class="bill-row"><span>ค่าจัดส่ง</span><span>70.00</span></div>
+      <div class="bill-row"><span>ส่วนลด Voucher</span><span style="color:#dc2626">-0.00</span></div>
+      <div class="bill-total">รวม 3,290.00 บาท</div>
+      <div style="text-align:center;font-size:11px;color:#999;margin-top:12px">ชำระผ่าน บัตรเครดิต **** 4421</div>
+    </div>`,
+    fields: [
+      { label: 'แพลตฟอร์ม', value: 'Lazada' },
+      { label: 'เลขที่คำสั่งซื้อ', value: 'LZD-603921847' },
+      { label: 'วันที่', value: '19 มี.ค. 2569' },
+      { label: 'ผู้ขาย', value: 'TechGear Official' },
+      { label: 'รายการ', value: 'table', items: [
+        ['Wireless Mouse','2','990.00'],
+        ['USB-C Hub 7-in-1','1','1,590.00'],
+        ['Mouse Pad XL','1','390.00'],
+        ['Webcam Cover','5','250.00']
+      ]},
+      { label: 'ค่าสินค้า', value: '3,220.00 บาท' },
+      { label: 'ค่าจัดส่ง', value: '70.00 บาท' },
+      { label: 'รวมทั้งสิ้น', value: '3,290.00 บาท', highlight: true },
+      { label: 'ช่องทางชำระ', value: 'บัตรเครดิต **** 4421' }
+    ],
+    confidence: 97.6
+  },
+  {
+    id: 'pea',
+    name: 'ค่าไฟ PEA',
+    type: 'ใบแจ้งหนี้',
+    emoji: '&#x26A1;',
+    amount: '4,215.37',
+    category: 'utility',
+    catLabel: 'ค่าสาธารณูปโภค',
+    dept: 'ฝ่ายอาคาร',
+    project: 'Office Operations',
+    docStyle: 'bill',
+    preview: `<div class="bill-style">
+      <div class="scan-line"></div>
+      <div class="bill-header">
+        <span class="bill-logo">&#x26A1;</span>
+        <span class="bill-title">ใบแจ้งค่าไฟฟ้า</span>
+      </div>
+      <div style="font-size:12px;color:#666;margin-bottom:12px">การไฟฟ้าส่วนภูมิภาค (PEA)<br>สำนักงาน กรุงเทพฯ เขต 3</div>
+      <div class="bill-row"><span>เลขที่ผู้ใช้ไฟ</span><span>01-4567-8901-23</span></div>
+      <div class="bill-row"><span>ชื่อผู้ใช้ไฟ</span><span>บจก. ANTS Digital</span></div>
+      <div class="bill-row"><span>ที่อยู่</span><span>123/45 ถ.สุขุมวิท</span></div>
+      <div class="bill-row"><span>รอบบิล</span><span>ก.พ. 2569</span></div>
+      <hr style="border:none;border-top:1px solid #eee;margin:8px 0">
+      <div class="bill-row"><span>หน่วยก่อนหน้า</span><span>45,230</span></div>
+      <div class="bill-row"><span>หน่วยปัจจุบัน</span><span>46,120</span></div>
+      <div class="bill-row"><span>หน่วยที่ใช้</span><span>890 หน่วย</span></div>
+      <hr style="border:none;border-top:1px solid #eee;margin:8px 0">
+      <div class="bill-row"><span>ค่าไฟฟ้า</span><span>3,560.00</span></div>
+      <div class="bill-row"><span>ค่า Ft</span><span>312.15</span></div>
+      <div class="bill-row"><span>ค่าบริการ</span><span>38.22</span></div>
+      <div class="bill-row"><span>VAT 7%</span><span>305.00</span></div>
+      <div class="bill-total">รวม 4,215.37 บาท</div>
+      <div style="text-align:center;font-size:11px;color:#dc2626;margin-top:8px">กำหนดชำระภายใน 10 เม.ย. 2569</div>
+    </div>`,
+    fields: [
+      { label: 'ผู้ออก', value: 'การไฟฟ้าส่วนภูมิภาค (PEA)' },
+      { label: 'เลขที่ผู้ใช้ไฟ', value: '01-4567-8901-23' },
+      { label: 'ชื่อผู้ใช้ไฟ', value: 'บจก. ANTS Digital' },
+      { label: 'รอบบิล', value: 'กุมภาพันธ์ 2569' },
+      { label: 'หน่วยที่ใช้', value: '890 หน่วย (45,230 - 46,120)' },
+      { label: 'ค่าไฟฟ้า', value: '3,560.00 บาท' },
+      { label: 'ค่า Ft', value: '312.15 บาท' },
+      { label: 'ค่าบริการ', value: '38.22 บาท' },
+      { label: 'VAT 7%', value: '305.00 บาท' },
+      { label: 'รวมทั้งสิ้น', value: '4,215.37 บาท', highlight: true },
+      { label: 'กำหนดชำระ', value: '10 เมษายน 2569' }
+    ],
+    confidence: 98.8
+  }
+];
+
+// ===== RENDER MOCK DOCS =====
+const mockGrid = document.getElementById('mockGrid');
+mockDocs.forEach((doc, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'mock-doc';
+  btn.innerHTML = `
+    <span class="emoji">${doc.emoji}</span>
+    <div class="doc-name">${doc.name}</div>
+    <div class="doc-type">${doc.type}</div>
+    <div class="doc-amount">${doc.amount} &#3647;</div>
+  `;
+  btn.onclick = () => parseDocument(i);
+  mockGrid.appendChild(btn);
+});
+
+// ===== PARSE DOCUMENT =====
+let currentParse = null;
+
+function parseDocument(index) {
+  const doc = mockDocs[index];
+  currentParse = doc;
+
+  // Update active state
+  document.querySelectorAll('.mock-doc').forEach((btn, i) => {
+    btn.classList.toggle('active', i === index);
+  });
+
+  // Show parse area
+  const parseArea = document.getElementById('parseArea');
+  parseArea.classList.add('active');
+
+  // Reset badges
+  document.getElementById('scanBadge').innerHTML = '&#x23F3; กำลังสแกน...';
+  document.getElementById('scanBadge').className = 'scan-badge';
+  document.getElementById('extractBadge').innerHTML = '&#x23F3; กำลังประมวลผล...';
+  document.getElementById('extractBadge').className = 'scan-badge';
+
+  // Set preview
+  document.getElementById('docPreview').innerHTML = doc.preview;
+
+  // Clear and animate extract fields
+  const extractBody = document.getElementById('extractBody');
+  extractBody.innerHTML = '';
+
+  // Animate fields appearing one by one
+  doc.fields.forEach((field, fi) => {
+    const group = document.createElement('div');
+    group.className = 'field-group';
+
+    if (field.value === 'table') {
+      group.innerHTML = `
+        <div class="field-label"><span class="check">&#x2713;</span> ${field.label}</div>
+        <table class="items-table">
+          <thead><tr><th>รายการ</th><th>จำนวน</th><th style="text-align:right">จำนวนเงิน</th></tr></thead>
+          <tbody>${field.items.map(it => `<tr><td>${it[0]}</td><td>${it[1]}</td><td class="td-right">${it[2]}</td></tr>`).join('')}</tbody>
+        </table>
+      `;
+    } else {
+      group.innerHTML = `
+        <div class="field-label"><span class="check">&#x2713;</span> ${field.label}</div>
+        <div class="field-value ${field.highlight ? 'highlight' : ''} field-flash">${field.value}</div>
+      `;
+    }
+
+    extractBody.appendChild(group);
+
+    setTimeout(() => {
+      group.classList.add('visible');
+    }, 300 + fi * 200);
+  });
+
+  // Confidence bar
+  const confDelay = 300 + doc.fields.length * 200 + 200;
+  setTimeout(() => {
+    const confDiv = document.createElement('div');
+    confDiv.className = 'confidence-bar field-group';
+    confDiv.innerHTML = `
+      <div class="conf-header">
+        <span>&#x1F916; AI Confidence Score</span>
+        <span style="font-weight:700;color:#34D399">${doc.confidence}%</span>
+      </div>
+      <div class="conf-track"><div class="conf-fill" id="confFill"></div></div>
+    `;
+    extractBody.appendChild(confDiv);
+    setTimeout(() => {
+      confDiv.classList.add('visible');
+      setTimeout(() => {
+        document.getElementById('confFill').style.width = doc.confidence + '%';
+      }, 100);
+    }, 100);
+  }, confDelay);
+
+  // Update badges when done
+  const totalTime = confDelay + 800;
+  setTimeout(() => {
+    document.getElementById('scanBadge').innerHTML = '&#x2705; สแกนเสร็จ';
+    document.getElementById('scanBadge').className = 'scan-badge done';
+    document.getElementById('extractBadge').innerHTML = '&#x2705; ประมวลผลเสร็จ';
+    document.getElementById('extractBadge').className = 'scan-badge done';
+
+    // Remove scan line
+    const scanLine = document.querySelector('#docPreview .scan-line');
+    if (scanLine) scanLine.remove();
+  }, totalTime);
+
+  // Show categorization
+  setTimeout(() => {
+    showCategorization(doc);
+  }, totalTime + 300);
+
+  // Scroll to parse area
+  parseArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ===== SMART CATEGORIZATION =====
+function showCategorization(doc) {
+  const panel = document.getElementById('catPanel');
+  panel.classList.add('active');
+
+  const catMap = {
+    food: { tag: 'food', label: 'ค่าอาหาร', icon: '&#x1F354;' },
+    transport: { tag: 'transport', label: 'ค่าเดินทาง', icon: '&#x1F695;' },
+    fuel: { tag: 'fuel', label: 'ค่าน้ำมัน', icon: '&#x26FD;' },
+    utility: { tag: 'utility', label: 'ค่าสาธารณูปโภค', icon: '&#x26A1;' },
+    shopping: { tag: 'shopping', label: 'ค่าใช้จ่ายสำนักงาน', icon: '&#x1F6D2;' },
+    other: { tag: 'other', label: doc.catLabel, icon: '&#x1F4C1;' }
+  };
+
+  const cat = catMap[doc.category] || catMap.other;
+
+  document.getElementById('catGrid').innerHTML = `
+    <div class="cat-card selected">
+      <div class="cat-card-label">หมวดหมู่ค่าใช้จ่าย</div>
+      <div class="cat-card-value">
+        <span class="cat-tag ${cat.tag}">${cat.icon} ${cat.label}</span>
+      </div>
+      <div class="cat-suggest">
+        <span class="ai-badge">AI</span> จัดหมวดหมู่อัตโนมัติจากเนื้อหาเอกสาร
+      </div>
+    </div>
+    <div class="cat-card selected">
+      <div class="cat-card-label">แผนก</div>
+      <div class="cat-card-value">${doc.dept}</div>
+      <div class="cat-suggest">
+        <span class="ai-badge">AI</span> แนะนำจากผู้ส่งเอกสารและประเภทค่าใช้จ่าย
+      </div>
+    </div>
+    <div class="cat-card selected">
+      <div class="cat-card-label">โครงการ</div>
+      <div class="cat-card-value">${doc.project}</div>
+      <div class="cat-suggest">
+        <span class="ai-badge">AI</span> แนะนำจากโครงการล่าสุดของแผนก
+      </div>
+    </div>
+  `;
+}
+
+// ===== BATCH PROCESSING =====
+const batchDocs = [
+  { name: '7-Eleven สาขาสีลม', type: 'ใบเสร็จ POS', amount: '127.00', icon: '&#x1F3EA;' },
+  { name: 'PTT Station วิภาวดี', type: 'ใบเสร็จ POS', amount: '1,850.00', icon: '&#x26FD;' },
+  { name: 'Grab Receipt #8834', type: 'ใบเสร็จรับเงิน', amount: '187.00', icon: '&#x1F695;' },
+  { name: 'สลิปโอน SCB 15,000', type: 'สลิปโอนเงิน', amount: '15,000.00', icon: '&#x1F4B3;' },
+  { name: 'ค่าไฟ PEA ก.พ. 69', type: 'ใบแจ้งหนี้', amount: '4,215.37', icon: '&#x26A1;' }
+];
+
+let batchRunning = false;
+
+function startBatch() {
+  if (batchRunning) return;
+  batchRunning = true;
+
+  const panel = document.getElementById('batchPanel');
+  panel.classList.add('active');
+  document.getElementById('batchSummary').classList.remove('active');
+
+  const container = document.getElementById('batchItems');
+  container.innerHTML = '';
+
+  batchDocs.forEach((doc, i) => {
+    const item = document.createElement('div');
+    item.className = 'batch-item';
+    item.innerHTML = `
+      <span class="bi-icon">${doc.icon}</span>
+      <div class="bi-info">
+        <div class="bi-name">${doc.name}</div>
+        <div class="bi-detail">${doc.type} | ${doc.amount} &#3647;</div>
+      </div>
+      <div class="bi-progress">
+        <div class="progress-track"><div class="progress-fill blue" id="bprog${i}"></div></div>
+        <div style="font-size:11px;color:var(--text-dim)" id="bperc${i}">0%</div>
+      </div>
+      <div class="bi-status pending" id="bstat${i}">รอคิว</div>
+    `;
+    container.appendChild(item);
+  });
+
+  // Animate each batch item
+  batchDocs.forEach((doc, i) => {
+    const delay = i * 600;
+    const duration = 1200 + Math.random() * 800;
+
+    setTimeout(() => {
+      const stat = document.getElementById('bstat' + i);
+      stat.className = 'bi-status processing';
+      stat.textContent = 'กำลังสแกน...';
+
+      // Animate progress
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += Math.random() * 15 + 5;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(interval);
+          document.getElementById('bprog' + i).className = 'progress-fill green';
+          stat.className = 'bi-status done';
+          stat.textContent = 'สำเร็จ';
+        }
+        document.getElementById('bprog' + i).style.width = Math.min(progress, 100) + '%';
+        document.getElementById('bperc' + i).textContent = Math.round(Math.min(progress, 100)) + '%';
+      }, duration / 8);
+    }, delay);
+  });
+
+  // Show summary
+  setTimeout(() => {
+    document.getElementById('batchSummary').classList.add('active');
+    batchRunning = false;
+  }, batchDocs.length * 600 + 2500);
+
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ===== TOAST =====
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.innerHTML = msg;
+  toast.classList.add('active');
+  setTimeout(() => toast.classList.remove('active'), 3000);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Procurement Approval Workflow — Autopilot v2</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
+:root{--bg:#F8FAFC;--bg2:#F1F5F9;--white:#FFF;--border:#E2E8F0;--border2:#CBD5E1;--text:#0F172A;--text2:#334155;--muted:#64748B;--light:#94A3B8;--blue:#2563EB;--blue-l:#EFF6FF;--blue-d:#1D4ED8;--purple:#7C3AED;--purple-l:#F5F3FF;--cyan:#0891B2;--cyan-l:#ECFEFF;--green:#059669;--green-l:#ECFDF5;--green-d:#047857;--orange:#D97706;--orange-l:#FFFBEB;--red:#DC2626;--red-l:#FEF2F2;--pink:#DB2777;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--sh:0 1px 3px rgba(0,0,0,.06);--sh2:0 4px 20px rgba(0,0,0,.08);--sh3:0 12px 40px rgba(0,0,0,.12);--sidebar-w:280px;--header-h:56px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;}
+::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+
+/* Layout */
+.app-layout{display:flex;min-height:100vh;}
+.sidebar{width:var(--sidebar-w);background:var(--white);border-right:1px solid var(--border);position:fixed;top:0;left:0;bottom:0;z-index:50;display:flex;flex-direction:column;overflow-y:auto;transition:transform .25s ease;}
+.sidebar.collapsed{transform:translateX(-100%);}
+.main-wrap{margin-left:var(--sidebar-w);flex:1;min-height:100vh;display:flex;flex-direction:column;transition:margin-left .25s ease;}
+.main-wrap.expanded{margin-left:0;}
+.header{height:var(--header-h);background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:40;}
+.main{flex:1;padding:24px;overflow-y:auto;}
+
+/* Sidebar */
+.sidebar-logo{padding:16px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
+.logo-icon{width:36px;height:36px;background:var(--grad);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.9rem;font-weight:800;flex-shrink:0;}
+.logo-text{font-weight:700;font-size:.92rem;line-height:1.2;}.logo-sub{font-size:.62rem;color:var(--muted);font-weight:500;}
+.nav-section{padding:8px 12px 4px;}.nav-label{font-size:.6rem;font-weight:700;color:var(--light);letter-spacing:1.2px;text-transform:uppercase;padding:0 8px;margin-bottom:4px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:8px;cursor:pointer;font-size:.78rem;color:var(--text2);transition:all .15s;border:none;background:none;width:100%;text-align:left;font-family:inherit;}
+.nav-item:hover{background:var(--blue-l);color:var(--blue);}.nav-item.active{background:var(--blue-l);color:var(--blue);font-weight:600;}
+.nav-item .icon{width:18px;text-align:center;font-size:.85rem;}.nav-item .badge{margin-left:auto;font-size:.6rem;font-weight:700;background:var(--blue);color:#fff;padding:1px 6px;border-radius:10px;min-width:18px;text-align:center;}
+.nav-item .badge.warn{background:var(--orange);}.nav-item .badge.green{background:var(--green);}
+.sidebar-footer{margin-top:auto;padding:12px;border-top:1px solid var(--border);}
+.plan-badge{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--purple-l);border-radius:10px;font-size:.72rem;color:var(--purple);font-weight:600;}
+
+/* Header */
+.header-left{display:flex;align-items:center;gap:12px;}
+.header-title{font-size:1rem;font-weight:700;}
+.header-right{display:flex;align-items:center;gap:8px;}
+.header-btn{width:36px;height:36px;border-radius:9px;border:1px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;position:relative;transition:all .15s;}
+.header-btn:hover{background:var(--bg);border-color:var(--blue);}
+.header-btn .dot{position:absolute;top:6px;right:6px;width:8px;height:8px;background:var(--red);border-radius:50%;border:2px solid var(--white);}
+.sidebar-toggle{width:36px;height:36px;border-radius:9px;border:1px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.1rem;transition:all .15s;}
+.sidebar-toggle:hover{background:var(--bg);}
+.user-pill{display:flex;align-items:center;gap:8px;padding:4px 12px 4px 4px;border-radius:20px;border:1px solid var(--border);background:var(--white);cursor:pointer;font-size:.78rem;font-weight:500;}
+.user-avatar{width:28px;height:28px;border-radius:50%;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;}
+
+/* Cards */
+.card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:20px;box-shadow:var(--sh);}
+.card-sm{padding:16px;}.card-title{font-size:.92rem;font-weight:700;margin-bottom:12px;}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px;}
+.kpi{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:var(--sh);}
+.kpi-label{font-size:.72rem;color:var(--muted);font-weight:500;display:flex;align-items:center;gap:6px;}
+.kpi-value{font-size:1.8rem;font-weight:800;margin-top:4px;line-height:1;}
+.kpi-change{display:inline-flex;align-items:center;gap:3px;font-size:.68rem;font-weight:600;padding:2px 6px;border-radius:4px;margin-top:6px;}
+.kpi-change.up{background:var(--green-l);color:var(--green);}
+.kpi-change.down{background:var(--red-l);color:var(--red);}
+.kpi-change.warn{background:var(--orange-l);color:var(--orange);}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:.82rem;font-weight:600;border:none;cursor:pointer;transition:all .2s;font-family:inherit;}
+.btn-primary{background:var(--grad);color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.2);}
+.btn-primary:hover{box-shadow:0 6px 16px rgba(37,99,235,.3);transform:translateY(-1px);}
+.btn-outline{background:var(--white);color:var(--text2);border:1px solid var(--border);}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue);}
+.btn-sm{padding:6px 12px;font-size:.75rem;}
+.btn-green{background:var(--green);color:#fff;}.btn-green:hover{background:var(--green-d);}
+.btn-danger{background:var(--red-l);color:var(--red);border:1px solid transparent;}.btn-danger:hover{background:var(--red);color:#fff;}
+.btn-icon{width:32px;height:32px;padding:0;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid var(--border);background:var(--white);cursor:pointer;font-size:.9rem;transition:all .15s;}
+.btn-icon:hover{background:var(--bg);border-color:var(--blue);}
+
+/* Status */
+.status{display:inline-flex;align-items:center;gap:4px;font-size:.7rem;font-weight:600;padding:3px 10px;border-radius:6px;}
+.status-pending{background:var(--orange-l);color:var(--orange);}
+.status-approved{background:var(--green-l);color:var(--green);}
+.status-rejected{background:var(--red-l);color:var(--red);}
+
+/* Tabs */
+.tabs{display:flex;gap:2px;border-bottom:2px solid var(--border);margin-bottom:16px;}
+.tab{padding:8px 16px;font-size:.82rem;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;background:none;border-top:none;border-left:none;border-right:none;font-family:inherit;}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:600;}.tab:hover{color:var(--text);}
+
+/* Filter Pills */
+.filter-pills{display:flex;gap:6px;margin-bottom:16px;}
+.filter-pill{padding:6px 14px;border-radius:20px;font-size:.75rem;font-weight:600;border:1px solid var(--border);background:var(--white);cursor:pointer;transition:all .15s;font-family:inherit;color:var(--text2);}
+.filter-pill.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+.filter-pill:hover:not(.active){border-color:var(--blue);color:var(--blue);}
+
+/* Toast */
+.toast-container{position:fixed;top:70px;right:24px;z-index:2000;display:flex;flex-direction:column;gap:8px;}
+.toast{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px 18px;box-shadow:var(--sh3);display:flex;align-items:center;gap:10px;min-width:300px;max-width:400px;animation:slideInR .3s ease;font-size:.82rem;}
+.toast-icon{font-size:1.2rem;flex-shrink:0;}.toast-msg{flex:1;}.toast-msg strong{display:block;font-size:.82rem;}.toast-msg small{color:var(--muted);font-size:.72rem;}
+.toast-close{cursor:pointer;color:var(--muted);font-size:1rem;padding:4px;}
+@keyframes slideInR{from{opacity:0;transform:translateX(40px);}to{opacity:1;transform:translateX(0);}}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:all .25s;}
+.modal-overlay.show{opacity:1;pointer-events:all;}
+.modal{background:var(--white);border-radius:18px;padding:28px;max-width:560px;width:90%;box-shadow:var(--sh3);transform:scale(.95);transition:transform .25s;max-height:90vh;overflow-y:auto;}
+.modal-overlay.show .modal{transform:scale(1);}
+.modal-actions{display:flex;gap:8px;justify-content:center;margin-top:20px;}
+.form-group{margin-bottom:14px;}.form-label{display:block;font-size:.78rem;font-weight:600;margin-bottom:4px;color:var(--text2);}
+.form-input{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:.82rem;transition:border-color .15s;}
+.form-input:focus{outline:none;border-color:var(--blue);}
+select.form-input{cursor:pointer;}
+textarea.form-input{resize:vertical;min-height:60px;}
+
+/* Tables */
+.data-table{width:100%;border-collapse:collapse;font-size:.8rem;}
+.data-table th{background:var(--bg);padding:10px 12px;text-align:left;font-weight:600;font-size:.72rem;color:var(--muted);letter-spacing:.3px;border-bottom:2px solid var(--border);position:sticky;top:0;}
+.data-table td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--text2);}
+.data-table tr:hover td{background:var(--blue-l);}
+
+/* Approval Cards */
+.approval-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:16px;margin-bottom:20px;}
+.approval-card{background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--sh);transition:all .25s;}
+.approval-card:hover{box-shadow:var(--sh2);transform:translateY(-2px);}
+.approval-card.removing{animation:cardRemove .5s ease forwards;}
+@keyframes cardRemove{0%{opacity:1;transform:scale(1);}100%{opacity:0;transform:scale(.9) translateY(-20px);}}
+.ac-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 0;}
+.ac-type{font-size:.65rem;font-weight:700;padding:3px 10px;border-radius:5px;letter-spacing:.5px;}
+.ac-type.pr{background:var(--blue-l);color:var(--blue);}.ac-type.po{background:var(--purple-l);color:var(--purple);}
+.ac-number{font-size:.92rem;font-weight:800;}
+.ac-body{padding:12px 18px;}
+.ac-info{display:flex;gap:16px;margin-bottom:8px;}
+.ac-info-item{font-size:.75rem;color:var(--muted);}
+.ac-info-item strong{color:var(--text2);font-weight:600;}
+.ac-summary{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg);border-radius:8px;margin-bottom:8px;}
+.ac-items{font-size:.75rem;color:var(--text2);}.ac-items strong{font-weight:700;}
+.ac-total{font-size:.92rem;font-weight:800;color:var(--text);}
+.ac-budget{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.ac-budget-label{font-size:.72rem;color:var(--muted);}
+.ac-budget-bar{flex:1;height:6px;background:var(--bg);border-radius:3px;overflow:hidden;}
+.ac-budget-fill{height:100%;border-radius:3px;transition:width .6s ease;}
+.ac-budget-pct{font-size:.68rem;font-weight:700;}
+.ac-ai{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;margin-bottom:10px;font-size:.75rem;font-weight:500;}
+.ac-ai.recommend{background:var(--green-l);color:var(--green-d);}
+.ac-ai.caution{background:var(--orange-l);color:var(--orange);}
+.ac-ai.reject{background:var(--red-l);color:var(--red);}
+.ac-ai-icon{font-size:1rem;}
+.ac-actions{display:flex;gap:8px;padding:0 18px 16px;justify-content:flex-end;}
+.ac-actions .btn{flex:1;}
+
+/* Approval Chain */
+.chain-section{margin-bottom:24px;}
+.chain-wrap{padding:20px;overflow-x:auto;}
+.chain-flow{display:flex;align-items:center;gap:0;min-width:fit-content;}
+.chain-node{display:flex;flex-direction:column;align-items:center;position:relative;min-width:120px;}
+.chain-avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:700;color:#fff;position:relative;z-index:1;}
+.chain-avatar.approved{background:var(--green);box-shadow:0 4px 12px rgba(5,150,105,.25);}
+.chain-avatar.pending{background:var(--orange);box-shadow:0 4px 12px rgba(217,119,6,.25);}
+.chain-avatar.rejected{background:var(--red);box-shadow:0 4px 12px rgba(220,38,38,.25);}
+.chain-avatar.waiting{background:var(--light);box-shadow:0 4px 12px rgba(148,163,184,.2);}
+.chain-avatar.pending{animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(217,119,6,.4);}50%{box-shadow:0 0 0 12px rgba(217,119,6,0);}}
+.chain-status-icon{position:absolute;bottom:-2px;right:-2px;width:20px;height:20px;border-radius:50%;background:var(--white);display:flex;align-items:center;justify-content:center;font-size:.65rem;border:2px solid var(--white);z-index:2;}
+.chain-name{font-size:.75rem;font-weight:600;margin-top:8px;text-align:center;white-space:nowrap;}
+.chain-role{font-size:.65rem;color:var(--muted);text-align:center;}
+.chain-time{font-size:.62rem;color:var(--light);margin-top:2px;text-align:center;}
+.chain-line{width:60px;height:3px;background:var(--border);position:relative;flex-shrink:0;}
+.chain-line.done{background:var(--green);}
+.chain-line.active{background:linear-gradient(90deg,var(--green),var(--orange));}
+.chain-line-arrow{position:absolute;right:-5px;top:-4px;font-size:.65rem;color:var(--border);}
+.chain-line.done .chain-line-arrow{color:var(--green);}
+
+/* Delegation Settings */
+.setting-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;display:flex;align-items:center;gap:14px;transition:all .2s;}
+.setting-card:hover{box-shadow:var(--sh2);}
+.setting-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.setting-info{flex:1;}.setting-title{font-size:.82rem;font-weight:600;}.setting-desc{font-size:.72rem;color:var(--muted);margin-top:2px;}
+.toggle{position:relative;width:44px;height:24px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;inset:0;background:var(--border2);border-radius:12px;cursor:pointer;transition:all .25s;}
+.toggle-slider::before{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;left:3px;top:3px;transition:all .25s;box-shadow:0 1px 3px rgba(0,0,0,.1);}
+.toggle input:checked+.toggle-slider{background:var(--green);}
+.toggle input:checked+.toggle-slider::before{transform:translateX(20px);}
+
+/* History Table */
+.history-row{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--border);transition:background .15s;}
+.history-row:hover{background:var(--blue-l);}
+.history-action{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+.history-action.approve{background:var(--green-l);color:var(--green);}
+.history-action.reject{background:var(--red-l);color:var(--red);}
+.history-detail{flex:1;}.history-detail strong{font-size:.82rem;display:block;}.history-detail small{font-size:.72rem;color:var(--muted);}
+.history-meta{text-align:right;font-size:.72rem;color:var(--muted);}
+
+/* Section */
+.section-title{font-size:1.05rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.section-title .icon{font-size:1.1rem;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:900px){.kpi-grid{grid-template-columns:repeat(2,1fr);}.approval-grid{grid-template-columns:1fr;}.grid-2{grid-template-columns:1fr;}}
+@media(max-width:600px){.kpi-grid{grid-template-columns:1fr;}.sidebar{transform:translateX(-100%);}.main-wrap{margin-left:0;}}
+</style>
+</head>
+<body>
+<div class="app-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">AP</div>
+      <div><div class="logo-text">Autopilot v2</div><div class="logo-sub">ANTS — AI Solution Hub</div></div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">จัดซื้อ</div>
+      <button class="nav-item"><span class="icon">📋</span> ใบขอซื้อ (PR)</button>
+      <button class="nav-item"><span class="icon">📦</span> ใบสั่งซื้อ (PO)</button>
+      <button class="nav-item active"><span class="icon">✅</span> อนุมัติจัดซื้อ <span class="badge warn">11</span></button>
+      <button class="nav-item"><span class="icon">🏪</span> ผู้ขาย</button>
+      <button class="nav-item"><span class="icon">📊</span> เปรียบเทียบราคา</button>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">การเงิน</div>
+      <button class="nav-item"><span class="icon">💰</span> งบประมาณ</button>
+      <button class="nav-item"><span class="icon">🧾</span> ใบแจ้งหนี้</button>
+      <button class="nav-item"><span class="icon">💳</span> การชำระเงิน</button>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">ระบบ</div>
+      <button class="nav-item"><span class="icon">⚙️</span> ตั้งค่า</button>
+      <button class="nav-item"><span class="icon">👥</span> ผู้ใช้งาน</button>
+      <button class="nav-item"><span class="icon">📈</span> รายงาน</button>
+    </div>
+    <div class="sidebar-footer">
+      <div class="plan-badge">🚀 Enterprise Plan — ไม่จำกัดผู้ใช้</div>
+    </div>
+  </aside>
+
+  <div class="main-wrap" id="mainWrap">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('collapsed');document.getElementById('mainWrap').classList.toggle('expanded');">☰</button>
+        <div class="header-title">✅ อนุมัติจัดซื้อ</div>
+      </div>
+      <div class="header-right">
+        <button class="header-btn" title="แจ้งเตือน">🔔<span class="dot"></span></button>
+        <button class="header-btn" title="รีเฟรช" onclick="location.reload()">🔄</button>
+        <div class="user-pill">
+          <div class="user-avatar">สว</div>
+          สมชาย วงศ์ใหญ่
+        </div>
+      </div>
+    </header>
+
+    <div class="main">
+      <!-- Tabs -->
+      <div class="tabs" id="mainTabs">
+        <button class="tab active" data-tab="dashboard" onclick="switchTab('dashboard')">📊 แดชบอร์ด</button>
+        <button class="tab" data-tab="chain" onclick="switchTab('chain')">🔗 สายอนุมัติ</button>
+        <button class="tab" data-tab="delegation" onclick="switchTab('delegation')">⚙️ ตั้งค่าการมอบหมาย</button>
+        <button class="tab" data-tab="history" onclick="switchTab('history')">📜 ประวัติการอนุมัติ</button>
+      </div>
+
+      <!-- TAB: Dashboard -->
+      <div class="tab-content" id="tab-dashboard">
+        <!-- KPI -->
+        <div class="kpi-grid">
+          <div class="kpi">
+            <div class="kpi-label">📋 PR รออนุมัติ</div>
+            <div class="kpi-value" style="color:var(--blue);">8</div>
+            <div class="kpi-change warn">⏳ เฉลี่ย 1.2 วัน</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">📦 PO รออนุมัติ</div>
+            <div class="kpi-value" style="color:var(--purple);">3</div>
+            <div class="kpi-change warn">⏳ เฉลี่ย 0.8 วัน</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">✅ อนุมัติเดือนนี้</div>
+            <div class="kpi-value" style="color:var(--green);">47</div>
+            <div class="kpi-change up">↑ +12% จากเดือนก่อน</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">❌ ปฏิเสธเดือนนี้</div>
+            <div class="kpi-value" style="color:var(--red);">5</div>
+            <div class="kpi-change down">↓ -3 จากเดือนก่อน</div>
+          </div>
+        </div>
+
+        <!-- Filter -->
+        <div class="filter-pills" id="filterPills">
+          <button class="filter-pill active" data-filter="all" onclick="filterCards('all')">ทั้งหมด (11)</button>
+          <button class="filter-pill" data-filter="pr" onclick="filterCards('pr')">PR เท่านั้น (8)</button>
+          <button class="filter-pill" data-filter="po" onclick="filterCards('po')">PO เท่านั้น (3)</button>
+        </div>
+
+        <!-- Approval Cards -->
+        <div class="approval-grid" id="approvalGrid">
+          <!-- Cards inserted by JS -->
+        </div>
+      </div>
+
+      <!-- TAB: Chain -->
+      <div class="tab-content" id="tab-chain" style="display:none;">
+        <div class="section-title"><span class="icon">🔗</span> สายอนุมัติ — เลือกรายการเพื่อดูรายละเอียด</div>
+
+        <div style="margin-bottom:16px;">
+          <select class="form-input" id="chainSelect" onchange="renderChain(this.value)" style="max-width:400px;">
+            <option value="0">PR-2026-0412 — อุปกรณ์สำนักงาน (ฝ่ายบัญชี)</option>
+            <option value="1">PR-2026-0415 — วัตถุดิบผลิต Batch #47</option>
+            <option value="2">PO-2026-0089 — บริการ Cloud Server</option>
+            <option value="3">PR-2026-0418 — ชุดยูนิฟอร์มพนักงาน</option>
+          </select>
+        </div>
+
+        <div class="card chain-section" id="chainContainer">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- TAB: Delegation -->
+      <div class="tab-content" id="tab-delegation" style="display:none;">
+        <div class="section-title"><span class="icon">⚙️</span> ตั้งค่าการมอบหมายและอนุมัติอัตโนมัติ</div>
+
+        <div class="grid-2">
+          <div>
+            <div class="card" style="margin-bottom:16px;">
+              <div class="card-title">🤖 กฎอนุมัติอัตโนมัติ</div>
+
+              <div class="setting-card">
+                <div class="setting-icon" style="background:var(--green-l);color:var(--green);">✅</div>
+                <div class="setting-info">
+                  <div class="setting-title">อนุมัติอัตโนมัติ PR ≤ ฿10,000</div>
+                  <div class="setting-desc">ใบขอซื้อที่มีมูลค่าไม่เกิน 10,000 บาท จะได้รับการอนุมัติอัตโนมัติ</div>
+                </div>
+                <label class="toggle"><input type="checkbox" checked onchange="toggleSetting(this,'อนุมัติอัตโนมัติ PR ≤ ฿10,000')"><span class="toggle-slider"></span></label>
+              </div>
+
+              <div class="setting-card">
+                <div class="setting-icon" style="background:var(--blue-l);color:var(--blue);">🔄</div>
+                <div class="setting-info">
+                  <div class="setting-title">อนุมัติอัตโนมัติ PR ซ้ำ (Recurring)</div>
+                  <div class="setting-desc">รายการที่เคยอนุมัติแล้ว 3 ครั้ง และราคาไม่เปลี่ยนแปลง จะอนุมัติอัตโนมัติ</div>
+                </div>
+                <label class="toggle"><input type="checkbox" onchange="toggleSetting(this,'อนุมัติอัตโนมัติ PR ซ้ำ')"><span class="toggle-slider"></span></label>
+              </div>
+
+              <div class="setting-card">
+                <div class="setting-icon" style="background:var(--purple-l);color:var(--purple);">📊</div>
+                <div class="setting-info">
+                  <div class="setting-title">อนุมัติอัตโนมัติเมื่อ AI Confidence ≥ 95%</div>
+                  <div class="setting-desc">หาก AI ให้คะแนนความมั่นใจ 95% ขึ้นไป จะอนุมัติโดยไม่ต้องรอผู้อนุมัติ</div>
+                </div>
+                <label class="toggle"><input type="checkbox" onchange="toggleSetting(this,'อนุมัติอัตโนมัติเมื่อ AI Confidence ≥ 95%')"><span class="toggle-slider"></span></label>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="card" style="margin-bottom:16px;">
+              <div class="card-title">👤 การมอบหมายเมื่อลา</div>
+
+              <div class="setting-card">
+                <div class="setting-icon" style="background:var(--orange-l);color:var(--orange);">🏖️</div>
+                <div class="setting-info">
+                  <div class="setting-title">มอบหมายให้ คุณวิภา จันทร์แก้ว เมื่อลา</div>
+                  <div class="setting-desc">เมื่อคุณลาหยุด การอนุมัติทั้งหมดจะส่งไปที่ คุณวิภา (รองผู้จัดการฝ่าย)</div>
+                </div>
+                <label class="toggle"><input type="checkbox" checked onchange="toggleSetting(this,'มอบหมายเมื่อลา')"><span class="toggle-slider"></span></label>
+              </div>
+
+              <div class="setting-card">
+                <div class="setting-icon" style="background:var(--cyan-l);color:var(--cyan);">📅</div>
+                <div class="setting-info">
+                  <div class="setting-title">กำหนดวันลาล่วงหน้า</div>
+                  <div class="setting-desc">ลาพักร้อน 10-14 เม.ย. 2569 — การอนุมัติจะส่งต่ออัตโนมัติ</div>
+                </div>
+                <button class="btn btn-sm btn-outline" onclick="showToast('info','แก้ไขวันลา','เปิดปฏิทินเพื่อกำหนดวันลาใหม่')">แก้ไข</button>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">🔔 การแจ้งเตือน</div>
+
+              <div class="setting-card">
+                <div class="setting-icon" style="background:var(--red-l);color:var(--red);">⏰</div>
+                <div class="setting-info">
+                  <div class="setting-title">แจ้งเตือนเมื่อรออนุมัติ > 2 วัน</div>
+                  <div class="setting-desc">ส่ง LINE / Email เตือนเมื่อรายการค้างอนุมัติเกิน 2 วัน</div>
+                </div>
+                <label class="toggle"><input type="checkbox" checked onchange="toggleSetting(this,'แจ้งเตือนเมื่อค้าง > 2 วัน')"><span class="toggle-slider"></span></label>
+              </div>
+
+              <div class="setting-card">
+                <div class="setting-icon" style="background:var(--blue-l);color:var(--blue);">📱</div>
+                <div class="setting-info">
+                  <div class="setting-title">แจ้งเตือนผ่าน LINE Notify</div>
+                  <div class="setting-desc">ส่งแจ้งเตือนรายการรออนุมัติใหม่ผ่าน LINE ทันที</div>
+                </div>
+                <label class="toggle"><input type="checkbox" checked onchange="toggleSetting(this,'แจ้งเตือนผ่าน LINE')"><span class="toggle-slider"></span></label>
+              </div>
+
+              <div class="setting-card">
+                <div class="setting-icon" style="background:var(--green-l);color:var(--green);">📧</div>
+                <div class="setting-info">
+                  <div class="setting-title">สรุปรายวันทาง Email</div>
+                  <div class="setting-desc">ส่งสรุปรายการรออนุมัติทุกเช้า 08:00</div>
+                </div>
+                <label class="toggle"><input type="checkbox" onchange="toggleSetting(this,'สรุปรายวันทาง Email')"><span class="toggle-slider"></span></label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: History -->
+      <div class="tab-content" id="tab-history" style="display:none;">
+        <div class="section-title"><span class="icon">📜</span> ประวัติการอนุมัติ (Audit Trail)</div>
+
+        <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
+          <input class="form-input" placeholder="🔍 ค้นหาเลขที่ PR/PO, ผู้ขอ..." style="max-width:300px;" id="historySearch" oninput="filterHistory()">
+          <select class="form-input" style="max-width:180px;" id="historyFilter" onchange="filterHistory()">
+            <option value="all">ทั้งหมด</option>
+            <option value="approved">อนุมัติแล้ว</option>
+            <option value="rejected">ปฏิเสธ</option>
+          </select>
+          <button class="btn btn-outline btn-sm" onclick="showToast('info','ส่งออกข้อมูล','กำลังสร้างไฟล์ Excel...')">📥 ส่งออก Excel</button>
+        </div>
+
+        <div class="card" style="padding:0;overflow:hidden;">
+          <div id="historyList">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Reject Modal -->
+<div class="modal-overlay" id="rejectModal">
+  <div class="modal">
+    <h3 style="text-align:center;margin-bottom:6px;">❌ ปฏิเสธรายการ</h3>
+    <p style="text-align:center;color:var(--muted);font-size:.85rem;margin-bottom:20px;" id="rejectModalInfo"></p>
+    <div class="form-group">
+      <label class="form-label">เหตุผลในการปฏิเสธ *</label>
+      <textarea class="form-input" id="rejectReason" placeholder="กรุณาระบุเหตุผล..."></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">ส่งกลับเพื่อแก้ไข</label>
+      <select class="form-input" id="rejectAction">
+        <option value="reject">ปฏิเสธถาวร</option>
+        <option value="revise">ส่งกลับให้แก้ไขและส่งใหม่</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeRejectModal()">ยกเลิก</button>
+      <button class="btn btn-danger" onclick="confirmReject()">ยืนยันปฏิเสธ</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ─── DATA ───
+const approvalData = [
+  {id:'PR-2026-0412',type:'pr',requester:'นภัสสร ศรีวิลัย',dept:'ฝ่ายบัญชี',items:5,total:45200,budgetUsed:62,budgetRemain:380000,ai:'recommend',aiText:'แนะนำอนุมัติ — ราคาต่ำกว่าตลาด 12%',aiConf:96,daysWaiting:0.5},
+  {id:'PR-2026-0413',type:'pr',requester:'ธนพล มั่นคง',dept:'ฝ่ายผลิต',items:12,total:187500,budgetUsed:78,budgetRemain:220000,ai:'caution',aiText:'ระวัง — งบคงเหลือต่ำ ควรตรวจสอบ',aiConf:72,daysWaiting:1.8},
+  {id:'PR-2026-0415',type:'pr',requester:'กัญญา แสนสุข',dept:'ฝ่ายผลิต',items:8,total:92000,budgetUsed:78,budgetRemain:220000,ai:'recommend',aiText:'แนะนำอนุมัติ — วัตถุดิบเร่งด่วน สต็อกเหลือ 3 วัน',aiConf:94,daysWaiting:0.3},
+  {id:'PR-2026-0416',type:'pr',requester:'สุรศักดิ์ ทองดี',dept:'ฝ่าย IT',items:3,total:256000,budgetUsed:45,budgetRemain:550000,ai:'recommend',aiText:'แนะนำอนุมัติ — อยู่ในแผนจัดซื้อ Q2',aiConf:91,daysWaiting:1.2},
+  {id:'PR-2026-0417',type:'pr',requester:'อรนุช พิมพ์ดี',dept:'ฝ่ายการตลาด',items:2,total:38500,budgetUsed:55,budgetRemain:450000,ai:'recommend',aiText:'แนะนำอนุมัติ — ผู้ขายรายเดิม ราคาคงที่',aiConf:89,daysWaiting:0.8},
+  {id:'PR-2026-0418',type:'pr',requester:'พรชัย รุ่งโรจน์',dept:'ฝ่ายทรัพยากรบุคคล',items:150,total:375000,budgetUsed:30,budgetRemain:850000,ai:'caution',aiText:'ระวัง — จำนวนมาก ควรขอใบเสนอราคาเพิ่ม',aiConf:68,daysWaiting:2.5},
+  {id:'PR-2026-0419',type:'pr',requester:'ลลิตา ใจดี',dept:'ฝ่ายบัญชี',items:1,total:8900,budgetUsed:62,budgetRemain:380000,ai:'recommend',aiText:'แนะนำอนุมัติ — ต่ำกว่าเกณฑ์อัตโนมัติ',aiConf:99,daysWaiting:0.1},
+  {id:'PR-2026-0420',type:'pr',requester:'วรรณิสา เพ็ชรดี',dept:'ฝ่ายจัดซื้อ',items:6,total:124000,budgetUsed:40,budgetRemain:600000,ai:'reject',aiText:'ไม่แนะนำ — ราคาสูงกว่าตลาด 23% ควรเจรจาใหม่',aiConf:42,daysWaiting:3.1},
+  {id:'PO-2026-0089',type:'po',requester:'ธนพล มั่นคง',dept:'ฝ่ายผลิต',items:4,total:520000,budgetUsed:78,budgetRemain:220000,ai:'recommend',aiText:'แนะนำอนุมัติ — ผ่าน 3 quotes แล้ว ราคาดีที่สุด',aiConf:95,daysWaiting:0.7},
+  {id:'PO-2026-0090',type:'po',requester:'สุรศักดิ์ ทองดี',dept:'ฝ่าย IT',items:1,total:89000,budgetUsed:45,budgetRemain:550000,ai:'recommend',aiText:'แนะนำอนุมัติ — บริการ Cloud ราคาพิเศษ Annual',aiConf:93,daysWaiting:0.4},
+  {id:'PO-2026-0091',type:'po',requester:'อรนุช พิมพ์ดี',dept:'ฝ่ายการตลาด',items:10,total:195000,budgetUsed:55,budgetRemain:450000,ai:'caution',aiText:'ระวัง — ผู้ขายรายใหม่ ยังไม่มีประวัติ',aiConf:65,daysWaiting:1.5},
+];
+
+const chainData = [
+  {title:'PR-2026-0412 — อุปกรณ์สำนักงาน',nodes:[
+    {name:'นภัสสร ศ.',role:'ผู้ขอ',status:'approved',time:'10 นาที'},
+    {name:'หัวหน้าแผนก',role:'ผู้ตรวจสอบ',status:'approved',time:'2 ชม.'},
+    {name:'สมชาย ว.',role:'ผู้จัดการฝ่าย',status:'pending',time:'4 ชม.'},
+    {name:'CFO',role:'ผู้อนุมัติสูงสุด',status:'waiting',time:'-'},
+  ]},
+  {title:'PR-2026-0415 — วัตถุดิบผลิต Batch #47',nodes:[
+    {name:'กัญญา แ.',role:'ผู้ขอ',status:'approved',time:'5 นาที'},
+    {name:'ธนพล ม.',role:'หัวหน้าแผนก',status:'approved',time:'30 นาที'},
+    {name:'สมชาย ว.',role:'ผู้จัดการฝ่าย',status:'pending',time:'2 ชม.'},
+    {name:'COO',role:'ผู้อนุมัติสูงสุด',status:'waiting',time:'-'},
+  ]},
+  {title:'PO-2026-0089 — บริการ Cloud Server',nodes:[
+    {name:'สุรศักดิ์ ท.',role:'ผู้ขอ',status:'approved',time:'8 นาที'},
+    {name:'CTO',role:'ผู้ตรวจสอบ',status:'approved',time:'1 ชม.'},
+    {name:'สมชาย ว.',role:'ผู้จัดการฝ่าย',status:'pending',time:'5 ชม.'},
+    {name:'CEO',role:'ผู้อนุมัติสูงสุด',status:'waiting',time:'-'},
+  ]},
+  {title:'PR-2026-0418 — ชุดยูนิฟอร์มพนักงาน',nodes:[
+    {name:'พรชัย ร.',role:'ผู้ขอ',status:'approved',time:'15 นาที'},
+    {name:'HR Manager',role:'ผู้ตรวจสอบ',status:'approved',time:'4 ชม.'},
+    {name:'สมชาย ว.',role:'ผู้จัดการฝ่าย',status:'pending',time:'1 วัน'},
+    {name:'CFO',role:'ผู้อนุมัติสูงสุด',status:'waiting',time:'-'},
+    {name:'CEO',role:'อนุมัติพิเศษ',status:'waiting',time:'-'},
+  ]},
+];
+
+const historyData = [
+  {id:'PR-2026-0401',action:'approved',requester:'สมศรี มีสุข',dept:'ฝ่ายบัญชี',total:23500,date:'3 เม.ย. 2569, 14:30',approver:'สมชาย วงศ์ใหญ่',note:'อนุมัติตามแผน'},
+  {id:'PR-2026-0398',action:'rejected',requester:'วิชัย พลเมือง',dept:'ฝ่ายผลิต',total:890000,date:'3 เม.ย. 2569, 11:20',approver:'สมชาย วงศ์ใหญ่',note:'เกินงบประมาณ — ให้แบ่งรอบสั่งซื้อ'},
+  {id:'PO-2026-0085',action:'approved',requester:'กนกพร สุดใจ',dept:'ฝ่าย IT',total:156000,date:'2 เม.ย. 2569, 16:45',approver:'สมชาย วงศ์ใหญ่',note:'ราคาดีกว่าตลาด'},
+  {id:'PR-2026-0395',action:'approved',requester:'ภัทรพงษ์ ดีงาม',dept:'ฝ่ายการตลาด',total:67800,date:'2 เม.ย. 2569, 10:15',approver:'สมชาย วงศ์ใหญ่',note:'อนุมัติ — ตามแคมเปญ Q2'},
+  {id:'PR-2026-0392',action:'approved',requester:'ธนาภรณ์ ศรีทอง',dept:'ฝ่ายทรัพยากรบุคคล',total:42000,date:'1 เม.ย. 2569, 15:00',approver:'สมชาย วงศ์ใหญ่',note:'อนุมัติ'},
+  {id:'PO-2026-0082',action:'approved',requester:'อนุชา วิไลศรี',dept:'ฝ่ายผลิต',total:345000,date:'1 เม.ย. 2569, 09:30',approver:'สมชาย วงศ์ใหญ่',note:'ผ่านเปรียบเทียบราคา 3 ราย'},
+  {id:'PR-2026-0388',action:'rejected',requester:'มณีรัตน์ แก้วมณี',dept:'ฝ่ายบัญชี',total:15200,date:'31 มี.ค. 2569, 14:00',approver:'สมชาย วงศ์ใหญ่',note:'ซ้ำซ้อนกับ PR-2026-0385'},
+  {id:'PR-2026-0385',action:'approved',requester:'จิราพร เก่งกาจ',dept:'ฝ่ายบัญชี',total:18700,date:'31 มี.ค. 2569, 10:45',approver:'วิภา จันทร์แก้ว',note:'อนุมัติแทน (มอบหมาย)'},
+  {id:'PO-2026-0080',action:'approved',requester:'ณัฐพล สมบูรณ์',dept:'ฝ่าย IT',total:230000,date:'30 มี.ค. 2569, 16:20',approver:'สมชาย วงศ์ใหญ่',note:'อนุมัติ — Renewal License'},
+  {id:'PR-2026-0380',action:'approved',requester:'ปิยะ ชัยชนะ',dept:'ฝ่ายผลิต',total:78000,date:'30 มี.ค. 2569, 11:00',approver:'สมชาย วงศ์ใหญ่',note:'Auto-approved (≤ budget threshold)'},
+];
+
+// ─── RENDER ───
+function formatCurrency(n){return '฿'+n.toLocaleString('th-TH');}
+
+function renderApprovalCards(filter='all'){
+  const grid=document.getElementById('approvalGrid');
+  grid.innerHTML='';
+  const filtered=approvalData.filter(d=>filter==='all'||d.type===filter);
+  filtered.forEach((d,i)=>{
+    const budgetColor=d.budgetUsed>70?'var(--orange)':d.budgetUsed>50?'var(--blue)':'var(--green)';
+    const waitClass=d.daysWaiting>2?'color:var(--red);font-weight:700':'';
+    grid.innerHTML+=`
+    <div class="approval-card" id="card-${d.id}" data-type="${d.type}">
+      <div class="ac-header">
+        <span class="ac-type ${d.type}">${d.type.toUpperCase()}</span>
+        <span class="ac-number">${d.id}</span>
+      </div>
+      <div class="ac-body">
+        <div class="ac-info">
+          <div class="ac-info-item">👤 <strong>${d.requester}</strong></div>
+          <div class="ac-info-item">🏢 ${d.dept}</div>
+          <div class="ac-info-item" style="${waitClass}">⏳ ${d.daysWaiting} วัน</div>
+        </div>
+        <div class="ac-summary">
+          <div class="ac-items"><strong>${d.items}</strong> รายการ</div>
+          <div class="ac-total">${formatCurrency(d.total)}</div>
+        </div>
+        <div class="ac-budget">
+          <span class="ac-budget-label">งบคงเหลือ ${formatCurrency(d.budgetRemain)}</span>
+          <div class="ac-budget-bar"><div class="ac-budget-fill" style="width:${d.budgetUsed}%;background:${budgetColor};"></div></div>
+          <span class="ac-budget-pct" style="color:${budgetColor};">${d.budgetUsed}%</span>
+        </div>
+        <div class="ac-ai ${d.ai}">
+          <span class="ac-ai-icon">🤖</span>
+          <span>${d.aiText}</span>
+          <span style="margin-left:auto;font-size:.68rem;font-weight:700;">${d.aiConf}%</span>
+        </div>
+      </div>
+      <div class="ac-actions">
+        <button class="btn btn-sm btn-green" onclick="approveItem('${d.id}',${i})">✅ อนุมัติ</button>
+        <button class="btn btn-sm btn-danger" onclick="openRejectModal('${d.id}',${i})">❌ ปฏิเสธ</button>
+        <button class="btn btn-sm btn-outline" onclick="switchTab('chain');document.getElementById('chainSelect').value='${Math.min(i,3)}';renderChain(Math.min(i,3));">🔗 สาย</button>
+      </div>
+    </div>`;
+  });
+}
+
+function renderChain(idx){
+  const c=chainData[idx];
+  const container=document.getElementById('chainContainer');
+  let html=`<div style="padding:16px 18px 8px;font-weight:700;font-size:.92rem;">${c.title}</div><div class="chain-wrap"><div class="chain-flow">`;
+  c.nodes.forEach((n,i)=>{
+    const initials=n.name.substring(0,2);
+    const statusIcon=n.status==='approved'?'✅':n.status==='pending'?'⏳':n.status==='rejected'?'❌':'⬜';
+    const lineClass=i<c.nodes.length-1?(n.status==='approved'?(c.nodes[i+1].status==='pending'?'active':'done'):''):'';
+    html+=`<div class="chain-node">
+      <div class="chain-avatar ${n.status}">${initials}</div>
+      <div class="chain-status-icon">${statusIcon}</div>
+      <div class="chain-name">${n.name}</div>
+      <div class="chain-role">${n.role}</div>
+      <div class="chain-time">⏱ ${n.time}</div>
+    </div>`;
+    if(i<c.nodes.length-1){
+      html+=`<div class="chain-line ${lineClass}"><span class="chain-line-arrow">▶</span></div>`;
+    }
+  });
+  html+=`</div></div>`;
+  container.innerHTML=html;
+}
+
+function renderHistory(){
+  const list=document.getElementById('historyList');
+  list.innerHTML='';
+  historyData.forEach(h=>{
+    const icon=h.action==='approved'?'✅':'❌';
+    const actionClass=h.action==='approved'?'approve':'reject';
+    const actionText=h.action==='approved'?'อนุมัติ':'ปฏิเสธ';
+    list.innerHTML+=`
+    <div class="history-row" data-action="${h.action}" data-search="${h.id} ${h.requester} ${h.dept}">
+      <div class="history-action ${actionClass}">${icon}</div>
+      <div class="history-detail">
+        <strong>${h.id} — ${h.requester} (${h.dept})</strong>
+        <small>${actionText}: ${h.note}</small>
+      </div>
+      <div class="history-meta">
+        <div style="font-weight:600;">${formatCurrency(h.total)}</div>
+        <div>${h.date}</div>
+        <div style="font-size:.66rem;">โดย ${h.approver}</div>
+      </div>
+    </div>`;
+  });
+}
+
+// ─── ACTIONS ───
+function switchTab(tab){
+  document.querySelectorAll('.tab-content').forEach(t=>t.style.display='none');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+tab).style.display='block';
+  document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+  if(tab==='chain') renderChain(document.getElementById('chainSelect').value);
+  if(tab==='history') renderHistory();
+}
+
+function filterCards(filter){
+  document.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active'));
+  document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
+  renderApprovalCards(filter);
+}
+
+function approveItem(id,idx){
+  const card=document.getElementById('card-'+id);
+  if(!card) return;
+  card.classList.add('removing');
+  setTimeout(()=>{
+    card.remove();
+    showToast('success','อนุมัติสำเร็จ',`${id} ได้รับการอนุมัติแล้ว — ส่งต่อไปยังขั้นตอนถัดไป`);
+  },500);
+}
+
+let rejectTarget=null;
+function openRejectModal(id,idx){
+  rejectTarget={id,idx};
+  document.getElementById('rejectModalInfo').textContent=`รายการ ${id}`;
+  document.getElementById('rejectReason').value='';
+  document.getElementById('rejectModal').classList.add('show');
+}
+function closeRejectModal(){
+  document.getElementById('rejectModal').classList.remove('show');
+  rejectTarget=null;
+}
+function confirmReject(){
+  if(!rejectTarget) return;
+  const reason=document.getElementById('rejectReason').value.trim();
+  if(!reason){showToast('error','กรุณาระบุเหตุผล','ต้องระบุเหตุผลในการปฏิเสธ');return;}
+  const action=document.getElementById('rejectAction').value;
+  const card=document.getElementById('card-'+rejectTarget.id);
+  closeRejectModal();
+  if(card){
+    card.classList.add('removing');
+    setTimeout(()=>{
+      card.remove();
+      const msg=action==='revise'?`${rejectTarget.id} ส่งกลับให้แก้ไข — แจ้งผู้ขอแล้ว`:`${rejectTarget.id} ถูกปฏิเสธ — แจ้งผู้ขอแล้ว`;
+      showToast(action==='revise'?'warning':'error',action==='revise'?'ส่งกลับแก้ไข':'ปฏิเสธแล้ว',msg);
+    },500);
+  }
+}
+
+function toggleSetting(el,name){
+  const state=el.checked?'เปิด':'ปิด';
+  showToast('info','ตั้งค่าอัปเดต',`${name} — ${state}แล้ว`);
+}
+
+function filterHistory(){
+  const q=document.getElementById('historySearch').value.toLowerCase();
+  const f=document.getElementById('historyFilter').value;
+  document.querySelectorAll('.history-row').forEach(row=>{
+    const matchSearch=!q||row.dataset.search.toLowerCase().includes(q);
+    const matchFilter=f==='all'||row.dataset.action===f;
+    row.style.display=matchSearch&&matchFilter?'flex':'none';
+  });
+}
+
+// ─── TOAST ───
+function showToast(type,title,msg){
+  const icons={success:'✅',error:'❌',warning:'⚠️',info:'ℹ️'};
+  const container=document.getElementById('toastContainer');
+  const toast=document.createElement('div');
+  toast.className='toast';
+  toast.innerHTML=`<span class="toast-icon">${icons[type]||'ℹ️'}</span><div class="toast-msg"><strong>${title}</strong><small>${msg}</small></div><span class="toast-close" onclick="this.parentElement.remove()">✕</span>`;
+  container.appendChild(toast);
+  setTimeout(()=>{
+    toast.style.opacity='0';toast.style.transform='translateX(40px)';toast.style.transition='all .3s';
+    setTimeout(()=>toast.remove(),300);
+  },4000);
+}
+
+// ─── INIT ───
+renderApprovalCards();
+renderChain(0);
+</script>
+</body>
+</html>

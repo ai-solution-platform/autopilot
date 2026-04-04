@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bank Statement Parser | Autopilot v2 by ANTS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #2563EB;
+  --purple: #7C3AED;
+  --green: #059669;
+  --red: #DC2626;
+  --amber: #D97706;
+  --grad: linear-gradient(135deg, #2563EB, #7C3AED);
+  --bg: #0F172A;
+  --surface: #1E293B;
+  --surface2: #334155;
+  --text: #F8FAFC;
+  --text-dim: #94A3B8;
+  --border: #475569;
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Noto Sans Thai', 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Header */
+.header {
+  background: rgba(15,23,42,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(71,85,105,0.4);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-brand .logo {
+  width: 36px;
+  height: 36px;
+  background: var(--grad);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 800;
+  color: white;
+}
+
+.header-brand h1 {
+  font-size: 18px;
+  font-weight: 700;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header-brand span {
+  font-size: 12px;
+  color: var(--text-dim);
+  display: block;
+  margin-top: -2px;
+}
+
+.header-badge {
+  padding: 6px 14px;
+  background: rgba(5,150,105,0.15);
+  border: 1px solid rgba(5,150,105,0.3);
+  border-radius: 20px;
+  font-size: 12px;
+  color: #34D399;
+  font-weight: 600;
+}
+
+/* Main Container */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+/* Page Title */
+.page-title {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.page-title h2 {
+  font-size: 32px;
+  font-weight: 800;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
+}
+
+.page-title p {
+  color: var(--text-dim);
+  font-size: 16px;
+}
+
+/* Section */
+.section {
+  margin-bottom: 32px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Bank Grid */
+.bank-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.bank-card {
+  background: var(--surface);
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  padding: 20px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.bank-card:hover {
+  border-color: var(--blue);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(37,99,235,0.15);
+}
+
+.bank-card.active {
+  border-color: var(--blue);
+  background: rgba(37,99,235,0.1);
+}
+
+.bank-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin: 0 auto 10px;
+  font-weight: 800;
+  color: white;
+}
+
+.bank-card .bank-name {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.bank-card .bank-name-en {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+/* Statement Preview */
+.statement-area {
+  display: none;
+  gap: 24px;
+}
+
+.statement-area.visible {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* Mock Statement */
+.mock-statement {
+  background: #FFFFFF;
+  color: #1a1a1a;
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+  max-height: 700px;
+  overflow-y: auto;
+}
+
+.mock-statement::-webkit-scrollbar { width: 6px; }
+.mock-statement::-webkit-scrollbar-track { background: #f1f1f1; }
+.mock-statement::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+
+.stmt-header {
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.stmt-bank-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: 800;
+  color: white;
+}
+
+.stmt-header-info h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111;
+}
+
+.stmt-header-info p {
+  font-size: 12px;
+  color: #666;
+}
+
+.stmt-account-info {
+  padding: 16px 24px;
+  background: #f8f9fa;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  font-size: 13px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.stmt-account-info .label {
+  color: #666;
+  font-size: 11px;
+}
+
+.stmt-account-info .value {
+  font-weight: 600;
+  color: #111;
+}
+
+.stmt-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.stmt-table th {
+  background: #f1f3f5;
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #444;
+  border-bottom: 2px solid #dee2e6;
+  position: sticky;
+  top: 0;
+}
+
+.stmt-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  color: #333;
+}
+
+.stmt-table tr:hover td {
+  background: #f8f9ff;
+}
+
+.stmt-table .debit { color: #DC2626; font-weight: 600; }
+.stmt-table .credit { color: #059669; font-weight: 600; }
+.stmt-table .balance { font-weight: 600; color: #111; }
+
+/* Scanning overlay */
+.scan-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(37,99,235,0.05);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 10;
+}
+
+.scan-overlay.active {
+  opacity: 1;
+}
+
+.scan-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #2563EB, #7C3AED, transparent);
+  box-shadow: 0 0 20px rgba(37,99,235,0.5);
+  top: 0;
+  animation: scanDown 2.5s ease-in-out;
+}
+
+@keyframes scanDown {
+  0% { top: 0; }
+  100% { top: 100%; }
+}
+
+/* Extracted Data Panel */
+.extracted-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.extract-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 20px;
+  border: 1px solid var(--border);
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.5s ease;
+}
+
+.extract-card.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.extract-card h4 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.extract-card h4 .confidence {
+  margin-left: auto;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 10px;
+  background: rgba(5,150,105,0.15);
+  color: #34D399;
+  font-weight: 600;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.info-item .label {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-bottom: 2px;
+}
+
+.info-item .value {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Mini Transaction Table */
+.mini-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.mini-table th {
+  padding: 8px 10px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.mini-table th:hover {
+  color: var(--text);
+}
+
+.mini-table th .sort-icon {
+  font-size: 10px;
+  margin-left: 4px;
+}
+
+.mini-table td {
+  padding: 6px 10px;
+  border-bottom: 1px solid rgba(71,85,105,0.3);
+  font-size: 12px;
+}
+
+.mini-table .debit { color: #F87171; }
+.mini-table .credit { color: #34D399; }
+
+/* Summary Stats */
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.stat-box {
+  background: rgba(15,23,42,0.5);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+}
+
+.stat-box .stat-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+
+.stat-box .stat-value {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.stat-box .stat-value.income { color: #34D399; }
+.stat-box .stat-value.expense { color: #F87171; }
+
+/* AI Analysis */
+.ai-section {
+  margin-top: 32px;
+  display: none;
+}
+
+.ai-section.visible {
+  display: block;
+}
+
+.ai-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid rgba(124,58,237,0.3);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--grad);
+}
+
+.ai-card h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ai-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.ai-metric {
+  background: rgba(15,23,42,0.5);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  text-align: center;
+}
+
+.ai-metric .metric-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.ai-metric .metric-label {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+
+.ai-metric .metric-value {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.ai-metric .metric-value.good { color: #34D399; }
+.ai-metric .metric-value.warn { color: #FBBF24; }
+
+.ai-recommendation {
+  background: rgba(5,150,105,0.1);
+  border: 1px solid rgba(5,150,105,0.3);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.ai-recommendation .rec-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.ai-recommendation .rec-text {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.ai-recommendation .rec-text strong {
+  color: #34D399;
+}
+
+/* Multi-Statement Compare */
+.compare-section {
+  margin-top: 32px;
+  display: none;
+}
+
+.compare-section.visible {
+  display: block;
+}
+
+.compare-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 24px;
+}
+
+.compare-card h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.chart-box {
+  background: rgba(15,23,42,0.5);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+}
+
+.chart-box h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--text-dim);
+}
+
+/* Line Chart */
+.line-chart {
+  position: relative;
+  height: 200px;
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  padding-bottom: 24px;
+}
+
+.line-chart-svg {
+  width: 100%;
+  height: 200px;
+}
+
+/* Category Breakdown */
+.category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.category-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cat-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.cat-info {
+  flex: 1;
+}
+
+.cat-name {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.cat-bar-bg {
+  height: 6px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+  margin-top: 4px;
+  overflow: hidden;
+}
+
+.cat-bar {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 1s ease;
+}
+
+.cat-amount {
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 70px;
+  text-align: right;
+}
+
+/* Balance Trend (mini bars) */
+.balance-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 120px;
+  padding-top: 8px;
+}
+
+.balance-bar-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.balance-bar {
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  background: var(--grad);
+  transition: height 1s ease;
+  min-height: 4px;
+}
+
+.balance-bar-label {
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-top: 6px;
+}
+
+/* Upload Section */
+.upload-zone {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 40px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: rgba(30,41,59,0.5);
+  margin-bottom: 24px;
+}
+
+.upload-zone:hover {
+  border-color: var(--blue);
+  background: rgba(37,99,235,0.08);
+}
+
+.upload-zone .icon { font-size: 48px; margin-bottom: 12px; display: block; }
+.upload-zone .title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.upload-zone .subtitle { font-size: 13px; color: var(--text-dim); }
+
+/* Progress */
+.progress-bar {
+  height: 4px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 12px;
+  display: none;
+}
+
+.progress-bar.active { display: block; }
+
+.progress-fill {
+  height: 100%;
+  background: var(--grad);
+  border-radius: 2px;
+  width: 0;
+  transition: width 0.3s;
+}
+
+/* Status pills */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.status-pill.processing {
+  background: rgba(37,99,235,0.15);
+  color: #60A5FA;
+}
+
+.status-pill.done {
+  background: rgba(5,150,105,0.15);
+  color: #34D399;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .bank-grid { grid-template-columns: repeat(2, 1fr); }
+  .statement-area.visible { grid-template-columns: 1fr; }
+  .ai-metrics { grid-template-columns: repeat(2, 1fr); }
+  .charts-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .bank-grid { grid-template-columns: 1fr 1fr; }
+  .header { padding: 12px 16px; }
+  .container { padding: 20px 12px; }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-in {
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.typing {
+  animation: pulse 1s ease infinite;
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-brand">
+    <div class="logo">A</div>
+    <div>
+      <h1>Autopilot v2</h1>
+      <span>ANTS &mdash; AI Solution Hub</span>
+    </div>
+  </div>
+  <div class="header-badge">Bank Statement Parser</div>
+</div>
+
+<div class="container">
+
+  <!-- Page Title -->
+  <div class="page-title">
+    <h2>Thai Bank Statement Parser</h2>
+    <p>AI-powered OCR + NLP สำหรับวิเคราะห์ Statement ธนาคารไทย &mdash; รองรับ 8 ธนาคารหลัก</p>
+  </div>
+
+  <!-- Upload Zone -->
+  <div class="upload-zone" onclick="document.getElementById('fileInput').click()">
+    <span class="icon">📄</span>
+    <div class="title">อัปโหลด Bank Statement (PDF / รูปภาพ)</div>
+    <div class="subtitle">ลากไฟล์มาวาง หรือคลิกเพื่อเลือกไฟล์ &bull; รองรับ PDF, JPG, PNG</div>
+    <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png" style="display:none" multiple>
+    <div class="progress-bar" id="uploadProgress">
+      <div class="progress-fill" id="uploadFill"></div>
+    </div>
+  </div>
+
+  <!-- Supported Banks -->
+  <div class="section">
+    <div class="section-title">🏦 เลือกธนาคารเพื่อดูตัวอย่าง Demo</div>
+    <div class="bank-grid" id="bankGrid"></div>
+  </div>
+
+  <!-- Statement + Extracted Data -->
+  <div class="statement-area" id="statementArea">
+    <!-- Left: Mock Statement -->
+    <div style="position:relative">
+      <div class="mock-statement" id="mockStatement"></div>
+      <div class="scan-overlay" id="scanOverlay">
+        <div class="scan-line"></div>
+      </div>
+    </div>
+
+    <!-- Right: Extracted Data -->
+    <div class="extracted-panel" id="extractedPanel"></div>
+  </div>
+
+  <!-- AI Financial Analysis -->
+  <div class="ai-section" id="aiSection">
+    <div class="ai-card">
+      <h3>🤖 AI Financial Analysis</h3>
+      <div class="ai-metrics" id="aiMetrics"></div>
+      <div class="ai-recommendation" id="aiRec"></div>
+    </div>
+  </div>
+
+  <!-- Multi-Statement Compare -->
+  <div class="compare-section" id="compareSection">
+    <div class="compare-card">
+      <h3>📊 เปรียบเทียบ Statement 6 เดือน</h3>
+      <div class="charts-grid">
+        <div>
+          <div class="chart-box">
+            <h4>แนวโน้มรายรับ-รายจ่าย (6 เดือน)</h4>
+            <svg class="line-chart-svg" id="trendChart" viewBox="0 0 500 200"></svg>
+          </div>
+          <div class="chart-box" style="margin-top:16px">
+            <h4>ยอดเฉลี่ยคงเหลือ (6 เดือน)</h4>
+            <div class="balance-bars" id="balanceBars"></div>
+          </div>
+        </div>
+        <div class="chart-box">
+          <h4>สัดส่วนค่าใช้จ่ายตามประเภท</h4>
+          <div class="category-list" id="categoryList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// === Bank Data ===
+const banks = [
+  { id:'kbank', name:'กสิกรไทย', en:'KBank', color:'#00A94F', emoji:'🟢', logo:'K' },
+  { id:'bbl',   name:'กรุงเทพ',  en:'BBL',   color:'#1E3A8A', emoji:'🔵', logo:'B' },
+  { id:'scb',   name:'ไทยพาณิชย์', en:'SCB', color:'#7B2D8E', emoji:'🟣', logo:'S' },
+  { id:'bay',   name:'กรุงศรี',  en:'BAY',   color:'#F5A623', emoji:'🟡', logo:'A' },
+  { id:'ttb',   name:'ทหารไทยธนชาต', en:'TTB', color:'#DC2626', emoji:'🔴', logo:'T' },
+  { id:'ktb',   name:'กรุงไทย',  en:'KTB',   color:'#E67E22', emoji:'🟠', logo:'K' },
+  { id:'gsb',   name:'ออมสิน',   en:'GSB',   color:'#06B6D4', emoji:'🩵', logo:'G' },
+  { id:'ghb',   name:'ธอส.',     en:'GHB',   color:'#6366F1', emoji:'🏦', logo:'H' },
+];
+
+const accountHolders = {
+  kbank: { name:'นาย สมชาย ใจดี', acct:'058-2-12345-6', type:'ออมทรัพย์', branch:'สยามพารากอน' },
+  bbl:   { name:'นาง สุภาพร รักเรียน', acct:'123-4-56789-0', type:'ออมทรัพย์', branch:'สีลม' },
+  scb:   { name:'น.ส. วรรณา ศรีสุข', acct:'405-2-98765-4', type:'กระแสรายวัน', branch:'อโศก' },
+  bay:   { name:'นาย ปรีชา มั่นคง', acct:'789-1-23456-7', type:'ออมทรัพย์', branch:'เซ็นทรัลเวิลด์' },
+  ttb:   { name:'นาง ดวงใจ สว่าง', acct:'321-0-65432-1', type:'ออมทรัพย์', branch:'ลาดพร้าว' },
+  ktb:   { name:'นาย อนันต์ ทองดี', acct:'654-3-21098-7', type:'ออมทรัพย์', branch:'บางรัก' },
+  gsb:   { name:'น.ส. มาลี ดอกไม้', acct:'020-1-23456-8', type:'เผื่อเรียก', branch:'สำนักงานใหญ่' },
+  ghb:   { name:'นาย ประเสริฐ บ้านดี', acct:'100-2-34567-9', type:'ออมทรัพย์', branch:'พระราม 9' },
+};
+
+// Generate 20 transactions
+function generateTransactions(bankId) {
+  const descs = [
+    { text:'เงินเดือน บจก.สยามเทค', type:'credit', range:[38000,52000] },
+    { text:'โอน PromptPay 089-xxx-xxxx', type:'debit', range:[500,3000] },
+    { text:'จ่ายบิล ค่าไฟฟ้า MEA', type:'debit', range:[800,2500] },
+    { text:'จ่ายบิล ค่าน้ำ MWA', type:'debit', range:[200,600] },
+    { text:'ATM ถอนเงินสด', type:'debit', range:[2000,10000] },
+    { text:'ช้อปปิ้ง Shopee', type:'debit', range:[299,5990] },
+    { text:'ช้อปปิ้ง Lazada', type:'debit', range:[199,3490] },
+    { text:'โอนเข้า PromptPay', type:'credit', range:[1000,8000] },
+    { text:'จ่ายบิล ค่าโทรศัพท์ AIS', type:'debit', range:[599,1299] },
+    { text:'จ่ายบิล ค่าเน็ต TRUE', type:'debit', range:[590,890] },
+    { text:'หักค่าประกันชีวิต AIA', type:'debit', range:[2500,5000] },
+    { text:'โอนเข้า ดอกเบี้ย', type:'credit', range:[25,150] },
+    { text:'จ่ายบัตรเครดิต SCB', type:'debit', range:[3000,15000] },
+    { text:'ค่าอาหาร GrabFood', type:'debit', range:[89,450] },
+    { text:'เติมน้ำมัน PTT Station', type:'debit', range:[500,2000] },
+    { text:'ค่าเช่าคอนโด', type:'debit', range:[8000,15000] },
+    { text:'รายได้ Freelance', type:'credit', range:[5000,20000] },
+    { text:'โอน PromptPay 062-xxx-xxxx', type:'debit', range:[200,1500] },
+    { text:'จ่ายบิล ค่าน้ำมัน Shell', type:'debit', range:[600,1800] },
+    { text:'เงินปันผล กองทุน KTAM', type:'credit', range:[500,3000] },
+  ];
+
+  let balance = 85000 + Math.floor(Math.random()*30000);
+  const txns = [];
+  const months = ['พ.ย.','พ.ย.','พ.ย.','พ.ย.','พ.ย.','ธ.ค.','ธ.ค.','ธ.ค.','ธ.ค.','ธ.ค.',
+                   'ม.ค.','ม.ค.','ม.ค.','ม.ค.','ม.ค.','ก.พ.','ก.พ.','ก.พ.','ก.พ.','ก.พ.'];
+
+  for (let i = 0; i < 20; i++) {
+    const d = descs[i];
+    const day = String(Math.floor(Math.random()*28)+1).padStart(2,'0');
+    const amt = Math.floor(Math.random()*(d.range[1]-d.range[0])+d.range[0]);
+    if (d.type === 'credit') balance += amt;
+    else balance -= amt;
+    if (balance < 5000) balance += 40000;
+    txns.push({
+      date: `${day}/${months[i]}/68`,
+      desc: d.text,
+      debit: d.type === 'debit' ? amt : null,
+      credit: d.type === 'credit' ? amt : null,
+      balance: balance
+    });
+  }
+  return txns;
+}
+
+function fmt(n) {
+  if (n === null || n === undefined) return '-';
+  return n.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+// === Render Banks ===
+const bankGrid = document.getElementById('bankGrid');
+banks.forEach(b => {
+  const card = document.createElement('div');
+  card.className = 'bank-card';
+  card.dataset.bankId = b.id;
+  card.innerHTML = `
+    <div class="bank-icon" style="background:${b.color}">${b.logo}</div>
+    <div class="bank-name">${b.emoji} ${b.name}</div>
+    <div class="bank-name-en">${b.en}</div>
+  `;
+  card.addEventListener('click', () => selectBank(b.id));
+  bankGrid.appendChild(card);
+});
+
+let currentBank = null;
+let currentTxns = [];
+let sortCol = null;
+let sortAsc = true;
+
+function selectBank(bankId) {
+  // Update active state
+  document.querySelectorAll('.bank-card').forEach(c => c.classList.remove('active'));
+  document.querySelector(`[data-bank-id="${bankId}"]`).classList.add('active');
+
+  currentBank = bankId;
+  const bank = banks.find(b => b.id === bankId);
+  const acct = accountHolders[bankId];
+  currentTxns = generateTransactions(bankId);
+
+  // Build mock statement
+  const stmt = document.getElementById('mockStatement');
+  stmt.innerHTML = `
+    <div class="stmt-header" style="background:linear-gradient(135deg, ${bank.color}15, ${bank.color}05)">
+      <div class="stmt-bank-logo" style="background:${bank.color}">${bank.logo}</div>
+      <div class="stmt-header-info">
+        <h3>${bank.emoji} ธนาคาร${bank.name} (${bank.en})</h3>
+        <p>รายการเคลื่อนไหวบัญชี &bull; Statement of Account</p>
+      </div>
+    </div>
+    <div class="stmt-account-info">
+      <div><div class="label">ชื่อบัญชี</div><div class="value">${acct.name}</div></div>
+      <div><div class="label">เลขที่บัญชี</div><div class="value">${acct.acct}</div></div>
+      <div><div class="label">ประเภทบัญชี</div><div class="value">${acct.type}</div></div>
+      <div><div class="label">สาขา</div><div class="value">${acct.branch}</div></div>
+    </div>
+    <table class="stmt-table">
+      <thead>
+        <tr>
+          <th>วันที่</th>
+          <th>รายการ</th>
+          <th>ถอน/โอน</th>
+          <th>ฝาก/รับ</th>
+          <th>คงเหลือ</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${currentTxns.map(t => `
+          <tr>
+            <td>${t.date}</td>
+            <td>${t.desc}</td>
+            <td class="debit">${t.debit ? fmt(t.debit) : '-'}</td>
+            <td class="credit">${t.credit ? fmt(t.credit) : '-'}</td>
+            <td class="balance">${fmt(t.balance)}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+
+  // Show statement area
+  document.getElementById('statementArea').classList.add('visible');
+
+  // Start OCR animation
+  startOCRAnimation(bank, acct);
+}
+
+function startOCRAnimation(bank, acct) {
+  // Reset
+  const panel = document.getElementById('extractedPanel');
+  panel.innerHTML = '';
+  document.getElementById('aiSection').classList.remove('visible');
+  document.getElementById('compareSection').classList.remove('visible');
+
+  // Scan overlay
+  const overlay = document.getElementById('scanOverlay');
+  overlay.classList.add('active');
+  overlay.innerHTML = '<div class="scan-line"></div>';
+
+  setTimeout(() => {
+    overlay.classList.remove('active');
+  }, 2600);
+
+  // Extract cards one by one
+  const totalDebit = currentTxns.reduce((s,t) => s + (t.debit||0), 0);
+  const totalCredit = currentTxns.reduce((s,t) => s + (t.credit||0), 0);
+  const startBal = currentTxns[0].balance - (currentTxns[0].credit||0) + (currentTxns[0].debit||0);
+  const endBal = currentTxns[currentTxns.length-1].balance;
+
+  // Card 1: Account Info (after 1s)
+  setTimeout(() => {
+    const card = createExtractCard('📋 ข้อมูลบัญชี', '99.2%', `
+      <div class="info-grid">
+        <div class="info-item"><div class="label">ชื่อ</div><div class="value">${acct.name}</div></div>
+        <div class="info-item"><div class="label">เลขบัญชี</div><div class="value">${acct.acct}</div></div>
+        <div class="info-item"><div class="label">ประเภท</div><div class="value">${acct.type}</div></div>
+        <div class="info-item"><div class="label">สาขา</div><div class="value">${acct.branch}</div></div>
+      </div>
+    `);
+    panel.appendChild(card);
+    requestAnimationFrame(() => card.classList.add('visible'));
+  }, 1000);
+
+  // Card 2: Transaction Table (after 2s)
+  setTimeout(() => {
+    const card = createExtractCard('📊 รายการเคลื่อนไหว (20 รายการ)', '97.8%', `
+      <div style="max-height:220px;overflow-y:auto">
+        <table class="mini-table" id="extractedTable">
+          <thead>
+            <tr>
+              <th onclick="sortTable(0)">วันที่ <span class="sort-icon">&#9650;&#9660;</span></th>
+              <th onclick="sortTable(1)">รายการ <span class="sort-icon">&#9650;&#9660;</span></th>
+              <th onclick="sortTable(2)">ถอน <span class="sort-icon">&#9650;&#9660;</span></th>
+              <th onclick="sortTable(3)">ฝาก <span class="sort-icon">&#9650;&#9660;</span></th>
+              <th onclick="sortTable(4)">คงเหลือ <span class="sort-icon">&#9650;&#9660;</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            ${currentTxns.map(t => `
+              <tr>
+                <td>${t.date}</td>
+                <td>${t.desc}</td>
+                <td class="debit">${t.debit ? fmt(t.debit) : '-'}</td>
+                <td class="credit">${t.credit ? fmt(t.credit) : '-'}</td>
+                <td>${fmt(t.balance)}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `);
+    panel.appendChild(card);
+    requestAnimationFrame(() => card.classList.add('visible'));
+  }, 2000);
+
+  // Card 3: Summary (after 3s)
+  setTimeout(() => {
+    const card = createExtractCard('📈 สรุปยอด', '99.5%', `
+      <div class="summary-grid">
+        <div class="stat-box"><div class="stat-label">ยอดเริ่มต้น</div><div class="stat-value">${fmt(startBal)}</div></div>
+        <div class="stat-box"><div class="stat-label">ยอดสิ้นสุด</div><div class="stat-value">${fmt(endBal)}</div></div>
+        <div class="stat-box"><div class="stat-label">รวมรายรับ</div><div class="stat-value income">+${fmt(totalCredit)}</div></div>
+        <div class="stat-box"><div class="stat-label">รวมรายจ่าย</div><div class="stat-value expense">-${fmt(totalDebit)}</div></div>
+      </div>
+    `);
+    panel.appendChild(card);
+    requestAnimationFrame(() => card.classList.add('visible'));
+  }, 3000);
+
+  // Card 4: Income Analysis (after 3.8s)
+  setTimeout(() => {
+    const salaryTxns = currentTxns.filter(t => t.desc.includes('เงินเดือน'));
+    const avgSalary = salaryTxns.length > 0 ? salaryTxns.reduce((s,t) => s+(t.credit||0),0)/salaryTxns.length : 42500;
+    const otherIncome = totalCredit - salaryTxns.reduce((s,t) => s+(t.credit||0),0);
+
+    const card = createExtractCard('💰 วิเคราะห์รายได้', '98.1%', `
+      <div class="info-grid">
+        <div class="info-item"><div class="label">เงินเดือนเฉลี่ย</div><div class="value" style="color:#34D399">฿${fmt(avgSalary)}</div></div>
+        <div class="info-item"><div class="label">รายได้อื่น</div><div class="value" style="color:#60A5FA">฿${fmt(otherIncome)}</div></div>
+        <div class="info-item"><div class="label">เฉลี่ย/เดือน</div><div class="value">฿${fmt(totalCredit/4)}</div></div>
+        <div class="info-item"><div class="label">จำนวนรายการรับ</div><div class="value">${currentTxns.filter(t=>t.credit).length} รายการ</div></div>
+      </div>
+    `);
+    panel.appendChild(card);
+    requestAnimationFrame(() => card.classList.add('visible'));
+  }, 3800);
+
+  // AI Analysis (after 4.5s)
+  setTimeout(() => showAIAnalysis(totalCredit, totalDebit), 4500);
+
+  // Compare Section (after 5.5s)
+  setTimeout(() => showCompareSection(), 5500);
+}
+
+function createExtractCard(title, confidence, content) {
+  const card = document.createElement('div');
+  card.className = 'extract-card';
+  card.innerHTML = `
+    <h4>${title} <span class="confidence">${confidence}</span></h4>
+    ${content}
+  `;
+  return card;
+}
+
+// Sort extracted table
+function sortTable(colIndex) {
+  const table = document.getElementById('extractedTable');
+  if (!table) return;
+  const tbody = table.querySelector('tbody');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+
+  if (sortCol === colIndex) sortAsc = !sortAsc;
+  else { sortCol = colIndex; sortAsc = true; }
+
+  rows.sort((a, b) => {
+    let va = a.children[colIndex].textContent.trim();
+    let vb = b.children[colIndex].textContent.trim();
+    // Try numeric
+    const na = parseFloat(va.replace(/[^0-9.-]/g, ''));
+    const nb = parseFloat(vb.replace(/[^0-9.-]/g, ''));
+    if (!isNaN(na) && !isNaN(nb)) {
+      return sortAsc ? na - nb : nb - na;
+    }
+    return sortAsc ? va.localeCompare(vb, 'th') : vb.localeCompare(va, 'th');
+  });
+
+  rows.forEach(r => tbody.appendChild(r));
+}
+
+// AI Analysis
+function showAIAnalysis(totalCredit, totalDebit) {
+  const avgIncome = 42500;
+  const avgExpense = 28300;
+  const savingRate = 33.4;
+  const dsr = 28;
+
+  const metricsEl = document.getElementById('aiMetrics');
+  metricsEl.innerHTML = `
+    <div class="ai-metric">
+      <div class="metric-icon">💵</div>
+      <div class="metric-label">รายได้เฉลี่ย</div>
+      <div class="metric-value good">฿42,500</div>
+      <div style="font-size:11px;color:var(--text-dim)">/เดือน</div>
+    </div>
+    <div class="ai-metric">
+      <div class="metric-icon">🛒</div>
+      <div class="metric-label">ค่าใช้จ่ายเฉลี่ย</div>
+      <div class="metric-value warn">฿28,300</div>
+      <div style="font-size:11px;color:var(--text-dim)">/เดือน</div>
+    </div>
+    <div class="ai-metric">
+      <div class="metric-icon">🏦</div>
+      <div class="metric-label">อัตราการออม</div>
+      <div class="metric-value good">33.4%</div>
+      <div style="font-size:11px;color:var(--text-dim)">ดีกว่าค่าเฉลี่ย</div>
+    </div>
+    <div class="ai-metric">
+      <div class="metric-icon">📉</div>
+      <div class="metric-label">Debt Service Ratio</div>
+      <div class="metric-value good">28%</div>
+      <div style="font-size:11px;color:var(--text-dim)">ต่ำกว่าเกณฑ์ 40%</div>
+    </div>
+  `;
+
+  const recEl = document.getElementById('aiRec');
+  recEl.innerHTML = `
+    <div class="rec-icon">✅</div>
+    <div class="rec-text">
+      <strong>แนะนำ:</strong> รายได้สม่ำเสมอ มีอัตราการออมสูง (33.4%) และ Debt Service Ratio อยู่ในเกณฑ์ดี (28%)
+      <br>เหมาะสำหรับ<strong>สินเชื่อไม่เกิน ฿1,500,000</strong> โดยผ่อนชำระไม่เกิน ฿17,000/เดือน
+      <br><br>
+      <span style="font-size:12px;color:var(--text-dim)">* วิเคราะห์โดย AI จากข้อมูล Statement 6 เดือน &bull; ความแม่นยำ 98.5%</span>
+    </div>
+  `;
+
+  document.getElementById('aiSection').classList.add('visible');
+  document.getElementById('aiSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Multi-Statement Compare
+function showCompareSection() {
+  const section = document.getElementById('compareSection');
+  section.classList.add('visible');
+
+  // Income/Expense trend line chart
+  const months = ['ก.ย.','ต.ค.','พ.ย.','ธ.ค.','ม.ค.','ก.พ.'];
+  const incomes =  [41200, 43500, 42800, 45100, 42500, 44200];
+  const expenses = [27800, 30200, 28500, 31800, 28300, 29100];
+
+  const svg = document.getElementById('trendChart');
+  const w = 500, h = 200, pad = 40;
+  const maxVal = 50000;
+  const xStep = (w - pad*2) / (months.length - 1);
+
+  // Grid lines
+  let gridHTML = '';
+  for (let i = 0; i <= 4; i++) {
+    const y = pad + (h - pad*2) * i / 4;
+    const val = maxVal - (maxVal * i / 4);
+    gridHTML += `<line x1="${pad}" y1="${y}" x2="${w-pad}" y2="${y}" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>`;
+    gridHTML += `<text x="${pad-5}" y="${y+4}" fill="#94A3B8" font-size="9" text-anchor="end" font-family="Inter">${(val/1000).toFixed(0)}k</text>`;
+  }
+
+  // Month labels
+  months.forEach((m, i) => {
+    const x = pad + i * xStep;
+    gridHTML += `<text x="${x}" y="${h-8}" fill="#94A3B8" font-size="10" text-anchor="middle" font-family="Noto Sans Thai">${m}</text>`;
+  });
+
+  // Income line
+  const incomePoints = incomes.map((v, i) => `${pad + i*xStep},${pad + (h-pad*2) * (1 - v/maxVal)}`).join(' ');
+  const expensePoints = expenses.map((v, i) => `${pad + i*xStep},${pad + (h-pad*2) * (1 - v/maxVal)}`).join(' ');
+
+  // Area fills
+  const incomeArea = `${pad},${h-pad} ${incomePoints} ${pad+(months.length-1)*xStep},${h-pad}`;
+  const expenseArea = `${pad},${h-pad} ${expensePoints} ${pad+(months.length-1)*xStep},${h-pad}`;
+
+  svg.innerHTML = `
+    ${gridHTML}
+    <polygon points="${incomeArea}" fill="rgba(52,211,153,0.1)"/>
+    <polygon points="${expenseArea}" fill="rgba(248,113,113,0.1)"/>
+    <polyline points="${incomePoints}" fill="none" stroke="#34D399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="${expensePoints}" fill="none" stroke="#F87171" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    ${incomes.map((v, i) => `<circle cx="${pad+i*xStep}" cy="${pad+(h-pad*2)*(1-v/maxVal)}" r="4" fill="#34D399" stroke="#0F172A" stroke-width="2"/>`).join('')}
+    ${expenses.map((v, i) => `<circle cx="${pad+i*xStep}" cy="${pad+(h-pad*2)*(1-v/maxVal)}" r="4" fill="#F87171" stroke="#0F172A" stroke-width="2"/>`).join('')}
+    <rect x="${w-140}" y="8" width="130" height="36" rx="6" fill="rgba(15,23,42,0.7)"/>
+    <circle cx="${w-124}" cy="20" r="4" fill="#34D399"/>
+    <text x="${w-116}" y="24" fill="#F8FAFC" font-size="10" font-family="Noto Sans Thai">รายรับ</text>
+    <circle cx="${w-124}" cy="36" r="4" fill="#F87171"/>
+    <text x="${w-116}" y="40" fill="#F8FAFC" font-size="10" font-family="Noto Sans Thai">รายจ่าย</text>
+  `;
+
+  // Balance bars
+  const balances = [92500, 105800, 119300, 132600, 147100, 162200];
+  const maxBal = Math.max(...balances);
+  const barsEl = document.getElementById('balanceBars');
+  barsEl.innerHTML = months.map((m, i) => `
+    <div class="balance-bar-wrapper">
+      <div style="font-size:9px;color:var(--text-dim);margin-bottom:4px">${(balances[i]/1000).toFixed(0)}k</div>
+      <div class="balance-bar" style="height:${(balances[i]/maxBal)*100}%"></div>
+      <div class="balance-bar-label">${m}</div>
+    </div>
+  `).join('');
+
+  // Category breakdown
+  const categories = [
+    { name:'ค่าเช่า/ที่พัก',     color:'#F87171', amount:12000, pct:42 },
+    { name:'ช้อปปิ้งออนไลน์',    color:'#FBBF24', amount:4800,  pct:17 },
+    { name:'อาหาร/เครื่องดื่ม',  color:'#34D399', amount:3500,  pct:12 },
+    { name:'ค่าสาธารณูปโภค',     color:'#60A5FA', amount:3200,  pct:11 },
+    { name:'ค่าเดินทาง/น้ำมัน',  color:'#A78BFA', amount:2800,  pct:10 },
+    { name:'ประกัน/การเงิน',     color:'#FB923C', amount:2500,  pct:9 },
+  ];
+
+  const catEl = document.getElementById('categoryList');
+  catEl.innerHTML = categories.map(c => `
+    <div class="category-item">
+      <div class="cat-color" style="background:${c.color}"></div>
+      <div class="cat-info">
+        <div class="cat-name">${c.name}</div>
+        <div class="cat-bar-bg"><div class="cat-bar" style="width:${c.pct}%;background:${c.color}"></div></div>
+      </div>
+      <div class="cat-amount">฿${c.amount.toLocaleString()}</div>
+    </div>
+  `).join('');
+}
+</script>
+</body>
+</html>

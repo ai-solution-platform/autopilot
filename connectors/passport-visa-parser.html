@@ -1,0 +1,1854 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Passport & Visa Document Parser | Autopilot v2 by ANTS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #2563EB;
+  --purple: #7C3AED;
+  --green: #059669;
+  --orange: #D97706;
+  --red: #DC2626;
+  --grad: linear-gradient(135deg, #2563EB, #7C3AED);
+  --bg: #0F172A;
+  --surface: #1E293B;
+  --surface2: #334155;
+  --text: #F8FAFC;
+  --text-dim: #94A3B8;
+  --border: #475569;
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Noto Sans Thai', 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Header */
+.header {
+  background: rgba(15,23,42,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(71,85,105,0.4);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-brand .logo {
+  width: 36px;
+  height: 36px;
+  background: var(--grad);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 800;
+  color: white;
+}
+
+.header-brand h1 {
+  font-size: 18px;
+  font-weight: 700;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header-brand span {
+  font-size: 12px;
+  color: var(--text-dim);
+  display: block;
+  margin-top: -2px;
+}
+
+.header-badge {
+  padding: 6px 14px;
+  background: rgba(5,150,105,0.15);
+  border: 1px solid rgba(5,150,105,0.3);
+  border-radius: 20px;
+  font-size: 12px;
+  color: #34D399;
+  font-weight: 600;
+}
+
+/* Main Container */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+/* Page Title */
+.page-title {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.page-title h2 {
+  font-size: 32px;
+  font-weight: 800;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
+}
+
+.page-title p {
+  color: var(--text-dim);
+  font-size: 16px;
+}
+
+/* Cards */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.card-header .icon {
+  width: 42px;
+  height: 42px;
+  background: var(--grad);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.card-header h3 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.card-header p {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+/* Grid */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+.grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+
+@media (max-width: 900px) {
+  .grid-2, .grid-3, .grid-4, .grid-5 { grid-template-columns: 1fr; }
+}
+
+/* Supported Doc Types */
+.doc-type-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  text-align: center;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.doc-type-card:hover {
+  border-color: var(--blue);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(37,99,235,0.15);
+}
+
+.doc-type-card.active {
+  border-color: var(--blue);
+  background: rgba(37,99,235,0.1);
+}
+
+.doc-type-card .emoji {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.doc-type-card h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.doc-type-card p {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+/* Passport Mock */
+.passport-mock {
+  background: linear-gradient(145deg, #1a237e 0%, #0d47a1 50%, #1a237e 100%);
+  border-radius: 12px;
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid #283593;
+}
+
+.passport-mock::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255,255,255,0.02) 2px,
+    rgba(255,255,255,0.02) 4px
+  );
+  pointer-events: none;
+}
+
+.passport-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.passport-header .crest {
+  font-size: 40px;
+  margin-bottom: 4px;
+}
+
+.passport-header .country {
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #FFD54F;
+  font-weight: 600;
+}
+
+.passport-header .type {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  margin-top: 2px;
+}
+
+.passport-body {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.passport-photo {
+  width: 100px;
+  height: 130px;
+  background: linear-gradient(135deg, #e0e0e0, #bdbdbd);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.passport-photo .face-icon {
+  font-size: 48px;
+  opacity: 0.5;
+}
+
+.passport-photo .face-overlay {
+  position: absolute;
+  top: 8px; left: 8px; right: 8px; bottom: 8px;
+  border: 2px solid #4CAF50;
+  border-radius: 4px;
+  opacity: 0;
+  animation: faceDetect 2s ease forwards;
+}
+
+@keyframes faceDetect {
+  0% { opacity: 0; transform: scale(1.2); }
+  50% { opacity: 1; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.passport-photo .face-badge {
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #4CAF50;
+  color: white;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+.passport-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.passport-field label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.4);
+  display: block;
+}
+
+.passport-field .value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #E3F2FD;
+  font-family: 'Inter', monospace;
+}
+
+.passport-field.full {
+  grid-column: span 2;
+}
+
+/* MRZ Zone */
+.mrz-zone {
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+  padding: 14px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  color: #B3E5FC;
+  line-height: 1.8;
+  position: relative;
+  overflow: hidden;
+}
+
+.mrz-zone::before {
+  content: 'MACHINE READABLE ZONE';
+  position: absolute;
+  top: -1px;
+  right: 10px;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.2);
+  font-family: 'Inter', sans-serif;
+}
+
+.mrz-line {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.mrz-scan {
+  display: inline-block;
+  animation: mrzReveal 1.5s ease forwards;
+  opacity: 0;
+}
+
+.mrz-scan.line2 {
+  animation-delay: 0.5s;
+}
+
+@keyframes mrzReveal {
+  0% { opacity: 0; transform: translateX(-20px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+.mrz-highlight {
+  position: relative;
+  cursor: help;
+}
+
+.mrz-highlight:hover {
+  background: rgba(37,99,235,0.3);
+  border-radius: 2px;
+}
+
+/* MRZ Decode Table */
+.mrz-decode {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.mrz-decode-item {
+  background: var(--surface2);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mrz-decode-item .label {
+  font-size: 11px;
+  color: var(--text-dim);
+  min-width: 80px;
+}
+
+.mrz-decode-item .val {
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Inter', monospace;
+}
+
+.mrz-decode-item .check {
+  margin-left: auto;
+  font-size: 14px;
+}
+
+/* Checksum */
+.checksum-box {
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.checksum-box h4 {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--text-dim);
+}
+
+.checksum-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.checksum-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  font-family: 'Inter', monospace;
+  color: #B3E5FC;
+}
+
+.checksum-step .num {
+  width: 22px;
+  height: 22px;
+  background: rgba(37,99,235,0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--blue);
+  flex-shrink: 0;
+}
+
+.checksum-result {
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: rgba(5,150,105,0.1);
+  border: 1px solid rgba(5,150,105,0.3);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #34D399;
+  font-weight: 600;
+}
+
+/* Face Extraction */
+.face-extract-grid {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 24px;
+  align-items: center;
+}
+
+.face-preview {
+  width: 140px;
+  height: 170px;
+  background: linear-gradient(135deg, #e8e8e8, #d0d0d0);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64px;
+  position: relative;
+  border: 3px solid #4CAF50;
+}
+
+.face-preview .scan-line {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #4CAF50, transparent);
+  animation: scanDown 2s ease-in-out infinite;
+}
+
+@keyframes scanDown {
+  0% { top: 0; }
+  50% { top: calc(100% - 3px); }
+  100% { top: 0; }
+}
+
+.face-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.metric-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.metric-bar .label {
+  font-size: 13px;
+  color: var(--text-dim);
+  min-width: 160px;
+}
+
+.metric-bar .bar {
+  flex: 1;
+  height: 10px;
+  background: var(--surface2);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.metric-bar .bar-fill {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 1.5s ease;
+}
+
+.metric-bar .bar-fill.green { background: linear-gradient(90deg, #059669, #34D399); }
+.metric-bar .bar-fill.blue { background: linear-gradient(90deg, #2563EB, #60A5FA); }
+.metric-bar .bar-fill.purple { background: linear-gradient(90deg, #7C3AED, #A78BFA); }
+
+.metric-bar .val {
+  font-size: 14px;
+  font-weight: 700;
+  min-width: 50px;
+  text-align: right;
+}
+
+/* Visa Mock */
+.visa-mock {
+  background: linear-gradient(145deg, #F5F5DC 0%, #FAEBD7 50%, #F5F5DC 100%);
+  border-radius: 12px;
+  padding: 24px;
+  color: #1a1a1a;
+  position: relative;
+  border: 2px solid #D4A574;
+  overflow: hidden;
+}
+
+.visa-mock::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23D4A574' fill-opacity='0.05'%3E%3Cpath d='M20 0L40 20L20 40L0 20z'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.visa-header {
+  text-align: center;
+  margin-bottom: 16px;
+  border-bottom: 2px solid #D4A574;
+  padding-bottom: 12px;
+}
+
+.visa-header .country-name {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #8B4513;
+}
+
+.visa-header .visa-type {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #A0522D;
+  margin-top: 4px;
+}
+
+.visa-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.visa-field {
+  padding: 8px 0;
+}
+
+.visa-field label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #8B7355;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.visa-field .value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2C1810;
+  font-family: 'Inter', monospace;
+}
+
+.visa-field.full {
+  grid-column: span 2;
+}
+
+/* Expiry Status */
+.expiry-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.expiry-badge.ok {
+  background: rgba(5,150,105,0.15);
+  border: 1px solid rgba(5,150,105,0.3);
+  color: #34D399;
+}
+
+.expiry-badge.warning {
+  background: rgba(217,119,6,0.15);
+  border: 1px solid rgba(217,119,6,0.3);
+  color: #FBBF24;
+}
+
+.expiry-badge.danger {
+  background: rgba(220,38,38,0.15);
+  border: 1px solid rgba(220,38,38,0.3);
+  color: #F87171;
+}
+
+/* Validation Panel */
+.validation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.validation-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  border-left: 4px solid transparent;
+}
+
+.validation-item.pass { border-left-color: #059669; }
+.validation-item.warn { border-left-color: #D97706; }
+.validation-item.fail { border-left-color: #DC2626; }
+
+.validation-item .status-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.validation-item.pass .status-icon { background: rgba(5,150,105,0.15); }
+.validation-item.warn .status-icon { background: rgba(217,119,6,0.15); }
+.validation-item.fail .status-icon { background: rgba(220,38,38,0.15); }
+
+.validation-item .info h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.validation-item .info p {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+/* Batch Processing */
+.batch-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.batch-table th {
+  text-align: left;
+  padding: 12px 14px;
+  background: var(--surface2);
+  color: var(--text-dim);
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--border);
+}
+
+.batch-table th:first-child { border-radius: 8px 0 0 0; }
+.batch-table th:last-child { border-radius: 0 8px 0 0; }
+
+.batch-table td {
+  padding: 14px;
+  border-bottom: 1px solid rgba(71,85,105,0.3);
+  vertical-align: middle;
+}
+
+.batch-table tr:hover td {
+  background: rgba(37,99,235,0.05);
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.status-pill.valid {
+  background: rgba(5,150,105,0.15);
+  color: #34D399;
+}
+
+.status-pill.expiring {
+  background: rgba(217,119,6,0.15);
+  color: #FBBF24;
+}
+
+.status-pill.expired {
+  background: rgba(220,38,38,0.15);
+  color: #F87171;
+}
+
+.status-pill.processing {
+  background: rgba(37,99,235,0.15);
+  color: #60A5FA;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.btn-primary {
+  background: var(--grad);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(37,99,235,0.3);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-outline:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+/* Upload Zone */
+.upload-zone {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 40px;
+  text-align: center;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.upload-zone:hover {
+  border-color: var(--blue);
+  background: rgba(37,99,235,0.05);
+}
+
+.upload-zone .upload-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.upload-zone h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.upload-zone p {
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+/* Stats Row */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  text-align: center;
+}
+
+.stat-card .stat-num {
+  font-size: 28px;
+  font-weight: 800;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stat-card .stat-label {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+/* Progress */
+.progress-ring {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.progress-ring .ring {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: conic-gradient(var(--blue) var(--pct), var(--surface2) var(--pct));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.progress-ring .ring-inner {
+  width: 44px;
+  height: 44px;
+  background: var(--surface);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* OCR Highlight */
+.ocr-overlay {
+  position: relative;
+  border: 2px solid var(--blue);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ocr-scan-line {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--blue), transparent);
+  animation: scanDown 3s ease-in-out infinite;
+}
+
+/* Tabs */
+.tab-bar {
+  display: flex;
+  gap: 4px;
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+  padding: 4px;
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: var(--text-dim);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab-btn.active {
+  background: var(--blue);
+  color: white;
+}
+
+.tab-btn:hover:not(.active) {
+  color: var(--text);
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* Section Label */
+.section-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+/* Animate in */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.6s ease forwards;
+}
+
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+.delay-5 { animation-delay: 0.5s; }
+
+/* Separator */
+.sep {
+  height: 1px;
+  background: var(--border);
+  margin: 20px 0;
+  opacity: 0.5;
+}
+
+/* Tag */
+.tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.tag-blue { background: rgba(37,99,235,0.15); color: #60A5FA; }
+.tag-green { background: rgba(5,150,105,0.15); color: #34D399; }
+.tag-orange { background: rgba(217,119,6,0.15); color: #FBBF24; }
+.tag-red { background: rgba(220,38,38,0.15); color: #F87171; }
+.tag-purple { background: rgba(124,58,237,0.15); color: #A78BFA; }
+
+/* Nationality Flag placeholder */
+.flag {
+  display: inline-block;
+  width: 24px;
+  height: 16px;
+  border-radius: 3px;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+.flag-th { background: linear-gradient(180deg, #ED1C24 0% 20%, #FFFFFF 20% 40%, #241D4F 40% 60%, #FFFFFF 60% 80%, #ED1C24 80% 100%); }
+.flag-jp { background: #fff; position: relative; border: 1px solid #ddd; }
+.flag-mm { background: linear-gradient(180deg, #FECB00 0% 33%, #34B233 33% 66%, #EA2839 66% 100%); }
+.flag-kh { background: linear-gradient(180deg, #032EA1 0% 25%, #E00025 25% 75%, #032EA1 75% 100%); }
+.flag-la { background: linear-gradient(180deg, #CE1126 0% 25%, #002868 25% 75%, #CE1126 75% 100%); }
+
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-brand">
+    <div class="logo">A</div>
+    <div>
+      <h1>Autopilot v2 by ANTS</h1>
+      <span>AI Solution Hub</span>
+    </div>
+  </div>
+  <div class="header-badge">Connector Module</div>
+</div>
+
+<!-- Container -->
+<div class="container">
+
+  <!-- Page Title -->
+  <div class="page-title fade-in">
+    <h2>Passport & Visa Document Parser</h2>
+    <p>AI-OCR สำหรับอ่านหนังสือเดินทาง วีซ่า และเอกสารเดินทาง | สำหรับ HR, Immigration Services, สำนักงานตรวจคนเข้าเมือง</p>
+  </div>
+
+  <!-- Stats Overview -->
+  <div class="stats-row fade-in delay-1">
+    <div class="stat-card">
+      <div class="stat-num">12,847</div>
+      <div class="stat-label">เอกสารที่ประมวลผลแล้ว</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">99.7%</div>
+      <div class="stat-label">ความแม่นยำ MRZ OCR</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">&lt;2s</div>
+      <div class="stat-label">เวลาประมวลผลเฉลี่ย</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">47</div>
+      <div class="stat-label">สัญชาติที่รองรับ</div>
+    </div>
+  </div>
+
+  <!-- Section 1: Supported Document Types -->
+  <div class="card fade-in delay-1">
+    <div class="card-header">
+      <div class="icon">📄</div>
+      <div>
+        <h3>ประเภทเอกสารที่รองรับ</h3>
+        <p>เลือกประเภทเอกสารเพื่อเริ่มต้นการวิเคราะห์</p>
+      </div>
+    </div>
+    <div class="grid-5">
+      <div class="doc-type-card active" onclick="selectDocType(this)">
+        <div class="emoji">🛂</div>
+        <h4>หนังสือเดินทางไทย</h4>
+        <p>Thai Passport</p>
+      </div>
+      <div class="doc-type-card" onclick="selectDocType(this)">
+        <div class="emoji">🛂</div>
+        <h4>หนังสือเดินทางต่างชาติ</h4>
+        <p>Foreign Passport</p>
+      </div>
+      <div class="doc-type-card" onclick="selectDocType(this)">
+        <div class="emoji">📋</div>
+        <h4>วีซ่า</h4>
+        <p>Visa Sticker / Stamp</p>
+      </div>
+      <div class="doc-type-card" onclick="selectDocType(this)">
+        <div class="emoji">📄</div>
+        <h4>ใบอนุญาตทำงาน</h4>
+        <p>Work Permit</p>
+      </div>
+      <div class="doc-type-card" onclick="selectDocType(this)">
+        <div class="emoji">📄</div>
+        <h4>TM.6 / TM.30</h4>
+        <p>Immigration Form</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload Zone -->
+  <div class="card fade-in delay-2">
+    <div class="upload-zone" id="uploadZone" onclick="simulateScan()">
+      <div class="upload-icon">📸</div>
+      <h4>อัปโหลดเอกสารเดินทาง</h4>
+      <p>ลากไฟล์มาวางที่นี่ หรือคลิกเพื่อเลือกไฟล์ | รองรับ JPG, PNG, PDF | สูงสุด 20MB</p>
+      <div style="margin-top:16px">
+        <button class="btn btn-primary" onclick="event.stopPropagation(); simulateScan()">📷 สแกนเอกสาร</button>
+        <button class="btn btn-outline" style="margin-left:8px" onclick="event.stopPropagation();">📁 เลือกไฟล์</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tab-bar fade-in delay-2">
+    <button class="tab-btn active" onclick="switchTab('passport')">🛂 Passport MRZ</button>
+    <button class="tab-btn" onclick="switchTab('face')">👤 Face Extraction</button>
+    <button class="tab-btn" onclick="switchTab('visa')">📋 Visa Recognition</button>
+    <button class="tab-btn" onclick="switchTab('validation')">✅ Validation</button>
+    <button class="tab-btn" onclick="switchTab('batch')">📦 Batch Processing</button>
+  </div>
+
+  <!-- Tab 1: Passport MRZ Reader -->
+  <div class="tab-panel active" id="tab-passport">
+    <div class="grid-2">
+      <!-- Left: Mock Passport -->
+      <div class="card fade-in delay-2">
+        <div class="section-label">ตัวอย่างหนังสือเดินทาง — Mock Thai Passport</div>
+        <div class="passport-mock">
+          <div class="passport-header">
+            <div class="crest">🇹🇭</div>
+            <div class="country">KINGDOM OF THAILAND</div>
+            <div class="type">PASSPORT</div>
+          </div>
+          <div class="passport-body">
+            <div class="passport-photo">
+              <div class="face-icon">👤</div>
+              <div class="face-overlay"></div>
+              <div class="face-badge">DETECTED</div>
+            </div>
+            <div class="passport-fields">
+              <div class="passport-field">
+                <label>Type / ประเภท</label>
+                <div class="value">P</div>
+              </div>
+              <div class="passport-field">
+                <label>Country Code</label>
+                <div class="value">THA</div>
+              </div>
+              <div class="passport-field full">
+                <label>Surname / นามสกุล</label>
+                <div class="value">WIRIYAKIT</div>
+              </div>
+              <div class="passport-field full">
+                <label>Given Names / ชื่อ</label>
+                <div class="value">SOMCHAI</div>
+              </div>
+              <div class="passport-field">
+                <label>Passport No.</label>
+                <div class="value">AA1234567</div>
+              </div>
+              <div class="passport-field">
+                <label>Nationality</label>
+                <div class="value">THAI</div>
+              </div>
+              <div class="passport-field">
+                <label>Date of Birth</label>
+                <div class="value">15 JAN 1990</div>
+              </div>
+              <div class="passport-field">
+                <label>Sex</label>
+                <div class="value">M</div>
+              </div>
+              <div class="passport-field">
+                <label>Date of Issue</label>
+                <div class="value">01 JUL 2021</div>
+              </div>
+              <div class="passport-field">
+                <label>Date of Expiry</label>
+                <div class="value" style="color:#FBBF24">31 DEC 2026</div>
+              </div>
+            </div>
+          </div>
+          <!-- MRZ Zone -->
+          <div class="mrz-zone">
+            <div class="mrz-line"><span class="mrz-scan"><span class="mrz-highlight" title="Type: Passport">P</span><span class="mrz-highlight" title="Issuing Country: Thailand">&lt;THA</span><span class="mrz-highlight" title="Surname">WIRIYAKIT</span>&lt;&lt;<span class="mrz-highlight" title="Given Name">SOMCHAI</span>&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span></div>
+            <div class="mrz-line"><span class="mrz-scan line2"><span class="mrz-highlight" title="Passport Number + Check">AA12345678</span><span class="mrz-highlight" title="Nationality">THA</span><span class="mrz-highlight" title="DOB: 15 Jan 1990">900115</span><span class="mrz-highlight" title="Sex: Male">1M</span><span class="mrz-highlight" title="Expiry: 31 Dec 2026">261231</span>1&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;04</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Decoded Data -->
+      <div class="card fade-in delay-3">
+        <div class="section-label">MRZ Decoded — ข้อมูลที่ถอดรหัสได้</div>
+        <div class="mrz-decode">
+          <div class="mrz-decode-item">
+            <div class="label">Type</div>
+            <div class="val">P (Passport)</div>
+            <div class="check">✅</div>
+          </div>
+          <div class="mrz-decode-item">
+            <div class="label">Country</div>
+            <div class="val">THA (ไทย)</div>
+            <div class="check">✅</div>
+          </div>
+          <div class="mrz-decode-item">
+            <div class="label">Surname</div>
+            <div class="val">WIRIYAKIT</div>
+            <div class="check">✅</div>
+          </div>
+          <div class="mrz-decode-item">
+            <div class="label">Given Name</div>
+            <div class="val">SOMCHAI</div>
+            <div class="check">✅</div>
+          </div>
+          <div class="mrz-decode-item">
+            <div class="label">Passport No.</div>
+            <div class="val">AA1234567</div>
+            <div class="check">✅</div>
+          </div>
+          <div class="mrz-decode-item">
+            <div class="label">Nationality</div>
+            <div class="val">THA</div>
+            <div class="check">✅</div>
+          </div>
+          <div class="mrz-decode-item">
+            <div class="label">Date of Birth</div>
+            <div class="val">15 ม.ค. 2533</div>
+            <div class="check">✅</div>
+          </div>
+          <div class="mrz-decode-item">
+            <div class="label">Sex</div>
+            <div class="val">M (ชาย)</div>
+            <div class="check">✅</div>
+          </div>
+          <div class="mrz-decode-item">
+            <div class="label">Expiry Date</div>
+            <div class="val">31 ธ.ค. 2569</div>
+            <div class="check">✅</div>
+          </div>
+          <div class="mrz-decode-item">
+            <div class="label">Checksum</div>
+            <div class="val" style="color:#34D399">VALID (04)</div>
+            <div class="check">✅</div>
+          </div>
+        </div>
+
+        <!-- Checksum Algorithm -->
+        <div class="checksum-box">
+          <h4>MRZ Checksum Validation Algorithm</h4>
+          <div class="checksum-steps">
+            <div class="checksum-step">
+              <div class="num">1</div>
+              <span>แปลงตัวอักษร A-Z → 10-35, 0-9 → 0-9, &lt; → 0</span>
+            </div>
+            <div class="checksum-step">
+              <div class="num">2</div>
+              <span>คูณแต่ละตัวด้วย weight pattern: 7, 3, 1, 7, 3, 1...</span>
+            </div>
+            <div class="checksum-step">
+              <div class="num">3</div>
+              <span>รวมผลคูณทั้งหมด: A(10)×7 + A(10)×3 + 1×1 + 2×7 + ...</span>
+            </div>
+            <div class="checksum-step">
+              <div class="num">4</div>
+              <span>หาร mod 10: sum % 10 = check digit</span>
+            </div>
+          </div>
+          <div class="checksum-result">
+            ✅ Passport No. Check: AA1234567 → check digit = 8 — VALID
+          </div>
+          <div class="checksum-result" style="margin-top:6px">
+            ✅ DOB Check: 900115 → check digit = 1 — VALID
+          </div>
+          <div class="checksum-result" style="margin-top:6px">
+            ✅ Expiry Check: 261231 → check digit = 1 — VALID
+          </div>
+          <div class="checksum-result" style="margin-top:6px">
+            ✅ Composite Check Digit: 04 — ALL VALID
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 2: Face Extraction -->
+  <div class="tab-panel" id="tab-face">
+    <div class="grid-2">
+      <div class="card fade-in">
+        <div class="card-header">
+          <div class="icon">👤</div>
+          <div>
+            <h3>Face Extraction & Matching</h3>
+            <p>ตัดรูปใบหน้าจากหนังสือเดินทาง เพื่อใช้ในการจับคู่ตัวตน</p>
+          </div>
+        </div>
+        <div class="face-extract-grid">
+          <div class="face-preview">
+            <div class="scan-line"></div>
+            👤
+          </div>
+          <div class="face-metrics">
+            <div class="metric-bar">
+              <div class="label">Face Detection</div>
+              <div class="bar"><div class="bar-fill green" style="width:99.2%"></div></div>
+              <div class="val" style="color:#34D399">99.2%</div>
+            </div>
+            <div class="metric-bar">
+              <div class="label">Face Quality Score</div>
+              <div class="bar"><div class="bar-fill blue" style="width:95%"></div></div>
+              <div class="val" style="color:#60A5FA">95.0%</div>
+            </div>
+            <div class="metric-bar">
+              <div class="label">Liveness Check</div>
+              <div class="bar"><div class="bar-fill purple" style="width:88%"></div></div>
+              <div class="val" style="color:#A78BFA">88.0%</div>
+            </div>
+            <div class="metric-bar">
+              <div class="label">Photo Clarity</div>
+              <div class="bar"><div class="bar-fill green" style="width:97%"></div></div>
+              <div class="val" style="color:#34D399">97.0%</div>
+            </div>
+            <div class="metric-bar">
+              <div class="label">Face Angle</div>
+              <div class="bar"><div class="bar-fill blue" style="width:96%"></div></div>
+              <div class="val" style="color:#60A5FA">Frontal</div>
+            </div>
+          </div>
+        </div>
+        <div class="sep"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <span class="tag tag-green">Face Detected</span>
+          <span class="tag tag-blue">Single Face</span>
+          <span class="tag tag-purple">ICAO Compliant</span>
+          <span class="tag tag-green">Ready for Matching</span>
+        </div>
+      </div>
+
+      <div class="card fade-in">
+        <div class="card-header">
+          <div class="icon">🔍</div>
+          <div>
+            <h3>Face Matching Result</h3>
+            <p>เปรียบเทียบรูปในพาสปอร์ตกับรูปถ่ายปัจจุบัน</p>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:24px;justify-content:center;margin:20px 0">
+          <div style="text-align:center">
+            <div style="width:100px;height:120px;background:linear-gradient(135deg,#e0e0e0,#bdbdbd);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:40px;border:2px solid #4CAF50;margin:0 auto">👤</div>
+            <div style="font-size:11px;color:var(--text-dim);margin-top:6px">Passport Photo</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:32px;color:#34D399">↔</div>
+            <div style="font-size:24px;font-weight:800;color:#34D399;margin-top:4px">97.8%</div>
+            <div style="font-size:11px;color:#34D399">Match Score</div>
+          </div>
+          <div style="text-align:center">
+            <div style="width:100px;height:120px;background:linear-gradient(135deg,#e0e0e0,#bdbdbd);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:40px;border:2px solid var(--blue);margin:0 auto">📷</div>
+            <div style="font-size:11px;color:var(--text-dim);margin-top:6px">Live Photo</div>
+          </div>
+        </div>
+        <div class="checksum-result">
+          ✅ Identity Verified — ยืนยันตัวตนสำเร็จ ความเหมือน 97.8%
+        </div>
+        <div class="sep"></div>
+        <div style="font-size:12px;color:var(--text-dim)">
+          <strong>Feature Points Compared:</strong> 128 จุด | <strong>Algorithm:</strong> ArcFace + MTCNN | <strong>Threshold:</strong> 85%
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 3: Visa Stamp Recognition -->
+  <div class="tab-panel" id="tab-visa">
+    <div class="grid-2">
+      <!-- Left: Visa Mock -->
+      <div class="card fade-in">
+        <div class="card-header">
+          <div class="icon">📋</div>
+          <div>
+            <h3>Visa Stamp Recognition</h3>
+            <p>อ่านสติกเกอร์วีซ่า / ตราประทับ</p>
+          </div>
+        </div>
+        <div class="visa-mock">
+          <div class="visa-header">
+            <div class="country-name">KINGDOM OF THAILAND</div>
+            <div class="visa-type">NON-IMMIGRANT VISA</div>
+          </div>
+          <div class="visa-fields">
+            <div class="visa-field">
+              <label>Visa Type</label>
+              <div class="value">Non-Immigrant B</div>
+            </div>
+            <div class="visa-field">
+              <label>Class</label>
+              <div class="value">Single Entry</div>
+            </div>
+            <div class="visa-field">
+              <label>Entries</label>
+              <div class="value">1</div>
+            </div>
+            <div class="visa-field">
+              <label>Duration of Stay</label>
+              <div class="value">90 Days</div>
+            </div>
+            <div class="visa-field">
+              <label>Valid From</label>
+              <div class="value">15 FEB 2026</div>
+            </div>
+            <div class="visa-field">
+              <label>Valid Until</label>
+              <div class="value">15 MAY 2026</div>
+            </div>
+            <div class="visa-field full">
+              <label>Issued At</label>
+              <div class="value">Royal Thai Embassy, Tokyo</div>
+            </div>
+            <div class="visa-field full">
+              <label>Remarks</label>
+              <div class="value">BUSINESS / EMPLOYMENT</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: OCR Result -->
+      <div class="card fade-in">
+        <div class="card-header">
+          <div class="icon">🔎</div>
+          <div>
+            <h3>ผลการอ่าน OCR วีซ่า</h3>
+            <p>ข้อมูลที่สกัดจากสติกเกอร์วีซ่า</p>
+          </div>
+        </div>
+        <div class="mrz-decode">
+          <div class="mrz-decode-item">
+            <div class="label">Visa Type</div>
+            <div class="val">Non-Imm B</div>
+            <div class="check">✅</div>
+          </div>
+          <div class="mrz-decode-item">
+            <div class="label">Class</div>
+            <div class="val">Single Entry</div>
+            <div class="check">✅</div>
+          </div>
+          <div class="mrz-decode-item">
+            <div class="label">Entries</div>
+            <div class="val">1</div>
+            <div class="check">✅</div>
+          </div>
+          <div class="mrz-decode-item">
+            <div class="label">Duration</div>
+            <div class="val">90 วัน</div>
+            <div class="check">✅</div>
+          </div>
+          <div class="mrz-decode-item">
+            <div class="label">Valid From</div>
+            <div class="val">15 ก.พ. 2569</div>
+            <div class="check">✅</div>
+          </div>
+          <div class="mrz-decode-item">
+            <div class="label">Valid Until</div>
+            <div class="val">15 พ.ค. 2569</div>
+            <div class="check">✅</div>
+          </div>
+          <div class="mrz-decode-item" style="grid-column:span 2">
+            <div class="label">Issued At</div>
+            <div class="val">Royal Thai Embassy, Tokyo</div>
+            <div class="check">✅</div>
+          </div>
+        </div>
+
+        <div class="sep"></div>
+
+        <div class="section-label">สถานะวีซ่า</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border-radius:8px;padding:14px">
+            <span style="font-size:14px;font-weight:600">วันหมดอายุวีซ่า</span>
+            <span class="expiry-badge ok">✅ หมดอายุอีก 45 วัน</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border-radius:8px;padding:14px">
+            <span style="font-size:14px;font-weight:600">จำนวนวันที่พำนักได้</span>
+            <span style="font-size:14px;font-weight:700;color:#60A5FA">เหลือ 62 วัน จาก 90 วัน</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border-radius:8px;padding:14px">
+            <span style="font-size:14px;font-weight:600">การขยายวีซ่า</span>
+            <span class="tag tag-blue">สามารถต่ออายุได้ที่ ตม.</span>
+          </div>
+        </div>
+
+        <div class="sep"></div>
+
+        <!-- Expired Visa Example -->
+        <div class="section-label">ตัวอย่าง: วีซ่าหมดอายุ</div>
+        <div style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);border-radius:8px;padding:14px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+            <span style="font-size:20px">⚠️</span>
+            <span style="font-size:14px;font-weight:700;color:#F87171">วีซ่าหมดอายุแล้ว — Overstay 12 วัน</span>
+          </div>
+          <div style="font-size:12px;color:var(--text-dim)">
+            Valid Until: 23 มี.ค. 2569 | ปัจจุบัน: 4 เม.ย. 2569 | กรุณาติดต่อ ตม. ทันที
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 4: Travel Document Validation -->
+  <div class="tab-panel" id="tab-validation">
+    <div class="grid-2">
+      <div class="card fade-in">
+        <div class="card-header">
+          <div class="icon">✅</div>
+          <div>
+            <h3>Travel Document Validation</h3>
+            <p>ตรวจสอบเอกสารเดินทางทั้งหมด</p>
+          </div>
+        </div>
+        <div class="validation-list">
+          <div class="validation-item pass">
+            <div class="status-icon">✅</div>
+            <div class="info">
+              <h4>หนังสือเดินทาง — ใช้งานได้</h4>
+              <p>Passport AA1234567 | หมดอายุ 31 ธ.ค. 2569 | เหลืออีก 9 เดือน (มากกว่า 6 เดือน)</p>
+            </div>
+          </div>
+          <div class="validation-item pass">
+            <div class="status-icon">✅</div>
+            <div class="info">
+              <h4>วีซ่า Non-Immigrant B — ใช้งานได้</h4>
+              <p>Valid until 15 พ.ค. 2569 | หมดอายุอีก 45 วัน | Single Entry — ยังไม่ได้ใช้</p>
+            </div>
+          </div>
+          <div class="validation-item pass">
+            <div class="status-icon">✅</div>
+            <div class="info">
+              <h4>ใบอนุญาตทำงาน — Active</h4>
+              <p>Work Permit No. WP-2569-00234 | หมดอายุ 30 มิ.ย. 2569</p>
+            </div>
+          </div>
+          <div class="validation-item warn">
+            <div class="status-icon">⚠️</div>
+            <div class="info">
+              <h4>แนะนำ: ต่ออายุพาสปอร์ตเร็ว ๆ นี้</h4>
+              <p>⚠️ Passport expires in 9 months — renewal recommended before 6-month mark for travel</p>
+            </div>
+          </div>
+          <div class="validation-item pass">
+            <div class="status-icon">✅</div>
+            <div class="info">
+              <h4>TM.30 — ลงทะเบียนแล้ว</h4>
+              <p>แจ้งที่พักอาศัยแล้ว เมื่อ 20 ก.พ. 2569 | ที่อยู่: อาคาร ABC สุขุมวิท 21</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card fade-in">
+        <div class="card-header">
+          <div class="icon">🔔</div>
+          <div>
+            <h3>Alerts & Recommendations</h3>
+            <p>การแจ้งเตือนและข้อแนะนำ</p>
+          </div>
+        </div>
+
+        <!-- Alert: Warning -->
+        <div style="background:rgba(217,119,6,0.08);border:1px solid rgba(217,119,6,0.25);border-radius:10px;padding:16px;margin-bottom:14px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+            <span style="font-size:20px">⚠️</span>
+            <span style="font-size:14px;font-weight:700;color:#FBBF24">Passport expires in 9 months</span>
+          </div>
+          <p style="font-size:12px;color:var(--text-dim);margin-bottom:8px">
+            บางประเทศต้องการพาสปอร์ตเหลืออายุไม่น้อยกว่า 6 เดือน หากต้องเดินทางช่วงปลายปี ควรต่ออายุก่อน
+          </p>
+          <button class="btn btn-outline" style="font-size:12px;padding:6px 14px">📅 ตั้งแจ้งเตือน</button>
+        </div>
+
+        <!-- Alert: Visa Expiring -->
+        <div style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.25);border-radius:10px;padding:16px;margin-bottom:14px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+            <span style="font-size:20px">🔴</span>
+            <span style="font-size:14px;font-weight:700;color:#F87171">วีซ่าจะหมดอายุใน 45 วัน</span>
+          </div>
+          <p style="font-size:12px;color:var(--text-dim);margin-bottom:8px">
+            กรุณาดำเนินการต่ออายุวีซ่าที่สำนักงานตรวจคนเข้าเมือง ก่อนวันหมดอายุ
+          </p>
+          <button class="btn btn-outline" style="font-size:12px;padding:6px 14px">📋 ดูขั้นตอนต่อวีซ่า</button>
+        </div>
+
+        <!-- Info -->
+        <div style="background:rgba(37,99,235,0.08);border:1px solid rgba(37,99,235,0.25);border-radius:10px;padding:16px;margin-bottom:14px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+            <span style="font-size:20px">ℹ️</span>
+            <span style="font-size:14px;font-weight:700;color:#60A5FA">Work Permit ยังมีผล</span>
+          </div>
+          <p style="font-size:12px;color:var(--text-dim)">
+            ใบอนุญาตทำงาน WP-2569-00234 หมดอายุ 30 มิ.ย. 2569 — หากต่อวีซ่าแล้ว ต้องต่อ WP ด้วย
+          </p>
+        </div>
+
+        <!-- Checklist -->
+        <div class="section-label" style="margin-top:20px">Checklist สำหรับ HR</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;gap:10px;font-size:13px">
+            <span style="color:#34D399;font-size:18px">☑</span> พาสปอร์ตมีอายุเหลือเกิน 6 เดือน
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:13px">
+            <span style="color:#34D399;font-size:18px">☑</span> วีซ่าตรงกับประเภทการทำงาน
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:13px">
+            <span style="color:#34D399;font-size:18px">☑</span> Work Permit ยังไม่หมดอายุ
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:13px">
+            <span style="color:#34D399;font-size:18px">☑</span> TM.30 ลงทะเบียนแล้ว
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:13px">
+            <span style="color:#FBBF24;font-size:18px">☐</span> ยื่นต่อวีซ่าก่อนหมดอายุ
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 5: Batch Processing -->
+  <div class="tab-panel" id="tab-batch">
+    <div class="card fade-in">
+      <div class="card-header">
+        <div class="icon">📦</div>
+        <div>
+          <h3>Batch Processing — ประมวลผลจำนวนมาก</h3>
+          <p>สำหรับ HR / Immigration Services — อัปโหลดพาสปอร์ตพนักงานทั้งหมดพร้อมกัน</p>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="runBatch()">📤 อัปโหลด Batch (CSV/ZIP)</button>
+        <button class="btn btn-outline">📥 ดาวน์โหลดผลลัพธ์ Excel</button>
+        <button class="btn btn-outline">📊 รายงานสรุป</button>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:8px">
+          <span style="font-size:12px;color:var(--text-dim)">สถานะ:</span>
+          <span class="status-pill valid">✅ เสร็จสิ้น 8/8</span>
+        </div>
+      </div>
+
+      <div style="overflow-x:auto">
+        <table class="batch-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ชื่อ-นามสกุล</th>
+              <th>สัญชาติ</th>
+              <th>Passport No.</th>
+              <th>วันหมดอายุ PP</th>
+              <th>สถานะ PP</th>
+              <th>ประเภทวีซ่า</th>
+              <th>วันหมดอายุวีซ่า</th>
+              <th>สถานะวีซ่า</th>
+              <th>Work Permit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><strong>Tanaka Yuki</strong></td>
+              <td><span class="flag flag-jp"></span> JPN</td>
+              <td style="font-family:'Inter',monospace">TK8834521</td>
+              <td>15 มี.ค. 2571</td>
+              <td><span class="status-pill valid">✅ Valid</span></td>
+              <td>Non-Imm B</td>
+              <td>30 มิ.ย. 2569</td>
+              <td><span class="status-pill valid">✅ Valid</span></td>
+              <td><span class="status-pill valid">✅ Active</span></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><strong>Aung Myat Thu</strong></td>
+              <td><span class="flag flag-mm"></span> MMR</td>
+              <td style="font-family:'Inter',monospace">MA2215678</td>
+              <td>20 ส.ค. 2569</td>
+              <td><span class="status-pill valid">✅ Valid</span></td>
+              <td>Non-Imm B</td>
+              <td>15 พ.ค. 2569</td>
+              <td><span class="status-pill expiring">⚠️ 41 วัน</span></td>
+              <td><span class="status-pill valid">✅ Active</span></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><strong>Sok Chanthy</strong></td>
+              <td><span class="flag flag-kh"></span> KHM</td>
+              <td style="font-family:'Inter',monospace">KC0098712</td>
+              <td>10 ก.ค. 2569</td>
+              <td><span class="status-pill expiring">⚠️ 3 เดือน</span></td>
+              <td>Non-Imm B</td>
+              <td>28 เม.ย. 2569</td>
+              <td><span class="status-pill expiring">⚠️ 24 วัน</span></td>
+              <td><span class="status-pill valid">✅ Active</span></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><strong>Souphanouvong Keo</strong></td>
+              <td><span class="flag flag-la"></span> LAO</td>
+              <td style="font-family:'Inter',monospace">LP5567890</td>
+              <td>05 ม.ค. 2570</td>
+              <td><span class="status-pill valid">✅ Valid</span></td>
+              <td>Non-Imm B</td>
+              <td>10 มี.ค. 2569</td>
+              <td><span class="status-pill expired">❌ หมดอายุ</span></td>
+              <td><span class="status-pill expired">❌ Expired</span></td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td><strong>Watanabe Kenji</strong></td>
+              <td><span class="flag flag-jp"></span> JPN</td>
+              <td style="font-family:'Inter',monospace">TK9912345</td>
+              <td>22 พ.ย. 2572</td>
+              <td><span class="status-pill valid">✅ Valid</span></td>
+              <td>Non-Imm B</td>
+              <td>31 ธ.ค. 2569</td>
+              <td><span class="status-pill valid">✅ Valid</span></td>
+              <td><span class="status-pill valid">✅ Active</span></td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td><strong>Hla Hla Win</strong></td>
+              <td><span class="flag flag-mm"></span> MMR</td>
+              <td style="font-family:'Inter',monospace">MA3345678</td>
+              <td>18 เม.ย. 2569</td>
+              <td><span class="status-pill expired">❌ 14 วัน</span></td>
+              <td>Non-Imm B</td>
+              <td>18 เม.ย. 2569</td>
+              <td><span class="status-pill expiring">⚠️ 14 วัน</span></td>
+              <td><span class="status-pill expiring">⚠️ ต่ออายุ</span></td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td><strong>Phan Sopheap</strong></td>
+              <td><span class="flag flag-kh"></span> KHM</td>
+              <td style="font-family:'Inter',monospace">KC1123456</td>
+              <td>30 ก.ย. 2570</td>
+              <td><span class="status-pill valid">✅ Valid</span></td>
+              <td>Non-Imm B</td>
+              <td>30 ก.ย. 2569</td>
+              <td><span class="status-pill valid">✅ Valid</span></td>
+              <td><span class="status-pill valid">✅ Active</span></td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td><strong>Sato Haruki</strong></td>
+              <td><span class="flag flag-jp"></span> JPN</td>
+              <td style="font-family:'Inter',monospace">TK7765432</td>
+              <td>11 ก.พ. 2573</td>
+              <td><span class="status-pill valid">✅ Valid</span></td>
+              <td>Non-Imm B</td>
+              <td>28 ก.พ. 2570</td>
+              <td><span class="status-pill valid">✅ Valid</span></td>
+              <td><span class="status-pill valid">✅ Active</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sep"></div>
+
+      <!-- Batch Summary -->
+      <div class="grid-4" style="margin-top:16px">
+        <div style="background:rgba(5,150,105,0.1);border:1px solid rgba(5,150,105,0.2);border-radius:10px;padding:16px;text-align:center">
+          <div style="font-size:28px;font-weight:800;color:#34D399">5</div>
+          <div style="font-size:12px;color:var(--text-dim)">เอกสารครบถ้วน</div>
+        </div>
+        <div style="background:rgba(217,119,6,0.1);border:1px solid rgba(217,119,6,0.2);border-radius:10px;padding:16px;text-align:center">
+          <div style="font-size:28px;font-weight:800;color:#FBBF24">2</div>
+          <div style="font-size:12px;color:var(--text-dim)">ใกล้หมดอายุ</div>
+        </div>
+        <div style="background:rgba(220,38,38,0.1);border:1px solid rgba(220,38,38,0.2);border-radius:10px;padding:16px;text-align:center">
+          <div style="font-size:28px;font-weight:800;color:#F87171">1</div>
+          <div style="font-size:12px;color:var(--text-dim)">หมดอายุแล้ว</div>
+        </div>
+        <div style="background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.2);border-radius:10px;padding:16px;text-align:center">
+          <div style="font-size:28px;font-weight:800;color:#60A5FA">8</div>
+          <div style="font-size:12px;color:var(--text-dim)">ทั้งหมด</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div style="text-align:center;margin-top:40px;padding:24px;color:var(--text-dim);font-size:12px;border-top:1px solid var(--border)">
+    <p>Passport & Visa Document Parser — Autopilot v2 by ANTS | AI Solution Hub</p>
+    <p style="margin-top:4px">เหมาะสำหรับบริษัทที่มีพนักงานต่างชาติ, สำนักงานตรวจคนเข้าเมือง, ฝ่าย HR, สำนักงานกฎหมาย</p>
+  </div>
+
+</div>
+
+<script>
+// Tab switching
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// Doc type selection
+function selectDocType(el) {
+  document.querySelectorAll('.doc-type-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Simulate scan animation
+function simulateScan() {
+  const zone = document.getElementById('uploadZone');
+  zone.style.borderColor = 'var(--blue)';
+  zone.style.background = 'rgba(37,99,235,0.05)';
+  zone.querySelector('h4').textContent = '🔄 กำลังสแกนเอกสาร...';
+
+  setTimeout(() => {
+    zone.querySelector('h4').textContent = '✅ สแกนสำเร็จ — พบข้อมูล MRZ';
+    zone.style.borderColor = '#059669';
+    zone.style.background = 'rgba(5,150,105,0.05)';
+  }, 2000);
+
+  setTimeout(() => {
+    zone.querySelector('h4').textContent = 'อัปโหลดเอกสารเดินทาง';
+    zone.style.borderColor = '';
+    zone.style.background = '';
+  }, 5000);
+}
+
+// Batch run animation
+function runBatch() {
+  const pills = document.querySelectorAll('.batch-table .status-pill');
+  pills.forEach((p, i) => {
+    setTimeout(() => {
+      p.style.transition = 'all 0.3s';
+      p.style.transform = 'scale(1.1)';
+      setTimeout(() => { p.style.transform = 'scale(1)'; }, 300);
+    }, i * 100);
+  });
+}
+
+// Animate bars on load
+window.addEventListener('load', () => {
+  document.querySelectorAll('.bar-fill').forEach(bar => {
+    const w = bar.style.width;
+    bar.style.width = '0%';
+    setTimeout(() => { bar.style.width = w; }, 500);
+  });
+});
+</script>
+
+</body>
+</html>

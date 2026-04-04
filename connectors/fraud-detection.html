@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document Fraud Detection Engine — Autopilot v2 | ANTS AI Solution Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+Thai:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #0B0F1A;
+    --bg2: #111827;
+    --bg3: #1F2937;
+    --surface: rgba(17,24,39,0.8);
+    --surface-border: rgba(99,102,241,0.15);
+    --border: rgba(148,163,184,0.12);
+    --text: #F1F5F9;
+    --text2: #CBD5E1;
+    --text-muted: #64748B;
+    --accent: #6366F1;
+    --accent2: #8B5CF6;
+    --accent3: #06B6D4;
+    --success: #10B981;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+    --grad1: linear-gradient(135deg, #3B82F6, #8B5CF6);
+    --grad2: linear-gradient(135deg, #06B6D4, #3B82F6);
+    --grad3: linear-gradient(135deg, #8B5CF6, #EC4899);
+    --grad4: linear-gradient(135deg, #10B981, #06B6D4);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'Inter', 'Noto Sans Thai', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ── Header ── */
+.header {
+    position: sticky; top: 0; z-index: 100;
+    backdrop-filter: blur(20px);
+    background: rgba(11,15,26,0.85);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+}
+.header-brand {
+    display: flex; align-items: center; gap: 12px;
+}
+.header-brand .logo {
+    width: 36px; height: 36px;
+    background: var(--grad1);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 16px; color: #fff;
+}
+.header-brand h1 {
+    font-size: 18px; font-weight: 700;
+    background: var(--grad1);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.header-brand span {
+    font-size: 12px; color: var(--text-muted); margin-left: 4px;
+}
+.header-status {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--success);
+}
+.header-status::before {
+    content: ''; width: 8px; height: 8px;
+    background: var(--success); border-radius: 50%;
+    animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(16,185,129,0.4); }
+    50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(16,185,129,0); }
+}
+
+/* ── Layout ── */
+.main { max-width: 1400px; margin: 0 auto; padding: 32px; }
+
+.page-title {
+    font-size: 32px; font-weight: 800; margin-bottom: 8px;
+    background: linear-gradient(135deg, #EF4444, #F59E0B);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.page-subtitle { color: var(--text2); font-size: 16px; margin-bottom: 32px; }
+
+/* ── Cards / Surfaces ── */
+.card {
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: 16px;
+    padding: 24px;
+    backdrop-filter: blur(10px);
+}
+
+.section-title {
+    font-size: 20px; font-weight: 700; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+}
+.section-title .icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+}
+
+/* ── Dashboard Stats ── */
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+}
+.stat-card {
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(99,102,241,0.15);
+}
+.stat-card .stat-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; margin: 0 auto 12px;
+}
+.stat-card .stat-value {
+    font-size: 36px; font-weight: 800; line-height: 1.1;
+}
+.stat-card .stat-label {
+    font-size: 13px; color: var(--text-muted); margin-top: 4px;
+}
+.stat-card .stat-badge {
+    display: inline-block; margin-top: 8px;
+    padding: 3px 10px; border-radius: 20px;
+    font-size: 12px; font-weight: 600;
+}
+
+/* ── Detection Methods Grid ── */
+.methods-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+}
+.method-card {
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: 14px;
+    padding: 20px;
+    transition: all 0.3s;
+    cursor: default;
+}
+.method-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(99,102,241,0.2);
+}
+.method-card .mc-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; margin-bottom: 12px;
+}
+.method-card .mc-title {
+    font-size: 14px; font-weight: 700; margin-bottom: 6px;
+}
+.method-card .mc-desc {
+    font-size: 12px; color: var(--text-muted); line-height: 1.5;
+}
+
+/* ── Live Demo ── */
+.demo-section { margin-bottom: 32px; }
+
+.doc-list {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    margin-bottom: 20px;
+}
+.doc-item {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+}
+.doc-item:hover {
+    border-color: var(--accent);
+    background: rgba(99,102,241,0.05);
+}
+.doc-item.active {
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(99,102,241,0.15);
+}
+.doc-item.fraud-detected {
+    border-color: var(--danger) !important;
+    box-shadow: 0 0 25px rgba(239,68,68,0.2) !important;
+}
+.doc-item .doc-icon { font-size: 28px; margin-bottom: 8px; }
+.doc-item .doc-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.doc-item .doc-desc { font-size: 12px; color: var(--text-muted); }
+.doc-item .doc-tag {
+    display: inline-block; margin-top: 10px;
+    padding: 3px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 600;
+}
+.tag-normal { background: rgba(16,185,129,0.15); color: var(--success); }
+.tag-tampered { background: rgba(239,68,68,0.15); color: var(--danger); }
+
+/* ── Analysis Panel ── */
+.analysis-panel {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    display: none;
+}
+.analysis-panel.visible { display: block; animation: slideIn 0.4s ease; }
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.analysis-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+}
+.analysis-header h3 { font-size: 16px; font-weight: 700; }
+.analysis-body { padding: 24px; }
+
+/* Method progress rows */
+.method-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(148,163,184,0.06);
+}
+.method-row:last-child { border-bottom: none; }
+.method-row .mr-name {
+    flex: 1; font-size: 13px; font-weight: 500;
+}
+.method-row .mr-status {
+    width: 28px; text-align: center; font-size: 16px;
+}
+.method-row .mr-score {
+    width: 60px; text-align: right; font-size: 13px; font-weight: 600;
+}
+.mr-spinner {
+    width: 18px; height: 18px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Result banner */
+.result-banner {
+    margin-top: 20px; padding: 16px 20px;
+    border-radius: 12px; font-weight: 600;
+    display: flex; align-items: center; gap: 12px;
+    animation: fadeIn 0.5s ease;
+}
+@keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+}
+.result-genuine {
+    background: rgba(16,185,129,0.12);
+    border: 1px solid rgba(16,185,129,0.3);
+    color: var(--success);
+}
+.result-fraud {
+    background: rgba(239,68,68,0.12);
+    border: 1px solid rgba(239,68,68,0.4);
+    color: var(--danger);
+    animation: fraud-pulse 1.5s ease infinite;
+}
+@keyframes fraud-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.3); }
+    50% { box-shadow: 0 0 20px 4px rgba(239,68,68,0.15); }
+}
+.result-banner .rb-icon { font-size: 28px; }
+.result-banner .rb-text { flex: 1; }
+.result-banner .rb-score { font-size: 24px; font-weight: 800; }
+
+/* Fraud details */
+.fraud-details {
+    margin-top: 16px; padding: 16px 20px;
+    background: rgba(239,68,68,0.06);
+    border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 12px;
+    animation: fadeIn 0.6s ease;
+}
+.fraud-details .fd-title {
+    font-size: 13px; font-weight: 700; color: var(--danger);
+    margin-bottom: 10px;
+}
+.fraud-details .fd-item {
+    font-size: 13px; color: var(--text2);
+    padding: 6px 0;
+    display: flex; align-items: flex-start; gap: 8px;
+}
+.fraud-details .fd-item::before {
+    content: ''; display: none;
+}
+
+/* ── Document Preview (mock) ── */
+.doc-preview {
+    margin-top: 16px;
+    background: var(--bg3);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+}
+.doc-preview-title {
+    font-size: 12px; color: var(--text-muted); margin-bottom: 12px;
+    text-transform: uppercase; letter-spacing: 1px;
+}
+.mock-doc {
+    background: #fff;
+    color: #111;
+    border-radius: 8px;
+    padding: 24px;
+    font-size: 13px;
+    line-height: 1.8;
+    position: relative;
+}
+.mock-doc .doc-header-line {
+    font-weight: 700; font-size: 15px; text-align: center;
+    margin-bottom: 16px; color: #1e3a5f;
+}
+.mock-doc .doc-row {
+    display: flex; justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px solid #eee;
+}
+.mock-doc .doc-row:last-child { border-bottom: none; }
+.highlight-fraud {
+    position: relative;
+    background: rgba(239,68,68,0.15);
+    border: 2px solid var(--danger);
+    border-radius: 4px;
+    padding: 2px 6px;
+    animation: highlight-glow 1.5s ease infinite;
+}
+@keyframes highlight-glow {
+    0%, 100% { box-shadow: 0 0 4px rgba(239,68,68,0.5); }
+    50% { box-shadow: 0 0 16px rgba(239,68,68,0.8); }
+}
+
+/* ── Fraud Report ── */
+.report-section { margin-bottom: 32px; }
+
+.gauge-container {
+    display: flex; align-items: center; justify-content: center;
+    margin: 24px 0;
+}
+.gauge {
+    width: 180px; height: 90px;
+    position: relative;
+}
+.gauge-bg {
+    width: 180px; height: 90px;
+    border-radius: 90px 90px 0 0;
+    background: conic-gradient(from 180deg at 50% 100%, var(--danger) 0deg, var(--warning) 90deg, var(--success) 180deg);
+    overflow: hidden;
+    position: relative;
+}
+.gauge-needle {
+    position: absolute;
+    bottom: 0; left: 50%;
+    width: 3px; height: 75px;
+    background: var(--text);
+    transform-origin: bottom center;
+    transform: translateX(-50%) rotate(-90deg);
+    transition: transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border-radius: 2px;
+    z-index: 2;
+}
+.gauge-center {
+    position: absolute;
+    bottom: -6px; left: 50%; transform: translateX(-50%);
+    width: 16px; height: 16px;
+    background: var(--text);
+    border-radius: 50%;
+    z-index: 3;
+}
+.gauge-value {
+    text-align: center;
+    font-size: 28px; font-weight: 800;
+    margin-top: 8px;
+}
+.gauge-label {
+    text-align: center;
+    font-size: 13px; color: var(--text-muted);
+}
+
+/* Report table */
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+}
+.report-table th {
+    text-align: left;
+    padding: 10px 12px;
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border);
+}
+.report-table td {
+    padding: 10px 12px;
+    font-size: 13px;
+    border-bottom: 1px solid rgba(148,163,184,0.06);
+}
+.report-table tr:hover td {
+    background: rgba(99,102,241,0.04);
+}
+
+/* Recommendation badge */
+.rec-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border-radius: 20px;
+    font-size: 13px; font-weight: 600;
+}
+.rec-approve { background: rgba(16,185,129,0.15); color: var(--success); }
+.rec-review { background: rgba(245,158,11,0.15); color: var(--warning); }
+.rec-reject { background: rgba(239,68,68,0.15); color: var(--danger); }
+
+/* ── History Table ── */
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.history-table th {
+    text-align: left;
+    padding: 12px;
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+}
+.history-table td {
+    padding: 12px;
+    font-size: 13px;
+    border-bottom: 1px solid rgba(148,163,184,0.06);
+    white-space: nowrap;
+}
+.history-table tr:hover td { background: rgba(99,102,241,0.04); }
+
+.score-bar {
+    width: 80px; height: 6px;
+    background: var(--bg3);
+    border-radius: 3px;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+.score-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.8s ease;
+}
+
+/* ── Alert Rules ── */
+.alert-rules { margin-bottom: 32px; }
+
+.rule-item {
+    display: flex; align-items: center; gap: 16px;
+    padding: 16px 20px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
+}
+.rule-item:hover { border-color: var(--accent); }
+.rule-item .rule-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+}
+.rule-item .rule-body { flex: 1; }
+.rule-item .rule-title { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+.rule-item .rule-desc { font-size: 12px; color: var(--text-muted); }
+
+.toggle-switch {
+    width: 44px; height: 24px;
+    background: var(--bg3);
+    border-radius: 12px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.3s;
+    flex-shrink: 0;
+}
+.toggle-switch.active { background: var(--accent); }
+.toggle-switch::after {
+    content: '';
+    width: 18px; height: 18px;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 3px; left: 3px;
+    transition: transform 0.3s;
+}
+.toggle-switch.active::after {
+    transform: translateX(20px);
+}
+
+.threshold-input {
+    display: flex; align-items: center; gap: 8px;
+    margin-top: 8px;
+}
+.threshold-input label {
+    font-size: 12px; color: var(--text-muted);
+}
+.threshold-input input[type="range"] {
+    width: 120px;
+    accent-color: var(--accent);
+}
+.threshold-input .val {
+    font-size: 13px; font-weight: 600; min-width: 36px;
+}
+
+/* ── Utilities ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.mb-32 { margin-bottom: 32px; }
+
+.badge-sm {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .methods-grid { grid-template-columns: repeat(2, 1fr); }
+    .doc-list { grid-template-columns: 1fr; }
+    .grid-2 { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+    .main { padding: 16px; }
+    .stats-row { grid-template-columns: 1fr; }
+    .methods-grid { grid-template-columns: 1fr; }
+    .header { padding: 12px 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header class="header">
+    <div class="header-brand">
+        <div class="logo">A</div>
+        <div>
+            <h1>Autopilot v2 <span>by ANTS</span></h1>
+            <div style="font-size:11px;color:var(--text-muted)">AI Solution Hub</div>
+        </div>
+    </div>
+    <div class="header-status">Fraud Detection Engine Active</div>
+</header>
+
+<!-- ── Main ── -->
+<div class="main">
+
+    <h2 class="page-title">Document Fraud Detection Engine</h2>
+    <p class="page-subtitle">ระบบ AI ตรวจจับเอกสารปลอม / ถูกแก้ไข ด้วย Deep Learning หลายชั้น</p>
+
+    <!-- ══ 1. Dashboard Stats ══ -->
+    <div class="stats-row">
+        <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(99,102,241,0.15)">&#128196;</div>
+            <div class="stat-value" style="color:var(--accent)" id="statTotal">0</div>
+            <div class="stat-label">เอกสารตรวจสอบวันนี้</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(16,185,129,0.15)">&#9989;</div>
+            <div class="stat-value" style="color:var(--success)" id="statGenuine">0</div>
+            <div class="stat-label">ผ่าน (Genuine)</div>
+            <div class="stat-badge" style="background:rgba(16,185,129,0.15);color:var(--success)">97.4%</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(245,158,11,0.15)">&#9888;&#65039;</div>
+            <div class="stat-value" style="color:var(--warning)" id="statReview">0</div>
+            <div class="stat-label">ต้องตรวจสอบเพิ่ม</div>
+            <div class="stat-badge" style="background:rgba(245,158,11,0.15);color:var(--warning)">1.7%</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(239,68,68,0.15)">&#10060;</div>
+            <div class="stat-value" style="color:var(--danger)" id="statFraud">0</div>
+            <div class="stat-label">ตรวจพบปลอม</div>
+            <div class="stat-badge" style="background:rgba(239,68,68,0.15);color:var(--danger)">0.9%</div>
+        </div>
+    </div>
+
+    <!-- ══ 2. Detection Methods ══ -->
+    <div class="card mb-32">
+        <div class="section-title">
+            <div class="icon" style="background:rgba(139,92,246,0.15)">&#129504;</div>
+            AI Detection Methods (8 เทคนิค)
+        </div>
+        <div class="methods-grid">
+            <div class="method-card">
+                <div class="mc-icon" style="background:rgba(99,102,241,0.12)">&#128269;</div>
+                <div class="mc-title">Metadata Analysis</div>
+                <div class="mc-desc">ตรวจสอบ EXIF, creation date, software used เพื่อหาความผิดปกติในข้อมูล metadata ของเอกสาร</div>
+            </div>
+            <div class="method-card">
+                <div class="mc-icon" style="background:rgba(6,182,212,0.12)">&#128300;</div>
+                <div class="mc-title">Pixel-Level Analysis</div>
+                <div class="mc-desc">ตรวจหาร่องรอยการแก้ไขรูปภาพ เช่น noise inconsistency, compression artifacts</div>
+            </div>
+            <div class="method-card">
+                <div class="mc-icon" style="background:rgba(139,92,246,0.12)">&#128292;</div>
+                <div class="mc-title">Font Consistency</div>
+                <div class="mc-desc">ตรวจสอบความสม่ำเสมอของฟอนต์ทั้งเอกสาร รวมถึง kerning และ weight</div>
+            </div>
+            <div class="method-card">
+                <div class="mc-icon" style="background:rgba(236,72,153,0.12)">&#128167;</div>
+                <div class="mc-title">Watermark Detection</div>
+                <div class="mc-desc">ตรวจสอบลายน้ำ / ตราประทับ ว่ามีอยู่จริงและไม่ถูกแก้ไข</div>
+            </div>
+            <div class="method-card">
+                <div class="mc-icon" style="background:rgba(16,185,129,0.12)">&#128202;</div>
+                <div class="mc-title">Template Matching</div>
+                <div class="mc-desc">เปรียบเทียบกับ template เอกสารจริง ของสถาบันการเงินต่างๆ</div>
+            </div>
+            <div class="method-card">
+                <div class="mc-icon" style="background:rgba(245,158,11,0.12)">&#128279;</div>
+                <div class="mc-title">Cross-Reference</div>
+                <div class="mc-desc">เทียบข้อมูลกับฐานข้อมูลอ้างอิง เช่น ชื่อบริษัท เลขบัญชี ข้อมูลสาขา</div>
+            </div>
+            <div class="method-card">
+                <div class="mc-icon" style="background:rgba(59,130,246,0.12)">&#9999;&#65039;</div>
+                <div class="mc-title">Signature Analysis</div>
+                <div class="mc-desc">ตรวจสอบลายเซ็น ด้วย biometric comparison กับฐานข้อมูลลายเซ็น</div>
+            </div>
+            <div class="method-card">
+                <div class="mc-icon" style="background:linear-gradient(135deg,rgba(99,102,241,0.2),rgba(236,72,153,0.2))">&#129302;</div>
+                <div class="mc-title">AI Deep Learning</div>
+                <div class="mc-desc">โมเดล AI ที่เรียนรู้จากเอกสารจริง/ปลอม กว่า 500,000 ฉบับ ด้วย Neural Network</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══ 3. Live Detection Demo ══ -->
+    <div class="card demo-section mb-32">
+        <div class="section-title">
+            <div class="icon" style="background:rgba(239,68,68,0.15)">&#9889;</div>
+            Live Detection Demo
+        </div>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">คลิกเลือกเอกสารเพื่อเริ่มการตรวจสอบด้วย AI</p>
+
+        <div class="doc-list">
+            <div class="doc-item" onclick="analyzeDoc(0)" id="doc0">
+                <div class="doc-icon">&#128196;</div>
+                <div class="doc-name">สลิปเงินเดือน (ปกติ)</div>
+                <div class="doc-desc">Payslip - บจก. ไทยเจริญ - มี.ค. 2569</div>
+                <span class="doc-tag tag-normal">&#9989; เอกสารต้นฉบับ</span>
+            </div>
+            <div class="doc-item" onclick="analyzeDoc(1)" id="doc1">
+                <div class="doc-icon">&#128196;</div>
+                <div class="doc-name">สลิปเงินเดือน (แก้ไขตัวเลข)</div>
+                <div class="doc-desc">Payslip - บจก. ไทยเจริญ - มี.ค. 2569 (TAMPERED)</div>
+                <span class="doc-tag tag-tampered">&#9888; ต้องสงสัย</span>
+            </div>
+            <div class="doc-item" onclick="analyzeDoc(2)" id="doc2">
+                <div class="doc-icon">&#128196;</div>
+                <div class="doc-name">Statement ธนาคาร (ปกติ)</div>
+                <div class="doc-desc">ธ.กสิกรไทย - รายการเดินบัญชี ก.พ. 2569</div>
+                <span class="doc-tag tag-normal">&#9989; เอกสารต้นฉบับ</span>
+            </div>
+            <div class="doc-item" onclick="analyzeDoc(3)" id="doc3">
+                <div class="doc-icon">&#128196;</div>
+                <div class="doc-name">Statement ธนาคาร (ปลอม)</div>
+                <div class="doc-desc">ธ.กสิกรไทย - รายการเดินบัญชี ก.พ. 2569 (FORGED)</div>
+                <span class="doc-tag tag-tampered">&#9888; ต้องสงสัย</span>
+            </div>
+        </div>
+
+        <!-- Analysis Panel -->
+        <div class="analysis-panel" id="analysisPanel">
+            <div class="analysis-header">
+                <h3 id="analysisTitle">กำลังวิเคราะห์...</h3>
+                <span id="analysisTimer" style="font-size:12px;color:var(--text-muted)"></span>
+            </div>
+            <div class="analysis-body" id="analysisBody">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ══ 4. Fraud Report ══ -->
+    <div class="card report-section mb-32" id="reportSection" style="display:none">
+        <div class="section-title">
+            <div class="icon" style="background:rgba(245,158,11,0.15)">&#128203;</div>
+            Fraud Analysis Report
+        </div>
+
+        <div class="grid-2">
+            <div>
+                <table class="report-table" id="reportMeta">
+                    <tr><th colspan="2">ข้อมูลเอกสาร</th></tr>
+                    <tr><td style="color:var(--text-muted)">ประเภทเอกสาร</td><td id="rptDocType">-</td></tr>
+                    <tr><td style="color:var(--text-muted)">วันที่ส่ง</td><td id="rptDate">-</td></tr>
+                    <tr><td style="color:var(--text-muted)">แหล่งที่มา</td><td id="rptSource">-</td></tr>
+                    <tr><td style="color:var(--text-muted)">ผลการประเมิน</td><td id="rptRecommendation">-</td></tr>
+                </table>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                <div class="gauge">
+                    <div class="gauge-bg">
+                        <div class="gauge-needle" id="gaugeNeedle"></div>
+                        <div class="gauge-center"></div>
+                    </div>
+                </div>
+                <div class="gauge-value" id="gaugeValue">--%</div>
+                <div class="gauge-label">Fraud Score (ยิ่งสูง = ยิ่งน่าเชื่อถือ)</div>
+            </div>
+        </div>
+
+        <table class="report-table" style="margin-top:24px" id="reportMethodsTable">
+            <tr>
+                <th>Detection Method</th>
+                <th>ผลลัพธ์</th>
+                <th>Score</th>
+                <th>รายละเอียด</th>
+            </tr>
+        </table>
+
+        <!-- Evidence Section for Fraud -->
+        <div id="evidenceSection" style="display:none;margin-top:20px;">
+            <h4 style="font-size:14px;font-weight:700;margin-bottom:12px;color:var(--danger)">&#128680; หลักฐานที่ตรวจพบ</h4>
+            <div id="evidenceContent"></div>
+        </div>
+    </div>
+
+    <!-- ══ 5. Detection History ══ -->
+    <div class="card mb-32">
+        <div class="section-title">
+            <div class="icon" style="background:rgba(6,182,212,0.15)">&#128197;</div>
+            Detection History
+        </div>
+        <div style="overflow-x:auto">
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>เอกสาร</th>
+                        <th>ประเภท</th>
+                        <th>Score</th>
+                        <th>ผลลัพธ์</th>
+                        <th>ปัญหาที่พบ</th>
+                        <th>วันที่</th>
+                    </tr>
+                </thead>
+                <tbody id="historyBody">
+                    <tr>
+                        <td>สลิปเงินเดือน - นายสมชาย</td>
+                        <td><span class="badge-sm" style="background:rgba(99,102,241,0.15);color:var(--accent)">Payslip</span></td>
+                        <td><span class="score-bar"><span class="score-bar-fill" style="width:97%;background:var(--success)"></span></span>97%</td>
+                        <td><span class="badge-sm" style="background:rgba(16,185,129,0.15);color:var(--success)">Genuine</span></td>
+                        <td style="color:var(--text-muted)">-</td>
+                        <td>4 เม.ย. 2569</td>
+                    </tr>
+                    <tr>
+                        <td>Statement - น.ส.วรรณา</td>
+                        <td><span class="badge-sm" style="background:rgba(6,182,212,0.15);color:var(--accent3)">Bank Statement</span></td>
+                        <td><span class="score-bar"><span class="score-bar-fill" style="width:95%;background:var(--success)"></span></span>95%</td>
+                        <td><span class="badge-sm" style="background:rgba(16,185,129,0.15);color:var(--success)">Genuine</span></td>
+                        <td style="color:var(--text-muted)">-</td>
+                        <td>4 เม.ย. 2569</td>
+                    </tr>
+                    <tr>
+                        <td>สลิปเงินเดือน - นางสาวพิม</td>
+                        <td><span class="badge-sm" style="background:rgba(99,102,241,0.15);color:var(--accent)">Payslip</span></td>
+                        <td><span class="score-bar"><span class="score-bar-fill" style="width:12%;background:var(--danger)"></span></span>12%</td>
+                        <td><span class="badge-sm" style="background:rgba(239,68,68,0.15);color:var(--danger)">FRAUD</span></td>
+                        <td style="color:var(--danger)">แก้ไขตัวเลข, Metadata ผิดปกติ</td>
+                        <td>4 เม.ย. 2569</td>
+                    </tr>
+                    <tr>
+                        <td>Statement - นายวิทยา</td>
+                        <td><span class="badge-sm" style="background:rgba(6,182,212,0.15);color:var(--accent3)">Bank Statement</span></td>
+                        <td><span class="score-bar"><span class="score-bar-fill" style="width:52%;background:var(--warning)"></span></span>52%</td>
+                        <td><span class="badge-sm" style="background:rgba(245,158,11,0.15);color:var(--warning)">Review</span></td>
+                        <td style="color:var(--warning)">ฟอนต์ไม่สม่ำเสมอ</td>
+                        <td>3 เม.ย. 2569</td>
+                    </tr>
+                    <tr>
+                        <td>หนังสือรับรองเงินเดือน</td>
+                        <td><span class="badge-sm" style="background:rgba(139,92,246,0.15);color:var(--accent2)">Certificate</span></td>
+                        <td><span class="score-bar"><span class="score-bar-fill" style="width:98%;background:var(--success)"></span></span>98%</td>
+                        <td><span class="badge-sm" style="background:rgba(16,185,129,0.15);color:var(--success)">Genuine</span></td>
+                        <td style="color:var(--text-muted)">-</td>
+                        <td>3 เม.ย. 2569</td>
+                    </tr>
+                    <tr>
+                        <td>Statement - น.ส.กมลวรรณ</td>
+                        <td><span class="badge-sm" style="background:rgba(6,182,212,0.15);color:var(--accent3)">Bank Statement</span></td>
+                        <td><span class="score-bar"><span class="score-bar-fill" style="width:8%;background:var(--danger)"></span></span>8%</td>
+                        <td><span class="badge-sm" style="background:rgba(239,68,68,0.15);color:var(--danger)">FRAUD</span></td>
+                        <td style="color:var(--danger)">เอกสารปลอมทั้งฉบับ</td>
+                        <td>3 เม.ย. 2569</td>
+                    </tr>
+                    <tr>
+                        <td>สลิปเงินเดือน - นายธนา</td>
+                        <td><span class="badge-sm" style="background:rgba(99,102,241,0.15);color:var(--accent)">Payslip</span></td>
+                        <td><span class="score-bar"><span class="score-bar-fill" style="width:96%;background:var(--success)"></span></span>96%</td>
+                        <td><span class="badge-sm" style="background:rgba(16,185,129,0.15);color:var(--success)">Genuine</span></td>
+                        <td style="color:var(--text-muted)">-</td>
+                        <td>2 เม.ย. 2569</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ══ 6. Alert Rules ══ -->
+    <div class="card alert-rules mb-32">
+        <div class="section-title">
+            <div class="icon" style="background:rgba(239,68,68,0.15)">&#128276;</div>
+            Alert Rules &amp; Thresholds
+        </div>
+
+        <div class="rule-item">
+            <div class="rule-icon" style="background:rgba(239,68,68,0.15)">&#9940;</div>
+            <div class="rule-body">
+                <div class="rule-title">ปฏิเสธอัตโนมัติเมื่อ Fraud Score ต่ำกว่า Threshold</div>
+                <div class="rule-desc">ระบบจะปฏิเสธเอกสารอัตโนมัติและแจ้ง Fraud Alert ไปยังทีมตรวจสอบ</div>
+                <div class="threshold-input">
+                    <label>Threshold:</label>
+                    <input type="range" min="5" max="50" value="30" oninput="this.nextElementSibling.textContent=this.value+'%'">
+                    <span class="val" style="color:var(--danger)">30%</span>
+                </div>
+            </div>
+            <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+        </div>
+
+        <div class="rule-item">
+            <div class="rule-icon" style="background:rgba(245,158,11,0.15)">&#9888;&#65039;</div>
+            <div class="rule-body">
+                <div class="rule-title">แจ้งเตือนหัวหน้าเมื่อ Score อยู่ในช่วง Review</div>
+                <div class="rule-desc">ส่งการแจ้งเตือนให้หัวหน้าทีมตรวจสอบเมื่อ Score อยู่ในช่วงสีเหลือง</div>
+                <div class="threshold-input">
+                    <label>ช่วง:</label>
+                    <input type="range" min="20" max="50" value="30" oninput="document.getElementById('ruleMin').textContent=this.value+'%'">
+                    <span class="val" id="ruleMin" style="color:var(--warning)">30%</span>
+                    <span style="color:var(--text-muted);font-size:12px;margin:0 4px;">ถึง</span>
+                    <input type="range" min="50" max="90" value="70" oninput="document.getElementById('ruleMax').textContent=this.value+'%'">
+                    <span class="val" id="ruleMax" style="color:var(--warning)">70%</span>
+                </div>
+            </div>
+            <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+        </div>
+
+        <div class="rule-item">
+            <div class="rule-icon" style="background:rgba(16,185,129,0.15)">&#9989;</div>
+            <div class="rule-body">
+                <div class="rule-title">อนุมัติอัตโนมัติเมื่อ Score สูงกว่า Threshold</div>
+                <div class="rule-desc">เอกสารที่ผ่านเกณฑ์จะถูกส่งต่อเข้าระบบอนุมัติอัตโนมัติ</div>
+                <div class="threshold-input">
+                    <label>Threshold:</label>
+                    <input type="range" min="70" max="99" value="85" oninput="this.nextElementSibling.textContent=this.value+'%'">
+                    <span class="val" style="color:var(--success)">85%</span>
+                </div>
+            </div>
+            <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+        </div>
+
+        <div class="rule-item">
+            <div class="rule-icon" style="background:rgba(99,102,241,0.15)">&#128233;</div>
+            <div class="rule-body">
+                <div class="rule-title">ส่ง Email แจ้งเตือนเมื่อตรวจพบ Fraud</div>
+                <div class="rule-desc">แจ้งเตือนไปยัง fraud-alert@company.co.th ทันทีเมื่อตรวจพบเอกสารปลอม</div>
+            </div>
+            <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+        </div>
+    </div>
+
+</div><!-- .main -->
+
+<script>
+/* ── Animate stat counters ── */
+function animateCount(el, target, duration) {
+    let start = 0;
+    const step = target / (duration / 16);
+    const timer = setInterval(() => {
+        start += step;
+        if (start >= target) { start = target; clearInterval(timer); }
+        el.textContent = Math.floor(start);
+    }, 16);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => animateCount(document.getElementById('statTotal'), 234, 1200), 200);
+    setTimeout(() => animateCount(document.getElementById('statGenuine'), 228, 1200), 400);
+    setTimeout(() => animateCount(document.getElementById('statReview'), 4, 800), 600);
+    setTimeout(() => animateCount(document.getElementById('statFraud'), 2, 800), 800);
+});
+
+/* ── Detection method definitions ── */
+const methods = [
+    { name: 'Metadata Analysis', icon: '&#128269;' },
+    { name: 'Pixel-Level Analysis', icon: '&#128300;' },
+    { name: 'Font Consistency', icon: '&#128292;' },
+    { name: 'Watermark Detection', icon: '&#128167;' },
+    { name: 'Template Matching', icon: '&#128202;' },
+    { name: 'Cross-Reference', icon: '&#128279;' },
+    { name: 'Signature Analysis', icon: '&#9999;' },
+    { name: 'AI Deep Learning', icon: '&#129302;' },
+];
+
+/* ── Document definitions ── */
+const docs = [
+    {
+        name: 'สลิปเงินเดือน (ปกติ)',
+        type: 'Payslip',
+        source: 'บจก. ไทยเจริญ',
+        isFraud: false,
+        overallScore: 98.2,
+        scores: [99, 97, 98, 100, 99, 96, 97, 99],
+        statuses: ['pass','pass','pass','pass','pass','pass','pass','pass'],
+        details: [],
+        preview: {
+            header: 'บริษัท ไทยเจริญ จำกัด - ใบแจ้งเงินเดือน',
+            rows: [
+                ['ชื่อพนักงาน', 'นายสมศักดิ์ รุ่งเรือง'],
+                ['ตำแหน่ง', 'Senior Developer'],
+                ['เงินเดือน', '฿35,000.00'],
+                ['OT', '฿4,500.00'],
+                ['หักประกันสังคม', '฿750.00'],
+                ['หักภาษี', '฿1,250.00'],
+                ['รับสุทธิ', '฿37,500.00'],
+            ],
+            fraudHighlight: null
+        }
+    },
+    {
+        name: 'สลิปเงินเดือน (แก้ไขตัวเลข)',
+        type: 'Payslip',
+        source: 'บจก. ไทยเจริญ',
+        isFraud: true,
+        overallScore: 12.3,
+        scores: [15, 8, 22, 95, 18, 5, 90, 6],
+        statuses: ['fail','fail','warn','pass','fail','fail','pass','fail'],
+        details: [
+            '&#128308; ตรวจพบการแก้ไขตัวเลขเงินเดือนจาก ฿25,000 &#8594; ฿45,000',
+            '&#128308; Metadata แสดง last modified ด้วย Photoshop CC 2025',
+            '&#128308; Pixel noise pattern ไม่สม่ำเสมอบริเวณตัวเลข',
+            '&#9888;&#65039; ฟอนต์ตัวเลขเงินเดือนต่างจากส่วนอื่นของเอกสาร',
+            '&#128308; ข้อมูลเงินเดือนไม่ตรงกับฐานข้อมูลบริษัท',
+        ],
+        preview: {
+            header: 'บริษัท ไทยเจริญ จำกัด - ใบแจ้งเงินเดือน',
+            rows: [
+                ['ชื่อพนักงาน', 'นายสมศักดิ์ รุ่งเรือง'],
+                ['ตำแหน่ง', 'Senior Developer'],
+                ['เงินเดือน', '฿45,000.00', true],
+                ['OT', '฿4,500.00'],
+                ['หักประกันสังคม', '฿750.00'],
+                ['หักภาษี', '฿1,250.00'],
+                ['รับสุทธิ', '฿47,500.00', true],
+            ],
+            fraudHighlight: 'ตัวเลขเงินเดือนถูกแก้ไขจาก ฿25,000 เป็น ฿45,000'
+        }
+    },
+    {
+        name: 'Statement ธนาคาร (ปกติ)',
+        type: 'Bank Statement',
+        source: 'ธ.กสิกรไทย',
+        isFraud: false,
+        overallScore: 97.8,
+        scores: [98, 96, 99, 98, 97, 99, 96, 98],
+        statuses: ['pass','pass','pass','pass','pass','pass','pass','pass'],
+        details: [],
+        preview: {
+            header: 'ธนาคารกสิกรไทย - รายการเดินบัญชี',
+            rows: [
+                ['เลขบัญชี', '012-3-45678-9'],
+                ['ชื่อบัญชี', 'นายสมศักดิ์ รุ่งเรือง'],
+                ['ยอดยกมา', '฿125,340.00'],
+                ['เงินเข้า', '฿37,500.00'],
+                ['เงินออก', '฿22,180.00'],
+                ['ยอดคงเหลือ', '฿140,660.00'],
+            ],
+            fraudHighlight: null
+        }
+    },
+    {
+        name: 'Statement ธนาคาร (ปลอม)',
+        type: 'Bank Statement',
+        source: 'ธ.กสิกรไทย (สงสัย)',
+        isFraud: true,
+        overallScore: 8.5,
+        scores: [5, 12, 8, 3, 6, 4, 85, 7],
+        statuses: ['fail','fail','fail','fail','fail','fail','pass','fail'],
+        details: [
+            '&#128308; ฟอนต์ไม่ตรงกับต้นฉบับธนาคารกสิกรไทย (ใช้ Sarabun แทน KBank Custom)',
+            '&#128308; Metadata ผิดปกติ: สร้างด้วย Microsoft Word แทนระบบธนาคาร',
+            '&#128308; ไม่พบลายน้ำอิเล็กทรอนิกส์ของธนาคาร',
+            '&#128308; รูปแบบเอกสารไม่ตรง Template ธนาคาร (margins, spacing ผิด)',
+            '&#128308; เลขบัญชีไม่พบในระบบ Cross-Reference',
+            '&#9888;&#65039; เอกสารนี้มีลักษณะเป็นเอกสารปลอมทั้งฉบับ',
+        ],
+        preview: {
+            header: 'ธนาคารกสิกรไทย - รายการเดินบัญชี',
+            rows: [
+                ['เลขบัญชี', '012-3-99999-0', true],
+                ['ชื่อบัญชี', 'นายสมศักดิ์ รุ่งเรือง'],
+                ['ยอดยกมา', '฿850,000.00', true],
+                ['เงินเข้า', '฿125,000.00', true],
+                ['เงินออก', '฿12,000.00'],
+                ['ยอดคงเหลือ', '฿963,000.00', true],
+            ],
+            fraudHighlight: 'เอกสารปลอมทั้งฉบับ - ฟอนต์, Metadata, ลายน้ำ ผิดปกติ'
+        }
+    },
+];
+
+let analyzing = false;
+
+function analyzeDoc(idx) {
+    if (analyzing) return;
+    analyzing = true;
+
+    const doc = docs[idx];
+    const panel = document.getElementById('analysisPanel');
+    const body = document.getElementById('analysisBody');
+
+    // Clear active states
+    document.querySelectorAll('.doc-item').forEach(d => d.classList.remove('active', 'fraud-detected'));
+    document.getElementById('doc' + idx).classList.add('active');
+
+    // Show panel
+    panel.classList.add('visible');
+    document.getElementById('analysisTitle').textContent = 'กำลังวิเคราะห์: ' + doc.name;
+
+    // Build method rows
+    let html = '<div id="methodRows">';
+    methods.forEach((m, i) => {
+        html += `<div class="method-row" id="mr${i}">
+            <span class="mr-status" id="mrs${i}"><span class="mr-spinner" style="display:none" id="mrspin${i}"></span><span id="mrsicon${i}" style="color:var(--text-muted)">&#9679;</span></span>
+            <span class="mr-name">${m.name}</span>
+            <span class="mr-score" id="mrscore${i}" style="color:var(--text-muted)">--</span>
+        </div>`;
+    });
+    html += '</div>';
+    html += '<div id="resultArea"></div>';
+    body.innerHTML = html;
+
+    // Sequentially animate each method
+    let i = 0;
+    const startTime = Date.now();
+
+    function runNext() {
+        if (i >= methods.length) {
+            showResult(idx, startTime);
+            return;
+        }
+
+        const spinner = document.getElementById('mrspin' + i);
+        const icon = document.getElementById('mrsicon' + i);
+        const scoreEl = document.getElementById('mrscore' + i);
+        const ci = i;
+
+        // Show spinner
+        spinner.style.display = 'inline-block';
+        icon.style.display = 'none';
+
+        const delay = 300 + Math.random() * 400;
+        setTimeout(() => {
+            spinner.style.display = 'none';
+            icon.style.display = 'inline';
+
+            const status = doc.statuses[ci];
+            const score = doc.scores[ci];
+
+            if (status === 'pass') {
+                icon.innerHTML = '&#9989;';
+                icon.style.color = 'var(--success)';
+                scoreEl.style.color = 'var(--success)';
+            } else if (status === 'warn') {
+                icon.innerHTML = '&#9888;&#65039;';
+                icon.style.color = 'var(--warning)';
+                scoreEl.style.color = 'var(--warning)';
+            } else {
+                icon.innerHTML = '&#10060;';
+                icon.style.color = 'var(--danger)';
+                scoreEl.style.color = 'var(--danger)';
+            }
+            scoreEl.textContent = score + '%';
+
+            i++;
+            runNext();
+        }, delay);
+    }
+
+    runNext();
+}
+
+function showResult(idx, startTime) {
+    const doc = docs[idx];
+    const resultArea = document.getElementById('resultArea');
+    const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+    document.getElementById('analysisTimer').textContent = 'เวลาวิเคราะห์: ' + elapsed + 's';
+
+    let html = '';
+
+    if (doc.isFraud) {
+        // Mark doc item
+        document.getElementById('doc' + idx).classList.add('fraud-detected');
+
+        html += `<div class="result-banner result-fraud">
+            <span class="rb-icon">&#128680;</span>
+            <span class="rb-text">
+                <div style="font-size:18px;font-weight:800">FRAUD DETECTED</div>
+                <div style="font-size:13px;opacity:0.8;margin-top:2px">ตรวจพบความผิดปกติร้ายแรงในเอกสาร</div>
+            </span>
+            <span class="rb-score">${doc.overallScore}%</span>
+        </div>`;
+
+        html += '<div class="fraud-details"><div class="fd-title">&#128270; รายละเอียดที่ตรวจพบ:</div>';
+        doc.details.forEach(d => {
+            html += `<div class="fd-item">${d}</div>`;
+        });
+        html += '</div>';
+
+        // Document preview with highlights
+        html += buildDocPreview(doc);
+
+    } else {
+        html += `<div class="result-banner result-genuine">
+            <span class="rb-icon">&#9989;</span>
+            <span class="rb-text">
+                <div style="font-size:18px;font-weight:800">GENUINE</div>
+                <div style="font-size:13px;opacity:0.8;margin-top:2px">เอกสารผ่านการตรวจสอบทุกขั้นตอน</div>
+            </span>
+            <span class="rb-score">${doc.overallScore}%</span>
+        </div>`;
+
+        html += buildDocPreview(doc);
+    }
+
+    resultArea.innerHTML = html;
+
+    // Show report section
+    showReport(idx);
+
+    analyzing = false;
+}
+
+function buildDocPreview(doc) {
+    const p = doc.preview;
+    let html = '<div class="doc-preview"><div class="doc-preview-title">Document Preview</div>';
+    html += '<div class="mock-doc">';
+    html += `<div class="doc-header-line">${p.header}</div>`;
+    p.rows.forEach(r => {
+        const isFlagged = r[2];
+        html += `<div class="doc-row">
+            <span>${r[0]}</span>
+            <span ${isFlagged ? 'class="highlight-fraud"' : ''}>${r[1]}</span>
+        </div>`;
+    });
+    if (p.fraudHighlight) {
+        html += `<div style="margin-top:12px;padding:8px 12px;background:rgba(239,68,68,0.08);border-radius:6px;font-size:12px;color:#EF4444;font-weight:600;">
+            &#9888; ${p.fraudHighlight}
+        </div>`;
+    }
+    html += '</div></div>';
+    return html;
+}
+
+function showReport(idx) {
+    const doc = docs[idx];
+    const section = document.getElementById('reportSection');
+    section.style.display = 'block';
+
+    document.getElementById('rptDocType').textContent = doc.type;
+    document.getElementById('rptDate').textContent = '4 เมษายน 2569';
+    document.getElementById('rptSource').textContent = doc.source;
+
+    const recEl = document.getElementById('rptRecommendation');
+    if (doc.overallScore >= 85) {
+        recEl.innerHTML = '<span class="rec-badge rec-approve">&#9989; อนุมัติ</span>';
+    } else if (doc.overallScore >= 30) {
+        recEl.innerHTML = '<span class="rec-badge rec-review">&#9888;&#65039; ตรวจสอบเพิ่มเติม</span>';
+    } else {
+        recEl.innerHTML = '<span class="rec-badge rec-reject">&#10060; ปฏิเสธ</span>';
+    }
+
+    // Gauge
+    const needle = document.getElementById('gaugeNeedle');
+    const angle = -90 + (doc.overallScore / 100) * 180;
+    setTimeout(() => {
+        needle.style.transform = `translateX(-50%) rotate(${angle}deg)`;
+    }, 100);
+    document.getElementById('gaugeValue').textContent = doc.overallScore + '%';
+    document.getElementById('gaugeValue').style.color =
+        doc.overallScore >= 70 ? 'var(--success)' :
+        doc.overallScore >= 30 ? 'var(--warning)' : 'var(--danger)';
+
+    // Method results table
+    const tbody = document.getElementById('reportMethodsTable');
+    // Remove old rows (keep header)
+    while (tbody.rows.length > 1) tbody.deleteRow(1);
+
+    methods.forEach((m, i) => {
+        const row = tbody.insertRow();
+        row.innerHTML = `
+            <td>${m.name}</td>
+            <td>${doc.statuses[i] === 'pass'
+                ? '<span class="badge-sm" style="background:rgba(16,185,129,0.15);color:var(--success)">&#9989; ผ่าน</span>'
+                : doc.statuses[i] === 'warn'
+                ? '<span class="badge-sm" style="background:rgba(245,158,11,0.15);color:var(--warning)">&#9888; ตรวจสอบ</span>'
+                : '<span class="badge-sm" style="background:rgba(239,68,68,0.15);color:var(--danger)">&#10060; ผิดปกติ</span>'
+            }</td>
+            <td style="font-weight:600;color:${doc.scores[i]>=70?'var(--success)':doc.scores[i]>=30?'var(--warning)':'var(--danger)'}">${doc.scores[i]}%</td>
+            <td style="color:var(--text-muted);font-size:12px">${doc.statuses[i]==='pass'?'ไม่พบความผิดปกติ':doc.statuses[i]==='warn'?'พบความผิดปกติเล็กน้อย':'ตรวจพบปัญหาร้ายแรง'}</td>
+        `;
+    });
+
+    // Evidence section
+    const evidenceSection = document.getElementById('evidenceSection');
+    const evidenceContent = document.getElementById('evidenceContent');
+    if (doc.isFraud) {
+        evidenceSection.style.display = 'block';
+        evidenceContent.innerHTML = buildDocPreview(doc);
+    } else {
+        evidenceSection.style.display = 'none';
+    }
+
+    // Scroll to report
+    setTimeout(() => {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 300);
+}
+</script>
+
+</body>
+</html>
