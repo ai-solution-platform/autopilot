@@ -3,49 +3,73 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Autopilot — AI-Powered Business Operations | ANTS AI Solution Hub</title>
+<title>Autopilot v2 — AI Back Office Platform | ANTS AI Solution Hub</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-:root{--bg:#F8FAFC;--white:#FFF;--border:#E2E8F0;--text:#0F172A;--text2:#334155;--muted:#64748B;--blue:#2563EB;--purple:#7C3AED;--green:#059669;--grad:linear-gradient(135deg,#2563EB,#7C3AED);}
+:root{--bg:#F8FAFC;--white:#FFF;--border:#E2E8F0;--text:#0F172A;--text2:#334155;--muted:#64748B;--blue:#2563EB;--purple:#7C3AED;--green:#059669;--cyan:#0891B2;--orange:#D97706;--grad:linear-gradient(135deg,#2563EB,#7C3AED);}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;}
 
-.hero{text-align:center;padding:80px 24px 40px;max-width:720px;}
-.logo-row{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:32px;}
+.hero{text-align:center;padding:60px 24px 32px;max-width:800px;}
+.logo-row{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:28px;}
 .logo-icon{width:56px;height:56px;background:var(--grad);border-radius:16px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.5rem;font-weight:800;}
 .logo-text{font-size:1.3rem;font-weight:700;}
 .logo-sub{font-size:0.72rem;color:var(--muted);font-weight:500;letter-spacing:0.5px;}
 
-h1{font-size:2.8rem;font-weight:900;line-height:1.2;margin-bottom:14px;}
+h1{font-size:2.6rem;font-weight:900;line-height:1.2;margin-bottom:12px;}
 h1 span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.tagline{font-size:1.05rem;color:var(--text2);line-height:1.7;margin-bottom:40px;}
+.version-badge{display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,#2563EB,#7C3AED);color:#fff;font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px;}
+.tagline{font-size:1rem;color:var(--text2);line-height:1.7;margin-bottom:36px;}
 
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:720px;padding:0 24px;width:100%;}
-.card{background:var(--white);border:1px solid var(--border);border-radius:18px;padding:32px 28px;text-decoration:none;color:inherit;transition:all 0.25s ease;position:relative;overflow:hidden;}
+/* Section labels */
+.section-label{font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;text-align:center;}
+
+/* V2 Cards - main navigation */
+.cards-v2{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:860px;padding:0 24px;width:100%;}
+.card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:24px 22px;text-decoration:none;color:inherit;transition:all 0.25s ease;position:relative;overflow:hidden;}
 .card:hover{box-shadow:0 12px 40px rgba(37,99,235,0.12);transform:translateY(-4px);border-color:var(--blue);}
-.card-badge{display:inline-block;font-size:0.68rem;font-weight:700;padding:3px 10px;border-radius:6px;margin-bottom:14px;letter-spacing:0.5px;}
-.card:first-child .card-badge{background:#EFF6FF;color:var(--blue);}
-.card:last-child .card-badge{background:#ECFDF5;color:var(--green);}
-.card h2{font-size:1.2rem;font-weight:700;margin-bottom:8px;}
-.card p{font-size:0.88rem;color:var(--muted);line-height:1.6;}
-.card-arrow{position:absolute;top:28px;right:24px;font-size:1.2rem;color:var(--border);transition:all 0.25s;}
+.card-badge{display:inline-block;font-size:0.64rem;font-weight:700;padding:3px 10px;border-radius:6px;margin-bottom:10px;letter-spacing:0.5px;}
+.card h2{font-size:1.05rem;font-weight:700;margin-bottom:6px;}
+.card p{font-size:0.82rem;color:var(--muted);line-height:1.6;}
+.card-arrow{position:absolute;top:22px;right:20px;font-size:1.2rem;color:var(--border);transition:all 0.25s;}
 .card:hover .card-arrow{color:var(--blue);transform:translateX(4px);}
+.card-new{position:absolute;top:12px;right:50px;font-size:.58rem;font-weight:700;background:linear-gradient(135deg,#059669,#0891B2);color:#fff;padding:2px 8px;border-radius:10px;}
 
-.stats{display:flex;gap:40px;justify-content:center;margin-top:48px;padding:0 24px;}
+/* V1 Legacy section */
+.legacy{max-width:860px;width:100%;padding:0 24px;margin-top:32px;}
+.legacy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.legacy .card{padding:18px 16px;}
+.legacy .card h2{font-size:.92rem;}
+.legacy .card p{font-size:.75rem;}
+
+/* Modules preview */
+.modules{max-width:860px;width:100%;padding:0 24px;margin-top:32px;}
+.module-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.module-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;transition:all .2s;}
+.module-card:hover{box-shadow:0 8px 24px rgba(37,99,235,.1);transform:translateY(-2px);}
+.module-icon{font-size:1.8rem;margin-bottom:6px;}
+.module-name{font-size:.82rem;font-weight:700;}
+.module-status{font-size:.62rem;font-weight:600;padding:2px 8px;border-radius:10px;display:inline-block;margin-top:4px;}
+.s-live{background:#ECFDF5;color:#059669;}
+.s-beta{background:#EFF6FF;color:#2563EB;}
+.s-soon{background:#F1F5F9;color:#94A3B8;}
+
+.stats{display:flex;gap:32px;justify-content:center;margin-top:36px;padding:0 24px;flex-wrap:wrap;}
 .stat{text-align:center;}
-.stat-num{font-size:1.6rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.stat-label{font-size:0.72rem;color:var(--muted);margin-top:2px;}
+.stat-num{font-size:1.5rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.stat-label{font-size:0.68rem;color:var(--muted);margin-top:2px;}
 
-.footer{margin-top:auto;padding:32px 24px;text-align:center;font-size:0.75rem;color:var(--muted);}
+.footer{margin-top:auto;padding:28px 24px;text-align:center;font-size:0.72rem;color:var(--muted);}
 .footer a{color:var(--blue);text-decoration:none;}
 
 @media(max-width:800px){
-    .cards{grid-template-columns:1fr 1fr !important;}
+    .cards-v2{grid-template-columns:1fr;}
+    .legacy-grid,.module-grid{grid-template-columns:1fr 1fr;}
 }
-@media(max-width:600px){
+@media(max-width:500px){
     h1{font-size:1.8rem;}
-    .cards{grid-template-columns:1fr !important;}
-    .stats{gap:24px;}
+    .legacy-grid,.module-grid{grid-template-columns:1fr;}
+    .stats{gap:20px;}
 }
 </style>
 </head>
@@ -59,40 +83,92 @@ h1 span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-co
             <div class="logo-sub">Autopilot Platform</div>
         </div>
     </div>
-    <h1>AI <span>Autopilot</span> สำหรับ<br>งาน Back-Office</h1>
-    <p class="tagline">ระบบ AI อัจฉริยะที่ช่วยอัตโนมัติกระบวนการ Sales, Procurement และ Quotation Analysis<br>ลดเวลา ลดข้อผิดพลาด เพิ่มประสิทธิภาพให้ทุกองค์กร</p>
+    <div class="version-badge">✨ VERSION 2.0</div>
+    <h1>AI <span>Autopilot</span> v2<br>Back Office Platform</h1>
+    <p class="tagline">AI ที่ทำงานเอกสารแทนคนได้ทั้ง flow — 6 modules ครอบคลุมทุกงาน Back Office<br>Quotation, Expense, Logistics, Sales, Procurement, Finance Document Hub</p>
 </div>
 
-<div class="cards" style="grid-template-columns:1fr 1fr 1fr;">
-    <a href="pitching-solution.html" class="card">
-        <span class="card-badge">PITCH DECK</span>
+<!-- V2 Main -->
+<div class="section-label">🚀 Autopilot v2</div>
+<div class="cards-v2">
+    <a href="poc-v2.html" class="card">
+        <span class="card-badge" style="background:#ECFDF5;color:#059669;">LIVE POC v2</span>
+        <span class="card-new">NEW</span>
         <span class="card-arrow">&rarr;</span>
-        <h2>Pitching Presentation</h2>
-        <p>นำเสนอระบบวิเคราะห์และสรุปใบเสนอราคาอัตโนมัติ ด้วย OCR + AI — 11 สไลด์ interactive</p>
+        <h2>Live Platform v2</h2>
+        <p>6 Modules — Quotation, Expense OCR, Finance Doc Hub + Module Upgrade System, Case Inventory</p>
     </a>
-    <a href="poc.html" class="card">
-        <span class="card-badge">LIVE POC</span>
+    <a href="proposal-v2.html" class="card">
+        <span class="card-badge" style="background:#F5F3FF;color:#7C3AED;">PROPOSAL v2</span>
+        <span class="card-new">NEW</span>
         <span class="card-arrow">&rarr;</span>
-        <h2>Live Proof of Concept</h2>
-        <p>ทดลองใช้ระบบจริงกับข้อมูล 9 ใบเสนอราคา 44 รายการ — Mock OCR Processing & Comparison</p>
+        <h2>Solution Proposal v2</h2>
+        <p>6 Modules, Per-Module Pricing, Finance Doc Hub Deep Dive, Deployment Options</p>
     </a>
-    <a href="proposal.html" class="card">
-        <span class="card-badge" style="background:#F5F3FF;color:#7C3AED;">PROPOSAL</span>
+    <a href="pitching-v2.html" class="card">
+        <span class="card-badge" style="background:#DBEAFE;color:#2563EB;">PITCH DECK v2</span>
+        <span class="card-new">NEW</span>
         <span class="card-arrow">&rarr;</span>
-        <h2>Solution Proposal</h2>
-        <p>รายละเอียด Solution, Deployment Options (Cloud + LLM / Hybrid + AI TOP ATOM), Timeline & Investment</p>
+        <h2>Investor Pitch Deck</h2>
+        <p>15 Slides — Problem, Solution, 6 Modules, Business Model, GTM Strategy</p>
     </a>
+    <a href="roadmap.html" class="card">
+        <span class="card-badge" style="background:#ECFEFF;color:#0891B2;">ROADMAP</span>
+        <span class="card-new">NEW</span>
+        <span class="card-arrow">&rarr;</span>
+        <h2>Product Roadmap</h2>
+        <p>Interactive Timeline — v1.0 → v4.0, Module Release Schedule, Subscription Cards</p>
+    </a>
+</div>
+
+<!-- Modules -->
+<div class="modules">
+    <div class="section-label" style="margin-top:8px;">📦 6 Industry Modules</div>
+    <div class="module-grid">
+        <div class="module-card"><div class="module-icon">📊</div><div class="module-name">Quotation Autopilot</div><div class="module-status s-live">Live</div></div>
+        <div class="module-card"><div class="module-icon">🧾</div><div class="module-name">Expense & Receipt</div><div class="module-status s-beta">Beta</div></div>
+        <div class="module-card"><div class="module-icon">🏦</div><div class="module-name">Finance Doc Hub</div><div class="module-status s-beta">Beta</div></div>
+        <div class="module-card"><div class="module-icon">📋</div><div class="module-name">Procurement PO/PR</div><div class="module-status s-soon">Coming Soon</div></div>
+        <div class="module-card"><div class="module-icon">💰</div><div class="module-name">Sales Doc Gen</div><div class="module-status s-soon">Coming Soon</div></div>
+        <div class="module-card"><div class="module-icon">🚢</div><div class="module-name">Logistics FX</div><div class="module-status s-soon">Coming Soon</div></div>
+    </div>
+</div>
+
+<!-- V1 Legacy -->
+<div class="legacy">
+    <div class="section-label" style="margin-top:8px;">📁 Version 1.0</div>
+    <div class="legacy-grid">
+        <a href="pitching-solution.html" class="card">
+            <span class="card-badge" style="background:#F1F5F9;color:#94A3B8;">v1 PITCH</span>
+            <span class="card-arrow">&rarr;</span>
+            <h2>Pitch Deck v1</h2>
+            <p>11 slides — Quotation Analysis</p>
+        </a>
+        <a href="poc.html" class="card">
+            <span class="card-badge" style="background:#F1F5F9;color:#94A3B8;">v1 POC</span>
+            <span class="card-arrow">&rarr;</span>
+            <h2>Live POC v1</h2>
+            <p>9 ใบเสนอราคา, 44 รายการ, 4 vendors</p>
+        </a>
+        <a href="proposal.html" class="card">
+            <span class="card-badge" style="background:#F1F5F9;color:#94A3B8;">v1 PROPOSAL</span>
+            <span class="card-arrow">&rarr;</span>
+            <h2>Proposal v1</h2>
+            <p>Cloud + LLM / Hybrid + AI TOP ATOM</p>
+        </a>
+    </div>
 </div>
 
 <div class="stats">
-    <div class="stat"><div class="stat-num">9</div><div class="stat-label">ใบเสนอราคา</div></div>
-    <div class="stat"><div class="stat-num">44</div><div class="stat-label">รายการสินค้า</div></div>
-    <div class="stat"><div class="stat-num">4</div><div class="stat-label">ผู้จำหน่าย</div></div>
-    <div class="stat"><div class="stat-num">60</div><div class="stat-label">วันทำการ</div></div>
+    <div class="stat"><div class="stat-num">6</div><div class="stat-label">Modules</div></div>
+    <div class="stat"><div class="stat-num">15</div><div class="stat-label">Pitch Slides</div></div>
+    <div class="stat"><div class="stat-num">5,194</div><div class="stat-label">Lines of Code</div></div>
+    <div class="stat"><div class="stat-num">14</div><div class="stat-label">วันทดลองฟรี</div></div>
+    <div class="stat"><div class="stat-num">v2.0</div><div class="stat-label">Latest Version</div></div>
 </div>
 
 <div class="footer">
-    &copy; 2026 ANTS AI Solution Hub — Powered by <a href="#">Coding HUB</a>
+    &copy; 2026 ANTS AI Solution Hub — Powered by <a href="#">Coding HUB</a> · Autopilot v2
 </div>
 
 </body>

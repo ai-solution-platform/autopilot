@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autopilot v2 — AI Back Office Platform</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
+:root{--bg:#F8FAFC;--bg2:#F1F5F9;--white:#FFF;--border:#E2E8F0;--border2:#CBD5E1;--text:#0F172A;--text2:#334155;--muted:#64748B;--light:#94A3B8;--blue:#2563EB;--blue-l:#EFF6FF;--blue-d:#1D4ED8;--purple:#7C3AED;--purple-l:#F5F3FF;--cyan:#0891B2;--cyan-l:#ECFEFF;--green:#059669;--green-l:#ECFDF5;--green-d:#047857;--orange:#D97706;--orange-l:#FFFBEB;--red:#DC2626;--red-l:#FEF2F2;--pink:#DB2777;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--sh:0 1px 3px rgba(0,0,0,.06);--sh2:0 4px 20px rgba(0,0,0,.08);--sh3:0 12px 40px rgba(0,0,0,.12);--sidebar-w:280px;--header-h:56px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;}
+::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+
+/* Layout */
+.app-layout{display:flex;min-height:100vh;}
+.sidebar{width:var(--sidebar-w);background:var(--white);border-right:1px solid var(--border);position:fixed;top:0;left:0;bottom:0;z-index:50;display:flex;flex-direction:column;overflow-y:auto;transition:transform .25s ease,width .25s ease;}
+.sidebar.collapsed{transform:translateX(-100%);}
+.main-wrap{margin-left:var(--sidebar-w);flex:1;min-height:100vh;display:flex;flex-direction:column;transition:margin-left .25s ease;}
+.main-wrap.expanded{margin-left:0;}
+.header{height:var(--header-h);background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:40;}
+.main{flex:1;padding:24px;overflow-y:auto;}
+
+/* Sidebar */
+.sidebar-logo{padding:16px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
+.logo-icon{width:36px;height:36px;background:var(--grad);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.9rem;font-weight:800;flex-shrink:0;}
+.logo-text{font-weight:700;font-size:.92rem;line-height:1.2;}.logo-sub{font-size:.62rem;color:var(--muted);font-weight:500;}
+.nav-section{padding:8px 12px 4px;}.nav-label{font-size:.6rem;font-weight:700;color:var(--light);letter-spacing:1.2px;text-transform:uppercase;padding:0 8px;margin-bottom:4px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:8px;cursor:pointer;font-size:.78rem;color:var(--text2);transition:all .15s;border:none;background:none;width:100%;text-align:left;font-family:inherit;}
+.nav-item:hover{background:var(--blue-l);color:var(--blue);}.nav-item.active{background:var(--blue-l);color:var(--blue);font-weight:600;}
+.nav-item .icon{width:18px;text-align:center;font-size:.85rem;}.nav-item .badge{margin-left:auto;font-size:.6rem;font-weight:700;background:var(--blue);color:#fff;padding:1px 6px;border-radius:10px;min-width:18px;text-align:center;}
+.nav-item .badge.warn{background:var(--orange);}.nav-item .badge.green{background:var(--green);}
+.sidebar-footer{margin-top:auto;padding:12px;border-top:1px solid var(--border);}
+.plan-badge{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--purple-l);border-radius:10px;font-size:.72rem;color:var(--purple);font-weight:600;}
+
+/* Module nav */
+.module-header{display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:.78rem;font-weight:700;color:var(--text);cursor:pointer;border-radius:8px;transition:all .15s;}
+.module-header:hover{background:var(--bg);}
+.module-header .mod-icon{font-size:.9rem;}
+.module-header .mod-check{margin-left:auto;color:var(--green);font-size:.7rem;}
+.module-header .trial-badge{margin-left:auto;font-size:.55rem;font-weight:700;background:var(--orange-l);color:var(--orange);padding:1px 6px;border-radius:4px;}
+.module-children{padding-left:20px;position:relative;}
+.module-children::before{content:'';position:absolute;left:26px;top:0;bottom:8px;width:1px;background:var(--border);}
+.module-children .nav-item{position:relative;font-size:.75rem;padding:5px 12px 5px 18px;}
+.module-children .nav-item::before{content:'';position:absolute;left:6px;top:50%;width:8px;height:1px;background:var(--border);}
+.available-module{opacity:.55;transition:opacity .2s;}
+.available-module:hover{opacity:.85;}
+.upgrade-btn{margin-left:auto;font-size:.6rem;font-weight:700;background:var(--grad);color:#fff;padding:2px 8px;border-radius:4px;border:none;cursor:pointer;font-family:inherit;}
+
+/* Header */
+.header-left{display:flex;align-items:center;gap:12px;}
+.header-title{font-size:1rem;font-weight:700;}
+.header-right{display:flex;align-items:center;gap:8px;}
+.header-btn{width:36px;height:36px;border-radius:9px;border:1px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;position:relative;transition:all .15s;}
+.header-btn:hover{background:var(--bg);border-color:var(--blue);}
+.header-btn .dot{position:absolute;top:6px;right:6px;width:8px;height:8px;background:var(--red);border-radius:50%;border:2px solid var(--white);}
+.sidebar-toggle{width:36px;height:36px;border-radius:9px;border:1px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.1rem;transition:all .15s;}
+.sidebar-toggle:hover{background:var(--bg);}
+.user-pill{display:flex;align-items:center;gap:8px;padding:4px 12px 4px 4px;border-radius:20px;border:1px solid var(--border);background:var(--white);cursor:pointer;font-size:.78rem;font-weight:500;position:relative;}
+.user-avatar{width:28px;height:28px;border-radius:50%;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;}
+.user-menu{position:absolute;top:40px;right:0;width:200px;background:var(--white);border:1px solid var(--border);border-radius:12px;box-shadow:var(--sh3);z-index:100;display:none;overflow:hidden;}
+.user-menu.show{display:block;}
+.user-menu-item{padding:10px 16px;font-size:.82rem;cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .15s;}
+.user-menu-item:hover{background:var(--bg);}
+.user-menu-item.danger{color:var(--red);}
+
+/* Cards */
+.card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:20px;box-shadow:var(--sh);}
+.card-sm{padding:16px;}.card-title{font-size:.92rem;font-weight:700;margin-bottom:12px;}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px;}
+.kpi{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:var(--sh);}
+.kpi-label{font-size:.72rem;color:var(--muted);font-weight:500;display:flex;align-items:center;gap:6px;}
+.kpi-value{font-size:1.8rem;font-weight:800;margin-top:4px;line-height:1;}
+.kpi-change{display:inline-flex;align-items:center;gap:3px;font-size:.68rem;font-weight:600;padding:2px 6px;border-radius:4px;margin-top:6px;}
+.kpi-change.up{background:var(--green-l);color:var(--green);}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:.82rem;font-weight:600;border:none;cursor:pointer;transition:all .2s;font-family:inherit;}
+.btn-primary{background:var(--grad);color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.2);}
+.btn-primary:hover{box-shadow:0 6px 16px rgba(37,99,235,.3);transform:translateY(-1px);}
+.btn-outline{background:var(--white);color:var(--text2);border:1px solid var(--border);}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue);}
+.btn-sm{padding:6px 12px;font-size:.75rem;}
+.btn-green{background:var(--green);color:#fff;}.btn-green:hover{background:var(--green-d);}
+.btn-danger{background:var(--red-l);color:var(--red);border:1px solid transparent;}.btn-danger:hover{background:var(--red);color:#fff;}
+.btn-icon{width:32px;height:32px;padding:0;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid var(--border);background:var(--white);cursor:pointer;font-size:.9rem;transition:all .15s;}
+.btn-icon:hover{background:var(--bg);border-color:var(--blue);}
+
+/* Tables */
+.data-table{width:100%;border-collapse:collapse;font-size:.8rem;}
+.data-table th{background:var(--bg);padding:10px 12px;text-align:left;font-weight:600;font-size:.72rem;color:var(--muted);letter-spacing:.3px;border-bottom:2px solid var(--border);position:sticky;top:0;}
+.data-table td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--text2);}
+.data-table tr:hover td{background:var(--blue-l);}
+.data-table .num{text-align:right;font-variant-numeric:tabular-nums;}
+
+/* Status */
+.status{display:inline-flex;align-items:center;gap:4px;font-size:.7rem;font-weight:600;padding:3px 10px;border-radius:6px;}
+.status-draft{background:#F1F5F9;color:#475569;}.status-processing{background:var(--blue-l);color:var(--blue);}
+.status-review{background:var(--orange-l);color:var(--orange);}.status-complete{background:var(--green-l);color:var(--green);}
+.status-active{background:var(--green-l);color:var(--green);}.status-inactive{background:#F1F5F9;color:#94A3B8;}
+.status-pending{background:var(--orange-l);color:var(--orange);}.status-overdue{background:var(--red-l);color:var(--red);}
+.status-approved{background:var(--green-l);color:var(--green);}
+
+/* Charts */
+.chart-bar-h{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.chart-bar-h .label{width:80px;font-size:.72rem;color:var(--muted);text-align:right;flex-shrink:0;}
+.chart-bar-h .bar{flex:1;height:24px;background:var(--bg);border-radius:4px;overflow:hidden;}
+.chart-bar-h .fill{height:100%;border-radius:4px;transition:width .8s ease;}
+.chart-bar-h .val{font-size:.68rem;font-weight:600;margin-left:8px;min-width:40px;}
+.mini-chart{display:flex;align-items:flex-end;gap:3px;height:48px;}
+.mini-bar{flex:1;background:var(--blue);border-radius:2px 2px 0 0;opacity:.7;transition:all .3s;}.mini-bar:hover{opacity:1;}
+
+/* Steps */
+.steps-h{display:flex;gap:0;margin:16px 0;}
+.step-h{flex:1;text-align:center;position:relative;}
+.step-dot{width:32px;height:32px;border-radius:50%;border:2px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:.75rem;font-weight:700;color:var(--muted);transition:all .3s;position:relative;z-index:1;}
+.step-h.active .step-dot{background:var(--grad);color:#fff;border-color:var(--blue);box-shadow:0 4px 12px rgba(37,99,235,.25);}
+.step-h.done .step-dot{background:var(--green);color:#fff;border-color:var(--green);}
+.step-h .step-label{font-size:.68rem;color:var(--muted);font-weight:500;}
+.step-h.active .step-label,.step-h.done .step-label{color:var(--text);font-weight:600;}
+.step-line{position:absolute;top:16px;left:calc(50% + 16px);right:calc(-50% + 16px);height:2px;background:var(--border);}
+.step-h.done .step-line{background:var(--green);}.step-h:last-child .step-line{display:none;}
+
+/* Progress */
+.progress-bar{width:100%;height:6px;background:var(--bg);border-radius:3px;overflow:hidden;}
+.progress-fill{height:100%;background:var(--grad);border-radius:3px;transition:width .4s ease;}
+
+/* Log */
+.log{background:#1E293B;border-radius:10px;padding:14px;font-family:'Courier New',monospace;font-size:.72rem;line-height:1.8;color:#94A3B8;max-height:200px;overflow-y:auto;margin-top:10px;}
+.log .info{color:#60A5FA;}.log .success{color:#34D399;}.log .warn{color:#FBBF24;}.log .err{color:#F87171;}.log .hl{color:#F472B6;}
+
+/* Tabs */
+.tabs{display:flex;gap:2px;border-bottom:2px solid var(--border);margin-bottom:16px;}
+.tab{padding:8px 16px;font-size:.82rem;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;background:none;border-top:none;border-left:none;border-right:none;font-family:inherit;}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:600;}.tab:hover{color:var(--text);}
+
+/* Files */
+.file-item{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;border:1px solid var(--border);margin-bottom:6px;background:var(--white);transition:all .2s;}
+.file-item:hover{box-shadow:var(--sh2);}
+.file-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;background:var(--red-l);color:var(--red);}
+.file-info{flex:1;min-width:0;}.file-name{font-size:.82rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.file-meta{font-size:.68rem;color:var(--muted);}
+
+/* Upload */
+.upload-zone{border:2px dashed var(--border2);border-radius:14px;padding:40px;text-align:center;background:var(--white);transition:all .2s;cursor:pointer;}
+.upload-zone:hover{border-color:var(--blue);background:var(--blue-l);}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:all .25s;}
+.modal-overlay.show{opacity:1;pointer-events:all;}
+.modal{background:var(--white);border-radius:18px;padding:28px;max-width:560px;width:90%;box-shadow:var(--sh3);transform:scale(.95);transition:transform .25s;max-height:90vh;overflow-y:auto;}
+.modal-overlay.show .modal{transform:scale(1);}
+.modal-icon{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 16px;}
+.modal h3{text-align:center;margin-bottom:6px;}.modal p{text-align:center;color:var(--muted);font-size:.85rem;margin-bottom:20px;line-height:1.6;}
+.modal-actions{display:flex;gap:8px;justify-content:center;}
+.form-group{margin-bottom:14px;}.form-label{display:block;font-size:.78rem;font-weight:600;margin-bottom:4px;color:var(--text2);}
+.form-input{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:.82rem;transition:border-color .15s;}
+.form-input:focus{outline:none;border-color:var(--blue);}
+select.form-input{cursor:pointer;}
+
+/* Toast */
+.toast-container{position:fixed;top:70px;right:24px;z-index:2000;display:flex;flex-direction:column;gap:8px;}
+.toast{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px 18px;box-shadow:var(--sh3);display:flex;align-items:center;gap:10px;min-width:300px;max-width:400px;animation:slideInR .3s ease;font-size:.82rem;}
+.toast-icon{font-size:1.2rem;flex-shrink:0;}.toast-msg{flex:1;}.toast-msg strong{display:block;font-size:.82rem;}.toast-msg small{color:var(--muted);font-size:.72rem;}
+.toast-close{cursor:pointer;color:var(--muted);font-size:1rem;padding:4px;}
+@keyframes slideInR{from{opacity:0;transform:translateX(40px);}to{opacity:1;transform:translateX(0);}}
+
+/* Connector Card */
+.connector{display:flex;align-items:center;gap:16px;padding:16px;border:1px solid var(--border);border-radius:12px;background:var(--white);transition:all .2s;}
+.connector:hover{box-shadow:var(--sh2);}
+.connector-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;}
+.connector-info{flex:1;}.connector-name{font-weight:700;font-size:.88rem;}.connector-desc{font-size:.72rem;color:var(--muted);margin-top:2px;}
+.connector-stats{font-size:.68rem;color:var(--text2);margin-top:4px;display:flex;gap:12px;}
+
+/* Tags */
+.vtag{display:inline-block;padding:2px 8px;border-radius:5px;font-size:.68rem;font-weight:600;white-space:nowrap;}
+.v1{background:#DBEAFE;color:#1E40AF;}.v2{background:#E0E7FF;color:#3730A3;}.v3{background:#D1FAE5;color:#065F46;}.v4{background:#FEF3C7;color:#92400E;}
+.role-tag{font-size:.68rem;font-weight:600;padding:2px 8px;border-radius:4px;}
+.role-admin{background:#EDE9FE;color:#6D28D9;}.role-manager{background:#DBEAFE;color:#1D4ED8;}.role-analyst{background:#D1FAE5;color:#065F46;}.role-viewer{background:#F1F5F9;color:#475569;}
+.best-price{background:var(--green-l)!important;color:var(--green)!important;font-weight:700!important;}
+
+/* Notification Panel */
+.notif-panel{position:absolute;top:44px;right:0;width:360px;background:var(--white);border:1px solid var(--border);border-radius:14px;box-shadow:var(--sh3);z-index:100;display:none;}
+.notif-panel.show{display:block;}
+.notif-header{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:.88rem;}
+.notif-item{display:flex;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;}
+.notif-item:hover{background:var(--bg);}.notif-item:last-child{border-bottom:none;}
+.notif-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+.notif-text{font-size:.78rem;color:var(--text2);line-height:1.4;}.notif-text strong{color:var(--text);}.notif-time{font-size:.66rem;color:var(--light);margin-top:2px;}
+
+/* OCR */
+.ocr-viewer{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px;}
+.ocr-panel{border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.ocr-panel-header{padding:8px 14px;background:var(--bg);border-bottom:1px solid var(--border);font-size:.72rem;font-weight:600;}
+.ocr-content{padding:14px;font-size:.78rem;line-height:1.7;color:var(--text2);max-height:260px;overflow-y:auto;font-family:'Courier New',monospace;}
+.ocr-hl{background:#FEF08A;padding:1px 4px;border-radius:3px;}
+
+/* Timeline compact */
+.timeline-compact{}.tl-c-item{display:flex;align-items:flex-start;gap:10px;padding:6px 0;font-size:.78rem;}
+.tl-c-dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0;background:var(--border);}
+.tl-c-item.done .tl-c-dot{background:var(--green);}.tl-c-item.active .tl-c-dot{background:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.15);}
+.tl-c-time{color:var(--light);font-size:.66rem;min-width:55px;flex-shrink:0;}.tl-c-text{color:var(--text2);}
+
+/* Pagination */
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-top:1px solid var(--border);font-size:.78rem;color:var(--muted);}
+.pagination select{padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:.78rem;}
+.page-btns{display:flex;gap:4px;}.page-btn{width:30px;height:30px;border:1px solid var(--border);border-radius:6px;background:var(--white);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.75rem;transition:all .15s;}
+.page-btn:hover,.page-btn.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+
+/* Donut Chart */
+.donut-wrap{position:relative;width:160px;height:160px;margin:0 auto;}
+.donut-svg{width:100%;height:100%;transform:rotate(-90deg);}
+.donut-seg{transition:opacity .2s,stroke-width .2s;cursor:pointer;}
+.donut-seg:hover{stroke-width:22;opacity:.9;}
+.donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.donut-center-val{font-size:1.6rem;font-weight:800;}.donut-center-label{font-size:.68rem;color:var(--muted);}
+.donut-legend{display:flex;flex-wrap:wrap;gap:8px 16px;justify-content:center;margin-top:12px;}
+.donut-legend-item{display:flex;align-items:center;gap:5px;font-size:.72rem;cursor:pointer;}.donut-legend-item:hover{font-weight:600;}
+.donut-legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+/* Line Chart */
+.line-chart-wrap{position:relative;height:140px;margin:8px 0;}
+.line-chart-svg{width:100%;height:100%;}
+.line-chart-path{fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+.line-chart-area{opacity:.12;}
+.line-chart-dot{r:4;cursor:pointer;transition:r .15s;}.line-chart-dot:hover{r:7;}
+.line-chart-grid{stroke:var(--border);stroke-width:.5;}
+.line-chart-label{font-size:.62rem;fill:var(--muted);}
+/* Chart tooltip */
+.chart-tip{position:fixed;padding:6px 12px;background:var(--text);color:var(--white);border-radius:8px;font-size:.72rem;pointer-events:none;z-index:999;white-space:nowrap;opacity:0;transition:opacity .15s;box-shadow:var(--sh3);}
+.chart-tip.show{opacity:1;}
+
+/* Finance doc */
+.doc-tree{font-size:.82rem;line-height:2;}
+.doc-tree .folder{font-weight:700;margin-top:12px;}
+.doc-tree .doc-item{padding-left:24px;display:flex;align-items:center;gap:8px;}
+.doc-tree .doc-item .ch-tag{font-size:.6rem;color:var(--muted);}
+.sla-countdown{font-size:.85rem;font-weight:700;padding:4px 12px;border-radius:6px;}
+.sla-ok{background:var(--green-l);color:var(--green);}.sla-warn{background:var(--orange-l);color:var(--orange);}.sla-danger{background:var(--red-l);color:var(--red);}
+
+/* Receipt mock */
+.receipt-mock{background:#FFFEF5;border:2px solid #E5E2D0;border-radius:8px;padding:24px;font-family:'Courier New',monospace;font-size:.78rem;line-height:1.8;text-align:center;max-width:300px;margin:0 auto;}
+.receipt-mock hr{border:none;border-top:1px dashed #999;margin:8px 0;}
+
+/* Pricing card */
+.pricing-card{border:2px solid var(--border);border-radius:14px;padding:24px;text-align:center;transition:all .2s;cursor:pointer;}
+.pricing-card:hover{border-color:var(--blue);box-shadow:var(--sh2);}
+.pricing-card.featured{border-color:var(--purple);background:var(--purple-l);}
+.pricing-card .price{font-size:1.5rem;font-weight:800;margin:8px 0;}
+.pricing-card .features{text-align:left;font-size:.78rem;line-height:2;color:var(--text2);margin-top:12px;}
+
+/* Animations */
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}.animate-pulse{animation:pulse 1.5s ease-in-out infinite;}
+@keyframes slideUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}.anim{animation:slideUp .3s ease;}
+@keyframes spin{to{transform:rotate(360deg);}}.spinner{display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;}
+
+/* Utility */
+.hidden{display:none!important;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+.flex-between{display:flex;align-items:center;justify-content:space-between;}
+.mt-8{margin-top:8px;}.mt-12{margin-top:12px;}.mt-16{margin-top:16px;}.mb-8{margin-bottom:8px;}.mb-12{margin-bottom:12px;}.mb-16{margin-bottom:16px;}
+.text-sm{font-size:.78rem;}.text-xs{font-size:.68rem;}.text-muted{color:var(--muted);}.fw-700{font-weight:700;}
+.search-input{display:flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid var(--border);border-radius:8px;background:var(--bg);font-size:.82rem;}
+.search-input input{border:none;background:none;outline:none;font-family:inherit;font-size:.82rem;flex:1;color:var(--text);}
+.chip{padding:5px 12px;border-radius:6px;font-size:.75rem;font-weight:500;cursor:pointer;border:1px solid var(--border);background:var(--white);color:var(--text2);transition:all .15s;}
+.chip.active{background:var(--blue-l);color:var(--blue);border-color:var(--blue);}.chip:hover{border-color:var(--blue);}
+.link{color:var(--blue);cursor:pointer;text-decoration:none;}.link:hover{text-decoration:underline;}
+
+@media(max-width:1024px){.kpi-grid{grid-template-columns:1fr 1fr;}.grid-2,.grid-3{grid-template-columns:1fr;}.ocr-viewer{grid-template-columns:1fr;}}
+@media(max-width:768px){.sidebar{transform:translateX(-100%);}.main-wrap{margin-left:0;}.kpi-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="app-layout">
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+        <div class="logo-icon">AI</div>
+        <div><div class="logo-text">Autopilot v2</div><div class="logo-sub">ANTS AI Solution Hub</div></div>
+    </div>
+
+    <div class="nav-section"><div class="nav-label">Active Modules</div>
+        <!-- Module 1: Quotation Autopilot -->
+        <div class="module-header" onclick="toggleModule('mod1')"><span class="mod-icon">📊</span>Quotation Autopilot<span class="mod-check">✓</span></div>
+        <div class="module-children" id="mod1">
+            <button class="nav-item active" data-page="dashboard"><span class="icon">📈</span>Dashboard</button>
+            <button class="nav-item" data-page="tasks"><span class="icon">📋</span>Tasks<span class="badge">12</span></button>
+            <button class="nav-item" data-page="comparison"><span class="icon">📊</span>Comparison</button>
+            <button class="nav-item" data-page="reports"><span class="icon">📑</span>Reports</button>
+        </div>
+
+        <!-- Module 2: Expense & Receipt -->
+        <div class="module-header" onclick="toggleModule('mod2')"><span class="mod-icon">🧾</span>Expense & Receipt<span class="mod-check">✓</span></div>
+        <div class="module-children" id="mod2">
+            <button class="nav-item" data-page="expenseDash"><span class="icon">📈</span>Dashboard</button>
+            <button class="nav-item" data-page="receiptOcr"><span class="icon">📷</span>Receipt OCR</button>
+            <button class="nav-item" data-page="claims"><span class="icon">📝</span>Claims</button>
+        </div>
+
+        <!-- Module 6: Finance Doc Hub -->
+        <div class="module-header" onclick="toggleModule('mod6')"><span class="mod-icon">🏦</span>Finance Doc Hub<span class="mod-check">✓</span></div>
+        <div class="module-children" id="mod6">
+            <button class="nav-item" data-page="finCases"><span class="icon">📁</span>Cases<span class="badge">47</span></button>
+            <button class="nav-item" data-page="finDocuments"><span class="icon">📄</span>Documents</button>
+            <button class="nav-item" data-page="finRouting"><span class="icon">🔀</span>Routing</button>
+        </div>
+    </div>
+
+    <div class="nav-section"><div class="nav-label">Available Modules</div>
+        <div class="available-module">
+            <div class="module-header" onclick="showUpgradeModal('logistics')"><span class="mod-icon">🚢</span>Logistics FX<button class="upgrade-btn">Upgrade</button></div>
+        </div>
+        <div class="available-module">
+            <div class="module-header" onclick="showUpgradeModal('sales')"><span class="mod-icon">💰</span>Sales Doc Gen<button class="upgrade-btn">Upgrade</button></div>
+        </div>
+        <div class="available-module">
+            <div class="module-header" onclick="showUpgradeModal('procurement')"><span class="mod-icon">📋</span>Procurement PO/PR<button class="upgrade-btn">Upgrade</button></div>
+        </div>
+    </div>
+
+    <div class="nav-section"><div class="nav-label">System</div>
+        <button class="nav-item" data-page="users"><span class="icon">👥</span>Users & Roles</button>
+        <button class="nav-item" data-page="channels"><span class="icon">🔗</span>Channels</button>
+        <button class="nav-item" data-page="billing"><span class="icon">💳</span>Billing & Packages</button>
+        <button class="nav-item" data-page="vendors"><span class="icon">🏢</span>Vendors</button>
+        <button class="nav-item" data-page="audit"><span class="icon">📜</span>Audit Log</button>
+        <button class="nav-item" data-page="settings"><span class="icon">⚙️</span>Settings</button>
+    </div>
+    <div class="sidebar-footer"><div class="plan-badge">⭐ Enterprise Plan — 3 Modules Active</div></div>
+</div>
+
+<!-- MAIN -->
+<div class="main-wrap" id="mainWrap">
+<div class="header">
+    <div class="header-left">
+        <button class="sidebar-toggle" onclick="toggleSidebar()" title="Toggle sidebar">☰</button>
+        <div class="header-title" id="headerTitle">Dashboard</div>
+    </div>
+    <div class="header-right">
+        <div class="search-input" style="width:220px;"><span>🔍</span><input placeholder="Search..." /></div>
+        <button class="header-btn" onclick="toggleNotif()" style="position:relative;">🔔<span class="dot"></span>
+            <div class="notif-panel" id="notifPanel">
+                <div class="notif-header">Notifications <span class="text-xs text-muted">3 new</span></div>
+                <div class="notif-item" onclick="showPage('taskDetail','TK-0012')"><div class="notif-icon" style="background:var(--green-l);">✅</div><div><div class="notif-text"><strong>Task #TK-0012</strong> completed</div><div class="notif-time">2 min ago</div></div></div>
+                <div class="notif-item" onclick="showPage('finCaseDetail','FN-2024-0847')"><div class="notif-icon" style="background:var(--blue-l);">🏦</div><div><div class="notif-text"><strong>Case #FN-0847</strong> เอกสารครบ 75%</div><div class="notif-time">10 min ago</div></div></div>
+                <div class="notif-item" onclick="showPage('channels')"><div class="notif-icon" style="background:var(--blue-l);">📨</div><div><div class="notif-text"><strong>LINE</strong> received 2 quotations</div><div class="notif-time">15 min ago</div></div></div>
+            </div>
+        </button>
+        <button class="header-btn" onclick="showModal('help')">❓</button>
+        <div class="user-pill" onclick="toggleUserMenu()"><div class="user-avatar">TN</div>Thanakan
+            <div class="user-menu" id="userMenu">
+                <div class="user-menu-item" onclick="showModal('profile')">👤 My Profile</div>
+                <div class="user-menu-item" onclick="showPage('settings')">⚙️ Settings</div>
+                <div class="user-menu-item" onclick="showPage('billing')">💳 Billing</div>
+                <div class="user-menu-item danger" onclick="showToast('👋','Logged Out','Redirecting to login...')">🚪 Logout</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main" id="mainContent">
+
+<!-- ════ DASHBOARD ════ -->
+<div id="page-dashboard" class="page anim">
+    <div class="flex-between mb-16">
+        <div><h2 style="font-size:1.3rem;">Dashboard</h2><p class="text-sm text-muted">ภาพรวมประสิทธิภาพระบบ AI Autopilot v2</p></div>
+        <div style="display:flex;gap:8px;"><button class="btn btn-outline btn-sm">📅 Last 30 Days</button><button class="btn btn-primary btn-sm" onclick="createNewTask()">+ New Task</button></div>
+    </div>
+    <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">📄 Documents Processed</div><div class="kpi-value" style="color:var(--blue);">1,247</div><div class="kpi-change up">↑ 23% vs last month</div></div>
+        <div class="kpi"><div class="kpi-label">⏱️ Time Saved</div><div class="kpi-value" style="color:var(--green);">892 hrs</div><div class="kpi-change up">↑ 156% vs manual</div></div>
+        <div class="kpi"><div class="kpi-label">🎯 Accuracy Rate</div><div class="kpi-value" style="color:var(--purple);">98.7%</div><div class="kpi-change up">↑ 2.1%</div></div>
+        <div class="kpi"><div class="kpi-label">💰 Cost Saved (est.)</div><div class="kpi-value" style="color:var(--orange);">2.4M</div><div class="kpi-change up">↑ THB/year</div></div>
+    </div>
+    <div class="grid-2">
+        <div class="card"><div class="card-header"><span class="card-title">Processing Time: Manual vs AI</span><span class="text-xs text-muted">avg per task</span></div>
+            <div class="chart-bar-h"><div class="label">Manual</div><div class="bar"><div class="fill" style="width:100%;background:var(--red-l);border:1px solid var(--red);"></div></div><div class="val" style="color:var(--red);">4.5 hrs</div></div>
+            <div class="chart-bar-h"><div class="label">AI Autopilot</div><div class="bar"><div class="fill" style="width:13%;background:var(--grad);"></div></div><div class="val" style="color:var(--blue);">35 min</div></div>
+            <div class="mt-12" style="text-align:center;"><span style="font-size:2rem;font-weight:800;color:var(--green);">7.7x</span><span class="text-sm text-muted" style="margin-left:8px;">faster</span></div>
+        </div>
+        <div class="card"><div class="card-header"><span class="card-title">Task Volume (7 Days)</span></div>
+            <div class="mini-chart" style="height:100px;"><div class="mini-bar" style="height:40%"></div><div class="mini-bar" style="height:65%"></div><div class="mini-bar" style="height:55%"></div><div class="mini-bar" style="height:80%"></div><div class="mini-bar" style="height:45%"></div><div class="mini-bar" style="height:90%"></div><div class="mini-bar" style="height:70%;background:var(--grad);"></div></div>
+            <div style="display:flex;justify-content:space-between;margin-top:6px;"><span class="text-xs text-muted">Mon</span><span class="text-xs text-muted">Tue</span><span class="text-xs text-muted">Wed</span><span class="text-xs text-muted">Thu</span><span class="text-xs text-muted">Fri</span><span class="text-xs text-muted">Sat</span><span class="text-xs fw-700" style="color:var(--blue);">Sun</span></div>
+        </div>
+    </div>
+    <div class="grid-2 mt-16">
+        <div class="card"><div class="card-header"><span class="card-title">Task Status Distribution</span></div>
+            <div style="display:flex;align-items:center;gap:20px;">
+                <div class="donut-wrap" id="donutStatus"><svg class="donut-svg" viewBox="0 0 120 120"></svg><div class="donut-center"><div class="donut-center-val">247</div><div class="donut-center-label">Total Tasks</div></div></div>
+                <div style="flex:1;">
+                    <div class="chart-bar-h"><div class="label">Complete</div><div class="bar"><div class="fill" style="width:58%;background:var(--green);"></div></div><div class="val">143</div></div>
+                    <div class="chart-bar-h"><div class="label">Processing</div><div class="bar"><div class="fill" style="width:22%;background:var(--blue);"></div></div><div class="val">55</div></div>
+                    <div class="chart-bar-h"><div class="label">Review</div><div class="bar"><div class="fill" style="width:12%;background:var(--orange);"></div></div><div class="val">30</div></div>
+                    <div class="chart-bar-h"><div class="label">Draft</div><div class="bar"><div class="fill" style="width:8%;background:var(--light);"></div></div><div class="val">19</div></div>
+                </div>
+            </div>
+        </div>
+        <div class="card"><div class="card-header"><span class="card-title">Channel Intake</span></div>
+            <div style="display:flex;align-items:center;gap:20px;">
+                <div class="donut-wrap" id="donutChannel"><svg class="donut-svg" viewBox="0 0 120 120"></svg><div class="donut-center"><div class="donut-center-val">1,247</div><div class="donut-center-label">Documents</div></div></div>
+                <div style="flex:1;">
+                    <div class="chart-bar-h"><div class="label">Upload</div><div class="bar"><div class="fill" style="width:45%;background:var(--blue);"></div></div><div class="val">562</div></div>
+                    <div class="chart-bar-h"><div class="label">Email</div><div class="bar"><div class="fill" style="width:30%;background:var(--purple);"></div></div><div class="val">374</div></div>
+                    <div class="chart-bar-h"><div class="label">LINE</div><div class="bar"><div class="fill" style="width:18%;background:var(--green);"></div></div><div class="val">224</div></div>
+                    <div class="chart-bar-h"><div class="label">Others</div><div class="bar"><div class="fill" style="width:7%;background:var(--cyan);"></div></div><div class="val">87</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="grid-2 mt-16">
+        <div class="card"><div class="card-header"><span class="card-title">Accuracy Trend (30 Days)</span><span class="text-xs text-muted">OCR + AI accuracy</span></div>
+            <div class="line-chart-wrap" id="lineAccuracy"></div>
+        </div>
+        <div class="card"><div class="card-header"><span class="card-title">Cost Savings Trend (6 Months)</span><span class="text-xs text-muted">THB estimated</span></div>
+            <div class="line-chart-wrap" id="lineCost"></div>
+        </div>
+    </div>
+    <div class="card mt-16"><div class="card-header"><span class="card-title">Recent Tasks</span><button class="btn btn-outline btn-sm" onclick="showPage('tasks')">View All →</button></div>
+        <table class="data-table"><thead><tr><th>Task ID</th><th>Title</th><th>Assignee</th><th>Docs</th><th>Status</th><th>Created</th></tr></thead><tbody id="recentTasks"></tbody></table>
+    </div>
+</div>
+
+<!-- ════ TASKS ════ -->
+<div id="page-tasks" class="page hidden">
+    <div class="flex-between mb-16"><div><h2>Tasks</h2><p class="text-sm text-muted">จัดการ Tasks ทั้งหมด — สร้าง, ค้นหา, ย้อนดูประวัติ</p></div>
+        <button class="btn btn-primary" onclick="createNewTask()">+ New Task</button></div>
+    <div class="flex-between mb-12">
+        <div style="display:flex;gap:6px;" id="taskFilters"><div class="chip active" onclick="filterTasks('all',this)">All (12)</div><div class="chip" onclick="filterTasks('processing',this)">Processing (3)</div><div class="chip" onclick="filterTasks('review',this)">Review (2)</div><div class="chip" onclick="filterTasks('complete',this)">Complete (7)</div></div>
+        <div class="search-input" style="width:200px;"><span>🔍</span><input placeholder="Search..." /></div>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden;">
+        <table class="data-table"><thead><tr><th>Task ID</th><th>Title</th><th>Assignee</th><th>Docs</th><th>Items</th><th>Status</th><th>Created</th><th>Action</th></tr></thead><tbody id="tasksBody"></tbody></table>
+        <div class="pagination">
+            <div>Showing <select id="rowsPerPage" onchange="renderTasks()"><option value="5">5</option><option value="10" selected>10</option><option value="50">50</option></select> per page · <span id="taskPageInfo">1-10 of 12</span></div>
+            <div class="page-btns"><button class="page-btn" onclick="taskPageNav(-1)">‹</button><button class="page-btn active" id="pgBtn1">1</button><button class="page-btn" id="pgBtn2">2</button><button class="page-btn" onclick="taskPageNav(1)">›</button></div>
+        </div>
+    </div>
+</div>
+
+<!-- ════ TASK DETAIL ════ -->
+<div id="page-taskDetail" class="page hidden">
+    <div class="flex-between mb-12">
+        <div><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><button class="btn btn-outline btn-sm" onclick="showPage('tasks')">← Back to Tasks</button><span class="status status-processing" id="tdStatus">Processing</span></div>
+            <h2 id="tdTitle">Task #TK-0012 — ใบเสนอราคาอุปกรณ์ช่าง Q1/2569</h2>
+            <p class="text-sm text-muted">Created by Thanakan · 4 Apr 2026 · 9 documents</p></div>
+        <div style="display:flex;gap:8px;" id="tdActions"><button class="btn btn-outline btn-sm" onclick="showPage('comparison')">📊 Comparison</button><button class="btn btn-outline btn-sm" onclick="showPage('reports')">📑 Report</button><button class="btn btn-green btn-sm" onclick="exportCSV()">📥 Export</button></div>
+    </div>
+    <div class="steps-h" id="tdSteps">
+        <div class="step-h done"><div class="step-dot">✓</div><div class="step-label">อัปโหลด</div><div class="step-line"></div></div>
+        <div class="step-h done"><div class="step-dot">✓</div><div class="step-label">ตรวจสอบ</div><div class="step-line"></div></div>
+        <div class="step-h active"><div class="step-dot">3</div><div class="step-label">OCR</div><div class="step-line"></div></div>
+        <div class="step-h"><div class="step-dot">4</div><div class="step-label">AI Analysis</div><div class="step-line"></div></div>
+        <div class="step-h"><div class="step-dot">5</div><div class="step-label">Complete</div></div>
+    </div>
+    <div class="card mt-16 mb-12">
+        <div class="card-header"><span class="card-title" id="tdProcessTitle">กำลังรอเริ่มประมวลผล...</span><span id="tdPct" style="font-weight:700;color:var(--blue);">0%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="tdFill" style="width:0%"></div></div>
+        <div class="log" id="tdLog"><div class="info">[System] AI Quotation Analysis Engine v2.0 — Ready</div></div>
+    </div>
+    <div class="grid-2">
+        <div class="card"><div class="card-title">OCR Preview</div>
+            <div class="ocr-viewer"><div class="ocr-panel"><div class="ocr-panel-header">📄 Original</div><div class="ocr-content" id="ocrOrig"><div style="text-align:center;color:var(--muted);padding:30px;">Waiting...</div></div></div>
+                <div class="ocr-panel"><div class="ocr-panel-header">🔍 Extracted</div><div class="ocr-content" id="ocrRes"><div style="text-align:center;color:var(--muted);padding:30px;">Waiting...</div></div></div></div>
+        </div>
+        <div>
+            <div class="card mb-12"><div class="flex-between"><span class="card-title" style="margin-bottom:0;">📁 Documents (9)</span><button class="btn btn-outline btn-sm" id="toggleFilesBtn" onclick="toggleFiles()">Show All</button></div>
+                <div id="tdFileList" style="margin-top:10px;max-height:180px;overflow:hidden;"></div></div>
+            <div class="card"><div class="flex-between"><span class="card-title" style="margin-bottom:0;">Timeline</span><button class="btn btn-outline btn-sm" id="toggleTlBtn" onclick="toggleTimeline()">View All</button></div>
+                <div class="timeline-compact mt-8" id="tdTimeline" style="max-height:120px;overflow:hidden;"></div></div>
+        </div>
+    </div>
+    <div class="card mt-16 hidden" id="tdNextSteps" style="border-color:var(--green);background:var(--green-l);">
+        <div style="display:flex;align-items:center;gap:16px;"><div style="font-size:2rem;">✅</div><div style="flex:1;"><div style="font-weight:700;font-size:1rem;">Processing Complete!</div><div class="text-sm text-muted">44 items from 9 documents, 4 vendors</div></div>
+            <div style="display:flex;gap:8px;"><button class="btn btn-outline btn-sm" onclick="showPage('comparison')">📊 Comparison</button><button class="btn btn-primary btn-sm" onclick="showPage('reports')">📑 Report →</button></div></div>
+    </div>
+</div>
+
+<!-- ════ COMPARISON ════ -->
+<div id="page-comparison" class="page hidden">
+    <div class="flex-between mb-16"><div><h2>Comparative Quotation Table</h2><p class="text-sm text-muted">44 รายการ · 4 ผู้จำหน่าย</p></div>
+        <div style="display:flex;gap:8px;"><button class="btn btn-outline btn-sm" onclick="sortComp('name')">Sort: Name</button><button class="btn btn-outline btn-sm" onclick="sortComp('price')">Sort: Price</button><button class="btn btn-green btn-sm" onclick="exportCSV()">📥 CSV</button></div></div>
+    <div class="kpi-grid" style="grid-template-columns:repeat(5,1fr);"><div class="kpi card-sm"><div class="kpi-label">Items</div><div class="kpi-value" style="font-size:1.4rem;color:var(--blue);">44</div></div>
+        <div class="kpi card-sm"><div class="kpi-label">Vendors</div><div class="kpi-value" style="font-size:1.4rem;color:var(--purple);">4</div></div>
+        <div class="kpi card-sm"><div class="kpi-label">Best Total</div><div class="kpi-value" style="font-size:1.4rem;color:var(--green);">119,158</div></div>
+        <div class="kpi card-sm"><div class="kpi-label">Highest</div><div class="kpi-value" style="font-size:1.4rem;color:var(--red);">144,163</div></div>
+        <div class="kpi card-sm"><div class="kpi-label">Savings</div><div class="kpi-value" style="font-size:1.4rem;color:var(--orange);">25,005</div></div></div>
+    <div class="card" style="overflow-x:auto;padding:0;" id="compContainer"></div>
+</div>
+
+<!-- ════ REPORTS ════ -->
+<div id="page-reports" class="page hidden">
+    <div class="flex-between mb-16"><div><h2>Executive Summary</h2><p class="text-sm text-muted">รายงานสรุปผลการวิเคราะห์</p></div>
+        <div style="display:flex;gap:8px;"><button class="btn btn-outline btn-sm" onclick="mockPrint()">🖨️ Print</button><button class="btn btn-green btn-sm" onclick="mockExportPDF()">📥 Export PDF</button></div></div>
+    <div class="card mb-16"><h3 style="margin-bottom:10px;">📋 สรุปภาพรวม</h3><div id="rptSummary" style="line-height:1.8;font-size:.88rem;color:var(--text2);"></div></div>
+    <div class="card mb-16"><h3 style="margin-bottom:10px;">⚡ ข้อสังเกตสำคัญ</h3><div id="rptNotes" style="font-size:.88rem;color:var(--text2);line-height:1.8;"></div></div>
+    <div class="card"><h3 style="margin-bottom:10px;">📎 เอกสารต้นฉบับ</h3><div id="rptAttach"></div></div>
+</div>
+
+<!-- ════ EXPENSE DASHBOARD ════ -->
+<div id="page-expenseDash" class="page hidden">
+    <div class="flex-between mb-16"><div><h2>🧾 Expense & Receipt — Dashboard</h2><p class="text-sm text-muted">ภาพรวมค่าใช้จ่ายและใบเสร็จ</p></div>
+        <button class="btn btn-primary btn-sm" onclick="showPage('receiptOcr')">📷 Scan Receipt</button></div>
+    <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">🧾 Claims This Month</div><div class="kpi-value" style="color:var(--blue);">23</div><div class="kpi-change up">↑ 12%</div></div>
+        <div class="kpi"><div class="kpi-label">💰 Total Amount</div><div class="kpi-value" style="color:var(--green);">87,450</div><div class="kpi-change up">THB</div></div>
+        <div class="kpi"><div class="kpi-label">✅ Approved</div><div class="kpi-value" style="color:var(--purple);">18</div><div class="kpi-change up">78%</div></div>
+        <div class="kpi"><div class="kpi-label">⏳ Pending</div><div class="kpi-value" style="color:var(--orange);">5</div><div class="kpi-change up">รออนุมัติ</div></div>
+    </div>
+    <div class="grid-2">
+        <div class="card"><div class="card-title">ค่าใช้จ่ายตามหมวดหมู่</div>
+            <div class="chart-bar-h"><div class="label">ค่าเดินทาง</div><div class="bar"><div class="fill" style="width:40%;background:var(--blue);"></div></div><div class="val">35,200</div></div>
+            <div class="chart-bar-h"><div class="label">ค่าน้ำมัน</div><div class="bar"><div class="fill" style="width:25%;background:var(--green);"></div></div><div class="val">21,800</div></div>
+            <div class="chart-bar-h"><div class="label">ค่าอาหาร</div><div class="bar"><div class="fill" style="width:20%;background:var(--orange);"></div></div><div class="val">17,650</div></div>
+            <div class="chart-bar-h"><div class="label">ค่าจิปาถะ</div><div class="bar"><div class="fill" style="width:15%;background:var(--purple);"></div></div><div class="val">12,800</div></div>
+        </div>
+        <div class="card"><div class="card-title">Policy Status</div>
+            <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px;"><div style="font-size:2.5rem;">✅</div><div><div style="font-weight:700;font-size:1.1rem;color:var(--green);">ภายในงบประมาณ</div><div class="text-sm text-muted">Budget: ฿120,000/mo · Used: ฿87,450 (73%)</div></div></div>
+            <div class="progress-bar" style="height:10px;"><div class="progress-fill" style="width:73%;background:var(--green);"></div></div>
+            <div class="flex-between mt-8"><span class="text-xs text-muted">฿0</span><span class="text-xs text-muted">Budget: ฿120,000</span></div>
+        </div>
+    </div>
+    <div class="card mt-16"><div class="card-header"><span class="card-title">Recent Claims</span><button class="btn btn-outline btn-sm" onclick="showPage('claims')">View All →</button></div>
+        <table class="data-table"><thead><tr><th>Claim ID</th><th>รายการ</th><th>หมวดหมู่</th><th>จำนวน</th><th>ผู้เบิก</th><th>Status</th><th>วันที่</th></tr></thead><tbody id="expenseRecentBody"></tbody></table>
+    </div>
+</div>
+
+<!-- ════ RECEIPT OCR ════ -->
+<div id="page-receiptOcr" class="page hidden">
+    <div class="flex-between mb-16"><div><h2>📷 Receipt OCR</h2><p class="text-sm text-muted">สแกนใบเสร็จอัตโนมัติ — AI อ่านข้อมูลและกรอกฟอร์ม</p></div>
+        <button class="btn btn-outline btn-sm" onclick="showPage('expenseDash')">← Back</button></div>
+    <div class="grid-2">
+        <div>
+            <div class="card"><div class="card-title">📄 ใบเสร็จ</div>
+                <div class="receipt-mock" id="receiptArea">
+                    <div style="font-weight:700;font-size:1rem;">🏪 ร้าน ก๋วยเตี๋ยวเรือ สมชาย</div>
+                    <div class="text-xs text-muted">123/45 ถ.สุขุมวิท กรุงเทพฯ 10110</div>
+                    <div class="text-xs text-muted">Tax ID: 3-1234-56789-01-2</div>
+                    <hr>
+                    <div style="text-align:left;">
+                        <div>ก๋วยเตี๋ยวเรือ x2 ......... 100.00</div>
+                        <div>น้ำดื่ม x2 .................. 40.00</div>
+                        <div>ข้าวเหนียวมะม่วง x1 ........ 80.00</div>
+                    </div>
+                    <hr>
+                    <div style="font-weight:700;">รวม: ฿220.00</div>
+                    <div>VAT 7%: ฿15.40</div>
+                    <div style="font-weight:700;font-size:1.1rem;">Grand Total: ฿235.40</div>
+                    <hr>
+                    <div class="text-xs text-muted">4 เม.ย. 2569 13:45</div>
+                    <div class="text-xs text-muted">ขอบคุณที่ใช้บริการ</div>
+                </div>
+                <div style="text-align:center;margin-top:16px;">
+                    <button class="btn btn-primary" onclick="runReceiptOCR()">📷 Scan Receipt</button>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="card mb-12"><div class="card-title">🔍 OCR Result</div>
+                <div class="log" id="ocrLog" style="max-height:150px;"><div class="info">[System] Receipt OCR Engine — Ready</div></div>
+            </div>
+            <div class="card"><div class="card-title">📝 Auto-filled Claim Form</div>
+                <div class="form-group"><label class="form-label">ร้านค้า</label><input class="form-input" id="ocrStore" placeholder="รอผล OCR..." readonly /></div>
+                <div class="grid-2">
+                    <div class="form-group"><label class="form-label">วันที่</label><input class="form-input" id="ocrDate" placeholder="—" readonly /></div>
+                    <div class="form-group"><label class="form-label">หมวดหมู่</label><select class="form-input" id="ocrCat"><option>ค่าอาหาร</option><option>ค่าเดินทาง</option><option>ค่าน้ำมัน</option><option>ค่าจิปาถะ</option></select></div>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group"><label class="form-label">จำนวนเงิน (THB)</label><input class="form-input" id="ocrAmount" placeholder="—" readonly /></div>
+                    <div class="form-group"><label class="form-label">VAT 7%</label><input class="form-input" id="ocrVat" placeholder="—" readonly /></div>
+                </div>
+                <button class="btn btn-green mt-8" id="submitClaimBtn" style="width:100%;justify-content:center;opacity:.5;pointer-events:none;" onclick="submitClaim()">📨 Submit Claim</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ════ CLAIMS ════ -->
+<div id="page-claims" class="page hidden">
+    <div class="flex-between mb-16"><div><h2>📝 Expense Claims</h2><p class="text-sm text-muted">รายการเบิกค่าใช้จ่ายทั้งหมด</p></div>
+        <button class="btn btn-primary btn-sm" onclick="showPage('receiptOcr')">📷 New Claim</button></div>
+    <div class="card" style="padding:0;overflow:hidden;">
+        <table class="data-table"><thead><tr><th>Claim ID</th><th>รายการ</th><th>หมวดหมู่</th><th>จำนวน (THB)</th><th>VAT</th><th>ผู้เบิก</th><th>Status</th><th>วันที่</th></tr></thead><tbody id="claimsBody"></tbody></table>
+    </div>
+</div>
+
+<!-- ════ FINANCE CASES ════ -->
+<div id="page-finCases" class="page hidden">
+    <div class="flex-between mb-16"><div><h2>🏦 Finance Document Hub — Cases</h2><p class="text-sm text-muted">ระบบจัดการเอกสารสินเชื่อ — ติดตามเอกสารทุก case</p></div>
+        <button class="btn btn-primary btn-sm" onclick="showToast('📁','Case Created','New case FN-2024-0855 created')">+ New Case</button></div>
+    <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">📁 Active Cases</div><div class="kpi-value" style="color:var(--blue);">47</div><div class="kpi-change up">+8 this week</div></div>
+        <div class="kpi"><div class="kpi-label">✅ Docs Complete</div><div class="kpi-value" style="color:var(--green);">12</div><div class="kpi-change up">ready to submit</div></div>
+        <div class="kpi"><div class="kpi-label">⚠️ SLA Warning</div><div class="kpi-value" style="color:var(--orange);">5</div><div class="kpi-change up">< 3 days</div></div>
+        <div class="kpi"><div class="kpi-label">❌ Overdue</div><div class="kpi-value" style="color:var(--red);">2</div><div class="kpi-change up">action needed</div></div>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden;">
+        <table class="data-table"><thead><tr><th>Case ID</th><th>ชื่อลูกค้า</th><th>ประเภท</th><th>เอกสาร</th><th>Progress</th><th>Status</th><th>SLA</th><th>Assignee</th><th>Action</th></tr></thead><tbody id="finCasesBody"></tbody></table>
+    </div>
+</div>
+
+<!-- ════ FINANCE CASE DETAIL ════ -->
+<div id="page-finCaseDetail" class="page hidden">
+    <div class="flex-between mb-12">
+        <div><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><button class="btn btn-outline btn-sm" onclick="showPage('finCases')">← Back to Cases</button><span class="status" id="fcStatus">Active</span><span class="sla-countdown" id="fcSla"></span></div>
+            <h2 id="fcTitle">CASE #FN-2024-0847</h2>
+            <p class="text-sm text-muted" id="fcSub"></p></div>
+        <div style="display:flex;gap:8px;">
+            <button class="btn btn-outline btn-sm" onclick="showToast('📨','Reminder Sent','ส่ง LINE แจ้งเตือนลูกค้าเรียบร้อย')">📨 Send Reminder</button>
+            <button class="btn btn-green btn-sm" onclick="showToast('📤','Submitted','ส่งเอกสารให้ธนาคารเรียบร้อย')">📤 Submit to Bank</button>
+        </div>
+    </div>
+    <div class="grid-2">
+        <div class="card">
+            <div class="card-title">📁 Document Checklist</div>
+            <div id="fcDocTree" class="doc-tree"></div>
+            <div class="mt-16 flex-between">
+                <div><strong id="fcProgress"></strong></div>
+                <div class="progress-bar" style="width:200px;height:8px;"><div class="progress-fill" id="fcProgressBar" style="width:0%"></div></div>
+            </div>
+        </div>
+        <div>
+            <div class="card mb-12"><div class="card-title">📝 Activity Log</div>
+                <div class="timeline-compact" id="fcTimeline"></div>
+            </div>
+            <div class="card"><div class="card-title">🔀 Multi-party Routing</div>
+                <div id="fcRouting"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ════ FINANCE DOCUMENTS ════ -->
+<div id="page-finDocuments" class="page hidden">
+    <div class="flex-between mb-16"><div><h2>📄 Finance Documents</h2><p class="text-sm text-muted">รายการเอกสารทั้งหมดในระบบ</p></div></div>
+    <div class="kpi-grid" style="grid-template-columns:repeat(5,1fr);">
+        <div class="kpi card-sm"><div class="kpi-label">Total Docs</div><div class="kpi-value" style="font-size:1.4rem;color:var(--blue);">284</div></div>
+        <div class="kpi card-sm"><div class="kpi-label">✅ Received</div><div class="kpi-value" style="font-size:1.4rem;color:var(--green);">198</div></div>
+        <div class="kpi card-sm"><div class="kpi-label">⏳ Pending</div><div class="kpi-value" style="font-size:1.4rem;color:var(--orange);">56</div></div>
+        <div class="kpi card-sm"><div class="kpi-label">❌ Missing</div><div class="kpi-value" style="font-size:1.4rem;color:var(--red);">30</div></div>
+        <div class="kpi card-sm"><div class="kpi-label">Channels</div><div class="kpi-value" style="font-size:1.4rem;color:var(--purple);">3</div></div>
+    </div>
+    <div class="card"><div class="card-title">Document Types Overview</div>
+        <table class="data-table"><thead><tr><th>ประเภทเอกสาร</th><th>ได้รับแล้ว</th><th>รอรับ</th><th>ช่องทางหลัก</th></tr></thead><tbody>
+            <tr><td>สำเนาบัตรประชาชน</td><td><span class="status status-complete">45/47</span></td><td>2</td><td>LINE, Upload</td></tr>
+            <tr><td>สลิปเงินเดือน (3 เดือน)</td><td><span class="status status-processing">38/47</span></td><td>9</td><td>Email</td></tr>
+            <tr><td>Statement (6 เดือน)</td><td><span class="status status-pending">30/47</span></td><td>17</td><td>Email, Upload</td></tr>
+            <tr><td>ทะเบียนบ้าน</td><td><span class="status status-complete">42/47</span></td><td>5</td><td>LINE</td></tr>
+            <tr><td>โฉนดที่ดิน/สัญญา</td><td><span class="status status-pending">28/47</span></td><td>19</td><td>Upload</td></tr>
+            <tr><td>ใบเสนอราคา (Dealer)</td><td><span class="status status-complete">43/47</span></td><td>4</td><td>Email</td></tr>
+        </tbody></table>
+    </div>
+</div>
+
+<!-- ════ FINANCE ROUTING ════ -->
+<div id="page-finRouting" class="page hidden">
+    <div class="flex-between mb-16"><div><h2>🔀 Multi-party Routing</h2><p class="text-sm text-muted">ติดตามเอกสารระหว่าง ลูกค้า ↔ Dealer ↔ ธนาคาร</p></div></div>
+    <div class="grid-3">
+        <div class="card" style="border-top:3px solid var(--blue);"><div class="card-title">👤 ลูกค้า</div>
+            <div class="text-sm"><div class="mb-8">📨 ส่งเอกสารผ่าน LINE: <strong>45 รายการ</strong></div><div class="mb-8">📧 ส่งเอกสารผ่าน Email: <strong>38 รายการ</strong></div><div class="mb-8">📤 Upload เอง: <strong>15 รายการ</strong></div><div>⏳ รอเอกสาร: <strong style="color:var(--orange);">12 รายการ</strong></div></div>
+        </div>
+        <div class="card" style="border-top:3px solid var(--purple);"><div class="card-title">🏢 Dealer</div>
+            <div class="text-sm"><div class="mb-8">📄 ใบเสนอราคา: <strong>43 รายการ</strong></div><div class="mb-8">🚗 สำเนาทะเบียนรถ: <strong>40 รายการ</strong></div><div class="mb-8">📋 เอกสารอื่นๆ: <strong>22 รายการ</strong></div><div>⏳ รอเอกสาร: <strong style="color:var(--orange);">8 รายการ</strong></div></div>
+        </div>
+        <div class="card" style="border-top:3px solid var(--green);"><div class="card-title">🏦 ธนาคาร</div>
+            <div class="text-sm"><div class="mb-8">📤 ส่งแล้ว: <strong>35 cases</strong></div><div class="mb-8">✅ อนุมัติแล้ว: <strong style="color:var(--green);">28 cases</strong></div><div class="mb-8">⏳ รอผล: <strong>5 cases</strong></div><div>❌ ปฏิเสธ: <strong style="color:var(--red);">2 cases</strong></div></div>
+        </div>
+    </div>
+    <div class="card mt-16"><div class="card-title">Channel Intake Log</div>
+        <table class="data-table"><thead><tr><th>Time</th><th>Channel</th><th>From</th><th>Document</th><th>Case</th><th>Action</th></tr></thead><tbody>
+            <tr><td>10:45</td><td><span class="vtag v3">LINE</span></td><td>นายสมชาย</td><td>สำเนาบัตรประชาชน</td><td><a class="link" onclick="showPage('finCaseDetail','FN-2024-0847')">FN-0847</a></td><td>Auto-attached</td></tr>
+            <tr><td>10:30</td><td><span class="vtag v1">Email</span></td><td>ABC Dealer</td><td>ใบเสนอราคารถ</td><td><a class="link" onclick="showPage('finCaseDetail','FN-2024-0847')">FN-0847</a></td><td>Auto-attached</td></tr>
+            <tr><td>09:15</td><td><span class="vtag v3">LINE</span></td><td>นางสาวสมหญิง</td><td>สลิปเงินเดือน x3</td><td><a class="link" onclick="showPage('finCaseDetail','FN-2024-0848')">FN-0848</a></td><td>Auto-attached</td></tr>
+            <tr><td>Yesterday</td><td><span class="vtag v4">Upload</span></td><td>Dealer XYZ</td><td>สำเนาทะเบียนรถ</td><td><a class="link" onclick="showPage('finCaseDetail','FN-2024-0850')">FN-0850</a></td><td>Auto-attached</td></tr>
+        </tbody></table>
+    </div>
+</div>
+
+<!-- ════ USERS ════ -->
+<div id="page-users" class="page hidden">
+    <div class="flex-between mb-16"><div><h2>Users & Permissions</h2><p class="text-sm text-muted">จัดการผู้ใช้ — รองรับ 10 ถึง 5,000+ users</p></div>
+        <button class="btn btn-primary btn-sm" onclick="showModal('invite')">+ Invite User</button></div>
+    <div class="kpi-grid" style="grid-template-columns:repeat(5,1fr);">
+        <div class="kpi card-sm"><div class="kpi-label">Total</div><div class="kpi-value" style="font-size:1.4rem;color:var(--blue);">24</div></div>
+        <div class="kpi card-sm"><div class="kpi-label">Admin</div><div class="kpi-value" style="font-size:1.4rem;color:var(--purple);">2</div></div>
+        <div class="kpi card-sm"><div class="kpi-label">Manager</div><div class="kpi-value" style="font-size:1.4rem;color:var(--blue);">5</div></div>
+        <div class="kpi card-sm"><div class="kpi-label">Analyst</div><div class="kpi-value" style="font-size:1.4rem;color:var(--green);">12</div></div>
+        <div class="kpi card-sm"><div class="kpi-label">Viewer</div><div class="kpi-value" style="font-size:1.4rem;color:var(--muted);">5</div></div></div>
+    <div class="card" style="padding:0;overflow:hidden;">
+        <table class="data-table"><thead><tr><th>User</th><th>Email</th><th>Role</th><th>Dept</th><th>Tasks</th><th>Last Active</th><th>Actions</th></tr></thead><tbody id="usersBody"></tbody></table>
+    </div>
+    <div class="card mt-16"><div class="card-title">Role Permissions Matrix</div>
+        <table class="data-table mt-8"><thead><tr><th>Permission</th><th>Admin</th><th>Manager</th><th>Analyst</th><th>Viewer</th></tr></thead><tbody>
+            <tr><td>Create Tasks</td><td>✅</td><td>✅</td><td>✅</td><td>❌</td></tr><tr><td>View All Tasks</td><td>✅</td><td>✅</td><td>Own only</td><td>Assigned</td></tr>
+            <tr><td>Approve / Reject</td><td>✅</td><td>✅</td><td>❌</td><td>❌</td></tr><tr><td>Export Reports</td><td>✅</td><td>✅</td><td>✅</td><td>❌</td></tr>
+            <tr><td>Manage Users</td><td>✅</td><td>❌</td><td>❌</td><td>❌</td></tr><tr><td>Configure Channels</td><td>✅</td><td>✅</td><td>❌</td><td>❌</td></tr>
+            <tr><td>API Access</td><td>✅</td><td>✅</td><td>Read only</td><td>❌</td></tr></tbody></table></div>
+</div>
+
+<!-- ════ CHANNELS ════ -->
+<div id="page-channels" class="page hidden">
+    <div class="flex-between mb-16"><div><h2>Channel Connectors</h2><p class="text-sm text-muted">รับเอกสารอัตโนมัติจากทุกช่องทาง — Agentic AI สร้าง Task อัตโนมัติ</p></div>
+        <button class="btn btn-primary btn-sm" onclick="showModal('addChannel')">+ Add Channel</button></div>
+    <div class="card mb-16" style="border-color:var(--purple);background:linear-gradient(135deg,#F5F3FF,#EFF6FF);">
+        <div style="display:flex;align-items:center;gap:16px;"><div style="font-size:2.5rem;">🤖</div><div style="flex:1;">
+            <div style="font-weight:700;font-size:1.05rem;">Agentic AI — Document Intake Engine</div>
+            <div class="text-sm text-muted mt-4">AI Agent รับเอกสารจากทุกช่องทาง วิเคราะห์ สร้าง Task เข้า Flow อัตโนมัติ 24/7</div>
+            <div style="display:flex;gap:16px;margin-top:8px;"><span class="text-xs"><strong style="color:var(--green);">✓ Active</strong></span><span class="text-xs">Auto-created <strong>87 tasks</strong>/month</span><span class="text-xs">Avg: <strong>12s</strong></span></div>
+        </div><span class="status status-active">🟢 Running</span></div>
+    </div>
+    <h3 class="mb-12">Communication Channels</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;" id="channelList"></div>
+    <h3 class="mb-12">File Storage & MCP Connectors</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;" id="mcpList"></div>
+</div>
+
+<!-- ════ VENDORS ════ -->
+<div id="page-vendors" class="page hidden">
+    <div class="flex-between mb-16"><div><h2>Vendor Database</h2><p class="text-sm text-muted">ฐานข้อมูลผู้จำหน่าย — ประวัติ, คะแนน, ราคาย้อนหลัง</p></div>
+        <button class="btn btn-primary btn-sm" onclick="showModal('addVendor')">+ Add Vendor</button></div>
+    <div id="vendorList"></div>
+</div>
+
+<!-- ════ AUDIT LOG ════ -->
+<div id="page-audit" class="page hidden">
+    <div class="flex-between mb-16"><div><h2>Audit Log</h2><p class="text-sm text-muted">ประวัติกิจกรรมทั้งหมด — ตรวจสอบย้อนหลัง</p></div>
+        <button class="btn btn-outline btn-sm" onclick="showToast('📥','Export Started','audit_log.csv downloading...')">📥 Export Log</button></div>
+    <div class="card" style="padding:0;overflow:hidden;"><table class="data-table"><thead><tr><th>Time</th><th>User</th><th>Action</th><th>Target</th><th>Detail</th></tr></thead><tbody id="auditBody"></tbody></table></div>
+</div>
+
+<!-- ════ BILLING ════ -->
+<div id="page-billing" class="page hidden">
+    <div class="flex-between mb-16"><div><h2>Billing & Packages</h2><p class="text-sm text-muted">จัดการแพ็กเกจ, Modules, ดูประวัติการใช้งาน</p></div></div>
+    <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">Active Modules</div><div class="kpi-value" style="font-size:1.2rem;color:var(--purple);">3 / 6</div><div class="kpi-change up">Quotation, Expense, Finance</div></div>
+        <div class="kpi"><div class="kpi-label">AI Tokens Remaining</div><div class="kpi-value" style="font-size:1.4rem;color:var(--blue);">847,320</div><div class="kpi-change up">of 1,000,000</div></div>
+        <div class="kpi"><div class="kpi-label">OCR Pages Used</div><div class="kpi-value" style="font-size:1.4rem;color:var(--green);">12,480</div><div class="kpi-change up">of 50,000/mo</div></div>
+        <div class="kpi"><div class="kpi-label">Monthly Cost</div><div class="kpi-value" style="font-size:1.4rem;color:var(--orange);">฿89,700</div><div class="kpi-change up">3 modules</div></div>
+    </div>
+
+    <h3 class="mb-12">Active Module Subscriptions</h3>
+    <div class="grid-3 mb-16">
+        <div class="card" style="border-top:3px solid var(--blue);">
+            <div class="flex-between"><span style="font-weight:700;">📊 Quotation Autopilot</span><span class="status status-active">Active</span></div>
+            <div class="text-sm text-muted mt-8">Plan: <strong>Enterprise</strong></div>
+            <div class="text-sm text-muted">Usage: 247 tasks / month</div>
+            <div class="text-sm text-muted">Next billing: 1 May 2026</div>
+            <div style="font-weight:700;color:var(--blue);margin-top:8px;">฿49,000/mo</div>
+            <button class="btn btn-outline btn-sm mt-8" onclick="showToast('📧','Request Sent','Sales team will contact you')">Manage Plan</button>
+        </div>
+        <div class="card" style="border-top:3px solid var(--green);">
+            <div class="flex-between"><span style="font-weight:700;">🧾 Expense & Receipt</span><span class="status status-active">Active</span></div>
+            <div class="text-sm text-muted mt-8">Plan: <strong>Business</strong></div>
+            <div class="text-sm text-muted">Usage: 23 claims / month</div>
+            <div class="text-sm text-muted">Next billing: 1 May 2026</div>
+            <div style="font-weight:700;color:var(--green);margin-top:8px;">฿9,900/mo</div>
+            <button class="btn btn-outline btn-sm mt-8" onclick="showToast('⬆️','Upgrade','Upgrading to Enterprise...')">Upgrade</button>
+        </div>
+        <div class="card" style="border-top:3px solid var(--purple);">
+            <div class="flex-between"><span style="font-weight:700;">🏦 Finance Doc Hub</span><span class="status status-active">Active</span></div>
+            <div class="text-sm text-muted mt-8">Plan: <strong>Business</strong></div>
+            <div class="text-sm text-muted">Usage: 47 cases / month</div>
+            <div class="text-sm text-muted">Next billing: 1 May 2026</div>
+            <div style="font-weight:700;color:var(--purple);margin-top:8px;">฿29,900/mo</div>
+            <button class="btn btn-outline btn-sm mt-8" onclick="showToast('⬆️','Upgrade','Upgrading to Enterprise...')">Upgrade</button>
+        </div>
+    </div>
+
+    <h3 class="mb-12">Available Modules</h3>
+    <div class="grid-3 mb-16">
+        <div class="card" style="opacity:.7;"><div class="flex-between"><span style="font-weight:700;">🚢 Logistics FX</span><span class="status status-inactive">Inactive</span></div><div class="text-sm text-muted mt-8">FX comparison, freight OCR, landed cost</div><button class="btn btn-primary btn-sm mt-8" onclick="showUpgradeModal('logistics')">Activate</button></div>
+        <div class="card" style="opacity:.7;"><div class="flex-between"><span style="font-weight:700;">💰 Sales Doc Gen</span><span class="status status-inactive">Inactive</span></div><div class="text-sm text-muted mt-8">Auto quotation, templates, catalog</div><button class="btn btn-primary btn-sm mt-8" onclick="showUpgradeModal('sales')">Activate</button></div>
+        <div class="card" style="opacity:.7;"><div class="flex-between"><span style="font-weight:700;">📋 Procurement PO/PR</span><span class="status status-inactive">Inactive</span></div><div class="text-sm text-muted mt-8">PR/PO workflow, 3-way match</div><button class="btn btn-primary btn-sm mt-8" onclick="showUpgradeModal('procurement')">Activate</button></div>
+    </div>
+
+    <div class="grid-2">
+        <div class="card"><div class="card-title">💳 Top Up Tokens</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;">
+                <div style="border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:all .15s;" onclick="showModal('topup','100K')" onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='var(--border)'"><div style="font-weight:700;font-size:1.1rem;">100K</div><div class="text-xs text-muted">Tokens</div><div style="font-weight:700;color:var(--blue);margin-top:4px;">฿2,500</div></div>
+                <div style="border:2px solid var(--purple);border-radius:10px;padding:16px;text-align:center;cursor:pointer;background:var(--purple-l);" onclick="showModal('topup','1M')"><div style="font-weight:700;font-size:1.1rem;">1M</div><div class="text-xs text-muted">Tokens ⭐</div><div style="font-weight:700;color:var(--purple);margin-top:4px;">฿16,500</div></div>
+            </div>
+        </div>
+        <div class="card"><div class="card-title">Total Monthly Summary</div>
+            <div style="font-size:.82rem;line-height:2.2;color:var(--text2);">
+                <div class="flex-between" style="border-bottom:1px solid var(--border);padding:4px 0;"><span>📊 Quotation Autopilot (Enterprise)</span><span style="font-weight:700;">฿49,000</span></div>
+                <div class="flex-between" style="border-bottom:1px solid var(--border);padding:4px 0;"><span>🧾 Expense & Receipt (Business)</span><span style="font-weight:700;">฿9,900</span></div>
+                <div class="flex-between" style="border-bottom:1px solid var(--border);padding:4px 0;"><span>🏦 Finance Doc Hub (Business)</span><span style="font-weight:700;">฿29,900</span></div>
+                <div class="flex-between" style="padding:8px 0;"><span style="font-weight:800;font-size:.92rem;">Total</span><span style="font-weight:800;font-size:1.1rem;color:var(--purple);">฿88,800/mo</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="card mt-16"><div class="card-title">Payment History</div>
+        <table class="data-table"><thead><tr><th>Date</th><th>Description</th><th>Amount</th><th>Status</th><th>Receipt</th></tr></thead><tbody>
+            <tr><td>1 Apr 2026</td><td>Quotation Autopilot — Enterprise</td><td class="num">฿49,000</td><td><span class="status status-complete">Paid</span></td><td><a class="link" onclick="showToast('📥','Downloading','receipt_apr2026.pdf')">Download</a></td></tr>
+            <tr><td>1 Apr 2026</td><td>Finance Doc Hub — Business</td><td class="num">฿29,900</td><td><span class="status status-complete">Paid</span></td><td><a class="link">Download</a></td></tr>
+            <tr><td>1 Apr 2026</td><td>Expense & Receipt — Business</td><td class="num">฿9,900</td><td><span class="status status-complete">Paid</span></td><td><a class="link">Download</a></td></tr>
+            <tr><td>15 Mar 2026</td><td>Token Top-up — 1M Tokens</td><td class="num">฿16,500</td><td><span class="status status-complete">Paid</span></td><td><a class="link">Download</a></td></tr>
+        </tbody></table></div>
+</div>
+
+<!-- ════ SETTINGS ════ -->
+<div id="page-settings" class="page hidden">
+    <h2 class="mb-16">Settings</h2>
+    <div class="grid-2">
+        <div class="card"><div class="card-title">🏢 Organization</div>
+            <div class="form-group"><label class="form-label">Company Name</label><input class="form-input" value="บริษัท ไทยสตีลเคเบิล จำกัด (มหาชน)" /></div>
+            <div class="form-group"><label class="form-label">Tax ID</label><input class="form-input" value="0107536000421" /></div>
+            <div class="form-group"><label class="form-label">Default Language</label><select class="form-input"><option>Thai (ไทย)</option><option>English</option></select></div>
+            <button class="btn btn-primary btn-sm mt-8" onclick="showToast('✅','Saved','Organization settings updated')">Save Changes</button>
+        </div>
+        <div class="card"><div class="card-title">🔑 API & Integrations</div>
+            <div class="form-group"><label class="form-label">API Key</label><div style="display:flex;gap:8px;"><input class="form-input" value="ap_live_7f3k...x9m2" style="font-family:monospace;" readonly /><button class="btn btn-outline btn-sm" onclick="showToast('📋','Copied','API key copied to clipboard')">Copy</button></div></div>
+            <div class="form-group"><label class="form-label">Webhook URL</label><input class="form-input" value="https://api.autopilot.ai/webhook/tsc" /></div>
+            <div class="form-group"><label class="form-label">Rate Limit</label><input class="form-input" value="10,000 requests/day" readonly /></div>
+            <button class="btn btn-outline btn-sm mt-8" onclick="showToast('🔄','Regenerated','New API key generated')">Regenerate Key</button>
+        </div>
+        <div class="card"><div class="card-title">🔔 Notifications</div>
+            <label style="display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:.82rem;cursor:pointer;"><input type="checkbox" checked> Task completion alerts</label>
+            <label style="display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:.82rem;cursor:pointer;"><input type="checkbox" checked> Channel intake notifications</label>
+            <label style="display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:.82rem;cursor:pointer;"><input type="checkbox" checked> Approval requests</label>
+            <label style="display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:.82rem;cursor:pointer;"><input type="checkbox"> Weekly summary email</label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:.82rem;cursor:pointer;"><input type="checkbox"> Slack notifications</label>
+            <button class="btn btn-primary btn-sm mt-12" onclick="showToast('✅','Saved','Notification preferences updated')">Save</button>
+        </div>
+        <div class="card"><div class="card-title">🛡️ Security</div>
+            <div class="form-group"><label class="form-label">Two-Factor Authentication</label><div style="display:flex;align-items:center;gap:8px;"><span class="status status-active">Enabled</span><button class="btn btn-outline btn-sm">Configure</button></div></div>
+            <div class="form-group"><label class="form-label">Session Timeout</label><select class="form-input"><option>30 minutes</option><option selected>1 hour</option><option>4 hours</option><option>8 hours</option></select></div>
+            <div class="form-group"><label class="form-label">IP Whitelist</label><input class="form-input" placeholder="e.g., 203.150.x.x/24" /></div>
+            <button class="btn btn-primary btn-sm mt-8" onclick="showToast('✅','Saved','Security settings updated')">Save</button>
+        </div>
+    </div>
+</div>
+
+</div></div></div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()"><div class="modal" id="modalContent"></div></div>
+<div class="toast-container" id="toastContainer"></div>
+<div class="chart-tip" id="chartTip"></div>
+
+<script>
+// ═══ DATA ═══
+const VENDORS=[{id:'V1',code:'1200248',name:'บริษัท เจ เจ พี ซัพพลาย จำกัด',short:'เจ เจ พี ซัพพลาย',color:'v1',score:4.2,tasks:38,spend:4520000},
+{id:'V2',code:'1200249',name:'บริษัท ไทยเอ็กซ์เพรส ซัพพลาย จำกัด',short:'ไทยเอ็กซ์เพรส',color:'v2',score:3.8,tasks:24,spend:2870000},
+{id:'V3',code:'1200179',name:'บริษัท ศรีรุ่งเรือง แมชชีนแอนด์ทูลส์ จำกัด',short:'ศรีรุ่งเรือง',color:'v3',score:4.5,tasks:31,spend:3910000},
+{id:'V4',code:'1200286',name:'บริษัท ชลบุรี ฮาร์ดแวร์ แอนด์ ทูลส์ จำกัด',short:'ชลบุรี ฮาร์ดแวร์',color:'v4',score:4.0,tasks:19,spend:1680000}];
+
+const QUOTATIONS=[{file:'QA-4800192691-signed.pdf',no:'QA-4800192691',vendor:'V1',date:'19/02/2569',type:'Scanned PDF',pages:2,credit:'60 วัน',validity:'30 วัน',subtotal:118460,vat:8292.20,total:126752.20},
+{file:'QT2026-060-signed.pdf',no:'QT2026/060',vendor:'V2',date:'20/02/2569',type:'Digital PDF',pages:2,credit:'30 วัน',validity:'30 วัน',subtotal:144163,vat:10091.41,total:154254.41},
+{file:'QT2603000013-signed.pdf',no:'QT2603000013',vendor:'V3',date:'18/02/2569',type:'Digital PDF',pages:3,credit:'30 วัน',validity:'30 วัน',subtotal:117606.85,vat:8232.48,total:125839.33},
+{file:'QT26020992-signed.pdf',no:'QT26020992',vendor:'V4',date:'21/02/2569',type:'Scanned PDF',pages:2,credit:'45 วัน',validity:'30 วัน',subtotal:59303,vat:4151.21,total:63454.21},
+{file:'QT2026-095-signed.pdf',no:'QT2026/095',vendor:'V2',date:'25/02/2569',type:'Digital PDF',pages:1,credit:'30 วัน',subtotal:8845,vat:619.15,total:9464.15},
+{file:'QT2603133-signed.pdf',no:'QT2603133',vendor:'V3',date:'22/02/2569',type:'Digital PDF',pages:2,credit:'30 วัน',subtotal:16242.80,vat:1136.99,total:17379.79},
+{file:'260311-150T-signed.pdf',no:'260311-150T',vendor:'V3',date:'24/02/2569',type:'Digital PDF',pages:1,credit:'30 วัน',subtotal:12500,vat:875,total:13375},
+{file:'260311-85T-signed.pdf',no:'260311-85T',vendor:'V3',date:'24/02/2569',type:'Digital PDF',pages:1,credit:'30 วัน',subtotal:8500,vat:595,total:9095},
+{file:'FA112ADB42-signed.pdf',no:'FA112ADB42',vendor:'V1',date:'20/02/2569',type:'Scanned PDF',pages:1,credit:'60 วัน',subtotal:37220,vat:2605.40,total:39825.40}];
+
+const ITEMS=[{no:1,desc:'ชุดประแจแหวนข้างปากตาย 10ชิ้น',qty:3,unit:'ชุด',prices:{V1:2160,V2:2400,V3:1850,V4:null}},{no:2,desc:'ประแจแอลหัวบอล 1.5-10mm (BONDHUS)',qty:3,unit:'ชุด',prices:{V1:900,V2:1100,V3:null,V4:950}},{no:3,desc:'ชุดประแจแอลหัวตัดยาว 17mm',qty:3,unit:'ชุด',prices:{V1:3200,V2:null,V3:3024,V4:2800}},{no:4,desc:'ไขควงด้ามพลาสติกปากแบน 8x150mm',qty:1,unit:'ชิ้น',prices:{V1:200,V2:250,V3:184,V4:null}},{no:5,desc:'ไขควงด้ามพลาสติกปากแฉก 3x150mm',qty:1,unit:'ชิ้น',prices:{V1:200,V2:250,V3:184,V4:null}},{no:6,desc:'ดอกต๊าปเกลียว M3x0.5mm',qty:3,unit:'ชิ้น',prices:{V1:1200,V2:1350,V3:null,V4:1100}},{no:7,desc:'ดอกต๊าปเกลียว M4x0.7mm',qty:3,unit:'ชิ้น',prices:{V1:1550,V2:1680,V3:null,V4:1450}},{no:8,desc:'ไขควงเช็คไฟ',qty:3,unit:'ชิ้น',prices:{V1:150,V2:180,V3:null,V4:160}},{no:9,desc:'ไขควงหุ้มฉนวนกันไฟฟ้า',qty:3,unit:'ชิ้น',prices:{V1:700,V2:null,V3:590,V4:650}},{no:10,desc:'คีมย้ำหางปลาเปลือย',qty:3,unit:'ชิ้น',prices:{V1:320,V2:380,V3:310,V4:350}},{no:11,desc:'ประแจเลื่อนหุ้มยาง 8"',qty:3,unit:'ชิ้น',prices:{V1:560,V2:680,V3:null,V4:620}},{no:12,desc:'ตลับเมตร ABS 5m',qty:3,unit:'ชิ้น',prices:{V1:640,V2:null,V3:800,V4:590}},{no:13,desc:'แคลมป์มิเตอร์ดิจิตอล',qty:3,unit:'ชิ้น',prices:{V1:600,V2:550,V3:null,V4:580}},{no:14,desc:'คีมคอม้า 10"',qty:3,unit:'ชิ้น',prices:{V1:400,V2:450,V3:null,V4:420}},{no:15,desc:'คีมตัดพลาสติก 160mm',qty:3,unit:'ชิ้น',prices:{V1:320,V2:350,V3:290,V4:null}},{no:16,desc:'คีมตัดสายเคเบิ้ล 200mm',qty:3,unit:'ชิ้น',prices:{V1:360,V2:400,V3:370,V4:380}},{no:17,desc:'คีมปากแหลม 160mm',qty:1,unit:'ชิ้น',prices:{V1:550,V2:600,V3:null,V4:520}},{no:18,desc:'ดอกสกัดปากแบน 16mm',qty:3,unit:'ชิ้น',prices:{V1:150,V2:180,V3:null,V4:160}},{no:19,desc:'ด้ามต๊าปตัวผู้ M1-10',qty:3,unit:'ชิ้น',prices:{V1:320,V2:380,V3:null,V4:350}},{no:20,desc:'ดอกสว่าน 2.3mm',qty:5,unit:'ชิ้น',prices:{V1:230,V2:null,V3:210,V4:250}},{no:21,desc:'ดอกสว่าน 2.7mm',qty:5,unit:'ชิ้น',prices:{V1:230,V2:null,V3:198,V4:250}},{no:22,desc:'ดอกสว่าน 3.2mm',qty:5,unit:'ชิ้น',prices:{V1:230,V2:null,V3:198,V4:250}},{no:23,desc:'ดอกสว่าน 4.5mm',qty:5,unit:'ชิ้น',prices:{V1:250,V2:null,V3:210,V4:270}},{no:24,desc:'ด้ามต๊าปตัวผู้ M4-20',qty:2,unit:'ชิ้น',prices:{V1:300,V2:350,V3:290,V4:null}},{no:25,desc:'ประแจปากตาย 27x30mm',qty:2,unit:'ชิ้น',prices:{V1:400,V2:450,V3:395,V4:420}},{no:26,desc:'ดอกสว่าน 5.2mm',qty:12,unit:'ชิ้น',prices:{V1:20,V2:25,V3:20,V4:22}},{no:27,desc:'ดอกสว่าน 6.9mm',qty:12,unit:'ชิ้น',prices:{V1:20,V2:28,V3:20,V4:25}},{no:28,desc:'ดอกสว่าน 8.5mm',qty:12,unit:'ชิ้น',prices:{V1:30,V2:35,V3:30,V4:32}},{no:29,desc:'ดอกต๊าปเกลียว M5x0.8mm',qty:6,unit:'ชิ้น',prices:{V1:40,V2:50,V3:40,V4:45}},{no:30,desc:'ดอกต๊าปเกลียว M6x1.0mm',qty:6,unit:'ชิ้น',prices:{V1:50,V2:65,V3:50,V4:55}},{no:31,desc:'ดอกต๊าปเกลียว M8x1.25mm',qty:6,unit:'ชิ้น',prices:{V1:80,V2:95,V3:80,V4:85}},{no:32,desc:'ดอกต๊าปเกลียว M10x1.5mm',qty:6,unit:'ชิ้น',prices:{V1:120,V2:140,V3:120,V4:130}},{no:33,desc:'ชุดไขควง 6Pcs',qty:1,unit:'ชิ้น',prices:{V1:1300,V2:1550,V3:1114,V4:null}},{no:34,desc:'ตู้เหล็ก CB-12',qty:4,unit:'ชิ้น',prices:{V1:9450,V2:9800,V3:null,V4:9200}},{no:35,desc:'สายลมโรล 6.5x10mm 6m',qty:3,unit:'ชิ้น',prices:{V1:1680,V2:null,V3:null,V4:1550}},{no:36,desc:'กล่องเครื่องมือ 14"',qty:1,unit:'ชิ้น',prices:{V1:2200,V2:2670,V3:null,V4:null}},{no:37,desc:'รถเข็นเครื่องมือ 4ชั้น',qty:3,unit:'คัน',prices:{V1:5600,V2:5800,V3:null,V4:5400}},{no:38,desc:'ปากกาจับชิ้นงาน 5"',qty:2,unit:'ชิ้น',prices:{V1:2550,V2:2400,V3:null,V4:null}},{no:39,desc:'สว่านไฟฟ้า 10mm 550W',qty:2,unit:'EA',prices:{V1:null,V2:2400,V3:null,V4:2350}},{no:40,desc:'หางปลาหัวหมวก CE-1',qty:2,unit:'PACK',prices:{V1:null,V2:155,V3:null,V4:160}},{no:41,desc:'KST FRFNYD0.5-078',qty:3,unit:'EA',prices:{V1:150,V2:180,V3:null,V4:null}},{no:42,desc:'KST MPFNYD0.5-078',qty:3,unit:'EA',prices:{V1:320,V2:370,V3:null,V4:null}},{no:43,desc:'สายรัดไฟฟ้า Retractable 15M',qty:3,unit:'EA',prices:{V1:250,V2:280,V3:null,V4:260}},{no:44,desc:'SUNKEY คีมตัด 6"',qty:3,unit:'EA',prices:{V1:null,V2:80,V3:null,V4:90}}];
+
+const TASKS=[{id:'TK-0012',title:'ใบเสนอราคาอุปกรณ์ช่าง Q1/2569',assignee:'Thanakan P.',docs:9,items:44,status:'processing',created:'4 Apr 2026',ch:'upload'},{id:'TK-0011',title:'อุปกรณ์ IT Server Room',assignee:'Siriporn K.',docs:6,items:28,status:'review',created:'3 Apr 2026',ch:'telegram'},{id:'TK-0010',title:'วัสดุสำนักงาน Q2/2569',assignee:'Patchara W.',docs:4,items:52,status:'complete',created:'2 Apr 2026',ch:'whatsapp'},{id:'TK-0009',title:'อุปกรณ์ Safety Gear',assignee:'Nattapong S.',docs:5,items:31,status:'review',created:'1 Apr 2026',ch:'email'},{id:'TK-0008',title:'Spare Parts Line A',assignee:'Thanakan P.',docs:8,items:67,status:'complete',created:'28 Mar 2026',ch:'upload'},{id:'TK-0007',title:'Chemical & Lubricant',assignee:'Siriporn K.',docs:3,items:18,status:'complete',created:'25 Mar 2026',ch:'email'},{id:'TK-0006',title:'อุปกรณ์ทำความสะอาด',assignee:'Patchara W.',docs:4,items:24,status:'complete',created:'22 Mar 2026',ch:'line'},{id:'TK-0005',title:'PPE Equipment 2026',assignee:'Nattapong S.',docs:7,items:41,status:'complete',created:'20 Mar 2026',ch:'upload'},{id:'TK-0004',title:'Electrical Components',assignee:'Thanakan P.',docs:5,items:33,status:'complete',created:'18 Mar 2026',ch:'email'},{id:'TK-0003',title:'Packaging Materials Q1',assignee:'Siriporn K.',docs:3,items:15,status:'complete',created:'15 Mar 2026',ch:'line'},{id:'TK-0002',title:'MRO Supplies March',assignee:'Patchara W.',docs:6,items:48,status:'complete',created:'10 Mar 2026',ch:'upload'},{id:'TK-0001',title:'ทดสอบระบบ Pilot',assignee:'Thanakan P.',docs:2,items:10,status:'complete',created:'5 Mar 2026',ch:'upload'}];
+
+const USERS=[{name:'Thanakan P.',email:'thanakan@tsc.co.th',role:'admin',dept:'IT',tasks:45,last:'Just now',av:'TP',c:'#2563EB'},{name:'Siriporn K.',email:'siriporn@tsc.co.th',role:'admin',dept:'IT',tasks:38,last:'5m ago',av:'SK',c:'#7C3AED'},{name:'Waraporn L.',email:'waraporn@tsc.co.th',role:'manager',dept:'Procurement',tasks:52,last:'10m ago',av:'WL',c:'#059669'},{name:'Patchara W.',email:'patchara@tsc.co.th',role:'manager',dept:'Procurement',tasks:41,last:'1h ago',av:'PW',c:'#D97706'},{name:'Nattapong S.',email:'nattapong@tsc.co.th',role:'manager',dept:'Operations',tasks:33,last:'2h ago',av:'NS',c:'#0891B2'},{name:'Kittipong R.',email:'kittipong@tsc.co.th',role:'manager',dept:'Finance',tasks:28,last:'3h ago',av:'KR',c:'#DC2626'},{name:'Suwanna T.',email:'suwanna@tsc.co.th',role:'manager',dept:'Admin',tasks:19,last:'Today',av:'ST',c:'#DB2777'},{name:'Artit C.',email:'artit@tsc.co.th',role:'analyst',dept:'Procurement',tasks:67,last:'Now',av:'AC',c:'#2563EB'},{name:'Boonmee P.',email:'boonmee@tsc.co.th',role:'analyst',dept:'Procurement',tasks:54,last:'30m',av:'BP',c:'#7C3AED'},{name:'Chaiya M.',email:'chaiya@tsc.co.th',role:'analyst',dept:'Operations',tasks:42,last:'1h',av:'CM',c:'#059669'},{name:'Duangjai S.',email:'duangjai@tsc.co.th',role:'analyst',dept:'Finance',tasks:31,last:'Today',av:'DS',c:'#D97706'},{name:'Ekkachai W.',email:'ekkachai@tsc.co.th',role:'analyst',dept:'Procurement',tasks:28,last:'Yday',av:'EW',c:'#0891B2'}];
+
+const CHANNELS=[{name:'Email',icon:'📧',bg:'#DBEAFE',desc:'Auto-forward from procurement@tsc.co.th',status:'active',today:12,month:374,auto:156},
+{name:'LINE',icon:'💬',bg:'#D1FAE5',desc:'LINE OA @autopilot-procurement',status:'active',today:5,month:224,auto:87},
+{name:'Telegram',icon:'✈️',bg:'#E0E7FF',desc:'Bot @AutopilotBot — internal submissions',status:'active',today:3,month:87,auto:34},
+{name:'WhatsApp',icon:'📱',bg:'#FEF3C7',desc:'WhatsApp Business API',status:'inactive',today:0,month:45,auto:18}];
+
+const MCP_CONNECTORS=[{name:'Microsoft Teams',icon:'💜',bg:'#EDE9FE',desc:'Auto-detect files shared in Procurement channels',status:'active',today:8,month:142,auto:63},
+{name:'SharePoint',icon:'📂',bg:'#DBEAFE',desc:'Monitor /Quotations/ document library',status:'active',today:4,month:98,auto:41},
+{name:'Google Drive',icon:'📁',bg:'#FEF3C7',desc:'Watch shared folder /Procurement/Quotes/',status:'active',today:2,month:56,auto:22},
+{name:'AWS S3',icon:'☁️',bg:'#FEE2E2',desc:'s3://tsc-procurement/incoming/',status:'inactive',today:0,month:12,auto:5},
+{name:'Slack',icon:'💬',bg:'#E0E7FF',desc:'#procurement channel file monitoring',status:'inactive',today:0,month:0,auto:0},
+{name:'Notion',icon:'📝',bg:'#F1F5F9',desc:'Database integration — quotation pages',status:'inactive',today:0,month:0,auto:0}];
+
+const AUDIT=[{time:'10:47',user:'System (AI)',action:'Auto-create',target:'TK-0013',detail:'From LINE — 2 PDFs'},{time:'10:45',user:'Thanakan P.',action:'Start OCR',target:'TK-0012',detail:'9 docs processing'},{time:'10:23',user:'Thanakan P.',action:'Upload',target:'TK-0012',detail:'9 files uploaded'},{time:'10:23',user:'Thanakan P.',action:'Create Task',target:'TK-0012',detail:'ใบเสนอราคาอุปกรณ์ช่าง Q1'},{time:'09:12',user:'System (AI)',action:'Auto-create',target:'TK-0012',detail:'From email'},{time:'Yday',user:'Siriporn K.',action:'Approve',target:'TK-0010',detail:'Total 85,400 THB approved'},{time:'Yday',user:'Patchara W.',action:'Export PDF',target:'TK-0010',detail:'Report exported'},{time:'Yday',user:'System',action:'Complete',target:'TK-0010',detail:'52 items analyzed'},{time:'2d ago',user:'Nattapong S.',action:'Request Approval',target:'TK-0009',detail:'Over 100K THB'},{time:'2d ago',user:'System (AI)',action:'Auto-create',target:'TK-0011',detail:'From Telegram'}];
+
+// ═══ NEW MODULE DATA ═══
+
+const EXPENSE_CLAIMS=[
+{id:'EX-0023',desc:'ค่าอาหารประชุมลูกค้า',cat:'ค่าอาหาร',amount:1850,vat:129.50,by:'Thanakan P.',status:'approved',date:'4 เม.ย. 2569'},
+{id:'EX-0022',desc:'ค่าน้ำมันรถออกพื้นที่',cat:'ค่าน้ำมัน',amount:2400,vat:168,by:'Patchara W.',status:'approved',date:'3 เม.ย. 2569'},
+{id:'EX-0021',desc:'ค่าแท็กซี่ไปสนามบิน',cat:'ค่าเดินทาง',amount:650,vat:45.50,by:'Siriporn K.',status:'pending',date:'3 เม.ย. 2569'},
+{id:'EX-0020',desc:'ค่าเลี้ยงรับรอง Supplier',cat:'ค่าอาหาร',amount:4200,vat:294,by:'Nattapong S.',status:'approved',date:'2 เม.ย. 2569'},
+{id:'EX-0019',desc:'ค่าซ่อมอุปกรณ์สำนักงาน',cat:'ค่าจิปาถะ',amount:3500,vat:245,by:'Waraporn L.',status:'pending',date:'1 เม.ย. 2569'},
+{id:'EX-0018',desc:'ค่าตั๋วเครื่องบิน กรุงเทพ-เชียงใหม่',cat:'ค่าเดินทาง',amount:5600,vat:392,by:'Thanakan P.',status:'approved',date:'28 มี.ค. 2569'}
+];
+
+const FINANCE_CASES=[
+{id:'FN-2024-0847',name:'นายสมชาย ใจดี',type:'สินเชื่อรถยนต์',docsTotal:8,docsComplete:6,status:'active',sla:2,assignee:'Kittipong R.',
+ docs:[
+    {folder:'เอกสารลูกค้า',items:[{name:'สำเนาบัตรประชาชน',done:true,ch:'LINE',date:'2 เม.ย.'},{name:'สลิปเงินเดือน 3 เดือน',done:true,ch:'Email',date:'3 เม.ย.'},{name:'Statement 6 เดือน',done:false,ch:null,date:null},{name:'ทะเบียนบ้าน',done:true,ch:'Upload',date:'4 เม.ย.'}]},
+    {folder:'เอกสาร Dealer',items:[{name:'ใบเสนอราคารถ',done:true,ch:'Email',date:'1 เม.ย.'},{name:'สำเนาทะเบียนรถ',done:true,ch:'Email',date:'2 เม.ย.'}]},
+    {folder:'เอกสารธนาคาร',items:[{name:'ผลอนุมัติเบื้องต้น',done:false,ch:null,date:null,pending:true},{name:'สัญญาสินเชื่อ',done:false,ch:null,date:null}]}
+ ],activity:[{time:'10:45',text:'ลูกค้าส่งทะเบียนบ้านผ่าน Upload'},{time:'10:30',text:'Dealer ส่งใบเสนอราคาผ่าน Email'},{time:'09:15',text:'ลูกค้าส่งสลิปเงินเดือนผ่าน Email'},{time:'Yesterday',text:'ส่ง LINE แจ้งเตือนลูกค้าเรื่อง Statement'},{time:'2d ago',text:'สร้าง Case ใหม่'},{time:'2d ago',text:'ลูกค้าส่งบัตรประชาชนผ่าน LINE'}]
+},
+{id:'FN-2024-0848',name:'นางสาวสมหญิง รักดี',type:'สินเชื่อบ้าน',docsTotal:10,docsComplete:10,status:'complete',sla:0,assignee:'Duangjai S.',
+ docs:[{folder:'เอกสารลูกค้า',items:[{name:'สำเนาบัตรประชาชน',done:true,ch:'LINE',date:'28 มี.ค.'},{name:'สลิปเงินเดือน 3 เดือน',done:true,ch:'Email',date:'28 มี.ค.'},{name:'Statement 6 เดือน',done:true,ch:'Email',date:'29 มี.ค.'},{name:'ทะเบียนบ้าน',done:true,ch:'Upload',date:'29 มี.ค.'},{name:'โฉนดที่ดิน',done:true,ch:'Upload',date:'30 มี.ค.'}]},{folder:'เอกสาร Dealer',items:[{name:'สัญญาจะซื้อจะขาย',done:true,ch:'Email',date:'28 มี.ค.'},{name:'แผนผังโครงการ',done:true,ch:'Email',date:'28 มี.ค.'}]},{folder:'เอกสารธนาคาร',items:[{name:'ผลอนุมัติ',done:true,ch:'Email',date:'2 เม.ย.'},{name:'สัญญาสินเชื่อ',done:true,ch:'Upload',date:'3 เม.ย.'},{name:'กรมธรรม์ประกัน',done:true,ch:'Upload',date:'3 เม.ย.'}]}],
+ activity:[{time:'3 เม.ย.',text:'Case completed — เอกสารครบ'},{time:'2 เม.ย.',text:'ธนาคารอนุมัติสินเชื่อ'}]
+},
+{id:'FN-2024-0849',name:'นายวิชัย สุขสบาย',type:'สินเชื่อรถยนต์',docsTotal:8,docsComplete:4,status:'active',sla:5,assignee:'Kittipong R.',
+ docs:[{folder:'เอกสารลูกค้า',items:[{name:'สำเนาบัตรประชาชน',done:true,ch:'LINE',date:'1 เม.ย.'},{name:'สลิปเงินเดือน 3 เดือน',done:true,ch:'Email',date:'2 เม.ย.'},{name:'Statement 6 เดือน',done:false,ch:null,date:null},{name:'ทะเบียนบ้าน',done:false,ch:null,date:null}]},{folder:'เอกสาร Dealer',items:[{name:'ใบเสนอราคารถ',done:true,ch:'Email',date:'1 เม.ย.'},{name:'สำเนาทะเบียนรถ',done:true,ch:'Email',date:'1 เม.ย.'}]},{folder:'เอกสารธนาคาร',items:[{name:'ผลอนุมัติเบื้องต้น',done:false,ch:null,date:null,pending:true},{name:'สัญญาสินเชื่อ',done:false,ch:null,date:null}]}],
+ activity:[{time:'2 เม.ย.',text:'ลูกค้าส่งสลิปเงินเดือน'},{time:'1 เม.ย.',text:'สร้าง Case ใหม่'}]
+},
+{id:'FN-2024-0850',name:'นางมาลี ทองคำ',type:'สินเชื่อบ้าน',docsTotal:10,docsComplete:7,status:'active',sla:3,assignee:'Duangjai S.',
+ docs:[{folder:'เอกสารลูกค้า',items:[{name:'สำเนาบัตรประชาชน',done:true,ch:'LINE',date:'30 มี.ค.'},{name:'สลิปเงินเดือน',done:true,ch:'Email',date:'30 มี.ค.'},{name:'Statement',done:true,ch:'Email',date:'1 เม.ย.'},{name:'ทะเบียนบ้าน',done:true,ch:'Upload',date:'1 เม.ย.'},{name:'โฉนดที่ดิน',done:false,ch:null,date:null}]},{folder:'เอกสาร Dealer',items:[{name:'สัญญาจะซื้อจะขาย',done:true,ch:'Email',date:'30 มี.ค.'},{name:'แผนผังโครงการ',done:true,ch:'Email',date:'30 มี.ค.'}]},{folder:'เอกสารธนาคาร',items:[{name:'ผลอนุมัติ',done:false,ch:null,date:null,pending:true},{name:'สัญญาสินเชื่อ',done:false,ch:null,date:null},{name:'กรมธรรม์',done:true,ch:'Upload',date:'2 เม.ย.'}]}],
+ activity:[{time:'2 เม.ย.',text:'กรมธรรม์ประกัน uploaded'},{time:'1 เม.ย.',text:'ลูกค้าส่ง Statement'}]
+},
+{id:'FN-2024-0851',name:'นายประเสริฐ มีทรัพย์',type:'สินเชื่อส่วนบุคคล',docsTotal:6,docsComplete:6,status:'complete',sla:0,assignee:'Kittipong R.',
+ docs:[{folder:'เอกสารลูกค้า',items:[{name:'สำเนาบัตรประชาชน',done:true,ch:'LINE',date:'25 มี.ค.'},{name:'สลิปเงินเดือน',done:true,ch:'Email',date:'25 มี.ค.'},{name:'Statement',done:true,ch:'Email',date:'26 มี.ค.'}]},{folder:'เอกสารธนาคาร',items:[{name:'ผลอนุมัติ',done:true,ch:'Email',date:'28 มี.ค.'},{name:'สัญญาสินเชื่อ',done:true,ch:'Upload',date:'30 มี.ค.'},{name:'หนังสือค้ำประกัน',done:true,ch:'Upload',date:'30 มี.ค.'}]}],
+ activity:[{time:'30 มี.ค.',text:'Case completed'}]
+},
+{id:'FN-2024-0852',name:'นางสาวรัตนา แก้วมณี',type:'สินเชื่อรถยนต์',docsTotal:8,docsComplete:2,status:'overdue',sla:-3,assignee:'Duangjai S.',
+ docs:[{folder:'เอกสารลูกค้า',items:[{name:'สำเนาบัตรประชาชน',done:true,ch:'LINE',date:'20 มี.ค.'},{name:'สลิปเงินเดือน',done:false,ch:null,date:null},{name:'Statement',done:false,ch:null,date:null},{name:'ทะเบียนบ้าน',done:true,ch:'LINE',date:'20 มี.ค.'}]},{folder:'เอกสาร Dealer',items:[{name:'ใบเสนอราคารถ',done:false,ch:null,date:null},{name:'สำเนาทะเบียนรถ',done:false,ch:null,date:null}]},{folder:'เอกสารธนาคาร',items:[{name:'ผลอนุมัติ',done:false,ch:null,date:null},{name:'สัญญาสินเชื่อ',done:false,ch:null,date:null}]}],
+ activity:[{time:'1 เม.ย.',text:'ส่ง LINE แจ้งเตือนครั้งที่ 3'},{time:'28 มี.ค.',text:'SLA expired — overdue'}]
+},
+{id:'FN-2024-0853',name:'นายอำนาจ ดีเลิศ',type:'สินเชื่อบ้าน',docsTotal:10,docsComplete:8,status:'active',sla:1,assignee:'Kittipong R.',
+ docs:[{folder:'เอกสารลูกค้า',items:[{name:'สำเนาบัตรประชาชน',done:true,ch:'LINE',date:'28 มี.ค.'},{name:'สลิปเงินเดือน',done:true,ch:'Email',date:'29 มี.ค.'},{name:'Statement',done:true,ch:'Email',date:'30 มี.ค.'},{name:'ทะเบียนบ้าน',done:true,ch:'Upload',date:'30 มี.ค.'},{name:'โฉนดที่ดิน',done:true,ch:'Upload',date:'1 เม.ย.'}]},{folder:'เอกสาร Dealer',items:[{name:'สัญญาจะซื้อจะขาย',done:true,ch:'Email',date:'29 มี.ค.'},{name:'แผนผัง',done:true,ch:'Email',date:'29 มี.ค.'}]},{folder:'เอกสารธนาคาร',items:[{name:'ผลอนุมัติ',done:true,ch:'Email',date:'3 เม.ย.'},{name:'สัญญาสินเชื่อ',done:false,ch:null,date:null},{name:'กรมธรรม์',done:false,ch:null,date:null}]}],
+ activity:[{time:'3 เม.ย.',text:'ธนาคารอนุมัติเบื้องต้น'},{time:'1 เม.ย.',text:'ส่งเอกสารให้ธนาคาร'}]
+},
+{id:'FN-2024-0854',name:'นางสุดา รุ่งเรือง',type:'สินเชื่อส่วนบุคคล',docsTotal:6,docsComplete:3,status:'overdue',sla:-1,assignee:'Duangjai S.',
+ docs:[{folder:'เอกสารลูกค้า',items:[{name:'สำเนาบัตรประชาชน',done:true,ch:'LINE',date:'25 มี.ค.'},{name:'สลิปเงินเดือน',done:true,ch:'Email',date:'26 มี.ค.'},{name:'Statement',done:false,ch:null,date:null}]},{folder:'เอกสารธนาคาร',items:[{name:'ผลอนุมัติ',done:false,ch:null,date:null},{name:'สัญญาสินเชื่อ',done:false,ch:null,date:null},{name:'หนังสือค้ำประกัน',done:true,ch:'Upload',date:'28 มี.ค.'}]}],
+ activity:[{time:'2 เม.ย.',text:'ส่ง LINE แจ้งเตือนเรื่อง Statement'},{time:'30 มี.ค.',text:'SLA expired'}]
+}
+];
+
+const FX_RATES=[
+{currency:'USD',flag:'🇺🇸',banks:{kbank:34.25,scb:34.30,bbl:34.28,ktb:34.22}},
+{currency:'EUR',flag:'🇪🇺',banks:{kbank:37.45,scb:37.50,bbl:37.42,ktb:37.48}},
+{currency:'JPY',flag:'🇯🇵',banks:{kbank:0.2245,scb:0.2250,bbl:0.2248,ktb:0.2242}},
+{currency:'CNY',flag:'🇨🇳',banks:{kbank:4.72,scb:4.75,bbl:4.73,ktb:4.70}}
+];
+
+const SALES_PRODUCTS=[
+{id:'P001',name:'ชุดประแจแหวนข้างปากตาย 10 ชิ้น',sku:'WR-SET-10',price:2500,unit:'ชุด',cat:'เครื่องมือช่าง'},
+{id:'P002',name:'สว่านไฟฟ้า 10mm 550W',sku:'DRL-550W',price:3200,unit:'EA',cat:'เครื่องมือไฟฟ้า'},
+{id:'P003',name:'ตู้เหล็ก CB-12',sku:'CB-12-STL',price:12500,unit:'ตู้',cat:'อุปกรณ์จัดเก็บ'},
+{id:'P004',name:'รถเข็นเครื่องมือ 4 ชั้น',sku:'CART-4L',price:7800,unit:'คัน',cat:'อุปกรณ์จัดเก็บ'},
+{id:'P005',name:'ดอกสว่านชุดรวม 1-10mm',sku:'BIT-SET-10',price:1800,unit:'ชุด',cat:'เครื่องมือช่าง'},
+{id:'P006',name:'PPE Safety Set (หมวก+แว่น+ถุงมือ)',sku:'PPE-SET-01',price:980,unit:'ชุด',cat:'อุปกรณ์ Safety'},
+{id:'P007',name:'สายไฟ THW 1x2.5 sq.mm 100m',sku:'THW-25-100',price:2100,unit:'ม้วน',cat:'อุปกรณ์ไฟฟ้า'},
+{id:'P008',name:'ท่อ PVC 3/4" class 8.5 4m',sku:'PVC-34-4M',price:85,unit:'ท่อน',cat:'ท่อ/ข้อต่อ'},
+{id:'P009',name:'น้ำมันหล่อลื่น 5W-30 4L',sku:'OIL-5W30-4',price:1450,unit:'แกลลอน',cat:'น้ำมัน/เคมี'},
+{id:'P010',name:'กาวซิลิโคน 300ml',sku:'SIL-300ML',price:180,unit:'หลอด',cat:'น้ำมัน/เคมี'}
+];
+
+const PR_ITEMS=[
+{id:'PR-2026-001',title:'อุปกรณ์ช่างประจำเดือน พ.ค.',requester:'Artit C.',dept:'Procurement',amount:185000,items:12,status:'approved',date:'2 เม.ย. 2569'},
+{id:'PR-2026-002',title:'PPE Safety Gear Q2/2026',requester:'Nattapong S.',dept:'Operations',amount:95000,items:8,status:'pending',date:'3 เม.ย. 2569'},
+{id:'PR-2026-003',title:'วัสดุสำนักงาน เม.ย.',requester:'Suwanna T.',dept:'Admin',amount:32000,items:15,status:'approved',date:'1 เม.ย. 2569'},
+{id:'PR-2026-004',title:'Spare Parts Line B',requester:'Chaiya M.',dept:'Operations',amount:420000,items:25,status:'review',date:'31 มี.ค. 2569'},
+{id:'PR-2026-005',title:'IT Equipment Refresh',requester:'Thanakan P.',dept:'IT',amount:890000,items:6,status:'draft',date:'4 เม.ย. 2569'}
+];
+
+// ═══ APP ═══
+let currentPage='dashboard',taskPage=0,demoRunning=false;
+const chIcons={upload:'📤',email:'📧',line:'💬',telegram:'✈️',whatsapp:'📱',teams:'💜',sharepoint:'📂',gdrive:'📁'};
+
+// Navigation
+document.querySelectorAll('.nav-item[data-page]').forEach(n=>n.addEventListener('click',()=>showPage(n.dataset.page)));
+
+function showPage(page,extra){
+    document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+    const el=document.getElementById('page-'+page);
+    if(el){el.classList.remove('hidden');el.classList.add('anim');}
+    const labels={dashboard:'Dashboard',tasks:'Tasks',taskDetail:'Task Detail',comparison:'Comparison Tables',reports:'Executive Summary',users:'Users & Permissions',channels:'Channel Connectors',vendors:'Vendor Database',audit:'Audit Log',billing:'Billing & Packages',settings:'Settings',expenseDash:'Expense Dashboard',receiptOcr:'Receipt OCR',claims:'Expense Claims',finCases:'Finance Cases',finCaseDetail:'Case Detail',finDocuments:'Finance Documents',finRouting:'Document Routing'};
+    document.getElementById('headerTitle').textContent=labels[page]||page;
+    document.querySelectorAll('.nav-item[data-page]').forEach(n=>{if(n.dataset.page===page)n.classList.add('active');});
+    currentPage=page;
+    if(page==='comparison')buildComparison();if(page==='reports')buildReport();
+    if(page==='taskDetail')loadTaskDetail(extra);
+    if(page==='finCases')buildFinCases();
+    if(page==='finCaseDetail')loadFinCaseDetail(extra);
+    if(page==='claims')buildClaims();
+    if(page==='expenseDash')buildExpenseDash();
+    closeNotif();closeUserMenu();
+}
+
+function toggleModule(id){
+    const el=document.getElementById(id);
+    if(el)el.style.display=el.style.display==='none'?'block':'none';
+}
+
+let currentTaskId='TK-0012';
+function loadTaskDetail(taskId){
+    const t=TASKS.find(x=>x.id===taskId)||TASKS[0];currentTaskId=t.id;
+    document.getElementById('tdTitle').textContent=`Task #${t.id} — ${t.title}`;
+    document.getElementById('tdStatus').className=`status status-${t.status}`;document.getElementById('tdStatus').textContent=t.status.charAt(0).toUpperCase()+t.status.slice(1);
+    buildTaskFiles();
+    const act=document.getElementById('tdActions');
+    const steps=document.querySelectorAll('#tdSteps .step-h');
+    const log=document.getElementById('tdLog');
+    const fill=document.getElementById('tdFill'),pct=document.getElementById('tdPct'),title=document.getElementById('tdProcessTitle');
+    let actHtml=`<button class="btn btn-outline btn-sm" onclick="showPage('comparison')">📊 Comparison</button><button class="btn btn-outline btn-sm" onclick="showPage('reports')">📑 Report</button><button class="btn btn-green btn-sm" onclick="exportCSV()">📥 Export</button>`;
+    if(t.status==='review') actHtml=`<button class="btn btn-primary btn-sm" onclick="mockApprove()">✅ Approve</button><button class="btn btn-outline btn-sm" onclick="mockReject()">❌ Reject</button>`+actHtml;
+    if(t.status==='processing') actHtml=`<button class="btn btn-primary btn-sm" onclick="runTaskDemo()">▶ Resume Processing</button>`+actHtml;
+    if(t.status==='draft') actHtml=`<button class="btn btn-primary btn-sm" onclick="runTaskDemo()">🚀 Start Processing</button>`+actHtml;
+    act.innerHTML=actHtml;
+
+    if(t.status==='complete'){
+        steps.forEach((s,i)=>{s.classList.add('done');s.classList.remove('active');s.querySelector('.step-dot').textContent='✓';});
+        fill.style.width='100%';pct.textContent='100%';title.textContent='✅ Complete!';
+        QUOTATIONS.forEach((q,i)=>{const el=document.getElementById(`fs-${i}`);if(el){el.className='status status-complete';el.textContent='Done';}});
+        log.innerHTML='<div class="success">[Complete] All steps finished — 44 items from 9 docs</div>';
+        document.getElementById('tdNextSteps').classList.remove('hidden');
+    } else if(t.status==='review'){
+        steps.forEach((s,i)=>{s.classList.remove('done','active');if(i<4)s.classList.add('done');if(i===4)s.classList.add('active');s.querySelector('.step-dot').textContent=i<4?'✓':(i+1);});
+        fill.style.width='90%';pct.textContent='90%';title.textContent='⏳ รอการอนุมัติ...';
+        log.innerHTML='<div class="warn">[Review] Waiting for manager approval — Total > 100,000 THB</div>';
+        document.getElementById('tdNextSteps').classList.add('hidden');
+    } else if(t.status==='processing'){
+        steps.forEach((s,i)=>{s.classList.remove('done','active');if(i<3)s.classList.add('done');if(i===3)s.classList.add('active');s.querySelector('.step-dot').textContent=i<3?'✓':(i+1);});
+        fill.style.width='65%';pct.textContent='65%';title.textContent='กำลังประมวลผล...';
+        log.innerHTML='<div class="info">[Processing] AI Analysis in progress — click Resume to continue</div>';
+        document.getElementById('tdNextSteps').classList.add('hidden');
+    } else {
+        steps.forEach((s,i)=>{s.classList.remove('done','active');if(i===0)s.classList.add('active');s.querySelector('.step-dot').textContent=i+1;});
+        fill.style.width='0%';pct.textContent='0%';title.textContent='รอดำเนินการ...';
+        log.innerHTML='<div class="info">[System] Awaiting start — click Start Processing</div>';
+        document.getElementById('tdNextSteps').classList.add('hidden');
+    }
+    buildTimeline(t);
+}
+
+function buildTimeline(t){
+    const tl=document.getElementById('tdTimeline');
+    const allEntries=[{done:true,time:t.created,text:'Task created by '+t.assignee},{done:true,time:t.created,text:t.docs+' documents uploaded'}];
+    if(t.status!=='draft'){allEntries.push({done:true,time:t.created,text:'Document classification complete'});allEntries.push({done:true,time:t.created,text:'OCR processing complete'});}
+    if(t.status==='review'||t.status==='complete'){allEntries.push({done:true,time:t.created,text:'AI Analysis complete — '+t.items+' items'});allEntries.push({done:true,time:t.created,text:'Comparison table generated'});}
+    if(t.status==='review')allEntries.push({done:false,time:'Now',text:'⏳ Pending approval'});
+    if(t.status==='complete'){allEntries.push({done:true,time:t.created,text:'Approved'});allEntries.push({done:true,time:t.created,text:'<strong style="color:var(--green);">Task completed</strong>'});}
+    tl.innerHTML=allEntries.map(e=>`<div class="tl-c-item ${e.done?'done':'active'}"><div class="tl-c-dot"></div><div class="tl-c-time">${e.time}</div><div class="tl-c-text">${e.text}</div></div>`).join('');
+}
+
+function mockApprove(){showToast('✅','Approved','Task approved');const t=TASKS.find(x=>x.id===currentTaskId);if(t)t.status='complete';setTimeout(()=>loadTaskDetail(currentTaskId),500);}
+function mockReject(){showToast('❌','Rejected','Task sent back');const t=TASKS.find(x=>x.id===currentTaskId);if(t)t.status='draft';setTimeout(()=>loadTaskDetail(currentTaskId),500);}
+
+// Sidebar toggle
+function toggleSidebar(){const s=document.getElementById('sidebar'),m=document.getElementById('mainWrap');s.classList.toggle('collapsed');m.classList.toggle('expanded');}
+
+// Notifications & User menu
+function toggleNotif(){document.getElementById('notifPanel').classList.toggle('show');closeUserMenu();}
+function closeNotif(){document.getElementById('notifPanel').classList.remove('show');}
+function toggleUserMenu(){document.getElementById('userMenu').classList.toggle('show');closeNotif();}
+function closeUserMenu(){document.getElementById('userMenu').classList.remove('show');}
+document.addEventListener('click',e=>{if(!e.target.closest('.header-btn'))closeNotif();if(!e.target.closest('.user-pill'))closeUserMenu();});
+
+function toggleFiles(){const el=document.getElementById('tdFileList'),btn=document.getElementById('toggleFilesBtn');if(el.style.maxHeight==='180px'){el.style.maxHeight='none';btn.textContent='Collapse';}else{el.style.maxHeight='180px';btn.textContent='Show All';}}
+function toggleTimeline(){const el=document.getElementById('tdTimeline'),btn=document.getElementById('toggleTlBtn');if(el.style.maxHeight==='120px'){el.style.maxHeight='none';el.style.overflow='visible';btn.textContent='Collapse';}else{el.style.maxHeight='120px';el.style.overflow='hidden';btn.textContent='View All';}}
+
+// Utils
+function fmt(n){return n==null?'—':n.toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function fmtI(n){return n==null?'—':n.toLocaleString('th-TH');}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+function addLog(el,cls,msg){el.innerHTML+=`<div class="${cls}">${msg}</div>`;el.scrollTop=el.scrollHeight;}
+
+// Toast
+function showToast(icon,title,msg,dur=4000){const c=document.getElementById('toastContainer'),t=document.createElement('div');t.className='toast';t.innerHTML=`<span class="toast-icon">${icon}</span><div class="toast-msg"><strong>${title}</strong><small>${msg}</small></div><span class="toast-close" onclick="this.parentElement.remove()">✕</span>`;c.appendChild(t);setTimeout(()=>t.remove(),dur);}
+
+// Modal
+function showModal(type,extra){
+    const o=document.getElementById('modalOverlay'),m=document.getElementById('modalContent');
+    const modals={
+        invite:`<div class="modal-icon" style="background:var(--blue-l);">👤</div><h3>Invite User</h3><p>Send invitation to join workspace</p><div class="form-group"><label class="form-label">Email</label><input class="form-input" placeholder="email@company.com" /></div><div class="form-group"><label class="form-label">Role</label><select class="form-input"><option>Analyst</option><option>Manager</option><option>Viewer</option><option>Admin</option></select></div><div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="closeModal();showToast('📨','Sent','Invitation sent')">Send Invite</button></div>`,
+        taskComplete:`<div class="modal-icon" style="background:var(--green-l);">✅</div><h3>Task Complete!</h3><p>44 items จาก 9 เอกสาร 4 ผู้จำหน่าย</p><div class="modal-actions"><button class="btn btn-outline" onclick="closeModal();showPage('comparison')">📊 Comparison</button><button class="btn btn-primary" onclick="closeModal();showPage('reports')">📑 Report →</button></div>`,
+        newTask:`<div class="modal-icon" style="background:var(--blue-l);">📋</div><h3>Create New Task</h3><p>สร้าง Task ใหม่</p><div class="form-group"><label class="form-label">Title</label><input class="form-input" value="ใบเสนอราคาอุปกรณ์ช่าง Q1/2569" /></div><div class="form-group"><label class="form-label">Source</label><select class="form-input"><option>Upload manually</option><option>Import from Email</option><option>Import from LINE</option></select></div><div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="closeModal();showPage('taskDetail');runTaskDemo()">Create & Start →</button></div>`,
+        addVendor:`<div class="modal-icon" style="background:var(--green-l);">🏢</div><h3>Add Vendor</h3><p>เพิ่มผู้จำหน่ายใหม่</p><div class="form-group"><label class="form-label">Company Name</label><input class="form-input" placeholder="บริษัท ... จำกัด" /></div><div class="form-group"><label class="form-label">Vendor Code</label><input class="form-input" placeholder="1200XXX" /></div><div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="closeModal();showToast('✅','Added','Vendor saved')">Save</button></div>`,
+        addChannel:`<div class="modal-icon" style="background:var(--purple-l);">🔗</div><h3>Add Channel</h3><p>เชื่อมต่อช่องทางใหม่</p><div class="form-group"><label class="form-label">Channel Type</label><select class="form-input"><option>Email</option><option>LINE</option><option>Telegram</option><option>MS Teams</option><option>SharePoint</option><option>Google Drive</option></select></div><div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="closeModal();showToast('🔗','Added','Channel added')">Add</button></div>`,
+        configChannel:`<div class="modal-icon" style="background:${extra?.bg||'var(--blue-l);'}">${extra?.icon||'⚙️'}</div><h3>Configure ${extra?.name||'Channel'}</h3><p>ตั้งค่าการเชื่อมต่อ</p><div class="form-group"><label class="form-label">API Key</label><input class="form-input" value="••••••••" type="password" /></div><div class="form-group"><label class="form-label">Webhook URL</label><input class="form-input" value="https://api.autopilot.ai/channel/${(extra?.name||'').toLowerCase()}" /></div><div class="modal-actions"><button class="btn btn-danger" onclick="closeModal();showToast('⚠️','Disconnected','')">Disconnect</button><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="closeModal();showToast('✅','Saved','')">Save</button></div>`,
+        topup:`<div class="modal-icon" style="background:var(--blue-l);">💳</div><h3>Top Up — ${extra} Tokens</h3><p>เลือกวิธีชำระเงิน</p><div class="form-group"><label class="form-label">Payment Method</label><select class="form-input"><option>Credit/Debit Card</option><option>PromptPay QR</option><option>Bank Transfer</option></select></div><div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="closeModal();showToast('✅','Success','${extra} tokens added')">Pay</button></div>`,
+        profile:`<div class="modal-icon" style="background:var(--grad);">TN</div><h3>My Profile</h3><p>จัดการข้อมูลส่วนตัว</p><div class="form-group"><label class="form-label">Full Name</label><input class="form-input" value="Thanakan Permthong" /></div><div class="form-group"><label class="form-label">Email</label><input class="form-input" value="thanakan@tsc.co.th" /></div><div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="closeModal();showToast('✅','Saved','Profile updated')">Save</button></div>`,
+        help:`<div class="modal-icon" style="background:var(--blue-l);">❓</div><h3>Help & Support</h3><p>ต้องการความช่วยเหลือ?</p><div style="text-align:left;font-size:.85rem;line-height:2;"><div>📖 <a class="link">Documentation</a></div><div>🎓 <a class="link">Video Tutorials</a></div><div>💬 <a class="link">Live Chat</a></div><div>📧 <a class="link">support@autopilot.ai</a></div></div><div class="modal-actions mt-12"><button class="btn btn-primary" onclick="closeModal()">Close</button></div>`,
+    };
+    m.innerHTML=modals[type]||'';o.classList.add('show');
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('show');}
+function createNewTask(){showModal('newTask');}
+
+// Upgrade modal for available modules
+function showUpgradeModal(mod){
+    const info={
+        logistics:{name:'🚢 Logistics FX',desc:'เปรียบเทียบอัตราแลกเปลี่ยน, OCR ใบขนส่ง, คำนวณ Landed Cost',features:['FX rate comparison (4 currencies x 4 banks)','Freight invoice OCR','Total landed cost calculator','Rate alert dashboard']},
+        sales:{name:'💰 Sales Doc Generator',desc:'สร้างใบเสนอราคาอัตโนมัติ, เลือก template, product catalog',features:['Auto-generate quotation','3 professional templates','Product catalog (10+ items)','Preview & export PDF']},
+        procurement:{name:'📋 Procurement PO/PR',desc:'สร้าง PR/PO อัตโนมัติ, 3-way match, approval workflow',features:['PR creation with auto-fill','PO generation from approved PR','3-way match (PO vs Invoice vs GR)','Approval workflow visualization']}
+    }[mod];
+    if(!info)return;
+    const o=document.getElementById('modalOverlay'),m=document.getElementById('modalContent');
+    m.innerHTML=`<div class="modal-icon" style="background:var(--blue-l);font-size:2rem;">${info.name.split(' ')[0]}</div>
+    <h3>${info.name}</h3><p>${info.desc}</p>
+    <div style="text-align:left;margin-bottom:16px;">${info.features.map(f=>`<div style="padding:4px 0;font-size:.82rem;">✅ ${f}</div>`).join('')}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;">
+        <div class="pricing-card" onclick="activateTrial('${mod}')"><div class="text-xs fw-700">Starter</div><div class="price" style="color:var(--blue);">฿9,900</div><div class="text-xs text-muted">/month</div></div>
+        <div class="pricing-card featured" onclick="activateTrial('${mod}')"><div class="text-xs fw-700">Business</div><div class="price" style="color:var(--purple);">฿29,900</div><div class="text-xs text-muted">/month</div></div>
+        <div class="pricing-card" onclick="activateTrial('${mod}')"><div class="text-xs fw-700">Enterprise</div><div class="price" style="color:var(--text);">Custom</div><div class="text-xs text-muted">contact sales</div></div>
+    </div>
+    <div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="activateTrial('${mod}')">🎉 Activate Free Trial (14 days)</button></div>`;
+    o.classList.add('show');
+}
+
+function activateTrial(mod){
+    closeModal();
+    const names={logistics:'Logistics FX',sales:'Sales Doc Gen',procurement:'Procurement PO/PR'};
+    showToast('🎉','Trial Activated',`${names[mod]} — 14 day free trial started!`);
+    // Move module to active in sidebar
+    const avail=document.querySelectorAll('.available-module');
+    avail.forEach(el=>{
+        if(el.textContent.includes(names[mod].split(' ')[0])){
+            el.classList.remove('available-module');
+            el.querySelector('.upgrade-btn').outerHTML='<span class="trial-badge">TRIAL</span>';
+            el.querySelector('.module-header').onclick=null;
+        }
+    });
+}
+
+function mockPrint(){showToast('🖨️','Printing...','Preparing...');setTimeout(()=>window.print(),500);}
+function mockExportPDF(){showToast('📥','Generating PDF','executive_summary.pdf');setTimeout(()=>showToast('✅','Ready','PDF saved'),2000);}
+function filterTasks(f,btn){document.querySelectorAll('#taskFilters .chip').forEach(c=>c.classList.remove('active'));btn.classList.add('active');taskPage=0;renderTasks(f);}
+
+// ═══ BUILD PAGES ═══
+function buildRecentTasks(){const tb=document.getElementById('recentTasks');tb.innerHTML='';TASKS.slice(0,5).forEach(t=>{tb.innerHTML+=`<tr style="cursor:pointer" onclick="showPage('taskDetail','${t.id}')"><td><strong class="link">${t.id}</strong></td><td>${t.title}</td><td>${t.assignee}</td><td>${chIcons[t.ch]||'📤'} ${t.docs}</td><td><span class="status status-${t.status}">${t.status}</span></td><td class="text-muted">${t.created}</td></tr>`;});}
+
+let taskFilter='all';
+function renderTasks(filter){
+    if(filter)taskFilter=filter;
+    const filtered=taskFilter==='all'?TASKS:TASKS.filter(t=>t.status===taskFilter);
+    const rpp=parseInt(document.getElementById('rowsPerPage').value);
+    const total=filtered.length,pages=Math.ceil(total/rpp);
+    taskPage=Math.min(taskPage,pages-1);
+    const start=taskPage*rpp,end=Math.min(start+rpp,total),slice=filtered.slice(start,end);
+    const tb=document.getElementById('tasksBody');tb.innerHTML='';
+    slice.forEach(t=>{tb.innerHTML+=`<tr><td><strong class="link" onclick="showPage('taskDetail','${t.id}')">${t.id}</strong></td><td>${t.title}</td><td>${t.assignee}</td><td>${chIcons[t.ch]||'📤'} ${t.docs}</td><td>${t.items}</td><td><span class="status status-${t.status}">${t.status}</span></td><td class="text-muted">${t.created}</td><td><button class="btn btn-outline btn-sm" onclick="showPage('taskDetail','${t.id}')">View</button></td></tr>`;});
+    document.getElementById('taskPageInfo').textContent=`${start+1}-${end} of ${total}`;
+    document.getElementById('pgBtn1').className=`page-btn${taskPage===0?' active':''}`;
+    document.getElementById('pgBtn1').onclick=()=>{taskPage=0;renderTasks();};
+    document.getElementById('pgBtn2').className=`page-btn${taskPage===1?' active':''}`;document.getElementById('pgBtn2').textContent=pages>1?'2':'';
+    document.getElementById('pgBtn2').onclick=()=>{if(pages>1){taskPage=1;renderTasks();}};
+    document.getElementById('pgBtn2').style.display=pages>1?'':'none';
+}
+function taskPageNav(dir){const rpp=parseInt(document.getElementById('rowsPerPage').value);const filtered=taskFilter==='all'?TASKS:TASKS.filter(t=>t.status===taskFilter);const pages=Math.ceil(filtered.length/rpp);taskPage=Math.max(0,Math.min(taskPage+dir,pages-1));renderTasks();}
+
+function buildUsers(){const tb=document.getElementById('usersBody');tb.innerHTML='';USERS.forEach(u=>{const rc={admin:'role-admin',manager:'role-manager',analyst:'role-analyst',viewer:'role-viewer'}[u.role];tb.innerHTML+=`<tr><td><div style="display:flex;align-items:center;gap:8px;"><div class="user-avatar" style="background:${u.c};width:28px;height:28px;font-size:.62rem;">${u.av}</div><strong style="font-size:.82rem;">${u.name}</strong></div></td><td class="text-muted">${u.email}</td><td><span class="role-tag ${rc}">${u.role}</span></td><td>${u.dept}</td><td class="num">${u.tasks}</td><td class="text-muted">${u.last}</td><td><button class="btn-icon" onclick="showModal('profile')">✏️</button></td></tr>`;});}
+
+function buildChannels(){const cl=document.getElementById('channelList');cl.innerHTML='';CHANNELS.forEach(ch=>{cl.innerHTML+=`<div class="connector"><div class="connector-icon" style="background:${ch.bg};">${ch.icon}</div><div class="connector-info"><div class="connector-name">${ch.name}</div><div class="connector-desc">${ch.desc}</div><div class="connector-stats"><span>Today: <strong>${ch.today}</strong></span><span>Month: <strong>${ch.month}</strong></span></div></div><div style="text-align:right;"><span class="status status-${ch.status}">${ch.status==='active'?'🟢 Active':'⚪ Off'}</span><div style="margin-top:6px;"><button class="btn btn-outline btn-sm" onclick="showModal('configChannel',${JSON.stringify(ch).replace(/"/g,'&quot;')})">Configure</button></div></div></div>`;});
+    const ml=document.getElementById('mcpList');ml.innerHTML='';MCP_CONNECTORS.forEach(ch=>{ml.innerHTML+=`<div class="connector"><div class="connector-icon" style="background:${ch.bg};">${ch.icon}</div><div class="connector-info"><div class="connector-name">${ch.name}</div><div class="connector-desc">${ch.desc}</div><div class="connector-stats"><span>Today: <strong>${ch.today}</strong></span><span>Month: <strong>${ch.month}</strong></span></div></div><div style="text-align:right;"><span class="status status-${ch.status}">${ch.status==='active'?'🟢 Active':'⚪ Off'}</span><div style="margin-top:6px;"><button class="btn btn-outline btn-sm" onclick="showModal('configChannel',${JSON.stringify(ch).replace(/"/g,'&quot;')})">Configure</button></div></div></div>`;});}
+
+function buildVendors(){const vl=document.getElementById('vendorList');vl.innerHTML='';VENDORS.forEach(v=>{const stars='★'.repeat(Math.floor(v.score))+'☆'.repeat(5-Math.floor(v.score));vl.innerHTML+=`<div class="card mb-12"><div style="display:flex;align-items:center;gap:16px;"><div style="width:48px;height:48px;border-radius:12px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🏢</div><div style="flex:1;"><div style="font-weight:700;">${v.name}</div><div class="text-xs text-muted">${v.code} · <span class="vtag ${v.color}">${v.short}</span></div></div><div style="text-align:right;"><div style="color:var(--orange);font-size:.82rem;">${stars} ${v.score}</div><div class="text-xs text-muted mt-4">${v.tasks} tasks · ${fmtI(v.spend)} THB</div></div></div></div>`;});}
+
+function buildAudit(){const tb=document.getElementById('auditBody');tb.innerHTML='';AUDIT.forEach(a=>{tb.innerHTML+=`<tr><td class="text-muted">${a.time}</td><td><strong>${a.user}</strong></td><td>${a.action}</td><td><a class="link" onclick="showPage('taskDetail','${a.target}')">${a.target}</a></td><td class="text-muted">${a.detail}</td></tr>`;});}
+
+function buildTaskFiles(){const fl=document.getElementById('tdFileList');fl.innerHTML='';QUOTATIONS.forEach((q,i)=>{const v=VENDORS.find(x=>x.id===q.vendor);fl.innerHTML+=`<div class="file-item"><div class="file-icon">📄</div><div class="file-info"><div class="file-name">${q.file}</div><div class="file-meta">${v?v.short:''} · ${q.type}</div></div><span class="status status-draft" id="fs-${i}">Pending</span></div>`;});}
+
+function buildComparison(){const ct=document.getElementById('compContainer');let html=`<table class="data-table"><thead><tr><th style="min-width:40px;">No.</th><th style="min-width:180px;">รายการ</th><th>จำนวน</th><th class="num" style="min-width:85px;">เจเจพี(V1)</th><th class="num" style="min-width:85px;">ไทยเอ็กซ์(V2)</th><th class="num" style="min-width:85px;">ศรีรุ่งเรือง(V3)</th><th class="num" style="min-width:85px;">ชลบุรี(V4)</th><th class="num" style="min-width:85px;">Best</th></tr></thead><tbody>`;
+    let gt=0;ITEMS.forEach(it=>{const ps=[it.prices.V1,it.prices.V2,it.prices.V3,it.prices.V4];const vp=ps.filter(p=>p!=null);const mn=vp.length?Math.min(...vp):null;if(mn)gt+=mn*it.qty;
+    html+=`<tr><td>${it.no}</td><td style="font-size:.72rem;">${it.desc}</td><td class="num">${it.qty} ${it.unit}</td>${ps.map(p=>`<td class="num ${p!=null&&p===mn?'best-price':''}">${p!=null?fmtI(p):'—'}</td>`).join('')}<td class="num fw-700">${mn!=null?fmtI(mn):'—'}</td></tr>`;});
+    html+=`<tr style="background:var(--bg);"><td colspan="3" style="font-weight:700;">Total (Best x Qty)</td><td colspan="4"></td><td class="num" style="font-weight:800;color:var(--green);">${fmtI(Math.round(gt))}</td></tr></tbody></table>`;ct.innerHTML=html;}
+
+function buildReport(){document.getElementById('rptSummary').innerHTML=`<p>ระบบ AI Autopilot วิเคราะห์ <strong>9 ฉบับ</strong> จาก <strong>4 ผู้จำหน่าย</strong> รวม <strong>44 รายการ</strong></p><p class="mt-8">Best Price รวม: <strong style="color:var(--green);">119,157.80 THB</strong> (ประหยัด ~25,000 THB)</p><p class="mt-8">⏱️ ประมวลผล: <strong>35 นาที</strong> vs Manual 4.5 ชม. — <strong style="color:var(--green);">เร็วขึ้น 7.7x</strong></p>`;
+    document.getElementById('rptNotes').innerHTML=`<ul style="list-style:none;padding:0;"><li style="padding:6px 0;border-bottom:1px solid var(--border);">⚡ <strong>เจ เจ พี</strong> ครอบคลุม 42/44 รายการ</li><li style="padding:6px 0;border-bottom:1px solid var(--border);">💰 <strong>ชลบุรี HW</strong> ราคาต่ำสุดในเครื่องมือหนัก</li><li style="padding:6px 0;border-bottom:1px solid var(--border);">📋 เครดิต: เจเจพี 60 วัน, อื่นๆ 30 วัน</li><li style="padding:6px 0;">⚠️ ไม่มีรายใดเสนอครบ 44 รายการ</li></ul>`;
+    const att=document.getElementById('rptAttach');att.innerHTML='';QUOTATIONS.forEach(q=>{const v=VENDORS.find(x=>x.id===q.vendor);att.innerHTML+=`<div class="file-item"><div class="file-icon">📄</div><div class="file-info"><div class="file-name">${q.file}</div><div class="file-meta">${v?v.short:''} · ${q.no}</div></div><span class="status status-complete">✓</span></div>`;});}
+
+function sortComp(by){if(by==='price')ITEMS.sort((a,b)=>{const ap=Math.min(...Object.values(a.prices).filter(p=>p!=null));const bp=Math.min(...Object.values(b.prices).filter(p=>p!=null));return bp-ap;});else ITEMS.sort((a,b)=>a.no-b.no);buildComparison();}
+
+function exportCSV(){let csv='No.,Description,Qty,Unit,V1,V2,V3,V4,Best\n';ITEMS.forEach(it=>{const ps=[it.prices.V1,it.prices.V2,it.prices.V3,it.prices.V4];const mn=Math.min(...ps.filter(p=>p!=null));csv+=`${it.no},"${it.desc}",${it.qty},${it.unit},${ps.map(p=>p??'').join(',')},${mn}\n`;});const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv'}));a.download='comparison.csv';a.click();showToast('📥','Exported','comparison.csv downloaded');}
+
+// ═══ EXPENSE MODULE ═══
+function buildExpenseDash(){
+    const tb=document.getElementById('expenseRecentBody');tb.innerHTML='';
+    EXPENSE_CLAIMS.slice(0,4).forEach(c=>{
+        const sc=c.status==='approved'?'status-complete':c.status==='pending'?'status-pending':'status-draft';
+        tb.innerHTML+=`<tr><td><strong>${c.id}</strong></td><td>${c.desc}</td><td>${c.cat}</td><td class="num">${fmtI(c.amount)}</td><td>${c.by}</td><td><span class="status ${sc}">${c.status}</span></td><td class="text-muted">${c.date}</td></tr>`;
+    });
+}
+
+function buildClaims(){
+    const tb=document.getElementById('claimsBody');tb.innerHTML='';
+    EXPENSE_CLAIMS.forEach(c=>{
+        const sc=c.status==='approved'?'status-complete':c.status==='pending'?'status-pending':'status-draft';
+        tb.innerHTML+=`<tr><td><strong>${c.id}</strong></td><td>${c.desc}</td><td>${c.cat}</td><td class="num">${fmtI(c.amount)}</td><td class="num">${fmt(c.vat)}</td><td>${c.by}</td><td><span class="status ${sc}">${c.status}</span></td><td class="text-muted">${c.date}</td></tr>`;
+    });
+}
+
+async function runReceiptOCR(){
+    const log=document.getElementById('ocrLog');
+    log.innerHTML='<div class="info">[System] Receipt OCR Engine — Starting...</div>';
+
+    addLog(log,'info','[1] Detecting receipt boundaries...');await sleep(500);
+    addLog(log,'success','[1] ✓ Receipt detected — Thai format');await sleep(300);
+    addLog(log,'info','[2] Running OCR on text regions...');await sleep(600);
+    addLog(log,'success','[2] ✓ Text extracted — 12 lines');await sleep(300);
+    addLog(log,'info','[3] Parsing structured data...');await sleep(500);
+    addLog(log,'hl','[3] Store: ร้าน ก๋วยเตี๋ยวเรือ สมชาย');await sleep(200);
+    addLog(log,'hl','[3] Date: 4 เม.ย. 2569');await sleep(200);
+    addLog(log,'hl','[3] Amount: 220.00 THB');await sleep(200);
+    addLog(log,'hl','[3] VAT: 15.40 THB');await sleep(200);
+    addLog(log,'hl','[3] Total: 235.40 THB');await sleep(300);
+    addLog(log,'success','[4] ✓ Auto-categorized: ค่าอาหาร');await sleep(200);
+    addLog(log,'success','[✓] OCR Complete — Form auto-filled');
+
+    document.getElementById('ocrStore').value='ร้าน ก๋วยเตี๋ยวเรือ สมชาย';
+    document.getElementById('ocrDate').value='4 เม.ย. 2569';
+    document.getElementById('ocrAmount').value='235.40';
+    document.getElementById('ocrVat').value='15.40';
+    document.getElementById('ocrCat').value='ค่าอาหาร';
+
+    const btn=document.getElementById('submitClaimBtn');
+    btn.style.opacity='1';btn.style.pointerEvents='auto';
+    showToast('✅','OCR Complete','Form auto-filled from receipt');
+}
+
+function submitClaim(){
+    showToast('📨','Claim Submitted','EX-0024 submitted for approval');
+    document.getElementById('submitClaimBtn').style.opacity='.5';
+    document.getElementById('submitClaimBtn').style.pointerEvents='none';
+}
+
+// ═══ FINANCE DOC HUB ═══
+function buildFinCases(){
+    const tb=document.getElementById('finCasesBody');tb.innerHTML='';
+    FINANCE_CASES.forEach(c=>{
+        const pct=Math.round((c.docsComplete/c.docsTotal)*100);
+        const sc=c.status==='complete'?'status-complete':c.status==='overdue'?'status-overdue':'status-processing';
+        const slaClass=c.sla<=0?'sla-danger':c.sla<=3?'sla-warn':'sla-ok';
+        const slaText=c.status==='complete'?'Done':c.sla<0?`เกิน ${Math.abs(c.sla)} วัน`:`${c.sla} วัน`;
+        tb.innerHTML+=`<tr>
+            <td><strong class="link" onclick="showPage('finCaseDetail','${c.id}')">${c.id}</strong></td>
+            <td>${c.name}</td>
+            <td>${c.type}</td>
+            <td>${c.docsComplete}/${c.docsTotal}</td>
+            <td><div class="progress-bar" style="width:80px;height:6px;display:inline-block;vertical-align:middle;"><div class="progress-fill" style="width:${pct}%;${pct===100?'background:var(--green);':''}"></div></div> <span class="text-xs">${pct}%</span></td>
+            <td><span class="status ${sc}">${c.status}</span></td>
+            <td><span class="sla-countdown ${slaClass}" style="font-size:.7rem;padding:2px 8px;">${slaText}</span></td>
+            <td class="text-muted">${c.assignee}</td>
+            <td><button class="btn btn-outline btn-sm" onclick="showPage('finCaseDetail','${c.id}')">View</button></td>
+        </tr>`;
+    });
+}
+
+function loadFinCaseDetail(caseId){
+    const c=FINANCE_CASES.find(x=>x.id===caseId)||FINANCE_CASES[0];
+    document.getElementById('fcTitle').textContent=`CASE #${c.id} — ${c.type}`;
+    document.getElementById('fcSub').textContent=`${c.name} · Assignee: ${c.assignee}`;
+
+    const sc=c.status==='complete'?'status-complete':c.status==='overdue'?'status-overdue':'status-active';
+    document.getElementById('fcStatus').className=`status ${sc}`;
+    document.getElementById('fcStatus').textContent=c.status;
+
+    const slaClass=c.status==='complete'?'sla-ok':c.sla<=0?'sla-danger':c.sla<=3?'sla-warn':'sla-ok';
+    const slaText=c.status==='complete'?'⏰ Complete':c.sla<0?`⏰ เกินกำหนด ${Math.abs(c.sla)} วัน`:`⏰ เหลือ ${c.sla} วัน`;
+    document.getElementById('fcSla').className=`sla-countdown ${slaClass}`;
+    document.getElementById('fcSla').textContent=slaText;
+
+    // Build doc tree
+    const tree=document.getElementById('fcDocTree');
+    let html='';
+    c.docs.forEach(folder=>{
+        html+=`<div class="folder">📁 ${folder.folder}</div>`;
+        folder.items.forEach(item=>{
+            const icon=item.done?'✅':item.pending?'⏳':'❌';
+            const chInfo=item.done?`<span class="ch-tag">(${item.ch}, ${item.date})</span>`:item.pending?'<span class="ch-tag" style="color:var(--orange);">— รอ</span>':'<span class="ch-tag" style="color:var(--red);">— ยังไม่ได้รับ</span>';
+            html+=`<div class="doc-item">${icon} ${item.name} ${chInfo}</div>`;
+        });
+    });
+    tree.innerHTML=html;
+
+    const pct=Math.round((c.docsComplete/c.docsTotal)*100);
+    document.getElementById('fcProgress').textContent=`📊 Status: ${c.docsComplete}/${c.docsTotal} (${pct}%)`;
+    document.getElementById('fcProgressBar').style.width=pct+'%';
+
+    // Activity
+    const tl=document.getElementById('fcTimeline');
+    tl.innerHTML=c.activity.map((a,i)=>`<div class="tl-c-item ${i===0?'active':'done'}"><div class="tl-c-dot"></div><div class="tl-c-time">${a.time}</div><div class="tl-c-text">${a.text}</div></div>`).join('');
+
+    // Routing
+    const rt=document.getElementById('fcRouting');
+    const custDocs=c.docs.find(f=>f.folder.includes('ลูกค้า'));
+    const dealerDocs=c.docs.find(f=>f.folder.includes('Dealer'));
+    const bankDocs=c.docs.find(f=>f.folder.includes('ธนาคาร'));
+    const countDone=(arr)=>arr?arr.items.filter(i=>i.done).length+'/'+arr.items.length:'—';
+    rt.innerHTML=`<div style="display:flex;align-items:center;gap:8px;justify-content:center;font-size:.82rem;margin:12px 0;">
+        <div style="padding:8px 16px;background:var(--blue-l);border-radius:8px;text-align:center;"><div style="font-weight:700;">👤 ลูกค้า</div><div class="text-xs">${countDone(custDocs)}</div></div>
+        <span style="color:var(--muted);">↔</span>
+        <div style="padding:8px 16px;background:var(--purple-l);border-radius:8px;text-align:center;"><div style="font-weight:700;">🏢 Dealer</div><div class="text-xs">${countDone(dealerDocs)}</div></div>
+        <span style="color:var(--muted);">↔</span>
+        <div style="padding:8px 16px;background:var(--green-l);border-radius:8px;text-align:center;"><div style="font-weight:700;">🏦 ธนาคาร</div><div class="text-xs">${countDone(bankDocs)}</div></div>
+    </div>`;
+}
+
+// ═══ TASK DEMO ═══
+async function runTaskDemo(){
+    if(demoRunning)return;demoRunning=true;buildTaskFiles();
+    const log=document.getElementById('tdLog'),fill=document.getElementById('tdFill'),pct=document.getElementById('tdPct'),title=document.getElementById('tdProcessTitle'),steps=document.querySelectorAll('#tdSteps .step-h');
+    log.innerHTML='<div class="info">[System] AI Engine v2.0 — Ready</div>';
+    steps.forEach((s,i)=>{s.classList.remove('done','active');if(i===0)s.classList.add('active');s.querySelector('.step-dot').textContent=i+1;});
+    document.getElementById('tdNextSteps').classList.add('hidden');
+    document.getElementById('tdStatus').className='status status-processing';document.getElementById('tdStatus').textContent='Processing';
+    showToast('🚀','Task Started','Processing 9 documents...');
+
+    addLog(log,'info','[1] รับเอกสาร 9 ไฟล์');steps[0].classList.add('done');steps[0].classList.remove('active');steps[1].classList.add('active');steps[0].querySelector('.step-dot').textContent='✓';
+    fill.style.width='10%';pct.textContent='10%';title.textContent='ตรวจสอบประเภท...';await sleep(600);
+
+    for(let i=0;i<QUOTATIONS.length;i++){addLog(log,'info',`[2] ${QUOTATIONS[i].file} → ${QUOTATIONS[i].type}`);const el=document.getElementById(`fs-${i}`);if(el){el.className='status status-processing';el.textContent='...';}await sleep(200);}
+    steps[1].classList.add('done');steps[1].classList.remove('active');steps[2].classList.add('active');steps[1].querySelector('.step-dot').textContent='✓';
+    fill.style.width='25%';pct.textContent='25%';title.textContent='OCR Processing...';
+    showToast('✅','Step 2','Classification complete');await sleep(400);
+
+    const ocrO=document.getElementById('ocrOrig'),ocrR=document.getElementById('ocrRes');
+    for(let i=0;i<QUOTATIONS.length;i++){const q=QUOTATIONS[i],v=VENDORS.find(x=>x.id===q.vendor);
+        addLog(log,q.type==='Scanned PDF'?'warn':'info',`[3] ${q.file} via ${q.type==='Scanned PDF'?'OCR':'TextExtract'}`);
+        ocrO.innerHTML=`<div style="text-align:center;padding:12px;"><div style="font-size:1.3rem;">📄</div><div style="font-weight:600;font-size:.78rem;">${q.file}</div><div class="text-xs text-muted">${q.type}</div><div class="mt-8 animate-pulse"><div class="spinner"></div></div></div>`;
+        await sleep(350);
+        ocrR.innerHTML=`<span class="ocr-hl">บริษัท:</span> ${v.name}<br><span class="ocr-hl">เลขที่:</span> ${q.no}<br><span class="ocr-hl">ยอด:</span> ${fmt(q.total)} THB`;
+        addLog(log,'success',`[3] ✓ ${q.file} — ${v.short}`);
+        const el=document.getElementById(`fs-${i}`);if(el){el.className='status status-complete';el.textContent='Done';}
+        fill.style.width=(25+((i+1)/9)*40)+'%';pct.textContent=Math.round(25+((i+1)/9)*40)+'%';await sleep(300);}
+    steps[2].classList.add('done');steps[2].classList.remove('active');steps[3].classList.add('active');steps[2].querySelector('.step-dot').textContent='✓';
+    fill.style.width='75%';pct.textContent='75%';title.textContent='AI Analyzing...';showToast('✅','OCR Done','9 documents processed');await sleep(500);
+
+    addLog(log,'hl','[4] AI analyzing 44 items...');await sleep(1000);
+    addLog(log,'success','[4] ✓ 44 items from 4 vendors');
+    steps[3].classList.add('done');steps[3].classList.remove('active');steps[4].classList.add('active');steps[3].querySelector('.step-dot').textContent='✓';
+    fill.style.width='90%';pct.textContent='90%';title.textContent='Generating reports...';await sleep(600);
+
+    addLog(log,'success','[5] ✓ Comparison Table ready');addLog(log,'success','[5] ✓ Executive Summary ready');
+    steps[4].classList.add('done');steps[4].classList.remove('active');steps[4].querySelector('.step-dot').textContent='✓';
+    fill.style.width='100%';pct.textContent='100%';title.textContent='✅ Complete!';
+    document.getElementById('tdStatus').className='status status-complete';document.getElementById('tdStatus').textContent='Complete';
+    document.getElementById('tdNextSteps').classList.remove('hidden');
+    showModal('taskComplete');showToast('🎉','Complete!','44 items analyzed');demoRunning=false;
+}
+
+// ═══ CHARTS ═══
+const tip=document.getElementById('chartTip');
+function showTip(e,html){tip.innerHTML=html;tip.classList.add('show');tip.style.left=(e.clientX+12)+'px';tip.style.top=(e.clientY-36)+'px';}
+function hideTip(){tip.classList.remove('show');}
+
+function buildDonut(containerId,segments,total){
+  const svg=document.querySelector(`#${containerId} .donut-svg`);
+  const r=48,cx=60,cy=60,circ=2*Math.PI*r;
+  let offset=0;svg.innerHTML='';
+  segments.forEach(s=>{const pct=s.val/total;const dash=circ*pct;const gap=circ-dash;
+    const circle=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    circle.setAttribute('cx',cx);circle.setAttribute('cy',cy);circle.setAttribute('r',r);
+    circle.setAttribute('fill','none');circle.setAttribute('stroke',s.color);circle.setAttribute('stroke-width','18');
+    circle.setAttribute('stroke-dasharray',`${dash} ${gap}`);circle.setAttribute('stroke-dashoffset',-offset);
+    circle.classList.add('donut-seg');
+    circle.addEventListener('mousemove',e=>showTip(e,`<strong>${s.label}</strong><br>${s.val} (${(pct*100).toFixed(1)}%)`));
+    circle.addEventListener('mouseleave',hideTip);
+    svg.appendChild(circle);offset+=dash;
+  });
+}
+
+function buildLineChart(containerId,data,color,unit,prefix){
+  const wrap=document.getElementById(containerId);
+  const w=wrap.clientWidth||400,h=140;
+  const pad={t:10,r:10,b:24,l:42};
+  const pw=w-pad.l-pad.r,ph=h-pad.t-pad.b;
+  const minV=Math.min(...data.map(d=>d.v))*0.95,maxV=Math.max(...data.map(d=>d.v))*1.02;
+  const rangeV=maxV-minV||1;
+  const pts=data.map((d,i)=>{const x=pad.l+(i/(data.length-1))*pw;const y=pad.t+ph-(((d.v-minV)/rangeV)*ph);return{x,y,...d};});
+  const pathD=pts.map((p,i)=>((i===0?'M':'L')+p.x+','+p.y)).join(' ');
+  const areaD=pathD+` L${pts[pts.length-1].x},${h-pad.b} L${pts[0].x},${h-pad.b} Z`;
+  let svg=`<svg class="line-chart-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">`;
+  for(let i=0;i<4;i++){const y=pad.t+(ph/3)*i;svg+=`<line x1="${pad.l}" y1="${y}" x2="${w-pad.r}" y2="${y}" class="line-chart-grid"/>`;
+    const val=maxV-((i/3)*rangeV);svg+=`<text x="${pad.l-4}" y="${y+3}" text-anchor="end" class="line-chart-label">${prefix||''}${val>=1000?(val/1000).toFixed(0)+'K':val.toFixed(1)}${unit||''}</text>`;}
+  svg+=`<path d="${areaD}" fill="${color}" class="line-chart-area"/>`;
+  svg+=`<path d="${pathD}" stroke="${color}" class="line-chart-path"/>`;
+  pts.forEach((p,i)=>{svg+=`<circle cx="${p.x}" cy="${p.y}" fill="${color}" stroke="var(--white)" stroke-width="2" class="line-chart-dot" data-tip="${p.label}: ${prefix||''}${p.v.toLocaleString()}${unit||''}"/>`;
+    if(i%Math.ceil(data.length/7)===0||i===data.length-1)svg+=`<text x="${p.x}" y="${h-6}" text-anchor="middle" class="line-chart-label">${p.label}</text>`;});
+  svg+=`</svg>`;wrap.innerHTML=svg;
+  wrap.querySelectorAll('.line-chart-dot').forEach(dot=>{
+    dot.addEventListener('mousemove',e=>showTip(e,dot.getAttribute('data-tip')));
+    dot.addEventListener('mouseleave',hideTip);
+  });
+}
+
+// Hover for bar charts
+document.querySelectorAll('.chart-bar-h .fill').forEach(fill=>{
+  fill.style.cursor='pointer';
+  fill.addEventListener('mousemove',e=>{const row=fill.closest('.chart-bar-h');const label=row.querySelector('.label')?.textContent||'';const val=row.querySelector('.val')?.textContent||'';showTip(e,`<strong>${label}</strong>: ${val}`);});
+  fill.addEventListener('mouseleave',hideTip);
+});
+document.querySelectorAll('.mini-bar').forEach((bar,i)=>{
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];const vals=[12,19,16,24,14,27,21];
+  bar.addEventListener('mousemove',e=>showTip(e,`<strong>${days[i]}</strong>: ${vals[i]} tasks`));
+  bar.addEventListener('mouseleave',hideTip);
+});
+
+// ═══ INIT ═══
+buildRecentTasks();renderTasks();buildUsers();buildChannels();buildVendors();buildAudit();buildTaskFiles();
+
+buildDonut('donutStatus',[{label:'Complete',val:143,color:'#059669'},{label:'Processing',val:55,color:'#2563EB'},{label:'Review',val:30,color:'#D97706'},{label:'Draft',val:19,color:'#94A3B8'}],247);
+buildDonut('donutChannel',[{label:'Upload',val:562,color:'#2563EB'},{label:'Email',val:374,color:'#7C3AED'},{label:'LINE',val:224,color:'#059669'},{label:'Others',val:87,color:'#0891B2'}],1247);
+
+buildLineChart('lineAccuracy',[{label:'W1',v:96.2},{label:'W2',v:97.1},{label:'W3',v:96.8},{label:'W4',v:97.5},{label:'W5',v:98.0},{label:'W6',v:97.8},{label:'W7',v:98.3},{label:'W8',v:98.7}],'#7C3AED','%','');
+buildLineChart('lineCost',[{label:'Nov',v:180},{label:'Dec',v:220},{label:'Jan',v:310},{label:'Feb',v:380},{label:'Mar',v:420},{label:'Apr',v:490}],'#059669','','฿');
+</script>
+</body>
+</html>

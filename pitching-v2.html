@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autopilot v2 — AI Back Office Platform | Pitch Deck</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+Thai:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+    theme: {
+        extend: {
+            fontFamily: {
+                sans: ['Inter', 'Noto Sans Thai', 'sans-serif'],
+            }
+        }
+    }
+}
+</script>
+<style>
+:root {
+    --bg: #0B0F1A;
+    --bg2: #111827;
+    --bg3: #1F2937;
+    --surface: rgba(17,24,39,0.8);
+    --surface-border: rgba(99,102,241,0.15);
+    --border: rgba(148,163,184,0.12);
+    --text: #F1F5F9;
+    --text2: #CBD5E1;
+    --text-muted: #64748B;
+    --accent: #6366F1;
+    --accent2: #8B5CF6;
+    --accent3: #06B6D4;
+    --success: #10B981;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+    --grad1: linear-gradient(135deg, #3B82F6, #8B5CF6);
+    --grad2: linear-gradient(135deg, #06B6D4, #3B82F6);
+    --grad3: linear-gradient(135deg, #8B5CF6, #EC4899);
+    --grad4: linear-gradient(135deg, #10B981, #06B6D4);
+    --glow-blue: 0 0 60px rgba(59,130,246,0.15);
+    --glow-purple: 0 0 60px rgba(139,92,246,0.15);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html, body {
+    width:100%; height:100%; overflow:hidden;
+    font-family:'Inter','Noto Sans Thai',sans-serif;
+    background:var(--bg); color:var(--text);
+}
+
+/* ── Progress Bar ── */
+#progressBar {
+    position:fixed; top:0; left:0; height:3px;
+    background:linear-gradient(90deg, #3B82F6, #8B5CF6, #EC4899);
+    z-index:200; transition:width 0.5s ease;
+    box-shadow:0 0 12px rgba(139,92,246,0.5);
+}
+
+/* ── Slides ── */
+.deck { width:100%; height:100vh; position:relative; }
+
+.slide {
+    position:absolute; inset:0;
+    display:none; flex-direction:column; justify-content:center;
+    padding:48px 72px 96px;
+    background:var(--bg);
+    overflow-y:auto;
+}
+
+.slide.active {
+    display:flex;
+    animation:slideIn 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+
+@keyframes slideIn {
+    from { opacity:0; transform:translateY(20px) scale(0.98); }
+    to { opacity:1; transform:translateY(0) scale(1); }
+}
+
+/* ── Typography ── */
+.tag {
+    display:inline-block;
+    font-size:0.7rem; font-weight:600;
+    letter-spacing:2px; text-transform:uppercase;
+    color:#8B5CF6;
+    padding:6px 16px;
+    border:1px solid rgba(139,92,246,0.3);
+    border-radius:100px;
+    background:rgba(139,92,246,0.08);
+    margin-bottom:16px;
+}
+
+h1 {
+    font-size:clamp(2.2rem,4.5vw,3.8rem);
+    font-weight:800; line-height:1.1;
+    letter-spacing:-0.03em;
+    margin-bottom:16px;
+}
+
+h2 {
+    font-size:clamp(1.6rem,3vw,2.6rem);
+    font-weight:700; line-height:1.2;
+    margin-bottom:14px;
+}
+
+h3 { font-size:1.15rem; font-weight:600; margin-bottom:8px; }
+
+.sub {
+    font-size:clamp(0.95rem,1.3vw,1.15rem);
+    color:var(--text-muted); line-height:1.7;
+    max-width:720px;
+}
+
+.grad { background:var(--grad1); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.grad2 { background:var(--grad2); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.grad3 { background:var(--grad3); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.grad4 { background:var(--grad4); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+/* ── Glass Card ── */
+.glass {
+    background:rgba(17,24,39,0.6);
+    backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+    border:1px solid rgba(148,163,184,0.1);
+    border-radius:16px;
+    box-shadow:0 8px 32px rgba(0,0,0,0.3);
+    transition:transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.glass:hover {
+    transform:translateY(-4px);
+    box-shadow:0 16px 48px rgba(0,0,0,0.4);
+    border-color:rgba(139,92,246,0.25);
+}
+
+/* ── Grids ── */
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:28px; }
+.g3 { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:28px; }
+.g4 { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:24px; }
+
+/* ── Stat Cards ── */
+.stat-big { font-size:clamp(2.4rem,4vw,3.6rem); font-weight:900; line-height:1; }
+.stat-label { font-size:0.82rem; color:var(--text-muted); margin-top:4px; }
+
+/* ── Flow Steps ── */
+.flow { display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:32px; }
+.flow-step {
+    text-align:center; padding:20px 16px; min-width:140px; flex:1;
+}
+.flow-icon { font-size:2rem; margin-bottom:8px; }
+.flow-arrow { color:rgba(139,92,246,0.5); font-size:1.5rem; font-weight:300; }
+
+/* ── Module Badge ── */
+.mod-badge {
+    display:inline-flex; align-items:center; gap:6px;
+    padding:4px 12px; border-radius:8px;
+    font-size:0.68rem; font-weight:700;
+    letter-spacing:0.5px; text-transform:uppercase;
+}
+
+/* ── Checklist ── */
+.ck { list-style:none; padding:0; }
+.ck li {
+    padding:6px 0; font-size:0.9rem; color:var(--text2);
+    display:flex; align-items:flex-start; gap:10px;
+}
+.ck li::before { content:''; flex-shrink:0; width:20px; height:20px; border-radius:50%; background:var(--grad1); display:flex; align-items:center; justify-content:center; }
+
+/* ── Nav Bar ── */
+.nav-bar {
+    position:fixed; bottom:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:center; gap:16px;
+    padding:14px 32px;
+    background:rgba(11,15,26,0.85);
+    backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+    border-top:1px solid rgba(148,163,184,0.08);
+}
+
+.nav-btn {
+    width:40px; height:40px; border-radius:10px;
+    border:1px solid rgba(148,163,184,0.15);
+    background:rgba(31,41,55,0.6);
+    color:var(--text); cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.1rem; transition:all 0.2s ease;
+}
+.nav-btn:hover:not(:disabled) { background:rgba(99,102,241,0.2); border-color:rgba(99,102,241,0.4); }
+.nav-btn:disabled { opacity:0.3; cursor:not-allowed; }
+
+.slide-counter { font-size:0.82rem; color:var(--text-muted); font-weight:500; font-variant-numeric:tabular-nums; min-width:60px; text-align:center; }
+
+.dots { display:flex; gap:6px; }
+.dot {
+    width:8px; height:8px; border-radius:50%;
+    background:rgba(148,163,184,0.2);
+    cursor:pointer; border:none; padding:0;
+    transition:all 0.3s ease;
+}
+.dot.active { background:linear-gradient(135deg,#3B82F6,#8B5CF6); width:24px; border-radius:4px; box-shadow:0 0 8px rgba(139,92,246,0.4); }
+
+/* ── BG Orbs ── */
+.orb {
+    position:absolute; border-radius:50%; filter:blur(80px); opacity:0.15; pointer-events:none; z-index:0;
+}
+.orb-blue { background:#3B82F6; }
+.orb-purple { background:#8B5CF6; }
+.orb-cyan { background:#06B6D4; }
+.orb-pink { background:#EC4899; }
+
+/* ── Table ── */
+.tbl { width:100%; border-collapse:collapse; font-size:0.82rem; }
+.tbl thead th { padding:12px 16px; text-align:left; font-weight:600; font-size:0.72rem; letter-spacing:0.5px; text-transform:uppercase; color:var(--text-muted); border-bottom:1px solid var(--border); }
+.tbl tbody td { padding:10px 16px; border-bottom:1px solid var(--border); color:var(--text2); }
+.tbl tbody tr:hover { background:rgba(99,102,241,0.05); }
+
+/* ── Arch Diagram ── */
+.arch-box {
+    padding:12px 20px; border-radius:12px; text-align:center;
+    font-size:0.82rem; font-weight:600;
+    border:1px solid rgba(148,163,184,0.1);
+    background:rgba(17,24,39,0.5);
+}
+
+/* ── Timeline ── */
+.timeline { position:relative; padding-left:32px; }
+.timeline::before { content:''; position:absolute; left:11px; top:0; bottom:0; width:2px; background:linear-gradient(to bottom, #3B82F6, #8B5CF6, #EC4899); }
+.tl-item { position:relative; margin-bottom:28px; }
+.tl-dot { position:absolute; left:-27px; top:4px; width:14px; height:14px; border-radius:50%; border:3px solid var(--bg); }
+
+/* ── Pricing ── */
+.price-card { text-align:center; padding:32px 24px; position:relative; overflow:hidden; }
+.price-card.featured { border-color:rgba(139,92,246,0.4); }
+.price-card.featured::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--grad1); }
+.price-amount { font-size:2rem; font-weight:800; margin:12px 0 4px; }
+.price-period { font-size:0.78rem; color:var(--text-muted); }
+
+/* Responsive */
+@media(max-width:768px) {
+    .slide { padding:32px 24px 80px; }
+    .g2,.g3,.g4 { grid-template-columns:1fr; }
+    .flow { flex-direction:column; }
+    .flow-arrow { transform:rotate(90deg); }
+}
+
+/* Animate stagger */
+.stagger > * { opacity:0; transform:translateY(16px); animation:staggerIn 0.5s ease forwards; }
+.stagger > *:nth-child(1) { animation-delay:0.1s; }
+.stagger > *:nth-child(2) { animation-delay:0.2s; }
+.stagger > *:nth-child(3) { animation-delay:0.3s; }
+.stagger > *:nth-child(4) { animation-delay:0.4s; }
+.stagger > *:nth-child(5) { animation-delay:0.5s; }
+.stagger > *:nth-child(6) { animation-delay:0.6s; }
+@keyframes staggerIn { to { opacity:1; transform:translateY(0); } }
+</style>
+</head>
+<body>
+
+<div id="progressBar"></div>
+
+<div class="deck">
+
+<!-- ============================================================ -->
+<!-- SLIDE 1: TITLE -->
+<!-- ============================================================ -->
+<div class="slide active" style="justify-content:center;align-items:center;text-align:center;position:relative;">
+    <div class="orb orb-blue" style="width:400px;height:400px;top:-100px;right:-50px;"></div>
+    <div class="orb orb-purple" style="width:350px;height:350px;bottom:-50px;left:-80px;"></div>
+    <div class="orb orb-pink" style="width:200px;height:200px;top:40%;left:60%;"></div>
+
+    <div style="position:relative;z-index:1;">
+        <div class="tag" style="margin-bottom:24px;">ANTS AI Solution Hub</div>
+        <h1 style="font-size:clamp(3rem,6vw,5rem);margin-bottom:8px;">
+            <span class="grad">Autopilot</span> v2
+        </h1>
+        <p style="font-size:clamp(1.1rem,2vw,1.5rem);color:var(--text2);margin-bottom:12px;font-weight:300;">
+            AI Back Office Platform
+        </p>
+        <p style="font-size:clamp(0.95rem,1.4vw,1.2rem);color:var(--text-muted);max-width:600px;margin:0 auto 40px;">
+            ทำงานเอกสารแทนคนได้ทั้ง flow
+        </p>
+        <div style="display:flex;gap:24px;justify-content:center;align-items:center;flex-wrap:wrap;">
+            <div class="glass" style="padding:12px 24px;display:inline-flex;align-items:center;gap:8px;">
+                <span style="font-size:0.85rem;color:var(--text-muted);">6 Modules</span>
+                <span style="color:rgba(139,92,246,0.4);">|</span>
+                <span style="font-size:0.85rem;color:var(--text-muted);">1 Platform</span>
+                <span style="color:rgba(139,92,246,0.4);">|</span>
+                <span style="font-size:0.85rem;color:var(--text-muted);">Infinite Scale</span>
+            </div>
+        </div>
+        <p style="margin-top:40px;font-size:0.78rem;color:var(--text-muted);letter-spacing:1px;">APRIL 2026</p>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 2: THE PROBLEM -->
+<!-- ============================================================ -->
+<div class="slide">
+    <div class="orb orb-purple" style="width:300px;height:300px;top:10%;right:5%;"></div>
+    <div style="position:relative;z-index:1;">
+        <div class="tag">The Problem</div>
+        <h2>Every Company is a <span class="grad">Document Company</span></h2>
+        <p class="sub" style="margin-bottom:32px;">พนักงาน back office ทั่วโลกเสียเวลา 60-70% ไปกับงานเอกสาร — OCR, คีย์ข้อมูล, เปรียบเทียบ, ส่งต่อ, ติดตาม</p>
+
+        <div class="g3 stagger">
+            <div class="glass" style="padding:32px;text-align:center;">
+                <div class="stat-big grad">$400B</div>
+                <div class="stat-label">Global Back Office Automation Market</div>
+            </div>
+            <div class="glass" style="padding:32px;text-align:center;">
+                <div class="stat-big grad2">500M+</div>
+                <div class="stat-label">Back Office Workers Worldwide</div>
+            </div>
+            <div class="glass" style="padding:32px;text-align:center;">
+                <div class="stat-big grad3">60-70%</div>
+                <div class="stat-label">เวลาที่หมดไปกับงานเอกสาร</div>
+            </div>
+        </div>
+
+        <div class="g4 stagger" style="margin-top:20px;">
+            <div class="glass" style="padding:16px 20px;display:flex;align-items:center;gap:12px;">
+                <span style="font-size:1.5rem;">&#128196;</span>
+                <div><div style="font-size:0.82rem;font-weight:600;">Manual OCR</div><div style="font-size:0.72rem;color:var(--text-muted);">คีย์ข้อมูลจากเอกสารด้วยมือ</div></div>
+            </div>
+            <div class="glass" style="padding:16px 20px;display:flex;align-items:center;gap:12px;">
+                <span style="font-size:1.5rem;">&#128203;</span>
+                <div><div style="font-size:0.82rem;font-weight:600;">Copy & Paste</div><div style="font-size:0.72rem;color:var(--text-muted);">ย้ายข้อมูลระหว่างระบบ</div></div>
+            </div>
+            <div class="glass" style="padding:16px 20px;display:flex;align-items:center;gap:12px;">
+                <span style="font-size:1.5rem;">&#128269;</span>
+                <div><div style="font-size:0.82rem;font-weight:600;">Compare & Verify</div><div style="font-size:0.72rem;color:var(--text-muted);">เปรียบเทียบราคา / เอกสาร</div></div>
+            </div>
+            <div class="glass" style="padding:16px 20px;display:flex;align-items:center;gap:12px;">
+                <span style="font-size:1.5rem;">&#128640;</span>
+                <div><div style="font-size:0.82rem;font-weight:600;">Route & Track</div><div style="font-size:0.72rem;color:var(--text-muted);">ส่งต่อและติดตามสถานะ</div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 3: THE SOLUTION -->
+<!-- ============================================================ -->
+<div class="slide">
+    <div class="orb orb-cyan" style="width:350px;height:350px;bottom:5%;left:5%;"></div>
+    <div style="position:relative;z-index:1;">
+        <div class="tag">The Solution</div>
+        <h2>Autopilot = <span class="grad2">Document OS</span></h2>
+        <p class="sub" style="margin-bottom:12px;">AI Employee สำหรับ Back Office — หนึ่งแพลตฟอร์ม ครอบคลุมทุกงานเอกสาร</p>
+
+        <div class="flow stagger" style="margin-top:40px;">
+            <div class="flow-step glass" style="padding:28px 20px;">
+                <div class="flow-icon">&#128229;</div>
+                <h3 style="font-size:0.95rem;">Intake</h3>
+                <p style="font-size:0.78rem;color:var(--text-muted);">รับเอกสารจาก LINE, Email, Upload, Folder</p>
+            </div>
+            <div class="flow-arrow">&#10230;</div>
+            <div class="flow-step glass" style="padding:28px 20px;">
+                <div class="flow-icon">&#129302;</div>
+                <h3 style="font-size:0.95rem;">Extract</h3>
+                <p style="font-size:0.78rem;color:var(--text-muted);">OCR + AI อ่านและดึงข้อมูลอัตโนมัติ</p>
+            </div>
+            <div class="flow-arrow">&#10230;</div>
+            <div class="flow-step glass" style="padding:28px 20px;">
+                <div class="flow-icon">&#9881;&#65039;</div>
+                <h3 style="font-size:0.95rem;">Process</h3>
+                <p style="font-size:0.78rem;color:var(--text-muted);">เปรียบเทียบ, ตรวจสอบ, อนุมัติ</p>
+            </div>
+            <div class="flow-arrow">&#10230;</div>
+            <div class="flow-step glass" style="padding:28px 20px;">
+                <div class="flow-icon">&#128200;</div>
+                <h3 style="font-size:0.95rem;">Output</h3>
+                <p style="font-size:0.78rem;color:var(--text-muted);">รายงาน, Excel, API, ส่งต่อระบบ ERP</p>
+            </div>
+        </div>
+
+        <div style="text-align:center;margin-top:40px;">
+            <div class="glass" style="display:inline-flex;padding:16px 32px;gap:32px;flex-wrap:wrap;justify-content:center;">
+                <span style="font-size:0.85rem;color:var(--text2);">&#9889; <strong>1 Platform</strong></span>
+                <span style="font-size:0.85rem;color:var(--text2);">&#128230; <strong>6 Modules</strong></span>
+                <span style="font-size:0.85rem;color:var(--text2);">&#127757; <strong>Unlimited Scale</strong></span>
+                <span style="font-size:0.85rem;color:var(--text2);">&#129302; <strong>AI-First</strong></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 4: PLATFORM ARCHITECTURE -->
+<!-- ============================================================ -->
+<div class="slide">
+    <div class="orb orb-blue" style="width:300px;height:300px;top:5%;left:50%;"></div>
+    <div style="position:relative;z-index:1;">
+        <div class="tag">Architecture</div>
+        <h2>Platform <span class="grad">Architecture</span></h2>
+        <p class="sub" style="margin-bottom:32px;">Modular design — เลือกใช้เฉพาะ module ที่ต้องการ หรือใช้ทั้ง platform</p>
+
+        <!-- Architecture Diagram -->
+        <div style="display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;max-width:1000px;margin:0 auto;">
+            <!-- Input Channels -->
+            <div style="display:flex;flex-direction:column;gap:8px;">
+                <div class="arch-box" style="border-left:3px solid #06B6D4;">&#128172; LINE</div>
+                <div class="arch-box" style="border-left:3px solid #06B6D4;">&#128231; Email</div>
+                <div class="arch-box" style="border-left:3px solid #06B6D4;">&#128193; Upload</div>
+                <div class="arch-box" style="border-left:3px solid #06B6D4;">&#128194; Folder Watch</div>
+            </div>
+
+            <!-- Center: AI Engine + Modules -->
+            <div>
+                <!-- AI Engine -->
+                <div class="glass" style="padding:20px;text-align:center;margin-bottom:12px;border:1px solid rgba(59,130,246,0.3);">
+                    <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1.5px;color:#3B82F6;font-weight:600;margin-bottom:6px;">AI Engine</div>
+                    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                        <span style="font-size:0.75rem;padding:4px 10px;background:rgba(59,130,246,0.1);border-radius:6px;color:var(--text2);">OCR Multi-Engine</span>
+                        <span style="font-size:0.75rem;padding:4px 10px;background:rgba(139,92,246,0.1);border-radius:6px;color:var(--text2);">LLM (Claude/GPT)</span>
+                        <span style="font-size:0.75rem;padding:4px 10px;background:rgba(6,182,212,0.1);border-radius:6px;color:var(--text2);">Thai NLP</span>
+                        <span style="font-size:0.75rem;padding:4px 10px;background:rgba(16,185,129,0.1);border-radius:6px;color:var(--text2);">Doc Classifier</span>
+                    </div>
+                </div>
+
+                <!-- Case-based Document Inventory -->
+                <div class="glass" style="padding:14px;text-align:center;margin-bottom:12px;border:1px solid rgba(139,92,246,0.3);background:rgba(139,92,246,0.08);">
+                    <div style="font-size:0.78rem;font-weight:700;color:#A78BFA;">&#128451; Case-Based Document Inventory</div>
+                </div>
+
+                <!-- 6 Modules -->
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+                    <div class="arch-box" style="border-top:2px solid #3B82F6;font-size:0.75rem;">&#128200; Quotation</div>
+                    <div class="arch-box" style="border-top:2px solid #10B981;font-size:0.75rem;">&#129534; Expense</div>
+                    <div class="arch-box" style="border-top:2px solid #06B6D4;font-size:0.75rem;">&#127758; Logistics FX</div>
+                    <div class="arch-box" style="border-top:2px solid #F59E0B;font-size:0.75rem;">&#128209; Sales Doc</div>
+                    <div class="arch-box" style="border-top:2px solid #EF4444;font-size:0.75rem;">&#128230; PO/PR</div>
+                    <div class="arch-box" style="border-top:2px solid #EC4899;font-size:0.75rem;">&#127974; Finance Hub</div>
+                </div>
+            </div>
+
+            <!-- Output -->
+            <div style="display:flex;flex-direction:column;gap:8px;">
+                <div class="arch-box" style="border-right:3px solid #10B981;">&#128202; Dashboard</div>
+                <div class="arch-box" style="border-right:3px solid #10B981;">&#128196; Reports</div>
+                <div class="arch-box" style="border-right:3px solid #10B981;">&#128268; ERP/API</div>
+                <div class="arch-box" style="border-right:3px solid #10B981;">&#128221; Excel</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 5: MODULE 1 — QUOTATION AUTOPILOT -->
+<!-- ============================================================ -->
+<div class="slide">
+    <div class="orb orb-blue" style="width:350px;height:350px;top:-50px;right:-50px;"></div>
+    <div style="position:relative;z-index:1;">
+        <div class="tag">Module 1 — Flagship</div>
+        <h2>&#128200; Quotation <span class="grad">Autopilot</span></h2>
+        <p class="sub" style="margin-bottom:28px;">เปรียบเทียบใบเสนอราคาจากหลาย vendors อัตโนมัติ — OCR + AI ทำงานแทนคน</p>
+
+        <div class="g2">
+            <div>
+                <div class="g2" style="margin-top:0;">
+                    <div class="glass" style="padding:28px;text-align:center;">
+                        <div class="stat-big grad" style="font-size:3rem;">7.7x</div>
+                        <div class="stat-label">เร็วกว่าคนทำ</div>
+                    </div>
+                    <div class="glass" style="padding:28px;text-align:center;">
+                        <div class="stat-big grad2" style="font-size:3rem;">98.7%</div>
+                        <div class="stat-label">ความแม่นยำ OCR</div>
+                    </div>
+                </div>
+                <div class="glass" style="padding:20px;margin-top:16px;text-align:center;">
+                    <div style="font-size:2rem;font-weight:800;color:var(--success);">3 นาที</div>
+                    <div class="stat-label">เทียบกับ 23 นาทีแบบ manual (เฉลี่ย 3 vendors)</div>
+                </div>
+            </div>
+            <div class="glass" style="padding:28px;">
+                <h3 style="margin-bottom:16px;">How It Works</h3>
+                <div style="display:flex;flex-direction:column;gap:14px;">
+                    <div style="display:flex;align-items:flex-start;gap:12px;">
+                        <div style="width:28px;height:28px;border-radius:50%;background:var(--grad1);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;flex-shrink:0;color:#fff;">1</div>
+                        <div><div style="font-size:0.88rem;font-weight:600;">Upload ใบเสนอราคา</div><div style="font-size:0.78rem;color:var(--text-muted);">รองรับ PDF, รูปภาพ, หลาย vendors พร้อมกัน</div></div>
+                    </div>
+                    <div style="display:flex;align-items:flex-start;gap:12px;">
+                        <div style="width:28px;height:28px;border-radius:50%;background:var(--grad1);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;flex-shrink:0;color:#fff;">2</div>
+                        <div><div style="font-size:0.88rem;font-weight:600;">AI อ่านและจัดหมวดหมู่</div><div style="font-size:0.78rem;color:var(--text-muted);">OCR multi-engine + LLM extract ข้อมูลอัตโนมัติ</div></div>
+                    </div>
+                    <div style="display:flex;align-items:flex-start;gap:12px;">
+                        <div style="width:28px;height:28px;border-radius:50%;background:var(--grad1);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;flex-shrink:0;color:#fff;">3</div>
+                        <div><div style="font-size:0.88rem;font-weight:600;">เปรียบเทียบราคา</div><div style="font-size:0.78rem;color:var(--text-muted);">Normalize + Compare แบบ item-by-item</div></div>
+                    </div>
+                    <div style="display:flex;align-items:flex-start;gap:12px;">
+                        <div style="width:28px;height:28px;border-radius:50%;background:var(--grad1);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;flex-shrink:0;color:#fff;">4</div>
+                        <div><div style="font-size:0.88rem;font-weight:600;">ส่งออกรายงาน</div><div style="font-size:0.78rem;color:var(--text-muted);">Excel summary + recommendation อัตโนมัติ</div></div>
+                    </div>
+                </div>
+                <div style="margin-top:16px;padding:10px 16px;background:rgba(16,185,129,0.1);border-radius:10px;border:1px solid rgba(16,185,129,0.2);">
+                    <span style="font-size:0.78rem;color:var(--success);font-weight:600;">&#9989; Currently Live in POC</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 6: MODULE 2 — EXPENSE & RECEIPT -->
+<!-- ============================================================ -->
+<div class="slide">
+    <div class="orb orb-cyan" style="width:300px;height:300px;bottom:10%;right:5%;"></div>
+    <div style="position:relative;z-index:1;">
+        <div class="tag">Module 2</div>
+        <h2>&#129534; Expense & Receipt <span class="grad4">Autopilot</span></h2>
+        <p class="sub" style="margin-bottom:28px;">OCR ใบเสร็จ → กรอกเบิกจ่ายอัตโนมัติ → ตรวจนโยบาย → ซิงค์บัญชี</p>
+
+        <div class="g2">
+            <div class="stagger">
+                <div class="glass" style="padding:28px;text-align:center;margin-bottom:16px;">
+                    <div style="display:flex;align-items:center;justify-content:center;gap:20px;">
+                        <div>
+                            <div style="font-size:1.5rem;font-weight:800;color:var(--text-muted);text-decoration:line-through;">15 นาที</div>
+                            <div style="font-size:0.72rem;color:var(--text-muted);">Manual</div>
+                        </div>
+                        <div style="font-size:2rem;color:rgba(139,92,246,0.5);">&#10230;</div>
+                        <div>
+                            <div class="stat-big grad4" style="font-size:2.5rem;">30 วิ</div>
+                            <div style="font-size:0.72rem;color:var(--success);">With Autopilot</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass" style="padding:24px;">
+                    <h3>Key Features</h3>
+                    <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px;">
+                        <div style="display:flex;align-items:center;gap:10px;font-size:0.88rem;color:var(--text2);">
+                            <span style="color:var(--success);">&#10003;</span> OCR ใบเสร็จ → auto-fill แบบฟอร์มเบิกจ่าย
+                        </div>
+                        <div style="display:flex;align-items:center;gap:10px;font-size:0.88rem;color:var(--text2);">
+                            <span style="color:var(--success);">&#10003;</span> ตรวจสอบตามนโยบายบริษัทอัตโนมัติ
+                        </div>
+                        <div style="display:flex;align-items:center;gap:10px;font-size:0.88rem;color:var(--text2);">
+                            <span style="color:var(--success);">&#10003;</span> Sync กับระบบบัญชี (SAP, Oracle, etc.)
+                        </div>
+                        <div style="display:flex;align-items:center;gap:10px;font-size:0.88rem;color:var(--text2);">
+                            <span style="color:var(--success);">&#10003;</span> Duplicate detection & fraud flag
+                        </div>
+                        <div style="display:flex;align-items:center;gap:10px;font-size:0.88rem;color:var(--text2);">
+                            <span style="color:var(--success);">&#10003;</span> Multi-currency support
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass" style="padding:28px;">
+                <h3 style="margin-bottom:16px;">Workflow</h3>
+                <div style="display:flex;flex-direction:column;gap:16px;">
+                    <div style="display:flex;gap:12px;align-items:center;">
+                        <div style="width:48px;height:48px;border-radius:12px;background:rgba(6,182,212,0.1);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;">&#128247;</div>
+                        <div><div style="font-weight:600;font-size:0.88rem;">ถ่ายรูป / Upload ใบเสร็จ</div><div style="font-size:0.75rem;color:var(--text-muted);">รองรับ LINE, Email, Web upload</div></div>
+                    </div>
+                    <div style="text-align:center;color:var(--text-muted);">&#8595;</div>
+                    <div style="display:flex;gap:12px;align-items:center;">
+                        <div style="width:48px;height:48px;border-radius:12px;background:rgba(139,92,246,0.1);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;">&#129302;</div>
+                        <div><div style="font-weight:600;font-size:0.88rem;">AI Extract + Validate</div><div style="font-size:0.75rem;color:var(--text-muted);">OCR อ่าน → ตรวจนโยบาย → flag ปัญหา</div></div>
+                    </div>
+                    <div style="text-align:center;color:var(--text-muted);">&#8595;</div>
+                    <div style="display:flex;gap:12px;align-items:center;">
+                        <div style="width:48px;height:48px;border-radius:12px;background:rgba(16,185,129,0.1);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;">&#9989;</div>
+                        <div><div style="font-weight:600;font-size:0.88rem;">อนุมัติ + Sync บัญชี</div><div style="font-size:0.75rem;color:var(--text-muted);">Auto-route ตาม approval chain → post to GL</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 7: MODULE 3 — LOGISTICS FX -->
+<!-- ============================================================ -->
+<div class="slide">
+    <div class="orb orb-blue" style="width:300px;height:300px;top:20%;left:-50px;"></div>
+    <div style="position:relative;z-index:1;">
+        <div class="tag">Module 3</div>
+        <h2>&#127758; Logistics FX <span class="grad2">Autopilot</span></h2>
+        <p class="sub" style="margin-bottom:28px;">เปรียบเทียบ FX rate ข้ามธนาคาร + OCR Freight Invoice + คำนวณ Total Landed Cost</p>
+
+        <div class="g3 stagger">
+            <div class="glass" style="padding:28px;">
+                <div style="font-size:2rem;margin-bottom:12px;">&#128177;</div>
+                <h3>FX Rate Compare</h3>
+                <p style="font-size:0.85rem;color:var(--text2);line-height:1.6;">
+                    เปรียบเทียบอัตราแลกเปลี่ยนจากหลายธนาคารแบบ real-time เลือก rate ที่ดีที่สุดอัตโนมัติ
+                </p>
+                <div style="margin-top:16px;padding:10px;background:rgba(59,130,246,0.08);border-radius:8px;text-align:center;">
+                    <div style="font-size:1.4rem;font-weight:800;color:#3B82F6;">5-8 banks</div>
+                    <div style="font-size:0.72rem;color:var(--text-muted);">เปรียบเทียบพร้อมกัน</div>
+                </div>
+            </div>
+            <div class="glass" style="padding:28px;">
+                <div style="font-size:2rem;margin-bottom:12px;">&#128196;</div>
+                <h3>Freight Invoice OCR</h3>
+                <p style="font-size:0.85rem;color:var(--text2);line-height:1.6;">
+                    อ่าน invoice จาก shipping company อัตโนมัติ — ดึงข้อมูล container, weight, charges
+                </p>
+                <div style="margin-top:16px;padding:10px;background:rgba(139,92,246,0.08);border-radius:8px;text-align:center;">
+                    <div style="font-size:1.4rem;font-weight:800;color:#8B5CF6;">&#60; 10 sec</div>
+                    <div style="font-size:0.72rem;color:var(--text-muted);">ต่อ invoice</div>
+                </div>
+            </div>
+            <div class="glass" style="padding:28px;">
+                <div style="font-size:2rem;margin-bottom:12px;">&#128202;</div>
+                <h3>Total Landed Cost</h3>
+                <p style="font-size:0.85rem;color:var(--text2);line-height:1.6;">
+                    คำนวณต้นทุนรวม: ค่าสินค้า + shipping + insurance + duty + FX แบบอัตโนมัติ
+                </p>
+                <div style="margin-top:16px;padding:10px;background:rgba(6,182,212,0.08);border-radius:8px;text-align:center;">
+                    <div style="font-size:1.4rem;font-weight:800;color:#06B6D4;">All-in-One</div>
+                    <div style="font-size:0.72rem;color:var(--text-muted);">Calculation Engine</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 8: MODULE 4 — SALES DOC GENERATOR -->
+<!-- ============================================================ -->
+<div class="slide">
+    <div class="orb orb-purple" style="width:300px;height:300px;bottom:10%;left:10%;"></div>
+    <div style="position:relative;z-index:1;">
+        <div class="tag">Module 4</div>
+        <h2>&#128209; Sales Doc <span class="grad3">Generator</span></h2>
+        <p class="sub" style="margin-bottom:28px;">สร้างใบเสนอราคาให้ทีม Sales อัตโนมัติ — Template Engine + Price Intelligence</p>
+
+        <div class="g2">
+            <div class="glass" style="padding:28px;">
+                <h3 style="margin-bottom:16px;">Capabilities</h3>
+                <div style="display:flex;flex-direction:column;gap:12px;">
+                    <div style="display:flex;gap:12px;">
+                        <div style="width:40px;height:40px;border-radius:10px;background:rgba(245,158,11,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">&#127912;</div>
+                        <div><div style="font-weight:600;font-size:0.88rem;">Template Engine</div><div style="font-size:0.78rem;color:var(--text-muted);">จัดการ template ใบเสนอราคาตาม brand</div></div>
+                    </div>
+                    <div style="display:flex;gap:12px;">
+                        <div style="width:40px;height:40px;border-radius:10px;background:rgba(245,158,11,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">&#128176;</div>
+                        <div><div style="font-weight:600;font-size:0.88rem;">Price Intelligence</div><div style="font-size:0.78rem;color:var(--text-muted);">แนะนำราคาจาก historical data + margin rules</div></div>
+                    </div>
+                    <div style="display:flex;gap:12px;">
+                        <div style="width:40px;height:40px;border-radius:10px;background:rgba(245,158,11,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">&#128202;</div>
+                        <div><div style="font-weight:600;font-size:0.88rem;">Quote-to-PO Tracking</div><div style="font-size:0.78rem;color:var(--text-muted);">ติดตาม conversion rate ตั้งแต่ quote ถึง PO</div></div>
+                    </div>
+                    <div style="display:flex;gap:12px;">
+                        <div style="width:40px;height:40px;border-radius:10px;background:rgba(245,158,11,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">&#128274;</div>
+                        <div><div style="font-weight:600;font-size:0.88rem;">Approval Workflow</div><div style="font-size:0.78rem;color:var(--text-muted);">ส่งอนุมัติตาม pricing tier อัตโนมัติ</div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="glass" style="padding:28px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
+                <div style="font-size:3rem;margin-bottom:16px;">&#128640;</div>
+                <h3>Sales Team Impact</h3>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;width:100%;">
+                    <div style="padding:16px;background:rgba(245,158,11,0.08);border-radius:12px;">
+                        <div style="font-size:1.8rem;font-weight:800;color:#F59E0B;">5x</div>
+                        <div style="font-size:0.75rem;color:var(--text-muted);">สร้าง Quote เร็วขึ้น</div>
+                    </div>
+                    <div style="padding:16px;background:rgba(16,185,129,0.08);border-radius:12px;">
+                        <div style="font-size:1.8rem;font-weight:800;color:#10B981;">+15%</div>
+                        <div style="font-size:0.75rem;color:var(--text-muted);">Conversion Rate</div>
+                    </div>
+                    <div style="padding:16px;background:rgba(59,130,246,0.08);border-radius:12px;">
+                        <div style="font-size:1.8rem;font-weight:800;color:#3B82F6;">0</div>
+                        <div style="font-size:0.75rem;color:var(--text-muted);">Pricing Errors</div>
+                    </div>
+                    <div style="padding:16px;background:rgba(139,92,246,0.08);border-radius:12px;">
+                        <div style="font-size:1.8rem;font-weight:800;color:#8B5CF6;">24/7</div>
+                        <div style="font-size:0.75rem;color:var(--text-muted);">Available</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 9: MODULE 5 — PROCUREMENT PO/PR -->
+<!-- ============================================================ -->
+<div class="slide">
+    <div class="orb orb-pink" style="width:250px;height:250px;top:10%;right:10%;"></div>
+    <div style="position:relative;z-index:1;">
+        <div class="tag">Module 5</div>
+        <h2>&#128230; Procurement <span class="grad">PO/PR Autopilot</span></h2>
+        <p class="sub" style="margin-bottom:28px;">Auto-create PR/PO + 3-Way Match + Multi-level Approval Workflow</p>
+
+        <div class="g2">
+            <div class="stagger">
+                <div class="glass" style="padding:24px;margin-bottom:16px;">
+                    <h3>&#128260; 3-Way Matching</h3>
+                    <p style="font-size:0.85rem;color:var(--text2);margin-top:8px;line-height:1.6;">ระบบเปรียบเทียบอัตโนมัติ 3 ทาง เพื่อป้องกัน error และ fraud</p>
+                    <div style="display:flex;justify-content:center;gap:12px;margin-top:20px;flex-wrap:wrap;">
+                        <div style="padding:14px 20px;background:rgba(59,130,246,0.1);border-radius:12px;text-align:center;border:1px solid rgba(59,130,246,0.2);">
+                            <div style="font-size:1.2rem;">&#128196;</div>
+                            <div style="font-size:0.78rem;font-weight:600;margin-top:4px;">Purchase Order</div>
+                        </div>
+                        <div style="display:flex;align-items:center;color:var(--text-muted);font-size:1.2rem;">&#8596;</div>
+                        <div style="padding:14px 20px;background:rgba(139,92,246,0.1);border-radius:12px;text-align:center;border:1px solid rgba(139,92,246,0.2);">
+                            <div style="font-size:1.2rem;">&#128179;</div>
+                            <div style="font-size:0.78rem;font-weight:600;margin-top:4px;">Invoice</div>
+                        </div>
+                        <div style="display:flex;align-items:center;color:var(--text-muted);font-size:1.2rem;">&#8596;</div>
+                        <div style="padding:14px 20px;background:rgba(16,185,129,0.1);border-radius:12px;text-align:center;border:1px solid rgba(16,185,129,0.2);">
+                            <div style="font-size:1.2rem;">&#128230;</div>
+                            <div style="font-size:0.78rem;font-weight:600;margin-top:4px;">Goods Receipt</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass" style="padding:24px;">
+                    <h3>&#128101; Multi-level Approval</h3>
+                    <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px;">
+                        <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:rgba(59,130,246,0.05);border-radius:8px;">
+                            <span style="font-size:0.75rem;padding:2px 8px;background:rgba(59,130,246,0.15);border-radius:4px;color:#3B82F6;font-weight:600;">L1</span>
+                            <span style="font-size:0.82rem;color:var(--text2);">Manager &#8804; 50K THB</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:rgba(139,92,246,0.05);border-radius:8px;">
+                            <span style="font-size:0.75rem;padding:2px 8px;background:rgba(139,92,246,0.15);border-radius:4px;color:#8B5CF6;font-weight:600;">L2</span>
+                            <span style="font-size:0.82rem;color:var(--text2);">Director &#8804; 500K THB</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:rgba(236,72,153,0.05);border-radius:8px;">
+                            <span style="font-size:0.75rem;padding:2px 8px;background:rgba(236,72,153,0.15);border-radius:4px;color:#EC4899;font-weight:600;">L3</span>
+                            <span style="font-size:0.82rem;color:var(--text2);">C-Level > 500K THB</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass" style="padding:28px;">
+                <h3 style="margin-bottom:16px;">Auto-Create PR/PO Flow</h3>
+                <div style="display:flex;flex-direction:column;gap:14px;">
+                    <div style="display:flex;gap:12px;align-items:flex-start;">
+                        <div style="width:32px;height:32px;min-width:32px;border-radius:50%;background:linear-gradient(135deg,#3B82F6,#8B5CF6);display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;color:#fff;">1</div>
+                        <div><div style="font-weight:600;font-size:0.88rem;">Request เข้าระบบ</div><div style="font-size:0.78rem;color:var(--text-muted);">ผู้ใช้แจ้งความต้องการ → AI สร้าง PR draft</div></div>
+                    </div>
+                    <div style="display:flex;gap:12px;align-items:flex-start;">
+                        <div style="width:32px;height:32px;min-width:32px;border-radius:50%;background:linear-gradient(135deg,#3B82F6,#8B5CF6);display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;color:#fff;">2</div>
+                        <div><div style="font-weight:600;font-size:0.88rem;">AI ตรวจสอบ + จัดหมวด</div><div style="font-size:0.78rem;color:var(--text-muted);">ตรวจ budget, vendor list, compliance</div></div>
+                    </div>
+                    <div style="display:flex;gap:12px;align-items:flex-start;">
+                        <div style="width:32px;height:32px;min-width:32px;border-radius:50%;background:linear-gradient(135deg,#3B82F6,#8B5CF6);display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;color:#fff;">3</div>
+                        <div><div style="font-weight:600;font-size:0.88rem;">Approval Chain</div><div style="font-size:0.78rem;color:var(--text-muted);">ส่งอนุมัติตาม level อัตโนมัติ</div></div>
+                    </div>
+                    <div style="display:flex;gap:12px;align-items:flex-start;">
+                        <div style="width:32px;height:32px;min-width:32px;border-radius:50%;background:linear-gradient(135deg,#3B82F6,#8B5CF6);display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;color:#fff;">4</div>
+                        <div><div style="font-weight:600;font-size:0.88rem;">PO Generation</div><div style="font-size:0.78rem;color:var(--text-muted);">สร้าง PO → ส่ง vendor → track delivery</div></div>
+                    </div>
+                    <div style="display:flex;gap:12px;align-items:flex-start;">
+                        <div style="width:32px;height:32px;min-width:32px;border-radius:50%;background:linear-gradient(135deg,#10B981,#06B6D4);display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;color:#fff;">5</div>
+                        <div><div style="font-weight:600;font-size:0.88rem;">3-Way Match</div><div style="font-size:0.78rem;color:var(--text-muted);">PO vs Invoice vs GR → auto-reconcile</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 10: MODULE 6 — FINANCE DOCUMENT HUB (STAR) -->
+<!-- ============================================================ -->
+<div class="slide">
+    <div class="orb orb-pink" style="width:400px;height:400px;top:-50px;left:-80px;"></div>
+    <div class="orb orb-purple" style="width:200px;height:200px;bottom:20%;right:5%;"></div>
+    <div style="position:relative;z-index:1;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+            <div class="tag">Module 6</div>
+            <span style="font-size:0.68rem;font-weight:700;padding:4px 10px;border-radius:6px;background:linear-gradient(135deg,#F59E0B,#EF4444);color:#fff;letter-spacing:0.5px;">&#11088; STAR MODULE</span>
+        </div>
+        <h2>&#127974; Finance Document <span class="grad3">Hub</span></h2>
+        <p class="sub" style="margin-bottom:24px;">Case-based Document Inventory — จัดการเอกสารหลายฝ่าย ลูกค้า &#8596; Dealer &#8596; ธนาคาร</p>
+
+        <div class="g2">
+            <div class="stagger">
+                <div class="glass" style="padding:24px;margin-bottom:12px;">
+                    <h3>&#128451; Case-Based Inventory</h3>
+                    <p style="font-size:0.82rem;color:var(--text2);line-height:1.6;margin-top:8px;">
+                        ทุกธุรกรรมคือ 1 case — แต่ละ case มี checklist เอกสารที่ต้องครบ ติดตามสถานะแบบ real-time
+                    </p>
+                </div>
+                <div class="glass" style="padding:24px;margin-bottom:12px;">
+                    <h3>&#128260; Multi-Party Routing</h3>
+                    <div style="display:flex;justify-content:center;gap:8px;margin-top:12px;flex-wrap:wrap;">
+                        <div style="padding:10px 16px;background:rgba(59,130,246,0.1);border-radius:10px;font-size:0.82rem;font-weight:600;color:#3B82F6;">&#128100; ลูกค้า</div>
+                        <div style="display:flex;align-items:center;color:var(--text-muted);">&#8596;</div>
+                        <div style="padding:10px 16px;background:rgba(139,92,246,0.1);border-radius:10px;font-size:0.82rem;font-weight:600;color:#8B5CF6;">&#127970; Dealer</div>
+                        <div style="display:flex;align-items:center;color:var(--text-muted);">&#8596;</div>
+                        <div style="padding:10px 16px;background:rgba(16,185,129,0.1);border-radius:10px;font-size:0.82rem;font-weight:600;color:#10B981;">&#127974; ธนาคาร</div>
+                    </div>
+                </div>
+                <div class="glass" style="padding:24px;">
+                    <h3>&#9202; SLA Tracking</h3>
+                    <p style="font-size:0.82rem;color:var(--text2);line-height:1.6;margin-top:8px;">
+                        กำหนด deadline ต่อเอกสาร + แจ้งเตือนอัตโนมัติ + Audit trail ครบทุก action
+                    </p>
+                </div>
+            </div>
+            <div class="glass" style="padding:28px;display:flex;flex-direction:column;justify-content:space-between;">
+                <div>
+                    <h3 style="margin-bottom:16px;">Scale & Channels</h3>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                        <div style="padding:20px;background:rgba(236,72,153,0.08);border-radius:12px;text-align:center;">
+                            <div style="font-size:2.2rem;font-weight:900;color:#EC4899;">100+</div>
+                            <div style="font-size:0.75rem;color:var(--text-muted);">cases / day capacity</div>
+                        </div>
+                        <div style="padding:20px;background:rgba(139,92,246,0.08);border-radius:12px;text-align:center;">
+                            <div style="font-size:2.2rem;font-weight:900;color:#8B5CF6;">3</div>
+                            <div style="font-size:0.75rem;color:var(--text-muted);">ฝ่ายที่เชื่อมต่อ</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top:20px;">
+                    <div style="font-size:0.78rem;font-weight:600;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;">Intake Channels</div>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <span style="padding:8px 14px;background:rgba(16,185,129,0.1);border-radius:8px;font-size:0.82rem;color:var(--text2);">&#128172; LINE OA</span>
+                        <span style="padding:8px 14px;background:rgba(59,130,246,0.1);border-radius:8px;font-size:0.82rem;color:var(--text2);">&#128231; Email</span>
+                        <span style="padding:8px 14px;background:rgba(139,92,246,0.1);border-radius:8px;font-size:0.82rem;color:var(--text2);">&#128193; Shared Folder</span>
+                        <span style="padding:8px 14px;background:rgba(245,158,11,0.1);border-radius:8px;font-size:0.82rem;color:var(--text2);">&#128268; API</span>
+                    </div>
+                </div>
+                <div style="margin-top:20px;">
+                    <div style="font-size:0.78rem;font-weight:600;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;">Document Checklist</div>
+                    <div style="display:flex;flex-direction:column;gap:6px;">
+                        <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--text2);">
+                            <span style="width:18px;height:18px;border-radius:4px;background:var(--success);display:inline-flex;align-items:center;justify-content:center;font-size:0.65rem;color:#fff;">&#10003;</span>
+                            สำเนาบัตรประชาชน
+                        </div>
+                        <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--text2);">
+                            <span style="width:18px;height:18px;border-radius:4px;background:var(--success);display:inline-flex;align-items:center;justify-content:center;font-size:0.65rem;color:#fff;">&#10003;</span>
+                            สัญญาซื้อขาย
+                        </div>
+                        <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--warning);">
+                            <span style="width:18px;height:18px;border-radius:4px;background:rgba(245,158,11,0.2);display:inline-flex;align-items:center;justify-content:center;font-size:0.65rem;">&#8987;</span>
+                            ใบอนุมัติสินเชื่อ (รอ)
+                        </div>
+                        <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--text-muted);">
+                            <span style="width:18px;height:18px;border-radius:4px;background:rgba(148,163,184,0.15);display:inline-flex;align-items:center;justify-content:center;font-size:0.65rem;">&#9744;</span>
+                            สำเนาทะเบียนบ้าน
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 11: AI TECHNOLOGY -->
+<!-- ============================================================ -->
+<div class="slide">
+    <div class="orb orb-blue" style="width:350px;height:350px;bottom:-50px;right:-50px;"></div>
+    <div style="position:relative;z-index:1;">
+        <div class="tag">Technology</div>
+        <h2>AI Technology <span class="grad">Stack</span></h2>
+        <p class="sub" style="margin-bottom:32px;">เทคโนโลยีที่ออกแบบมาเฉพาะสำหรับเอกสารภาษาไทย + ภาษาอังกฤษ</p>
+
+        <div class="g2 stagger">
+            <div class="glass" style="padding:28px;">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+                    <div style="width:48px;height:48px;border-radius:12px;background:rgba(59,130,246,0.1);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">&#128065;</div>
+                    <div>
+                        <h3 style="margin:0;">OCR Engine</h3>
+                        <div style="font-size:0.75rem;color:var(--text-muted);">Multi-Engine Architecture</div>
+                    </div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(59,130,246,0.05);border-radius:8px;">
+                        <span style="font-size:0.82rem;">Google Document AI</span>
+                        <span style="font-size:0.72rem;padding:2px 8px;background:rgba(59,130,246,0.15);border-radius:4px;color:#3B82F6;">Primary</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(139,92,246,0.05);border-radius:8px;">
+                        <span style="font-size:0.82rem;">Azure Form Recognizer</span>
+                        <span style="font-size:0.72rem;padding:2px 8px;background:rgba(139,92,246,0.15);border-radius:4px;color:#8B5CF6;">Backup</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(6,182,212,0.05);border-radius:8px;">
+                        <span style="font-size:0.82rem;">Tesseract + Custom</span>
+                        <span style="font-size:0.72rem;padding:2px 8px;background:rgba(6,182,212,0.15);border-radius:4px;color:#06B6D4;">On-Prem</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass" style="padding:28px;">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+                    <div style="width:48px;height:48px;border-radius:12px;background:rgba(139,92,246,0.1);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">&#129504;</div>
+                    <div>
+                        <h3 style="margin:0;">LLM Layer</h3>
+                        <div style="font-size:0.75rem;color:var(--text-muted);">Flexible Model Selection</div>
+                    </div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(139,92,246,0.05);border-radius:8px;">
+                        <span style="font-size:0.82rem;">Claude (Anthropic)</span>
+                        <span style="font-size:0.72rem;padding:2px 8px;background:rgba(139,92,246,0.15);border-radius:4px;color:#8B5CF6;">Best Quality</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(59,130,246,0.05);border-radius:8px;">
+                        <span style="font-size:0.82rem;">GPT-4o (OpenAI)</span>
+                        <span style="font-size:0.72rem;padding:2px 8px;background:rgba(59,130,246,0.15);border-radius:4px;color:#3B82F6;">Fast</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(16,185,129,0.05);border-radius:8px;">
+                        <span style="font-size:0.82rem;">Local LLM (Llama/Qwen)</span>
+                        <span style="font-size:0.72rem;padding:2px 8px;background:rgba(16,185,129,0.15);border-radius:4px;color:#10B981;">Private</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass" style="padding:28px;">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+                    <div style="width:48px;height:48px;border-radius:12px;background:rgba(6,182,212,0.1);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">&#127481;&#127469;</div>
+                    <div>
+                        <h3 style="margin:0;">Thai NLP</h3>
+                        <div style="font-size:0.75rem;color:var(--text-muted);">Specialized Thai Processing</div>
+                    </div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                    <div style="padding:8px 12px;background:rgba(6,182,212,0.05);border-radius:8px;font-size:0.82rem;color:var(--text2);">&#10003; Thai word segmentation</div>
+                    <div style="padding:8px 12px;background:rgba(6,182,212,0.05);border-radius:8px;font-size:0.82rem;color:var(--text2);">&#10003; Thai address parser</div>
+                    <div style="padding:8px 12px;background:rgba(6,182,212,0.05);border-radius:8px;font-size:0.82rem;color:var(--text2);">&#10003; Thai date/number normalization</div>
+                    <div style="padding:8px 12px;background:rgba(6,182,212,0.05);border-radius:8px;font-size:0.82rem;color:var(--text2);">&#10003; Mixed Thai-English handling</div>
+                </div>
+            </div>
+
+            <div class="glass" style="padding:28px;">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+                    <div style="width:48px;height:48px;border-radius:12px;background:rgba(236,72,153,0.1);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">&#128218;</div>
+                    <div>
+                        <h3 style="margin:0;">Doc Classification</h3>
+                        <div style="font-size:0.75rem;color:var(--text-muted);">Auto-Classify Documents</div>
+                    </div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                    <div style="padding:8px 12px;background:rgba(236,72,153,0.05);border-radius:8px;font-size:0.82rem;color:var(--text2);">&#10003; Invoice / Receipt / PO / Quote</div>
+                    <div style="padding:8px 12px;background:rgba(236,72,153,0.05);border-radius:8px;font-size:0.82rem;color:var(--text2);">&#10003; ID Card / Passport / License</div>
+                    <div style="padding:8px 12px;background:rgba(236,72,153,0.05);border-radius:8px;font-size:0.82rem;color:var(--text2);">&#10003; Contract / Agreement</div>
+                    <div style="padding:8px 12px;background:rgba(236,72,153,0.05);border-radius:8px;font-size:0.82rem;color:var(--text2);">&#10003; Custom types trainable</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 12: DEPLOYMENT OPTIONS -->
+<!-- ============================================================ -->
+<div class="slide">
+    <div class="orb orb-cyan" style="width:300px;height:300px;top:10%;left:-60px;"></div>
+    <div style="position:relative;z-index:1;">
+        <div class="tag">Deployment</div>
+        <h2>Deployment <span class="grad2">Options</span></h2>
+        <p class="sub" style="margin-bottom:32px;">เลือกรูปแบบที่เหมาะกับองค์กร — Cloud-first หรือ On-premise AI</p>
+
+        <div class="g2 stagger">
+            <!-- Option A: Cloud -->
+            <div class="glass" style="padding:32px;border-top:3px solid #06B6D4;">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+                    <span style="font-size:0.68rem;font-weight:700;padding:4px 10px;border-radius:6px;background:rgba(6,182,212,0.15);color:#06B6D4;letter-spacing:0.5px;">OPTION A</span>
+                    <span style="font-size:0.68rem;color:var(--text-muted);">Most Popular</span>
+                </div>
+                <h3 style="font-size:1.3rem;">&#9729;&#65039; 100% Cloud + LLM</h3>
+                <p style="font-size:0.85rem;color:var(--text2);margin-top:8px;line-height:1.6;">
+                    ใช้งานผ่าน cloud ทั้งหมด — deploy เร็ว ไม่ต้องลงทุน hardware
+                </p>
+                <div style="display:flex;flex-direction:column;gap:8px;margin-top:20px;">
+                    <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem;color:var(--text2);">
+                        <span style="color:var(--success);">&#10003;</span> Zero infrastructure cost
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem;color:var(--text2);">
+                        <span style="color:var(--success);">&#10003;</span> Auto-scale ตาม workload
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem;color:var(--text2);">
+                        <span style="color:var(--success);">&#10003;</span> Deploy ภายใน 1 สัปดาห์
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem;color:var(--text2);">
+                        <span style="color:var(--success);">&#10003;</span> Always latest AI models
+                    </div>
+                </div>
+                <div style="margin-top:20px;padding:14px;background:rgba(6,182,212,0.08);border-radius:10px;text-align:center;">
+                    <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:4px;">Starting from</div>
+                    <div style="font-size:1.5rem;font-weight:800;color:#06B6D4;">29,900 THB/mo</div>
+                </div>
+            </div>
+
+            <!-- Option B: Hybrid -->
+            <div class="glass" style="padding:32px;border-top:3px solid #8B5CF6;">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+                    <span style="font-size:0.68rem;font-weight:700;padding:4px 10px;border-radius:6px;background:rgba(139,92,246,0.15);color:#8B5CF6;letter-spacing:0.5px;">OPTION B</span>
+                    <span style="font-size:0.68rem;color:var(--text-muted);">Max Privacy</span>
+                </div>
+                <h3 style="font-size:1.3rem;">&#128274; Hybrid + On-Prem AI</h3>
+                <p style="font-size:0.85rem;color:var(--text2);margin-top:8px;line-height:1.6;">
+                    ข้อมูลอยู่ในองค์กร — ใช้ GIGABYTE AI TOP ATOM สำหรับ Local LLM
+                </p>
+
+                <div class="glass" style="padding:16px;margin-top:16px;border:1px solid rgba(139,92,246,0.2);">
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                        <span style="font-size:1.2rem;">&#128421;</span>
+                        <div>
+                            <div style="font-weight:700;font-size:0.88rem;">GIGABYTE AI TOP ATOM</div>
+                            <div style="font-size:0.72rem;color:var(--text-muted);">NVIDIA Grace Blackwell Superchip</div>
+                        </div>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                        <div style="padding:8px;background:rgba(139,92,246,0.05);border-radius:6px;text-align:center;">
+                            <div style="font-size:1rem;font-weight:800;color:#A78BFA;">128 GB</div>
+                            <div style="font-size:0.65rem;color:var(--text-muted);">LPDDR5x</div>
+                        </div>
+                        <div style="padding:8px;background:rgba(139,92,246,0.05);border-radius:6px;text-align:center;">
+                            <div style="font-size:1rem;font-weight:800;color:#A78BFA;">1 PFLOP</div>
+                            <div style="font-size:0.65rem;color:var(--text-muted);">AI Performance</div>
+                        </div>
+                        <div style="padding:8px;background:rgba(139,92,246,0.05);border-radius:6px;text-align:center;">
+                            <div style="font-size:1rem;font-weight:800;color:#A78BFA;">150mm</div>
+                            <div style="font-size:0.65rem;color:var(--text-muted);">150x150x50.5mm</div>
+                        </div>
+                        <div style="padding:8px;background:rgba(139,92,246,0.05);border-radius:6px;text-align:center;">
+                            <div style="font-size:1rem;font-weight:800;color:#A78BFA;">240W</div>
+                            <div style="font-size:0.65rem;color:var(--text-muted);">Power Draw</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top:16px;padding:14px;background:rgba(139,92,246,0.08);border-radius:10px;text-align:center;">
+                    <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:4px;">Hardware + Software</div>
+                    <div style="font-size:1.5rem;font-weight:800;color:#8B5CF6;">Contact Sales</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 13: BUSINESS MODEL & PRICING -->
+<!-- ============================================================ -->
+<div class="slide">
+    <div class="orb orb-purple" style="width:250px;height:250px;top:5%;right:5%;"></div>
+    <div style="position:relative;z-index:1;">
+        <div class="tag">Business Model</div>
+        <h2>Pricing & <span class="grad">Business Model</span></h2>
+        <p class="sub" style="margin-bottom:28px;">Per-module SaaS subscription + Usage-based pricing + Hardware add-on revenue</p>
+
+        <div style="overflow-x:auto;">
+            <div class="glass" style="padding:4px;margin-bottom:20px;">
+                <table class="tbl">
+                    <thead>
+                        <tr>
+                            <th style="width:20%;">Plan</th>
+                            <th style="width:15%;">Price / mo</th>
+                            <th>Modules</th>
+                            <th>Documents / mo</th>
+                            <th>Support</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span style="font-weight:700;">&#128994; Starter</span></td>
+                            <td><span style="font-weight:700;color:#10B981;">29,900 THB</span></td>
+                            <td>1 module</td>
+                            <td>500 docs</td>
+                            <td>Email + Chat</td>
+                        </tr>
+                        <tr style="background:rgba(99,102,241,0.05);">
+                            <td><span style="font-weight:700;">&#128309; Business</span></td>
+                            <td><span style="font-weight:700;color:#3B82F6;">79,900 THB</span></td>
+                            <td>3 modules</td>
+                            <td>3,000 docs</td>
+                            <td>Priority + CSM</td>
+                        </tr>
+                        <tr>
+                            <td><span style="font-weight:700;">&#128995; Enterprise</span></td>
+                            <td><span style="font-weight:700;color:#8B5CF6;">Custom</span></td>
+                            <td>All 6 modules</td>
+                            <td>Unlimited</td>
+                            <td>Dedicated + SLA</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="g3 stagger">
+            <div class="glass" style="padding:24px;text-align:center;">
+                <div style="font-size:2rem;margin-bottom:8px;">&#128176;</div>
+                <h3>SaaS Subscription</h3>
+                <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.5;">
+                    Per-module monthly/annual subscription — เลือกใช้เฉพาะ module ที่ต้องการ
+                </p>
+            </div>
+            <div class="glass" style="padding:24px;text-align:center;">
+                <div style="font-size:2rem;margin-bottom:8px;">&#128200;</div>
+                <h3>Usage-Based</h3>
+                <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.5;">
+                    Per document + Per AI query — จ่ายตามการใช้งานจริง เกิน package คิด overage
+                </p>
+            </div>
+            <div class="glass" style="padding:24px;text-align:center;">
+                <div style="font-size:2rem;margin-bottom:8px;">&#128421;</div>
+                <h3>Hardware Add-on</h3>
+                <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.5;">
+                    GIGABYTE AI TOP ATOM + setup + maintenance — สำหรับ on-prem deployment
+                </p>
+            </div>
+        </div>
+
+        <div class="glass" style="padding:16px 24px;margin-top:20px;text-align:center;border:1px solid rgba(16,185,129,0.2);">
+            <span style="font-size:0.88rem;color:var(--success);font-weight:600;">&#128184; Full Platform Bundle: เริ่มต้น 149,900 THB/mo — ลด 25% จากราคารวมรายโมดูล</span>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 14: GO-TO-MARKET -->
+<!-- ============================================================ -->
+<div class="slide">
+    <div class="orb orb-pink" style="width:300px;height:300px;bottom:10%;left:-50px;"></div>
+    <div style="position:relative;z-index:1;">
+        <div class="tag">Go-to-Market</div>
+        <h2>GTM <span class="grad3">Roadmap</span></h2>
+        <p class="sub" style="margin-bottom:32px;">จาก Thailand สู่ Global — แผนขยาย 4 phases ใน 48 เดือน</p>
+
+        <div class="g2">
+            <div class="timeline stagger">
+                <div class="tl-item">
+                    <div class="tl-dot" style="background:#3B82F6;"></div>
+                    <div class="glass" style="padding:20px;">
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                            <span style="font-size:0.68rem;font-weight:700;padding:3px 8px;border-radius:4px;background:rgba(59,130,246,0.15);color:#3B82F6;">PHASE 1</span>
+                            <span style="font-size:0.72rem;color:var(--text-muted);">M1-6</span>
+                        </div>
+                        <h3 style="font-size:1rem;">Thailand Launch</h3>
+                        <p style="font-size:0.82rem;color:var(--text2);line-height:1.5;">Quotation + Expense modules<br/>Target: 50 enterprises</p>
+                    </div>
+                </div>
+
+                <div class="tl-item">
+                    <div class="tl-dot" style="background:#8B5CF6;"></div>
+                    <div class="glass" style="padding:20px;">
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                            <span style="font-size:0.68rem;font-weight:700;padding:3px 8px;border-radius:4px;background:rgba(139,92,246,0.15);color:#8B5CF6;">PHASE 2</span>
+                            <span style="font-size:0.72rem;color:var(--text-muted);">M6-12</span>
+                        </div>
+                        <h3 style="font-size:1rem;">Finance & Procurement</h3>
+                        <p style="font-size:0.82rem;color:var(--text2);line-height:1.5;">Finance Doc Hub + PO/PR<br/>Target: Banks + Auto Dealers</p>
+                    </div>
+                </div>
+
+                <div class="tl-item">
+                    <div class="tl-dot" style="background:#EC4899;"></div>
+                    <div class="glass" style="padding:20px;">
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                            <span style="font-size:0.68rem;font-weight:700;padding:3px 8px;border-radius:4px;background:rgba(236,72,153,0.15);color:#EC4899;">PHASE 3</span>
+                            <span style="font-size:0.72rem;color:var(--text-muted);">M12-24</span>
+                        </div>
+                        <h3 style="font-size:1rem;">SEA Expansion</h3>
+                        <p style="font-size:0.82rem;color:var(--text2);line-height:1.5;">Vietnam, Indonesia, Philippines<br/>Multi-language OCR + NLP</p>
+                    </div>
+                </div>
+
+                <div class="tl-item">
+                    <div class="tl-dot" style="background:#F59E0B;"></div>
+                    <div class="glass" style="padding:20px;">
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                            <span style="font-size:0.68rem;font-weight:700;padding:3px 8px;border-radius:4px;background:rgba(245,158,11,0.15);color:#F59E0B;">PHASE 4</span>
+                            <span style="font-size:0.72rem;color:var(--text-muted);">M24-48</span>
+                        </div>
+                        <h3 style="font-size:1rem;">Global + Marketplace</h3>
+                        <p style="font-size:0.82rem;color:var(--text2);line-height:1.5;">Module Marketplace<br/>3rd-party developers + Integrations</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stagger">
+                <div class="glass" style="padding:28px;margin-bottom:16px;">
+                    <h3 style="margin-bottom:16px;">Revenue Projection</h3>
+                    <!-- Simple bar chart -->
+                    <div style="display:flex;align-items:flex-end;gap:12px;height:200px;padding:0 8px;">
+                        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;">
+                            <div style="font-size:0.72rem;font-weight:700;color:#3B82F6;margin-bottom:4px;">6M</div>
+                            <div style="width:100%;height:15%;background:linear-gradient(to top,#3B82F6,#6366F1);border-radius:8px 8px 0 0;"></div>
+                            <div style="font-size:0.65rem;color:var(--text-muted);margin-top:6px;">Y1 H1</div>
+                        </div>
+                        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;">
+                            <div style="font-size:0.72rem;font-weight:700;color:#8B5CF6;margin-bottom:4px;">24M</div>
+                            <div style="width:100%;height:35%;background:linear-gradient(to top,#8B5CF6,#A78BFA);border-radius:8px 8px 0 0;"></div>
+                            <div style="font-size:0.65rem;color:var(--text-muted);margin-top:6px;">Y1 H2</div>
+                        </div>
+                        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;">
+                            <div style="font-size:0.72rem;font-weight:700;color:#EC4899;margin-bottom:4px;">80M</div>
+                            <div style="width:100%;height:60%;background:linear-gradient(to top,#EC4899,#F472B6);border-radius:8px 8px 0 0;"></div>
+                            <div style="font-size:0.65rem;color:var(--text-muted);margin-top:6px;">Y2</div>
+                        </div>
+                        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;">
+                            <div style="font-size:0.72rem;font-weight:700;color:#F59E0B;margin-bottom:4px;">250M</div>
+                            <div style="width:100%;height:90%;background:linear-gradient(to top,#F59E0B,#FBBF24);border-radius:8px 8px 0 0;"></div>
+                            <div style="font-size:0.65rem;color:var(--text-muted);margin-top:6px;">Y3-4</div>
+                        </div>
+                    </div>
+                    <div style="text-align:center;margin-top:12px;font-size:0.72rem;color:var(--text-muted);">ARR in THB (Projected)</div>
+                </div>
+
+                <div class="glass" style="padding:24px;">
+                    <h3 style="margin-bottom:12px;">Key Metrics Target</h3>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                        <div style="padding:14px;background:rgba(59,130,246,0.08);border-radius:10px;text-align:center;">
+                            <div style="font-size:1.5rem;font-weight:800;color:#3B82F6;">50</div>
+                            <div style="font-size:0.72rem;color:var(--text-muted);">Enterprise Customers Y1</div>
+                        </div>
+                        <div style="padding:14px;background:rgba(139,92,246,0.08);border-radius:10px;text-align:center;">
+                            <div style="font-size:1.5rem;font-weight:800;color:#8B5CF6;">95%</div>
+                            <div style="font-size:0.72rem;color:var(--text-muted);">Retention Rate</div>
+                        </div>
+                        <div style="padding:14px;background:rgba(16,185,129,0.08);border-radius:10px;text-align:center;">
+                            <div style="font-size:1.5rem;font-weight:800;color:#10B981;">3.5x</div>
+                            <div style="font-size:0.72rem;color:var(--text-muted);">LTV/CAC Ratio</div>
+                        </div>
+                        <div style="padding:14px;background:rgba(236,72,153,0.08);border-radius:10px;text-align:center;">
+                            <div style="font-size:1.5rem;font-weight:800;color:#EC4899;">4</div>
+                            <div style="font-size:0.72rem;color:var(--text-muted);">Countries by Y3</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 15: NEXT STEPS & CTA -->
+<!-- ============================================================ -->
+<div class="slide" style="justify-content:center;align-items:center;text-align:center;position:relative;">
+    <div class="orb orb-blue" style="width:400px;height:400px;top:-80px;left:-100px;"></div>
+    <div class="orb orb-purple" style="width:400px;height:400px;bottom:-80px;right:-100px;"></div>
+    <div class="orb orb-pink" style="width:250px;height:250px;top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+
+    <div style="position:relative;z-index:1;max-width:700px;">
+        <div class="tag" style="margin-bottom:24px;">Next Steps</div>
+        <h1 style="font-size:clamp(2rem,4vw,3.2rem);">
+            พร้อมเปลี่ยน Back Office<br/>ให้ทำงาน <span class="grad">อัตโนมัติ?</span>
+        </h1>
+        <p style="font-size:clamp(0.95rem,1.3vw,1.15rem);color:var(--text-muted);margin-bottom:40px;line-height:1.7;">
+            ทดลองใช้ Autopilot v2 ฟรี 14 วัน — ไม่ต้องใช้ credit card<br/>
+            เห็นผลลัพธ์จริงตั้งแต่วันแรก
+        </p>
+
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:40px;">
+            <div style="padding:16px 32px;background:var(--grad1);border-radius:12px;font-weight:700;font-size:1rem;color:#fff;cursor:pointer;box-shadow:0 8px 24px rgba(59,130,246,0.3);">
+                &#128640; ทดลองใช้ฟรี 14 วัน
+            </div>
+            <div style="padding:16px 32px;border:1px solid rgba(148,163,184,0.2);border-radius:12px;font-weight:600;font-size:1rem;color:var(--text2);cursor:pointer;background:rgba(17,24,39,0.5);">
+                &#128197; นัด Live Demo
+            </div>
+        </div>
+
+        <div class="glass" style="padding:24px 32px;display:inline-block;">
+            <div style="display:flex;gap:32px;justify-content:center;flex-wrap:wrap;align-items:center;">
+                <div style="text-align:center;">
+                    <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:4px;">Email</div>
+                    <div style="font-size:0.88rem;font-weight:600;">contact@ants-ai.com</div>
+                </div>
+                <div style="width:1px;height:32px;background:var(--border);"></div>
+                <div style="text-align:center;">
+                    <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:4px;">Phone</div>
+                    <div style="font-size:0.88rem;font-weight:600;">+66 2-xxx-xxxx</div>
+                </div>
+                <div style="width:1px;height:32px;background:var(--border);"></div>
+                <div style="text-align:center;">
+                    <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:4px;">Web</div>
+                    <div style="font-size:0.88rem;font-weight:600;">autopilot.ants-ai.com</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top:32px;">
+            <div style="font-size:0.78rem;color:var(--text-muted);">ANTS AI Solution Hub</div>
+            <div style="font-size:0.68rem;color:var(--text-muted);margin-top:4px;">Autopilot v2 — AI Back Office Platform | April 2026</div>
+        </div>
+    </div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- ── Navigation Bar ── -->
+<div class="nav-bar">
+    <button class="nav-btn" id="prevBtn" disabled>&#8592;</button>
+    <div class="slide-counter"><span id="cur">1</span> / <span id="tot">15</span></div>
+    <div class="dots" id="dots"></div>
+    <button class="nav-btn" id="nextBtn">&#8594;</button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let current = 0;
+
+document.getElementById('tot').textContent = total;
+
+// Build dots
+const dotsEl = document.getElementById('dots');
+for (let i = 0; i < total; i++) {
+    const d = document.createElement('button');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.style.border = 'none';
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+}
+
+function goTo(n) {
+    if (n < 0 || n >= total || n === current) return;
+    slides[current].classList.remove('active');
+    current = n;
+    slides[current].classList.add('active');
+
+    document.getElementById('cur').textContent = current + 1;
+    document.getElementById('prevBtn').disabled = current === 0;
+    document.getElementById('nextBtn').disabled = current === total - 1;
+    document.getElementById('progressBar').style.width = ((current + 1) / total * 100) + '%';
+
+    dotsEl.querySelectorAll('.dot').forEach((d, i) => {
+        d.classList.toggle('active', i === current);
+    });
+}
+
+let lastNav = 0;
+function next() {
+    const now = Date.now();
+    if (now - lastNav < 350) return;
+    lastNav = now;
+    goTo(current + 1);
+}
+function prev() {
+    const now = Date.now();
+    if (now - lastNav < 350) return;
+    lastNav = now;
+    goTo(current - 1);
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+    if (e.key === 'Home') { e.preventDefault(); goTo(0); }
+    if (e.key === 'End') { e.preventDefault(); goTo(total - 1); }
+});
+
+// Touch support
+let tx = 0;
+document.addEventListener('touchstart', e => { tx = e.changedTouches[0].screenX; });
+document.addEventListener('touchend', e => {
+    const d = tx - e.changedTouches[0].screenX;
+    if (Math.abs(d) > 50) { d > 0 ? next() : prev(); }
+});
+
+// Button listeners
+document.getElementById('nextBtn').addEventListener('mousedown', e => {
+    e.preventDefault(); e.stopImmediatePropagation(); next();
+}, true);
+document.getElementById('prevBtn').addEventListener('mousedown', e => {
+    e.preventDefault(); e.stopImmediatePropagation(); prev();
+}, true);
+
+// Init progress bar
+document.getElementById('progressBar').style.width = (1 / total * 100) + '%';
+</script>
+</body>
+</html>

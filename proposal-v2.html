@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autopilot v2 — Universal AI Back Office Platform | Proposal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+Thai:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans Thai', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: { 50:'#eff6ff',100:'#dbeafe',200:'#bfdbfe',300:'#93c5fd',400:'#60a5fa',500:'#3b82f6',600:'#2563eb',700:'#1d4ed8',800:'#1e40af',900:'#1e3a8a' },
+                        accent: { 50:'#f5f3ff',100:'#ede9fe',200:'#ddd6fe',300:'#c4b5fd',400:'#a78bfa',500:'#8b5cf6',600:'#7c3aed',700:'#6d28d9',800:'#5b21b6',900:'#4c1d95' },
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-glass: rgba(255,255,255,0.7);
+            --border-glass: rgba(148,163,184,0.25);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --shadow-glass: 0 8px 32px rgba(0,0,0,0.08);
+            --gradient-start: #2563eb;
+            --gradient-end: #7c3aed;
+        }
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-glass: rgba(30,41,59,0.75);
+            --border-glass: rgba(148,163,184,0.15);
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #64748b;
+            --shadow-glass: 0 8px 32px rgba(0,0,0,0.3);
+            --gradient-start: #3b82f6;
+            --gradient-end: #8b5cf6;
+        }
+        * { box-sizing: border-box; }
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Inter', 'Noto Sans Thai', sans-serif;
+            transition: background 0.4s, color 0.4s;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .glass-card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
+            box-shadow: var(--shadow-glass);
+            border-radius: 1rem;
+            transition: transform 0.35s cubic-bezier(.4,0,.2,1), box-shadow 0.35s;
+        }
+        .glass-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(37,99,235,0.15);
+        }
+        .glass-nav {
+            background: var(--bg-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-glass);
+        }
+        #progress-bar {
+            position: fixed; top: 0; left: 0; height: 3px; z-index: 9999;
+            background: linear-gradient(90deg, #2563eb, #7c3aed, #ec4899);
+            transition: width 0.1s;
+        }
+        .section-fade {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(.4,0,.2,1), transform 0.8s cubic-bezier(.4,0,.2,1);
+        }
+        .section-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .nav-link { position: relative; }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
+            background: linear-gradient(90deg, #2563eb, #7c3aed);
+            transition: width 0.3s;
+        }
+        .nav-link.active::after { width: 100%; }
+        #particles-canvas { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+        .hero-content { position: relative; z-index: 1; }
+        .arch-box {
+            fill: var(--bg-glass);
+            stroke: var(--border-glass);
+            stroke-width: 1.5;
+            rx: 12;
+        }
+        [data-theme="dark"] .arch-box { fill: rgba(30,41,59,0.8); }
+        .arch-text { fill: var(--text-primary); font-family: 'Inter','Noto Sans Thai',sans-serif; font-size: 11px; font-weight: 600; }
+        .arch-sub { fill: var(--text-secondary); font-family: 'Inter','Noto Sans Thai',sans-serif; font-size: 9px; }
+        .arch-arrow { stroke: url(#archGrad); stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+        .timeline-dot {
+            width: 20px; height: 20px; border-radius: 50%;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            border: 3px solid var(--bg-primary);
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.3);
+        }
+        .border-left-card { border-left: 4px solid; }
+        .best-tag {
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: #fff; font-size: 0.7rem; padding: 2px 10px; border-radius: 999px;
+        }
+        html { scroll-behavior: smooth; }
+        .compare-table th { background: linear-gradient(135deg, #2563eb15, #7c3aed15); }
+        [data-theme="dark"] .compare-table th { background: linear-gradient(135deg, #2563eb30, #7c3aed30); }
+        .compare-table td, .compare-table th {
+            border: 1px solid var(--border-glass);
+            padding: 0.75rem 1rem;
+        }
+        .pricing-glow { box-shadow: 0 0 40px rgba(124,58,237,0.15); }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+        .float-anim { animation: float 6s ease-in-out infinite; }
+        .section-alt { background: var(--bg-secondary); }
+        .stat-num { font-variant-numeric: tabular-nums; }
+        .module-card { cursor: pointer; }
+        .module-card .module-arrow { transition: transform 0.3s; }
+        .module-card:hover .module-arrow { transform: translateX(4px); }
+        .flow-step {
+            position: relative;
+        }
+        .flow-step::after {
+            content: '';
+            position: absolute;
+            right: -1.5rem;
+            top: 50%;
+            width: 1.5rem;
+            height: 2px;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+        }
+        .flow-step:last-child::after { display: none; }
+        @media (max-width: 768px) {
+            .flow-step::after { display: none; }
+        }
+        .routing-line {
+            stroke: url(#routeGrad);
+            stroke-width: 2;
+            fill: none;
+            stroke-dasharray: 6 3;
+        }
+        .pricing-table-row:nth-child(even) { background: rgba(37,99,235,0.03); }
+        [data-theme="dark"] .pricing-table-row:nth-child(even) { background: rgba(37,99,235,0.06); }
+        .bundle-row { background: linear-gradient(135deg, rgba(37,99,235,0.08), rgba(124,58,237,0.08)) !important; }
+        [data-theme="dark"] .bundle-row { background: linear-gradient(135deg, rgba(37,99,235,0.15), rgba(124,58,237,0.15)) !important; }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+<!-- Progress Bar -->
+<div id="progress-bar" style="width:0%"></div>
+
+<!-- Navigation -->
+<nav class="glass-nav fixed top-0 left-0 right-0 z-50 py-3">
+    <div class="max-w-7xl mx-auto px-4 flex items-center justify-between">
+        <a href="#hero" class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-600 to-accent-600 flex items-center justify-center text-white font-bold text-sm">A</div>
+            <span class="font-bold text-sm hidden sm:inline" style="color:var(--text-primary)">Autopilot <span class="text-xs font-normal" style="color:var(--text-muted)">v2</span></span>
+        </a>
+        <div class="hidden lg:flex items-center gap-5 text-xs font-medium" style="color:var(--text-secondary)">
+            <a href="#pain-points" class="nav-link hover:text-primary-600 transition" data-section="pain-points">Pain Points</a>
+            <a href="#platform" class="nav-link hover:text-primary-600 transition" data-section="platform">Platform</a>
+            <a href="#modules" class="nav-link hover:text-primary-600 transition" data-section="modules">Modules</a>
+            <a href="#deep-dive" class="nav-link hover:text-primary-600 transition" data-section="deep-dive">Deep Dive</a>
+            <a href="#architecture" class="nav-link hover:text-primary-600 transition" data-section="architecture">Architecture</a>
+            <a href="#ai-tech" class="nav-link hover:text-primary-600 transition" data-section="ai-tech">AI Tech</a>
+            <a href="#deployment" class="nav-link hover:text-primary-600 transition" data-section="deployment">Deployment</a>
+            <a href="#pricing" class="nav-link hover:text-primary-600 transition" data-section="pricing">Pricing</a>
+            <a href="#timeline" class="nav-link hover:text-primary-600 transition" data-section="timeline">Timeline</a>
+            <a href="#why-us" class="nav-link hover:text-primary-600 transition" data-section="why-us">Why Us</a>
+            <a href="#next-steps" class="nav-link hover:text-primary-600 transition" data-section="next-steps">Next Steps</a>
+        </div>
+        <button id="theme-toggle" class="w-9 h-9 rounded-full flex items-center justify-center transition" style="background:var(--bg-glass);border:1px solid var(--border-glass);" aria-label="Toggle theme">
+            <svg id="sun-icon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            <svg id="moon-icon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+    </div>
+</nav>
+
+<!-- ===================== 01 HERO ===================== -->
+<section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden" style="background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);">
+    <canvas id="particles-canvas"></canvas>
+    <div class="hero-content text-center px-4 max-w-5xl mx-auto">
+        <div class="section-fade">
+            <p class="text-xs font-semibold tracking-widest uppercase mb-6" style="color:var(--text-muted)">Proposal Document &mdash; Prepared by Coding HUB</p>
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-black leading-tight mb-4">
+                <span class="gradient-text">Autopilot v2</span>
+            </h1>
+            <p class="text-lg sm:text-xl md:text-2xl font-semibold mb-3" style="color:var(--text-primary)">Universal AI Back Office Platform</p>
+            <p class="text-sm sm:text-base md:text-lg mb-10 max-w-3xl mx-auto" style="color:var(--text-secondary)">
+                AI Back Office Platform ที่ทำงานเอกสารแทนคนได้ทั้ง flow &mdash; 6 Modules ครอบคลุมทุกงาน Back Office
+            </p>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 max-w-3xl mx-auto">
+                <div class="glass-card p-5">
+                    <div class="text-3xl font-black gradient-text stat-num" data-count="6">0</div>
+                    <div class="text-xs mt-1" style="color:var(--text-muted)">Industry Modules</div>
+                </div>
+                <div class="glass-card p-5">
+                    <div class="text-3xl font-black gradient-text stat-num" data-count="500" data-suffix="M+">0</div>
+                    <div class="text-xs mt-1" style="color:var(--text-muted)">Back Office Workers</div>
+                </div>
+                <div class="glass-card p-5">
+                    <div class="text-3xl font-black gradient-text stat-num" data-count="65" data-suffix="%">0</div>
+                    <div class="text-xs mt-1" style="color:var(--text-muted)">เวลาที่ใช้กับเอกสาร</div>
+                </div>
+                <div class="glass-card p-5">
+                    <div class="text-2xl font-black gradient-text stat-num" data-prefix="$" data-count="400" data-suffix="B">0</div>
+                    <div class="text-xs mt-1" style="color:var(--text-muted)">Market Size</div>
+                </div>
+            </div>
+
+            <a href="#pain-points" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-primary-600 to-accent-600 text-white font-semibold text-sm shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+                Explore Platform
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+            </a>
+            <p class="mt-8 text-xs" style="color:var(--text-muted)">Prepared by <strong>Coding HUB</strong> &mdash; ANTS AI Solution Hub</p>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== 02 PAIN POINTS ===================== -->
+<section id="pain-points" class="min-h-screen py-24 section-alt">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="section-fade">
+            <p class="text-xs font-bold tracking-widest uppercase mb-3 gradient-text">01 &mdash; Pain Points</p>
+            <h2 class="text-3xl md:text-5xl font-black mb-4" style="color:var(--text-primary)">ปัญหาที่องค์กรเผชิญ</h2>
+            <p class="text-base mb-16 max-w-2xl" style="color:var(--text-secondary)">ปัญหาหลักของงาน Back Office ที่ส่งผลกระทบต่อประสิทธิภาพและต้นทุนขององค์กร</p>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="glass-card p-7">
+                    <div class="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center text-2xl mb-4">📑</div>
+                    <h3 class="font-bold text-base mb-2" style="color:var(--text-primary)">เอกสารหลากหลายรูปแบบ</h3>
+                    <p class="text-sm" style="color:var(--text-secondary)">ใบเสนอราคา, ใบเสร็จ, สลิปเงินเดือน, Invoice, PO &mdash; แต่ละประเภทมี Format ต่างกัน ทำให้ยากต่อการจัดการ</p>
+                </div>
+                <div class="glass-card p-7">
+                    <div class="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center text-2xl mb-4">⏰</div>
+                    <h3 class="font-bold text-base mb-2" style="color:var(--text-primary)">เสียเวลากรอกข้อมูลซ้ำๆ ทุกวัน</h3>
+                    <p class="text-sm" style="color:var(--text-secondary)">พนักงานต้องเปิดเอกสารทีละไฟล์ คัดลอกข้อมูลลง Excel หรือระบบ ERP ซ้ำแล้วซ้ำเล่าทุกวัน</p>
+                </div>
+                <div class="glass-card p-7">
+                    <div class="w-12 h-12 rounded-xl bg-yellow-100 flex items-center justify-center text-2xl mb-4">⚠️</div>
+                    <h3 class="font-bold text-base mb-2" style="color:var(--text-primary)">Error จาก Manual เทียบราคา/กรอกตัวเลข</h3>
+                    <p class="text-sm" style="color:var(--text-secondary)">การกรอกข้อมูลด้วยมือมีโอกาสผิดพลาดสูง ตัวเลขราคา จำนวน หน่วย ส่งผลต่อการตัดสินใจ</p>
+                </div>
+                <div class="glass-card p-7">
+                    <div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-2xl mb-4">📂</div>
+                    <h3 class="font-bold text-base mb-2" style="color:var(--text-primary)">เอกสารกระจัดกระจาย ไม่รู้ว่าเคสไหนขาดอะไร</h3>
+                    <p class="text-sm" style="color:var(--text-secondary)">ไม่มีระบบ Checklist กลาง ทำให้ตามเอกสารไม่ครบ เคสค้าง ลูกค้ารอนาน</p>
+                </div>
+                <div class="glass-card p-7">
+                    <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-2xl mb-4">💬</div>
+                    <h3 class="font-bold text-base mb-2" style="color:var(--text-primary)">ประสานงานหลายฝ่ายผ่าน LINE/Email/Folder</h3>
+                    <p class="text-sm" style="color:var(--text-secondary)">ข้อมูลกระจายใน LINE, Email, Google Drive, Folder ส่วนตัว ไม่มีศูนย์กลางให้ทุกฝ่ายเข้าถึงได้</p>
+                </div>
+                <div class="glass-card p-7">
+                    <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center text-2xl mb-4">🔍</div>
+                    <h3 class="font-bold text-base mb-2" style="color:var(--text-primary)">ไม่มี Audit Trail / ความโปร่งใส</h3>
+                    <p class="text-sm" style="color:var(--text-secondary)">ไม่มีระบบบันทึกว่าใครทำอะไร เมื่อไหร่ ยากต่อการตรวจสอบย้อนหลังและ Compliance</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== 03 PLATFORM OVERVIEW ===================== -->
+<section id="platform" class="min-h-screen py-24">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="section-fade">
+            <p class="text-xs font-bold tracking-widest uppercase mb-3 gradient-text">02 &mdash; Platform Overview</p>
+            <h2 class="text-3xl md:text-5xl font-black mb-4" style="color:var(--text-primary)">Document OS</h2>
+            <p class="text-base mb-16 max-w-2xl" style="color:var(--text-secondary)">ระบบปฏิบัติการเอกสาร &mdash; จัดการทุกเอกสาร ทุกขั้นตอน จากทุก Channel ด้วย AI</p>
+
+            <!-- Document OS Flow -->
+            <div class="glass-card p-8 md:p-12 mb-8">
+                <h3 class="font-bold text-lg mb-8 gradient-text text-center">Document Processing Pipeline</h3>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8 items-center">
+                    <div class="flow-step text-center">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-2xl mx-auto mb-3">📥</div>
+                        <h4 class="font-bold text-sm mb-1" style="color:var(--text-primary)">Intake</h4>
+                        <p class="text-xs" style="color:var(--text-secondary)">Email, LINE, Upload, Folder Sync</p>
+                    </div>
+                    <div class="flow-step text-center">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center text-white text-2xl mx-auto mb-3">🔍</div>
+                        <h4 class="font-bold text-sm mb-1" style="color:var(--text-primary)">Extract</h4>
+                        <p class="text-xs" style="color:var(--text-secondary)">OCR + AI Classification, Structured Data</p>
+                    </div>
+                    <div class="flow-step text-center">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center text-white text-2xl mx-auto mb-3">⚙️</div>
+                        <h4 class="font-bold text-sm mb-1" style="color:var(--text-primary)">Process</h4>
+                        <p class="text-xs" style="color:var(--text-secondary)">Module Engine: Compare, Match, Generate</p>
+                    </div>
+                    <div class="flow-step text-center">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-pink-500 to-pink-600 flex items-center justify-center text-white text-2xl mx-auto mb-3">📤</div>
+                        <h4 class="font-bold text-sm mb-1" style="color:var(--text-primary)">Output</h4>
+                        <p class="text-xs" style="color:var(--text-secondary)">Reports, Documents, Notifications</p>
+                    </div>
+                </div>
+                <!-- Case Inventory bar -->
+                <div class="mt-8 p-4 rounded-xl text-center" style="background:linear-gradient(135deg, rgba(37,99,235,0.08), rgba(124,58,237,0.08)); border:1px solid var(--border-glass);">
+                    <div class="flex items-center justify-center gap-2">
+                        <span class="text-lg">🗄️</span>
+                        <span class="font-bold text-sm gradient-text">Case Inventory</span>
+                    </div>
+                    <p class="text-xs mt-1" style="color:var(--text-secondary)">ระบบจัดเก็บและติดตามเคส &mdash; รู้สถานะทุกเอกสาร ทุกเคส ทุกขั้นตอน แบบ Real-time</p>
+                </div>
+            </div>
+
+            <!-- Value Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="glass-card p-5 text-center">
+                    <div class="text-3xl font-black gradient-text stat-num" data-count="7.7" data-suffix="x">0</div>
+                    <div class="text-xs font-medium mt-1" style="color:var(--text-muted)">ลดเวลาทำงาน</div>
+                </div>
+                <div class="glass-card p-5 text-center">
+                    <div class="text-3xl font-black gradient-text stat-num" data-count="95" data-suffix="%">0</div>
+                    <div class="text-xs font-medium mt-1" style="color:var(--text-muted)">ลด Human Error</div>
+                </div>
+                <div class="glass-card p-5 text-center">
+                    <div class="text-3xl font-black gradient-text stat-num" data-count="98.7" data-suffix="%">0</div>
+                    <div class="text-xs font-medium mt-1" style="color:var(--text-muted)">OCR Accuracy</div>
+                </div>
+                <div class="glass-card p-5 text-center">
+                    <div class="text-2xl mb-1">🛡️</div>
+                    <div class="text-xs font-medium" style="color:var(--text-muted)">Full Audit Trail</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== 04 MODULE CARDS ===================== -->
+<section id="modules" class="min-h-screen py-24 section-alt">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="section-fade">
+            <p class="text-xs font-bold tracking-widest uppercase mb-3 gradient-text">03 &mdash; Modules</p>
+            <h2 class="text-3xl md:text-5xl font-black mb-4" style="color:var(--text-primary)">6 Industry Modules</h2>
+            <p class="text-base mb-16 max-w-2xl" style="color:var(--text-secondary)">แต่ละ Module ออกแบบมาเฉพาะสำหรับงาน Back Office แต่ละประเภท เลือกใช้ได้ตามความต้องการ</p>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Module 1: Quotation Autopilot -->
+                <div class="glass-card p-7 module-card">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-2xl">📊</div>
+                        <div>
+                            <h3 class="font-bold text-base" style="color:var(--text-primary)">Quotation Autopilot</h3>
+                            <p class="text-xs" style="color:var(--text-muted)">เปรียบเทียบใบเสนอราคาอัตโนมัติ</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm mb-4" style="color:var(--text-secondary)">
+                        <li class="flex items-start gap-2"><span class="text-blue-500">&#8226;</span> OCR ใบเสนอราคาทุกรูปแบบ</li>
+                        <li class="flex items-start gap-2"><span class="text-blue-500">&#8226;</span> เปรียบเทียบราคา Side-by-side</li>
+                        <li class="flex items-start gap-2"><span class="text-blue-500">&#8226;</span> AI แนะนำ Best Price + Vendor Score</li>
+                        <li class="flex items-start gap-2"><span class="text-blue-500">&#8226;</span> Export Comparison Report (PDF/Excel)</li>
+                    </ul>
+                    <div class="flex items-center gap-1 text-xs font-semibold text-primary-600 module-arrow">
+                        ดู Module <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                </div>
+
+                <!-- Module 2: Expense & Receipt -->
+                <div class="glass-card p-7 module-card">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center text-2xl">🧾</div>
+                        <div>
+                            <h3 class="font-bold text-base" style="color:var(--text-primary)">Expense & Receipt</h3>
+                            <p class="text-xs" style="color:var(--text-muted)">OCR ใบเสร็จ, auto-fill เบิกจ่าย</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm mb-4" style="color:var(--text-secondary)">
+                        <li class="flex items-start gap-2"><span class="text-orange-500">&#8226;</span> ถ่ายรูปใบเสร็จ &rarr; Auto Extract</li>
+                        <li class="flex items-start gap-2"><span class="text-orange-500">&#8226;</span> จัดหมวดค่าใช้จ่าย (เดินทาง/น้ำมัน/จิปาถะ)</li>
+                        <li class="flex items-start gap-2"><span class="text-orange-500">&#8226;</span> Auto-fill ฟอร์มเบิกจ่าย</li>
+                        <li class="flex items-start gap-2"><span class="text-orange-500">&#8226;</span> Approval Workflow + Audit Trail</li>
+                    </ul>
+                    <div class="flex items-center gap-1 text-xs font-semibold text-primary-600 module-arrow">
+                        ดู Module <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                </div>
+
+                <!-- Module 3: Logistics FX -->
+                <div class="glass-card p-7 module-card">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-cyan-100 flex items-center justify-center text-2xl">🚢</div>
+                        <div>
+                            <h3 class="font-bold text-base" style="color:var(--text-primary)">Logistics FX</h3>
+                            <p class="text-xs" style="color:var(--text-muted)">อัตราแลกเปลี่ยน & Freight Invoice</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm mb-4" style="color:var(--text-secondary)">
+                        <li class="flex items-start gap-2"><span class="text-cyan-500">&#8226;</span> เปรียบเทียบอัตราแลกเปลี่ยน Real-time</li>
+                        <li class="flex items-start gap-2"><span class="text-cyan-500">&#8226;</span> Freight Invoice OCR + Validation</li>
+                        <li class="flex items-start gap-2"><span class="text-cyan-500">&#8226;</span> คำนวณ Total Landed Cost</li>
+                        <li class="flex items-start gap-2"><span class="text-cyan-500">&#8226;</span> FX Rate Alert + History</li>
+                    </ul>
+                    <div class="flex items-center gap-1 text-xs font-semibold text-primary-600 module-arrow">
+                        ดู Module <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                </div>
+
+                <!-- Module 4: Sales Doc Generator -->
+                <div class="glass-card p-7 module-card">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center text-2xl">💰</div>
+                        <div>
+                            <h3 class="font-bold text-base" style="color:var(--text-primary)">Sales Doc Generator</h3>
+                            <p class="text-xs" style="color:var(--text-muted)">ออกใบเสนอราคาอัตโนมัติสำหรับ Sales</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm mb-4" style="color:var(--text-secondary)">
+                        <li class="flex items-start gap-2"><span class="text-green-500">&#8226;</span> สร้างใบเสนอราคาจาก Template</li>
+                        <li class="flex items-start gap-2"><span class="text-green-500">&#8226;</span> Auto-fill ข้อมูลลูกค้า + สินค้า</li>
+                        <li class="flex items-start gap-2"><span class="text-green-500">&#8226;</span> คำนวณ Margin, Discount อัตโนมัติ</li>
+                        <li class="flex items-start gap-2"><span class="text-green-500">&#8226;</span> ส่งผ่าน LINE/Email + Track Status</li>
+                    </ul>
+                    <div class="flex items-center gap-1 text-xs font-semibold text-primary-600 module-arrow">
+                        ดู Module <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                </div>
+
+                <!-- Module 5: Procurement PO/PR -->
+                <div class="glass-card p-7 module-card">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center text-2xl">📋</div>
+                        <div>
+                            <h3 class="font-bold text-base" style="color:var(--text-primary)">Procurement PO/PR</h3>
+                            <p class="text-xs" style="color:var(--text-muted)">สร้าง PO/PR, 3-way match</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm mb-4" style="color:var(--text-secondary)">
+                        <li class="flex items-start gap-2"><span class="text-indigo-500">&#8226;</span> สร้าง Purchase Request อัตโนมัติ</li>
+                        <li class="flex items-start gap-2"><span class="text-indigo-500">&#8226;</span> 3-Way Match: PO vs Invoice vs GR</li>
+                        <li class="flex items-start gap-2"><span class="text-indigo-500">&#8226;</span> Approval Workflow หลายระดับ</li>
+                        <li class="flex items-start gap-2"><span class="text-indigo-500">&#8226;</span> Vendor Management + Rating</li>
+                    </ul>
+                    <div class="flex items-center gap-1 text-xs font-semibold text-primary-600 module-arrow">
+                        ดู Module <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                </div>
+
+                <!-- Module 6: Finance Document Hub -->
+                <div class="glass-card p-7 module-card relative overflow-hidden pricing-glow">
+                    <div class="absolute top-3 right-3"><span class="best-tag">SHOWCASE</span></div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center text-2xl">🏦</div>
+                        <div>
+                            <h3 class="font-bold text-base" style="color:var(--text-primary)">Finance Document Hub</h3>
+                            <p class="text-xs" style="color:var(--text-muted)">Case inventory, checklist, multi-party routing</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm mb-4" style="color:var(--text-secondary)">
+                        <li class="flex items-start gap-2"><span class="text-amber-500">&#8226;</span> Case Inventory + Document Checklist</li>
+                        <li class="flex items-start gap-2"><span class="text-amber-500">&#8226;</span> Multi-party Routing (Dealer/Bank/Insurance)</li>
+                        <li class="flex items-start gap-2"><span class="text-amber-500">&#8226;</span> SLA Tracking + Auto Escalation</li>
+                        <li class="flex items-start gap-2"><span class="text-amber-500">&#8226;</span> เอกสารกู้/ไฟแนนซ์ครบจบในที่เดียว</li>
+                    </ul>
+                    <div class="flex items-center gap-1 text-xs font-semibold text-primary-600 module-arrow">
+                        ดู Module <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== 05 MODULE DEEP DIVE: FINANCE DOC HUB ===================== -->
+<section id="deep-dive" class="min-h-screen py-24">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="section-fade">
+            <p class="text-xs font-bold tracking-widest uppercase mb-3 gradient-text">04 &mdash; Deep Dive</p>
+            <h2 class="text-3xl md:text-5xl font-black mb-4" style="color:var(--text-primary)">Finance Document Hub</h2>
+            <p class="text-base mb-16 max-w-2xl" style="color:var(--text-secondary)">Showcase Module &mdash; ระบบจัดการเอกสารกู้/ไฟแนนซ์แบบครบวงจร</p>
+
+            <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                <!-- Case Inventory / Folder Tree -->
+                <div class="glass-card p-7">
+                    <h3 class="font-bold text-base mb-5 gradient-text">Case Inventory</h3>
+                    <div class="space-y-3 text-sm" style="color:var(--text-secondary)">
+                        <div class="p-3 rounded-lg" style="background:var(--bg-secondary)">
+                            <div class="flex items-center gap-2 font-bold" style="color:var(--text-primary)">📁 Case #2026-0401 &mdash; คุณสมชาย</div>
+                            <div class="ml-6 mt-2 space-y-1.5">
+                                <div class="flex items-center gap-2"><span class="text-green-500">&#10003;</span> สำเนาบัตรประชาชน</div>
+                                <div class="flex items-center gap-2"><span class="text-green-500">&#10003;</span> สำเนาทะเบียนบ้าน</div>
+                                <div class="flex items-center gap-2"><span class="text-green-500">&#10003;</span> สลิปเงินเดือน (3 เดือน)</div>
+                                <div class="flex items-center gap-2"><span class="text-amber-500">&#9202;</span> Statement ธนาคาร (รอลูกค้า)</div>
+                                <div class="flex items-center gap-2"><span class="text-red-500">&#10007;</span> หนังสือรับรองเงินเดือน</div>
+                                <div class="flex items-center gap-2"><span class="text-red-500">&#10007;</span> สัญญาจะซื้อจะขาย</div>
+                            </div>
+                            <div class="mt-3 flex items-center gap-2">
+                                <div class="h-2 flex-1 rounded-full overflow-hidden" style="background:var(--border-glass)">
+                                    <div class="h-full rounded-full" style="width:50%;background:linear-gradient(90deg,#2563eb,#7c3aed)"></div>
+                                </div>
+                                <span class="text-xs font-bold gradient-text">3/6</span>
+                            </div>
+                        </div>
+                        <div class="p-3 rounded-lg" style="background:var(--bg-secondary)">
+                            <div class="flex items-center gap-2 font-bold" style="color:var(--text-primary)">📁 Case #2026-0402 &mdash; คุณสมหญิง</div>
+                            <div class="mt-2 flex items-center gap-2">
+                                <div class="h-2 flex-1 rounded-full overflow-hidden" style="background:var(--border-glass)">
+                                    <div class="h-full rounded-full" style="width:83%;background:linear-gradient(90deg,#22c55e,#16a34a)"></div>
+                                </div>
+                                <span class="text-xs font-bold text-green-600">5/6</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Multi-party Routing -->
+                <div class="glass-card p-7">
+                    <h3 class="font-bold text-base mb-5 gradient-text">Multi-party Routing</h3>
+                    <svg viewBox="0 0 400 260" class="w-full" style="max-height:240px">
+                        <defs>
+                            <linearGradient id="routeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#2563eb"/>
+                                <stop offset="100%" style="stop-color:#7c3aed"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- Nodes -->
+                        <rect x="150" y="10" width="100" height="44" class="arch-box" rx="12"/>
+                        <text x="200" y="32" text-anchor="middle" class="arch-text">ลูกค้า</text>
+                        <text x="200" y="44" text-anchor="middle" class="arch-sub">Customer</text>
+
+                        <rect x="10" y="100" width="100" height="44" class="arch-box" rx="12"/>
+                        <text x="60" y="122" text-anchor="middle" class="arch-text">Dealer</text>
+                        <text x="60" y="134" text-anchor="middle" class="arch-sub">ตัวแทน</text>
+
+                        <rect x="290" y="100" width="100" height="44" class="arch-box" rx="12"/>
+                        <text x="340" y="122" text-anchor="middle" class="arch-text">ธนาคาร</text>
+                        <text x="340" y="134" text-anchor="middle" class="arch-sub">Bank</text>
+
+                        <rect x="10" y="200" width="100" height="44" class="arch-box" rx="12"/>
+                        <text x="60" y="222" text-anchor="middle" class="arch-text">ประกัน</text>
+                        <text x="60" y="234" text-anchor="middle" class="arch-sub">Insurance</text>
+
+                        <rect x="150" y="200" width="100" height="44" class="arch-box" rx="12" style="fill:linear-gradient(135deg,#2563eb15,#7c3aed15)"/>
+                        <text x="200" y="218" text-anchor="middle" class="arch-text" style="fill:var(--gradient-start)">Autopilot</text>
+                        <text x="200" y="232" text-anchor="middle" class="arch-sub">Hub</text>
+
+                        <!-- Arrows -->
+                        <line x1="175" y1="54" x2="85" y2="100" class="routing-line"/>
+                        <line x1="225" y1="54" x2="315" y2="100" class="routing-line"/>
+                        <line x1="60" y1="144" x2="60" y2="200" class="routing-line"/>
+                        <line x1="110" y1="122" x2="290" y2="122" class="routing-line"/>
+                        <line x1="110" y1="222" x2="150" y2="222" class="routing-line"/>
+                        <line x1="250" y1="222" x2="315" y2="144" class="routing-line"/>
+                        <line x1="200" y1="54" x2="200" y2="200" class="routing-line"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- SLA Tracking -->
+            <div class="glass-card p-7">
+                <h3 class="font-bold text-base mb-5 gradient-text">SLA Tracking Dashboard</h3>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="p-4 rounded-xl text-center" style="background:var(--bg-secondary)">
+                        <div class="text-2xl font-black text-green-600 stat-num" data-count="42">0</div>
+                        <div class="text-xs mt-1" style="color:var(--text-muted)">เคสปกติ (In SLA)</div>
+                    </div>
+                    <div class="p-4 rounded-xl text-center" style="background:var(--bg-secondary)">
+                        <div class="text-2xl font-black text-amber-600 stat-num" data-count="8">0</div>
+                        <div class="text-xs mt-1" style="color:var(--text-muted)">ใกล้ครบกำหนด</div>
+                    </div>
+                    <div class="p-4 rounded-xl text-center" style="background:var(--bg-secondary)">
+                        <div class="text-2xl font-black text-red-600 stat-num" data-count="3">0</div>
+                        <div class="text-xs mt-1" style="color:var(--text-muted)">เกิน SLA</div>
+                    </div>
+                    <div class="p-4 rounded-xl text-center" style="background:var(--bg-secondary)">
+                        <div class="text-2xl font-black gradient-text stat-num" data-count="89" data-suffix="%">0</div>
+                        <div class="text-xs mt-1" style="color:var(--text-muted)">SLA Achievement</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== 06 ARCHITECTURE ===================== -->
+<section id="architecture" class="py-24 section-alt">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="section-fade">
+            <p class="text-xs font-bold tracking-widest uppercase mb-3 gradient-text">05 &mdash; Architecture</p>
+            <h2 class="text-3xl md:text-5xl font-black mb-4" style="color:var(--text-primary)">System Architecture</h2>
+            <p class="text-base mb-16 max-w-2xl" style="color:var(--text-secondary)">สถาปัตยกรรมระบบแบบ Modular ที่รองรับการขยายได้อย่างยืดหยุ่น</p>
+
+            <div class="glass-card p-6 md:p-10 overflow-x-auto">
+                <svg viewBox="0 0 800 500" class="w-full" style="min-width:600px;max-height:500px;">
+                    <defs>
+                        <linearGradient id="archGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#2563eb"/>
+                            <stop offset="100%" style="stop-color:#7c3aed"/>
+                        </linearGradient>
+                        <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+                            <polygon points="0 0, 8 3, 0 6" fill="#7c3aed"/>
+                        </marker>
+                    </defs>
+
+                    <!-- Layer 1: Channel Layer -->
+                    <text x="400" y="25" text-anchor="middle" class="arch-text" style="font-size:13px;font-weight:700">Channel Layer</text>
+                    <rect x="30" y="35" width="90" height="36" class="arch-box"/>
+                    <text x="75" y="55" text-anchor="middle" class="arch-text">Email</text>
+                    <rect x="140" y="35" width="90" height="36" class="arch-box"/>
+                    <text x="185" y="55" text-anchor="middle" class="arch-text">LINE</text>
+                    <rect x="250" y="35" width="90" height="36" class="arch-box"/>
+                    <text x="295" y="55" text-anchor="middle" class="arch-text">Folder</text>
+                    <rect x="360" y="35" width="90" height="36" class="arch-box"/>
+                    <text x="405" y="55" text-anchor="middle" class="arch-text">Upload</text>
+                    <rect x="470" y="35" width="90" height="36" class="arch-box"/>
+                    <text x="515" y="55" text-anchor="middle" class="arch-text">Drive</text>
+                    <rect x="580" y="35" width="90" height="36" class="arch-box"/>
+                    <text x="625" y="55" text-anchor="middle" class="arch-text">Teams</text>
+                    <rect x="690" y="35" width="90" height="36" class="arch-box"/>
+                    <text x="735" y="55" text-anchor="middle" class="arch-text">S3</text>
+
+                    <!-- Arrow down -->
+                    <line x1="400" y1="71" x2="400" y2="105" class="arch-arrow"/>
+
+                    <!-- Layer 2: API Gateway -->
+                    <rect x="250" y="105" width="300" height="40" class="arch-box" style="stroke:url(#archGrad);stroke-width:2"/>
+                    <text x="400" y="129" text-anchor="middle" class="arch-text" style="font-size:13px">API Gateway + Auth</text>
+
+                    <!-- Arrow down -->
+                    <line x1="400" y1="145" x2="400" y2="180" class="arch-arrow"/>
+
+                    <!-- Layer 3: AI Engine -->
+                    <rect x="200" y="180" width="400" height="50" class="arch-box" style="stroke:url(#archGrad);stroke-width:2"/>
+                    <text x="400" y="202" text-anchor="middle" class="arch-text" style="font-size:13px">AI Engine</text>
+                    <text x="400" y="218" text-anchor="middle" class="arch-sub" style="font-size:10px">OCR + LLM + Thai NLP + Document Classification</text>
+
+                    <!-- Arrow down -->
+                    <line x1="400" y1="230" x2="400" y2="260" class="arch-arrow"/>
+
+                    <!-- Layer 4: Module Engine (6 modules) -->
+                    <text x="400" y="275" text-anchor="middle" class="arch-text" style="font-size:13px;font-weight:700">Module Engine</text>
+                    <rect x="30" y="285" width="115" height="44" class="arch-box"/>
+                    <text x="87" y="305" text-anchor="middle" class="arch-text" style="font-size:9px">Quotation</text>
+                    <text x="87" y="319" text-anchor="middle" class="arch-sub">Autopilot</text>
+
+                    <rect x="155" y="285" width="115" height="44" class="arch-box"/>
+                    <text x="212" y="305" text-anchor="middle" class="arch-text" style="font-size:9px">Expense</text>
+                    <text x="212" y="319" text-anchor="middle" class="arch-sub">& Receipt</text>
+
+                    <rect x="280" y="285" width="115" height="44" class="arch-box"/>
+                    <text x="337" y="305" text-anchor="middle" class="arch-text" style="font-size:9px">Logistics</text>
+                    <text x="337" y="319" text-anchor="middle" class="arch-sub">FX</text>
+
+                    <rect x="405" y="285" width="115" height="44" class="arch-box"/>
+                    <text x="462" y="305" text-anchor="middle" class="arch-text" style="font-size:9px">Sales Doc</text>
+                    <text x="462" y="319" text-anchor="middle" class="arch-sub">Generator</text>
+
+                    <rect x="530" y="285" width="115" height="44" class="arch-box"/>
+                    <text x="587" y="305" text-anchor="middle" class="arch-text" style="font-size:9px">Procurement</text>
+                    <text x="587" y="319" text-anchor="middle" class="arch-sub">PO/PR</text>
+
+                    <rect x="655" y="285" width="115" height="44" class="arch-box"/>
+                    <text x="712" y="305" text-anchor="middle" class="arch-text" style="font-size:9px">Finance</text>
+                    <text x="712" y="319" text-anchor="middle" class="arch-sub">Doc Hub</text>
+
+                    <!-- Arrow down -->
+                    <line x1="400" y1="329" x2="400" y2="360" class="arch-arrow"/>
+
+                    <!-- Layer 5: Case Inventory -->
+                    <rect x="200" y="360" width="400" height="44" class="arch-box" style="stroke:url(#archGrad);stroke-width:2"/>
+                    <text x="400" y="381" text-anchor="middle" class="arch-text" style="font-size:13px">Case Inventory</text>
+                    <text x="400" y="396" text-anchor="middle" class="arch-sub" style="font-size:10px">Status Tracking + Checklist + SLA + Audit Trail</text>
+
+                    <!-- Arrow down -->
+                    <line x1="400" y1="404" x2="400" y2="435" class="arch-arrow"/>
+
+                    <!-- Layer 6: Output -->
+                    <text x="400" y="450" text-anchor="middle" class="arch-text" style="font-size:13px;font-weight:700">Output Layer</text>
+                    <rect x="100" y="458" width="120" height="36" class="arch-box"/>
+                    <text x="160" y="480" text-anchor="middle" class="arch-text" style="font-size:10px">Reports/PDF</text>
+
+                    <rect x="240" y="458" width="120" height="36" class="arch-box"/>
+                    <text x="300" y="480" text-anchor="middle" class="arch-text" style="font-size:10px">Documents</text>
+
+                    <rect x="380" y="458" width="120" height="36" class="arch-box"/>
+                    <text x="440" y="480" text-anchor="middle" class="arch-text" style="font-size:10px">Notifications</text>
+
+                    <rect x="520" y="458" width="120" height="36" class="arch-box"/>
+                    <text x="580" y="480" text-anchor="middle" class="arch-text" style="font-size:10px">ERP/API</text>
+                </svg>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== 07 AI TECHNOLOGY ===================== -->
+<section id="ai-tech" class="py-24">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="section-fade">
+            <p class="text-xs font-bold tracking-widest uppercase mb-3 gradient-text">06 &mdash; AI Technology</p>
+            <h2 class="text-3xl md:text-5xl font-black mb-4" style="color:var(--text-primary)">เทคโนโลยี AI</h2>
+            <p class="text-base mb-16 max-w-2xl" style="color:var(--text-secondary)">AI Stack ที่ออกแบบมาเพื่อเอกสารไทยโดยเฉพาะ</p>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass-card p-7 text-center">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-2xl mx-auto mb-4">🔍</div>
+                    <h3 class="font-bold text-base mb-2" style="color:var(--text-primary)">OCR Engine</h3>
+                    <p class="text-sm mb-3" style="color:var(--text-secondary)">Document AI + Custom OCR Pipeline</p>
+                    <div class="space-y-1 text-xs" style="color:var(--text-muted)">
+                        <div>Google Document AI</div>
+                        <div>Tesseract + Thai Model</div>
+                        <div>Table Detection</div>
+                        <div>Handwriting Recognition</div>
+                    </div>
+                </div>
+                <div class="glass-card p-7 text-center">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center text-white text-2xl mx-auto mb-4">🧠</div>
+                    <h3 class="font-bold text-base mb-2" style="color:var(--text-primary)">LLM Integration</h3>
+                    <p class="text-sm mb-3" style="color:var(--text-secondary)">Multi-model Support</p>
+                    <div class="space-y-1 text-xs" style="color:var(--text-muted)">
+                        <div>Claude (Anthropic)</div>
+                        <div>GPT-4o (OpenAI)</div>
+                        <div>Local LLM (Llama/Qwen)</div>
+                        <div>Model Router</div>
+                    </div>
+                </div>
+                <div class="glass-card p-7 text-center">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center text-white text-2xl mx-auto mb-4">🇹🇭</div>
+                    <h3 class="font-bold text-base mb-2" style="color:var(--text-primary)">Thai NLP</h3>
+                    <p class="text-sm mb-3" style="color:var(--text-secondary)">ประมวลผลภาษาไทยเฉพาะทาง</p>
+                    <div class="space-y-1 text-xs" style="color:var(--text-muted)">
+                        <div>Thai Word Segmentation</div>
+                        <div>Named Entity Recognition</div>
+                        <div>Address Parsing</div>
+                        <div>Currency/Number Extraction</div>
+                    </div>
+                </div>
+                <div class="glass-card p-7 text-center">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-500 to-pink-600 flex items-center justify-center text-white text-2xl mx-auto mb-4">📄</div>
+                    <h3 class="font-bold text-base mb-2" style="color:var(--text-primary)">Doc Classification</h3>
+                    <p class="text-sm mb-3" style="color:var(--text-secondary)">จำแนกประเภทเอกสารอัตโนมัติ</p>
+                    <div class="space-y-1 text-xs" style="color:var(--text-muted)">
+                        <div>30+ Document Types</div>
+                        <div>Auto-routing to Module</div>
+                        <div>Confidence Scoring</div>
+                        <div>Human-in-the-loop</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== 08 DEPLOYMENT ===================== -->
+<section id="deployment" class="py-24 section-alt">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="section-fade">
+            <p class="text-xs font-bold tracking-widest uppercase mb-3 gradient-text">07 &mdash; Deployment</p>
+            <h2 class="text-3xl md:text-5xl font-black mb-4" style="color:var(--text-primary)">Deployment Options</h2>
+            <p class="text-base mb-16 max-w-2xl" style="color:var(--text-secondary)">เลือกรูปแบบการ Deploy ที่เหมาะกับนโยบายและความต้องการขององค์กร</p>
+
+            <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                <!-- Option A -->
+                <div class="glass-card p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-2xl">☁️</div>
+                        <div>
+                            <h3 class="font-bold text-lg" style="color:var(--text-primary)">Option A</h3>
+                            <p class="text-xs font-medium" style="color:var(--text-muted)">100% Cloud + LLM</p>
+                        </div>
+                    </div>
+                    <div class="space-y-2 text-sm mb-6" style="color:var(--text-secondary)">
+                        <p><strong>Cloud:</strong> AWS / GCP / Azure</p>
+                        <p><strong>AI:</strong> OpenAI GPT-4o / Claude Sonnet / LLM APIs</p>
+                    </div>
+                    <h4 class="font-bold text-xs uppercase tracking-wider mb-3 text-green-600">Advantages</h4>
+                    <ul class="space-y-2 text-sm mb-6" style="color:var(--text-secondary)">
+                        <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">&#10003;</span> เริ่มใช้งานเร็ว (2-4 สัปดาห์)</li>
+                        <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">&#10003;</span> ไม่ต้องลงทุน Hardware</li>
+                        <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">&#10003;</span> Scale ได้ตามปริมาณงาน</li>
+                        <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">&#10003;</span> อัพเดท LLM ได้ตลอด</li>
+                        <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">&#10003;</span> ค่าใช้จ่ายตามการใช้งาน (Pay-per-use)</li>
+                    </ul>
+                    <h4 class="font-bold text-xs uppercase tracking-wider mb-3 text-amber-600">Considerations</h4>
+                    <ul class="space-y-2 text-sm mb-6" style="color:var(--text-secondary)">
+                        <li class="flex items-start gap-2"><span class="text-amber-500 mt-0.5">!</span> ข้อมูลผ่าน Cloud / API ภายนอก</li>
+                        <li class="flex items-start gap-2"><span class="text-amber-500 mt-0.5">!</span> ค่าใช้จ่ายสะสมตามปริมาณ</li>
+                        <li class="flex items-start gap-2"><span class="text-amber-500 mt-0.5">!</span> ขึ้นกับ Internet connection</li>
+                    </ul>
+                    <div class="p-4 rounded-xl" style="background:var(--bg-secondary)">
+                        <p class="text-xs font-semibold" style="color:var(--text-muted)">Best for</p>
+                        <p class="text-sm font-medium" style="color:var(--text-primary)">องค์กรที่ต้องการเริ่มเร็ว, ปริมาณเอกสารไม่แน่นอน</p>
+                    </div>
+                </div>
+
+                <!-- Option B -->
+                <div class="glass-card p-8 relative overflow-hidden pricing-glow">
+                    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-500 to-accent-600"></div>
+                    <div class="absolute top-4 right-4"><span class="best-tag">RECOMMENDED</span></div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-12 h-12 rounded-xl bg-accent-100 flex items-center justify-center text-2xl">🖥️</div>
+                        <div>
+                            <h3 class="font-bold text-lg" style="color:var(--text-primary)">Option B</h3>
+                            <p class="text-xs font-medium" style="color:var(--text-muted)">Hybrid + GIGABYTE AI TOP ATOM</p>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-xl mb-6" style="background:linear-gradient(135deg,#7c3aed08,#2563eb08);border:1px solid var(--border-glass);">
+                        <h4 class="font-bold text-sm mb-2 gradient-text">GIGABYTE AI TOP ATOM</h4>
+                        <p class="text-xs mb-3" style="color:var(--text-muted)">Personal AI Supercomputer</p>
+                        <div class="grid grid-cols-2 gap-2 text-xs" style="color:var(--text-secondary)">
+                            <div>NVIDIA Grace Blackwell Superchip</div>
+                            <div>128 GB LPDDR5x Unified Memory</div>
+                            <div>1 PetaFLOP AI Performance</div>
+                            <div>LLM สูงสุด 200B Parameters</div>
+                            <div>150 x 150 x 50.5mm, 1.5kg</div>
+                            <div>ใช้ไฟเพียง 240W</div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2 text-sm mb-6" style="color:var(--text-secondary)">
+                        <p><strong>On-Premise AI:</strong> GIGABYTE AI TOP ATOM</p>
+                        <p><strong>Cloud:</strong> Hybrid with AWS/GCP for scaling</p>
+                    </div>
+
+                    <h4 class="font-bold text-xs uppercase tracking-wider mb-3 text-green-600">Advantages</h4>
+                    <ul class="space-y-2 text-sm mb-6" style="color:var(--text-secondary)">
+                        <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">&#10003;</span> ข้อมูลอยู่ในองค์กร 100% (Data Sovereignty)</li>
+                        <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">&#10003;</span> ไม่มีค่า API LLM ต่อเนื่อง</li>
+                        <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">&#10003;</span> Fine-tune AI Model เฉพาะองค์กร</li>
+                        <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">&#10003;</span> ทำงานได้แม้ไม่มี Internet</li>
+                        <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">&#10003;</span> ประมวลผลเร็ว ไม่ต้องรอ API</li>
+                    </ul>
+                    <h4 class="font-bold text-xs uppercase tracking-wider mb-3 text-amber-600">Considerations</h4>
+                    <ul class="space-y-2 text-sm mb-6" style="color:var(--text-secondary)">
+                        <li class="flex items-start gap-2"><span class="text-amber-500 mt-0.5">!</span> ลงทุน Hardware เริ่มต้น</li>
+                        <li class="flex items-start gap-2"><span class="text-amber-500 mt-0.5">!</span> ต้องมี IT ดูแลเบื้องต้น</li>
+                        <li class="flex items-start gap-2"><span class="text-amber-500 mt-0.5">!</span> ใช้เวลาติดตั้ง 4-8 สัปดาห์</li>
+                    </ul>
+                    <div class="p-4 rounded-xl" style="background:var(--bg-secondary)">
+                        <p class="text-xs font-semibold" style="color:var(--text-muted)">Best for</p>
+                        <p class="text-sm font-medium" style="color:var(--text-primary)">องค์กรที่มี Data Policy เข้มงวด, ปริมาณเอกสารสูง, ต้องการ Custom AI Model</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== 09 PRICING ===================== -->
+<section id="pricing" class="py-24">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="section-fade">
+            <p class="text-xs font-bold tracking-widest uppercase mb-3 gradient-text">08 &mdash; Pricing</p>
+            <h2 class="text-3xl md:text-5xl font-black mb-4" style="color:var(--text-primary)">Per-Module Pricing</h2>
+            <p class="text-base mb-16 max-w-2xl" style="color:var(--text-secondary)">เลือกใช้เฉพาะ Module ที่ต้องการ หรือรวม Bundle เพื่อราคาพิเศษ</p>
+
+            <!-- Pricing Table -->
+            <div class="glass-card p-6 md:p-8 overflow-x-auto mb-8">
+                <table class="w-full text-sm border-collapse" style="color:var(--text-primary)">
+                    <thead>
+                        <tr>
+                            <th class="text-left font-bold p-4 rounded-tl-lg" style="background:linear-gradient(135deg, #2563eb15, #7c3aed15)">Module</th>
+                            <th class="text-center font-bold p-4" style="background:linear-gradient(135deg, #2563eb15, #7c3aed15)">
+                                <div>Starter</div>
+                                <div class="text-xs font-normal" style="color:var(--text-muted)">5 users</div>
+                            </th>
+                            <th class="text-center font-bold p-4" style="background:linear-gradient(135deg, #2563eb15, #7c3aed15)">
+                                <div>Business</div>
+                                <div class="text-xs font-normal" style="color:var(--text-muted)">25 users</div>
+                            </th>
+                            <th class="text-center font-bold p-4 rounded-tr-lg" style="background:linear-gradient(135deg, #2563eb15, #7c3aed15)">
+                                <div>Enterprise</div>
+                                <div class="text-xs font-normal" style="color:var(--text-muted)">Unlimited</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody style="color:var(--text-secondary)">
+                        <tr class="pricing-table-row">
+                            <td class="p-4 font-medium border-b" style="border-color:var(--border-glass)">
+                                <div class="flex items-center gap-2">📊 Quotation Autopilot</div>
+                            </td>
+                            <td class="p-4 text-center border-b font-semibold" style="border-color:var(--border-glass)">&#3647;9,900/mo</td>
+                            <td class="p-4 text-center border-b font-semibold" style="border-color:var(--border-glass)">&#3647;29,900/mo</td>
+                            <td class="p-4 text-center border-b" style="border-color:var(--border-glass)"><span class="text-xs" style="color:var(--text-muted)">Custom</span></td>
+                        </tr>
+                        <tr class="pricing-table-row">
+                            <td class="p-4 font-medium border-b" style="border-color:var(--border-glass)">
+                                <div class="flex items-center gap-2">🧾 Expense & Receipt</div>
+                            </td>
+                            <td class="p-4 text-center border-b font-semibold" style="border-color:var(--border-glass)">&#3647;9,900/mo</td>
+                            <td class="p-4 text-center border-b font-semibold" style="border-color:var(--border-glass)">&#3647;29,900/mo</td>
+                            <td class="p-4 text-center border-b" style="border-color:var(--border-glass)"><span class="text-xs" style="color:var(--text-muted)">Custom</span></td>
+                        </tr>
+                        <tr class="pricing-table-row">
+                            <td class="p-4 font-medium border-b" style="border-color:var(--border-glass)">
+                                <div class="flex items-center gap-2">🚢 Logistics FX</div>
+                            </td>
+                            <td class="p-4 text-center border-b font-semibold" style="border-color:var(--border-glass)">&#3647;14,900/mo</td>
+                            <td class="p-4 text-center border-b font-semibold" style="border-color:var(--border-glass)">&#3647;39,900/mo</td>
+                            <td class="p-4 text-center border-b" style="border-color:var(--border-glass)"><span class="text-xs" style="color:var(--text-muted)">Custom</span></td>
+                        </tr>
+                        <tr class="pricing-table-row">
+                            <td class="p-4 font-medium border-b" style="border-color:var(--border-glass)">
+                                <div class="flex items-center gap-2">💰 Sales Doc Generator</div>
+                            </td>
+                            <td class="p-4 text-center border-b font-semibold" style="border-color:var(--border-glass)">&#3647;9,900/mo</td>
+                            <td class="p-4 text-center border-b font-semibold" style="border-color:var(--border-glass)">&#3647;29,900/mo</td>
+                            <td class="p-4 text-center border-b" style="border-color:var(--border-glass)"><span class="text-xs" style="color:var(--text-muted)">Custom</span></td>
+                        </tr>
+                        <tr class="pricing-table-row">
+                            <td class="p-4 font-medium border-b" style="border-color:var(--border-glass)">
+                                <div class="flex items-center gap-2">📋 Procurement PO/PR</div>
+                            </td>
+                            <td class="p-4 text-center border-b font-semibold" style="border-color:var(--border-glass)">&#3647;14,900/mo</td>
+                            <td class="p-4 text-center border-b font-semibold" style="border-color:var(--border-glass)">&#3647;39,900/mo</td>
+                            <td class="p-4 text-center border-b" style="border-color:var(--border-glass)"><span class="text-xs" style="color:var(--text-muted)">Custom</span></td>
+                        </tr>
+                        <tr class="pricing-table-row">
+                            <td class="p-4 font-medium border-b" style="border-color:var(--border-glass)">
+                                <div class="flex items-center gap-2">🏦 Finance Doc Hub</div>
+                            </td>
+                            <td class="p-4 text-center border-b font-semibold" style="border-color:var(--border-glass)">&#3647;19,900/mo</td>
+                            <td class="p-4 text-center border-b font-semibold" style="border-color:var(--border-glass)">&#3647;49,900/mo</td>
+                            <td class="p-4 text-center border-b" style="border-color:var(--border-glass)"><span class="text-xs" style="color:var(--text-muted)">Custom</span></td>
+                        </tr>
+                        <!-- Bundle Row -->
+                        <tr class="bundle-row">
+                            <td class="p-4 font-bold border-b" style="border-color:var(--border-glass);color:var(--text-primary)">
+                                <div class="flex items-center gap-2">🎯 Full Platform Bundle</div>
+                            </td>
+                            <td class="p-4 text-center border-b" style="border-color:var(--border-glass)">
+                                <span class="font-black gradient-text">&#3647;59,900/mo</span>
+                            </td>
+                            <td class="p-4 text-center border-b" style="border-color:var(--border-glass)">
+                                <span class="font-black gradient-text">&#3647;149,900/mo</span>
+                            </td>
+                            <td class="p-4 text-center border-b" style="border-color:var(--border-glass)"><span class="text-xs" style="color:var(--text-muted)">Custom</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Hardware Add-on -->
+            <div class="glass-card p-6 md:p-8 relative overflow-hidden pricing-glow">
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent-500 to-accent-600"></div>
+                <div class="flex flex-col md:flex-row items-center gap-6">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-500 to-accent-600 flex items-center justify-center text-white text-3xl float-anim">🖥️</div>
+                    <div class="flex-1 text-center md:text-left">
+                        <h3 class="font-bold text-lg mb-1" style="color:var(--text-primary)">Hardware Add-on: GIGABYTE AI TOP ATOM</h3>
+                        <p class="text-sm" style="color:var(--text-secondary)">NVIDIA Grace Blackwell | 128GB | 1 PetaFLOP | 200B params | 150x150x50.5mm | 240W</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-black gradient-text">&#3647;890,000</div>
+                        <div class="text-xs" style="color:var(--text-muted)">one-time</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== 10 TIMELINE ===================== -->
+<section id="timeline" class="py-24 section-alt">
+    <div class="max-w-5xl mx-auto px-4">
+        <div class="section-fade">
+            <p class="text-xs font-bold tracking-widest uppercase mb-3 gradient-text">09 &mdash; Timeline</p>
+            <h2 class="text-3xl md:text-5xl font-black mb-4" style="color:var(--text-primary)">แผนดำเนินงาน</h2>
+            <p class="text-base mb-16 max-w-2xl" style="color:var(--text-secondary)">5 Phases ตั้งแต่เริ่มต้นจนถึง Go-live และ Optimization</p>
+
+            <div class="relative">
+                <div class="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5" style="background:linear-gradient(180deg,#2563eb,#7c3aed,#ec4899)"></div>
+
+                <!-- Phase 1 -->
+                <div class="relative flex flex-col md:flex-row items-start mb-12">
+                    <div class="hidden md:block md:w-1/2 md:pr-12 md:text-right">
+                        <div class="glass-card p-6 inline-block text-left">
+                            <h4 class="font-bold text-base mb-1" style="color:var(--text-primary)">Discovery & Module Selection</h4>
+                            <p class="text-sm" style="color:var(--text-secondary)">เก็บ Requirements, เลือก Module ที่ต้องการ, กำหนด Scope และ Priority</p>
+                        </div>
+                    </div>
+                    <div class="absolute left-3.5 md:left-1/2 md:-ml-2.5 mt-6 z-10"><div class="timeline-dot"></div></div>
+                    <div class="md:w-1/2 md:pl-12 pl-14">
+                        <span class="text-xs font-bold gradient-text">Week 1-2</span>
+                        <div class="glass-card p-6 mt-2 md:hidden">
+                            <h4 class="font-bold text-base mb-1" style="color:var(--text-primary)">Discovery & Module Selection</h4>
+                            <p class="text-sm" style="color:var(--text-secondary)">เก็บ Requirements, เลือก Module ที่ต้องการ, กำหนด Scope และ Priority</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 2 -->
+                <div class="relative flex flex-col md:flex-row items-start mb-12">
+                    <div class="md:w-1/2 md:pr-12 md:text-right pl-14 md:pl-0">
+                        <span class="text-xs font-bold gradient-text">Week 3-6</span>
+                    </div>
+                    <div class="absolute left-3.5 md:left-1/2 md:-ml-2.5 mt-6 z-10"><div class="timeline-dot"></div></div>
+                    <div class="md:w-1/2 md:pl-12 pl-14">
+                        <div class="glass-card p-6 mt-2 md:mt-0">
+                            <h4 class="font-bold text-base mb-1" style="color:var(--text-primary)">Development & AI Training</h4>
+                            <p class="text-sm" style="color:var(--text-secondary)">พัฒนา Module, Train AI Model, OCR Tuning สำหรับเอกสารองค์กร</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 3 -->
+                <div class="relative flex flex-col md:flex-row items-start mb-12">
+                    <div class="hidden md:block md:w-1/2 md:pr-12 md:text-right">
+                        <div class="glass-card p-6 inline-block text-left">
+                            <h4 class="font-bold text-base mb-1" style="color:var(--text-primary)">Integration & UAT</h4>
+                            <p class="text-sm" style="color:var(--text-secondary)">เชื่อมต่อ Channels (LINE/Email), ทดสอบกับเอกสารจริง, ปรับแต่ง AI</p>
+                        </div>
+                    </div>
+                    <div class="absolute left-3.5 md:left-1/2 md:-ml-2.5 mt-6 z-10"><div class="timeline-dot"></div></div>
+                    <div class="md:w-1/2 md:pl-12 pl-14">
+                        <span class="text-xs font-bold gradient-text">Week 7-8</span>
+                        <div class="glass-card p-6 mt-2 md:hidden">
+                            <h4 class="font-bold text-base mb-1" style="color:var(--text-primary)">Integration & UAT</h4>
+                            <p class="text-sm" style="color:var(--text-secondary)">เชื่อมต่อ Channels (LINE/Email), ทดสอบกับเอกสารจริง, ปรับแต่ง AI</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 4 -->
+                <div class="relative flex flex-col md:flex-row items-start mb-12">
+                    <div class="md:w-1/2 md:pr-12 md:text-right pl-14 md:pl-0">
+                        <span class="text-xs font-bold gradient-text">Week 9-10</span>
+                    </div>
+                    <div class="absolute left-3.5 md:left-1/2 md:-ml-2.5 mt-6 z-10"><div class="timeline-dot"></div></div>
+                    <div class="md:w-1/2 md:pl-12 pl-14">
+                        <div class="glass-card p-6 mt-2 md:mt-0">
+                            <h4 class="font-bold text-base mb-1" style="color:var(--text-primary)">Go-live & Training</h4>
+                            <p class="text-sm" style="color:var(--text-secondary)">เปิดใช้งานจริง, อบรมผู้ใช้งาน, Setup Case Inventory, Monitoring</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 5 -->
+                <div class="relative flex flex-col md:flex-row items-start">
+                    <div class="hidden md:block md:w-1/2 md:pr-12 md:text-right">
+                        <div class="glass-card p-6 inline-block text-left">
+                            <h4 class="font-bold text-base mb-1" style="color:var(--text-primary)">Optimization & Module Expansion</h4>
+                            <p class="text-sm" style="color:var(--text-secondary)">ดูแลระบบ, เพิ่ม Module, Data Flywheel, ปรับปรุง AI จากข้อมูลจริง</p>
+                        </div>
+                    </div>
+                    <div class="absolute left-3.5 md:left-1/2 md:-ml-2.5 mt-6 z-10"><div class="timeline-dot"></div></div>
+                    <div class="md:w-1/2 md:pl-12 pl-14">
+                        <span class="text-xs font-bold gradient-text">Month 3-6</span>
+                        <div class="glass-card p-6 mt-2 md:hidden">
+                            <h4 class="font-bold text-base mb-1" style="color:var(--text-primary)">Optimization & Module Expansion</h4>
+                            <p class="text-sm" style="color:var(--text-secondary)">ดูแลระบบ, เพิ่ม Module, Data Flywheel, ปรับปรุง AI จากข้อมูลจริง</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== 11 WHY US ===================== -->
+<section id="why-us" class="py-24">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="section-fade">
+            <p class="text-xs font-bold tracking-widest uppercase mb-3 gradient-text">10 &mdash; Why Us</p>
+            <h2 class="text-3xl md:text-5xl font-black mb-4" style="color:var(--text-primary)">ทำไมเลือกเรา</h2>
+            <p class="text-base mb-16 max-w-2xl" style="color:var(--text-secondary)">เหตุผลที่ Coding HUB เป็นพาร์ทเนอร์ที่เหมาะสมที่สุดสำหรับ AI Back Office</p>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="glass-card p-7 text-center">
+                    <div class="text-4xl mb-4">🇹🇭</div>
+                    <h3 class="font-bold text-base mb-2" style="color:var(--text-primary)">Thai-first AI</h3>
+                    <p class="text-sm" style="color:var(--text-secondary)">OCR และ NLP ที่ออกแบบมาสำหรับเอกสารไทยโดยเฉพาะ รองรับทุก Format ที่ใช้ในไทย</p>
+                </div>
+                <div class="glass-card p-7 text-center">
+                    <div class="text-4xl mb-4">🗄️</div>
+                    <h3 class="font-bold text-base mb-2" style="color:var(--text-primary)">Case Inventory System</h3>
+                    <p class="text-sm" style="color:var(--text-secondary)">ระบบ Checklist + Tracking ระดับ Case ที่ไม่มีใน ERP หรือ CRM ทั่วไป</p>
+                </div>
+                <div class="glass-card p-7 text-center">
+                    <div class="text-4xl mb-4">💚</div>
+                    <h3 class="font-bold text-base mb-2" style="color:var(--text-primary)">LINE Native</h3>
+                    <p class="text-sm" style="color:var(--text-secondary)">ส่งเอกสาร, รับแจ้งเตือน, ติดตามสถานะผ่าน LINE ที่คนไทยใช้ทุกวัน</p>
+                </div>
+                <div class="glass-card p-7 text-center">
+                    <div class="text-4xl mb-4">🧩</div>
+                    <h3 class="font-bold text-base mb-2" style="color:var(--text-primary)">Module Flexibility</h3>
+                    <p class="text-sm" style="color:var(--text-secondary)">เลือกใช้เฉพาะ Module ที่ต้องการ เพิ่มทีหลังได้ ไม่ต้องซื้อทั้ง Platform</p>
+                </div>
+                <div class="glass-card p-7 text-center">
+                    <div class="text-4xl mb-4">🔄</div>
+                    <h3 class="font-bold text-base mb-2" style="color:var(--text-primary)">Data Flywheel</h3>
+                    <p class="text-sm" style="color:var(--text-secondary)">AI ฉลาดขึ้นเรื่อยๆ จากข้อมูลจริงขององค์กร ยิ่งใช้ยิ่งแม่นยำ</p>
+                </div>
+                <div class="glass-card p-7 text-center">
+                    <div class="text-4xl mb-4">🖥️</div>
+                    <h3 class="font-bold text-base mb-2" style="color:var(--text-primary)">Hardware Option</h3>
+                    <p class="text-sm" style="color:var(--text-secondary)">GIGABYTE AI TOP ATOM สำหรับองค์กรที่ต้องการ On-premise AI + Data Sovereignty</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== 12 NEXT STEPS ===================== -->
+<section id="next-steps" class="py-24 section-alt flex items-center min-h-screen">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+        <div class="section-fade">
+            <p class="text-xs font-bold tracking-widest uppercase mb-3 gradient-text">11 &mdash; Next Steps</p>
+            <h2 class="text-3xl md:text-5xl font-black mb-16" style="color:var(--text-primary)">ขั้นตอนถัดไป</h2>
+
+            <div class="grid md:grid-cols-3 gap-6 mb-16">
+                <div class="glass-card p-8">
+                    <div class="w-14 h-14 rounded-full bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white text-xl font-black mx-auto mb-5">1</div>
+                    <h3 class="font-bold text-base mb-2" style="color:var(--text-primary)">นัดประชุมเก็บ Requirements</h3>
+                    <p class="text-sm" style="color:var(--text-secondary)">ทำความเข้าใจ Workflow, เลือก Module ที่ต้องการ, กำหนด Scope</p>
+                </div>
+                <div class="glass-card p-8">
+                    <div class="w-14 h-14 rounded-full bg-gradient-to-br from-accent-500 to-accent-600 flex items-center justify-center text-white text-xl font-black mx-auto mb-5">2</div>
+                    <h3 class="font-bold text-base mb-2" style="color:var(--text-primary)">สร้าง POC กับเอกสารจริง</h3>
+                    <p class="text-sm" style="color:var(--text-secondary)">ทดสอบ Module กับเอกสารจริงขององค์กร เพื่อพิสูจน์ความแม่นยำ</p>
+                </div>
+                <div class="glass-card p-8">
+                    <div class="w-14 h-14 rounded-full bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-white text-xl font-black mx-auto mb-5">3</div>
+                    <h3 class="font-bold text-base mb-2" style="color:var(--text-primary)">เสนอแผนและราคาอย่างละเอียด</h3>
+                    <p class="text-sm" style="color:var(--text-secondary)">จัดทำข้อเสนอ Module + Pricing ที่ปรับตาม Requirements พร้อมงบประมาณ</p>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="glass-card p-10 max-w-xl mx-auto" style="background:linear-gradient(135deg,var(--bg-glass),var(--bg-glass))">
+                <h3 class="text-2xl font-black mb-3 gradient-text">ติดต่อเรา</h3>
+                <p class="text-lg font-bold mb-2" style="color:var(--text-primary)">Coding HUB</p>
+                <p class="text-sm mb-6" style="color:var(--text-secondary)">ANTS AI Solution Hub</p>
+                <a href="https://ai-solution-platform.github.io/autopilot" target="_blank" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-primary-600 to-accent-600 text-white font-semibold text-sm shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+                    ดู Live POC
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+                </a>
+                <p class="text-xs mt-4" style="color:var(--text-muted)">ai-solution-platform.github.io/autopilot</p>
+            </div>
+
+            <p class="mt-16 text-xs" style="color:var(--text-muted)">&copy; 2026 Coding HUB &mdash; ANTS AI Solution Hub. All rights reserved.</p>
+        </div>
+    </div>
+</section>
+
+<script>
+// ==================== THEME TOGGLE ====================
+const toggle = document.getElementById('theme-toggle');
+const html = document.documentElement;
+const sunIcon = document.getElementById('sun-icon');
+const moonIcon = document.getElementById('moon-icon');
+
+function setTheme(theme) {
+    html.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    if (theme === 'dark') {
+        sunIcon.classList.remove('hidden');
+        moonIcon.classList.add('hidden');
+    } else {
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.remove('hidden');
+    }
+}
+
+toggle.addEventListener('click', () => {
+    const current = html.getAttribute('data-theme');
+    setTheme(current === 'dark' ? 'light' : 'dark');
+});
+
+// Init theme
+const saved = localStorage.getItem('theme');
+if (saved) setTheme(saved);
+else if (window.matchMedia('(prefers-color-scheme: dark)').matches) setTheme('dark');
+
+// ==================== SCROLL PROGRESS ====================
+const progressBar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = h > 0 ? (window.scrollY / h) * 100 : 0;
+    progressBar.style.width = pct + '%';
+});
+
+// ==================== INTERSECTION OBSERVER (fade in + counter) ====================
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            e.target.querySelectorAll('.stat-num[data-count]').forEach(el => {
+                if (el.dataset.animated) return;
+                el.dataset.animated = 'true';
+                animateCounter(el);
+            });
+        }
+    });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.section-fade').forEach(el => observer.observe(el));
+
+function animateCounter(el) {
+    const target = parseFloat(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    const prefix = el.dataset.prefix || '';
+    const isFloat = target % 1 !== 0;
+    const duration = 1800;
+    const start = performance.now();
+    function step(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const val = eased * target;
+        el.textContent = prefix + (isFloat ? val.toFixed(1) : Math.round(val)) + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+}
+
+// ==================== ACTIVE NAV LINK ====================
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link[data-section]');
+
+function updateActiveNav() {
+    let current = '';
+    sections.forEach(s => {
+        const top = s.offsetTop - 120;
+        if (window.scrollY >= top) current = s.id;
+    });
+    navLinks.forEach(l => {
+        l.classList.toggle('active', l.dataset.section === current);
+    });
+}
+window.addEventListener('scroll', updateActiveNav);
+updateActiveNav();
+
+// ==================== PARTICLES ====================
+(function() {
+    const canvas = document.getElementById('particles-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let w, h;
+
+    function resize() {
+        const hero = canvas.parentElement;
+        w = canvas.width = hero.offsetWidth;
+        h = canvas.height = hero.offsetHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    class Particle {
+        constructor() { this.reset(); }
+        reset() {
+            this.x = Math.random() * w;
+            this.y = Math.random() * h;
+            this.r = Math.random() * 2 + 0.5;
+            this.vx = (Math.random() - 0.5) * 0.4;
+            this.vy = (Math.random() - 0.5) * 0.4;
+            this.alpha = Math.random() * 0.4 + 0.1;
+        }
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+            if (this.x < 0 || this.x > w || this.y < 0 || this.y > h) this.reset();
+        }
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            ctx.fillStyle = isDark
+                ? `rgba(139,92,246,${this.alpha})`
+                : `rgba(37,99,235,${this.alpha})`;
+            ctx.fill();
+        }
+    }
+
+    const count = Math.min(80, Math.floor(w * h / 12000));
+    for (let i = 0; i < count; i++) particles.push(new Particle());
+
+    function loop() {
+        ctx.clearRect(0, 0, w, h);
+        particles.forEach(p => { p.update(); p.draw(); });
+        for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 120) {
+                    ctx.beginPath();
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    const isDark = html.getAttribute('data-theme') === 'dark';
+                    const alpha = (1 - dist / 120) * 0.12;
+                    ctx.strokeStyle = isDark
+                        ? `rgba(139,92,246,${alpha})`
+                        : `rgba(37,99,235,${alpha})`;
+                    ctx.lineWidth = 0.5;
+                    ctx.stroke();
+                }
+            }
+        }
+        requestAnimationFrame(loop);
+    }
+    loop();
+})();
+</script>
+
+</body>
+</html>

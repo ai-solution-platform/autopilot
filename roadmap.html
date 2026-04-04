@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autopilot — Product Roadmap | AI Back Office Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+Thai:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans Thai', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: { 50:'#eff6ff',100:'#dbeafe',200:'#bfdbfe',300:'#93c5fd',400:'#60a5fa',500:'#3b82f6',600:'#2563eb',700:'#1d4ed8',800:'#1e40af',900:'#1e3a8a' },
+                        accent: { 50:'#f5f3ff',100:'#ede9fe',200:'#ddd6fe',300:'#c4b5fd',400:'#a78bfa',500:'#8b5cf6',600:'#7c3aed',700:'#6d28d9',800:'#5b21b6',900:'#4c1d95' },
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-glass: rgba(255,255,255,0.7);
+            --border-glass: rgba(148,163,184,0.25);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --shadow-glass: 0 8px 32px rgba(0,0,0,0.08);
+            --gradient-start: #2563eb;
+            --gradient-end: #7c3aed;
+        }
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-glass: rgba(30,41,59,0.75);
+            --border-glass: rgba(148,163,184,0.15);
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #64748b;
+            --shadow-glass: 0 8px 32px rgba(0,0,0,0.3);
+            --gradient-start: #3b82f6;
+            --gradient-end: #8b5cf6;
+        }
+        * { box-sizing: border-box; }
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Inter', 'Noto Sans Thai', sans-serif;
+            transition: background 0.4s, color 0.4s;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .glass-card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
+            box-shadow: var(--shadow-glass);
+            border-radius: 1rem;
+            transition: transform 0.35s cubic-bezier(.4,0,.2,1), box-shadow 0.35s;
+        }
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(37,99,235,0.15);
+        }
+        .glass-nav {
+            background: var(--bg-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-glass);
+        }
+        #progress-bar {
+            position: fixed; top: 0; left: 0; height: 3px; z-index: 9999;
+            background: linear-gradient(90deg, #2563eb, #7c3aed, #ec4899);
+            transition: width 0.1s;
+        }
+        .section-fade {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(.4,0,.2,1), transform 0.8s cubic-bezier(.4,0,.2,1);
+        }
+        .section-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Pulse animation for in-progress items */
+        @keyframes pulse-blue {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+            50% { box-shadow: 0 0 0 12px rgba(59, 130, 246, 0); }
+        }
+        .pulse-active {
+            animation: pulse-blue 2s infinite;
+        }
+
+        /* Timeline connector */
+        .timeline-connector {
+            position: relative;
+        }
+        .timeline-connector::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -1.5rem;
+            width: 3rem;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            opacity: 0.3;
+        }
+        .timeline-connector:last-child::after {
+            display: none;
+        }
+
+        /* Phase card status colors */
+        .phase-completed { border-left: 4px solid #22c55e; }
+        .phase-active { border-left: 4px solid #3b82f6; }
+        .phase-planned { border-left: 4px solid #64748b; }
+
+        /* Expandable item */
+        .expand-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(.4,0,.2,1), opacity 0.3s;
+            opacity: 0;
+        }
+        .expand-content.open {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        /* Filter button active */
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+        }
+
+        /* Status badges */
+        .badge-live { background: #dcfce7; color: #166534; }
+        [data-theme="dark"] .badge-live { background: rgba(34,197,94,0.2); color: #86efac; }
+        .badge-beta { background: #dbeafe; color: #1e40af; }
+        [data-theme="dark"] .badge-beta { background: rgba(59,130,246,0.2); color: #93c5fd; }
+        .badge-coming { background: #f1f5f9; color: #475569; }
+        [data-theme="dark"] .badge-coming { background: rgba(100,116,139,0.2); color: #94a3b8; }
+
+        /* Progress bar fill */
+        .progress-fill {
+            background: linear-gradient(90deg, #22c55e, #3b82f6, #7c3aed);
+            transition: width 1.5s cubic-bezier(.4,0,.2,1);
+        }
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float-particle linear infinite;
+        }
+        @keyframes float-particle {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Smooth scroll */
+        html { scroll-behavior: smooth; }
+
+        /* Module card hover effect */
+        .module-card {
+            transition: all 0.35s cubic-bezier(.4,0,.2,1);
+        }
+        .module-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(37,99,235,0.2);
+        }
+
+        /* Roadmap item click */
+        .roadmap-item {
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+        .roadmap-item:hover {
+            background: var(--bg-secondary);
+            border-radius: 0.5rem;
+            padding-left: 0.5rem;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+    <div id="progress-bar" style="width:0%"></div>
+
+    <!-- Floating particles background -->
+    <div id="particles" class="fixed inset-0 pointer-events-none z-0"></div>
+
+    <!-- Navigation -->
+    <nav class="glass-nav fixed top-0 left-0 right-0 z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <a href="proposal.html" class="flex items-center gap-2 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center text-white font-bold text-lg shadow-lg">A</div>
+                    <span class="text-xl font-bold gradient-text">Autopilot</span>
+                </a>
+                <span class="hidden sm:inline text-sm font-medium px-3 py-1 rounded-full" style="background: var(--bg-secondary); color: var(--text-secondary);">Product Roadmap</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="proposal.html" class="hidden sm:inline-flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-lg transition-all hover:opacity-80" style="color: var(--text-secondary);">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                    กลับหน้าหลัก
+                </a>
+                <button id="theme-toggle" class="w-10 h-10 rounded-xl flex items-center justify-center transition-all hover:scale-110" style="background: var(--bg-secondary);">
+                    <svg id="sun-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    <svg id="moon-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-28 pb-16 px-6 relative">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="section-fade">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-6" style="background: var(--bg-secondary); color: var(--text-secondary);">
+                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    อัปเดตล่าสุด: เมษายน 2026
+                </div>
+                <h1 class="text-4xl md:text-6xl font-black mb-4 leading-tight">
+                    <span class="gradient-text">Product Roadmap</span>
+                </h1>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto mb-8" style="color: var(--text-secondary);">
+                    เส้นทางการพัฒนา Autopilot จาก POC สู่ Global AI Back Office Platform
+                </p>
+
+                <!-- Overall Progress -->
+                <div class="max-w-md mx-auto mb-10">
+                    <div class="flex justify-between text-sm mb-2" style="color: var(--text-secondary);">
+                        <span>ความคืบหน้าโดยรวม</span>
+                        <span id="progress-pct" class="font-bold gradient-text">0%</span>
+                    </div>
+                    <div class="h-3 rounded-full overflow-hidden" style="background: var(--bg-secondary);">
+                        <div id="overall-progress" class="progress-fill h-full rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="section-fade grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                <div class="glass-card p-4 text-center">
+                    <div class="text-3xl font-black gradient-text">6</div>
+                    <div class="text-sm mt-1" style="color: var(--text-secondary);">Modules วางแผน</div>
+                </div>
+                <div class="glass-card p-4 text-center">
+                    <div class="text-3xl font-black text-green-500">3</div>
+                    <div class="text-sm mt-1" style="color: var(--text-secondary);">Live ตอนนี้</div>
+                </div>
+                <div class="glass-card p-4 text-center">
+                    <div class="text-3xl font-black text-blue-500">14</div>
+                    <div class="text-sm mt-1" style="color: var(--text-secondary);">วัน ทดลองฟรี</div>
+                </div>
+                <div class="glass-card p-4 text-center">
+                    <div class="text-3xl font-black text-purple-500">50+</div>
+                    <div class="text-sm mt-1" style="color: var(--text-secondary);">Enterprise Features</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Phase Navigation -->
+    <section class="px-6 mb-8 sticky top-[72px] z-40">
+        <div class="max-w-7xl mx-auto">
+            <div class="glass-card p-3 flex flex-wrap items-center gap-2 justify-center">
+                <button onclick="scrollToPhase('phase-0')" class="phase-nav-btn px-4 py-2 rounded-lg text-sm font-medium transition-all hover:opacity-80" style="background: #dcfce7; color: #166534;">v1.0 Live</button>
+                <button onclick="scrollToPhase('phase-1')" class="phase-nav-btn px-4 py-2 rounded-lg text-sm font-medium transition-all hover:opacity-80 pulse-active" style="background: #dbeafe; color: #1e40af;">v2.0 Now</button>
+                <button onclick="scrollToPhase('phase-2')" class="phase-nav-btn px-4 py-2 rounded-lg text-sm font-medium transition-all hover:opacity-80" style="color: var(--text-secondary); background: var(--bg-secondary);">v2.5 Q3</button>
+                <button onclick="scrollToPhase('phase-3')" class="phase-nav-btn px-4 py-2 rounded-lg text-sm font-medium transition-all hover:opacity-80" style="color: var(--text-secondary); background: var(--bg-secondary);">v3.0 Q4</button>
+                <button onclick="scrollToPhase('phase-4')" class="phase-nav-btn px-4 py-2 rounded-lg text-sm font-medium transition-all hover:opacity-80" style="color: var(--text-secondary); background: var(--bg-secondary);">v3.5 Q1'27</button>
+                <button onclick="scrollToPhase('phase-5')" class="phase-nav-btn px-4 py-2 rounded-lg text-sm font-medium transition-all hover:opacity-80" style="color: var(--text-secondary); background: var(--bg-secondary);">v4.0 Global</button>
+                <div class="hidden md:block w-px h-6 mx-2" style="background: var(--border-glass);"></div>
+                <!-- Filter Buttons -->
+                <button onclick="filterCategory('all')" class="filter-btn active px-3 py-1.5 rounded-lg text-xs font-semibold transition-all">ทั้งหมด</button>
+                <button onclick="filterCategory('module')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all" style="color: var(--text-secondary); background: var(--bg-secondary);">Modules</button>
+                <button onclick="filterCategory('platform')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all" style="color: var(--text-secondary); background: var(--bg-secondary);">Platform</button>
+                <button onclick="filterCategory('infra')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all" style="color: var(--text-secondary); background: var(--bg-secondary);">Infrastructure</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Timeline -->
+    <section class="px-6 pb-20">
+        <div class="max-w-7xl mx-auto">
+
+            <!-- Phase 0: Current State v1.0 -->
+            <div id="phase-0" class="section-fade mb-12">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-14 h-14 rounded-2xl bg-green-500 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-green-500/30">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-bold">v1.0 — Live</h2>
+                        <p class="text-sm" style="color: var(--text-muted);">สถานะปัจจุบัน &bull; พร้อมใช้งาน</p>
+                    </div>
+                    <span class="badge-live text-xs font-bold px-3 py-1 rounded-full ml-auto">COMPLETED</span>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="glass-card phase-completed p-5 roadmap-item" data-category="module" onclick="toggleExpand(this)">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="text-2xl">&#x2705;</span>
+                            <h3 class="font-bold">Quotation Autopilot</h3>
+                        </div>
+                        <p class="text-sm" style="color: var(--text-secondary);">สร้างใบเสนอราคาอัตโนมัติด้วย AI</p>
+                        <div class="expand-content mt-3 pt-3" style="border-top: 1px solid var(--border-glass);">
+                            <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                                <li>&#x2022; สร้างใบเสนอราคาจาก email / LINE อัตโนมัติ</li>
+                                <li>&#x2022; เปรียบเทียบราคาคู่แข่ง real-time</li>
+                                <li>&#x2022; ส่งออก PDF พร้อมลายเซ็น</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="glass-card phase-completed p-5 roadmap-item" data-category="platform" onclick="toggleExpand(this)">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="text-2xl">&#x2705;</span>
+                            <h3 class="font-bold">OCR + AI Comparison</h3>
+                        </div>
+                        <p class="text-sm" style="color: var(--text-secondary);">อ่านเอกสาร OCR และเปรียบเทียบด้วย AI</p>
+                        <div class="expand-content mt-3 pt-3" style="border-top: 1px solid var(--border-glass);">
+                            <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                                <li>&#x2022; รองรับภาษาไทยและอังกฤษ</li>
+                                <li>&#x2022; ความแม่นยำ 95%+</li>
+                                <li>&#x2022; เปรียบเทียบเอกสารอัตโนมัติ</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="glass-card phase-completed p-5 roadmap-item" data-category="platform" onclick="toggleExpand(this)">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="text-2xl">&#x2705;</span>
+                            <h3 class="font-bold">Dashboard & Analytics</h3>
+                        </div>
+                        <p class="text-sm" style="color: var(--text-secondary);">แดชบอร์ดวิเคราะห์ข้อมูลแบบ Real-time</p>
+                        <div class="expand-content mt-3 pt-3" style="border-top: 1px solid var(--border-glass);">
+                            <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                                <li>&#x2022; กราฟ real-time แสดงยอดใบเสนอราคา</li>
+                                <li>&#x2022; สรุป conversion rate</li>
+                                <li>&#x2022; Export รายงาน Excel/PDF</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="glass-card phase-completed p-5 roadmap-item" data-category="platform" onclick="toggleExpand(this)">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="text-2xl">&#x2705;</span>
+                            <h3 class="font-bold">Multi-channel Intake</h3>
+                        </div>
+                        <p class="text-sm" style="color: var(--text-secondary);">รับงานจาก Email, LINE, Upload</p>
+                        <div class="expand-content mt-3 pt-3" style="border-top: 1px solid var(--border-glass);">
+                            <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                                <li>&#x2022; รองรับ Email forwarding อัตโนมัติ</li>
+                                <li>&#x2022; LINE Official Account integration</li>
+                                <li>&#x2022; Web upload portal</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="glass-card phase-completed p-5 roadmap-item" data-category="platform" onclick="toggleExpand(this)">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="text-2xl">&#x2705;</span>
+                            <h3 class="font-bold">Task Management</h3>
+                        </div>
+                        <p class="text-sm" style="color: var(--text-secondary);">ระบบจัดการงานและติดตามสถานะ</p>
+                        <div class="expand-content mt-3 pt-3" style="border-top: 1px solid var(--border-glass);">
+                            <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                                <li>&#x2022; Kanban board สำหรับทีม</li>
+                                <li>&#x2022; แจ้งเตือนอัตโนมัติ</li>
+                                <li>&#x2022; ลำดับความสำคัญ AI</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 1: v2.0 Foundation -->
+            <div id="phase-1" class="section-fade mb-12">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-14 h-14 rounded-2xl bg-blue-500 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-blue-500/30 pulse-active">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-bold">v2.0 — Foundation</h2>
+                        <p class="text-sm" style="color: var(--text-muted);">Q2 2026 &bull; กำลังพัฒนา</p>
+                    </div>
+                    <span class="badge-beta text-xs font-bold px-3 py-1 rounded-full ml-auto">IN PROGRESS</span>
+                </div>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <!-- Module Releases -->
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-bold uppercase tracking-wider" style="color: var(--text-muted);">Module Releases</h4>
+                        <div class="glass-card phase-active p-5 roadmap-item pulse-active" data-category="module" onclick="toggleExpand(this)">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-2xl">&#x1F9FE;</span>
+                                <h3 class="font-bold">Expense & Receipt Module</h3>
+                                <span class="badge-beta text-xs px-2 py-0.5 rounded-full ml-auto">Beta</span>
+                            </div>
+                            <p class="text-sm" style="color: var(--text-secondary);">จัดการค่าใช้จ่ายและใบเสร็จอัตโนมัติ</p>
+                            <div class="expand-content mt-3 pt-3" style="border-top: 1px solid var(--border-glass);">
+                                <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                                    <li>&#x2022; สแกนใบเสร็จด้วย AI OCR</li>
+                                    <li>&#x2022; จัดหมวดหมู่ค่าใช้จ่ายอัตโนมัติ</li>
+                                    <li>&#x2022; รายงานค่าใช้จ่ายรายเดือน</li>
+                                    <li>&#x2022; Integration กับระบบบัญชี</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="glass-card phase-active p-5 roadmap-item" data-category="module" onclick="toggleExpand(this)">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-2xl">&#x1F3E6;</span>
+                                <h3 class="font-bold">Finance Document Hub</h3>
+                                <span class="badge-beta text-xs px-2 py-0.5 rounded-full ml-auto">Beta</span>
+                            </div>
+                            <p class="text-sm" style="color: var(--text-secondary);">ศูนย์กลางเอกสารการเงิน</p>
+                            <div class="expand-content mt-3 pt-3" style="border-top: 1px solid var(--border-glass);">
+                                <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                                    <li>&#x2022; จัดเก็บเอกสารการเงินทุกประเภท</li>
+                                    <li>&#x2022; ค้นหาเอกสารด้วย AI</li>
+                                    <li>&#x2022; Version control เอกสาร</li>
+                                    <li>&#x2022; สิทธิ์การเข้าถึงตาม Role</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Platform -->
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-bold uppercase tracking-wider" style="color: var(--text-muted);">Platform</h4>
+                        <div class="glass-card phase-active p-5 roadmap-item" data-category="platform" onclick="toggleExpand(this)">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-2xl">&#x1F4E6;</span>
+                                <h3 class="font-bold">Module Subscription System</h3>
+                            </div>
+                            <p class="text-sm" style="color: var(--text-secondary);">ระบบสมัครสมาชิกแบบเลือก Module</p>
+                            <div class="expand-content mt-3 pt-3" style="border-top: 1px solid var(--border-glass);">
+                                <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                                    <li>&#x2022; เลือกเปิด/ปิด Module ได้ตามต้องการ</li>
+                                    <li>&#x2022; Per-module billing</li>
+                                    <li>&#x2022; ทดลองใช้ฟรี 14 วัน</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="glass-card phase-active p-5 roadmap-item" data-category="platform" onclick="toggleExpand(this)">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-2xl">&#x1F50D;</span>
+                                <h3 class="font-bold">Enhanced OCR Engine</h3>
+                            </div>
+                            <p class="text-sm" style="color: var(--text-secondary);">OCR หลายภาษา ความแม่นยำสูงขึ้น</p>
+                            <div class="expand-content mt-3 pt-3" style="border-top: 1px solid var(--border-glass);">
+                                <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                                    <li>&#x2022; รองรับ 5+ ภาษา</li>
+                                    <li>&#x2022; ความแม่นยำ 98%+</li>
+                                    <li>&#x2022; Case-based document inventory v1</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 2: v2.5 Expansion -->
+            <div id="phase-2" class="section-fade mb-12">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-white text-xl font-bold shadow-lg" style="background: linear-gradient(135deg, #6366f1, #8b5cf6); box-shadow: 0 8px 24px rgba(99,102,241,0.3);">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-bold">v2.5 — Expansion</h2>
+                        <p class="text-sm" style="color: var(--text-muted);">Q3 2026 &bull; วางแผนแล้ว</p>
+                    </div>
+                    <span class="badge-coming text-xs font-bold px-3 py-1 rounded-full ml-auto">PLANNED</span>
+                </div>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-bold uppercase tracking-wider" style="color: var(--text-muted);">Module Releases</h4>
+                        <div class="glass-card phase-planned p-5 roadmap-item" data-category="module" onclick="toggleExpand(this)">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-2xl">&#x1F4CB;</span>
+                                <h3 class="font-bold">Procurement PO/PR Module</h3>
+                                <span class="badge-coming text-xs px-2 py-0.5 rounded-full ml-auto">Coming Soon</span>
+                            </div>
+                            <p class="text-sm" style="color: var(--text-secondary);">จัดการใบสั่งซื้อและใบขอซื้ออัตโนมัติ</p>
+                            <div class="expand-content mt-3 pt-3" style="border-top: 1px solid var(--border-glass);">
+                                <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                                    <li>&#x2022; สร้าง PO/PR อัตโนมัติ</li>
+                                    <li>&#x2022; Approval workflow หลายขั้นตอน</li>
+                                    <li>&#x2022; เชื่อมต่อกับ vendor database</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="glass-card phase-planned p-5 roadmap-item" data-category="module" onclick="toggleExpand(this)">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-2xl">&#x1F4B0;</span>
+                                <h3 class="font-bold">Sales Doc Generator</h3>
+                                <span class="badge-coming text-xs px-2 py-0.5 rounded-full ml-auto">Coming Soon</span>
+                            </div>
+                            <p class="text-sm" style="color: var(--text-secondary);">สร้างเอกสารขายอัตโนมัติ</p>
+                            <div class="expand-content mt-3 pt-3" style="border-top: 1px solid var(--border-glass);">
+                                <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                                    <li>&#x2022; Template engine สำหรับใบเสนอราคา, Invoice</li>
+                                    <li>&#x2022; สร้างเอกสารจาก CRM data</li>
+                                    <li>&#x2022; E-signature integration</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-bold uppercase tracking-wider" style="color: var(--text-muted);">Platform</h4>
+                        <div class="glass-card phase-planned p-5 roadmap-item" data-category="platform" onclick="toggleExpand(this)">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-2xl">&#x1F504;</span>
+                                <h3 class="font-bold">3-Way Match Engine</h3>
+                            </div>
+                            <p class="text-sm" style="color: var(--text-secondary);">จับคู่เอกสาร PO / Invoice / Receipt อัตโนมัติ</p>
+                            <div class="expand-content mt-3 pt-3" style="border-top: 1px solid var(--border-glass);">
+                                <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                                    <li>&#x2022; AI matching ความแม่นยำสูง</li>
+                                    <li>&#x2022; ตรวจจับ discrepancy อัตโนมัติ</li>
+                                    <li>&#x2022; Dashboard สรุป match rate</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="glass-card phase-planned p-5 roadmap-item" data-category="platform" onclick="toggleExpand(this)">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-2xl">&#x1F517;</span>
+                                <h3 class="font-bold">API v2 + Webhooks</h3>
+                            </div>
+                            <p class="text-sm" style="color: var(--text-secondary);">API รุ่นใหม่พร้อม Webhooks</p>
+                            <div class="expand-content mt-3 pt-3" style="border-top: 1px solid var(--border-glass);">
+                                <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                                    <li>&#x2022; RESTful API v2 ครบทุก endpoint</li>
+                                    <li>&#x2022; Webhook notifications</li>
+                                    <li>&#x2022; Approval workflow builder</li>
+                                    <li>&#x2022; Template engine for doc generation</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 3: v3.0 Intelligence -->
+            <div id="phase-3" class="section-fade mb-12">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-white text-xl font-bold shadow-lg" style="background: linear-gradient(135deg, #f59e0b, #ef4444); box-shadow: 0 8px 24px rgba(245,158,11,0.3);">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-bold">v3.0 — Intelligence</h2>
+                        <p class="text-sm" style="color: var(--text-muted);">Q4 2026 &bull; วางแผนแล้ว</p>
+                    </div>
+                    <span class="badge-coming text-xs font-bold px-3 py-1 rounded-full ml-auto">PLANNED</span>
+                </div>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-bold uppercase tracking-wider" style="color: var(--text-muted);">Module Releases</h4>
+                        <div class="glass-card phase-planned p-5 roadmap-item" data-category="module" onclick="toggleExpand(this)">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-2xl">&#x1F6A2;</span>
+                                <h3 class="font-bold">Logistics FX Module</h3>
+                                <span class="badge-coming text-xs px-2 py-0.5 rounded-full ml-auto">Coming Soon</span>
+                            </div>
+                            <p class="text-sm" style="color: var(--text-secondary);">จัดการเอกสาร Logistics และอัตราแลกเปลี่ยน</p>
+                            <div class="expand-content mt-3 pt-3" style="border-top: 1px solid var(--border-glass);">
+                                <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                                    <li>&#x2022; FX rate tracking real-time</li>
+                                    <li>&#x2022; เอกสาร Shipping อัตโนมัติ</li>
+                                    <li>&#x2022; ต้นทุน logistics analytics</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="glass-card phase-planned p-5 roadmap-item" data-category="module" onclick="toggleExpand(this)">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-2xl">&#x1F52E;</span>
+                                <h3 class="font-bold">AI Insights Module</h3>
+                                <span class="badge-coming text-xs px-2 py-0.5 rounded-full ml-auto">Coming Soon</span>
+                            </div>
+                            <p class="text-sm" style="color: var(--text-secondary);">วิเคราะห์ข้อมูลเชิงลึกข้าม Module</p>
+                            <div class="expand-content mt-3 pt-3" style="border-top: 1px solid var(--border-glass);">
+                                <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                                    <li>&#x2022; Cross-module analytics dashboard</li>
+                                    <li>&#x2022; Predictive spending analysis</li>
+                                    <li>&#x2022; AI recommendations</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-bold uppercase tracking-wider" style="color: var(--text-muted);">Platform</h4>
+                        <div class="glass-card phase-planned p-5 roadmap-item" data-category="platform" onclick="toggleExpand(this)">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-2xl">&#x1F4CA;</span>
+                                <h3 class="font-bold">Cross-module Analytics</h3>
+                            </div>
+                            <p class="text-sm" style="color: var(--text-secondary);">วิเคราะห์ข้อมูลข้ามทุก Module</p>
+                            <div class="expand-content mt-3 pt-3" style="border-top: 1px solid var(--border-glass);">
+                                <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                                    <li>&#x2022; Unified data lake</li>
+                                    <li>&#x2022; Custom report builder</li>
+                                    <li>&#x2022; Predictive spending analysis</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="glass-card phase-planned p-5 roadmap-item" data-category="platform" onclick="toggleExpand(this)">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-2xl">&#x1F916;</span>
+                                <h3 class="font-bold">Vendor Scoring AI</h3>
+                            </div>
+                            <p class="text-sm" style="color: var(--text-secondary);">ให้คะแนน Vendor ด้วย AI</p>
+                            <div class="expand-content mt-3 pt-3" style="border-top: 1px solid var(--border-glass);">
+                                <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                                    <li>&#x2022; AI scoring based on delivery, price, quality</li>
+                                    <li>&#x2022; Vendor comparison dashboard</li>
+                                    <li>&#x2022; FX rate intelligence</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 4: v3.5 Scale -->
+            <div id="phase-4" class="section-fade mb-12">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-white text-xl font-bold shadow-lg" style="background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 8px 24px rgba(16,185,129,0.3);">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-bold">v3.5 — Scale</h2>
+                        <p class="text-sm" style="color: var(--text-muted);">Q1 2027 &bull; วางแผนแล้ว</p>
+                    </div>
+                    <span class="badge-coming text-xs font-bold px-3 py-1 rounded-full ml-auto">PLANNED</span>
+                </div>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-bold uppercase tracking-wider" style="color: var(--text-muted);">Deployment</h4>
+                        <div class="glass-card phase-planned p-5 roadmap-item" data-category="infra" onclick="toggleExpand(this)">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-2xl">&#x1F5A5;&#xFE0F;</span>
+                                <h3 class="font-bold">GIGABYTE AI TOP ATOM</h3>
+                            </div>
+                            <p class="text-sm" style="color: var(--text-secondary);">On-premise deployment option</p>
+                            <div class="expand-content mt-3 pt-3" style="border-top: 1px solid var(--border-glass);">
+                                <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                                    <li>&#x2022; ติดตั้งในเครื่อง GIGABYTE AI TOP ATOM</li>
+                                    <li>&#x2022; ข้อมูลอยู่ภายในองค์กร 100%</li>
+                                    <li>&#x2022; Air-gapped environment support</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="glass-card phase-planned p-5 roadmap-item" data-category="infra" onclick="toggleExpand(this)">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-2xl">&#x1F512;</span>
+                                <h3 class="font-bold">SOC2 / ISO27001</h3>
+                            </div>
+                            <p class="text-sm" style="color: var(--text-secondary);">รับรองมาตรฐานความปลอดภัย</p>
+                            <div class="expand-content mt-3 pt-3" style="border-top: 1px solid var(--border-glass);">
+                                <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                                    <li>&#x2022; SOC2 Type II certification</li>
+                                    <li>&#x2022; ISO27001 compliance</li>
+                                    <li>&#x2022; Multi-tenant enterprise deployment</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-bold uppercase tracking-wider" style="color: var(--text-muted);">Platform</h4>
+                        <div class="glass-card phase-planned p-5 roadmap-item" data-category="platform" onclick="toggleExpand(this)">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-2xl">&#x1F3EA;</span>
+                                <h3 class="font-bold">Module Marketplace</h3>
+                            </div>
+                            <p class="text-sm" style="color: var(--text-secondary);">Marketplace สำหรับ 3rd party modules</p>
+                            <div class="expand-content mt-3 pt-3" style="border-top: 1px solid var(--border-glass);">
+                                <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                                    <li>&#x2022; 3rd party module publishing</li>
+                                    <li>&#x2022; White-label option</li>
+                                    <li>&#x2022; Revenue sharing model</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="glass-card phase-planned p-5 roadmap-item" data-category="platform" onclick="toggleExpand(this)">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-2xl">&#x1F4F1;</span>
+                                <h3 class="font-bold">Mobile App</h3>
+                            </div>
+                            <p class="text-sm" style="color: var(--text-secondary);">iOS & Android application</p>
+                            <div class="expand-content mt-3 pt-3" style="border-top: 1px solid var(--border-glass);">
+                                <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                                    <li>&#x2022; Native iOS & Android app</li>
+                                    <li>&#x2022; Push notifications</li>
+                                    <li>&#x2022; Mobile document scanning</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 5: v4.0 Global -->
+            <div id="phase-5" class="section-fade mb-12">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-white text-xl font-bold shadow-lg" style="background: linear-gradient(135deg, #ec4899, #8b5cf6); box-shadow: 0 8px 24px rgba(236,72,153,0.3);">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-bold">v4.0 — Global</h2>
+                        <p class="text-sm" style="color: var(--text-muted);">Q2-Q4 2027 &bull; วิสัยทัศน์</p>
+                    </div>
+                    <span class="badge-coming text-xs font-bold px-3 py-1 rounded-full ml-auto">VISION</span>
+                </div>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-bold uppercase tracking-wider" style="color: var(--text-muted);">Expansion</h4>
+                        <div class="glass-card phase-planned p-5 roadmap-item" data-category="infra" onclick="toggleExpand(this)">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-2xl">&#x1F30F;</span>
+                                <h3 class="font-bold">SEA Expansion</h3>
+                            </div>
+                            <p class="text-sm" style="color: var(--text-secondary);">ขยายสู่ Vietnam, Indonesia, Philippines</p>
+                            <div class="expand-content mt-3 pt-3" style="border-top: 1px solid var(--border-glass);">
+                                <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                                    <li>&#x2022; Vietnamese, Bahasa, Filipino language support</li>
+                                    <li>&#x2022; Local compliance & tax rules</li>
+                                    <li>&#x2022; Regional data centers</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="glass-card phase-planned p-5 roadmap-item" data-category="infra" onclick="toggleExpand(this)">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-2xl">&#x1F1EF;&#x1F1F5;</span>
+                                <h3 class="font-bold">Japanese Language Support</h3>
+                            </div>
+                            <p class="text-sm" style="color: var(--text-secondary);">รองรับภาษาญี่ปุ่นเต็มรูปแบบ</p>
+                            <div class="expand-content mt-3 pt-3" style="border-top: 1px solid var(--border-glass);">
+                                <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                                    <li>&#x2022; Japanese OCR engine</li>
+                                    <li>&#x2022; Multi-currency support</li>
+                                    <li>&#x2022; J-SOX compliance support</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-bold uppercase tracking-wider" style="color: var(--text-muted);">Platform</h4>
+                        <div class="glass-card phase-planned p-5 roadmap-item" data-category="platform" onclick="toggleExpand(this)">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-2xl">&#x1F9E0;</span>
+                                <h3 class="font-bold">AI Agent Marketplace</h3>
+                            </div>
+                            <p class="text-sm" style="color: var(--text-secondary);">ตลาด AI Agent สำหรับ automation</p>
+                            <div class="expand-content mt-3 pt-3" style="border-top: 1px solid var(--border-glass);">
+                                <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                                    <li>&#x2022; AI Agent marketplace</li>
+                                    <li>&#x2022; Industry-specific module packages</li>
+                                    <li>&#x2022; 100+ pre-built integrations</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="glass-card phase-planned p-5 roadmap-item" data-category="infra" onclick="toggleExpand(this)">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-2xl">&#x1F510;</span>
+                                <h3 class="font-bold">Enterprise SSO / SAML</h3>
+                            </div>
+                            <p class="text-sm" style="color: var(--text-secondary);">Single Sign-On สำหรับองค์กรขนาดใหญ่</p>
+                            <div class="expand-content mt-3 pt-3" style="border-top: 1px solid var(--border-glass);">
+                                <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                                    <li>&#x2022; SAML 2.0 / OpenID Connect</li>
+                                    <li>&#x2022; Active Directory integration</li>
+                                    <li>&#x2022; Role-based access control</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Module Subscription Cards -->
+    <section class="px-6 pb-20" style="background: var(--bg-secondary);">
+        <div class="max-w-7xl mx-auto pt-16">
+            <div class="text-center mb-12 section-fade">
+                <h2 class="text-3xl md:text-4xl font-black mb-3">
+                    <span class="gradient-text">Module Subscription</span>
+                </h2>
+                <p class="text-lg" style="color: var(--text-secondary);">เลือก Module ที่เหมาะกับธุรกิจของคุณ</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 section-fade">
+                <!-- Module 1: Quotation Autopilot -->
+                <div class="module-card glass-card p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white text-xl">&#x1F4DD;</div>
+                        <span class="badge-live text-xs font-bold px-3 py-1 rounded-full">Live</span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">Quotation Autopilot</h3>
+                    <ul class="text-sm space-y-1 mb-4" style="color: var(--text-secondary);">
+                        <li>&#x2022; สร้างใบเสนอราคาอัตโนมัติ</li>
+                        <li>&#x2022; เปรียบเทียบราคาด้วย AI</li>
+                        <li>&#x2022; ส่งออก PDF พร้อมลายเซ็น</li>
+                    </ul>
+                    <div class="text-xs mb-4 flex gap-2 flex-wrap" style="color: var(--text-muted);">
+                        <span class="px-2 py-1 rounded" style="background: var(--bg-secondary);">Starter: ฿1,990/mo</span>
+                        <span class="px-2 py-1 rounded" style="background: var(--bg-secondary);">Business: ฿4,990/mo</span>
+                        <span class="px-2 py-1 rounded" style="background: var(--bg-secondary);">Enterprise: Custom</span>
+                    </div>
+                    <button class="w-full py-2.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 transition-all">
+                        เริ่มใช้งาน
+                    </button>
+                </div>
+
+                <!-- Module 2: OCR + AI Comparison -->
+                <div class="module-card glass-card p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white text-xl">&#x1F50D;</div>
+                        <span class="badge-live text-xs font-bold px-3 py-1 rounded-full">Live</span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">OCR + AI Comparison</h3>
+                    <ul class="text-sm space-y-1 mb-4" style="color: var(--text-secondary);">
+                        <li>&#x2022; อ่านเอกสารหลายภาษา</li>
+                        <li>&#x2022; เปรียบเทียบเอกสารอัตโนมัติ</li>
+                        <li>&#x2022; ความแม่นยำ 95%+</li>
+                    </ul>
+                    <div class="text-xs mb-4 flex gap-2 flex-wrap" style="color: var(--text-muted);">
+                        <span class="px-2 py-1 rounded" style="background: var(--bg-secondary);">Starter: ฿1,490/mo</span>
+                        <span class="px-2 py-1 rounded" style="background: var(--bg-secondary);">Business: ฿3,990/mo</span>
+                        <span class="px-2 py-1 rounded" style="background: var(--bg-secondary);">Enterprise: Custom</span>
+                    </div>
+                    <button class="w-full py-2.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 transition-all">
+                        เริ่มใช้งาน
+                    </button>
+                </div>
+
+                <!-- Module 3: Dashboard & Analytics -->
+                <div class="module-card glass-card p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white text-xl">&#x1F4CA;</div>
+                        <span class="badge-live text-xs font-bold px-3 py-1 rounded-full">Live</span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">Dashboard & Analytics</h3>
+                    <ul class="text-sm space-y-1 mb-4" style="color: var(--text-secondary);">
+                        <li>&#x2022; Real-time analytics dashboard</li>
+                        <li>&#x2022; Custom report builder</li>
+                        <li>&#x2022; Export Excel/PDF</li>
+                    </ul>
+                    <div class="text-xs mb-4 flex gap-2 flex-wrap" style="color: var(--text-muted);">
+                        <span class="px-2 py-1 rounded" style="background: var(--bg-secondary);">Starter: รวมในแพ็ก</span>
+                        <span class="px-2 py-1 rounded" style="background: var(--bg-secondary);">Business: ฿2,990/mo</span>
+                        <span class="px-2 py-1 rounded" style="background: var(--bg-secondary);">Enterprise: Custom</span>
+                    </div>
+                    <button class="w-full py-2.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 transition-all">
+                        เริ่มใช้งาน
+                    </button>
+                </div>
+
+                <!-- Module 4: Expense & Receipt -->
+                <div class="module-card glass-card p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-white text-xl">&#x1F9FE;</div>
+                        <span class="badge-beta text-xs font-bold px-3 py-1 rounded-full">Beta</span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">Expense & Receipt</h3>
+                    <ul class="text-sm space-y-1 mb-4" style="color: var(--text-secondary);">
+                        <li>&#x2022; สแกนใบเสร็จด้วย AI OCR</li>
+                        <li>&#x2022; จัดหมวดหมู่อัตโนมัติ</li>
+                        <li>&#x2022; รายงานค่าใช้จ่ายรายเดือน</li>
+                    </ul>
+                    <div class="text-xs mb-4 flex gap-2 flex-wrap" style="color: var(--text-muted);">
+                        <span class="px-2 py-1 rounded" style="background: var(--bg-secondary);">Starter: ฿1,990/mo</span>
+                        <span class="px-2 py-1 rounded" style="background: var(--bg-secondary);">Business: ฿4,490/mo</span>
+                        <span class="px-2 py-1 rounded" style="background: var(--bg-secondary);">Enterprise: Custom</span>
+                    </div>
+                    <button class="w-full py-2.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 transition-all">
+                        สมัคร Beta
+                    </button>
+                </div>
+
+                <!-- Module 5: Procurement PO/PR -->
+                <div class="module-card glass-card p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white text-xl">&#x1F4CB;</div>
+                        <span class="badge-coming text-xs font-bold px-3 py-1 rounded-full">Coming Soon</span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">Procurement PO/PR</h3>
+                    <ul class="text-sm space-y-1 mb-4" style="color: var(--text-secondary);">
+                        <li>&#x2022; สร้าง PO/PR อัตโนมัติ</li>
+                        <li>&#x2022; Approval workflow</li>
+                        <li>&#x2022; 3-way match engine</li>
+                    </ul>
+                    <div class="text-xs mb-4 flex gap-2 flex-wrap" style="color: var(--text-muted);">
+                        <span class="px-2 py-1 rounded" style="background: var(--bg-secondary);">Starter: ฿2,490/mo</span>
+                        <span class="px-2 py-1 rounded" style="background: var(--bg-secondary);">Business: ฿5,990/mo</span>
+                        <span class="px-2 py-1 rounded" style="background: var(--bg-secondary);">Enterprise: Custom</span>
+                    </div>
+                    <button class="w-full py-2.5 rounded-xl text-sm font-bold transition-all" style="background: var(--bg-secondary); color: var(--text-secondary); border: 1px solid var(--border-glass);">
+                        แจ้งเตือนเมื่อพร้อม
+                    </button>
+                </div>
+
+                <!-- Module 6: Logistics FX -->
+                <div class="module-card glass-card p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-rose-400 to-pink-600 flex items-center justify-center text-white text-xl">&#x1F6A2;</div>
+                        <span class="badge-coming text-xs font-bold px-3 py-1 rounded-full">Coming Soon</span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">Logistics FX</h3>
+                    <ul class="text-sm space-y-1 mb-4" style="color: var(--text-secondary);">
+                        <li>&#x2022; FX rate tracking real-time</li>
+                        <li>&#x2022; เอกสาร Shipping อัตโนมัติ</li>
+                        <li>&#x2022; ต้นทุน logistics analytics</li>
+                    </ul>
+                    <div class="text-xs mb-4 flex gap-2 flex-wrap" style="color: var(--text-muted);">
+                        <span class="px-2 py-1 rounded" style="background: var(--bg-secondary);">Starter: ฿2,990/mo</span>
+                        <span class="px-2 py-1 rounded" style="background: var(--bg-secondary);">Business: ฿6,990/mo</span>
+                        <span class="px-2 py-1 rounded" style="background: var(--bg-secondary);">Enterprise: Custom</span>
+                    </div>
+                    <button class="w-full py-2.5 rounded-xl text-sm font-bold transition-all" style="background: var(--bg-secondary); color: var(--text-secondary); border: 1px solid var(--border-glass);">
+                        แจ้งเตือนเมื่อพร้อม
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="px-6 py-20 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-primary-600/10 to-accent-600/10"></div>
+        <div class="max-w-4xl mx-auto text-center relative z-10 section-fade">
+            <h2 class="text-3xl md:text-5xl font-black mb-4">
+                <span class="gradient-text">เริ่มต้นใช้งาน Autopilot วันนี้</span>
+            </h2>
+            <p class="text-lg mb-8 max-w-2xl mx-auto" style="color: var(--text-secondary);">
+                ทดลองใช้ฟรี 14 วัน ไม่ต้องผูกบัตรเครดิต<br>
+                Live Demo พร้อมใช้งานแล้ววันนี้
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="proposal.html" class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl text-lg font-bold text-white bg-gradient-to-r from-primary-500 to-accent-500 hover:from-primary-600 hover:to-accent-600 transition-all shadow-xl shadow-primary-500/25 hover:shadow-primary-500/40 hover:-translate-y-1">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                    ดู Live Demo
+                </a>
+                <a href="#" class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl text-lg font-bold transition-all hover:-translate-y-1" style="background: var(--bg-glass); border: 1px solid var(--border-glass); color: var(--text-primary);">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                    ติดต่อทีมขาย
+                </a>
+            </div>
+            <p class="text-sm mt-6" style="color: var(--text-muted);">
+                Powered by AI &bull; Built for Thai Business &bull; Enterprise Ready
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="px-6 py-8" style="border-top: 1px solid var(--border-glass);">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center text-white font-bold text-sm">A</div>
+                <span class="font-bold gradient-text">Autopilot</span>
+                <span class="text-sm" style="color: var(--text-muted);">&copy; 2026</span>
+            </div>
+            <div class="text-sm" style="color: var(--text-muted);">
+                AI-Powered Back-Office Operations Platform
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+
+        function setTheme(theme) {
+            html.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (theme === 'dark') {
+                sunIcon.classList.remove('hidden');
+                moonIcon.classList.add('hidden');
+            } else {
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+            }
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        setTheme(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const current = html.getAttribute('data-theme');
+            setTheme(current === 'dark' ? 'light' : 'dark');
+        });
+
+        // Scroll progress bar
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.getElementById('progress-bar').style.width = scrollPercent + '%';
+        });
+
+        // IntersectionObserver for section animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.section-fade').forEach(el => observer.observe(el));
+
+        // Phase navigation
+        function scrollToPhase(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                const offset = 140;
+                const top = el.getBoundingClientRect().top + window.scrollY - offset;
+                window.scrollTo({ top, behavior: 'smooth' });
+            }
+        }
+
+        // Toggle expand roadmap items
+        function toggleExpand(el) {
+            const content = el.querySelector('.expand-content');
+            if (content) {
+                content.classList.toggle('open');
+            }
+        }
+
+        // Filter by category
+        let activeFilter = 'all';
+        function filterCategory(cat) {
+            activeFilter = cat;
+            // Update filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (!btn.classList.contains('active')) {
+                    btn.style.color = 'var(--text-secondary)';
+                    btn.style.background = 'var(--bg-secondary)';
+                }
+            });
+            event.target.classList.add('active');
+            event.target.style.color = '';
+            event.target.style.background = '';
+
+            // Filter items
+            document.querySelectorAll('.roadmap-item').forEach(item => {
+                const itemCat = item.getAttribute('data-category');
+                if (cat === 'all' || itemCat === cat) {
+                    item.style.display = '';
+                    item.style.opacity = '1';
+                    item.style.transform = 'scale(1)';
+                } else {
+                    item.style.opacity = '0.15';
+                    item.style.transform = 'scale(0.98)';
+                }
+            });
+        }
+
+        // Animate overall progress on load
+        setTimeout(() => {
+            const progressEl = document.getElementById('overall-progress');
+            const pctEl = document.getElementById('progress-pct');
+            const target = 28; // 28% complete (v1.0 done, v2.0 in progress)
+            progressEl.style.width = target + '%';
+            // Animate number
+            let current = 0;
+            const interval = setInterval(() => {
+                current++;
+                pctEl.textContent = current + '%';
+                if (current >= target) clearInterval(interval);
+            }, 30);
+        }, 500);
+
+        // Create floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const colors = ['#3b82f6', '#8b5cf6', '#22c55e', '#ec4899'];
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                const size = Math.random() * 4 + 2;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.cssText = `
+                    width: ${size}px; height: ${size}px;
+                    background: ${color};
+                    left: ${Math.random() * 100}%;
+                    top: ${Math.random() * 100 + 100}%;
+                    animation-duration: ${Math.random() * 20 + 15}s;
+                    animation-delay: ${Math.random() * 10}s;
+                    opacity: 0.3;
+                `;
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+    </script>
+</body>
+</html>
