@@ -39,9 +39,12 @@ h1 span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-co
 .footer{margin-top:auto;padding:32px 24px;text-align:center;font-size:0.75rem;color:var(--muted);}
 .footer a{color:var(--blue);text-decoration:none;}
 
+@media(max-width:800px){
+    .cards{grid-template-columns:1fr 1fr !important;}
+}
 @media(max-width:600px){
     h1{font-size:1.8rem;}
-    .cards{grid-template-columns:1fr;}
+    .cards{grid-template-columns:1fr !important;}
     .stats{gap:24px;}
 }
 </style>
@@ -60,7 +63,7 @@ h1 span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-co
     <p class="tagline">ระบบ AI อัจฉริยะที่ช่วยอัตโนมัติกระบวนการ Sales, Procurement และ Quotation Analysis<br>ลดเวลา ลดข้อผิดพลาด เพิ่มประสิทธิภาพให้ทุกองค์กร</p>
 </div>
 
-<div class="cards">
+<div class="cards" style="grid-template-columns:1fr 1fr 1fr;">
     <a href="pitching-solution.html" class="card">
         <span class="card-badge">PITCH DECK</span>
         <span class="card-arrow">&rarr;</span>
@@ -72,6 +75,12 @@ h1 span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-co
         <span class="card-arrow">&rarr;</span>
         <h2>Live Proof of Concept</h2>
         <p>ทดลองใช้ระบบจริงกับข้อมูล 9 ใบเสนอราคา 44 รายการ — Mock OCR Processing & Comparison</p>
+    </a>
+    <a href="proposal.html" class="card">
+        <span class="card-badge" style="background:#F5F3FF;color:#7C3AED;">PROPOSAL</span>
+        <span class="card-arrow">&rarr;</span>
+        <h2>Solution Proposal</h2>
+        <p>รายละเอียด Solution, Deployment Options (Cloud + LLM / Hybrid + AI TOP ATOM), Timeline & Investment</p>
     </a>
 </div>
 

@@ -190,6 +190,27 @@ select.form-input{cursor:pointer;}
 .page-btns{display:flex;gap:4px;}.page-btn{width:30px;height:30px;border:1px solid var(--border);border-radius:6px;background:var(--white);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.75rem;transition:all .15s;}
 .page-btn:hover,.page-btn.active{background:var(--blue);color:#fff;border-color:var(--blue);}
 
+/* Donut Chart */
+.donut-wrap{position:relative;width:160px;height:160px;margin:0 auto;}
+.donut-svg{width:100%;height:100%;transform:rotate(-90deg);}
+.donut-seg{transition:opacity .2s,stroke-width .2s;cursor:pointer;}
+.donut-seg:hover{stroke-width:22;opacity:.9;}
+.donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.donut-center-val{font-size:1.6rem;font-weight:800;}.donut-center-label{font-size:.68rem;color:var(--muted);}
+.donut-legend{display:flex;flex-wrap:wrap;gap:8px 16px;justify-content:center;margin-top:12px;}
+.donut-legend-item{display:flex;align-items:center;gap:5px;font-size:.72rem;cursor:pointer;}.donut-legend-item:hover{font-weight:600;}
+.donut-legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+/* Line Chart */
+.line-chart-wrap{position:relative;height:140px;margin:8px 0;}
+.line-chart-svg{width:100%;height:100%;}
+.line-chart-path{fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+.line-chart-area{opacity:.12;}
+.line-chart-dot{r:4;cursor:pointer;transition:r .15s;}.line-chart-dot:hover{r:7;}
+.line-chart-grid{stroke:var(--border);stroke-width:.5;}
+.line-chart-label{font-size:.62rem;fill:var(--muted);}
+/* Chart tooltip */
+.chart-tip{position:fixed;padding:6px 12px;background:var(--text);color:var(--white);border-radius:8px;font-size:.72rem;pointer-events:none;z-index:999;white-space:nowrap;opacity:0;transition:opacity .15s;box-shadow:var(--sh3);}
+.chart-tip.show{opacity:1;}
 /* Animations */
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}.animate-pulse{animation:pulse 1.5s ease-in-out infinite;}
 @keyframes slideUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}.anim{animation:slideUp .3s ease;}
@@ -295,17 +316,41 @@ select.form-input{cursor:pointer;}
         </div>
     </div>
     <div class="grid-2 mt-16">
-        <div class="card"><div class="card-header"><span class="card-title">Task Status</span></div>
-            <div class="chart-bar-h"><div class="label">Complete</div><div class="bar"><div class="fill" style="width:58%;background:var(--green);"></div></div><div class="val">58%</div></div>
-            <div class="chart-bar-h"><div class="label">Processing</div><div class="bar"><div class="fill" style="width:22%;background:var(--blue);"></div></div><div class="val">22%</div></div>
-            <div class="chart-bar-h"><div class="label">Review</div><div class="bar"><div class="fill" style="width:12%;background:var(--orange);"></div></div><div class="val">12%</div></div>
-            <div class="chart-bar-h"><div class="label">Draft</div><div class="bar"><div class="fill" style="width:8%;background:var(--light);"></div></div><div class="val">8%</div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Task Status Distribution</span></div>
+            <div style="display:flex;align-items:center;gap:20px;">
+                <div class="donut-wrap" id="donutStatus">
+                    <svg class="donut-svg" viewBox="0 0 120 120"></svg>
+                    <div class="donut-center"><div class="donut-center-val">247</div><div class="donut-center-label">Total Tasks</div></div>
+                </div>
+                <div style="flex:1;">
+                    <div class="chart-bar-h"><div class="label">Complete</div><div class="bar"><div class="fill" style="width:58%;background:var(--green);"></div></div><div class="val">143</div></div>
+                    <div class="chart-bar-h"><div class="label">Processing</div><div class="bar"><div class="fill" style="width:22%;background:var(--blue);"></div></div><div class="val">55</div></div>
+                    <div class="chart-bar-h"><div class="label">Review</div><div class="bar"><div class="fill" style="width:12%;background:var(--orange);"></div></div><div class="val">30</div></div>
+                    <div class="chart-bar-h"><div class="label">Draft</div><div class="bar"><div class="fill" style="width:8%;background:var(--light);"></div></div><div class="val">19</div></div>
+                </div>
+            </div>
         </div>
         <div class="card"><div class="card-header"><span class="card-title">Channel Intake</span></div>
-            <div class="chart-bar-h"><div class="label">Upload</div><div class="bar"><div class="fill" style="width:45%;background:var(--blue);"></div></div><div class="val">562</div></div>
-            <div class="chart-bar-h"><div class="label">Email</div><div class="bar"><div class="fill" style="width:30%;background:var(--purple);"></div></div><div class="val">374</div></div>
-            <div class="chart-bar-h"><div class="label">LINE</div><div class="bar"><div class="fill" style="width:18%;background:var(--green);"></div></div><div class="val">224</div></div>
-            <div class="chart-bar-h"><div class="label">Others</div><div class="bar"><div class="fill" style="width:7%;background:var(--cyan);"></div></div><div class="val">87</div></div>
+            <div style="display:flex;align-items:center;gap:20px;">
+                <div class="donut-wrap" id="donutChannel">
+                    <svg class="donut-svg" viewBox="0 0 120 120"></svg>
+                    <div class="donut-center"><div class="donut-center-val">1,247</div><div class="donut-center-label">Documents</div></div>
+                </div>
+                <div style="flex:1;">
+                    <div class="chart-bar-h"><div class="label">Upload</div><div class="bar"><div class="fill" style="width:45%;background:var(--blue);"></div></div><div class="val">562</div></div>
+                    <div class="chart-bar-h"><div class="label">Email</div><div class="bar"><div class="fill" style="width:30%;background:var(--purple);"></div></div><div class="val">374</div></div>
+                    <div class="chart-bar-h"><div class="label">LINE</div><div class="bar"><div class="fill" style="width:18%;background:var(--green);"></div></div><div class="val">224</div></div>
+                    <div class="chart-bar-h"><div class="label">Others</div><div class="bar"><div class="fill" style="width:7%;background:var(--cyan);"></div></div><div class="val">87</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="grid-2 mt-16">
+        <div class="card"><div class="card-header"><span class="card-title">Accuracy Trend (30 Days)</span><span class="text-xs text-muted">OCR + AI accuracy</span></div>
+            <div class="line-chart-wrap" id="lineAccuracy"></div>
+        </div>
+        <div class="card"><div class="card-header"><span class="card-title">Cost Savings Trend (6 Months)</span><span class="text-xs text-muted">THB estimated</span></div>
+            <div class="line-chart-wrap" id="lineCost"></div>
         </div>
     </div>
     <div class="card mt-16"><div class="card-header"><span class="card-title">Recent Tasks</span><button class="btn btn-outline btn-sm" onclick="showPage('tasks')">View All →</button></div>
@@ -336,7 +381,7 @@ select.form-input{cursor:pointer;}
         <div><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><button class="btn btn-outline btn-sm" onclick="showPage('tasks')">← Back to Tasks</button><span class="status status-processing" id="tdStatus">Processing</span></div>
             <h2 id="tdTitle">Task #TK-0012 — ใบเสนอราคาอุปกรณ์ช่าง Q1/2569</h2>
             <p class="text-sm text-muted">Created by Thanakan · 4 Apr 2026 · 9 documents</p></div>
-        <div style="display:flex;gap:8px;"><button class="btn btn-outline btn-sm" onclick="showPage('comparison')">📊 Comparison</button><button class="btn btn-outline btn-sm" onclick="showPage('reports')">📑 Report</button><button class="btn btn-green btn-sm" onclick="exportCSV()">📥 Export</button></div>
+        <div style="display:flex;gap:8px;" id="tdActions"><button class="btn btn-outline btn-sm" onclick="showPage('comparison')">📊 Comparison</button><button class="btn btn-outline btn-sm" onclick="showPage('reports')">📑 Report</button><button class="btn btn-green btn-sm" onclick="exportCSV()">📥 Export</button></div>
     </div>
     <div class="steps-h" id="tdSteps">
         <div class="step-h done"><div class="step-dot">✓</div><div class="step-label">อัปโหลด</div><div class="step-line"></div></div>
@@ -522,6 +567,7 @@ select.form-input{cursor:pointer;}
 <!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()"><div class="modal" id="modalContent"></div></div>
 <div class="toast-container" id="toastContainer"></div>
+<div class="chart-tip" id="chartTip"></div>
 
 <script>
 // ═══ DATA ═══
@@ -581,35 +627,83 @@ function showPage(page,extra){
     closeNotif();closeUserMenu();
 }
 
+let currentTaskId='TK-0012';
 function loadTaskDetail(taskId){
-    const t=TASKS.find(x=>x.id===taskId)||TASKS[0];
+    const t=TASKS.find(x=>x.id===taskId)||TASKS[0];currentTaskId=t.id;
     document.getElementById('tdTitle').textContent=`Task #${t.id} — ${t.title}`;
     document.getElementById('tdStatus').className=`status status-${t.status}`;document.getElementById('tdStatus').textContent=t.status.charAt(0).toUpperCase()+t.status.slice(1);
     buildTaskFiles();
-    const tl=document.getElementById('tdTimeline');
+    const tl=document.getElementById('tdTimeline'),act=document.getElementById('tdActions');
     const steps=document.querySelectorAll('#tdSteps .step-h');
     const log=document.getElementById('tdLog');
     const fill=document.getElementById('tdFill'),pct=document.getElementById('tdPct'),title=document.getElementById('tdProcessTitle');
+    // Action buttons based on state
+    let actHtml=`<button class="btn btn-outline btn-sm" onclick="showPage('comparison')">📊 Comparison</button><button class="btn btn-outline btn-sm" onclick="showPage('reports')">📑 Report</button><button class="btn btn-green btn-sm" onclick="exportCSV()">📥 Export</button>`;
+    if(t.status==='review') actHtml=`<button class="btn btn-primary btn-sm" onclick="mockApprove()">✅ Approve</button><button class="btn btn-outline btn-sm" onclick="mockReject()">❌ Reject</button><button class="btn btn-outline btn-sm" onclick="showPage('comparison')">📊 Comparison</button>`+actHtml.slice(actHtml.indexOf('<button class="btn btn-green'));
+    if(t.status==='processing') actHtml=`<button class="btn btn-primary btn-sm" onclick="runTaskDemo()">▶ Resume Processing</button>`+actHtml;
+    if(t.status==='draft') actHtml=`<button class="btn btn-primary btn-sm" onclick="runTaskDemo()">🚀 Start Processing</button>`+actHtml;
+    act.innerHTML=actHtml;
+
     if(t.status==='complete'){
         steps.forEach((s,i)=>{s.classList.add('done');s.classList.remove('active');s.querySelector('.step-dot').textContent='✓';});
         fill.style.width='100%';pct.textContent='100%';title.textContent='✅ Complete!';
         QUOTATIONS.forEach((q,i)=>{document.getElementById(`fs-${i}`).className='status status-complete';document.getElementById(`fs-${i}`).textContent='Done';});
-        tl.innerHTML=`<div class="tl-c-item done"><div class="tl-c-dot"></div><div class="tl-c-time">${t.created}</div><div class="tl-c-text">Task created</div></div><div class="tl-c-item done"><div class="tl-c-dot"></div><div class="tl-c-time">${t.created}</div><div class="tl-c-text">${t.docs} docs uploaded</div></div><div class="tl-c-item done"><div class="tl-c-dot"></div><div class="tl-c-time">${t.created}</div><div class="tl-c-text">OCR complete — ${t.items} items</div></div><div class="tl-c-item done"><div class="tl-c-dot"></div><div class="tl-c-time">${t.created}</div><div class="tl-c-text"><strong style="color:var(--green);">Task completed</strong></div></div>`;
-        log.innerHTML='<div class="success">[Complete] All steps finished</div>';
+        log.innerHTML='<div class="success">[Complete] All steps finished — 44 items from 9 docs</div>';
         document.getElementById('tdNextSteps').classList.remove('hidden');
+    } else if(t.status==='review'){
+        steps.forEach((s,i)=>{s.classList.remove('done','active');if(i<4)s.classList.add('done');if(i===4)s.classList.add('active');s.querySelector('.step-dot').textContent=i<4?'✓':(i+1);});
+        fill.style.width='90%';pct.textContent='90%';title.textContent='⏳ รอการอนุมัติ...';
+        QUOTATIONS.forEach((q,i)=>{document.getElementById(`fs-${i}`).className='status status-complete';document.getElementById(`fs-${i}`).textContent='Done';});
+        log.innerHTML='<div class="warn">[Review] Waiting for manager approval — Total > 100,000 THB</div>';
+        document.getElementById('tdNextSteps').classList.add('hidden');
     } else if(t.status==='processing'){
         steps.forEach((s,i)=>{s.classList.remove('done','active');if(i<3)s.classList.add('done');if(i===3)s.classList.add('active');s.querySelector('.step-dot').textContent=i<3?'✓':(i+1);});
         fill.style.width='65%';pct.textContent='65%';title.textContent='กำลังประมวลผล...';
-        tl.innerHTML=`<div class="tl-c-item done"><div class="tl-c-dot"></div><div class="tl-c-time">${t.created}</div><div class="tl-c-text">Task created</div></div><div class="tl-c-item done"><div class="tl-c-dot"></div><div class="tl-c-time">${t.created}</div><div class="tl-c-text">${t.docs} docs uploaded</div></div><div class="tl-c-item done"><div class="tl-c-dot"></div><div class="tl-c-time">${t.created}</div><div class="tl-c-text">OCR processing...</div></div>`;
-        log.innerHTML='<div class="info">[Processing] OCR in progress...</div>';
+        log.innerHTML='<div class="info">[Processing] AI Analysis in progress — click Resume to continue</div>';
         document.getElementById('tdNextSteps').classList.add('hidden');
     } else {
         steps.forEach((s,i)=>{s.classList.remove('done','active');if(i===0)s.classList.add('active');s.querySelector('.step-dot').textContent=i+1;});
         fill.style.width='0%';pct.textContent='0%';title.textContent='รอดำเนินการ...';
-        tl.innerHTML=`<div class="tl-c-item done"><div class="tl-c-dot"></div><div class="tl-c-time">${t.created}</div><div class="tl-c-text">Task created</div></div>`;
-        log.innerHTML='<div class="info">[System] Awaiting start</div>';
+        log.innerHTML='<div class="info">[System] Awaiting start — click Start Processing</div>';
         document.getElementById('tdNextSteps').classList.add('hidden');
     }
+    // Build timeline based on status
+    buildTimeline(t);
+}
+function buildTimeline(t){
+    const tl=document.getElementById('tdTimeline');
+    const allEntries=[
+        {done:true,time:t.created,text:'Task created by '+t.assignee,detail:'Source: '+({upload:'Manual Upload',email:'Email',line:'LINE',telegram:'Telegram'}[t.ch]||'Upload')},
+        {done:true,time:t.created,text:t.docs+' documents uploaded',detail:'Files: '+QUOTATIONS.slice(0,3).map(q=>q.file).join(', ')+(t.docs>3?' ...':'')},
+    ];
+    if(t.status!=='draft'){
+        allEntries.push({done:true,time:t.created,text:'Document classification complete',detail:'Types: Digital PDF ('+Math.ceil(t.docs*0.7)+'), Scanned PDF ('+Math.floor(t.docs*0.3)+')'});
+        allEntries.push({done:true,time:t.created,text:'OCR processing complete',detail:'Extracted data from all '+t.docs+' documents — '+t.items+' items found'});
+    }
+    if(t.status==='review'||t.status==='complete'){
+        allEntries.push({done:true,time:t.created,text:'AI Analysis complete — '+t.items+' items compared',detail:'Vendors: '+VENDORS.length+' · Best total: ฿119,158 · Savings: ฿25,005'});
+        allEntries.push({done:true,time:t.created,text:'Comparison table generated',detail:'Auto-generated comparison across all vendors'});
+    }
+    if(t.status==='review'){
+        allEntries.push({done:false,time:'Now',text:'⏳ Pending approval',detail:'Requires manager approval — Total exceeds ฿100,000 threshold'});
+    }
+    if(t.status==='complete'){
+        allEntries.push({done:true,time:t.created,text:'Approved by Siriporn K.',detail:'Auto-notification sent to Procurement team'});
+        allEntries.push({done:true,time:t.created,text:'<strong style="color:var(--green);">Task completed</strong>',detail:'Executive summary and report generated'});
+    }
+    // Show first 3 by default, rest hidden
+    const collapsed=tl.style.maxHeight==='120px';
+    tl.innerHTML=allEntries.map((e,i)=>`<div class="tl-c-item ${e.done?'done':'active'}"><div class="tl-c-dot"></div><div class="tl-c-time">${e.time}</div><div><div class="tl-c-text">${e.text}</div><div class="text-xs text-muted" style="margin-top:2px;">${e.detail}</div></div></div>`).join('');
+}
+function mockApprove(){
+    showToast('✅','Approved','Task has been approved and marked as complete');
+    const t=TASKS.find(x=>x.id===currentTaskId);if(t)t.status='complete';
+    setTimeout(()=>loadTaskDetail(currentTaskId),500);
+}
+function mockReject(){
+    showToast('❌','Rejected','Task sent back for revision');
+    const t=TASKS.find(x=>x.id===currentTaskId);if(t)t.status='draft';
+    setTimeout(()=>loadTaskDetail(currentTaskId),500);
 }
 
 // Sidebar toggle
@@ -624,7 +718,7 @@ document.addEventListener('click',e=>{if(!e.target.closest('.header-btn'))closeN
 
 // Toggle helpers
 function toggleFiles(){const el=document.getElementById('tdFileList'),btn=document.getElementById('toggleFilesBtn');if(el.style.maxHeight==='180px'){el.style.maxHeight='none';btn.textContent='Collapse';}else{el.style.maxHeight='180px';btn.textContent='Show All';}}
-function toggleTimeline(){const el=document.getElementById('tdTimeline'),btn=document.getElementById('toggleTlBtn');if(el.style.maxHeight==='120px'){el.style.maxHeight='none';btn.textContent='Collapse';}else{el.style.maxHeight='120px';btn.textContent='View All';}}
+function toggleTimeline(){const el=document.getElementById('tdTimeline'),btn=document.getElementById('toggleTlBtn');if(el.style.maxHeight==='120px'){el.style.maxHeight='none';el.style.overflow='visible';btn.textContent='Collapse';}else{el.style.maxHeight='120px';el.style.overflow='hidden';btn.textContent='View All';}}
 
 // Utils
 function fmt(n){return n==null?'—':n.toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2});}
@@ -755,8 +849,77 @@ async function runTaskDemo(){
     showModal('taskComplete');showToast('🎉','Complete!','44 items analyzed');demoRunning=false;
 }
 
+// ═══ CHARTS ═══
+const tip=document.getElementById('chartTip');
+function showTip(e,html){tip.innerHTML=html;tip.classList.add('show');tip.style.left=(e.clientX+12)+'px';tip.style.top=(e.clientY-36)+'px';}
+function hideTip(){tip.classList.remove('show');}
+
+function buildDonut(containerId,segments,total){
+  const svg=document.querySelector(`#${containerId} .donut-svg`);
+  const r=48,cx=60,cy=60,circ=2*Math.PI*r;
+  let offset=0;svg.innerHTML='';
+  segments.forEach(s=>{const pct=s.val/total;const dash=circ*pct;const gap=circ-dash;
+    const circle=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    circle.setAttribute('cx',cx);circle.setAttribute('cy',cy);circle.setAttribute('r',r);
+    circle.setAttribute('fill','none');circle.setAttribute('stroke',s.color);circle.setAttribute('stroke-width','18');
+    circle.setAttribute('stroke-dasharray',`${dash} ${gap}`);circle.setAttribute('stroke-dashoffset',-offset);
+    circle.classList.add('donut-seg');
+    circle.addEventListener('mousemove',e=>showTip(e,`<strong>${s.label}</strong><br>${s.val} (${(pct*100).toFixed(1)}%)`));
+    circle.addEventListener('mouseleave',hideTip);
+    svg.appendChild(circle);offset+=dash;
+  });
+}
+
+function buildLineChart(containerId,data,color,unit,prefix){
+  const wrap=document.getElementById(containerId);
+  const w=wrap.clientWidth||400,h=140;
+  const pad={t:10,r:10,b:24,l:42};
+  const pw=w-pad.l-pad.r,ph=h-pad.t-pad.b;
+  const minV=Math.min(...data.map(d=>d.v))*0.95,maxV=Math.max(...data.map(d=>d.v))*1.02;
+  const rangeV=maxV-minV||1;
+  const pts=data.map((d,i)=>{const x=pad.l+(i/(data.length-1))*pw;const y=pad.t+ph-(((d.v-minV)/rangeV)*ph);return{x,y,...d};});
+  const pathD=pts.map((p,i)=>((i===0?'M':'L')+p.x+','+p.y)).join(' ');
+  const areaD=pathD+` L${pts[pts.length-1].x},${h-pad.b} L${pts[0].x},${h-pad.b} Z`;
+  let svg=`<svg class="line-chart-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">`;
+  // Grid lines
+  for(let i=0;i<4;i++){const y=pad.t+(ph/3)*i;svg+=`<line x1="${pad.l}" y1="${y}" x2="${w-pad.r}" y2="${y}" class="line-chart-grid"/>`;
+    const val=maxV-((i/3)*rangeV);svg+=`<text x="${pad.l-4}" y="${y+3}" text-anchor="end" class="line-chart-label">${prefix||''}${val>=1000?(val/1000).toFixed(0)+'K':val.toFixed(1)}${unit||''}</text>`;}
+  // Area + Line
+  svg+=`<path d="${areaD}" fill="${color}" class="line-chart-area"/>`;
+  svg+=`<path d="${pathD}" stroke="${color}" class="line-chart-path"/>`;
+  // Dots + Labels
+  pts.forEach((p,i)=>{svg+=`<circle cx="${p.x}" cy="${p.y}" fill="${color}" stroke="var(--white)" stroke-width="2" class="line-chart-dot" data-tip="${p.label}: ${prefix||''}${p.v.toLocaleString()}${unit||''}"/>`;
+    if(i%Math.ceil(data.length/7)===0||i===data.length-1)svg+=`<text x="${p.x}" y="${h-6}" text-anchor="middle" class="line-chart-label">${p.label}</text>`;});
+  svg+=`</svg>`;wrap.innerHTML=svg;
+  // Dot hover
+  wrap.querySelectorAll('.line-chart-dot').forEach(dot=>{
+    dot.addEventListener('mousemove',e=>showTip(e,dot.getAttribute('data-tip')));
+    dot.addEventListener('mouseleave',hideTip);
+  });
+}
+
+// Hover for bar charts
+document.querySelectorAll('.chart-bar-h .fill').forEach(fill=>{
+  fill.style.cursor='pointer';
+  fill.addEventListener('mousemove',e=>{const row=fill.closest('.chart-bar-h');const label=row.querySelector('.label')?.textContent||'';const val=row.querySelector('.val')?.textContent||'';showTip(e,`<strong>${label}</strong>: ${val}`);});
+  fill.addEventListener('mouseleave',hideTip);
+});
+// Hover for mini-bars
+document.querySelectorAll('.mini-bar').forEach((bar,i)=>{
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];const vals=[12,19,16,24,14,27,21];
+  bar.addEventListener('mousemove',e=>showTip(e,`<strong>${days[i]}</strong>: ${vals[i]} tasks`));
+  bar.addEventListener('mouseleave',hideTip);
+});
+
 // ═══ INIT ═══
 buildRecentTasks();renderTasks();buildUsers();buildChannels();buildVendors();buildAudit();buildTaskFiles();
+
+// Init charts
+buildDonut('donutStatus',[{label:'Complete',val:143,color:'#059669'},{label:'Processing',val:55,color:'#2563EB'},{label:'Review',val:30,color:'#D97706'},{label:'Draft',val:19,color:'#94A3B8'}],247);
+buildDonut('donutChannel',[{label:'Upload',val:562,color:'#2563EB'},{label:'Email',val:374,color:'#7C3AED'},{label:'LINE',val:224,color:'#059669'},{label:'Others',val:87,color:'#0891B2'}],1247);
+
+buildLineChart('lineAccuracy',[{label:'W1',v:96.2},{label:'W2',v:97.1},{label:'W3',v:96.8},{label:'W4',v:97.5},{label:'W5',v:98.0},{label:'W6',v:97.8},{label:'W7',v:98.3},{label:'W8',v:98.7}],'#7C3AED','%','');
+buildLineChart('lineCost',[{label:'Nov',v:180},{label:'Dec',v:220},{label:'Jan',v:310},{label:'Feb',v:380},{label:'Mar',v:420},{label:'Apr',v:490}],'#059669','','฿',);
 </script>
 </body>
 </html>
