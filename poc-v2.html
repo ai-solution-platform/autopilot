@@ -31,6 +31,10 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .nav-item .badge.warn{background:var(--orange);}.nav-item .badge.green{background:var(--green);}
 .sidebar-footer{margin-top:auto;padding:12px;border-top:1px solid var(--border);}
 .plan-badge{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--purple-l);border-radius:10px;font-size:.72rem;color:var(--purple);font-weight:600;}
+.module-frame{width:calc(100% + 48px);margin:-24px;border:none;height:calc(100vh - var(--header-h));display:block;background:var(--bg);}
+.module-frame.hidden{display:none;}
+.connector-section .nav-item{font-size:.72rem;opacity:.85;}
+.connector-section .nav-item:hover{opacity:1;}
 
 /* Module nav */
 .module-header{display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:.78rem;font-weight:700;color:var(--text);cursor:pointer;border-radius:8px;transition:all .15s;}
@@ -290,30 +294,60 @@ select.form-input{cursor:pointer;}
         <!-- Module 2: Expense & Receipt -->
         <div class="module-header" onclick="toggleModule('mod2')"><span class="mod-icon">🧾</span>Expense & Receipt<span class="mod-check">✓</span></div>
         <div class="module-children" id="mod2">
-            <button class="nav-item" data-page="expenseDash"><span class="icon">📈</span>Dashboard</button>
-            <button class="nav-item" data-page="receiptOcr"><span class="icon">📷</span>Receipt OCR</button>
-            <button class="nav-item" data-page="claims"><span class="icon">📝</span>Claims</button>
+            <button class="nav-item" data-module="modules/expense-dashboard.html"><span class="icon">📈</span>Dashboard</button>
+            <button class="nav-item" data-module="modules/expense-receipt-ocr.html"><span class="icon">📷</span>Receipt OCR</button>
+            <button class="nav-item" data-module="modules/expense-analytics.html"><span class="icon">📊</span>Analytics</button>
+            <button class="nav-item" data-module="modules/expense-approval.html"><span class="icon">✅</span>Approval</button>
         </div>
 
-        <!-- Module 6: Finance Doc Hub -->
+        <!-- Module 3: Finance Doc Hub -->
         <div class="module-header" onclick="toggleModule('mod6')"><span class="mod-icon">🏦</span>Finance Doc Hub<span class="mod-check">✓</span></div>
         <div class="module-children" id="mod6">
-            <button class="nav-item" data-page="finCases"><span class="icon">📁</span>Cases<span class="badge">47</span></button>
-            <button class="nav-item" data-page="finDocuments"><span class="icon">📄</span>Documents</button>
-            <button class="nav-item" data-page="finRouting"><span class="icon">🔀</span>Routing</button>
+            <button class="nav-item" data-module="modules/finance-cases.html"><span class="icon">📁</span>Cases<span class="badge">47</span></button>
+            <button class="nav-item" data-module="modules/finance-case-detail.html"><span class="icon">📋</span>Case Detail</button>
+            <button class="nav-item" data-module="modules/finance-verification.html"><span class="icon">🔍</span>Verification</button>
+            <button class="nav-item" data-module="modules/finance-analytics.html"><span class="icon">📊</span>Analytics</button>
+        </div>
+
+        <!-- Module 4: Logistics FX -->
+        <div class="module-header" onclick="toggleModule('mod4')"><span class="mod-icon">🚢</span>Logistics FX<span class="mod-check">✓</span></div>
+        <div class="module-children" id="mod4" style="display:none;">
+            <button class="nav-item" data-module="modules/logistics-fx-dashboard.html"><span class="icon">💱</span>FX Dashboard</button>
+            <button class="nav-item" data-module="modules/logistics-freight-ocr.html"><span class="icon">📷</span>Freight OCR</button>
+            <button class="nav-item" data-module="modules/logistics-cost-calculator.html"><span class="icon">🧮</span>Cost Calculator</button>
+            <button class="nav-item" data-module="modules/logistics-tracking.html"><span class="icon">📦</span>Tracking</button>
+        </div>
+
+        <!-- Module 5: Sales Doc Gen -->
+        <div class="module-header" onclick="toggleModule('mod5')"><span class="mod-icon">💰</span>Sales Doc Gen<span class="mod-check">✓</span></div>
+        <div class="module-children" id="mod5" style="display:none;">
+            <button class="nav-item" data-module="modules/sales-quotation-builder.html"><span class="icon">📝</span>Quotation Builder</button>
+            <button class="nav-item" data-module="modules/sales-pipeline.html"><span class="icon">📊</span>Pipeline</button>
+            <button class="nav-item" data-module="modules/sales-catalog.html"><span class="icon">📦</span>Product Catalog</button>
+            <button class="nav-item" data-module="modules/sales-analytics.html"><span class="icon">📈</span>Analytics</button>
+        </div>
+
+        <!-- Module 6: Procurement PO/PR -->
+        <div class="module-header" onclick="toggleModule('mod3')"><span class="mod-icon">📋</span>Procurement PO/PR<span class="mod-check">✓</span></div>
+        <div class="module-children" id="mod3" style="display:none;">
+            <button class="nav-item" data-module="modules/procurement-prpo.html"><span class="icon">📄</span>PR / PO</button>
+            <button class="nav-item" data-module="modules/procurement-matching.html"><span class="icon">🔗</span>3-Way Match</button>
+            <button class="nav-item" data-module="modules/procurement-analytics.html"><span class="icon">📊</span>Analytics</button>
+            <button class="nav-item" data-module="modules/procurement-approval.html"><span class="icon">✅</span>Approval</button>
         </div>
     </div>
 
-    <div class="nav-section"><div class="nav-label">Available Modules</div>
-        <div class="available-module">
-            <div class="module-header" onclick="showUpgradeModal('logistics')"><span class="mod-icon">🚢</span>Logistics FX<button class="upgrade-btn">Upgrade</button></div>
-        </div>
-        <div class="available-module">
-            <div class="module-header" onclick="showUpgradeModal('sales')"><span class="mod-icon">💰</span>Sales Doc Gen<button class="upgrade-btn">Upgrade</button></div>
-        </div>
-        <div class="available-module">
-            <div class="module-header" onclick="showUpgradeModal('procurement')"><span class="mod-icon">📋</span>Procurement PO/PR<button class="upgrade-btn">Upgrade</button></div>
-        </div>
+    <div class="nav-section connector-section"><div class="nav-label">🔌 Connectors</div>
+        <button class="nav-item" data-module="connectors/connector-hub.html"><span class="icon">🌐</span>Connector Hub</button>
+        <button class="nav-item" data-module="connectors/thai-ocr-providers.html"><span class="icon">🇹🇭</span>Thai OCR</button>
+        <button class="nav-item" data-module="connectors/global-ocr-providers.html"><span class="icon">🌍</span>Global OCR</button>
+        <button class="nav-item" data-module="connectors/ekyc-thai-id.html"><span class="icon">🪪</span>eKYC / Thai ID</button>
+        <button class="nav-item" data-module="connectors/fraud-detection.html"><span class="icon">🛡️</span>Fraud Detection</button>
+        <button class="nav-item" data-module="connectors/bank-statement-parser.html"><span class="icon">🏦</span>Bank Statement</button>
+        <button class="nav-item" data-module="connectors/receipt-invoice-parser.html"><span class="icon">🧾</span>Receipt Parser</button>
+        <button class="nav-item" data-module="connectors/gov-document-parser.html"><span class="icon">🏛️</span>Gov Document</button>
+        <button class="nav-item" data-module="connectors/passport-visa-parser.html"><span class="icon">🛂</span>Passport / Visa</button>
+        <button class="nav-item" data-module="connectors/vehicle-registration-parser.html"><span class="icon">🚗</span>Vehicle Reg</button>
     </div>
 
     <div class="nav-section"><div class="nav-label">System</div>
@@ -324,7 +358,7 @@ select.form-input{cursor:pointer;}
         <button class="nav-item" data-page="audit"><span class="icon">📜</span>Audit Log</button>
         <button class="nav-item" data-page="settings"><span class="icon">⚙️</span>Settings</button>
     </div>
-    <div class="sidebar-footer"><div class="plan-badge">⭐ Enterprise Plan — 3 Modules Active</div></div>
+    <div class="sidebar-footer"><div class="plan-badge">⭐ Enterprise Plan — 6 Modules Active</div></div>
 </div>
 
 <!-- MAIN -->
@@ -357,6 +391,7 @@ select.form-input{cursor:pointer;}
 </div>
 
 <div class="main" id="mainContent">
+<iframe id="moduleFrame" class="module-frame hidden" src="about:blank"></iframe>
 
 <!-- ════ DASHBOARD ════ -->
 <div id="page-dashboard" class="page anim">
@@ -765,9 +800,9 @@ select.form-input{cursor:pointer;}
 
     <h3 class="mb-12">Available Modules</h3>
     <div class="grid-3 mb-16">
-        <div class="card" style="opacity:.7;"><div class="flex-between"><span style="font-weight:700;">🚢 Logistics FX</span><span class="status status-inactive">Inactive</span></div><div class="text-sm text-muted mt-8">FX comparison, freight OCR, landed cost</div><button class="btn btn-primary btn-sm mt-8" onclick="showUpgradeModal('logistics')">Activate</button></div>
-        <div class="card" style="opacity:.7;"><div class="flex-between"><span style="font-weight:700;">💰 Sales Doc Gen</span><span class="status status-inactive">Inactive</span></div><div class="text-sm text-muted mt-8">Auto quotation, templates, catalog</div><button class="btn btn-primary btn-sm mt-8" onclick="showUpgradeModal('sales')">Activate</button></div>
-        <div class="card" style="opacity:.7;"><div class="flex-between"><span style="font-weight:700;">📋 Procurement PO/PR</span><span class="status status-inactive">Inactive</span></div><div class="text-sm text-muted mt-8">PR/PO workflow, 3-way match</div><button class="btn btn-primary btn-sm mt-8" onclick="showUpgradeModal('procurement')">Activate</button></div>
+        <div class="card"><div class="flex-between"><span style="font-weight:700;">🚢 Logistics FX</span><span class="status status-complete">Active</span></div><div class="text-sm text-muted mt-8">FX comparison, freight OCR, landed cost</div><button class="btn btn-outline btn-sm mt-8" onclick="loadModule('modules/logistics-fx-dashboard.html','Logistics FX')">Open Module →</button></div>
+        <div class="card"><div class="flex-between"><span style="font-weight:700;">💰 Sales Doc Gen</span><span class="status status-complete">Active</span></div><div class="text-sm text-muted mt-8">Auto quotation, templates, catalog</div><button class="btn btn-outline btn-sm mt-8" onclick="loadModule('modules/sales-quotation-builder.html','Sales Doc Gen')">Open Module →</button></div>
+        <div class="card"><div class="flex-between"><span style="font-weight:700;">📋 Procurement PO/PR</span><span class="status status-complete">Active</span></div><div class="text-sm text-muted mt-8">PR/PO workflow, 3-way match</div><button class="btn btn-outline btn-sm mt-8" onclick="loadModule('modules/procurement-prpo.html','Procurement PO/PR')">Open Module →</button></div>
     </div>
 
     <div class="grid-2">
@@ -956,7 +991,29 @@ const chIcons={upload:'📤',email:'📧',line:'💬',telegram:'✈️',whatsapp
 // Navigation
 document.querySelectorAll('.nav-item[data-page]').forEach(n=>n.addEventListener('click',()=>showPage(n.dataset.page)));
 
+// Module iframe navigation
+document.querySelectorAll('.nav-item[data-module]').forEach(n=>n.addEventListener('click',()=>loadModule(n.dataset.module, n.textContent.trim())));
+
+function loadModule(url, title){
+    // Hide all internal pages
+    document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
+    // Show iframe
+    const frame=document.getElementById('moduleFrame');
+    frame.classList.remove('hidden');
+    frame.src=url;
+    // Update header
+    document.getElementById('headerTitle').textContent=title||'Module';
+    // Update active states
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+    document.querySelectorAll('.nav-item[data-module]').forEach(n=>{if(n.dataset.module===url)n.classList.add('active');});
+    currentPage='module';
+    closeNotif();closeUserMenu();
+}
+
 function showPage(page,extra){
+    // Hide iframe when showing internal pages
+    document.getElementById('moduleFrame').classList.add('hidden');
+    document.getElementById('moduleFrame').src='about:blank';
     document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
     document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
     const el=document.getElementById('page-'+page);
