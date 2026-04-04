@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autopilot — AI-Powered Business Operations | ANTS AI Solution Hub</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+:root{--bg:#F8FAFC;--white:#FFF;--border:#E2E8F0;--text:#0F172A;--text2:#334155;--muted:#64748B;--blue:#2563EB;--purple:#7C3AED;--green:#059669;--grad:linear-gradient(135deg,#2563EB,#7C3AED);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;}
+
+.hero{text-align:center;padding:80px 24px 40px;max-width:720px;}
+.logo-row{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:32px;}
+.logo-icon{width:56px;height:56px;background:var(--grad);border-radius:16px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.5rem;font-weight:800;}
+.logo-text{font-size:1.3rem;font-weight:700;}
+.logo-sub{font-size:0.72rem;color:var(--muted);font-weight:500;letter-spacing:0.5px;}
+
+h1{font-size:2.8rem;font-weight:900;line-height:1.2;margin-bottom:14px;}
+h1 span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.tagline{font-size:1.05rem;color:var(--text2);line-height:1.7;margin-bottom:40px;}
+
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:720px;padding:0 24px;width:100%;}
+.card{background:var(--white);border:1px solid var(--border);border-radius:18px;padding:32px 28px;text-decoration:none;color:inherit;transition:all 0.25s ease;position:relative;overflow:hidden;}
+.card:hover{box-shadow:0 12px 40px rgba(37,99,235,0.12);transform:translateY(-4px);border-color:var(--blue);}
+.card-badge{display:inline-block;font-size:0.68rem;font-weight:700;padding:3px 10px;border-radius:6px;margin-bottom:14px;letter-spacing:0.5px;}
+.card:first-child .card-badge{background:#EFF6FF;color:var(--blue);}
+.card:last-child .card-badge{background:#ECFDF5;color:var(--green);}
+.card h2{font-size:1.2rem;font-weight:700;margin-bottom:8px;}
+.card p{font-size:0.88rem;color:var(--muted);line-height:1.6;}
+.card-arrow{position:absolute;top:28px;right:24px;font-size:1.2rem;color:var(--border);transition:all 0.25s;}
+.card:hover .card-arrow{color:var(--blue);transform:translateX(4px);}
+
+.stats{display:flex;gap:40px;justify-content:center;margin-top:48px;padding:0 24px;}
+.stat{text-align:center;}
+.stat-num{font-size:1.6rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.stat-label{font-size:0.72rem;color:var(--muted);margin-top:2px;}
+
+.footer{margin-top:auto;padding:32px 24px;text-align:center;font-size:0.75rem;color:var(--muted);}
+.footer a{color:var(--blue);text-decoration:none;}
+
+@media(max-width:600px){
+    h1{font-size:1.8rem;}
+    .cards{grid-template-columns:1fr;}
+    .stats{gap:24px;}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+    <div class="logo-row">
+        <div class="logo-icon">AI</div>
+        <div>
+            <div class="logo-text">ANTS AI Solution Hub</div>
+            <div class="logo-sub">Autopilot Platform</div>
+        </div>
+    </div>
+    <h1>AI <span>Autopilot</span> สำหรับ<br>งาน Back-Office</h1>
+    <p class="tagline">ระบบ AI อัจฉริยะที่ช่วยอัตโนมัติกระบวนการ Sales, Procurement และ Quotation Analysis<br>ลดเวลา ลดข้อผิดพลาด เพิ่มประสิทธิภาพให้ทุกองค์กร</p>
+</div>
+
+<div class="cards">
+    <a href="pitching-solution.html" class="card">
+        <span class="card-badge">PITCH DECK</span>
+        <span class="card-arrow">&rarr;</span>
+        <h2>Pitching Presentation</h2>
+        <p>นำเสนอระบบวิเคราะห์และสรุปใบเสนอราคาอัตโนมัติ ด้วย OCR + AI — 11 สไลด์ interactive</p>
+    </a>
+    <a href="poc.html" class="card">
+        <span class="card-badge">LIVE POC</span>
+        <span class="card-arrow">&rarr;</span>
+        <h2>Live Proof of Concept</h2>
+        <p>ทดลองใช้ระบบจริงกับข้อมูล 9 ใบเสนอราคา 44 รายการ — Mock OCR Processing & Comparison</p>
+    </a>
+</div>
+
+<div class="stats">
+    <div class="stat"><div class="stat-num">9</div><div class="stat-label">ใบเสนอราคา</div></div>
+    <div class="stat"><div class="stat-num">44</div><div class="stat-label">รายการสินค้า</div></div>
+    <div class="stat"><div class="stat-num">4</div><div class="stat-label">ผู้จำหน่าย</div></div>
+    <div class="stat"><div class="stat-num">60</div><div class="stat-label">วันทำการ</div></div>
+</div>
+
+<div class="footer">
+    &copy; 2026 ANTS AI Solution Hub — Powered by <a href="#">Coding HUB</a>
+</div>
+
+</body>
+</html>
