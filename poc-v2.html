@@ -294,60 +294,60 @@ select.form-input{cursor:pointer;}
         <!-- Module 2: Expense & Receipt -->
         <div class="module-header" onclick="toggleModule('mod2')"><span class="mod-icon">🧾</span>Expense & Receipt<span class="mod-check">✓</span></div>
         <div class="module-children" id="mod2">
-            <button class="nav-item" data-module="modules/expense-dashboard.html"><span class="icon">📈</span>Dashboard</button>
-            <button class="nav-item" data-module="modules/expense-receipt-ocr.html"><span class="icon">📷</span>Receipt OCR</button>
-            <button class="nav-item" data-module="modules/expense-analytics.html"><span class="icon">📊</span>Analytics</button>
-            <button class="nav-item" data-module="modules/expense-approval.html"><span class="icon">✅</span>Approval</button>
+            <button class="nav-item" onclick="loadModule('modules/expense-dashboard.html','Expense Dashboard')"><span class="icon">📈</span>Dashboard</button>
+            <button class="nav-item" onclick="loadModule('modules/expense-receipt-ocr.html','Receipt OCR')"><span class="icon">📷</span>Receipt OCR</button>
+            <button class="nav-item" onclick="loadModule('modules/expense-analytics.html','Expense Analytics')"><span class="icon">📊</span>Analytics</button>
+            <button class="nav-item" onclick="loadModule('modules/expense-approval.html','Expense Approval')"><span class="icon">✅</span>Approval</button>
         </div>
 
         <!-- Module 3: Finance Doc Hub -->
         <div class="module-header" onclick="toggleModule('mod6')"><span class="mod-icon">🏦</span>Finance Doc Hub<span class="mod-check">✓</span></div>
         <div class="module-children" id="mod6">
-            <button class="nav-item" data-module="modules/finance-cases.html"><span class="icon">📁</span>Cases<span class="badge">47</span></button>
-            <button class="nav-item" data-module="modules/finance-case-detail.html"><span class="icon">📋</span>Case Detail</button>
-            <button class="nav-item" data-module="modules/finance-verification.html"><span class="icon">🔍</span>Verification</button>
-            <button class="nav-item" data-module="modules/finance-analytics.html"><span class="icon">📊</span>Analytics</button>
+            <button class="nav-item" onclick="loadModule('modules/finance-cases.html','Finance Cases')"><span class="icon">📁</span>Cases<span class="badge">47</span></button>
+            <button class="nav-item" onclick="loadModule('modules/finance-case-detail.html','Case Detail')"><span class="icon">📋</span>Case Detail</button>
+            <button class="nav-item" onclick="loadModule('modules/finance-verification.html','Verification')"><span class="icon">🔍</span>Verification</button>
+            <button class="nav-item" onclick="loadModule('modules/finance-analytics.html','Finance Analytics')"><span class="icon">📊</span>Analytics</button>
         </div>
 
         <!-- Module 4: Logistics FX -->
         <div class="module-header" onclick="toggleModule('mod4')"><span class="mod-icon">🚢</span>Logistics FX<span class="mod-check">✓</span></div>
         <div class="module-children" id="mod4" style="display:none;">
-            <button class="nav-item" data-module="modules/logistics-fx-dashboard.html"><span class="icon">💱</span>FX Dashboard</button>
-            <button class="nav-item" data-module="modules/logistics-freight-ocr.html"><span class="icon">📷</span>Freight OCR</button>
-            <button class="nav-item" data-module="modules/logistics-cost-calculator.html"><span class="icon">🧮</span>Cost Calculator</button>
-            <button class="nav-item" data-module="modules/logistics-tracking.html"><span class="icon">📦</span>Tracking</button>
+            <button class="nav-item" onclick="loadModule('modules/logistics-fx-dashboard.html','FX Dashboard')"><span class="icon">💱</span>FX Dashboard</button>
+            <button class="nav-item" onclick="loadModule('modules/logistics-freight-ocr.html','Freight OCR')"><span class="icon">📷</span>Freight OCR</button>
+            <button class="nav-item" onclick="loadModule('modules/logistics-cost-calculator.html','Cost Calculator')"><span class="icon">🧮</span>Cost Calculator</button>
+            <button class="nav-item" onclick="loadModule('modules/logistics-tracking.html','Shipment Tracking')"><span class="icon">📦</span>Tracking</button>
         </div>
 
         <!-- Module 5: Sales Doc Gen -->
         <div class="module-header" onclick="toggleModule('mod5')"><span class="mod-icon">💰</span>Sales Doc Gen<span class="mod-check">✓</span></div>
         <div class="module-children" id="mod5" style="display:none;">
-            <button class="nav-item" data-module="modules/sales-quotation-builder.html"><span class="icon">📝</span>Quotation Builder</button>
-            <button class="nav-item" data-module="modules/sales-pipeline.html"><span class="icon">📊</span>Pipeline</button>
-            <button class="nav-item" data-module="modules/sales-catalog.html"><span class="icon">📦</span>Product Catalog</button>
-            <button class="nav-item" data-module="modules/sales-analytics.html"><span class="icon">📈</span>Analytics</button>
+            <button class="nav-item" onclick="loadModule('modules/sales-quotation-builder.html','Quotation Builder')"><span class="icon">📝</span>Quotation Builder</button>
+            <button class="nav-item" onclick="loadModule('modules/sales-pipeline.html','Sales Pipeline')"><span class="icon">📊</span>Pipeline</button>
+            <button class="nav-item" onclick="loadModule('modules/sales-catalog.html','Product Catalog')"><span class="icon">📦</span>Product Catalog</button>
+            <button class="nav-item" onclick="loadModule('modules/sales-analytics.html','Sales Analytics')"><span class="icon">📈</span>Analytics</button>
         </div>
 
         <!-- Module 6: Procurement PO/PR -->
         <div class="module-header" onclick="toggleModule('mod3')"><span class="mod-icon">📋</span>Procurement PO/PR<span class="mod-check">✓</span></div>
         <div class="module-children" id="mod3" style="display:none;">
-            <button class="nav-item" data-module="modules/procurement-prpo.html"><span class="icon">📄</span>PR / PO</button>
-            <button class="nav-item" data-module="modules/procurement-matching.html"><span class="icon">🔗</span>3-Way Match</button>
-            <button class="nav-item" data-module="modules/procurement-analytics.html"><span class="icon">📊</span>Analytics</button>
-            <button class="nav-item" data-module="modules/procurement-approval.html"><span class="icon">✅</span>Approval</button>
+            <button class="nav-item" onclick="loadModule('modules/procurement-prpo.html','PR / PO')"><span class="icon">📄</span>PR / PO</button>
+            <button class="nav-item" onclick="loadModule('modules/procurement-matching.html','3-Way Match')"><span class="icon">🔗</span>3-Way Match</button>
+            <button class="nav-item" onclick="loadModule('modules/procurement-analytics.html','Procurement Analytics')"><span class="icon">📊</span>Analytics</button>
+            <button class="nav-item" onclick="loadModule('modules/procurement-approval.html','Procurement Approval')"><span class="icon">✅</span>Approval</button>
         </div>
     </div>
 
     <div class="nav-section connector-section"><div class="nav-label">🔌 Connectors</div>
-        <button class="nav-item" data-module="connectors/connector-hub.html"><span class="icon">🌐</span>Connector Hub</button>
-        <button class="nav-item" data-module="connectors/thai-ocr-providers.html"><span class="icon">🇹🇭</span>Thai OCR</button>
-        <button class="nav-item" data-module="connectors/global-ocr-providers.html"><span class="icon">🌍</span>Global OCR</button>
-        <button class="nav-item" data-module="connectors/ekyc-thai-id.html"><span class="icon">🪪</span>eKYC / Thai ID</button>
-        <button class="nav-item" data-module="connectors/fraud-detection.html"><span class="icon">🛡️</span>Fraud Detection</button>
-        <button class="nav-item" data-module="connectors/bank-statement-parser.html"><span class="icon">🏦</span>Bank Statement</button>
-        <button class="nav-item" data-module="connectors/receipt-invoice-parser.html"><span class="icon">🧾</span>Receipt Parser</button>
-        <button class="nav-item" data-module="connectors/gov-document-parser.html"><span class="icon">🏛️</span>Gov Document</button>
-        <button class="nav-item" data-module="connectors/passport-visa-parser.html"><span class="icon">🛂</span>Passport / Visa</button>
-        <button class="nav-item" data-module="connectors/vehicle-registration-parser.html"><span class="icon">🚗</span>Vehicle Reg</button>
+        <button class="nav-item" onclick="loadModule('connectors/connector-hub.html','Connector Hub')"><span class="icon">🌐</span>Connector Hub</button>
+        <button class="nav-item" onclick="loadModule('connectors/thai-ocr-providers.html','Thai OCR')"><span class="icon">🇹🇭</span>Thai OCR</button>
+        <button class="nav-item" onclick="loadModule('connectors/global-ocr-providers.html','Global OCR')"><span class="icon">🌍</span>Global OCR</button>
+        <button class="nav-item" onclick="loadModule('connectors/ekyc-thai-id.html','eKYC / Thai ID')"><span class="icon">🪪</span>eKYC / Thai ID</button>
+        <button class="nav-item" onclick="loadModule('connectors/fraud-detection.html','Fraud Detection')"><span class="icon">🛡️</span>Fraud Detection</button>
+        <button class="nav-item" onclick="loadModule('connectors/bank-statement-parser.html','Bank Statement')"><span class="icon">🏦</span>Bank Statement</button>
+        <button class="nav-item" onclick="loadModule('connectors/receipt-invoice-parser.html','Receipt Parser')"><span class="icon">🧾</span>Receipt Parser</button>
+        <button class="nav-item" onclick="loadModule('connectors/gov-document-parser.html','Gov Document')"><span class="icon">🏛️</span>Gov Document</button>
+        <button class="nav-item" onclick="loadModule('connectors/passport-visa-parser.html','Passport / Visa')"><span class="icon">🛂</span>Passport / Visa</button>
+        <button class="nav-item" onclick="loadModule('connectors/vehicle-registration-parser.html','Vehicle Reg')"><span class="icon">🚗</span>Vehicle Reg</button>
     </div>
 
     <div class="nav-section"><div class="nav-label">System</div>
@@ -991,9 +991,7 @@ const chIcons={upload:'📤',email:'📧',line:'💬',telegram:'✈️',whatsapp
 // Navigation
 document.querySelectorAll('.nav-item[data-page]').forEach(n=>n.addEventListener('click',()=>showPage(n.dataset.page)));
 
-// Module iframe navigation
-document.querySelectorAll('.nav-item[data-module]').forEach(n=>n.addEventListener('click',()=>loadModule(n.dataset.module, n.textContent.trim())));
-
+let currentModuleUrl='';
 function loadModule(url, title){
     // Hide all internal pages
     document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
@@ -1001,11 +999,15 @@ function loadModule(url, title){
     const frame=document.getElementById('moduleFrame');
     frame.classList.remove('hidden');
     frame.src=url;
+    currentModuleUrl=url;
     // Update header
     document.getElementById('headerTitle').textContent=title||'Module';
     // Update active states
     document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-    document.querySelectorAll('.nav-item[data-module]').forEach(n=>{if(n.dataset.module===url)n.classList.add('active');});
+    // Highlight the clicked button
+    document.querySelectorAll('.nav-item[onclick]').forEach(n=>{
+        if(n.getAttribute('onclick').includes(url))n.classList.add('active');
+    });
     currentPage='module';
     closeNotif();closeUserMenu();
 }
