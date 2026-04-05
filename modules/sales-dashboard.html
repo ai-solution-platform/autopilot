@@ -430,12 +430,13 @@ svg text { font-family: 'Inter', 'Noto Sans Thai', sans-serif; }
     .kpi-grid { grid-template-columns: 1fr; }
     .container { padding: 16px; }
 }
+@keyframes toastIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 </style>
 </head>
 <body>
 
 <!-- Dark Mode Toggle -->
-<button class="dark-toggle" onclick="document.body.classList.toggle('dark');this.textContent=document.body.classList.contains('dark')?'&#9728;':'&#9790;'" title="Toggle Dark Mode">&#9790;</button>
+<button class="dark-toggle" onclick="document.body.classList.toggle('dark');this.textContent=document.body.classList.contains('dark')?'☀':'☾'" title="Toggle Dark Mode">☾</button>
 
 <!-- Breadcrumb Header -->
 <header class="app-header">
@@ -451,62 +452,62 @@ svg text { font-family: 'Inter', 'Noto Sans Thai', sans-serif; }
     <!-- User Context Bar -->
     <div class="user-context">
         <div class="user-info">
-            <div class="user-avatar">&#3626;&#3585;</div>
+            <div class="user-avatar">สก</div>
             <div>
-                <div class="user-name">&#3626;&#3623;&#3633;&#3626;&#3604;&#3637; &#3626;&#3617;&#3594;&#3634;&#3618; &#3585;.</div>
+                <div class="user-name">สวัสดี สมชาย ก.</div>
                 <div class="user-role">Sales Manager</div>
             </div>
         </div>
         <div class="user-meta">
-            <div class="user-meta-item"><span class="icon">&#128101;</span> Team: 8 members</div>
-            <div class="user-meta-item"><span class="icon">&#128197;</span> &#3648;&#3617;&#3625;&#3634;&#3618;&#3609; 2569</div>
-            <div class="user-meta-item"><span class="icon">&#127919;</span> Target: &#3647;35M</div>
+            <div class="user-meta-item"><span class="icon">👥</span> Team: 8 members</div>
+            <div class="user-meta-item"><span class="icon">📅</span> เมษายน 2569</div>
+            <div class="user-meta-item"><span class="icon">🎯</span> Target: ฿35M</div>
         </div>
     </div>
 
     <!-- View Toggle + Period -->
     <div class="view-toggle-bar">
         <div class="view-toggle">
-            <button class="view-btn active" onclick="setView(this,'my')">&#3591;&#3634;&#3609;&#3586;&#3629;&#3591;&#3593;&#3633;&#3609;</button>
-            <button class="view-btn" onclick="setView(this,'team')">&#3591;&#3634;&#3609;&#3607;&#3637;&#3617;</button>
-            <button class="view-btn" onclick="setView(this,'all')">&#3607;&#3633;&#3657;&#3591;&#3627;&#3617;&#3604;</button>
+            <button class="view-btn active" onclick="setView(this,'my')">งานของฉัน</button>
+            <button class="view-btn" onclick="setView(this,'team')">งานทีม</button>
+            <button class="view-btn" onclick="setView(this,'all')">ทั้งหมด</button>
         </div>
-        <div class="period-badge">&#128197; &#3648;&#3617;.&#3618;. 2569 | &#3626;&#3633;&#3611;&#3604;&#3634;&#3627;&#3660;&#3607;&#3637;&#3656; 1</div>
+        <div class="period-badge">📅 เม.ย. 2569 | สัปดาห์ที่ 1</div>
     </div>
 
     <!-- KPI Cards -->
     <div class="kpi-grid">
         <div class="kpi-card">
-            <div class="kpi-icon">&#128196;</div>
-            <div class="kpi-label">&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634;&#3648;&#3604;&#3639;&#3629;&#3609;&#3609;&#3637;&#3657;</div>
+            <div class="kpi-icon">📄</div>
+            <div class="kpi-label">ใบเสนอราคาเดือนนี้</div>
             <div class="kpi-value">156</div>
-            <div class="kpi-change up">&#9650; 23% &#3592;&#3634;&#3585;&#3648;&#3604;&#3639;&#3629;&#3609;&#3585;&#3656;&#3629;&#3609;</div>
+            <div class="kpi-change up">▲ 23% จากเดือนก่อน</div>
         </div>
         <div class="kpi-card">
-            <div class="kpi-icon">&#3647;</div>
-            <div class="kpi-label">&#3617;&#3641;&#3621;&#3588;&#3656;&#3634;&#3619;&#3623;&#3617;</div>
-            <div class="kpi-value">&#3647;28.5M</div>
-            <div class="kpi-change up">&#9650; 18% &#3592;&#3634;&#3585;&#3648;&#3604;&#3639;&#3629;&#3609;&#3585;&#3656;&#3629;&#3609;</div>
+            <div class="kpi-icon">฿</div>
+            <div class="kpi-label">มูลค่ารวม</div>
+            <div class="kpi-value">฿28.5M</div>
+            <div class="kpi-change up">▲ 18% จากเดือนก่อน</div>
         </div>
         <div class="kpi-card">
-            <div class="kpi-icon">&#127942;</div>
+            <div class="kpi-icon">🏆</div>
             <div class="kpi-label">WIN RATE</div>
             <div class="kpi-value">68%</div>
-            <div class="kpi-change up">&#9650; 5% &#3592;&#3634;&#3585;&#3648;&#3604;&#3639;&#3629;&#3609;&#3585;&#3656;&#3629;&#3609;</div>
+            <div class="kpi-change up">▲ 5% จากเดือนก่อน</div>
         </div>
         <div class="kpi-card">
-            <div class="kpi-icon">&#9201;</div>
+            <div class="kpi-icon">⏱</div>
             <div class="kpi-label">AVG CLOSE TIME</div>
-            <div class="kpi-value">12 &#3623;&#3633;&#3609;</div>
-            <div class="kpi-change down">&#9660; 2 &#3623;&#3633;&#3609; (&#3648;&#3619;&#3655;&#3623;&#3586;&#3638;&#3657;&#3609;)</div>
+            <div class="kpi-value">12 วัน</div>
+            <div class="kpi-change down">▼ 2 วัน (เร็วขึ้น)</div>
         </div>
     </div>
 
     <!-- Quick Actions -->
     <div class="quick-actions">
-        <button class="action-btn primary" onclick="alert('&#3648;&#3611;&#3636;&#3604;&#3627;&#3609;&#3657;&#3634;&#3626;&#3619;&#3657;&#3634;&#3591;&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634;&#3651;&#3627;&#3617;&#3656;')">+ &#3626;&#3619;&#3657;&#3634;&#3591;&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634;&#3651;&#3627;&#3617;&#3656;</button>
-        <button class="action-btn outline" onclick="openExportModal()">&#128229; Export &#3619;&#3634;&#3618;&#3591;&#3634;&#3609;</button>
-        <button class="action-btn outline" onclick="window.location.href='sales-analytics.html'">&#128202; &#3604;&#3641; Analytics</button>
+        <button class="action-btn primary" onclick="alert('เปิดหน้าสร้างใบเสนอราคาใหม่')">+ สร้างใบเสนอราคาใหม่</button>
+        <button class="action-btn outline" onclick="openExportModal()">📥 Export รายงาน</button>
+        <button class="action-btn outline" onclick="window.location.href='sales-analytics.html'">📊 ดู Analytics</button>
     </div>
 
     <!-- Charts Grid -->
@@ -515,7 +516,7 @@ svg text { font-family: 'Inter', 'Noto Sans Thai', sans-serif; }
         <!-- Revenue Trend Line Chart -->
         <div class="card" style="position:relative;">
             <div class="card-header">
-                <h3>&#128200; &#3649;&#3609;&#3623;&#3650;&#3609;&#3657;&#3617;&#3619;&#3634;&#3618;&#3652;&#3604;&#3657; (6 &#3648;&#3604;&#3639;&#3629;&#3609;)</h3>
+                <h3>📈 แนวโน้มรายได้ (6 เดือน)</h3>
                 <span class="badge badge-green">+18%</span>
             </div>
             <div id="lineChartWrap" style="position:relative;">
@@ -527,8 +528,8 @@ svg text { font-family: 'Inter', 'Noto Sans Thai', sans-serif; }
         <!-- Donut Chart -->
         <div class="card" style="position:relative;">
             <div class="card-header">
-                <h3>&#128200; &#3626;&#3606;&#3634;&#3609;&#3632;&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634;</h3>
-                <span class="badge badge-blue">156 &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;</span>
+                <h3>📈 สถานะใบเสนอราคา</h3>
+                <span class="badge badge-blue">156 รายการ</span>
             </div>
             <div style="display:flex;align-items:center;gap:20px;">
                 <div id="donutChartWrap" style="position:relative;flex-shrink:0;">
@@ -543,20 +544,20 @@ svg text { font-family: 'Inter', 'Noto Sans Thai', sans-serif; }
     <!-- Recent Quotation Tasks -->
     <div class="table-wrap">
         <div class="table-header">
-            <h3>&#128203; &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634;&#3621;&#3656;&#3634;&#3626;&#3640;&#3604;</h3>
+            <h3>📋 รายการใบเสนอราคาล่าสุด</h3>
             <div class="search-box">
-                <span>&#128269;</span>
-                <input type="text" placeholder="&#3588;&#3657;&#3609;&#3627;&#3634;&#3619;&#3634;&#3618;&#3585;&#3634;&#3619;..." id="searchInput" oninput="filterTable()">
+                <span>🔍</span>
+                <input type="text" placeholder="ค้นหารายการ..." id="searchInput" oninput="filterTable()">
             </div>
         </div>
 
         <!-- Filter Chips -->
         <div class="filter-bar" style="padding:0 20px;">
-            <button class="filter-chip active" data-filter="all" onclick="setFilter(this,'all')">&#3607;&#3633;&#3657;&#3591;&#3627;&#3617;&#3604; <span class="count">8</span></button>
-            <button class="filter-chip" data-filter="complete" onclick="setFilter(this,'complete')">&#3648;&#3626;&#3619;&#3655;&#3592;&#3626;&#3636;&#3657;&#3609; <span class="count">4</span></button>
-            <button class="filter-chip" data-filter="processing" onclick="setFilter(this,'processing')">&#3585;&#3635;&#3621;&#3633;&#3591;&#3604;&#3635;&#3648;&#3609;&#3636;&#3609;&#3585;&#3634;&#3619; <span class="count">1</span></button>
-            <button class="filter-chip" data-filter="review" onclick="setFilter(this,'review')">&#3619;&#3629;&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636; <span class="count">2</span></button>
-            <button class="filter-chip" data-filter="draft" onclick="setFilter(this,'draft')">&#3593;&#3610;&#3633;&#3610;&#3619;&#3656;&#3634;&#3591; <span class="count">1</span></button>
+            <button class="filter-chip active" data-filter="all" onclick="setFilter(this,'all')">ทั้งหมด <span class="count">8</span></button>
+            <button class="filter-chip" data-filter="complete" onclick="setFilter(this,'complete')">เสร็จสิ้น <span class="count">4</span></button>
+            <button class="filter-chip" data-filter="processing" onclick="setFilter(this,'processing')">กำลังดำเนินการ <span class="count">1</span></button>
+            <button class="filter-chip" data-filter="review" onclick="setFilter(this,'review')">รออนุมัติ <span class="count">2</span></button>
+            <button class="filter-chip" data-filter="draft" onclick="setFilter(this,'draft')">ฉบับร่าง <span class="count">1</span></button>
         </div>
 
         <div style="overflow-x:auto;">
@@ -564,13 +565,13 @@ svg text { font-family: 'Inter', 'Noto Sans Thai', sans-serif; }
                 <thead>
                     <tr>
                         <th>Task ID</th>
-                        <th>&#3619;&#3634;&#3618;&#3621;&#3632;&#3648;&#3629;&#3637;&#3618;&#3604;</th>
-                        <th>&#3621;&#3641;&#3585;&#3588;&#3657;&#3634;</th>
-                        <th>&#3612;&#3641;&#3657;&#3619;&#3633;&#3610;&#3612;&#3636;&#3604;&#3594;&#3629;&#3610;</th>
-                        <th class="num">&#3619;&#3634;&#3618;&#3585;&#3634;&#3619;</th>
-                        <th class="num">&#3617;&#3641;&#3621;&#3588;&#3656;&#3634;</th>
-                        <th>&#3626;&#3606;&#3634;&#3609;&#3632;</th>
-                        <th>&#3623;&#3633;&#3609;&#3607;&#3637;&#3656;&#3626;&#3619;&#3657;&#3634;&#3591;</th>
+                        <th>รายละเอียด</th>
+                        <th>ลูกค้า</th>
+                        <th>ผู้รับผิดชอบ</th>
+                        <th class="num">รายการ</th>
+                        <th class="num">มูลค่า</th>
+                        <th>สถานะ</th>
+                        <th>วันที่สร้าง</th>
                     </tr>
                 </thead>
                 <tbody id="taskBody"></tbody>
@@ -578,15 +579,15 @@ svg text { font-family: 'Inter', 'Noto Sans Thai', sans-serif; }
         </div>
 
         <div class="pagination">
-            <div class="pagination-info">&#3649;&#3626;&#3604;&#3591; 1-8 &#3592;&#3634;&#3585; 156 &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;</div>
+            <div class="pagination-info">แสดง 1-8 จาก 156 รายการ</div>
             <div class="pagination-btns">
-                <button class="page-btn" onclick="changePage(-1)">&#8249;</button>
+                <button class="page-btn" onclick="changePage(-1)">‹</button>
                 <button class="page-btn active">1</button>
                 <button class="page-btn">2</button>
                 <button class="page-btn">3</button>
                 <button class="page-btn">...</button>
                 <button class="page-btn">20</button>
-                <button class="page-btn" onclick="changePage(1)">&#8250;</button>
+                <button class="page-btn" onclick="changePage(1)">›</button>
             </div>
         </div>
     </div>
@@ -597,17 +598,17 @@ svg text { font-family: 'Inter', 'Noto Sans Thai', sans-serif; }
     <!-- Team Performance -->
     <div class="card">
         <div class="card-header">
-            <h3>&#128101; &#3612;&#3621;&#3591;&#3634;&#3609;&#3607;&#3637;&#3617;</h3>
-            <span class="badge badge-blue">&#3648;&#3604;&#3639;&#3629;&#3609;&#3609;&#3637;&#3657;</span>
+            <h3>👥 ผลงานทีม</h3>
+            <span class="badge badge-blue">เดือนนี้</span>
         </div>
         <table class="team-table">
             <thead>
                 <tr>
-                    <th>&#3626;&#3617;&#3634;&#3594;&#3636;&#3585;</th>
-                    <th class="num">&#3591;&#3634;&#3609;</th>
+                    <th>สมาชิก</th>
+                    <th class="num">งาน</th>
                     <th>Win Rate</th>
                     <th class="num">Revenue</th>
-                    <th>&#3588;&#3623;&#3634;&#3617;&#3588;&#3639;&#3610;&#3627;&#3609;&#3657;&#3634;</th>
+                    <th>ความคืบหน้า</th>
                 </tr>
             </thead>
             <tbody id="teamBody"></tbody>
@@ -617,8 +618,8 @@ svg text { font-family: 'Inter', 'Noto Sans Thai', sans-serif; }
     <!-- Activity Feed -->
     <div class="card">
         <div class="card-header">
-            <h3>&#128337; &#3585;&#3636;&#3592;&#3585;&#3619;&#3619;&#3617;&#3621;&#3656;&#3634;&#3626;&#3640;&#3604;</h3>
-            <span class="badge badge-green">&#3623;&#3633;&#3609;&#3609;&#3637;&#3657;</span>
+            <h3>🕑 กิจกรรมล่าสุด</h3>
+            <span class="badge badge-green">วันนี้</span>
         </div>
         <div class="activity-feed" id="activityFeed"></div>
     </div>
@@ -628,8 +629,8 @@ svg text { font-family: 'Inter', 'Noto Sans Thai', sans-serif; }
     <!-- Monthly Target Progress -->
     <div class="card" style="margin-bottom:24px;">
         <div class="card-header">
-            <h3>&#127919; &#3648;&#3611;&#3657;&#3634;&#3627;&#3617;&#3634;&#3618;&#3648;&#3604;&#3639;&#3629;&#3609;&#3609;&#3637;&#3657;</h3>
-            <span class="badge badge-blue">81.4% &#3586;&#3629;&#3591;&#3648;&#3611;&#3657;&#3634;</span>
+            <h3>🎯 เป้าหมายเดือนนี้</h3>
+            <span class="badge badge-blue">81.4% ของเป้า</span>
         </div>
         <div class="target-grid" id="targetGrid"></div>
     </div>
@@ -638,30 +639,30 @@ svg text { font-family: 'Inter', 'Noto Sans Thai', sans-serif; }
     <div class="modal-overlay" id="exportModal">
         <div class="modal-box">
             <div class="modal-header">
-                <h3>&#128229; Export &#3619;&#3634;&#3618;&#3591;&#3634;&#3609;</h3>
-                <button class="modal-close" onclick="closeExportModal()">&times;</button>
+                <h3>📥 Export รายงาน</h3>
+                <button class="modal-close" onclick="closeExportModal()">×</button>
             </div>
             <div class="modal-body">
                 <div class="export-options">
                     <div class="export-opt" onclick="doExport('pdf')">
                         <span class="export-icon" style="background:var(--red-bg);color:var(--red);">PDF</span>
                         <div>
-                            <div class="export-name">&#3619;&#3634;&#3618;&#3591;&#3634;&#3609; PDF</div>
-                            <div class="export-desc">&#3626;&#3619;&#3640;&#3611;&#3612;&#3621;&#3614;&#3619;&#3657;&#3629;&#3617;&#3585;&#3619;&#3634;&#3615;&#3649;&#3621;&#3632;&#3605;&#3634;&#3619;&#3634;&#3591;</div>
+                            <div class="export-name">รายงาน PDF</div>
+                            <div class="export-desc">สรุปผลพร้อมกราฟและตาราง</div>
                         </div>
                     </div>
                     <div class="export-opt" onclick="doExport('excel')">
                         <span class="export-icon" style="background:var(--green-bg);color:var(--green);">XLS</span>
                         <div>
                             <div class="export-name">Excel Spreadsheet</div>
-                            <div class="export-desc">&#3586;&#3657;&#3629;&#3617;&#3641;&#3621;&#3604;&#3636;&#3610;&#3626;&#3635;&#3627;&#3619;&#3633;&#3610;&#3623;&#3636;&#3648;&#3588;&#3619;&#3634;&#3632;&#3627;&#3660;&#3648;&#3614;&#3636;&#3656;&#3617;&#3648;&#3605;&#3636;&#3617;</div>
+                            <div class="export-desc">ข้อมูลดิบสำหรับวิเคราะห์เพิ่มเติม</div>
                         </div>
                     </div>
                     <div class="export-opt" onclick="doExport('csv')">
                         <span class="export-icon" style="background:var(--blue-bg);color:var(--blue);">CSV</span>
                         <div>
                             <div class="export-name">CSV Data</div>
-                            <div class="export-desc">&#3652;&#3615;&#3621;&#3660;&#3586;&#3657;&#3629;&#3617;&#3641;&#3621;&#3604;&#3636;&#3610;&#3626;&#3635;&#3627;&#3619;&#3633;&#3610; Import</div>
+                            <div class="export-desc">ไฟล์ข้อมูลดิบสำหรับ Import</div>
                         </div>
                     </div>
                 </div>
@@ -674,29 +675,29 @@ svg text { font-family: 'Inter', 'Noto Sans Thai', sans-serif; }
 <script>
 // ==================== DATA ====================
 const tasks = [
-    { id:'QT-0156', title:'&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634;&#3629;&#3640;&#3611;&#3585;&#3619;&#3603;&#3660; IT Q2', customer:'ABC Corp', assignee:'&#3626;&#3617;&#3594;&#3634;&#3618; &#3585;.', items:12, amount:'&#3647;450K', status:'complete', date:'4 &#3648;&#3617;.&#3618;.', color:'#2563EB' },
-    { id:'QT-0155', title:'&#3619;&#3632;&#3610;&#3610; Security Camera', customer:'XYZ Ltd', assignee:'&#3626;&#3640;&#3623;&#3619;&#3619;&#3603;&#3634; &#3607;.', items:8, amount:'&#3647;280K', status:'review', date:'3 &#3648;&#3617;.&#3618;.', color:'#7C3AED' },
-    { id:'QT-0154', title:'Furniture Set Office B', customer:'DEF Inc', assignee:'&#3603;&#3633;&#3600;&#3614;&#3591;&#3625;&#3660; &#3626;.', items:15, amount:'&#3647;180K', status:'processing', date:'3 &#3648;&#3617;.&#3618;.', color:'#059669' },
-    { id:'QT-0153', title:'&#3629;&#3640;&#3611;&#3585;&#3619;&#3603;&#3660;&#3626;&#3635;&#3609;&#3633;&#3585;&#3591;&#3634;&#3609;', customer:'GHI Co', assignee:'Artit C.', items:6, amount:'&#3647;95K', status:'draft', date:'2 &#3648;&#3617;.&#3618;.', color:'#D97706' },
-    { id:'QT-0152', title:'Server Room Equipment', customer:'JKL Ltd', assignee:'Patchara W.', items:22, amount:'&#3647;1.2M', status:'complete', date:'1 &#3648;&#3617;.&#3618;.', color:'#DC2626' },
-    { id:'QT-0151', title:'Network Switch &#3594;&#3633;&#3657;&#3609; 3', customer:'MNO Corp', assignee:'&#3626;&#3617;&#3594;&#3634;&#3618; &#3585;.', items:4, amount:'&#3647;320K', status:'complete', date:'31 &#3617;&#3637;.&#3588;.', color:'#2563EB' },
-    { id:'QT-0150', title:'Laptop &#3626;&#3635;&#3627;&#3619;&#3633;&#3610;&#3607;&#3637;&#3617; Dev', customer:'PQR Inc', assignee:'&#3626;&#3640;&#3623;&#3619;&#3619;&#3603;&#3634; &#3607;.', items:10, amount:'&#3647;650K', status:'review', date:'30 &#3617;&#3637;.&#3588;.', color:'#7C3AED' },
-    { id:'QT-0149', title:'&#3619;&#3632;&#3610;&#3610; CCTV &#3650;&#3619;&#3591;&#3591;&#3634;&#3609;', customer:'STU Ltd', assignee:'&#3603;&#3633;&#3600;&#3614;&#3591;&#3625;&#3660; &#3626;.', items:18, amount:'&#3647;890K', status:'complete', date:'28 &#3617;&#3637;.&#3588;.', color:'#059669' }
+    { id:'QT-0156', title:'ใบเสนอราคาอุปกรณ์ IT Q2', customer:'ABC Corp', assignee:'สมชาย ก.', items:12, amount:'฿450K', status:'complete', date:'4 เม.ย.', color:'#2563EB' },
+    { id:'QT-0155', title:'ระบบ Security Camera', customer:'XYZ Ltd', assignee:'สุวรรณา ท.', items:8, amount:'฿280K', status:'review', date:'3 เม.ย.', color:'#7C3AED' },
+    { id:'QT-0154', title:'Furniture Set Office B', customer:'DEF Inc', assignee:'ณัฐพงษ์ ส.', items:15, amount:'฿180K', status:'processing', date:'3 เม.ย.', color:'#059669' },
+    { id:'QT-0153', title:'อุปกรณ์สำนักงาน', customer:'GHI Co', assignee:'Artit C.', items:6, amount:'฿95K', status:'draft', date:'2 เม.ย.', color:'#D97706' },
+    { id:'QT-0152', title:'Server Room Equipment', customer:'JKL Ltd', assignee:'Patchara W.', items:22, amount:'฿1.2M', status:'complete', date:'1 เม.ย.', color:'#DC2626' },
+    { id:'QT-0151', title:'Network Switch ชั้น 3', customer:'MNO Corp', assignee:'สมชาย ก.', items:4, amount:'฿320K', status:'complete', date:'31 มี.ค.', color:'#2563EB' },
+    { id:'QT-0150', title:'Laptop สำหรับทีม Dev', customer:'PQR Inc', assignee:'สุวรรณา ท.', items:10, amount:'฿650K', status:'review', date:'30 มี.ค.', color:'#7C3AED' },
+    { id:'QT-0149', title:'ระบบ CCTV โรงงาน', customer:'STU Ltd', assignee:'ณัฐพงษ์ ส.', items:18, amount:'฿890K', status:'complete', date:'28 มี.ค.', color:'#059669' }
 ];
 
 const teamData = [
-    { name:'&#3626;&#3617;&#3594;&#3634;&#3618; &#3585;.', tasks:45, winRate:72, revenue:'&#3647;8.5M', color:'#2563EB' },
-    { name:'&#3626;&#3640;&#3623;&#3619;&#3619;&#3603;&#3634; &#3607;.', tasks:38, winRate:65, revenue:'&#3647;6.2M', color:'#7C3AED' },
-    { name:'&#3603;&#3633;&#3600;&#3614;&#3591;&#3625;&#3660; &#3626;.', tasks:42, winRate:70, revenue:'&#3647;7.8M', color:'#059669' },
-    { name:'Artit C.', tasks:31, winRate:62, revenue:'&#3647;4.1M', color:'#D97706' },
-    { name:'Patchara W.', tasks:28, winRate:68, revenue:'&#3647;5.3M', color:'#DC2626' }
+    { name:'สมชาย ก.', tasks:45, winRate:72, revenue:'฿8.5M', color:'#2563EB' },
+    { name:'สุวรรณา ท.', tasks:38, winRate:65, revenue:'฿6.2M', color:'#7C3AED' },
+    { name:'ณัฐพงษ์ ส.', tasks:42, winRate:70, revenue:'฿7.8M', color:'#059669' },
+    { name:'Artit C.', tasks:31, winRate:62, revenue:'฿4.1M', color:'#D97706' },
+    { name:'Patchara W.', tasks:28, winRate:68, revenue:'฿5.3M', color:'#DC2626' }
 ];
 
 const statusMap = {
-    complete: { label:'&#3648;&#3626;&#3619;&#3655;&#3592;&#3626;&#3636;&#3657;&#3609;', cls:'status-complete' },
-    review: { label:'&#3619;&#3629;&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;', cls:'status-review' },
-    processing: { label:'&#3585;&#3635;&#3621;&#3633;&#3591;&#3604;&#3635;&#3648;&#3609;&#3636;&#3609;&#3585;&#3634;&#3619;', cls:'status-processing' },
-    draft: { label:'&#3593;&#3610;&#3633;&#3610;&#3619;&#3656;&#3634;&#3591;', cls:'status-draft' }
+    complete: { label:'เสร็จสิ้น', cls:'status-complete' },
+    review: { label:'รออนุมัติ', cls:'status-review' },
+    processing: { label:'กำลังดำเนินการ', cls:'status-processing' },
+    draft: { label:'ฉบับร่าง', cls:'status-draft' }
 };
 
 // ==================== RENDER TASKS TABLE ====================
@@ -1057,6 +1058,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 200);
     });
 });
+
+
+function showToast(icon, title, msg) {
+  const t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:24px;right:24px;background:var(--card-bg,#fff);color:var(--text,#0F172A);border:1px solid var(--border,#E2E8F0);padding:14px 20px;border-radius:12px;font-size:.82rem;font-weight:500;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.15);display:flex;align-items:center;gap:10px;font-family:inherit;max-width:380px;animation:toastIn .4s ease;';
+  t.innerHTML = (icon ? '<span style="font-size:1.2rem;">'+icon+'</span>' : '') + '<div>' + (title ? '<strong>'+title+'</strong> ' : '') + (msg||'') + '</div>';
+  document.body.appendChild(t);
+  setTimeout(function(){t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(function(){t.remove();},300);},3000);
+}
 </script>
 
 </body>

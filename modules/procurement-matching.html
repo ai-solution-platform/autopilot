@@ -158,7 +158,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 </head>
 <body>
 
-<button class="dark-toggle" onclick="toggleDark()">&#127769;</button>
+<button class="dark-toggle" onclick="toggleDark()">🌙</button>
 
 <div class="page-wrap">
 
@@ -167,11 +167,11 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
     <div class="user-info">
       <div class="user-avatar">AC</div>
       <div>
-        <div class="user-name">&#3626;&#3623;&#3633;&#3626;&#3604;&#3637; Artit C. | Procurement Manager</div>
-        <div class="user-role">3-Way Matching Engine &middot; &#3629;&#3629;&#3609;&#3652;&#3621;&#3609;&#3660;</div>
+        <div class="user-name">สวัสดี Artit C. | Procurement Manager</div>
+        <div class="user-role">3-Way Matching Engine · ออนไลน์</div>
       </div>
     </div>
-    <div class="queue-badge">&#9889; Auto-Match Queue: <strong id="autoMatchCount">8</strong> &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;</div>
+    <div class="queue-badge">⚡ Auto-Match Queue: <strong id="autoMatchCount">8</strong> รายการ</div>
   </div>
 
   <div class="breadcrumb">
@@ -181,7 +181,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
   </div>
 
   <div class="page-title">3-Way Matching Engine</div>
-  <div class="page-sub">&#3648;&#3611;&#3619;&#3637;&#3618;&#3610;&#3648;&#3607;&#3637;&#3618;&#3610; PO vs Invoice vs Goods Receipt &mdash; &#3605;&#3619;&#3623;&#3592;&#3626;&#3629;&#3610;&#3588;&#3623;&#3634;&#3617;&#3606;&#3641;&#3585;&#3605;&#3657;&#3629;&#3591;&#3585;&#3656;&#3629;&#3609;&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;&#3592;&#3656;&#3634;&#3618;</div>
+  <div class="page-sub">เปรียบเทียบ PO vs Invoice vs Goods Receipt — ตรวจสอบความถูกต้องก่อนอนุมัติจ่าย</div>
 
   <!-- KPI Dashboard — 4 per row compact -->
   <div class="kpi-grid fade-up" style="animation-delay:0.1s;">
@@ -189,11 +189,11 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
       <div class="glow-bar" style="background:var(--green);"></div>
       <div class="kpi-top">
         <div>
-          <div class="kpi-label">Matched (&#3605;&#3619;&#3591;&#3585;&#3633;&#3609;)</div>
+          <div class="kpi-label">Matched (ตรงกัน)</div>
           <div class="kpi-value" style="color:var(--green);">142</div>
-          <div class="kpi-sub">78% &#3586;&#3629;&#3591;&#3607;&#3633;&#3657;&#3591;&#3627;&#3617;&#3604;</div>
+          <div class="kpi-sub">78% ของทั้งหมด</div>
         </div>
-        <div class="kpi-icon" style="background:var(--green-bg);color:var(--green);">&#10003;</div>
+        <div class="kpi-icon" style="background:var(--green-bg);color:var(--green);">✓</div>
       </div>
       <div class="kpi-chart" id="matchedChart"></div>
     </div>
@@ -203,9 +203,9 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
         <div>
           <div class="kpi-label">Partial Match</div>
           <div class="kpi-value" style="color:var(--orange);">28</div>
-          <div class="kpi-sub">15% &#3605;&#3619;&#3591;&#3610;&#3634;&#3591;&#3626;&#3656;&#3623;&#3609;</div>
+          <div class="kpi-sub">15% ตรงบางส่วน</div>
         </div>
-        <div class="kpi-icon" style="background:var(--orange-bg);color:var(--orange);">&#9888;</div>
+        <div class="kpi-icon" style="background:var(--orange-bg);color:var(--orange);">⚠</div>
       </div>
       <div class="kpi-chart" id="partialChart"></div>
     </div>
@@ -215,9 +215,9 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
         <div>
           <div class="kpi-label">Mismatch</div>
           <div class="kpi-value" style="color:var(--red);">12</div>
-          <div class="kpi-sub">7% &#3652;&#3617;&#3656;&#3605;&#3619;&#3591;&#3585;&#3633;&#3609;</div>
+          <div class="kpi-sub">7% ไม่ตรงกัน</div>
         </div>
-        <div class="kpi-icon" style="background:var(--red-bg);color:var(--red);">&#10007;</div>
+        <div class="kpi-icon" style="background:var(--red-bg);color:var(--red);">✗</div>
       </div>
       <div class="kpi-chart" id="mismatchChart"></div>
     </div>
@@ -225,11 +225,11 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
       <div class="glow-bar" style="background:var(--blue);"></div>
       <div class="kpi-top">
         <div>
-          <div class="kpi-label">&#3619;&#3629;&#3605;&#3619;&#3623;&#3592;&#3626;&#3629;&#3610;</div>
+          <div class="kpi-label">รอตรวจสอบ</div>
           <div class="kpi-value" style="color:var(--blue);">8</div>
-          <div class="kpi-sub">&#3619;&#3634;&#3618;&#3585;&#3634;&#3619;&#3651;&#3627;&#3617;&#3656;&#3623;&#3633;&#3609;&#3609;&#3637;&#3657;</div>
+          <div class="kpi-sub">รายการใหม่วันนี้</div>
         </div>
-        <div class="kpi-icon" style="background:var(--blue-bg);color:var(--blue);">&#8987;</div>
+        <div class="kpi-icon" style="background:var(--blue-bg);color:var(--blue);">⌛</div>
       </div>
       <div class="kpi-chart" id="pendingChart"></div>
     </div>
@@ -237,9 +237,9 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
   <!-- Tabs: Queue / Recent Matches / Linked -->
   <div class="tabs">
-    <button class="tab-btn active" onclick="switchMatchTab('queue')" style="position:relative;">&#9889; Match Queue<span class="tab-badge">8</span></button>
-    <button class="tab-btn" onclick="switchMatchTab('recent')">&#128203; &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;&#3621;&#3656;&#3634;&#3626;&#3640;&#3604;</button>
-    <button class="tab-btn" onclick="switchMatchTab('linked')">&#128279; Linked Quotation</button>
+    <button class="tab-btn active" onclick="switchMatchTab('queue')" style="position:relative;">⚡ Match Queue<span class="tab-badge">8</span></button>
+    <button class="tab-btn" onclick="switchMatchTab('recent')">📋 รายการล่าสุด</button>
+    <button class="tab-btn" onclick="switchMatchTab('linked')">🔗 Linked Quotation</button>
   </div>
 
   <!-- Queue Tab -->
@@ -247,7 +247,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
     <div class="fade-up" style="animation-delay:0.2s;">
       <div class="section-title">
         <div class="dot"></div>
-        Match Queue &mdash; &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;&#3619;&#3629;&#3605;&#3619;&#3623;&#3592;&#3626;&#3629;&#3610;
+        Match Queue — รายการรอตรวจสอบ
       </div>
       <div style="overflow-x:auto;margin-bottom:8px;">
         <table class="data-table" id="matchQueue">
@@ -266,7 +266,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
           <tbody id="queueBody"></tbody>
         </table>
       </div>
-      <p style="font-size:.72rem;color:var(--muted);margin-bottom:32px;">&#3588;&#3621;&#3636;&#3585;&#3607;&#3637;&#3656;&#3649;&#3606;&#3623;&#3648;&#3614;&#3639;&#3656;&#3629;&#3604;&#3641;&#3619;&#3634;&#3618;&#3621;&#3632;&#3648;&#3629;&#3637;&#3618;&#3604;&#3585;&#3634;&#3619;&#3648;&#3611;&#3619;&#3637;&#3618;&#3610;&#3648;&#3607;&#3637;&#3618;&#3610;</p>
+      <p style="font-size:.72rem;color:var(--muted);margin-bottom:32px;">คลิกที่แถวเพื่อดูรายละเอียดการเปรียบเทียบ</p>
     </div>
   </div>
 
@@ -274,7 +274,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
   <div id="mtab-recent" class="tab-content">
     <div class="section-title">
       <div class="dot" style="background:var(--purple);"></div>
-      Recent Matches &mdash; &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;&#3621;&#3656;&#3634;&#3626;&#3640;&#3604;
+      Recent Matches — รายการล่าสุด
     </div>
     <div style="overflow-x:auto;">
       <table class="data-table" id="recentTable">
@@ -284,9 +284,9 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
             <th>PO</th>
             <th>Invoice</th>
             <th>GR</th>
-            <th>&#3612;&#3621;</th>
+            <th>ผล</th>
             <th>Matched By</th>
-            <th>&#3623;&#3633;&#3609;&#3607;&#3637;&#3656;</th>
+            <th>วันที่</th>
             <th></th>
           </tr>
         </thead>
@@ -298,7 +298,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
   <!-- Linked Quotation Tab -->
   <div id="mtab-linked" class="tab-content">
     <div class="linked-section" style="background:transparent;border:none;padding:0;">
-      <div style="font-size:.95rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;">&#128279; Linked Quotation Tasks &mdash; &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;&#3607;&#3637;&#3656;&#3617;&#3634;&#3592;&#3634;&#3585; Quotation Autopilot</div>
+      <div style="font-size:.95rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;">🔗 Linked Quotation Tasks — รายการที่มาจาก Quotation Autopilot</div>
       <div id="linkedContainer"></div>
     </div>
   </div>
@@ -308,7 +308,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
     <div class="fade-up">
       <div class="section-title">
         <div class="dot" style="background:var(--cyan);"></div>
-        <span id="detailTitle">&#3612;&#3621;&#3648;&#3611;&#3619;&#3637;&#3618;&#3610;&#3648;&#3607;&#3637;&#3618;&#3610; 3 &#3607;&#3634;&#3591;</span>
+        <span id="detailTitle">ผลเปรียบเทียบ 3 ทาง</span>
       </div>
     </div>
 
@@ -322,7 +322,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
             <div><div class="col-label">Purchase Order</div><div class="col-number" id="poNumber">PO-2026-0145</div></div>
           </div>
           <div id="poItems"></div>
-          <div class="match-total"><span>&#3619;&#3623;&#3617;</span><span id="poTotal" style="color:var(--blue);">&#3647;8,980</span></div>
+          <div class="match-total"><span>รวม</span><span id="poTotal" style="color:var(--blue);">฿8,980</span></div>
         </div>
         <div class="match-col" id="colInv">
           <div class="col-header">
@@ -330,7 +330,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
             <div><div class="col-label">Invoice</div><div class="col-number" id="invNumber">INV-2026-3847</div></div>
           </div>
           <div id="invItems"></div>
-          <div class="match-total"><span>&#3619;&#3623;&#3617;</span><span id="invTotal" style="color:var(--purple);">&#3647;9,230</span></div>
+          <div class="match-total"><span>รวม</span><span id="invTotal" style="color:var(--purple);">฿9,230</span></div>
         </div>
         <div class="match-col" id="colGR">
           <div class="col-header">
@@ -338,7 +338,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
             <div><div class="col-label">Goods Receipt</div><div class="col-number" id="grNumber">GR-2026-0891</div></div>
           </div>
           <div id="grItems"></div>
-          <div class="match-total"><span>&#3619;&#3633;&#3610;&#3588;&#3619;&#3610;</span><span id="grStatus" style="color:var(--cyan);">&#3610;&#3634;&#3591;&#3626;&#3656;&#3623;&#3609;</span></div>
+          <div class="match-total"><span>รับครบ</span><span id="grStatus" style="color:var(--cyan);">บางส่วน</span></div>
         </div>
       </div>
     </div>
@@ -347,7 +347,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
     <div class="fade-up" style="animation-delay:0.2s;">
       <div class="result-summary" id="resultSummary">
         <div class="result-item"><div class="res-label">Item Match</div><div class="res-value" id="resItemMatch" style="color:var(--orange);">1/2 (50%)</div></div>
-        <div class="result-item"><div class="res-label">Price Variance</div><div class="res-value" id="resPriceVar" style="color:var(--red);">+&#3647;250</div><div class="res-sub" id="resPricePct">2.8%</div></div>
+        <div class="result-item"><div class="res-label">Price Variance</div><div class="res-value" id="resPriceVar" style="color:var(--red);">+฿250</div><div class="res-sub" id="resPricePct">2.8%</div></div>
         <div class="result-item"><div class="res-label">Quantity Variance</div><div class="res-value" id="resQtyVar" style="color:var(--red);">-1 item</div></div>
         <div class="result-item"><div class="res-label">Overall Status</div><div class="res-value" id="resOverall"><span class="badge badge-partial">Partial Match</span></div></div>
       </div>
@@ -355,21 +355,21 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
     <!-- AI Recommendations -->
     <div class="reco-box fade-up" style="animation-delay:0.3s;">
-      <div class="reco-title"><span style="font-size:1rem;">&#9889;</span> AI Recommendation</div>
+      <div class="reco-title"><span style="font-size:1rem;">⚡</span> AI Recommendation</div>
       <ul id="recoList">
-        <li>&#3605;&#3619;&#3623;&#3592;&#3626;&#3629;&#3610;&#3619;&#3634;&#3588;&#3634;&#3652;&#3586;&#3588;&#3623;&#3591;&#3585;&#3633;&#3610; vendor &mdash; &#3626;&#3656;&#3623;&#3609;&#3605;&#3656;&#3634;&#3591; &#3647;250 (2.8%)</li>
-        <li>&#3605;&#3636;&#3604;&#3605;&#3634;&#3617;&#3626;&#3636;&#3609;&#3588;&#3657;&#3634;&#3607;&#3637;&#3656;&#3586;&#3634;&#3604;</li>
-        <li>&#3614;&#3636;&#3592;&#3634;&#3619;&#3603;&#3634;&#3626;&#3619;&#3657;&#3634;&#3591; Debit Note</li>
+        <li>ตรวจสอบราคาไขควงกับ vendor — ส่วนต่าง ฿250 (2.8%)</li>
+        <li>ติดตามสินค้าที่ขาด</li>
+        <li>พิจารณาสร้าง Debit Note</li>
       </ul>
     </div>
 
     <!-- Action Buttons -->
     <div class="action-bar fade-up" style="animation-delay:0.35s;">
-      <button class="btn btn-approve" onclick="doAction('approve')">&#10003; &#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;&#3592;&#3656;&#3634;&#3618;</button>
-      <button class="btn btn-reject" onclick="doAction('reject')">&#10007; &#3611;&#3599;&#3636;&#3648;&#3626;&#3608;</button>
-      <button class="btn btn-return" onclick="doAction('return')">&#8617; &#3626;&#3656;&#3591;&#3585;&#3621;&#3633;&#3610; vendor</button>
-      <button class="btn btn-debit" onclick="doAction('debit')">&#9998; &#3626;&#3619;&#3657;&#3634;&#3591; Debit Note</button>
-      <a href="#" class="btn btn-outline" style="text-decoration:none;">&#128279; View in Audit Log</a>
+      <button class="btn btn-approve" onclick="doAction('approve')">✓ อนุมัติจ่าย</button>
+      <button class="btn btn-reject" onclick="doAction('reject')">✗ ปฏิเสธ</button>
+      <button class="btn btn-return" onclick="doAction('return')">↩ ส่งกลับ vendor</button>
+      <button class="btn btn-debit" onclick="doAction('debit')">✎ สร้าง Debit Note</button>
+      <a href="#" class="btn btn-outline" style="text-decoration:none;">🔗 View in Audit Log</a>
     </div>
   </div>
 
@@ -380,7 +380,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
 <!-- Toast -->
 <div id="toast" style="position:fixed;bottom:-80px;left:50%;transform:translateX(-50%);background:var(--card-bg);border:1px solid var(--blue);border-radius:var(--radius);padding:14px 28px;font-size:.82rem;font-weight:600;z-index:999;transition:bottom .4s ease;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(0,0,0,.1);">
-  <span id="toastIcon">&#10003;</span>
+  <span id="toastIcon">✓</span>
   <span id="toastMsg"></span>
 </div>
 
@@ -507,7 +507,7 @@ const historyData = [
 // ============ RENDER ============
 function fmt(n){return n.toLocaleString('th-TH');}
 function statusBadge(s){
-    const map = {matched:'<span class="badge badge-matched">&#10003; Matched</span>',partial:'<span class="badge badge-partial">&#9888; Partial</span>',mismatch:'<span class="badge badge-mismatch">&#10007; Mismatch</span>',pending:'<span class="badge badge-pending">&#8987; รอตรวจสอบ</span>',missing:'<span class="badge badge-missing">&#10060; Missing GR</span>'};
+    const map = {matched:'<span class="badge badge-matched">✓ Matched</span>',partial:'<span class="badge badge-partial">⚠ Partial</span>',mismatch:'<span class="badge badge-mismatch">✗ Mismatch</span>',pending:'<span class="badge badge-pending">⌛ รอตรวจสอบ</span>',missing:'<span class="badge badge-missing">❌ Missing GR</span>'};
     return map[s]||s;
 }
 
@@ -530,7 +530,7 @@ function renderQueue(){
 function renderRecentMatches(){
     const body=document.getElementById('recentBody');
     body.innerHTML=recentMatches.map(r=>`
-        <tr onclick="showToast('&#128269;','กำลังโหลดรายละเอียด ${r.id}...')">
+        <tr onclick="showToast('🔍','กำลังโหลดรายละเอียด ${r.id}...')">
             <td style="font-weight:700;color:var(--text);">${r.id}</td>
             <td style="font-weight:600;">${r.po}</td>
             <td>${r.inv}</td>
@@ -538,7 +538,7 @@ function renderRecentMatches(){
             <td>${statusBadge(r.result)}</td>
             <td>${r.matchedBy}</td>
             <td style="color:var(--muted);">${r.date}</td>
-            <td><a href="#" class="btn btn-outline btn-sm" style="text-decoration:none;font-size:.7rem;" onclick="event.stopPropagation()">&#128279; Audit Log</a></td>
+            <td><a href="#" class="btn btn-outline btn-sm" style="text-decoration:none;font-size:.7rem;" onclick="event.stopPropagation()">🔗 Audit Log</a></td>
         </tr>
     `).join('');
 }
@@ -548,12 +548,12 @@ function renderLinkedTasks(){
     container.innerHTML=linkedTasks.map(t=>{
         const v=VENDORS.find(x=>x.id===t.vendorId);
         return `<div class="linked-item">
-          <div style="width:32px;height:32px;border-radius:8px;background:var(--purple-bg);color:var(--purple);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;">&#128196;</div>
+          <div style="width:32px;height:32px;border-radius:8px;background:var(--purple-bg);color:var(--purple);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;">📄</div>
           <div style="flex:1;">
-            <div style="font-size:.82rem;font-weight:600;">${t.id} &mdash; ${t.title}</div>
-            <div style="font-size:.7rem;color:var(--muted);margin-top:2px;">Vendor: ${t.vendor} ${v?'(&#9733; '+v.score+')':''} &middot; &#3647;${fmt(t.amount)} &middot; ${t.date} &middot; PO: ${t.poRef} &middot; Match: ${t.matchRef}</div>
+            <div style="font-size:.82rem;font-weight:600;">${t.id} — ${t.title}</div>
+            <div style="font-size:.7rem;color:var(--muted);margin-top:2px;">Vendor: ${t.vendor} ${v?'(★ '+v.score+')':''} · ฿${fmt(t.amount)} · ${t.date} · PO: ${t.poRef} · Match: ${t.matchRef}</div>
           </div>
-          <a href="procurement-prpo.html" class="btn btn-outline btn-sm" style="text-decoration:none;">&#8592; PR/PO</a>
+          <a href="procurement-prpo.html" class="btn btn-outline btn-sm" style="text-decoration:none;">← PR/PO</a>
         </div>`;
     }).join('');
 }
@@ -579,7 +579,7 @@ function renderDetail(d,po){
     document.getElementById('resPricePct').textContent=d.pricePct;
     document.getElementById('resQtyVar').textContent=d.qtyVar;
     document.getElementById('resQtyVar').style.color=d.qtyVar==='0'?'var(--green)':'var(--red)';
-    const overallMap={matched:'<span class="badge badge-matched">&#10003; Matched</span>',partial:'<span class="badge badge-partial">&#9888; Partial Match</span>',mismatch:'<span class="badge badge-mismatch">&#10007; Mismatch</span>'};
+    const overallMap={matched:'<span class="badge badge-matched">✓ Matched</span>',partial:'<span class="badge badge-partial">⚠ Partial Match</span>',mismatch:'<span class="badge badge-mismatch">✗ Mismatch</span>'};
     document.getElementById('resOverall').innerHTML=overallMap[d.overall]||'';
     document.getElementById('recoList').innerHTML=d.recos.map(r=>`<li>${r}</li>`).join('');
     requestAnimationFrame(()=>{requestAnimationFrame(drawLines);});

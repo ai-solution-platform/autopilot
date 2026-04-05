@@ -130,7 +130,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 </style>
 </head>
 <body>
-<button class="dark-toggle" onclick="document.body.classList.toggle('dark');this.textContent=document.body.classList.contains('dark')?'&#9728;':'&#9790;'">&#9790;</button>
+<button class="dark-toggle" onclick="toggleDark()">&#9790;</button>
 
 <div class="page">
   <div class="breadcrumb">
@@ -712,6 +712,18 @@ window.addEventListener('message', function(e) {
 
 // Initialize history table on page load
 renderHistory();
+
+function toggleDark() {
+  document.body.classList.toggle('dark');
+  const isDark = document.body.classList.contains('dark');
+  document.querySelector('.dark-toggle').textContent = isDark ? '☀' : '☾';
+  localStorage.setItem('autopilot-dark', isDark ? '1' : '0');
+}
+// Restore on load
+if (localStorage.getItem('autopilot-dark') === '1') {
+  document.body.classList.add('dark');
+  document.querySelector('.dark-toggle').textContent = '☀';
+}
 </script>
 </body>
 </html>

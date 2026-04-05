@@ -289,7 +289,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 <body>
 
 <!-- Dark Mode Toggle -->
-<button class="dark-toggle" onclick="toggleDark()">&#127769;</button>
+<button class="dark-toggle" onclick="toggleDark()">🌙</button>
 
 <!-- SVG DEFS -->
 <svg width="0" height="0" style="position:absolute">
@@ -317,8 +317,8 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
         <span class="current">FN-2026-0847</span>
     </div>
     <div class="topnav-actions">
-        <button onclick="window.print()">&#x1F5A8; Export</button>
-        <button onclick="showToast('success','แชร์ลิงก์เคสสำเร็จ')">&#x1F517; Share</button>
+        <button onclick="window.print()">🖨 Export</button>
+        <button onclick="showToast('success','แชร์ลิงก์เคสสำเร็จ')">🔗 Share</button>
     </div>
 </nav>
 
@@ -332,8 +332,8 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
                 <div class="case-id">CASE #FN-2026-0847</div>
                 <div class="case-customer">สินเชื่อรถยนต์ — นายสมชาย วิริยะกิจ</div>
                 <div class="case-type">
-                    <span class="type-icon">&#x1F697;</span>
-                    สินเชื่อรถยนต์ใหม่ &middot; Toyota Yaris 2026 &middot; วงเงิน 650,000 บาท
+                    <span class="type-icon">🚗</span>
+                    สินเชื่อรถยนต์ใหม่ · Toyota Yaris 2026 · วงเงิน 650,000 บาท
                 </div>
             </div>
             <div class="case-header-badges">
@@ -344,7 +344,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
         <div class="case-stats">
             <div class="stat-box">
                 <div class="stat-icon" style="background:var(--orange-bg); color:var(--orange);">
-                    <span class="timer-icon">&#x23F3;</span>
+                    <span class="timer-icon">⏳</span>
                 </div>
                 <div class="stat-content">
                     <div class="stat-label">SLA Deadline</div>
@@ -369,7 +369,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
                 </div>
             </div>
             <div class="stat-box">
-                <div class="stat-icon" style="background:var(--blue-bg); color:var(--blue);">&#x1F464;</div>
+                <div class="stat-icon" style="background:var(--blue-bg); color:var(--blue);">👤</div>
                 <div class="stat-content">
                     <div class="stat-label">ผู้รับผิดชอบ</div>
                     <div class="stat-value">คุณวรรณา ลิขิตธรรม</div>
@@ -377,7 +377,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
                 </div>
             </div>
             <div class="stat-box">
-                <div class="stat-icon" style="background:var(--green-bg); color:var(--green);">&#x1F4AC;</div>
+                <div class="stat-icon" style="background:var(--green-bg); color:var(--green);">💬</div>
                 <div class="stat-content">
                     <div class="stat-label">ช่องทาง</div>
                     <div class="stat-value">LINE, Email, Upload</div>
@@ -389,15 +389,15 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
     <!-- ASSIGNMENT BAR -->
     <div class="assignment-bar" style="margin-top:20px;">
-        <div class="assign-label">&#x1F464; Assigned to:</div>
+        <div class="assign-label">👤 Assigned to:</div>
         <div class="assign-user">
-            <div class="assign-avatar">&#3623;&#3621;</div>
-            &#3588;&#3640;&#3603;&#3623;&#3619;&#3619;&#3603;&#3634; &#3621;&#3636;&#3586;&#3636;&#3605;&#3608;&#3619;&#3619;&#3617;
+            <div class="assign-avatar">วล</div>
+            คุณวรรณา ลิขิตธรรม
         </div>
-        <span style="font-size:0.72rem;color:var(--muted);">| &#3607;&#3637;&#3617;&#3626;&#3636;&#3609;&#3648;&#3594;&#3639;&#3656;&#3629;&#3619;&#3606;&#3618;&#3609;&#3605;&#3660;</span>
+        <span style="font-size:0.72rem;color:var(--muted);">| ทีมสินเชื่อรถยนต์</span>
         <div style="margin-left:auto; display:flex; gap:8px;">
-            <button class="reassign-btn" onclick="openReassignModal()">&#x1F501; &#3617;&#3629;&#3610;&#3627;&#3617;&#3634;&#3618;&#3651;&#3627;&#3617;&#3656;</button>
-            <button class="escalate-btn" onclick="showToast('warning','&#3626;&#3656;&#3591; Escalate &#3652;&#3611;&#3618;&#3633;&#3591;&#3612;&#3641;&#3657;&#3592;&#3633;&#3604;&#3585;&#3634;&#3619;&#3607;&#3637;&#3617;&#3649;&#3621;&#3657;&#3623;')">&#x26A0; Escalate</button>
+            <button class="reassign-btn" onclick="openReassignModal()">🔁 มอบหมายใหม่</button>
+            <button class="escalate-btn" onclick="showToast('warning','ส่ง Escalate ไปยังผู้จัดการทีมแล้ว')">⚠ Escalate</button>
         </div>
     </div>
 
@@ -410,7 +410,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
             <!-- DOCUMENT TREE -->
             <div class="card doc-tree">
                 <div class="card-title">
-                    <span class="icon">&#x1F4C2;</span> Document Inventory
+                    <span class="icon">📂</span> Document Inventory
                     <span style="margin-left:auto; font-size:0.72rem; color:var(--blue); text-transform:none; letter-spacing:0; font-weight:600;">6/8 Complete</span>
                 </div>
 
@@ -418,48 +418,48 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
                 <div class="folder open" id="folder-customer">
                     <div class="folder-header" onclick="toggleFolder('folder-customer')">
                         <div class="folder-header-left">
-                            <span class="folder-icon">&#x1F4C1;</span>
+                            <span class="folder-icon">📁</span>
                             เอกสารลูกค้า
                             <span class="folder-count">4/5</span>
                         </div>
                     </div>
                     <div class="folder-body">
                         <div class="doc-item" onclick="showDoc('id-card')">
-                            <div class="doc-status-icon ok">&#x2713;</div>
+                            <div class="doc-status-icon ok">✓</div>
                             <div class="doc-info">
                                 <div class="doc-name">สำเนาบัตรประชาชน</div>
-                                <div class="doc-meta"><span class="source-badge">LINE</span> 2 เม.ย. 10:30 <span class="ocr-badge">OCR &#x2713;</span></div>
+                                <div class="doc-meta"><span class="source-badge">LINE</span> 2 เม.ย. 10:30 <span class="ocr-badge">OCR ✓</span></div>
                             </div>
                         </div>
                         <div class="doc-item" onclick="showDoc('salary-slip')">
-                            <div class="doc-status-icon ok">&#x2713;</div>
+                            <div class="doc-status-icon ok">✓</div>
                             <div class="doc-info">
                                 <div class="doc-name">สลิปเงินเดือน 3 เดือน</div>
-                                <div class="doc-meta"><span class="source-badge">Email</span> 3 เม.ย. 14:22 <span class="ocr-badge">OCR &#x2713;</span></div>
+                                <div class="doc-meta"><span class="source-badge">Email</span> 3 เม.ย. 14:22 <span class="ocr-badge">OCR ✓</span></div>
                             </div>
                         </div>
                         <div class="doc-item" onclick="showDoc('bank-statement')">
-                            <div class="doc-status-icon missing">&#x2717;</div>
+                            <div class="doc-status-icon missing">✗</div>
                             <div class="doc-info">
                                 <div class="doc-name">Statement ธนาคาร 6 เดือน</div>
                                 <div class="doc-meta" style="color:var(--red);">ยังไม่ได้รับ</div>
                             </div>
                             <div class="doc-actions">
-                                <button class="btn-notify" onclick="event.stopPropagation(); sendReminder('Statement ธนาคาร 6 เดือน')">&#x1F514; ส่งแจ้งเตือน</button>
+                                <button class="btn-notify" onclick="event.stopPropagation(); sendReminder('Statement ธนาคาร 6 เดือน')">🔔 ส่งแจ้งเตือน</button>
                             </div>
                         </div>
                         <div class="doc-item" onclick="showDoc('house-reg')">
-                            <div class="doc-status-icon ok">&#x2713;</div>
+                            <div class="doc-status-icon ok">✓</div>
                             <div class="doc-info">
                                 <div class="doc-name">ทะเบียนบ้าน</div>
-                                <div class="doc-meta"><span class="source-badge">Upload</span> 4 เม.ย. 09:15 <span class="ocr-badge">OCR &#x2713;</span></div>
+                                <div class="doc-meta"><span class="source-badge">Upload</span> 4 เม.ย. 09:15 <span class="ocr-badge">OCR ✓</span></div>
                             </div>
                         </div>
                         <div class="doc-item" onclick="showDoc('salary-cert')">
-                            <div class="doc-status-icon ok">&#x2713;</div>
+                            <div class="doc-status-icon ok">✓</div>
                             <div class="doc-info">
                                 <div class="doc-name">หนังสือรับรองเงินเดือน</div>
-                                <div class="doc-meta"><span class="source-badge">LINE</span> 3 เม.ย. 16:40 <span class="ocr-badge">OCR &#x2713;</span></div>
+                                <div class="doc-meta"><span class="source-badge">LINE</span> 3 เม.ย. 16:40 <span class="ocr-badge">OCR ✓</span></div>
                             </div>
                         </div>
                     </div>
@@ -469,22 +469,22 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
                 <div class="folder open complete" id="folder-dealer">
                     <div class="folder-header" onclick="toggleFolder('folder-dealer')">
                         <div class="folder-header-left">
-                            <span class="folder-icon">&#x1F4C1;</span>
+                            <span class="folder-icon">📁</span>
                             เอกสาร Dealer
                             <span class="folder-count">2/2</span>
                         </div>
-                        <div class="folder-check-all">&#x2713; ครบถ้วน</div>
+                        <div class="folder-check-all">✓ ครบถ้วน</div>
                     </div>
                     <div class="folder-body">
                         <div class="doc-item" onclick="showDoc('quotation')">
-                            <div class="doc-status-icon ok">&#x2713;</div>
+                            <div class="doc-status-icon ok">✓</div>
                             <div class="doc-info">
                                 <div class="doc-name">ใบเสนอราคารถ Toyota Yaris 2026</div>
                                 <div class="doc-meta"><span class="source-badge">Shared Folder</span> 1 เม.ย.</div>
                             </div>
                         </div>
                         <div class="doc-item" onclick="showDoc('old-reg')">
-                            <div class="doc-status-icon ok">&#x2713;</div>
+                            <div class="doc-status-icon ok">✓</div>
                             <div class="doc-info">
                                 <div class="doc-name">สำเนาทะเบียนรถเดิม</div>
                                 <div class="doc-meta"><span class="source-badge">Email</span> 2 เม.ย.</div>
@@ -497,21 +497,21 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
                 <div class="folder open" id="folder-bank">
                     <div class="folder-header" onclick="toggleFolder('folder-bank')">
                         <div class="folder-header-left">
-                            <span class="folder-icon">&#x1F4C1;</span>
+                            <span class="folder-icon">📁</span>
                             เอกสารธนาคาร
                             <span class="folder-count">0/2</span>
                         </div>
                     </div>
                     <div class="folder-body">
                         <div class="doc-item">
-                            <div class="doc-status-icon pending">&#x23F3;</div>
+                            <div class="doc-status-icon pending">⏳</div>
                             <div class="doc-info">
                                 <div class="doc-name">ผลอนุมัติเบื้องต้น</div>
                                 <div class="doc-meta" style="color:var(--orange);">รอจากธนาคาร</div>
                             </div>
                         </div>
                         <div class="doc-item">
-                            <div class="doc-status-icon missing">&#x2717;</div>
+                            <div class="doc-status-icon missing">✗</div>
                             <div class="doc-info">
                                 <div class="doc-name">สัญญาสินเชื่อ</div>
                                 <div class="doc-meta" style="color:var(--muted);">รอการอนุมัติ</div>
@@ -524,14 +524,14 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
                 <div class="folder open" id="folder-insurance">
                     <div class="folder-header" onclick="toggleFolder('folder-insurance')">
                         <div class="folder-header-left">
-                            <span class="folder-icon">&#x1F4C1;</span>
+                            <span class="folder-icon">📁</span>
                             เอกสารประกัน
                             <span class="folder-count">0/1</span>
                         </div>
                     </div>
                     <div class="folder-body">
                         <div class="doc-item">
-                            <div class="doc-status-icon missing">&#x2717;</div>
+                            <div class="doc-status-icon missing">✗</div>
                             <div class="doc-info">
                                 <div class="doc-name">กรมธรรม์ประกันภัยรถ</div>
                                 <div class="doc-meta" style="color:var(--muted);">รอ</div>
@@ -543,23 +543,23 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
             <!-- MULTI-PARTY ROUTING -->
             <div class="card">
-                <div class="card-title"><span class="icon">&#x1F310;</span> Multi-Party Document Routing</div>
+                <div class="card-title"><span class="icon">🌐</span> Multi-Party Document Routing</div>
                 <div class="routing-diagram">
                     <div class="routing-row">
                         <div class="routing-node" style="border-color:rgba(5,150,105,0.3);">
-                            <div class="node-name">&#x1F464; ลูกค้า</div>
+                            <div class="node-name">👤 ลูกค้า</div>
                             <div class="node-stats">ส่ง 4 / รับ 0</div>
                             <div class="node-activity">ล่าสุด: 4 เม.ย. 09:15</div>
                         </div>
                         <div class="routing-connector-h"></div>
                         <div class="routing-node hub">
-                            <div class="node-name">&#x1F916; Autopilot Hub</div>
+                            <div class="node-name">🤖 Autopilot Hub</div>
                             <div class="node-stats">รับ 6 / ส่งต่อ 4 / รอ 2</div>
                             <div class="node-activity">AI กำลังประมวลผล</div>
                         </div>
                         <div class="routing-connector-h"></div>
                         <div class="routing-node" style="border-color:rgba(37,99,235,0.3);">
-                            <div class="node-name">&#x1F697; Dealer รถ</div>
+                            <div class="node-name">🚗 Dealer รถ</div>
                             <div class="node-stats">ส่ง 2 / รับ 0</div>
                             <div class="node-activity">ล่าสุด: 2 เม.ย.</div>
                         </div>
@@ -570,13 +570,13 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
                     </div>
                     <div class="routing-row">
                         <div class="routing-node" style="border-color:rgba(217,119,6,0.3);">
-                            <div class="node-name">&#x1F3E6; ธนาคาร</div>
+                            <div class="node-name">🏦 ธนาคาร</div>
                             <div class="node-stats">ส่ง 0 / รอรับ 6</div>
                             <div class="node-activity">รอเอกสารครบ</div>
                         </div>
                         <div class="routing-connector-h"></div>
                         <div class="routing-node" style="border-color:rgba(124,58,237,0.3);">
-                            <div class="node-name">&#x1F6E1; ประกัน</div>
+                            <div class="node-name">🛡 ประกัน</div>
                             <div class="node-stats">ส่ง 0 / รอ 1</div>
                             <div class="node-activity">รอข้อมูลรถ</div>
                         </div>
@@ -586,21 +586,21 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
             <!-- ACTIVITY TIMELINE -->
             <div class="card">
-                <div class="card-title"><span class="icon">&#x1F4CB;</span> Activity Timeline</div>
+                <div class="card-title"><span class="icon">📋</span> Activity Timeline</div>
                 <div class="timeline">
                     <div class="tl-item info"><div class="tl-dot"></div><div class="tl-time">4 เม.ย. 2026 — 09:15</div><div class="tl-text"><strong>ทะเบียนบ้าน</strong> อัปโหลดเข้าระบบผ่าน Web Upload</div></div>
                     <div class="tl-item success"><div class="tl-dot"></div><div class="tl-time">4 เม.ย. 2026 — 09:16</div><div class="tl-text">AI OCR สแกนเอกสาร <strong>ทะเบียนบ้าน</strong> สำเร็จ — Confidence 98.2%</div></div>
-                    <div class="tl-item success"><div class="tl-dot"></div><div class="tl-time">4 เม.ย. 2026 — 09:16</div><div class="tl-text">AI ตรวจสอบ Cross-reference <strong>ทะเบียนบ้าน</strong> &#x2714; ชื่อ-นามสกุลตรงกัน</div></div>
+                    <div class="tl-item success"><div class="tl-dot"></div><div class="tl-time">4 เม.ย. 2026 — 09:16</div><div class="tl-text">AI ตรวจสอบ Cross-reference <strong>ทะเบียนบ้าน</strong> ✔ ชื่อ-นามสกุลตรงกัน</div></div>
                     <div class="tl-item warning"><div class="tl-dot"></div><div class="tl-time">4 เม.ย. 2026 — 08:00</div><div class="tl-text">ระบบส่ง<strong>แจ้งเตือนอัตโนมัติ</strong> ผ่าน LINE — เอกสาร Statement ธนาคารยังไม่ได้รับ</div></div>
-                    <div class="tl-item success"><div class="tl-dot"></div><div class="tl-time">3 เม.ย. 2026 — 16:42</div><div class="tl-text">AI ตรวจสอบ <strong>หนังสือรับรองเงินเดือน</strong> &#x2714; เงินเดือน 35,000 บาท ตรงกับสลิป</div></div>
+                    <div class="tl-item success"><div class="tl-dot"></div><div class="tl-time">3 เม.ย. 2026 — 16:42</div><div class="tl-text">AI ตรวจสอบ <strong>หนังสือรับรองเงินเดือน</strong> ✔ เงินเดือน 35,000 บาท ตรงกับสลิป</div></div>
                     <div class="tl-item success"><div class="tl-dot"></div><div class="tl-time">3 เม.ย. 2026 — 16:41</div><div class="tl-text">AI OCR สแกน <strong>หนังสือรับรองเงินเดือน</strong> สำเร็จ — Confidence 97.5%</div></div>
                     <div class="tl-item info"><div class="tl-dot"></div><div class="tl-time">3 เม.ย. 2026 — 16:40</div><div class="tl-text"><strong>หนังสือรับรองเงินเดือน</strong> ส่งเข้าระบบผ่าน LINE</div></div>
-                    <div class="tl-item success"><div class="tl-dot"></div><div class="tl-time">3 เม.ย. 2026 — 14:25</div><div class="tl-text">AI ตรวจสอบ <strong>สลิปเงินเดือน</strong> &#x2714; ข้อมูลเงินเดือนเฉลี่ย 35,200 บาท</div></div>
+                    <div class="tl-item success"><div class="tl-dot"></div><div class="tl-time">3 เม.ย. 2026 — 14:25</div><div class="tl-text">AI ตรวจสอบ <strong>สลิปเงินเดือน</strong> ✔ ข้อมูลเงินเดือนเฉลี่ย 35,200 บาท</div></div>
                     <div class="tl-item success"><div class="tl-dot"></div><div class="tl-time">3 เม.ย. 2026 — 14:23</div><div class="tl-text">AI OCR สแกน <strong>สลิปเงินเดือน 3 เดือน</strong> สำเร็จ — Confidence 99.1%</div></div>
                     <div class="tl-item info"><div class="tl-dot"></div><div class="tl-time">3 เม.ย. 2026 — 14:22</div><div class="tl-text"><strong>สลิปเงินเดือน</strong> ส่งเข้าระบบผ่าน Email — Forward จากลูกค้า</div></div>
-                    <div class="tl-item success"><div class="tl-dot"></div><div class="tl-time">2 เม.ย. 2026 — 15:10</div><div class="tl-text">AI ตรวจสอบ <strong>สำเนาทะเบียนรถเดิม</strong> &#x2714; ข้อมูลรถ + ชื่อเจ้าของตรงกัน</div></div>
+                    <div class="tl-item success"><div class="tl-dot"></div><div class="tl-time">2 เม.ย. 2026 — 15:10</div><div class="tl-text">AI ตรวจสอบ <strong>สำเนาทะเบียนรถเดิม</strong> ✔ ข้อมูลรถ + ชื่อเจ้าของตรงกัน</div></div>
                     <div class="tl-item info"><div class="tl-dot"></div><div class="tl-time">2 เม.ย. 2026 — 15:08</div><div class="tl-text"><strong>สำเนาทะเบียนรถเดิม</strong> รับจาก Dealer ผ่าน Email</div></div>
-                    <div class="tl-item success"><div class="tl-dot"></div><div class="tl-time">2 เม.ย. 2026 — 10:33</div><div class="tl-text">AI Cross-reference <strong>บัตรประชาชน</strong> &#x2714; เลขบัตร + ชื่อ ตรงกับข้อมูลระบบ</div></div>
+                    <div class="tl-item success"><div class="tl-dot"></div><div class="tl-time">2 เม.ย. 2026 — 10:33</div><div class="tl-text">AI Cross-reference <strong>บัตรประชาชน</strong> ✔ เลขบัตร + ชื่อ ตรงกับข้อมูลระบบ</div></div>
                     <div class="tl-item success"><div class="tl-dot"></div><div class="tl-time">2 เม.ย. 2026 — 10:32</div><div class="tl-text">AI OCR สแกน <strong>สำเนาบัตรประชาชน</strong> สำเร็จ — Confidence 99.7%</div></div>
                     <div class="tl-item info"><div class="tl-dot"></div><div class="tl-time">2 เม.ย. 2026 — 10:30</div><div class="tl-text"><strong>สำเนาบัตรประชาชน</strong> ส่งเข้าระบบผ่าน LINE — ลูกค้าถ่ายรูปส่ง</div></div>
                     <div class="tl-item info"><div class="tl-dot"></div><div class="tl-time">1 เม.ย. 2026 — 17:30</div><div class="tl-text">ระบบรับ <strong>ใบเสนอราคา</strong> จาก Dealer — Shared Folder Sync</div></div>
@@ -617,14 +617,14 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
             <!-- VERIFICATION PANEL -->
             <div class="card">
-                <div class="card-title"><span class="icon">&#x1F50D;</span> Document Verification</div>
+                <div class="card-title"><span class="icon">🔍</span> Document Verification</div>
                 <div id="verificationDefault" style="text-align:center; padding:32px 0;">
-                    <div style="font-size:2.5rem; opacity:0.3; margin-bottom:12px;">&#x1F4C4;</div>
+                    <div style="font-size:2.5rem; opacity:0.3; margin-bottom:12px;">📄</div>
                     <div style="font-size:0.82rem; color:var(--muted);">คลิกเอกสารทางซ้ายเพื่อดูผลการตรวจสอบ</div>
                 </div>
 
                 <div class="verification-panel" id="panel-id-card">
-                    <div style="font-size:0.9rem; font-weight:700; margin-bottom:4px;">&#x1F4C4; สำเนาบัตรประชาชน</div>
+                    <div style="font-size:0.9rem; font-weight:700; margin-bottom:4px;">📄 สำเนาบัตรประชาชน</div>
                     <div style="font-size:0.7rem; color:var(--muted); margin-bottom:12px;">สแกนเมื่อ 2 เม.ย. 2026 10:32 | OCR Engine v3.2</div>
                     <table class="ocr-data-table">
                         <tr><td>ชื่อ-นามสกุล</td><td>นายสมชาย วิริยะกิจ</td></tr>
@@ -633,12 +633,12 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
                         <tr><td>ที่อยู่</td><td>123/45 ถ.ลาดพร้าว แขวงจอมพล เขตจตุจักร กทม. 10900</td></tr>
                         <tr><td>วันหมดอายุ</td><td>14 มี.ค. 2571</td></tr>
                     </table>
-                    <div class="verification-result pass"><div class="vr-icon">&#x2714;</div><div class="vr-text"><div class="vr-label">เอกสารถูกต้อง</div><div class="vr-sub">AI Confidence: 99.7%</div><div class="confidence-bar"><div class="fill" style="width:99.7%"></div></div></div></div>
-                    <div class="cross-ref"><div class="cross-ref-title">Cross-Reference Check</div><div class="cross-ref-item"><span class="match">&#x2714;</span><span class="label">ชื่อ-นามสกุล:</span><span class="value">ตรงกับข้อมูลระบบ</span></div><div class="cross-ref-item"><span class="match">&#x2714;</span><span class="label">เลขบัตร:</span><span class="value">ตร���กับข้อมูลระบบ</span></div><div class="cross-ref-item"><span class="match">&#x2714;</span><span class="label">ที่อยู่:</span><span class="value">ตรงกับทะเบียนบ้าน</span></div></div>
+                    <div class="verification-result pass"><div class="vr-icon">✔</div><div class="vr-text"><div class="vr-label">เอกสารถูกต้อง</div><div class="vr-sub">AI Confidence: 99.7%</div><div class="confidence-bar"><div class="fill" style="width:99.7%"></div></div></div></div>
+                    <div class="cross-ref"><div class="cross-ref-title">Cross-Reference Check</div><div class="cross-ref-item"><span class="match">✔</span><span class="label">ชื่อ-นามสกุล:</span><span class="value">ตรงกับข้อมูลระบบ</span></div><div class="cross-ref-item"><span class="match">✔</span><span class="label">เลขบัตร:</span><span class="value">ตร���กับข้อมูลระบบ</span></div><div class="cross-ref-item"><span class="match">✔</span><span class="label">ที่อยู่:</span><span class="value">ตรงกับทะเบียนบ้าน</span></div></div>
                 </div>
 
                 <div class="verification-panel" id="panel-salary-slip">
-                    <div style="font-size:0.9rem; font-weight:700; margin-bottom:4px;">&#x1F4C4; สลิปเงินเดือน 3 เดือน</div>
+                    <div style="font-size:0.9rem; font-weight:700; margin-bottom:4px;">📄 สลิปเงินเดือน 3 เดือน</div>
                     <div style="font-size:0.7rem; color:var(--muted); margin-bottom:12px;">สแกนเมื่อ 3 เม.ย. 2026 14:23 | OCR Engine v3.2</div>
                     <table class="ocr-data-table">
                         <tr><td>ชื่อพนักงาน</td><td>นายสมชาย วิริยะกิจ</td></tr>
@@ -648,81 +648,81 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
                         <tr><td>เงินเดือน มี.ค. 69</td><td>35,400 บาท</td></tr>
                         <tr><td>เฉลี่ย</td><td>35,200 บาท/เดือน</td></tr>
                     </table>
-                    <div class="verification-result pass"><div class="vr-icon">&#x2714;</div><div class="vr-text"><div class="vr-label">เอกสารถูกต้อง</div><div class="vr-sub">AI Confidence: 99.1%</div><div class="confidence-bar"><div class="fill" style="width:99.1%"></div></div></div></div>
-                    <div class="cross-ref"><div class="cross-ref-title">Cross-Reference Check</div><div class="cross-ref-item"><span class="match">&#x2714;</span><span class="label">ชื่อ:</span><span class="value">ตรงกับบัตรประชาชน</span></div><div class="cross-ref-item"><span class="match">&#x2714;</span><span class="label">เงินเดือน:</span><span class="value">ตรงกับหนังสือรับรอง (35,000)</span></div></div>
+                    <div class="verification-result pass"><div class="vr-icon">✔</div><div class="vr-text"><div class="vr-label">เอกสารถูกต้อง</div><div class="vr-sub">AI Confidence: 99.1%</div><div class="confidence-bar"><div class="fill" style="width:99.1%"></div></div></div></div>
+                    <div class="cross-ref"><div class="cross-ref-title">Cross-Reference Check</div><div class="cross-ref-item"><span class="match">✔</span><span class="label">ชื่อ:</span><span class="value">ตรงกับบัตรประชาชน</span></div><div class="cross-ref-item"><span class="match">✔</span><span class="label">เงินเดือน:</span><span class="value">ตรงกับหนังสือรับรอง (35,000)</span></div></div>
                 </div>
 
                 <div class="verification-panel" id="panel-bank-statement">
                     <div style="text-align:center; padding:24px 0;">
-                        <div style="font-size:2rem; margin-bottom:12px;">&#x26A0;&#xFE0F;</div>
+                        <div style="font-size:2rem; margin-bottom:12px;">⚠️</div>
                         <div style="font-size:0.9rem; font-weight:700; color:var(--orange); margin-bottom:4px;">ยังไม่ได้รับเอกสาร</div>
                         <div style="font-size:0.78rem; color:var(--muted);">Statement ธนาคาร 6 เดือน</div>
-                        <button class="btn-notify" style="margin-top:16px; padding:8px 20px; font-size:0.82rem;" onclick="sendReminder('Statement ธนาคาร 6 เดือน')">&#x1F514; ส่งแจ้งเตือนลูกค้าผ่าน LINE</button>
+                        <button class="btn-notify" style="margin-top:16px; padding:8px 20px; font-size:0.82rem;" onclick="sendReminder('Statement ธนาคาร 6 เดือน')">🔔 ส่งแจ้งเตือนลูกค้าผ่าน LINE</button>
                     </div>
                 </div>
 
                 <div class="verification-panel" id="panel-house-reg">
-                    <div style="font-size:0.9rem; font-weight:700; margin-bottom:4px;">&#x1F4C4; ทะเบียนบ้าน</div>
+                    <div style="font-size:0.9rem; font-weight:700; margin-bottom:4px;">📄 ทะเบียนบ้าน</div>
                     <div style="font-size:0.7rem; color:var(--muted); margin-bottom:12px;">สแกนเมื่อ 4 เม.ย. 2026 09:16 | OCR Engine v3.2</div>
                     <table class="ocr-data-table"><tr><td>เลขที่บ้าน</td><td>123/45</td></tr><tr><td>ที่อยู่</td><td>ถ.ลาดพร้าว แขวงจอมพล เขตจตุจักร กทม. 10900</td></tr><tr><td>เจ้าบ้าน</td><td>นายสมชาย วิริยะกิจ</td></tr><tr><td>จำนวนผู้อาศัย</td><td>3 คน</td></tr></table>
-                    <div class="verification-result pass"><div class="vr-icon">&#x2714;</div><div class="vr-text"><div class="vr-label">เอกสารถูกต้อง</div><div class="vr-sub">AI Confidence: 98.2%</div><div class="confidence-bar"><div class="fill" style="width:98.2%"></div></div></div></div>
-                    <div class="cross-ref"><div class="cross-ref-title">Cross-Reference Check</div><div class="cross-ref-item"><span class="match">&#x2714;</span><span class="label">ชื่อเจ้าบ้าน:</span><span class="value">ตรงกับบัตรประชาชน</span></div><div class="cross-ref-item"><span class="match">&#x2714;</span><span class="label">ที่อยู่:</span><span class="value">ตรงกับบัตรประชาชน</span></div></div>
+                    <div class="verification-result pass"><div class="vr-icon">✔</div><div class="vr-text"><div class="vr-label">เอกสารถูกต้อง</div><div class="vr-sub">AI Confidence: 98.2%</div><div class="confidence-bar"><div class="fill" style="width:98.2%"></div></div></div></div>
+                    <div class="cross-ref"><div class="cross-ref-title">Cross-Reference Check</div><div class="cross-ref-item"><span class="match">✔</span><span class="label">ชื่อเจ้าบ้าน:</span><span class="value">ตรงกับบัตรประชาชน</span></div><div class="cross-ref-item"><span class="match">✔</span><span class="label">ที่อยู่:</span><span class="value">ตรงกับบัตรประชาชน</span></div></div>
                 </div>
 
                 <div class="verification-panel" id="panel-salary-cert">
-                    <div style="font-size:0.9rem; font-weight:700; margin-bottom:4px;">&#x1F4C4; หนังสือรับรองเงินเดือน</div>
+                    <div style="font-size:0.9rem; font-weight:700; margin-bottom:4px;">📄 หนังสือรับรองเงินเดือน</div>
                     <div style="font-size:0.7rem; color:var(--muted); margin-bottom:12px;">สแกนเมื่อ 3 เม.ย. 2026 16:41 | OCR Engine v3.2</div>
                     <table class="ocr-data-table"><tr><td>ออกโดย</td><td>บจก. ดิจิทัลเวิร์ค จำกัด</td></tr><tr><td>ชื่อพนักงาน</td><td>นายสมชาย วิริยะกิจ</td></tr><tr><td>ตำแหน่ง</td><td>Senior Developer</td></tr><tr><td>เงินเดือน</td><td>35,000 บาท</td></tr><tr><td>อายุงาน</td><td>4 ปี 2 เดือน</td></tr><tr><td>วันที่ออก</td><td>28 มี.ค. 2026</td></tr></table>
-                    <div class="verification-result pass"><div class="vr-icon">&#x2714;</div><div class="vr-text"><div class="vr-label">เอกสารถูกต้อง</div><div class="vr-sub">AI Confidence: 97.5%</div><div class="confidence-bar"><div class="fill" style="width:97.5%"></div></div></div></div>
-                    <div class="cross-ref"><div class="cross-ref-title">Cross-Reference Check</div><div class="cross-ref-item"><span class="match">&#x2714;</span><span class="label">ชื่อ:</span><span class="value">ตรงกับบัตรประชาชน</span></div><div class="cross-ref-item"><span class="match">&#x2714;</span><span class="label">บริษัท:</span><span class="value">ตรงกับสลิปเงินเดือน</span></div><div class="cross-ref-item"><span class="match">&#x2714;</span><span class="label">เงินเดือน:</span><span class="value">ตรงกับสลิป (35,000)</span></div></div>
+                    <div class="verification-result pass"><div class="vr-icon">✔</div><div class="vr-text"><div class="vr-label">เอกสารถูกต้อง</div><div class="vr-sub">AI Confidence: 97.5%</div><div class="confidence-bar"><div class="fill" style="width:97.5%"></div></div></div></div>
+                    <div class="cross-ref"><div class="cross-ref-title">Cross-Reference Check</div><div class="cross-ref-item"><span class="match">✔</span><span class="label">ชื่อ:</span><span class="value">ตรงกับบัตรประชาชน</span></div><div class="cross-ref-item"><span class="match">✔</span><span class="label">บริษัท:</span><span class="value">ตรงกับสลิปเงินเดือน</span></div><div class="cross-ref-item"><span class="match">✔</span><span class="label">เงินเดือน:</span><span class="value">ตรงกับสลิป (35,000)</span></div></div>
                 </div>
 
                 <div class="verification-panel" id="panel-quotation">
-                    <div style="font-size:0.9rem; font-weight:700; margin-bottom:4px;">&#x1F4C4; ใบเสนอราคารถ Toyota Yaris 2026</div>
+                    <div style="font-size:0.9rem; font-weight:700; margin-bottom:4px;">📄 ใบเสนอราคารถ Toyota Yaris 2026</div>
                     <div style="font-size:0.7rem; color:var(--muted); margin-bottom:12px;">รับจาก Shared Folder 1 เม.ย. 2026</div>
                     <table class="ocr-data-table"><tr><td>Dealer</td><td>Toyota Sure สาขาลาดพร้าว</td></tr><tr><td>รุ่นรถ</td><td>Toyota Yaris ATIV 1.2 Sport</td></tr><tr><td>ปีรุ่น</td><td>2026</td></tr><tr><td>สี</td><td>Attitude Black Mica</td></tr><tr><td>ราคา</td><td>649,000 บาท</td></tr><tr><td>ดาวน์</td><td>0 บาท (โปรโมชัน 0%)</td></tr></table>
-                    <div class="verification-result pass"><div class="vr-icon">&#x2714;</div><div class="vr-text"><div class="vr-label">เอกสารถูกต้อง</div><div class="vr-sub">AI Confidence: 96.8%</div><div class="confidence-bar"><div class="fill" style="width:96.8%"></div></div></div></div>
+                    <div class="verification-result pass"><div class="vr-icon">✔</div><div class="vr-text"><div class="vr-label">เอกสารถูกต้อง</div><div class="vr-sub">AI Confidence: 96.8%</div><div class="confidence-bar"><div class="fill" style="width:96.8%"></div></div></div></div>
                 </div>
 
                 <div class="verification-panel" id="panel-old-reg">
-                    <div style="font-size:0.9rem; font-weight:700; margin-bottom:4px;">&#x1F4C4; สำเนาทะเบียนรถเดิม</div>
+                    <div style="font-size:0.9rem; font-weight:700; margin-bottom:4px;">📄 สำเนาทะเบียนรถเดิม</div>
                     <div style="font-size:0.7rem; color:var(--muted); margin-bottom:12px;">รับจาก Dealer ผ่าน Email 2 เม.ย. 2026</div>
                     <table class="ocr-data-table"><tr><td>ทะเบียน</td><td>กข 1234 กรุงเทพมหานคร</td></tr><tr><td>ยี่ห้อ/รุ่น</td><td>Honda Jazz 2020</td></tr><tr><td>เจ้าของ</td><td>นายสมชาย วิริยะกิจ</td></tr><tr><td>สถานะ</td><td>ปลอดภาระ</td></tr></table>
-                    <div class="verification-result pass"><div class="vr-icon">&#x2714;</div><div class="vr-text"><div class="vr-label">เอกสารถูกต้อง</div><div class="vr-sub">AI Confidence: 98.5%</div><div class="confidence-bar"><div class="fill" style="width:98.5%"></div></div></div></div>
-                    <div class="cross-ref"><div class="cross-ref-title">Cross-Reference Check</div><div class="cross-ref-item"><span class="match">&#x2714;</span><span class="label">เจ้าของ:</span><span class="value">ตรงกับบัตรประชาชน</span></div></div>
+                    <div class="verification-result pass"><div class="vr-icon">✔</div><div class="vr-text"><div class="vr-label">เอกสารถูกต้อง</div><div class="vr-sub">AI Confidence: 98.5%</div><div class="confidence-bar"><div class="fill" style="width:98.5%"></div></div></div></div>
+                    <div class="cross-ref"><div class="cross-ref-title">Cross-Reference Check</div><div class="cross-ref-item"><span class="match">✔</span><span class="label">เจ้าของ:</span><span class="value">ตรงกับบัตรประชาชน</span></div></div>
                 </div>
             </div>
 
             <!-- COLLABORATION PANEL -->
             <div class="card">
-                <div class="card-title"><span class="icon">&#x1F4AC;</span> Collaboration</div>
+                <div class="card-title"><span class="icon">💬</span> Collaboration</div>
                 <div class="collab-panel" style="border:none;padding:0;">
                     <div class="collab-notes">
                         <div class="collab-note-item">
-                            <div class="note-avatar" style="background:#7C3AED;">&#3626;&#3585;</div>
+                            <div class="note-avatar" style="background:#7C3AED;">สก</div>
                             <div class="note-content">
-                                <div style="display:flex;align-items:center;gap:6px;"><span class="note-author">&#3626;&#3617;&#3624;&#3633;&#3585;&#3604;&#3636;&#3660; &#3585;.</span><span class="note-time">4 &#3648;&#3617;.&#3618;. 10:30</span></div>
-                                <div class="note-text">&#3621;&#3641;&#3585;&#3588;&#3657;&#3634;&#3649;&#3592;&#3657;&#3591;&#3623;&#3656;&#3634;&#3592;&#3632;&#3626;&#3656;&#3591; Statement &#3616;&#3634;&#3618;&#3651;&#3609;&#3623;&#3633;&#3609;&#3609;&#3637;&#3657; &#3594;&#3656;&#3623;&#3618; follow up &#3604;&#3657;&#3623;&#3618;&#3588;&#3619;&#3633;&#3610;</div>
+                                <div style="display:flex;align-items:center;gap:6px;"><span class="note-author">สมศักดิ์ ก.</span><span class="note-time">4 เม.ย. 10:30</span></div>
+                                <div class="note-text">ลูกค้าแจ้งว่าจะส่ง Statement ภายในวันนี้ ช่วย follow up ด้วยครับ</div>
                             </div>
                         </div>
                         <div class="collab-note-item">
-                            <div class="note-avatar" style="background:#2563EB;">&#3623;&#3621;</div>
+                            <div class="note-avatar" style="background:#2563EB;">วล</div>
                             <div class="note-content">
-                                <div style="display:flex;align-items:center;gap:6px;"><span class="note-author">&#3623;&#3619;&#3619;&#3603;&#3634; &#3621;.</span><span class="note-time">3 &#3648;&#3617;.&#3618;. 17:00</span></div>
-                                <div class="note-text"><span class="note-tag">@&#3626;&#3617;&#3624;&#3633;&#3585;&#3604;&#3636;&#3660;</span> &#3594;&#3656;&#3623;&#3618;&#3605;&#3619;&#3623;&#3592;&#3626;&#3629;&#3610;&#3626;&#3621;&#3636;&#3611;&#3648;&#3591;&#3636;&#3609;&#3648;&#3604;&#3639;&#3629;&#3609;&#3619;&#3629;&#3610; &#3617;&#3637;.&#3588;. &#3627;&#3609;&#3656;&#3629;&#3618;&#3588;&#3619;&#3633;&#3610; &#3605;&#3633;&#3623;&#3648;&#3621;&#3586;&#3604;&#3641;&#3649;&#3611;&#3621;&#3585;</div>
+                                <div style="display:flex;align-items:center;gap:6px;"><span class="note-author">วรรณา ล.</span><span class="note-time">3 เม.ย. 17:00</span></div>
+                                <div class="note-text"><span class="note-tag">@สมศักดิ์</span> ช่วยตรวจสอบสลิปเงินเดือนรอบ มี.ค. หน่อยครับ ตัวเลขดูแปลก</div>
                             </div>
                         </div>
                         <div class="collab-note-item">
-                            <div class="note-avatar" style="background:#059669;">&#3612;&#3592;</div>
+                            <div class="note-avatar" style="background:#059669;">ผจ</div>
                             <div class="note-content">
-                                <div style="display:flex;align-items:center;gap:6px;"><span class="note-author">&#3612;&#3641;&#3657;&#3592;&#3633;&#3604;&#3585;&#3634;&#3619;&#3607;&#3637;&#3617;</span><span class="note-time">2 &#3648;&#3617;.&#3618;. 16:00</span></div>
-                                <div class="note-text">&#3648;&#3588;&#3626;&#3609;&#3637;&#3657;&#3648;&#3611;&#3655;&#3609; Priority &#3626;&#3641;&#3591; &#3588;&#3623;&#3619;&#3648;&#3619;&#3656;&#3591;&#3604;&#3635;&#3648;&#3609;&#3636;&#3609;&#3585;&#3634;&#3619;&#3585;&#3656;&#3629;&#3609; SLA &#3627;&#3617;&#3604;&#3629;&#3634;&#3618;&#3640;</div>
+                                <div style="display:flex;align-items:center;gap:6px;"><span class="note-author">ผู้จัดการทีม</span><span class="note-time">2 เม.ย. 16:00</span></div>
+                                <div class="note-text">เคสนี้เป็น Priority สูง ควรเร่งดำเนินการก่อน SLA หมดอายุ</div>
                             </div>
                         </div>
                     </div>
                     <div class="collab-input-row">
-                        <input type="text" id="collabInput" placeholder="&#3648;&#3614;&#3636;&#3656;&#3617;&#3627;&#3617;&#3634;&#3618;&#3648;&#3627;&#3605;&#3640;&#3627;&#3619;&#3639;&#3629; @tag &#3648;&#3614;&#3639;&#3656;&#3629;&#3609;&#3619;&#3656;&#3623;&#3617;..." />
-                        <button class="btn-note" onclick="addCollabNote()">&#3610;&#3633;&#3609;&#3607;&#3638;&#3585;</button>
+                        <input type="text" id="collabInput" placeholder="เพิ่มหมายเหตุหรือ @tag เพื่อนร่วม..." />
+                        <button class="btn-note" onclick="addCollabNote()">บันทึก</button>
                         <button class="btn-tag" onclick="showTagModal()">@ Tag</button>
                     </div>
                 </div>
@@ -730,12 +730,12 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
             <!-- ACTIONS PANEL -->
             <div class="card">
-                <div class="card-title"><span class="icon">&#x26A1;</span> Actions</div>
-                <button class="action-btn primary" onclick="sendReminder('เอกสารที่ขาดทั้งหมด')"><div class="action-icon" style="background:var(--blue-bg); color:var(--blue);">&#x1F514;</div><div><div style="font-weight:600;">ส่งแจ้งเตือนเอกสารที่ขาด</div><div style="font-size:0.7rem; color:var(--muted); font-weight:400;">ส่งถึงลูกค้าผ่าน LINE — 2 รายการที่ขาด</div></div></button>
-                <button class="action-btn" onclick="showToast('info','กำลังเตรียมเอกสารสำหรับส่งต่อธนาคาร...')"><div class="action-icon" style="background:var(--blue-bg); color:var(--blue);">&#x1F3E6;</div><div><div>ส่งต่อให้ธนาคาร</div><div style="font-size:0.7rem; color:var(--muted);">Package เอกสารทั้งหมดส่งธนาคาร</div></div></button>
-                <button class="action-btn approve" onclick="showToast('success','อนุมัติเคสสำเร็จ! กำลังดำเนินการขั้นตอนถัดไป...')"><div class="action-icon" style="background:var(--green-bg); color:var(--green);">&#x2714;</div><div><div>อนุมัติเคส</div><div style="font-size:0.7rem; color:var(--muted);">ส่งต่อขั้นตอนอนุมัติสินเชื่อ</div></div></button>
-                <button class="action-btn reject" onclick="showToast('warning','ปฏิเสธเคส — กรุณาระบุเหตุผล')"><div class="action-icon" style="background:var(--red-bg); color:var(--red);">&#x2717;</div><div><div>ปฏิเสธเคส</div><div style="font-size:0.7rem; color:var(--muted);">ปฏิเสธพร้อมแจ้งเหตุผล</div></div></button>
-                <button class="action-btn" onclick="openNoteModal()"><div class="action-icon" style="background:var(--orange-bg); color:var(--orange);">&#x1F4DD;</div><div><div>เพิ่มหมายเหตุ</div><div style="font-size:0.7rem; color:var(--muted);">บันทึกข้อมูลเพิ่มเติมในเคส</div></div></button>
+                <div class="card-title"><span class="icon">⚡</span> Actions</div>
+                <button class="action-btn primary" onclick="sendReminder('เอกสารที่ขาดทั้งหมด')"><div class="action-icon" style="background:var(--blue-bg); color:var(--blue);">🔔</div><div><div style="font-weight:600;">ส่งแจ้งเตือนเอกสารที่ขาด</div><div style="font-size:0.7rem; color:var(--muted); font-weight:400;">ส่งถึงลูกค้าผ่าน LINE — 2 รายการที่ขาด</div></div></button>
+                <button class="action-btn" onclick="showToast('info','กำลังเตรียมเอกสารสำหรับส่งต่อธนาคาร...')"><div class="action-icon" style="background:var(--blue-bg); color:var(--blue);">🏦</div><div><div>ส่งต่อให้ธนาคาร</div><div style="font-size:0.7rem; color:var(--muted);">Package เอกสารทั้งหมดส่งธนาคาร</div></div></button>
+                <button class="action-btn approve" onclick="showToast('success','อนุมัติเคสสำเร็จ! กำลังดำเนินการขั้นตอนถัดไป...')"><div class="action-icon" style="background:var(--green-bg); color:var(--green);">✔</div><div><div>อนุมัติเคส</div><div style="font-size:0.7rem; color:var(--muted);">ส่งต่อขั้นตอนอนุมัติสินเชื่อ</div></div></button>
+                <button class="action-btn reject" onclick="showToast('warning','ปฏิเสธเคส — กรุณาระบุเหตุผล')"><div class="action-icon" style="background:var(--red-bg); color:var(--red);">✗</div><div><div>ปฏิเสธเคส</div><div style="font-size:0.7rem; color:var(--muted);">ปฏิเสธพร้อมแจ้งเหตุผล</div></div></button>
+                <button class="action-btn" onclick="openNoteModal()"><div class="action-icon" style="background:var(--orange-bg); color:var(--orange);">📝</div><div><div>เพิ่มหมายเหตุ</div><div style="font-size:0.7rem; color:var(--muted);">บันทึกข้อมูลเพิ่มเติมในเคส</div></div></button>
             </div>
         </div>
     </div>
@@ -747,22 +747,22 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 <!-- NOTE MODAL -->
 <div class="modal-overlay" id="noteModal">
     <div class="modal">
-        <h3>&#x1F4DD; &#3648;&#3614;&#3636;&#3656;&#3617;&#3627;&#3617;&#3634;&#3618;&#3648;&#3627;&#3605;&#3640;</h3>
-        <textarea id="noteText" placeholder="&#3614;&#3636;&#3617;&#3614;&#3660;&#3627;&#3617;&#3634;&#3618;&#3648;&#3627;&#3605;&#3640;&#3607;&#3637;&#3656;&#3605;&#3657;&#3629;&#3591;&#3585;&#3634;&#3619;&#3610;&#3633;&#3609;&#3607;&#3638;&#3585;..."></textarea>
+        <h3>📝 เพิ่มหมายเหตุ</h3>
+        <textarea id="noteText" placeholder="พิมพ์หมายเหตุที่ต้องการบันทึก..."></textarea>
         <div class="tag-select">
-            <label>Tag &#3648;&#3614;&#3639;&#3656;&#3629;&#3609;&#3619;&#3656;&#3623;&#3617;&#3591;&#3634;&#3609; (&#3652;&#3617;&#3656;&#3610;&#3633;&#3591;&#3588;&#3633;&#3610;)</label>
+            <label>Tag เพื่อนร่วมงาน (ไม่บังคับ)</label>
             <select id="tagSelect">
-                <option value="">-- &#3652;&#3617;&#3656;&#3605;&#3657;&#3629;&#3591; tag --</option>
-                <option value="somsakdi">&#3626;&#3617;&#3624;&#3633;&#3585;&#3604;&#3636;&#3660; &#3585;. (Senior Officer)</option>
-                <option value="wipa">&#3623;&#3636;&#3616;&#3634; &#3614;. (Officer)</option>
-                <option value="nittaya">&#3609;&#3636;&#3605;&#3618;&#3634; &#3626;. (Officer)</option>
-                <option value="thanakorn">&#3608;&#3609;&#3634;&#3585;&#3619; &#3611;. (Junior)</option>
-                <option value="manager">&#3612;&#3641;&#3657;&#3592;&#3633;&#3604;&#3585;&#3634;&#3619;&#3607;&#3637;&#3617;</option>
+                <option value="">-- ไม่ต้อง tag --</option>
+                <option value="somsakdi">สมศักดิ์ ก. (Senior Officer)</option>
+                <option value="wipa">วิภา พ. (Officer)</option>
+                <option value="nittaya">นิตยา ส. (Officer)</option>
+                <option value="thanakorn">ธนากร ป. (Junior)</option>
+                <option value="manager">ผู้จัดการทีม</option>
             </select>
         </div>
         <div class="modal-actions">
-            <button onclick="closeNoteModal()">&#3618;&#3585;&#3648;&#3621;&#3636;&#3585;</button>
-            <button class="save" onclick="saveNote()">&#3610;&#3633;&#3609;&#3607;&#3638;&#3585;</button>
+            <button onclick="closeNoteModal()">ยกเลิก</button>
+            <button class="save" onclick="saveNote()">บันทึก</button>
         </div>
     </div>
 </div>
@@ -770,21 +770,21 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 <!-- REASSIGN MODAL -->
 <div class="modal-overlay" id="reassignModal">
     <div class="modal">
-        <h3>&#x1F501; &#3617;&#3629;&#3610;&#3627;&#3617;&#3634;&#3618;&#3648;&#3588;&#3626;&#3651;&#3627;&#3617;&#3656;</h3>
+        <h3>🔁 มอบหมายเคสใหม่</h3>
         <div class="tag-select" style="margin-top:0;">
-            <label>&#3648;&#3621;&#3639;&#3629;&#3585;&#3612;&#3641;&#3657;&#3619;&#3633;&#3610;&#3612;&#3636;&#3604;&#3594;&#3629;&#3610;&#3651;&#3627;&#3617;&#3656;</label>
+            <label>เลือกผู้รับผิดชอบใหม่</label>
             <select id="reassignSelect">
-                <option value="somsakdi">&#3626;&#3617;&#3624;&#3633;&#3585;&#3604;&#3636;&#3660; &#3585;. (Senior Officer)</option>
-                <option value="wipa">&#3623;&#3636;&#3616;&#3634; &#3614;. (Officer)</option>
-                <option value="nittaya">&#3609;&#3636;&#3605;&#3618;&#3634; &#3626;. (Officer)</option>
-                <option value="thanakorn">&#3608;&#3609;&#3634;&#3585;&#3619; &#3611;. (Junior Officer)</option>
-                <option value="arun">&#3629;&#3619;&#3640;&#3603; &#3623;. (Officer)</option>
+                <option value="somsakdi">สมศักดิ์ ก. (Senior Officer)</option>
+                <option value="wipa">วิภา พ. (Officer)</option>
+                <option value="nittaya">นิตยา ส. (Officer)</option>
+                <option value="thanakorn">ธนากร ป. (Junior Officer)</option>
+                <option value="arun">อรุณ ว. (Officer)</option>
             </select>
         </div>
-        <textarea id="reassignReason" placeholder="&#3648;&#3627;&#3605;&#3640;&#3612;&#3621;&#3585;&#3634;&#3619;&#3617;&#3629;&#3610;&#3627;&#3617;&#3634;&#3618;&#3651;&#3627;&#3617;&#3656; (&#3652;&#3617;&#3656;&#3610;&#3633;&#3591;&#3588;&#3633;&#3610;)" style="height:80px;margin-top:12px;"></textarea>
+        <textarea id="reassignReason" placeholder="เหตุผลการมอบหมายใหม่ (ไม่บังคับ)" style="height:80px;margin-top:12px;"></textarea>
         <div class="modal-actions">
-            <button onclick="closeReassignModal()">&#3618;&#3585;&#3648;&#3621;&#3636;&#3585;</button>
-            <button class="save" onclick="doReassign()">&#3617;&#3629;&#3610;&#3627;&#3617;&#3634;&#3618;</button>
+            <button onclick="closeReassignModal()">ยกเลิก</button>
+            <button class="save" onclick="doReassign()">มอบหมาย</button>
         </div>
     </div>
 </div>
@@ -812,7 +812,7 @@ function showToast(type, message) {
     const container = document.getElementById('toastContainer');
     const toast = document.createElement('div');
     toast.className = 'toast ' + type;
-    const icons = { success:'&#x2714;', info:'&#x2139;&#xFE0F;', warning:'&#x26A0;&#xFE0F;' };
+    const icons = { success:'✔', info:'ℹ️', warning:'⚠️' };
     toast.innerHTML = '<span style="font-size:1.1rem;">' + (icons[type] || '') + '</span> ' + message;
     container.appendChild(toast);
     setTimeout(() => { toast.style.animation = 'toast-out 0.3s ease forwards'; setTimeout(() => toast.remove(), 300); }, 3500);

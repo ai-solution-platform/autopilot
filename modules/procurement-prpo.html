@@ -248,7 +248,7 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
 </head>
 <body>
 
-<button class="dark-toggle" onclick="toggleDark()">&#127769;</button>
+<button class="dark-toggle" onclick="toggleDark()">🌙</button>
 
 <div class="page-wrap">
   <!-- User Context Bar -->
@@ -256,14 +256,14 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
     <div class="user-info">
       <div class="user-avatar">AC</div>
       <div>
-        <div class="user-name">&#3626;&#3623;&#3633;&#3626;&#3604;&#3637; Artit C. | Procurement Manager</div>
-        <div class="user-role">&#3649;&#3612;&#3609;&#3585;&#3592;&#3633;&#3604;&#3595;&#3639;&#3657;&#3629; &middot; &#3629;&#3629;&#3609;&#3652;&#3621;&#3609;&#3660;</div>
+        <div class="user-name">สวัสดี Artit C. | Procurement Manager</div>
+        <div class="user-role">แผนกจัดซื้อ · ออนไลน์</div>
       </div>
     </div>
     <div class="view-toggle">
-      <button class="view-btn active" onclick="setView('my')">PR &#3586;&#3629;&#3591;&#3593;&#3633;&#3609;</button>
+      <button class="view-btn active" onclick="setView('my')">PR ของฉัน</button>
       <button class="view-btn" onclick="setView('team')">Team PRs</button>
-      <button class="view-btn" onclick="setView('all')">&#3607;&#3633;&#3657;&#3591;&#3627;&#3617;&#3604;</button>
+      <button class="view-btn" onclick="setView('all')">ทั้งหมด</button>
     </div>
   </div>
 
@@ -279,76 +279,76 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
     <div class="kpi">
       <div class="kpi-top">
         <div>
-          <div class="kpi-label">PR &#3648;&#3604;&#3639;&#3629;&#3609;&#3609;&#3637;&#3657;</div>
+          <div class="kpi-label">PR เดือนนี้</div>
           <div class="kpi-value" id="kpiPR">87</div>
-          <div class="kpi-change up">&#9650; 12% &#3592;&#3634;&#3585;&#3648;&#3604;&#3639;&#3629;&#3609;&#3607;&#3637;&#3656;&#3649;&#3621;&#3657;&#3623;</div>
+          <div class="kpi-change up">▲ 12% จากเดือนที่แล้ว</div>
         </div>
-        <div class="kpi-icon">&#128196;</div>
+        <div class="kpi-icon">📄</div>
       </div>
     </div>
     <div class="kpi">
       <div class="kpi-top">
         <div>
-          <div class="kpi-label">PO &#3629;&#3629;&#3585;&#3649;&#3621;&#3657;&#3623;</div>
+          <div class="kpi-label">PO ออกแล้ว</div>
           <div class="kpi-value" id="kpiPO">62</div>
-          <div class="kpi-change up">&#9650; 8%</div>
+          <div class="kpi-change up">▲ 8%</div>
         </div>
-        <div class="kpi-icon">&#128203;</div>
+        <div class="kpi-icon">📋</div>
       </div>
     </div>
     <div class="kpi">
       <div class="kpi-top">
         <div>
-          <div class="kpi-label">&#3617;&#3641;&#3621;&#3588;&#3656;&#3634;&#3619;&#3623;&#3617;</div>
-          <div class="kpi-value" style="font-size:1.4rem;">&#3647;12.4M</div>
-          <div class="kpi-change up">&#9650; 15%</div>
+          <div class="kpi-label">มูลค่ารวม</div>
+          <div class="kpi-value" style="font-size:1.4rem;">฿12.4M</div>
+          <div class="kpi-change up">▲ 15%</div>
         </div>
-        <div class="kpi-icon">&#128176;</div>
+        <div class="kpi-icon">💰</div>
       </div>
     </div>
     <div class="kpi">
       <div class="kpi-top">
         <div>
-          <div class="kpi-label">&#3611;&#3619;&#3632;&#3627;&#3618;&#3633;&#3604;&#3592;&#3634;&#3585;&#3585;&#3634;&#3619;&#3648;&#3611;&#3619;&#3637;&#3618;&#3610;&#3648;&#3607;&#3637;&#3618;&#3610;</div>
-          <div class="kpi-value" style="font-size:1.4rem;">&#3647;1.8M</div>
-          <div class="kpi-change up">&#9650; &#3621;&#3604;&#3605;&#3657;&#3609;&#3607;&#3640;&#3609; 14.5%</div>
+          <div class="kpi-label">ประหยัดจากการเปรียบเทียบ</div>
+          <div class="kpi-value" style="font-size:1.4rem;">฿1.8M</div>
+          <div class="kpi-change up">▲ ลดต้นทุน 14.5%</div>
         </div>
-        <div class="kpi-icon">&#128178;</div>
+        <div class="kpi-icon">💲</div>
       </div>
     </div>
   </div>
 
   <!-- Tabs -->
   <div class="tabs">
-    <button class="tab active" onclick="switchTab('pr')">&#128196; &#3651;&#3610;&#3586;&#3629;&#3595;&#3639;&#3657;&#3629; (PR)</button>
-    <button class="tab" onclick="switchTab('po')">&#128203; &#3651;&#3610;&#3626;&#3633;&#3656;&#3591;&#3595;&#3639;&#3657;&#3629; (PO)</button>
-    <button class="tab" onclick="switchTab('linked')">&#128279; Quotation Tasks</button>
-    <button class="tab" onclick="switchTab('approval')" style="position:relative;">&#9989; &#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;<span class="tab-badge">4</span></button>
+    <button class="tab active" onclick="switchTab('pr')">📄 ใบขอซื้อ (PR)</button>
+    <button class="tab" onclick="switchTab('po')">📋 ใบสั่งซื้อ (PO)</button>
+    <button class="tab" onclick="switchTab('linked')">🔗 Quotation Tasks</button>
+    <button class="tab" onclick="switchTab('approval')" style="position:relative;">✅ อนุมัติ<span class="tab-badge">4</span></button>
   </div>
 
   <!-- PR Tab -->
   <div id="tab-pr" class="tab-content active">
     <div class="search-bar">
       <div class="search-input">
-        <span>&#128269;</span>
-        <input type="text" placeholder="&#3588;&#3657;&#3609;&#3627;&#3634; PR Number, &#3612;&#3641;&#3657;&#3586;&#3629;, &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;..." id="prSearch" oninput="filterPR()">
+        <span>🔍</span>
+        <input type="text" placeholder="ค้นหา PR Number, ผู้ขอ, รายการ..." id="prSearch" oninput="filterPR()">
       </div>
       <select class="filter-select" id="prStatusFilter" onchange="filterPR()">
-        <option value="">&#3607;&#3640;&#3585;&#3626;&#3606;&#3634;&#3609;&#3632;</option>
-        <option value="draft">&#3619;&#3656;&#3634;&#3591;</option>
-        <option value="pending">&#3619;&#3629;&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;</option>
-        <option value="approved">&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;&#3649;&#3621;&#3657;&#3623;</option>
-        <option value="converted">&#3649;&#3611;&#3621;&#3591;&#3648;&#3611;&#3655;&#3609; PO &#3649;&#3621;&#3657;&#3623;</option>
+        <option value="">ทุกสถานะ</option>
+        <option value="draft">ร่าง</option>
+        <option value="pending">รออนุมัติ</option>
+        <option value="approved">อนุมัติแล้ว</option>
+        <option value="converted">แปลงเป็น PO แล้ว</option>
       </select>
       <select class="filter-select" id="prDeptFilter" onchange="filterPR()">
-        <option value="">&#3607;&#3640;&#3585;&#3649;&#3612;&#3609;&#3585;</option>
+        <option value="">ทุกแผนก</option>
         <option>IT</option>
         <option>Marketing</option>
         <option>Operations</option>
         <option>HR</option>
         <option>Finance</option>
       </select>
-      <button class="btn btn-primary" onclick="openModal('prCreateModal')">+ &#3626;&#3619;&#3657;&#3634;&#3591; PR &#3651;&#3627;&#3617;&#3656;</button>
+      <button class="btn btn-primary" onclick="openModal('prCreateModal')">+ สร้าง PR ใหม่</button>
     </div>
 
     <div class="table-wrap">
@@ -356,13 +356,13 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
         <thead>
           <tr>
             <th>PR #</th>
-            <th>&#3627;&#3633;&#3623;&#3586;&#3657;&#3629;</th>
-            <th>&#3612;&#3641;&#3657;&#3586;&#3629;</th>
-            <th>&#3649;&#3612;&#3609;&#3585;</th>
-            <th style="text-align:right;">&#3617;&#3641;&#3621;&#3588;&#3656;&#3634;</th>
-            <th style="text-align:center;">&#3619;&#3634;&#3618;&#3585;&#3634;&#3619;</th>
-            <th>&#3626;&#3606;&#3634;&#3609;&#3632;</th>
-            <th>&#3623;&#3633;&#3609;&#3607;&#3637;&#3656;</th>
+            <th>หัวข้อ</th>
+            <th>ผู้ขอ</th>
+            <th>แผนก</th>
+            <th style="text-align:right;">มูลค่า</th>
+            <th style="text-align:center;">รายการ</th>
+            <th>สถานะ</th>
+            <th>วันที่</th>
           </tr>
         </thead>
         <tbody id="prTableBody"></tbody>
@@ -374,16 +374,16 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
   <div id="tab-po" class="tab-content">
     <div class="search-bar">
       <div class="search-input">
-        <span>&#128269;</span>
-        <input type="text" placeholder="&#3588;&#3657;&#3609;&#3627;&#3634; PO Number, Vendor, &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;...">
+        <span>🔍</span>
+        <input type="text" placeholder="ค้นหา PO Number, Vendor, รายการ...">
       </div>
       <select class="filter-select">
-        <option>&#3607;&#3640;&#3585;&#3626;&#3606;&#3634;&#3609;&#3632;</option>
-        <option>&#3626;&#3656;&#3591;&#3649;&#3621;&#3657;&#3623;</option>
-        <option>&#3619;&#3633;&#3610;&#3626;&#3636;&#3609;&#3588;&#3657;&#3634;&#3649;&#3621;&#3657;&#3623;</option>
-        <option>&#3611;&#3636;&#3604; PO</option>
+        <option>ทุกสถานะ</option>
+        <option>ส่งแล้ว</option>
+        <option>รับสินค้าแล้ว</option>
+        <option>ปิด PO</option>
       </select>
-      <button class="btn btn-primary" onclick="openModal('prCreateModal')">+ &#3626;&#3619;&#3657;&#3634;&#3591; PO &#3592;&#3634;&#3585; PR</button>
+      <button class="btn btn-primary" onclick="openModal('prCreateModal')">+ สร้าง PO จาก PR</button>
     </div>
 
     <div class="table-wrap">
@@ -393,9 +393,9 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
             <th>PO #</th>
             <th>PR Ref</th>
             <th>Vendor</th>
-            <th style="text-align:right;">&#3617;&#3641;&#3621;&#3588;&#3656;&#3634;</th>
-            <th>&#3626;&#3606;&#3634;&#3609;&#3632;</th>
-            <th>&#3585;&#3635;&#3627;&#3609;&#3604;&#3626;&#3656;&#3591;</th>
+            <th style="text-align:right;">มูลค่า</th>
+            <th>สถานะ</th>
+            <th>กำหนดส่ง</th>
           </tr>
         </thead>
         <tbody id="poTableBody"></tbody>
@@ -406,7 +406,7 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
   <!-- Linked Quotation Tasks Tab -->
   <div id="tab-linked" class="tab-content">
     <div class="linked-section" style="background:transparent;border:none;padding:0;">
-      <div class="section-header" style="font-size:.95rem;">&#128279; Linked Quotation Tasks &mdash; &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;&#3607;&#3637;&#3656;&#3617;&#3634;&#3592;&#3634;&#3585; Quotation Autopilot</div>
+      <div class="section-header" style="font-size:.95rem;">🔗 Linked Quotation Tasks — รายการที่มาจาก Quotation Autopilot</div>
       <div id="linkedTasksContainer"></div>
     </div>
   </div>
@@ -415,25 +415,25 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
   <div id="tab-approval" class="tab-content">
     <div class="card" style="margin-bottom:20px;">
       <div class="card-header">
-        <div class="card-title">&#128260; &#3586;&#3633;&#3657;&#3609;&#3605;&#3629;&#3609;&#3585;&#3634;&#3619;&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636; (Approval Workflow)</div>
+        <div class="card-title">🔄 ขั้นตอนการอนุมัติ (Approval Workflow)</div>
       </div>
       <div class="workflow">
-        <div class="workflow-step done"><div class="workflow-circle">&#128100;</div><div class="workflow-name">&#3612;&#3641;&#3657;&#3586;&#3629;</div><div class="workflow-role">&#3626;&#3619;&#3657;&#3634;&#3591;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;</div></div>
+        <div class="workflow-step done"><div class="workflow-circle">👤</div><div class="workflow-name">ผู้ขอ</div><div class="workflow-role">สร้างเอกสาร</div></div>
         <div class="workflow-connector done"></div>
-        <div class="workflow-step done"><div class="workflow-circle">&#128101;</div><div class="workflow-name">&#3627;&#3633;&#3623;&#3627;&#3609;&#3657;&#3634;&#3649;&#3612;&#3609;&#3585;</div><div class="workflow-role">&#3605;&#3619;&#3623;&#3592;&#3626;&#3629;&#3610; & &#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;</div></div>
+        <div class="workflow-step done"><div class="workflow-circle">👥</div><div class="workflow-name">หัวหน้าแผนก</div><div class="workflow-role">ตรวจสอบ & อนุมัติ</div></div>
         <div class="workflow-connector active"></div>
-        <div class="workflow-step current"><div class="workflow-circle">&#128188;</div><div class="workflow-name">&#3649;&#3612;&#3609;&#3585;&#3592;&#3633;&#3604;&#3595;&#3639;&#3657;&#3629;</div><div class="workflow-role">&#3605;&#3619;&#3623;&#3592;&#3626;&#3629;&#3610;&#3619;&#3634;&#3588;&#3634; & vendor</div></div>
+        <div class="workflow-step current"><div class="workflow-circle">💼</div><div class="workflow-name">แผนกจัดซื้อ</div><div class="workflow-role">ตรวจสอบราคา & vendor</div></div>
         <div class="workflow-connector"></div>
-        <div class="workflow-step pending"><div class="workflow-circle">&#128188;</div><div class="workflow-name">&#3612;&#3641;&#3657;&#3592;&#3633;&#3604;&#3585;&#3634;&#3619;</div><div class="workflow-role">&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;&#3607;&#3633;&#3656;&#3623;&#3652;&#3611;</div></div>
+        <div class="workflow-step pending"><div class="workflow-circle">💼</div><div class="workflow-name">ผู้จัดการ</div><div class="workflow-role">อนุมัติทั่วไป</div></div>
         <div class="workflow-connector"></div>
-        <div class="workflow-step conditional"><div class="workflow-circle">&#128176;</div><div class="workflow-name">CFO</div><div class="workflow-role">> &#3647;500K &#3648;&#3607;&#3656;&#3634;&#3609;&#3633;&#3657;&#3609;</div></div>
+        <div class="workflow-step conditional"><div class="workflow-circle">💰</div><div class="workflow-name">CFO</div><div class="workflow-role">> ฿500K เท่านั้น</div></div>
       </div>
     </div>
 
     <div class="card">
       <div class="card-header">
-        <div class="card-title">&#128221; &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;&#3619;&#3629;&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;</div>
-        <span style="font-size:.72rem;color:var(--muted);">4 &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;&#3607;&#3637;&#3656;&#3619;&#3629;&#3604;&#3635;&#3648;&#3609;&#3636;&#3609;&#3585;&#3634;&#3619;</span>
+        <div class="card-title">📝 รายการรออนุมัติ</div>
+        <span style="font-size:.72rem;color:var(--muted);">4 รายการที่รอดำเนินการ</span>
       </div>
       <div id="approvalList"></div>
     </div>
@@ -444,88 +444,88 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
 <div id="prCreateModal" class="modal-overlay" onclick="if(event.target===this)closeModal('prCreateModal')">
   <div class="modal modal-lg">
     <div class="modal-header">
-      <h3>&#128196; &#3626;&#3619;&#3657;&#3634;&#3591;&#3651;&#3610;&#3586;&#3629;&#3595;&#3639;&#3657;&#3629; (Purchase Request)</h3>
-      <button class="modal-close" onclick="closeModal('prCreateModal')">&#10005;</button>
+      <h3>📄 สร้างใบขอซื้อ (Purchase Request)</h3>
+      <button class="modal-close" onclick="closeModal('prCreateModal')">✕</button>
     </div>
     <div class="modal-body">
       <div class="ai-suggestion">
         <div class="ai-icon">AI</div>
-        <div class="ai-text"><strong>&#3619;&#3632;&#3610;&#3610;&#3649;&#3609;&#3632;&#3609;&#3635; vendor &#3592;&#3634;&#3585;&#3611;&#3619;&#3632;&#3623;&#3633;&#3605;&#3636;:</strong> &#3610;&#3619;&#3636;&#3625;&#3633;&#3607; &#3624;&#3619;&#3637;&#3619;&#3640;&#3656;&#3591;&#3648;&#3619;&#3639;&#3629;&#3591; &#3649;&#3617;&#3594;&#3594;&#3637;&#3609;&#3649;&#3629;&#3609;&#3604;&#3660;&#3607;&#3641;&#3621;&#3626;&#3660; (&#3588;&#3632;&#3649;&#3609;&#3609; 4.5/5.0) - &#3626;&#3656;&#3591;&#3617;&#3629;&#3610;&#3605;&#3619;&#3591;&#3648;&#3623;&#3621;&#3634; 98%, &#3619;&#3634;&#3588;&#3634;&#3649;&#3586;&#3656;&#3591;&#3586;&#3633;&#3609;&#3652;&#3604;&#3657;&#3604;&#3637;, &#3611;&#3619;&#3632;&#3623;&#3633;&#3605;&#3636; 3 &#3611;&#3637;</div>
+        <div class="ai-text"><strong>ระบบแนะนำ vendor จากประวัติ:</strong> บริษัท ศรีรุ่งเรือง แมชชีนแอนด์ทูลส์ (คะแนน 4.5/5.0) - ส่งมอบตรงเวลา 98%, ราคาแข่งขันได้ดี, ประวัติ 3 ปี</div>
       </div>
       <div class="budget-bar">
         <div class="budget-header">
-          <span>&#128176; &#3591;&#3610;&#3611;&#3619;&#3632;&#3617;&#3634;&#3603;&#3649;&#3612;&#3609;&#3585; IT &#3652;&#3605;&#3619;&#3617;&#3634;&#3626; 2/2026</span>
-          <span style="color:var(--green);">&#3648;&#3627;&#3621;&#3639;&#3629; &#3647;2,850,000 / &#3647;5,000,000</span>
+          <span>💰 งบประมาณแผนก IT ไตรมาส 2/2026</span>
+          <span style="color:var(--green);">เหลือ ฿2,850,000 / ฿5,000,000</span>
         </div>
         <div class="budget-track"><div class="budget-fill budget-ok" style="width:43%;"></div></div>
-        <div style="font-size:.68rem;color:var(--muted);margin-top:4px;">&#3651;&#3594;&#3657;&#3652;&#3611; 43% (&#3647;2,150,000) &bull; &#3588;&#3591;&#3648;&#3627;&#3621;&#3639;&#3629; 57%</div>
+        <div style="font-size:.68rem;color:var(--muted);margin-top:4px;">ใช้ไป 43% (฿2,150,000) • คงเหลือ 57%</div>
       </div>
 
       <!-- Vendor selector with scores from System -->
       <div style="margin-bottom:16px;">
-        <div style="font-weight:700;font-size:.85rem;margin-bottom:8px;">&#3648;&#3621;&#3639;&#3629;&#3585; Vendor (&#3592;&#3634;&#3585;&#3619;&#3632;&#3610;&#3610; System/Vendors)</div>
+        <div style="font-weight:700;font-size:.85rem;margin-bottom:8px;">เลือก Vendor (จากระบบ System/Vendors)</div>
         <div id="vendorSelector" style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;"></div>
       </div>
 
       <div class="form-grid">
         <div class="form-group">
-          <label class="form-label">&#3612;&#3641;&#3657;&#3586;&#3629;</label>
+          <label class="form-label">ผู้ขอ</label>
           <input class="form-input" type="text" value="Artit C." readonly style="background:var(--bg3);">
         </div>
         <div class="form-group">
-          <label class="form-label">&#3649;&#3612;&#3609;&#3585;</label>
+          <label class="form-label">แผนก</label>
           <select class="form-select">
             <option>IT</option><option>Marketing</option><option>Operations</option><option>HR</option><option>Finance</option>
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">&#3650;&#3588;&#3619;&#3591;&#3585;&#3634;&#3619;</label>
+          <label class="form-label">โครงการ</label>
           <select class="form-select">
-            <option>&#3650;&#3588;&#3619;&#3591;&#3585;&#3634;&#3619; Digital Transformation 2026</option>
-            <option>&#3650;&#3588;&#3619;&#3591;&#3585;&#3634;&#3619; IT Infrastructure Upgrade</option>
-            <option>&#3650;&#3588;&#3619;&#3591;&#3585;&#3634;&#3619; Office Renovation</option>
-            <option>&#3588;&#3656;&#3634;&#3651;&#3594;&#3657;&#3592;&#3656;&#3634;&#3618;&#3611;&#3619;&#3632;&#3592;&#3635;</option>
+            <option>โครงการ Digital Transformation 2026</option>
+            <option>โครงการ IT Infrastructure Upgrade</option>
+            <option>โครงการ Office Renovation</option>
+            <option>ค่าใช้จ่ายประจำ</option>
           </select>
         </div>
       </div>
 
-      <div style="font-weight:700;font-size:.85rem;margin-bottom:10px;">&#3619;&#3634;&#3618;&#3585;&#3634;&#3619;&#3626;&#3636;&#3609;&#3588;&#3657;&#3634;/&#3610;&#3619;&#3636;&#3585;&#3634;&#3619;</div>
+      <div style="font-weight:700;font-size:.85rem;margin-bottom:10px;">รายการสินค้า/บริการ</div>
       <div style="overflow-x:auto;">
         <table class="items-table" id="prItemsTable">
           <thead>
             <tr>
               <th style="width:5%;">#</th>
-              <th style="width:35%;">&#3619;&#3634;&#3618;&#3585;&#3634;&#3619;</th>
-              <th style="width:10%;">&#3592;&#3635;&#3609;&#3623;&#3609;</th>
-              <th style="width:10%;">&#3627;&#3609;&#3656;&#3623;&#3618;</th>
-              <th style="width:15%;">&#3619;&#3634;&#3588;&#3634;/&#3627;&#3609;&#3656;&#3623;&#3618;</th>
-              <th style="width:15%;">&#3619;&#3623;&#3617;</th>
+              <th style="width:35%;">รายการ</th>
+              <th style="width:10%;">จำนวน</th>
+              <th style="width:10%;">หน่วย</th>
+              <th style="width:15%;">ราคา/หน่วย</th>
+              <th style="width:15%;">รวม</th>
               <th style="width:10%;"></th>
             </tr>
           </thead>
           <tbody>
-            <tr><td>1</td><td><input type="text" value="Notebook Dell Latitude 5540"></td><td><input type="number" value="5" min="1" style="width:70px;"></td><td><select><option>&#3648;&#3588;&#3619;&#3639;&#3656;&#3629;&#3591;</option></select></td><td><input type="text" value="35,000"></td><td style="font-weight:600;">&#3647;175,000</td><td><button class="remove-row">&#10005;</button></td></tr>
-            <tr><td>2</td><td><input type="text" value="&#3592;&#3629;&#3617;&#3629;&#3609;&#3636;&#3648;&#3605;&#3629;&#3619;&#3660; Dell 27 &#3609;&#3636;&#3657;&#3623;"></td><td><input type="number" value="5" min="1" style="width:70px;"></td><td><select><option>&#3648;&#3588;&#3619;&#3639;&#3656;&#3629;&#3591;</option></select></td><td><input type="text" value="12,000"></td><td style="font-weight:600;">&#3647;60,000</td><td><button class="remove-row">&#10005;</button></td></tr>
-            <tr><td>3</td><td><input type="text" value="&#3648;&#3617;&#3634;&#3626;&#3660; Logitech MX Master 3"></td><td><input type="number" value="5" min="1" style="width:70px;"></td><td><select><option>&#3605;&#3633;&#3623;</option></select></td><td><input type="text" value="3,500"></td><td style="font-weight:600;">&#3647;17,500</td><td><button class="remove-row">&#10005;</button></td></tr>
+            <tr><td>1</td><td><input type="text" value="Notebook Dell Latitude 5540"></td><td><input type="number" value="5" min="1" style="width:70px;"></td><td><select><option>เครื่อง</option></select></td><td><input type="text" value="35,000"></td><td style="font-weight:600;">฿175,000</td><td><button class="remove-row">✕</button></td></tr>
+            <tr><td>2</td><td><input type="text" value="จอมอนิเตอร์ Dell 27 นิ้ว"></td><td><input type="number" value="5" min="1" style="width:70px;"></td><td><select><option>เครื่อง</option></select></td><td><input type="text" value="12,000"></td><td style="font-weight:600;">฿60,000</td><td><button class="remove-row">✕</button></td></tr>
+            <tr><td>3</td><td><input type="text" value="เมาส์ Logitech MX Master 3"></td><td><input type="number" value="5" min="1" style="width:70px;"></td><td><select><option>ตัว</option></select></td><td><input type="text" value="3,500"></td><td style="font-weight:600;">฿17,500</td><td><button class="remove-row">✕</button></td></tr>
           </tbody>
         </table>
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;">
-        <button class="btn btn-outline btn-sm" onclick="addPrItem()">+ &#3648;&#3614;&#3636;&#3656;&#3617;&#3619;&#3634;&#3618;&#3585;&#3634;&#3619;</button>
-        <div style="font-size:.92rem;font-weight:700;">&#3619;&#3623;&#3617;&#3607;&#3633;&#3657;&#3591;&#3626;&#3636;&#3657;&#3609;: <span style="color:var(--blue);">&#3647;252,500</span></div>
+        <button class="btn btn-outline btn-sm" onclick="addPrItem()">+ เพิ่มรายการ</button>
+        <div style="font-size:.92rem;font-weight:700;">รวมทั้งสิ้น: <span style="color:var(--blue);">฿252,500</span></div>
       </div>
 
       <div style="margin-top:16px;">
         <div class="form-group full">
-          <label class="form-label">&#3627;&#3617;&#3634;&#3618;&#3648;&#3627;&#3605;&#3640;</label>
-          <textarea class="form-textarea" placeholder="&#3619;&#3634;&#3618;&#3621;&#3632;&#3648;&#3629;&#3637;&#3618;&#3604;&#3648;&#3614;&#3636;&#3656;&#3617;&#3648;&#3605;&#3636;&#3617;">&#3626;&#3635;&#3627;&#3619;&#3633;&#3610;&#3614;&#3609;&#3633;&#3585;&#3591;&#3634;&#3609;&#3651;&#3627;&#3617;&#3656; 5 &#3588;&#3609; &#3648;&#3619;&#3636;&#3656;&#3617;&#3591;&#3634;&#3609; &#3614;.&#3588;. 2026</textarea>
+          <label class="form-label">หมายเหตุ</label>
+          <textarea class="form-textarea" placeholder="รายละเอียดเพิ่มเติม">สำหรับพนักงานใหม่ 5 คน เริ่มงาน พ.ค. 2026</textarea>
         </div>
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-secondary" onclick="closeModal('prCreateModal')">&#3618;&#3585;&#3648;&#3621;&#3636;&#3585;</button>
-      <button class="btn btn-outline">&#128190; &#3610;&#3633;&#3609;&#3607;&#3638;&#3585;&#3619;&#3656;&#3634;&#3591;</button>
-      <button class="btn btn-primary">&#128228; &#3626;&#3656;&#3591;&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;</button>
+      <button class="btn btn-secondary" onclick="closeModal('prCreateModal')">ยกเลิก</button>
+      <button class="btn btn-outline">💾 บันทึกร่าง</button>
+      <button class="btn btn-primary">📤 ส่งอนุมัติ</button>
     </div>
   </div>
 </div>
@@ -534,12 +534,12 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
 <div id="poDetailModal" class="modal-overlay" onclick="if(event.target===this)closeModal('poDetailModal')">
   <div class="modal modal-lg">
     <div class="modal-header">
-      <h3>&#128203; &#3619;&#3634;&#3618;&#3621;&#3632;&#3648;&#3629;&#3637;&#3618;&#3604;&#3651;&#3610;&#3626;&#3633;&#3656;&#3591;&#3595;&#3639;&#3657;&#3629;</h3>
+      <h3>📋 รายละเอียดใบสั่งซื้อ</h3>
       <div style="display:flex;gap:8px;align-items:center;">
-        <button class="btn btn-outline btn-sm">&#128424; &#3614;&#3636;&#3617;&#3614;&#3660;</button>
-        <button class="btn btn-outline btn-sm">&#128231; &#3626;&#3656;&#3591; Email</button>
-        <button class="btn btn-primary btn-sm">&#128196; Export PDF</button>
-        <button class="modal-close" onclick="closeModal('poDetailModal')">&#10005;</button>
+        <button class="btn btn-outline btn-sm">🖨 พิมพ์</button>
+        <button class="btn btn-outline btn-sm">📧 ส่ง Email</button>
+        <button class="btn btn-primary btn-sm">📄 Export PDF</button>
+        <button class="modal-close" onclick="closeModal('poDetailModal')">✕</button>
       </div>
     </div>
     <div class="modal-body" style="padding:0;">
@@ -547,56 +547,56 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
         <div class="po-doc-header">
           <div class="po-company">
             <div class="company-name">AUTOPILOT ENTERPRISE CO., LTD.</div>
-            <div class="company-detail">123/45 &#3629;&#3634;&#3588;&#3634;&#3619;&#3629;&#3629;&#3650;&#3605;&#3652;&#3614;&#3621;&#3629;&#3605; &#3594;&#3633;&#3657;&#3609; 15 &#3606;&#3609;&#3609;&#3626;&#3640;&#3586;&#3640;&#3617;&#3623;&#3636;&#3607;</div>
-            <div class="company-detail">&#3649;&#3586;&#3623;&#3591;&#3588;&#3621;&#3629;&#3591;&#3648;&#3605;&#3618; &#3648;&#3586;&#3605;&#3588;&#3621;&#3629;&#3591;&#3648;&#3605;&#3618; &#3585;&#3619;&#3640;&#3591;&#3648;&#3607;&#3614;&#3631; 10110</div>
+            <div class="company-detail">123/45 อาคารออโตไพลอต ชั้น 15 ถนนสุขุมวิท</div>
+            <div class="company-detail">แขวงคลองเตย เขตคลองเตย กรุงเทพฯ 10110</div>
             <div class="company-detail">Tax ID: 0-1234-56789-01-2</div>
           </div>
           <div class="po-number-block">
             <div style="font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Purchase Order</div>
             <div class="po-num" id="poDetailNum">PO-2026-0062</div>
-            <div class="po-date">&#3623;&#3633;&#3609;&#3607;&#3637;&#3656;&#3629;&#3629;&#3585;: 03/04/2026</div>
-            <div class="po-date">&#3585;&#3635;&#3627;&#3609;&#3604;&#3626;&#3656;&#3591;: 17/04/2026</div>
-            <div style="margin-top:6px;"><span class="status status-sent">&#9679; &#3626;&#3656;&#3591;&#3649;&#3621;&#3657;&#3623;</span></div>
+            <div class="po-date">วันที่ออก: 03/04/2026</div>
+            <div class="po-date">กำหนดส่ง: 17/04/2026</div>
+            <div style="margin-top:6px;"><span class="status status-sent">● ส่งแล้ว</span></div>
           </div>
         </div>
         <div class="po-parties">
           <div class="po-party">
-            <h4>&#3612;&#3641;&#3657;&#3595;&#3639;&#3657;&#3629; (Buyer)</h4>
-            <p><strong>&#3610;&#3619;&#3636;&#3625;&#3633;&#3607; &#3629;&#3629;&#3650;&#3605;&#3652;&#3614;&#3621;&#3629;&#3605; &#3648;&#3629;&#3655;&#3609;&#3648;&#3605;&#3629;&#3619;&#3660;&#3652;&#3614;&#3619;&#3626;&#3660; &#3592;&#3635;&#3585;&#3633;&#3604;</strong></p>
-            <p>&#3649;&#3612;&#3609;&#3585;&#3592;&#3633;&#3604;&#3595;&#3639;&#3657;&#3629;<br>&#3612;&#3641;&#3657;&#3605;&#3636;&#3604;&#3605;&#3656;&#3629;: &#3588;&#3640;&#3603; Artit C.<br>Tel: 02-123-4567</p>
+            <h4>ผู้ซื้อ (Buyer)</h4>
+            <p><strong>บริษัท ออโตไพลอต เอ็นเตอร์ไพรส์ จำกัด</strong></p>
+            <p>แผนกจัดซื้อ<br>ผู้ติดต่อ: คุณ Artit C.<br>Tel: 02-123-4567</p>
           </div>
           <div class="po-party">
-            <h4>&#3612;&#3641;&#3657;&#3586;&#3634;&#3618; (Vendor)</h4>
-            <p><strong>&#3610;&#3619;&#3636;&#3625;&#3633;&#3607; &#3624;&#3619;&#3637;&#3619;&#3640;&#3656;&#3591;&#3648;&#3619;&#3639;&#3629;&#3591; &#3649;&#3617;&#3594;&#3594;&#3637;&#3609;&#3649;&#3629;&#3609;&#3604;&#3660;&#3607;&#3641;&#3621;&#3626;&#3660; &#3592;&#3635;&#3585;&#3633;&#3604;</strong></p>
-            <p><span class="vendor-score high">&#9733; 4.5</span> &middot; 31 &#3591;&#3634;&#3609; &middot; &#3618;&#3629;&#3604;&#3651;&#3594;&#3657;&#3592;&#3656;&#3634;&#3618; &#3647;3.91M</p>
+            <h4>ผู้ขาย (Vendor)</h4>
+            <p><strong>บริษัท ศรีรุ่งเรือง แมชชีนแอนด์ทูลส์ จำกัด</strong></p>
+            <p><span class="vendor-score high">★ 4.5</span> · 31 งาน · ยอดใช้จ่าย ฿3.91M</p>
           </div>
         </div>
         <div class="po-items">
           <table>
-            <thead><tr><th>#</th><th>&#3619;&#3634;&#3618;&#3585;&#3634;&#3619;</th><th>&#3592;&#3635;&#3609;&#3623;&#3609;</th><th>&#3627;&#3609;&#3656;&#3623;&#3618;</th><th style="text-align:right;">&#3619;&#3634;&#3588;&#3634;/&#3627;&#3609;&#3656;&#3623;&#3618;</th><th style="text-align:right;">&#3592;&#3635;&#3609;&#3623;&#3609;&#3648;&#3591;&#3636;&#3609;</th></tr></thead>
+            <thead><tr><th>#</th><th>รายการ</th><th>จำนวน</th><th>หน่วย</th><th style="text-align:right;">ราคา/หน่วย</th><th style="text-align:right;">จำนวนเงิน</th></tr></thead>
             <tbody>
-              <tr><td>1</td><td>Notebook Dell Latitude 5540 (i7/16GB/512GB)</td><td>3</td><td>&#3648;&#3588;&#3619;&#3639;&#3656;&#3629;&#3591;</td><td style="text-align:right;">&#3647;34,500</td><td style="text-align:right;">&#3647;103,500</td></tr>
-              <tr><td>2</td><td>&#3592;&#3629;&#3617;&#3629;&#3609;&#3636;&#3648;&#3605;&#3629;&#3619;&#3660; Dell P2723QE 27" 4K</td><td>3</td><td>&#3648;&#3588;&#3619;&#3639;&#3656;&#3629;&#3591;</td><td style="text-align:right;">&#3647;15,900</td><td style="text-align:right;">&#3647;47,700</td></tr>
-              <tr><td>3</td><td>Docking Station Dell WD22TB4</td><td>3</td><td>&#3605;&#3633;&#3623;</td><td style="text-align:right;">&#3647;8,500</td><td style="text-align:right;">&#3647;25,500</td></tr>
-              <tr><td>4</td><td>&#3648;&#3617;&#3634;&#3626;&#3660; Logitech MX Master 3S</td><td>3</td><td>&#3605;&#3633;&#3623;</td><td style="text-align:right;">&#3647;3,200</td><td style="text-align:right;">&#3647;9,600</td></tr>
-              <tr><td>5</td><td>&#3588;&#3637;&#3618;&#3660;&#3610;&#3629;&#3619;&#3660;&#3604; Logitech MX Keys S</td><td>3</td><td>&#3605;&#3633;&#3623;</td><td style="text-align:right;">&#3647;3,900</td><td style="text-align:right;">&#3647;11,700</td></tr>
-              <tr><td></td><td colspan="4" style="text-align:right;font-weight:600;">&#3619;&#3623;&#3617;&#3585;&#3656;&#3629;&#3609; VAT</td><td style="text-align:right;font-weight:600;">&#3647;198,000</td></tr>
-              <tr><td></td><td colspan="4" style="text-align:right;">VAT 7%</td><td style="text-align:right;">&#3647;13,860</td></tr>
-              <tr class="total-row"><td></td><td colspan="4" style="text-align:right;font-size:.95rem;">&#3619;&#3623;&#3617;&#3607;&#3633;&#3657;&#3591;&#3626;&#3636;&#3657;&#3609;</td><td style="text-align:right;font-size:.95rem;color:var(--blue);">&#3647;211,860</td></tr>
+              <tr><td>1</td><td>Notebook Dell Latitude 5540 (i7/16GB/512GB)</td><td>3</td><td>เครื่อง</td><td style="text-align:right;">฿34,500</td><td style="text-align:right;">฿103,500</td></tr>
+              <tr><td>2</td><td>จอมอนิเตอร์ Dell P2723QE 27" 4K</td><td>3</td><td>เครื่อง</td><td style="text-align:right;">฿15,900</td><td style="text-align:right;">฿47,700</td></tr>
+              <tr><td>3</td><td>Docking Station Dell WD22TB4</td><td>3</td><td>ตัว</td><td style="text-align:right;">฿8,500</td><td style="text-align:right;">฿25,500</td></tr>
+              <tr><td>4</td><td>เมาส์ Logitech MX Master 3S</td><td>3</td><td>ตัว</td><td style="text-align:right;">฿3,200</td><td style="text-align:right;">฿9,600</td></tr>
+              <tr><td>5</td><td>คีย์บอร์ด Logitech MX Keys S</td><td>3</td><td>ตัว</td><td style="text-align:right;">฿3,900</td><td style="text-align:right;">฿11,700</td></tr>
+              <tr><td></td><td colspan="4" style="text-align:right;font-weight:600;">รวมก่อน VAT</td><td style="text-align:right;font-weight:600;">฿198,000</td></tr>
+              <tr><td></td><td colspan="4" style="text-align:right;">VAT 7%</td><td style="text-align:right;">฿13,860</td></tr>
+              <tr class="total-row"><td></td><td colspan="4" style="text-align:right;font-size:.95rem;">รวมทั้งสิ้น</td><td style="text-align:right;font-size:.95rem;color:var(--blue);">฿211,860</td></tr>
             </tbody>
           </table>
         </div>
         <div class="po-terms">
-          <h4>&#3648;&#3591;&#3639;&#3656;&#3629;&#3609;&#3652;&#3586;&#3649;&#3621;&#3632;&#3586;&#3657;&#3629;&#3605;&#3585;&#3621;&#3591;</h4>
-          <p>1. &#3585;&#3635;&#3627;&#3609;&#3604;&#3626;&#3656;&#3591;&#3617;&#3629;&#3610;: &#3616;&#3634;&#3618;&#3651;&#3609; 14 &#3623;&#3633;&#3609;&#3607;&#3635;&#3585;&#3634;&#3619;<br>2. &#3648;&#3591;&#3639;&#3656;&#3629;&#3609;&#3652;&#3586;&#3585;&#3634;&#3619;&#3594;&#3635;&#3619;&#3632;: Credit 30 &#3623;&#3633;&#3609;<br>3. &#3585;&#3634;&#3619;&#3619;&#3633;&#3610;&#3611;&#3619;&#3632;&#3585;&#3633;&#3609;: &#3629;&#3618;&#3656;&#3634;&#3591;&#3609;&#3657;&#3629;&#3618; 3 &#3611;&#3637;</p>
+          <h4>เงื่อนไขและข้อตกลง</h4>
+          <p>1. กำหนดส่งมอบ: ภายใน 14 วันทำการ<br>2. เงื่อนไขการชำระ: Credit 30 วัน<br>3. การรับประกัน: อย่างน้อย 3 ปี</p>
         </div>
         <div class="po-signatures">
-          <div class="po-sig"><div class="sig-img">Artit C.</div><div class="sig-name">Artit C.</div><div class="sig-title">Procurement Manager</div><div style="font-size:.65rem;color:var(--green);margin-top:4px;">&#9989; 03/04/2026</div></div>
-          <div class="po-sig"><div class="sig-img">&#3623;&#3619;&#3614;&#3592;&#3609;&#3660; &#3624;.</div><div class="sig-name">&#3623;&#3619;&#3614;&#3592;&#3609;&#3660; &#3624;&#3619;&#3637;&#3626;&#3617;&#3610;&#3633;&#3605;&#3636;</div><div class="sig-title">&#3612;&#3641;&#3657;&#3592;&#3633;&#3604;&#3585;&#3634;&#3619;&#3649;&#3612;&#3609;&#3585;&#3592;&#3633;&#3604;&#3595;&#3639;&#3657;&#3629;</div><div style="font-size:.65rem;color:var(--green);margin-top:4px;">&#9989; 03/04/2026</div></div>
-          <div class="po-sig"><div class="sig-img" style="opacity:.3;">&#3619;&#3629;&#3621;&#3591;&#3609;&#3634;&#3617;</div><div class="sig-name">&#3612;&#3641;&#3657;&#3617;&#3637;&#3629;&#3635;&#3609;&#3634;&#3592; Vendor</div><div class="sig-title">&#3610;&#3592;&#3585;. &#3624;&#3619;&#3637;&#3619;&#3640;&#3656;&#3591;&#3648;&#3619;&#3639;&#3629;&#3591;</div><div style="font-size:.65rem;color:var(--orange);margin-top:4px;">&#9888; &#3619;&#3629;&#3621;&#3591;&#3609;&#3634;&#3617;</div></div>
+          <div class="po-sig"><div class="sig-img">Artit C.</div><div class="sig-name">Artit C.</div><div class="sig-title">Procurement Manager</div><div style="font-size:.65rem;color:var(--green);margin-top:4px;">✅ 03/04/2026</div></div>
+          <div class="po-sig"><div class="sig-img">วรพจน์ ศ.</div><div class="sig-name">วรพจน์ ศรีสมบัติ</div><div class="sig-title">ผู้จัดการแผนกจัดซื้อ</div><div style="font-size:.65rem;color:var(--green);margin-top:4px;">✅ 03/04/2026</div></div>
+          <div class="po-sig"><div class="sig-img" style="opacity:.3;">รอลงนาม</div><div class="sig-name">ผู้มีอำนาจ Vendor</div><div class="sig-title">บจก. ศรีรุ่งเรือง</div><div style="font-size:.65rem;color:var(--orange);margin-top:4px;">⚠ รอลงนาม</div></div>
         </div>
         <div style="padding:12px 24px;border-top:1px solid var(--border);text-align:right;">
-          <a href="procurement-matching.html" class="link-text" style="font-size:.78rem;">&#128279; View in Audit Log &rarr;</a>
+          <a href="procurement-matching.html" class="link-text" style="font-size:.78rem;">🔗 View in Audit Log →</a>
         </div>
       </div>
     </div>
@@ -722,7 +722,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelect
 // ============ FORMAT ============
 function fmt(n){return n.toLocaleString('th-TH');}
 function statusHTML(s){
-  const map={draft:'<span class="status status-draft">&#9679; ร่าง</span>',pending:'<span class="status status-pending">&#9679; รออนุมัติ</span>',approved:'<span class="status status-approved">&#9679; อนุมัติแล้ว</span>',converted:'<span class="status status-converted">&#9679; แปลงเป็น PO</span>',sent:'<span class="status status-sent">&#9679; ส่งแล้ว</span>',received:'<span class="status status-received">&#9679; รับสินค้าแล้ว</span>',closed:'<span class="status status-closed">&#9679; ปิด PO</span>',delivered:'<span class="status status-delivered">&#9679; ส่งมอบแล้ว</span>'};
+  const map={draft:'<span class="status status-draft">● ร่าง</span>',pending:'<span class="status status-pending">● รออนุมัติ</span>',approved:'<span class="status status-approved">● อนุมัติแล้ว</span>',converted:'<span class="status status-converted">● แปลงเป็น PO</span>',sent:'<span class="status status-sent">● ส่งแล้ว</span>',received:'<span class="status status-received">● รับสินค้าแล้ว</span>',closed:'<span class="status status-closed">● ปิด PO</span>',delivered:'<span class="status status-delivered">● ส่งมอบแล้ว</span>'};
   return map[s]||s;
 }
 
@@ -745,17 +745,17 @@ function renderPRTable(){
   const body=document.getElementById('prTableBody');
   body.innerHTML=data.map(r=>{
     let action='';
-    if(r.status==='approved')action=`<button class="btn btn-success btn-sm" onclick="openModal('prCreateModal')">&#128196;&#8594;&#128203; สร้าง PO</button>`;
+    if(r.status==='approved')action=`<button class="btn btn-success btn-sm" onclick="openModal('prCreateModal')">📄→📋 สร้าง PO</button>`;
     else if(r.status==='pending')action=`<button class="btn btn-outline btn-sm" disabled>รอดำเนินการ</button>`;
-    else if(r.status==='converted')action=`<span class="link-text" onclick="switchTab('po')">${r.poRef} &#8594;</span>`;
-    else if(r.status==='draft')action=`<button class="btn btn-outline btn-sm">&#9998; แก้ไข</button>`;
-    const quotBadge=r.fromQuotation?'<span class="badge-quotation">&#128279; Linked from Quotation</span>':'';
+    else if(r.status==='converted')action=`<span class="link-text" onclick="switchTab('po')">${r.poRef} →</span>`;
+    else if(r.status==='draft')action=`<button class="btn btn-outline btn-sm">✎ แก้ไข</button>`;
+    const quotBadge=r.fromQuotation?'<span class="badge-quotation">🔗 Linked from Quotation</span>':'';
     return `<tr>
       <td><span class="link-text">${r.pr}</span></td>
       <td style="max-width:200px;">${r.title}${quotBadge}</td>
       <td>${r.requester}</td>
       <td>${r.dept}</td>
-      <td style="text-align:right;font-weight:600;">&#3647;${fmt(r.amount)}</td>
+      <td style="text-align:right;font-weight:600;">฿${fmt(r.amount)}</td>
       <td style="text-align:center;">${r.items}</td>
       <td>${statusHTML(r.status)}</td>
       <td style="white-space:nowrap;">${r.date}</td>
@@ -774,8 +774,8 @@ function renderPOTable(){
     return `<tr onclick="openModal('poDetailModal')">
       <td><span class="link-text">${r.po}</span></td>
       <td><span class="link-text">${r.prRef}</span></td>
-      <td>${r.vendor} ${v?`<span class="vendor-score ${scoreClass}">&#9733; ${v.score}</span>`:''}</td>
-      <td style="text-align:right;font-weight:600;">&#3647;${fmt(r.amount)}</td>
+      <td>${r.vendor} ${v?`<span class="vendor-score ${scoreClass}">★ ${v.score}</span>`:''}</td>
+      <td style="text-align:right;font-weight:600;">฿${fmt(r.amount)}</td>
       <td>${statusHTML(r.status)}</td>
       <td>${r.delivery}</td>
     </tr>`;
@@ -787,16 +787,16 @@ function renderLinkedTasks(){
   const container=document.getElementById('linkedTasksContainer');
   container.innerHTML=LINKED_TASKS.map(t=>{
     const v=VENDORS.find(x=>x.id===t.vendorId);
-    const statusBadge=t.status==='converted'?'<span class="status status-converted">&#9679; แปลงเป็น PR แล้ว</span>':'<span class="status status-pending">&#9679; รอดำเนินการ</span>';
+    const statusBadge=t.status==='converted'?'<span class="status status-converted">● แปลงเป็น PR แล้ว</span>':'<span class="status status-pending">● รอดำเนินการ</span>';
     return `<div class="linked-item">
-      <div class="linked-icon" style="background:var(--purple-bg);color:var(--purple);">&#128196;</div>
+      <div class="linked-icon" style="background:var(--purple-bg);color:var(--purple);">📄</div>
       <div class="linked-info">
-        <div class="linked-title">${t.id} &mdash; ${t.title}</div>
-        <div class="linked-meta">Vendor: ${t.vendor} ${v?`(&#9733; ${v.score})`:''} &middot; &#3647;${fmt(t.amount)} &middot; ${t.date} &middot; PR: <span class="link-text">${t.prRef}</span></div>
+        <div class="linked-title">${t.id} — ${t.title}</div>
+        <div class="linked-meta">Vendor: ${t.vendor} ${v?`(★ ${v.score})`:''} · ฿${fmt(t.amount)} · ${t.date} · PR: <span class="link-text">${t.prRef}</span></div>
       </div>
       <div class="linked-actions">
         ${statusBadge}
-        <a href="procurement-matching.html" class="btn btn-outline btn-sm" style="text-decoration:none;">&#128279; Audit Log</a>
+        <a href="procurement-matching.html" class="btn btn-outline btn-sm" style="text-decoration:none;">🔗 Audit Log</a>
       </div>
     </div>`;
   }).join('');
@@ -809,16 +809,16 @@ function renderApprovals(){
     const bgMap={blue:'var(--blue-bg)',purple:'var(--purple-bg)',orange:'var(--orange-bg)',green:'var(--green-bg)'};
     const clrMap={blue:'var(--blue)',purple:'var(--purple)',orange:'var(--orange)',green:'var(--green)'};
     return `<div class="approval-item">
-      <div class="approval-avatar" style="background:${bgMap[a.color]};color:${clrMap[a.color]};">${a.isPO?'&#128203;':'&#128196;'}</div>
+      <div class="approval-avatar" style="background:${bgMap[a.color]};color:${clrMap[a.color]};">${a.isPO?'📋':'📄'}</div>
       <div class="approval-info">
         <div class="doc-num">${a.doc} - ${a.title}</div>
-        <div class="doc-desc">ผู้ขอ: ${a.requester} (${a.dept}) &bull; ${a.items} รายการ &bull; &#3647;${fmt(a.amount)}</div>
-        <div class="doc-meta">ส่งเมื่อ ${a.date} &bull; รอ: ${a.waiting}</div>
+        <div class="doc-desc">ผู้ขอ: ${a.requester} (${a.dept}) • ${a.items} รายการ • ฿${fmt(a.amount)}</div>
+        <div class="doc-meta">ส่งเมื่อ ${a.date} • รอ: ${a.waiting}</div>
       </div>
       <div class="approval-actions">
-        <button class="btn btn-success btn-sm">&#9989; อนุมัติ</button>
-        <button class="btn btn-danger btn-sm">&#10060; ปฏิเสธ</button>
-        <button class="btn btn-outline btn-sm">&#128172; หมายเหตุ</button>
+        <button class="btn btn-success btn-sm">✅ อนุมัติ</button>
+        <button class="btn btn-danger btn-sm">❌ ปฏิเสธ</button>
+        <button class="btn btn-outline btn-sm">💬 หมายเหตุ</button>
       </div>
     </div>`;
   }).join('');
@@ -831,7 +831,7 @@ function renderVendorSelector(){
     const scoreClass=v.score>=4.3?'high':v.score>=3.9?'mid':'low';
     return `<div style="padding:10px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .2s;background:var(--card-bg);" onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='var(--border)'" onclick="this.style.borderColor='var(--blue)';this.style.background='var(--blue-bg)'">
       <div style="font-size:.82rem;font-weight:600;">${v.short}</div>
-      <div style="font-size:.7rem;color:var(--muted);margin-top:2px;">${v.code} &middot; <span class="vendor-score ${scoreClass}">&#9733; ${v.score}</span> &middot; ${v.tasks} งาน &middot; &#3647;${fmt(v.spend)}</div>
+      <div style="font-size:.7rem;color:var(--muted);margin-top:2px;">${v.code} · <span class="vendor-score ${scoreClass}">★ ${v.score}</span> · ${v.tasks} งาน · ฿${fmt(v.spend)}</div>
     </div>`;
   }).join('');
 }
@@ -842,7 +842,7 @@ function addPrItem(){
   itemCount++;
   const tbody=document.querySelector('#prItemsTable tbody');
   const tr=document.createElement('tr');
-  tr.innerHTML=`<td>${itemCount}</td><td><input type="text" placeholder="ชื่อรายการ"></td><td><input type="number" value="1" min="1" style="width:70px;"></td><td><select><option>ชิ้น</option><option>เครื่อง</option><option>ตัว</option><option>ชุด</option></select></td><td><input type="text" placeholder="0"></td><td style="font-weight:600;">&#3647;0</td><td><button class="remove-row" onclick="this.closest('tr').remove()">&#10005;</button></td>`;
+  tr.innerHTML=`<td>${itemCount}</td><td><input type="text" placeholder="ชื่อรายการ"></td><td><input type="number" value="1" min="1" style="width:70px;"></td><td><select><option>ชิ้น</option><option>เครื่อง</option><option>ตัว</option><option>ชุด</option></select></td><td><input type="text" placeholder="0"></td><td style="font-weight:600;">฿0</td><td><button class="remove-row" onclick="this.closest('tr').remove()">✕</button></td>`;
   tbody.appendChild(tr);
 }
 

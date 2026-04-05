@@ -313,6 +313,7 @@ body {
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 3px; }
+@keyframes toastIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 </style>
 </head>
 <body>
@@ -806,6 +807,15 @@ function renderPerfTable() {
 document.addEventListener('DOMContentLoaded', () => {
   renderAll();
 });
+
+
+function showToast(icon, title, msg) {
+  const t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:24px;right:24px;background:var(--card-bg,#fff);color:var(--text,#0F172A);border:1px solid var(--border,#E2E8F0);padding:14px 20px;border-radius:12px;font-size:.82rem;font-weight:500;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.15);display:flex;align-items:center;gap:10px;font-family:inherit;max-width:380px;animation:toastIn .4s ease;';
+  t.innerHTML = (icon ? '<span style="font-size:1.2rem;">'+icon+'</span>' : '') + '<div>' + (title ? '<strong>'+title+'</strong> ' : '') + (msg||'') + '</div>';
+  document.body.appendChild(t);
+  setTimeout(function(){t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(function(){t.remove();},300);},3000);
+}
 </script>
 
 </body>

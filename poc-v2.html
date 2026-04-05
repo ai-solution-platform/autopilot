@@ -300,11 +300,11 @@ select.form-input{cursor:pointer;}
         <div class="module-header" onclick="toggleModule('modVendor')"><span class="mod-icon">🏢</span>Vendor Management<span class="mod-check">✓</span></div>
         <div class="module-children" id="modVendor">
             <button class="nav-item" onclick="loadModule('modules/vendor-management.html','Vendor Management')"><span class="icon">🏢</span>Vendors</button>
-            <button class="nav-item" data-page="dashboard"><span class="icon">📊</span>Vendor Quotation Analysis</button>
-            <button class="nav-item" data-page="tasks"><span class="icon">📋</span>Task & Details</button>
-            <button class="nav-item" data-page="comparison"><span class="icon">📊</span>Comparison Tables</button>
-            <button class="nav-item" data-page="audit"><span class="icon">📜</span>Audit Log</button>
-            <button class="nav-item" data-page="reports"><span class="icon">📑</span>Vendor Report</button>
+            <button class="nav-item" onclick="showPage('dashboard')" data-page="dashboard"><span class="icon">📊</span>Vendor Quotation Analysis</button>
+            <button class="nav-item" onclick="showPage('tasks')" data-page="tasks"><span class="icon">📋</span>Task & Details</button>
+            <button class="nav-item" onclick="showPage('comparison')" data-page="comparison"><span class="icon">📊</span>Comparison Tables</button>
+            <button class="nav-item" onclick="showPage('audit')" data-page="audit"><span class="icon">📜</span>Audit Log</button>
+            <button class="nav-item" onclick="showPage('reports')" data-page="reports"><span class="icon">📑</span>Vendor Report</button>
         </div>
 
         <!-- Module 2: Expense & Receipt -->
@@ -359,10 +359,10 @@ select.form-input{cursor:pointer;}
     <div class="nav-section"><div class="nav-label">System</div>
         <div class="module-header" onclick="toggleModule('modSys')"><span class="mod-icon">⚙️</span>System<span class="mod-check">✓</span></div>
         <div class="module-children" id="modSys" style="display:none;">
-            <button class="nav-item" data-page="users"><span class="icon">👥</span>Users & Roles</button>
-            <button class="nav-item" data-page="channels"><span class="icon">🔗</span>Channels</button>
-            <button class="nav-item" data-page="billing"><span class="icon">💳</span>Billing & Packages</button>
-            <button class="nav-item" data-page="settings"><span class="icon">⚙️</span>Settings</button>
+            <button class="nav-item" onclick="showPage('users')" data-page="users"><span class="icon">👥</span>Users & Roles</button>
+            <button class="nav-item" onclick="showPage('channels')" data-page="channels"><span class="icon">🔗</span>Channels</button>
+            <button class="nav-item" onclick="showPage('billing')" data-page="billing"><span class="icon">💳</span>Billing & Packages</button>
+            <button class="nav-item" onclick="showPage('settings')" data-page="settings"><span class="icon">⚙️</span>Settings</button>
         </div>
     </div>
     <div class="sidebar-footer"><div class="plan-badge">⭐ Enterprise Plan — 5 Modules Active</div></div>
