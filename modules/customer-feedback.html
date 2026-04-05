@@ -171,6 +171,18 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:v
 .resistance-quote{background:var(--bg2);border-left:3px solid var(--red);padding:12px 16px;border-radius:0 8px 8px 0;margin-bottom:10px;font-size:0.85rem;}
 .resistance-quote .quote-author{font-size:0.75rem;color:var(--muted);margin-top:4px;}
 
+.btn-crm-ticket{background:none;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:1rem;padding:2px 8px;transition:all .2s;}
+.btn-crm-ticket:hover{background:var(--blue-bg);border-color:var(--blue);transform:scale(1.1);}
+
+.survey-logic-builder{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin-top:24px;}
+.logic-rule{display:flex;gap:10px;align-items:center;padding:10px 14px;background:var(--bg2);border-radius:8px;margin-bottom:8px;flex-wrap:wrap;}
+.logic-rule select,.logic-rule input{padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card-bg);color:var(--text);font-size:0.82rem;font-family:inherit;}
+.logic-rule .rule-label{font-size:0.78rem;font-weight:600;color:var(--muted);min-width:40px;}
+.btn-add-rule{padding:8px 16px;border:2px dashed var(--border);border-radius:8px;background:none;color:var(--blue);font-weight:600;font-size:0.82rem;cursor:pointer;font-family:inherit;width:100%;margin-top:8px;transition:all .2s;}
+.btn-add-rule:hover{border-color:var(--blue);background:var(--blue-bg);}
+.btn-remove-rule{background:none;border:none;color:var(--red);cursor:pointer;font-size:1rem;padding:2px 6px;border-radius:4px;}
+.btn-remove-rule:hover{background:var(--red-bg);}
+
 .anim-in{opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s;}
 .anim-in.visible{opacity:1;transform:translateY(0);}
 
@@ -218,6 +230,104 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:v
 
   <!-- ========== TAB: OVERVIEW ========== -->
   <div class="tab-content active" id="tab-overview">
+
+    <!-- Thai Sentiment Analysis + NPS + Feedback Routing -->
+    <div class="grid-3" style="margin-bottom:24px;">
+      <!-- Thai Sentiment Analysis Widget -->
+      <div class="card" style="margin-bottom:0;">
+        <div class="card-title">🇹🇭 Thai Sentiment Analysis</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.2rem;">😊</span>
+            <div style="flex:1;">
+              <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:4px;"><span style="font-weight:600;color:var(--green);">Positive (เชิงบวก)</span><span style="font-weight:700;color:var(--green);">45%</span></div>
+              <div style="height:10px;background:var(--bg3);border-radius:99px;overflow:hidden;"><div style="width:45%;height:100%;background:var(--green);border-radius:99px;transition:width 1s;"></div></div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.2rem;">😐</span>
+            <div style="flex:1;">
+              <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:4px;"><span style="font-weight:600;color:var(--blue);">Neutral (กลาง)</span><span style="font-weight:700;color:var(--blue);">30%</span></div>
+              <div style="height:10px;background:var(--bg3);border-radius:99px;overflow:hidden;"><div style="width:30%;height:100%;background:var(--blue);border-radius:99px;transition:width 1s;"></div></div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.2rem;">😞</span>
+            <div style="flex:1;">
+              <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:4px;"><span style="font-weight:600;color:var(--red);">Negative (เชิงลบ)</span><span style="font-weight:700;color:var(--red);">25%</span></div>
+              <div style="height:10px;background:var(--bg3);border-radius:99px;overflow:hidden;"><div style="width:25%;height:100%;background:var(--red);border-radius:99px;transition:width 1s;"></div></div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:12px;font-size:.72rem;color:var(--muted);border-top:1px solid var(--border);padding-top:8px;">
+          วิเคราะห์จาก 400,000 Feedback ด้วย Thai NLP Model v2.1<br>
+          คำบวกที่พบบ่อย: "สะดวก", "รวดเร็ว", "ใช้ง่าย"<br>
+          คำลบที่พบบ่อย: "ช้า", "ซับซ้อน", "ไม่เข้าใจ"
+        </div>
+      </div>
+
+      <!-- NPS Real-time Tracking Gauge -->
+      <div class="card" style="margin-bottom:0;text-align:center;">
+        <div class="card-title" style="justify-content:center;">📊 NPS Real-time Tracking</div>
+        <svg viewBox="0 0 200 130" style="max-width:200px;margin:0 auto;">
+          <defs>
+            <linearGradient id="npsGauge" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#DC2626"/>
+              <stop offset="50%" stop-color="#D97706"/>
+              <stop offset="100%" stop-color="#059669"/>
+            </linearGradient>
+          </defs>
+          <!-- Gauge arc -->
+          <path d="M 20 110 A 80 80 0 0 1 180 110" fill="none" stroke="var(--bg3)" stroke-width="16" stroke-linecap="round"/>
+          <path d="M 20 110 A 80 80 0 0 1 180 110" fill="none" stroke="url(#npsGauge)" stroke-width="16" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="50"/>
+          <!-- NPS Value -->
+          <text x="100" y="90" text-anchor="middle" fill="var(--text)" font-size="28" font-weight="800">-12</text>
+          <text x="100" y="108" text-anchor="middle" fill="var(--muted)" font-size="10">NPS Score</text>
+          <!-- Labels -->
+          <text x="20" y="125" text-anchor="middle" fill="var(--red)" font-size="8">-100</text>
+          <text x="100" y="50" text-anchor="middle" fill="var(--orange)" font-size="8">0</text>
+          <text x="180" y="125" text-anchor="middle" fill="var(--green)" font-size="8">+100</text>
+        </svg>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:8px;font-size:.72rem;">
+          <div style="padding:6px;background:var(--green-bg);border-radius:6px;"><div style="font-weight:800;color:var(--green);">22%</div><div style="color:var(--muted);font-size:.65rem;">Promoters</div></div>
+          <div style="padding:6px;background:var(--bg3);border-radius:6px;"><div style="font-weight:800;">44%</div><div style="color:var(--muted);font-size:.65rem;">Passives</div></div>
+          <div style="padding:6px;background:var(--red-bg);border-radius:6px;"><div style="font-weight:800;color:var(--red);">34%</div><div style="color:var(--muted);font-size:.65rem;">Detractors</div></div>
+        </div>
+        <div style="margin-top:8px;font-size:.68rem;color:var(--muted);">เป้าหมาย 12 สัปดาห์: NPS +15</div>
+      </div>
+
+      <!-- Feedback Routing Status -->
+      <div class="card" style="margin-bottom:0;">
+        <div class="card-title">🔀 Feedback Routing Status</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--bg2);border-radius:8px;font-size:.82rem;">
+            <span>🛠️ ฝ่าย Engineering</span>
+            <span style="font-weight:700;color:var(--blue);">342 รายการ</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--bg2);border-radius:8px;font-size:.82rem;">
+            <span>🎨 ฝ่าย UX/UI Design</span>
+            <span style="font-weight:700;color:var(--purple);">156 รายการ</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--bg2);border-radius:8px;font-size:.82rem;">
+            <span>📞 ฝ่าย Customer Support</span>
+            <span style="font-weight:700;color:var(--orange);">203 รายการ</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--bg2);border-radius:8px;font-size:.82rem;">
+            <span>📋 ฝ่าย Product Management</span>
+            <span style="font-weight:700;color:var(--green);">89 รายการ</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--bg2);border-radius:8px;font-size:.82rem;">
+            <span>🏢 ฝ่าย Sales</span>
+            <span style="font-weight:700;color:var(--cyan);">57 รายการ</span>
+          </div>
+        </div>
+        <div style="margin-top:10px;font-size:.72rem;color:var(--muted);border-top:1px solid var(--border);padding-top:8px;">
+          Auto-routing โดย AI Classification | ความแม่นยำ 94.2%<br>
+          เวลาเฉลี่ยในการส่งต่อ: 2.3 นาที
+        </div>
+      </div>
+    </div>
+
     <!-- KPI Row -->
     <div class="kpi-grid">
       <div class="kpi-card">
@@ -450,13 +560,13 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:v
             <tr><th>#</th><th>Issue ID</th><th>รายละเอียด</th><th>ผู้ใช้ที่ได้รับผลกระทบ</th><th>สถานะ</th><th>ระดับ</th></tr>
           </thead>
           <tbody>
-            <tr><td>1</td><td>CROSS-001</td><td>Navigation ลึกเกิน 4+ คลิก เสียเวลาเฉลี่ย 12.3 นาที/Session</td><td>284,700 (71.2%)</td><td><span class="badge badge-orange">Open</span></td><td><span class="badge badge-critical">Critical</span></td></tr>
+            <tr><td>1</td><td>CROSS-001</td><td>Navigation ลึกเกิน 4+ คลิก เสียเวลาเฉลี่ย 12.3 นาที/Session</td><td>284,700 (71.2%)</td><td><span class="badge badge-green">✅ แก้ไขแล้ว</span></td><td><span class="badge badge-critical">Critical</span></td></tr>
             <tr><td>2</td><td>CROSS-002</td><td>ไม่มี Global Search ภาษาไทย ค้นหาข้ามโมดูลไม่ได้</td><td>246,800 (61.7%)</td><td><span class="badge badge-orange">Open</span></td><td><span class="badge badge-critical">Critical</span></td></tr>
             <tr><td>3</td><td>PROC-001</td><td>ไม่มี Template PR สำหรับงานซ้ำ ต้องกรอกใหม่ทุกครั้ง</td><td>231,200 (57.8%)</td><td><span class="badge badge-blue">In Progress</span></td><td><span class="badge badge-critical">Critical</span></td></tr>
             <tr><td>4</td><td>EXP-001</td><td>OCR อ่านใบเสร็จภาษาไทยไม่แม่นยำ (62.3%)</td><td>216,800 (54.2%)</td><td><span class="badge badge-blue">In Progress</span></td><td><span class="badge badge-critical">Critical</span></td></tr>
             <tr><td>5</td><td>CROSS-003</td><td>ไม่มีระบบ Undo/Redo ในทุกโมดูล 31,200 กรณีข้อมูลหาย</td><td>198,400 (49.6%)</td><td><span class="badge badge-orange">Open</span></td><td><span class="badge badge-critical">Critical</span></td></tr>
             <tr><td>6</td><td>CROSS-004</td><td>Performance ช้าเมื่อข้อมูลเกิน 500 แถว Load เพิ่ม 340%</td><td>189,200 (47.3%)</td><td><span class="badge badge-blue">In Progress</span></td><td><span class="badge badge-critical">Critical</span></td></tr>
-            <tr><td>7</td><td>EXP-002</td><td>Expense Claims ไม่รองรับ Multi-level Approval</td><td>178,400 (44.6%)</td><td><span class="badge badge-orange">Planned</span></td><td><span class="badge badge-critical">Critical</span></td></tr>
+            <tr><td>7</td><td>EXP-002</td><td>Expense Claims ไม่รองรับ Multi-level Approval</td><td>178,400 (44.6%)</td><td><span class="badge badge-blue">🔄 กำลังดำเนินการ</span></td><td><span class="badge badge-critical">Critical</span></td></tr>
             <tr><td>8</td><td>FIN-001</td><td>Finance Verification ไม่รองรับ Multi-currency (THB เท่านั้น)</td><td>167,600 (41.9%)</td><td><span class="badge badge-orange">Open</span></td><td><span class="badge badge-critical">Critical</span></td></tr>
             <tr><td>9</td><td>CROSS-005</td><td>Mobile Responsiveness ไม่เพียงพอ (<390px)</td><td>163,600 (40.9%)</td><td><span class="badge badge-blue">In Progress</span></td><td><span class="badge badge-critical">Critical</span></td></tr>
             <tr><td>10</td><td>PROC-002</td><td>ไม่มี Bulk Operations สำหรับ PO</td><td>156,800 (39.2%)</td><td><span class="badge badge-orange">Planned</span></td><td><span class="badge badge-critical">Critical</span></td></tr>
@@ -811,6 +921,13 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:v
         <option value="Home/App Shell">Home/App Shell</option>
         <option value="Logistics">Logistics</option>
       </select>
+      <select id="filterStatus" onchange="filterIssues()">
+        <option value="all">ทุกสถานะ</option>
+        <option value="Resolved">✅ แก้ไขแล้ว</option>
+        <option value="In Progress">🔄 กำลังดำเนินการ</option>
+        <option value="Planned">⏳ รอดำเนินการ</option>
+        <option value="Open">📋 เปิดอยู่</option>
+      </select>
       <input type="text" id="filterSearch" placeholder="ค้นหา Issue ID หรือรายละเอียด..." oninput="filterIssues()"/>
     </div>
 
@@ -826,7 +943,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:v
     <div class="issues-table-wrap">
       <table class="issues-table" id="issuesTable">
         <thead>
-          <tr><th>Issue ID</th><th>โมดูล</th><th>รายละเอียด</th><th>ผู้ใช้</th><th>ระดับ</th><th>กลุ่มหลัก</th><th>สถานะ</th></tr>
+          <tr><th>Issue ID</th><th>โมดูล</th><th>รายละเอียด</th><th>ผู้ใช้</th><th>ระดับ</th><th>กลุ่มหลัก</th><th>สถานะ</th><th>CRM</th></tr>
         </thead>
         <tbody id="issuesBody">
         </tbody>
@@ -1140,6 +1257,77 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:v
         <button type="submit" class="btn-primary">📤 ส่ง Feedback</button>
       </form>
     </div>
+
+    <!-- Conditional Survey Logic Builder -->
+    <div class="survey-logic-builder anim-in" style="margin-top:24px;">
+      <div class="card-title">🔀 Conditional Survey Logic Builder</div>
+      <p style="font-size:0.82rem;color:var(--text2);margin-bottom:16px;">สร้างเงื่อนไขแสดงคำถามตาม Feedback ที่ผู้ใช้ตอบ (Branching Logic)</p>
+
+      <div id="logicRules">
+        <div class="logic-rule">
+          <span class="rule-label">ถ้า</span>
+          <select>
+            <option>คะแนน ≤ 2 ดาว</option>
+            <option>คะแนน ≥ 4 ดาว</option>
+            <option>หมวดหมู่ = Bug Report</option>
+            <option>หมวดหมู่ = Feature Request</option>
+            <option>ระดับ = Critical</option>
+          </select>
+          <span class="rule-label">แล้ว</span>
+          <select>
+            <option>แสดงคำถาม: "อะไรที่ควรปรับปรุงเร่งด่วนที่สุด?"</option>
+            <option>แสดงคำถาม: "คุณต้องการฟีเจอร์อะไรเพิ่ม?"</option>
+            <option>แสดงคำถาม: "ขอรายละเอียดขั้นตอนที่เกิดปัญหา"</option>
+            <option>แสดง: Upload Screenshot</option>
+            <option>แสดง: ช่องติดต่อกลับ (โทรศัพท์/อีเมล)</option>
+          </select>
+          <button class="btn-remove-rule" onclick="this.parentElement.remove()" title="ลบ">✕</button>
+        </div>
+        <div class="logic-rule">
+          <span class="rule-label">ถ้า</span>
+          <select>
+            <option>หมวดหมู่ = Bug Report</option>
+            <option>คะแนน ≤ 2 ดาว</option>
+            <option>คะแนน ≥ 4 ดาว</option>
+            <option>หมวดหมู่ = Feature Request</option>
+            <option>ระดับ = Critical</option>
+          </select>
+          <span class="rule-label">แล้ว</span>
+          <select>
+            <option>แสดงคำถาม: "ขอรายละเอียดขั้นตอนที่เกิดปัญหา"</option>
+            <option>แสดงคำถาม: "อะไรที่ควรปรับปรุงเร่งด่วนที่สุด?"</option>
+            <option>แสดงคำถาม: "คุณต้องการฟีเจอร์อะไรเพิ่ม?"</option>
+            <option>แสดง: Upload Screenshot</option>
+            <option>แสดง: ช่องติดต่อกลับ (โทรศัพท์/อีเมล)</option>
+          </select>
+          <button class="btn-remove-rule" onclick="this.parentElement.remove()" title="ลบ">✕</button>
+        </div>
+        <div class="logic-rule">
+          <span class="rule-label">ถ้า</span>
+          <select>
+            <option>คะแนน ≥ 4 ดาว</option>
+            <option>คะแนน ≤ 2 ดาว</option>
+            <option>หมวดหมู่ = Bug Report</option>
+            <option>หมวดหมู่ = Feature Request</option>
+            <option>ระดับ = Critical</option>
+          </select>
+          <span class="rule-label">แล้ว</span>
+          <select>
+            <option>แสดงคำถาม: "คุณต้องการฟีเจอร์อะไรเพิ่ม?"</option>
+            <option>แสดงคำถาม: "อะไรที่ควรปรับปรุงเร่งด่วนที่สุด?"</option>
+            <option>แสดงคำถาม: "ขอรายละเอียดขั้นตอนที่เกิดปัญหา"</option>
+            <option>แสดง: Upload Screenshot</option>
+            <option>แสดง: ช่องติดต่อกลับ (โทรศัพท์/อีเมล)</option>
+          </select>
+          <button class="btn-remove-rule" onclick="this.parentElement.remove()" title="ลบ">✕</button>
+        </div>
+      </div>
+      <button class="btn-add-rule" onclick="addLogicRule()">+ เพิ่มเงื่อนไขใหม่</button>
+      <div style="margin-top:14px;display:flex;gap:10px;">
+        <button class="btn-primary" onclick="showToast('บันทึก Logic Rules สำเร็จ!');" style="font-size:0.82rem;padding:8px 20px;">💾 บันทึก Logic</button>
+        <button class="btn-primary" onclick="showToast('ทดสอบ Logic สำเร็จ — ทุก Rule ทำงานถูกต้อง');" style="font-size:0.82rem;padding:8px 20px;background:var(--green);">▶️ ทดสอบ</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1147,23 +1335,23 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:v
 // ===== Data =====
 const issuesData = [
   // === Top 10 Critical Issues from V2 Report ===
-  {id:'CROSS-001',module:'Cross-Module',desc:'Navigation ลึกเกิน 4+ คลิก ทำให้เสียเวลาหาเมนู',users:284700,pct:'71.2%',severity:'Critical',groups:'A,B,C,D',status:'Open'},
+  {id:'CROSS-001',module:'Cross-Module',desc:'Navigation ลึกเกิน 4+ คลิก ทำให้เสียเวลาหาเมนู',users:284700,pct:'71.2%',severity:'Critical',groups:'A,B,C,D',status:'Resolved'},
   {id:'CROSS-002',module:'Cross-Module',desc:'ไม่มี Global Search ภาษาไทย ค้นหาข้ามโมดูลไม่ได้',users:246800,pct:'61.7%',severity:'Critical',groups:'C,D',status:'Open'},
-  {id:'PROC-001',module:'Procurement PR/PO',desc:'ไม่มี Template PR สำหรับงานซ้ำ ต้องกรอกใหม่ทุกครั้ง',users:231200,pct:'57.8%',severity:'Critical',groups:'B,C',status:'In Progress'},
+  {id:'PROC-001',module:'Procurement PR/PO',desc:'ไม่มี Template PR สำหรับงานซ้ำ ต้องกรอกใหม่ทุกครั้ง (Sprint 1)',users:231200,pct:'57.8%',severity:'Critical',groups:'B,C',status:'In Progress'},
   {id:'EXP-001',module:'Expense Receipt OCR',desc:'OCR อ่านใบเสร็จภาษาไทยไม่แม่นยำ (62.3%)',users:216800,pct:'54.2%',severity:'Critical',groups:'C,D',status:'In Progress'},
   {id:'CROSS-003',module:'Cross-Module',desc:'ไม่มีระบบ Undo/Redo ในทุกโมดูล 31,200 กรณีข้อมูลหาย',users:198400,pct:'49.6%',severity:'Critical',groups:'A,D',status:'Open'},
   {id:'CROSS-004',module:'Cross-Module',desc:'Performance ช้าเมื่อข้อมูลเกิน 500 แถว Load เพิ่มขึ้น 340%',users:189200,pct:'47.3%',severity:'Critical',groups:'B,C',status:'In Progress'},
-  {id:'EXP-002',module:'Expense Tasks/Claims',desc:'Expense Claims ไม่รองรับ Multi-level Approval',users:178400,pct:'44.6%',severity:'Critical',groups:'C,D',status:'Planned'},
+  {id:'EXP-002',module:'Expense Tasks/Claims',desc:'Expense Claims ไม่รองรับ Multi-level Approval',users:178400,pct:'44.6%',severity:'Critical',groups:'C,D',status:'In Progress'},
   {id:'FIN-001',module:'Finance Verification',desc:'Finance Verification ไม่รองรับ Multi-currency รองรับเฉพาะ THB',users:167600,pct:'41.9%',severity:'Critical',groups:'B,C',status:'Open'},
   {id:'CROSS-005',module:'Cross-Module',desc:'Mobile Responsiveness ไม่เพียงพอ (<390px)',users:163600,pct:'40.9%',severity:'Critical',groups:'A,B',status:'In Progress'},
   {id:'PROC-002',module:'Procurement PR/PO',desc:'ไม่มี Bulk Operations สำหรับ PO ต้องทำทีละใบ',users:156800,pct:'39.2%',severity:'Critical',groups:'B,C',status:'Planned'},
   // === Additional Critical/High from V2 Full Issue List ===
-  {id:'CROSS-006',module:'Cross-Module',desc:'ไม่มี Notification Center รวม แจ้งเตือนกระจัดกระจาย',users:152000,pct:'38.0%',severity:'High',groups:'B,C',status:'Planned'},
+  {id:'CROSS-006',module:'Cross-Module',desc:'ไม่มี Notification Center รวม แจ้งเตือนกระจัดกระจาย',users:152000,pct:'38.0%',severity:'High',groups:'B,C',status:'Resolved'},
   {id:'CROSS-007',module:'Cross-Module',desc:'ไม่มี Dark Mode ทำให้ปวดตาเมื่อใช้นาน',users:148400,pct:'37.1%',severity:'High',groups:'A',status:'Open'},
   {id:'PROC-003',module:'Procurement PR/PO',desc:'ไม่รองรับ Approval Workflow หลายระดับ',users:148000,pct:'37.0%',severity:'Critical',groups:'C,D',status:'Planned'},
   {id:'SALES-001',module:'Sales Dashboard',desc:'ไม่มี Pipeline View แบบ Kanban สำหรับ Sales',users:148000,pct:'37.0%',severity:'Critical',groups:'A,B',status:'Open'},
   {id:'CONN-001',module:'Connector Hub',desc:'ไม่มี Pre-built Connector สำหรับ SAP, Oracle',users:144000,pct:'36.0%',severity:'Critical',groups:'C',status:'Open'},
-  {id:'CROSS-008',module:'Cross-Module',desc:'Font ภาษาไทย Render ผิดใน Safari และ Firefox',users:141200,pct:'35.3%',severity:'High',groups:'C,D',status:'In Progress'},
+  {id:'CROSS-008',module:'Cross-Module',desc:'Font ภาษาไทย Render ผิดใน Safari และ Firefox',users:141200,pct:'35.3%',severity:'High',groups:'C,D',status:'Resolved'},
   {id:'PROC-004',module:'Procurement PR/PO',desc:'ไม่มี Vendor Rating System ประเมิน Vendor ไม่ได้',users:141200,pct:'35.3%',severity:'High',groups:'B,C',status:'Open'},
   {id:'SALES-002',module:'Sales Dashboard',desc:'ไม่รองรับ Quotation Management',users:140400,pct:'35.1%',severity:'Critical',groups:'B,C',status:'Open'},
   {id:'CONN-002',module:'Connector Hub',desc:'ไม่รองรับ Real-time Sync ข้อมูล delay 15+ นาที',users:138400,pct:'34.6%',severity:'Critical',groups:'B,C',status:'In Progress'},
@@ -1171,7 +1359,7 @@ const issuesData = [
   {id:'LOG-001',module:'Logistics',desc:'ไม่มี Shipment Tracking แบบ Real-time',users:136000,pct:'34.0%',severity:'Critical',groups:'B,C',status:'Open'},
   {id:'PROC-005',module:'Procurement PR/PO',desc:'ไม่รองรับ BOM (Bill of Materials) สำหรับโรงงาน',users:136400,pct:'34.1%',severity:'High',groups:'C',status:'Open'},
   {id:'SALES-003',module:'Sales Dashboard',desc:'ไม่มี Sales Forecast/Projection',users:134000,pct:'33.5%',severity:'High',groups:'B,C',status:'Open'},
-  {id:'CONN-003',module:'API Dashboard',desc:'API Rate Limit ต่ำเกินไป (100 req/min)',users:132800,pct:'33.2%',severity:'High',groups:'A,B',status:'Open'},
+  {id:'CONN-003',module:'API Dashboard',desc:'API Rate Limit ต่ำเกินไป (100 req/min)',users:132800,pct:'33.2%',severity:'High',groups:'A,B',status:'In Progress'},
   {id:'CROSS-010',module:'Cross-Module',desc:'Session Timeout สั้นเกินไป (15 นาที) ข้อมูลหาย',users:132400,pct:'33.1%',severity:'High',groups:'C,D',status:'Open'},
   {id:'FIN-002',module:'Finance Verification',desc:'ไม่มี Automated Matching สำหรับ Bank Statement',users:156000,pct:'39.0%',severity:'Critical',groups:'B,C',status:'Open'},
   {id:'FIN-003',module:'Finance Cases',desc:'ไม่รองรับ Case Escalation อัตโนมัติ',users:148400,pct:'37.1%',severity:'Critical',groups:'C,D',status:'Planned'},
@@ -1180,7 +1368,7 @@ const issuesData = [
   {id:'EXP-003',module:'Expense Tasks/Claims',desc:'ไม่มี Policy Engine สำหรับตรวจสอบค่าใช้จ่ายอัตโนมัติ',users:164000,pct:'41.0%',severity:'Critical',groups:'C,D',status:'Open'},
   {id:'EXP-004',module:'Expense Receipt OCR',desc:'ไม่รองรับ Batch Upload ใบเสร็จ ต้องทำทีละใบ',users:152400,pct:'38.1%',severity:'Critical',groups:'B,C',status:'Planned'},
   {id:'LOG-002',module:'Logistics',desc:'ไม่รองรับ Multi-warehouse Management',users:130400,pct:'32.6%',severity:'Critical',groups:'C',status:'Open'},
-  {id:'CROSS-011',module:'Cross-Module',desc:'ไม่มี Breadcrumb Navigation ไม่รู้ว่าอยู่หน้าไหน',users:128000,pct:'32.0%',severity:'High',groups:'C,D',status:'Planned'},
+  {id:'CROSS-011',module:'Cross-Module',desc:'ไม่มี Breadcrumb Navigation ไม่รู้ว่าอยู่หน้าไหน',users:128000,pct:'32.0%',severity:'High',groups:'C,D',status:'Resolved'},
   {id:'CROSS-012',module:'Cross-Module',desc:'Loading Spinner ไม่มี ไม่รู้ว่าระบบกำลังทำงาน',users:124800,pct:'31.2%',severity:'High',groups:'D',status:'In Progress'},
   {id:'CROSS-013',module:'Cross-Module',desc:'ไม่มี Auto-save ต้อง Save เองทุกครั้ง',users:121600,pct:'30.4%',severity:'High',groups:'A,B,C,D',status:'Open'},
   {id:'CROSS-014',module:'Cross-Module',desc:'Error Messages เป็นภาษาอังกฤษทั้งหมด ไม่เข้าใจ',users:118400,pct:'29.6%',severity:'High',groups:'C,D',status:'Open'},
@@ -1303,20 +1491,28 @@ function animateBars(){
 }
 
 // ===== Issues Table Rendering =====
+function getThaiStatus(status){
+  if(status==='Resolved') return {icon:'✅',label:'แก้ไขแล้ว',cls:'badge-green'};
+  if(status==='In Progress') return {icon:'🔄',label:'กำลังดำเนินการ',cls:'badge-blue'};
+  if(status==='Planned') return {icon:'⏳',label:'รอดำเนินการ',cls:'badge-orange'};
+  return {icon:'📋',label:'เปิดอยู่',cls:'badge-orange'};
+}
+
 function renderIssues(data){
   const tbody=document.getElementById('issuesBody');
   tbody.innerHTML='';
   data.forEach(i=>{
     const sevClass='badge-'+i.severity.toLowerCase();
-    const statusClass=i.status==='In Progress'?'badge-blue':i.status==='Resolved'?'badge-green':'badge-orange';
-    tbody.innerHTML+=`<tr data-severity="${i.severity}" data-module="${i.module}">
+    const st=getThaiStatus(i.status);
+    tbody.innerHTML+=`<tr data-severity="${i.severity}" data-module="${i.module}" data-status="${i.status}">
       <td style="font-weight:700;white-space:nowrap;">${i.id}</td>
       <td><span class="badge badge-purple" style="font-size:0.7rem;">${i.module}</span></td>
       <td>${i.desc}</td>
       <td style="white-space:nowrap;">${i.users.toLocaleString()} (${i.pct})</td>
       <td><span class="badge ${sevClass}">${i.severity}</span></td>
       <td style="white-space:nowrap;">${i.groups}</td>
-      <td><span class="badge ${statusClass}">${i.status}</span></td>
+      <td><span class="badge ${st.cls}" style="gap:4px;">${st.icon} ${st.label}</span></td>
+      <td><button class="btn-crm-ticket" onclick="createCRMTicket('${i.id}','${i.module}','${i.severity}')" title="สร้าง CRM Ticket">🎫</button></td>
     </tr>`;
   });
 }
@@ -1324,10 +1520,12 @@ function renderIssues(data){
 function filterIssues(){
   const sev=document.getElementById('filterSeverity').value;
   const mod=document.getElementById('filterModule').value;
+  const stat=document.getElementById('filterStatus').value;
   const q=document.getElementById('filterSearch').value.toLowerCase();
   let filtered=issuesData.filter(i=>{
     if(sev!=='all'&&i.severity!==sev)return false;
     if(mod!=='all'&&i.module!==mod)return false;
+    if(stat!=='all'&&i.status!==stat)return false;
     if(q&&!i.id.toLowerCase().includes(q)&&!i.desc.toLowerCase().includes(q))return false;
     return true;
   });
@@ -1430,6 +1628,43 @@ function submitFeedback(e){
   document.querySelectorAll('#starRating .star').forEach(s=>s.classList.remove('active'));
   document.getElementById('ratingText').textContent='เลือกคะแนน 1-5 ดาว';
   document.getElementById('fileList').innerHTML='';
+}
+
+// ===== CRM Ticket Creation =====
+function createCRMTicket(issueId, module, severity){
+  const ticketId = 'TKT-' + Date.now().toString(36).toUpperCase();
+  showToast(`🎫 สร้าง CRM Ticket สำเร็จ! ${ticketId} สำหรับ ${issueId} — ส่งต่อทีม ${module}`);
+}
+
+// ===== Conditional Survey Logic Builder =====
+function addLogicRule(){
+  const container = document.getElementById('logicRules');
+  const rule = document.createElement('div');
+  rule.className = 'logic-rule';
+  rule.innerHTML = `
+    <span class="rule-label">ถ้า</span>
+    <select>
+      <option>คะแนน ≤ 2 ดาว</option>
+      <option>คะแนน ≥ 4 ดาว</option>
+      <option>หมวดหมู่ = Bug Report</option>
+      <option>หมวดหมู่ = Feature Request</option>
+      <option>ระดับ = Critical</option>
+      <option>โมดูล = Connectors</option>
+      <option>โมดูล = Expense</option>
+      <option>โมดูล = Procurement</option>
+    </select>
+    <span class="rule-label">แล้ว</span>
+    <select>
+      <option>แสดงคำถาม: "อะไรที่ควรปรับปรุงเร่งด่วนที่สุด?"</option>
+      <option>แสดงคำถาม: "คุณต้องการฟีเจอร์อะไรเพิ่ม?"</option>
+      <option>แสดงคำถาม: "ขอรายละเอียดขั้นตอนที่เกิดปัญหา"</option>
+      <option>แสดง: Upload Screenshot</option>
+      <option>แสดง: ช่องติดต่อกลับ (โทรศัพท์/อีเมล)</option>
+      <option>สร้าง CRM Ticket อัตโนมัติ</option>
+    </select>
+    <button class="btn-remove-rule" onclick="this.parentElement.remove()" title="ลบ">✕</button>
+  `;
+  container.appendChild(rule);
 }
 
 // ===== Intersection Observer for scroll animations =====

@@ -14,7 +14,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
 .dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);}
 
-.page{max-width:1000px;margin:0 auto;padding:24px;}
+.page{max-width:1060px;margin:0 auto;padding:24px;}
 .breadcrumb{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--muted);margin-bottom:16px;}
 .breadcrumb a{color:var(--blue);text-decoration:none;font-weight:500;}
 .breadcrumb a:hover{text-decoration:underline;}
@@ -29,37 +29,94 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .btn-secondary{background:var(--card-bg);color:var(--text2);border:1px solid var(--border);}.btn-secondary:hover{border-color:var(--blue);color:var(--blue);}
 .btn-green{background:var(--green);color:#fff;}.btn-green:hover{opacity:.9;}
 .btn-sm{padding:5px 10px;font-size:.72rem;border-radius:6px;}
+.btn-red{background:var(--red);color:#fff;}.btn-red:hover{opacity:.9;}
+.btn-orange{background:var(--orange);color:#fff;}.btn-orange:hover{opacity:.9;}
 
 .card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:20px;}
 .card-title{font-size:.92rem;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:16px;}
 
+/* Accuracy Banner */
+.accuracy-banner{background:var(--green-bg);border:1px solid var(--green);border-radius:12px;padding:14px 20px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.accuracy-banner .acc-left{display:flex;align-items:center;gap:12px;}
+.accuracy-badge{font-size:1.5rem;font-weight:800;color:var(--green);font-family:'Inter',sans-serif;}
+.accuracy-label{font-size:.8rem;font-weight:600;color:var(--green);}
+.accuracy-sub{font-size:.68rem;color:var(--muted);}
+.accuracy-bar{width:200px;height:8px;background:var(--bg3);border-radius:4px;overflow:hidden;}
+.accuracy-fill{height:100%;background:var(--green);border-radius:4px;transition:width .6s;}
+
 /* Mode Toggle */
-.mode-toggle{display:flex;gap:10px;justify-content:center;margin-bottom:24px;}
+.mode-toggle{display:flex;gap:10px;justify-content:center;margin-bottom:24px;flex-wrap:wrap;}
 .mode-btn{padding:10px 24px;border-radius:10px;font-size:.85rem;font-weight:600;border:1px solid var(--border);background:var(--card-bg);color:var(--text2);cursor:pointer;font-family:inherit;transition:all .2s;}
 .mode-btn.active{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 4px 12px rgba(37,99,235,.2);}
 .mode-btn:not(.active):hover{border-color:var(--blue);color:var(--blue);}
 
-/* Upload Zone */
-.upload-zone{border:2px dashed var(--border);border-radius:16px;padding:48px;text-align:center;transition:all .3s;background:var(--bg2);cursor:pointer;margin-bottom:20px;}
+/* Upload Zone - Multi-file */
+.upload-zone{border:2px dashed var(--border);border-radius:16px;padding:48px 24px;text-align:center;transition:all .3s;background:var(--bg2);cursor:pointer;margin-bottom:20px;position:relative;}
 .upload-zone:hover,.upload-zone.dragover{border-color:var(--blue);background:var(--blue-bg);}
+.upload-zone.dragover{border-width:3px;transform:scale(1.01);}
 .upload-icon{font-size:3rem;margin-bottom:12px;}
 .upload-title{font-size:1rem;font-weight:700;margin-bottom:6px;}
 .upload-subtitle{font-size:.78rem;color:var(--muted);}
 .upload-zone input{display:none;}
+.upload-formats{display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap;}
+.format-tag{padding:3px 10px;border-radius:6px;font-size:.65rem;font-weight:600;background:var(--bg3);color:var(--muted);border:1px solid var(--border);}
+
+/* File Queue */
+.file-queue{margin-bottom:20px;}
+.file-queue-title{font-size:.82rem;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.file-item{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;transition:all .2s;}
+.file-item:hover{border-color:var(--blue);}
+.file-icon{font-size:1.2rem;flex-shrink:0;}
+.file-info{flex:1;}
+.file-name{font-size:.8rem;font-weight:600;}
+.file-size{font-size:.65rem;color:var(--muted);}
+.file-status{font-size:.68rem;font-weight:600;padding:3px 10px;border-radius:12px;}
+.file-status.queued{background:var(--bg3);color:var(--muted);}
+.file-status.processing{background:var(--blue-bg);color:var(--blue);}
+.file-status.done{background:var(--green-bg);color:var(--green);}
+.file-status.error{background:var(--red-bg);color:var(--red);}
+.file-remove{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.9rem;padding:4px;}
+.file-remove:hover{color:var(--red);}
+
+/* Batch Progress */
+.batch-progress{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:20px;display:none;}
+.batch-progress.visible{display:block;}
+.batch-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.batch-title{font-size:.88rem;font-weight:700;}
+.batch-count{font-size:.78rem;color:var(--muted);}
+.progress-bar{width:100%;height:8px;background:var(--bg3);border-radius:4px;overflow:hidden;margin-bottom:10px;}
+.progress-fill{height:100%;background:var(--grad);border-radius:4px;transition:width .5s ease-out;}
+.batch-steps{display:flex;gap:6px;flex-wrap:wrap;}
+.batch-step{font-size:.68rem;padding:4px 10px;border-radius:6px;font-weight:600;display:flex;align-items:center;gap:4px;}
+.batch-step.done{background:var(--green-bg);color:var(--green);}
+.batch-step.active{background:var(--blue-bg);color:var(--blue);animation:pulse 1.5s infinite;}
+.batch-step.pending{background:var(--bg3);color:var(--muted);}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.6;}}
+
+/* Template Matching */
+.template-section{margin-bottom:20px;}
+.template-title{font-size:.82rem;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.template-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.template-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;cursor:pointer;transition:all .2s;}
+.template-card:hover{border-color:var(--blue);background:var(--blue-bg);}
+.template-card.matched{border-color:var(--green);background:var(--green-bg);}
+.template-card.matched::after{content:'MATCHED';position:absolute;top:6px;right:6px;font-size:.55rem;font-weight:800;background:var(--green);color:#fff;padding:2px 6px;border-radius:4px;}
+.template-card{position:relative;}
+.template-logo{font-size:1.5rem;margin-bottom:6px;}
+.template-name{font-size:.75rem;font-weight:700;}
+.template-acc{font-size:.62rem;color:var(--muted);margin-top:2px;}
 
 /* OCR Result */
 .ocr-result{display:none;}
 .ocr-result.visible{display:block;}
 
-/* Claim Banner */
-.claim-banner{background:var(--grad);color:#fff;border-radius:12px;padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
-.claim-id-large{font-size:1.8rem;font-weight:800;font-family:'Inter',sans-serif;letter-spacing:1px;}
-.claim-banner-info{font-size:.82rem;opacity:.9;}
-.claim-status-badge{padding:6px 16px;border-radius:20px;background:rgba(255,255,255,.2);font-size:.78rem;font-weight:600;border:1px solid rgba(255,255,255,.3);}
-
-/* Fields Grid */
-.fields-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
-.field{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;}
+/* Confidence Fields */
+.fields-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;}
+.field{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;position:relative;transition:all .2s;}
+.field.low-conf{border-color:var(--red);background:var(--red-bg);animation:fieldPulse 2s ease-in-out 3;}
+.field.med-conf{border-color:var(--orange);background:var(--orange-bg);}
+.field.high-conf{border-color:var(--green);background:var(--green-bg);}
+@keyframes fieldPulse{0%,100%{box-shadow:0 0 0 0 transparent;}50%{box-shadow:0 0 0 4px rgba(220,38,38,.15);}}
 .field-label{font-size:.7rem;color:var(--muted);font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px;}
 .field-value{font-size:.9rem;font-weight:600;}
 .field-value.amount{font-size:1.2rem;color:var(--blue);font-family:'Inter',sans-serif;}
@@ -67,8 +124,52 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .conf-high{background:var(--green-bg);color:var(--green);}
 .conf-med{background:var(--orange-bg);color:var(--orange);}
 .conf-low{background:var(--red-bg);color:var(--red);}
+.field-edit-btn{position:absolute;top:8px;right:8px;background:var(--card-bg);border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-size:.65rem;cursor:pointer;color:var(--blue);font-weight:600;font-family:inherit;display:none;}
+.field.low-conf .field-edit-btn,.field.med-conf .field-edit-btn{display:block;}
+.field-edit-btn:hover{background:var(--blue-bg);}
+.field-input{width:100%;padding:6px 10px;border:1px solid var(--blue);border-radius:6px;font-size:.85rem;font-family:inherit;background:var(--card-bg);color:var(--text);display:none;}
+.field.editing .field-value{display:none;}
+.field.editing .field-input{display:block;}
 
-/* Attach Existing */
+/* Claim Banner */
+.claim-banner{background:var(--grad);color:#fff;border-radius:12px;padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.claim-id-large{font-size:1.8rem;font-weight:800;font-family:'Inter',sans-serif;letter-spacing:1px;}
+.claim-banner-info{font-size:.82rem;opacity:.9;}
+.claim-status-badge{padding:6px 16px;border-radius:20px;background:rgba(255,255,255,.2);font-size:.78rem;font-weight:600;border:1px solid rgba(255,255,255,.3);}
+
+/* PromptPay QR Section */
+.promptpay-section{margin-bottom:20px;}
+.qr-container{display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+.qr-box{width:180px;height:180px;background:var(--bg2);border:2px solid var(--border);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
+.qr-placeholder{width:120px;height:120px;background:var(--bg3);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qr-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:2px;width:100px;height:100px;}
+.qr-cell{border-radius:1px;}
+.qr-cell.dark{background:var(--text);}
+.qr-cell.light{background:transparent;}
+.qr-label{font-size:.68rem;font-weight:600;color:var(--muted);}
+.qr-details{flex:1;}
+.qr-details .qr-info-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:.82rem;}
+.qr-info-label{font-size:.72rem;color:var(--muted);font-weight:500;min-width:100px;}
+.qr-info-value{font-weight:600;}
+.qr-amount{font-size:1.3rem;font-weight:800;color:var(--blue);font-family:'Inter',sans-serif;}
+.qr-status{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;font-weight:600;padding:4px 12px;border-radius:8px;}
+.qr-status.waiting{background:var(--orange-bg);color:var(--orange);}
+.qr-status.confirmed{background:var(--green-bg);color:var(--green);}
+
+/* e-Slip Parser */
+.eslip-section{margin-bottom:20px;}
+.eslip-banks{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+.bank-chip{padding:8px 16px;border-radius:8px;font-size:.78rem;font-weight:600;border:1px solid var(--border);background:var(--card-bg);cursor:pointer;transition:all .2s;font-family:inherit;color:var(--text2);display:flex;align-items:center;gap:6px;}
+.bank-chip:hover{border-color:var(--blue);}
+.bank-chip.active{border-color:var(--blue);background:var(--blue-bg);color:var(--blue);}
+.eslip-upload{border:2px dashed var(--border);border-radius:10px;padding:24px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg2);}
+.eslip-upload:hover{border-color:var(--purple);background:var(--purple-bg);}
+.eslip-result{margin-top:14px;padding:14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;display:none;}
+.eslip-result.visible{display:block;}
+.eslip-row{display:flex;justify-content:space-between;padding:6px 0;font-size:.8rem;border-bottom:1px solid var(--border);}
+.eslip-row:last-child{border-bottom:none;}
+
+/* Attach Section */
 .attach-section{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:20px;}
 .attach-section h4{font-size:.82rem;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
 .attach-options{display:flex;gap:8px;flex-wrap:wrap;}
@@ -76,12 +177,13 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .attach-chip:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-bg);}
 .attach-chip.selected{background:var(--blue);color:#fff;border-color:var(--blue);}
 
-/* Form */
+/* Advance Payment Form */
 .form-group{margin-bottom:14px;}
 .form-label{font-size:.75rem;font-weight:600;color:var(--text2);margin-bottom:4px;display:block;}
 .form-input,.form-select,.form-textarea{width:100%;padding:9px 14px;border:1px solid var(--border);border-radius:8px;font-size:.82rem;font-family:inherit;background:var(--card-bg);color:var(--text);transition:all .2s;}
 .form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1);}
 .form-textarea{min-height:80px;resize:vertical;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
 
 /* Action Row */
 .action-row{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:16px;}
@@ -90,16 +192,6 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .ocr-complete-cta{background:var(--green-bg);border:1px solid var(--green);border-radius:12px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
 .ocr-complete-cta .cta-text{font-size:.88rem;font-weight:600;color:var(--green);}
 .ocr-complete-cta .cta-buttons{display:flex;gap:8px;}
-
-/* Claim Form */
-.claim-form{display:none;margin-bottom:20px;}
-.claim-form.visible{display:block;}
-.claim-form .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
-.claim-form .form-group{display:flex;flex-direction:column;gap:4px;}
-.claim-form .form-group label{font-size:.75rem;font-weight:600;color:var(--text2);}
-.claim-form .form-input{width:100%;padding:9px 14px;border:1px solid var(--border);border-radius:8px;font-size:.82rem;font-family:inherit;background:var(--card-bg);color:var(--text);transition:all .2s;}
-.claim-form .form-input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1);}
-.claim-form textarea.form-input{min-height:70px;resize:vertical;}
 
 /* Recent Scans History */
 .history-table{width:100%;border-collapse:collapse;}
@@ -112,21 +204,20 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .status-processing{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue);}
 .status-draft{background:var(--bg3);color:var(--muted);border:1px solid var(--border);}
 
-/* Progress */
+/* Scan Progress */
 .scan-progress{display:none;text-align:center;padding:32px;}
 .scan-progress.visible{display:block;}
-.progress-bar{width:100%;height:6px;background:var(--bg3);border-radius:3px;margin:16px 0;overflow:hidden;}
-.progress-fill{height:100%;background:var(--grad);border-radius:3px;transition:width .5s ease-out;}
-.progress-text{font-size:.82rem;color:var(--muted);font-weight:500;}
 .progress-icon{font-size:2.5rem;margin-bottom:8px;}
+.progress-text{font-size:.82rem;color:var(--muted);font-weight:500;}
 
-/* History Drawer */
-.history-drawer{position:fixed;top:0;right:-440px;width:440px;height:100vh;background:var(--card-bg);border-left:1px solid var(--border);box-shadow:-4px 0 24px rgba(0,0,0,.12);z-index:1001;transition:right .3s ease;overflow-y:auto;padding:24px;}
-.history-drawer.open{right:0;}
-.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.25);z-index:1000;display:none;}
-.drawer-overlay.show{display:block;}
+/* Policy Warning */
+.policy-warning{background:var(--red-bg);border:1px solid var(--red);border-radius:10px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;font-size:.8rem;color:var(--red);font-weight:600;}
 
-@media(max-width:768px){.fields-grid{grid-template-columns:1fr;}.claim-banner{flex-direction:column;text-align:center;}.action-row{flex-direction:column;}.action-row .btn{width:100%;justify-content:center;}.history-drawer{width:100%;right:-100%;}}
+/* Claim Form */
+.claim-form{display:none;margin-bottom:20px;}
+.claim-form.visible{display:block;}
+
+@media(max-width:768px){.fields-grid{grid-template-columns:1fr;}.template-grid{grid-template-columns:repeat(2,1fr);}.claim-banner{flex-direction:column;text-align:center;}.action-row{flex-direction:column;}.action-row .btn{width:100%;justify-content:center;}.qr-container{flex-direction:column;}}
 </style>
 </head>
 <body>
@@ -141,7 +232,25 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
   <div class="page-title">
     <h1>&#128247; Receipt OCR Scanner</h1>
-    <p>สแกนใบเสร็จอัตโนมัติ สร้าง Expense Claim พร้อมส่งอนุมัติ</p>
+    <p>สแกนใบเสร็จอัตโนมัติด้วย AI - รองรับภาษาไทย 94.2% accuracy | Batch Upload | PromptPay QR</p>
+  </div>
+
+  <!-- OCR Accuracy Banner EX-001 -->
+  <div class="accuracy-banner">
+    <div class="acc-left">
+      <div>
+        <div class="accuracy-badge">94.2%</div>
+        <div class="accuracy-label">ความแม่นยำ OCR</div>
+      </div>
+      <div>
+        <div style="font-size:.78rem;font-weight:600;color:var(--green);">Thai Receipt Engine v3.2</div>
+        <div class="accuracy-sub">ปรับปรุงล่าสุด: 1 เม.ย. 2569 | รองรับ Template 47 ร้านค้า</div>
+      </div>
+    </div>
+    <div>
+      <div class="accuracy-bar"><div class="accuracy-fill" style="width:94.2%"></div></div>
+      <div style="font-size:.62rem;color:var(--muted);text-align:right;margin-top:2px;">เป้าหมาย: 95%</div>
+    </div>
   </div>
 
   <!-- Mode Toggle -->
@@ -149,9 +258,11 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
     <button class="mode-btn active" onclick="setMode(this,'new')">&#10133; สร้าง Claim ใหม่</button>
     <button class="mode-btn" onclick="setMode(this,'attach')">&#128206; แนบกับ Claim ที่มี</button>
     <button class="mode-btn" onclick="setMode(this,'advance')">&#128176; สำรองจ่ายล่วงหน้า</button>
+    <button class="mode-btn" onclick="setMode(this,'eslip')">&#127974; อ่าน e-Slip</button>
+    <button class="mode-btn" onclick="setMode(this,'promptpay')">&#128178; PromptPay QR</button>
   </div>
 
-  <!-- Attach to Existing Section (hidden by default) -->
+  <!-- Attach to Existing Section -->
   <div class="attach-section" id="attachSection" style="display:none;">
     <h4>&#128206; เลือก Claim ที่ต้องการแนบใบเสร็จ</h4>
     <div class="attach-options">
@@ -162,717 +273,427 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
     </div>
   </div>
 
-  <!-- Advance Payment Section (hidden by default) -->
+  <!-- Advance Payment Section CROSS-030 -->
   <div class="card" id="advanceSection" style="display:none;">
-    <div class="card-title">&#128176; แบบฟอร์มสำรองจ่ายล่วงหน้า</div>
-    <div class="fields-grid">
+    <div class="card-title">&#128176; แบบฟอร์มสำรองจ่ายล่วงหน้า (Advance Payment)</div>
+    <div class="form-grid">
       <div class="form-group">
         <label class="form-label">วัตถุประสงค์ *</label>
-        <input id="adv-purpose" class="form-input" placeholder="เช่น สำรองจ่ายค่าเดินทางไปสัมมนา">
+        <input class="form-input" placeholder="เช่น สำรองจ่ายค่าเดินทางไปสัมมนา">
       </div>
       <div class="form-group">
         <label class="form-label">จำนวนเงินที่ขอสำรอง (&#3647;) *</label>
-        <input id="adv-amount" class="form-input" type="number" placeholder="0.00">
+        <input class="form-input" type="number" placeholder="0.00">
       </div>
       <div class="form-group">
         <label class="form-label">วันที่ต้องการใช้ *</label>
-        <input id="adv-date" class="form-input" type="date">
+        <input class="form-input" type="date">
       </div>
       <div class="form-group">
-        <label class="form-label">แผนก / โปรเจค</label>
-        <select id="adv-dept" class="form-select">
-          <option>PROJ-001 — Marketing Q2</option>
-          <option>PROJ-002 — Sales Team</option>
-          <option>PROJ-003 — IT Infrastructure</option>
-          <option>GENERAL — ค่าใช้จ่ายทั่วไป</option>
-        </select>
+        <label class="form-label">วันที่คาดว่าจะเคลียร์ *</label>
+        <input class="form-input" type="date">
       </div>
-      <div class="form-group" style="grid-column:span 2;">
-        <label class="form-label">หมายเหตุ</label>
-        <textarea id="adv-note" class="form-textarea" placeholder="รายละเอียดเพิ่มเติม..."></textarea>
+      <div class="form-group" style="grid-column:1/-1;">
+        <label class="form-label">รายละเอียดเพิ่มเติม</label>
+        <textarea class="form-input form-textarea" placeholder="อธิบายค่าใช้จ่ายที่คาดว่าจะเกิดขึ้น"></textarea>
       </div>
     </div>
-    <div style="display:flex;gap:8px;margin-top:16px;">
-      <button class="btn btn-primary" onclick="submitAdvancePayment()">&#128176; ส่งคำขอสำรองจ่าย</button>
-      <button class="btn btn-secondary" onclick="saveDraft()">&#128190; บันทึกร่าง</button>
+    <div class="action-row">
+      <button class="btn btn-secondary">&#128190; บันทึกร่าง</button>
+      <button class="btn btn-primary" onclick="submitAdvance()">&#128228; ส่งขออนุมัติสำรองจ่าย</button>
     </div>
   </div>
 
-  <!-- Upload Zone -->
-  <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="event.preventDefault();this.classList.remove('dragover');handleFiles(event.dataTransfer.files)">
-    <div class="upload-icon">&#128247;</div>
-    <div class="upload-title">ลากวางใบเสร็จ หรือ คลิกเพื่ออัปโหลด</div>
-    <div class="upload-subtitle">รองรับ JPG, PNG, PDF — สูงสุด 10MB | AI OCR จะอ่านข้อมูลอัตโนมัติ</div>
-    <div style="font-size:.75rem;color:var(--blue);font-weight:600;margin-top:6px;">รองรับอัพโหลดหลายไฟล์พร้อมกัน (สูงสุด 20 ไฟล์)</div>
-    <div style="display:flex;gap:10px;justify-content:center;margin-top:12px;">
-      <button class="btn btn-secondary btn-sm" onclick="event.stopPropagation();showToast('&#128241; กำลังประมวลผล e-Slip...')">&#128241; แนบ e-Slip ธนาคาร</button>
-      <button class="btn btn-secondary btn-sm" onclick="event.stopPropagation();showToast('&#128306; กำลังประมวลผล PromptPay QR...')">&#128306; สแกน PromptPay QR</button>
+  <!-- e-Slip Parser Section EX-010 -->
+  <div class="card" id="eslipSection" style="display:none;">
+    <div class="card-title">&#127974; อ่าน e-Slip ธนาคาร</div>
+    <p style="font-size:.78rem;color:var(--muted);margin-bottom:14px;">อัปโหลดภาพ e-Slip จากแอปธนาคาร เพื่อดึงข้อมูลการโอนอัตโนมัติ</p>
+    <div class="eslip-banks">
+      <button class="bank-chip active" onclick="selectBank(this)">&#128154; SCB (ไทยพาณิชย์)</button>
+      <button class="bank-chip" onclick="selectBank(this)">&#128155; KBANK (กสิกร)</button>
+      <button class="bank-chip" onclick="selectBank(this)">&#128153; BBL (กรุงเทพ)</button>
+      <button class="bank-chip" onclick="selectBank(this)">&#128156; KTB (กรุงไทย)</button>
+      <button class="bank-chip" onclick="selectBank(this)">&#129505; BAY (กรุงศรี)</button>
     </div>
-    <input type="file" id="fileInput" accept="image/*,.pdf" multiple onchange="handleFiles(this.files)">
-  </div>
-
-  <!-- Batch File List (hidden by default) -->
-  <div id="batchFileList" style="display:none;margin-bottom:20px;">
-    <div class="card">
-      <div class="card-title">&#128194; ไฟล์ที่เลือก</div>
-      <div id="batchFileItems" style="display:flex;flex-direction:column;gap:8px;"></div>
-      <div style="display:flex;gap:8px;margin-top:16px;">
-        <button class="btn btn-primary" onclick="scanAllBatch()">&#128260; สแกนทั้งหมด</button>
-        <button class="btn btn-secondary" onclick="clearBatch()">&#10005; ล้างทั้งหมด</button>
-      </div>
+    <div class="eslip-upload" onclick="document.getElementById('eslipInput').click()">
+      <div style="font-size:2rem;">&#128433;</div>
+      <div style="font-size:.85rem;font-weight:600;margin-top:8px;">วางภาพ e-Slip ที่นี่ หรือคลิกเพื่อเลือกไฟล์</div>
+      <div style="font-size:.72rem;color:var(--muted);margin-top:4px;">รองรับ PNG, JPG จากแอปธนาคาร</div>
+      <input type="file" id="eslipInput" accept="image/*" style="display:none;">
     </div>
-  </div>
-
-  <!-- Per Diem Calculator -->
-  <div class="card" style="margin-bottom:20px;">
-    <div class="card-title">&#128202; คำนวณ Per Diem อัตโนมัติ</div>
-    <div class="fields-grid">
-      <div class="form-group">
-        <label class="form-label">จังหวัดปลายทาง</label>
-        <select id="perdiem-province" class="form-select" onchange="calcPerDiem()">
-          <option value="">-- เลือกจังหวัด --</option>
-          <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
-          <option value="เชียงใหม่">เชียงใหม่</option>
-          <option value="ภูเก็ต">ภูเก็ต</option>
-          <option value="ชลบุรี">ชลบุรี</option>
-          <option value="นครราชสีมา">นครราชสีมา</option>
-          <option value="ขอนแก่น">ขอนแก่น</option>
-          <option value="สงขลา">สงขลา</option>
-          <option value="อื่นๆ">อื่นๆ</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">จำนวนวัน</label>
-        <input id="perdiem-days" class="form-input" type="number" min="1" value="1" onchange="calcPerDiem()" oninput="calcPerDiem()">
-      </div>
-      <div class="form-group">
-        <label class="form-label">อัตรา</label>
-        <div style="display:flex;gap:8px;align-items:center;">
-          <label style="font-size:.75rem;display:flex;align-items:center;gap:4px;cursor:pointer;">
-            <input type="radio" name="perdiemRate" value="gov" checked onchange="calcPerDiem()"> ราชการ &#3647;240/วัน
-          </label>
-          <label style="font-size:.75rem;display:flex;align-items:center;gap:4px;cursor:pointer;">
-            <input type="radio" name="perdiemRate" value="custom" onchange="calcPerDiem()"> กำหนดเอง
-          </label>
-          <input id="perdiem-custom-rate" class="form-input" type="number" placeholder="อัตรา/วัน" style="width:100px;display:none;" oninput="calcPerDiem()">
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">ยอดรวม Per Diem</label>
-        <div id="perdiem-total" style="font-size:1.2rem;font-weight:800;color:var(--blue);font-family:Inter,sans-serif;padding:9px 0;">&#3647;240.00</div>
-      </div>
+    <!-- e-Slip OCR Result Demo -->
+    <div class="eslip-result visible" style="margin-top:14px;">
+      <div style="font-size:.82rem;font-weight:700;margin-bottom:10px;">&#9989; ผลอ่าน e-Slip สำเร็จ</div>
+      <div class="eslip-row"><span style="color:var(--muted);">ธนาคาร</span><span style="font-weight:600;">SCB ไทยพาณิชย์</span></div>
+      <div class="eslip-row"><span style="color:var(--muted);">ผู้โอน</span><span style="font-weight:600;">นาย สมชาย ใจดี</span></div>
+      <div class="eslip-row"><span style="color:var(--muted);">ผู้รับ</span><span style="font-weight:600;">บจก. ออฟฟิศ ซัพพลาย</span></div>
+      <div class="eslip-row"><span style="color:var(--muted);">จำนวนเงิน</span><span style="font-weight:700;color:var(--blue);font-family:'Inter';">&#3647;8,450.00</span></div>
+      <div class="eslip-row"><span style="color:var(--muted);">วันเวลา</span><span style="font-weight:600;">5 เม.ย. 2569 14:32</span></div>
+      <div class="eslip-row"><span style="color:var(--muted);">เลขอ้างอิง</span><span style="font-weight:600;font-family:'Inter';">2025040514320098</span></div>
     </div>
   </div>
 
-  <!-- Manual Create Section -->
-  <div class="card" id="manualCreateSection">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
-      <span style="font-size:1.2rem;">&#9997;&#65039;</span>
-      <div>
-        <div style="font-weight:700;font-size:.92rem;">หรือ สร้าง Claim ด้วยตนเอง</div>
-        <div style="font-size:.72rem;color:var(--muted);">กรอกข้อมูลเองโดยไม่ต้องสแกนใบเสร็จ</div>
+  <!-- PromptPay QR Section EX-010 -->
+  <div class="card" id="promptpaySection" style="display:none;">
+    <div class="card-title">&#128178; PromptPay QR Payment</div>
+    <p style="font-size:.78rem;color:var(--muted);margin-bottom:14px;">สร้าง QR Code สำหรับจ่ายเงินผ่าน PromptPay หรือสแกน QR เพื่อยืนยันการชำระ</p>
+    <div class="qr-container">
+      <div class="qr-box">
+        <div class="qr-placeholder">
+          <svg width="100" height="100" viewBox="0 0 100 100">
+            <rect x="5" y="5" width="25" height="25" rx="3" fill="var(--text)" opacity=".8"/>
+            <rect x="70" y="5" width="25" height="25" rx="3" fill="var(--text)" opacity=".8"/>
+            <rect x="5" y="70" width="25" height="25" rx="3" fill="var(--text)" opacity=".8"/>
+            <rect x="10" y="10" width="15" height="15" rx="2" fill="var(--bg)"/>
+            <rect x="75" y="10" width="15" height="15" rx="2" fill="var(--bg)"/>
+            <rect x="10" y="75" width="15" height="15" rx="2" fill="var(--bg)"/>
+            <rect x="13" y="13" width="9" height="9" rx="1" fill="var(--text)" opacity=".8"/>
+            <rect x="78" y="13" width="9" height="9" rx="1" fill="var(--text)" opacity=".8"/>
+            <rect x="13" y="78" width="9" height="9" rx="1" fill="var(--text)" opacity=".8"/>
+            <rect x="35" y="5" width="6" height="6" rx="1" fill="var(--text)" opacity=".6"/>
+            <rect x="45" y="5" width="6" height="6" rx="1" fill="var(--text)" opacity=".6"/>
+            <rect x="55" y="5" width="6" height="6" rx="1" fill="var(--text)" opacity=".6"/>
+            <rect x="35" y="15" width="6" height="6" rx="1" fill="var(--text)" opacity=".4"/>
+            <rect x="45" y="15" width="6" height="6" rx="1" fill="var(--text)" opacity=".6"/>
+            <rect x="35" y="35" width="30" height="30" rx="4" fill="var(--blue)" opacity=".15"/>
+            <text x="50" y="55" text-anchor="middle" font-size="10" font-weight="700" fill="var(--blue)">PP</text>
+          </svg>
+        </div>
+        <div class="qr-label">PromptPay QR</div>
       </div>
-      <button class="btn btn-primary btn-sm" style="margin-left:auto;" onclick="showManualForm()">&#128221; กรอกข้อมูลเอง</button>
-    </div>
-
-    <div id="manualForm" style="display:none;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
-        <div class="form-group">
-          <label class="form-label">ชื่อ Claim *</label>
-          <input id="mf-name" class="form-input" placeholder="เช่น ค่าอาหารประชุมทีม">
+      <div class="qr-details">
+        <div class="qr-info-row">
+          <span class="qr-info-label">ผู้รับเงิน:</span>
+          <span class="qr-info-value">บจก. ออฟฟิศ ซัพพลาย</span>
         </div>
-        <div class="form-group">
-          <label class="form-label">หมวดหมู่</label>
-          <select id="mf-category" class="form-select">
-            <option>รับรอง — ค่าอาหาร</option>
-            <option>เดินทาง — ค่าขนส่ง</option>
-            <option>เดินทาง — ค่าน้ำมัน</option>
-            <option>ที่พัก</option>
-            <option>สำนักงาน</option>
-            <option>ซอฟต์แวร์</option>
-            <option>ฝึกอบรม</option>
-            <option>สื่อสาร</option>
-            <option>อื่นๆ</option>
-          </select>
+        <div class="qr-info-row">
+          <span class="qr-info-label">เลข PromptPay:</span>
+          <span class="qr-info-value" style="font-family:'Inter';">012-345-6789</span>
         </div>
-        <div class="form-group">
-          <label class="form-label">จำนวนเงิน (&#3647;) *</label>
-          <input id="mf-amount" class="form-input" type="number" placeholder="0.00">
+        <div class="qr-info-row">
+          <span class="qr-info-label">จำนวนเงิน:</span>
+          <span class="qr-amount">&#3647;8,450.00</span>
         </div>
-        <div class="form-group">
-          <label class="form-label">วันที่ใบเสร็จ</label>
-          <input id="mf-date" class="form-input" type="date" value="2026-04-05">
+        <div class="qr-info-row">
+          <span class="qr-info-label">สถานะ:</span>
+          <span class="qr-status waiting">&#9203; รอการชำระเงิน</span>
         </div>
-        <div class="form-group" style="grid-column:span 2;">
-          <label class="form-label">ร้านค้า / ผู้รับเงิน</label>
-          <input id="mf-vendor" class="form-input" placeholder="ชื่อร้านค้าหรือบริษัท">
+        <div style="margin-top:12px;display:flex;gap:8px;">
+          <button class="btn btn-primary" onclick="confirmPayment()">&#9989; ยืนยันการชำระแล้ว</button>
+          <button class="btn btn-secondary">&#128438; ดาวน์โหลด QR</button>
         </div>
-        <div class="form-group" style="grid-column:span 2;">
-          <label class="form-label">รายละเอียด</label>
-          <textarea id="mf-detail" class="form-textarea" placeholder="วัตถุประสงค์การใช้จ่าย..."></textarea>
-        </div>
-        <div class="form-group">
-          <label class="form-label">ผู้อนุมัติ</label>
-          <select id="mf-approver" class="form-select">
-            <option value="">เลือกผู้อนุมัติ</option>
-            <option>นริศรา พงษ์พันธ์ (ผจก.)</option>
-            <option>สุรชัย มั่นคง (ผอ.)</option>
-            <option>อรพิน ดำรงค์ (CFO)</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">&#128247; แนบใบเสร็จ</label>
-          <div style="display:flex;gap:8px;">
-            <button class="btn btn-secondary btn-sm" onclick="scrollToUpload()">&#128247; สแกนด้วย OCR</button>
-            <label class="btn btn-secondary btn-sm" style="cursor:pointer;">&#128206; อัพโหลด<input type="file" style="display:none;" onchange="attachManualFile(this)"></label>
-          </div>
-          <div id="mf-attached" style="display:none;margin-top:8px;font-size:.75rem;color:var(--green);font-weight:600;">&#10003; แนบไฟล์แล้ว: <span id="mf-filename"></span></div>
-        </div>
-      </div>
-      <div style="display:flex;gap:8px;margin-top:16px;">
-        <button class="btn btn-primary" onclick="submitManualClaim()">&#128203; สร้าง Claim</button>
-        <button class="btn btn-secondary" onclick="document.getElementById('manualForm').style.display='none'">ยกเลิก</button>
       </div>
     </div>
   </div>
 
-  <!-- Scanning Progress -->
-  <div class="scan-progress" id="scanProgress">
-    <div class="progress-icon">&#129302;</div>
-    <div class="progress-text" id="progressText">กำลังสแกนใบเสร็จด้วย AI OCR...</div>
-    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%;"></div></div>
+  <!-- Multi-file Upload Zone EX-002 -->
+  <div id="uploadArea">
+    <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+      <div class="upload-icon">&#128194;</div>
+      <div class="upload-title">ลากไฟล์วางที่นี่ หรือคลิกเพื่อเลือก</div>
+      <div class="upload-subtitle">รองรับหลายไฟล์พร้อมกัน (Batch OCR) — สูงสุด 20 ไฟล์</div>
+      <div class="upload-formats">
+        <span class="format-tag">JPG</span>
+        <span class="format-tag">PNG</span>
+        <span class="format-tag">PDF</span>
+        <span class="format-tag">HEIC</span>
+        <span class="format-tag">WebP</span>
+      </div>
+      <input type="file" id="fileInput" multiple accept="image/*,.pdf" style="display:none;">
+    </div>
+
+    <!-- File Queue -->
+    <div class="file-queue" id="fileQueue" style="display:none;">
+      <div class="file-queue-title">&#128203; ไฟล์ในคิว <span id="queueCount" style="color:var(--blue);font-family:'Inter';">3</span></div>
+      <div class="file-item">
+        <span class="file-icon">&#128444;</span>
+        <div class="file-info"><div class="file-name">receipt_711_040569.jpg</div><div class="file-size">1.2 MB</div></div>
+        <span class="file-status done">&#9989; สำเร็จ</span>
+        <button class="file-remove" onclick="this.closest('.file-item').remove()">&#10005;</button>
+      </div>
+      <div class="file-item">
+        <span class="file-icon">&#128444;</span>
+        <div class="file-info"><div class="file-name">receipt_makro_040569.png</div><div class="file-size">2.4 MB</div></div>
+        <span class="file-status processing">&#9881; กำลังอ่าน...</span>
+        <button class="file-remove" onclick="this.closest('.file-item').remove()">&#10005;</button>
+      </div>
+      <div class="file-item">
+        <span class="file-icon">&#128196;</span>
+        <div class="file-info"><div class="file-name">tax_invoice_bigc.pdf</div><div class="file-size">856 KB</div></div>
+        <span class="file-status queued">&#128338; รอคิว</span>
+        <button class="file-remove" onclick="this.closest('.file-item').remove()">&#10005;</button>
+      </div>
+      <div style="margin-top:10px;display:flex;gap:8px;">
+        <button class="btn btn-primary" onclick="startBatchOCR()">&#9881; เริ่ม Batch OCR ทั้งหมด</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()">&#10133; เพิ่มไฟล์</button>
+      </div>
+    </div>
   </div>
 
-  <!-- OCR Result -->
-  <div class="ocr-result" id="ocrResult">
+  <!-- Batch OCR Progress EX-002 -->
+  <div class="batch-progress" id="batchProgress">
+    <div class="batch-header">
+      <div class="batch-title">&#9881; กำลังประมวลผล Batch OCR...</div>
+      <div class="batch-count">2 / 3 ไฟล์</div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:66%"></div></div>
+    <div class="batch-steps">
+      <span class="batch-step done">&#9989; อัปโหลด</span>
+      <span class="batch-step done">&#9989; Pre-process</span>
+      <span class="batch-step active">&#9881; Thai OCR Engine</span>
+      <span class="batch-step pending">&#128338; Template Match</span>
+      <span class="batch-step pending">&#128338; Validate</span>
+    </div>
+  </div>
+
+  <!-- Template Matching Section EX-001 -->
+  <div class="template-section">
+    <div class="template-title">&#127981; Thai Receipt Templates (Auto-detect)</div>
+    <div class="template-grid">
+      <div class="template-card matched">
+        <div class="template-logo">&#127978;</div>
+        <div class="template-name">7-Eleven</div>
+        <div class="template-acc">Accuracy: 96.8%</div>
+      </div>
+      <div class="template-card">
+        <div class="template-logo">&#127963;</div>
+        <div class="template-name">Makro</div>
+        <div class="template-acc">Accuracy: 95.1%</div>
+      </div>
+      <div class="template-card">
+        <div class="template-logo">&#128722;</div>
+        <div class="template-name">Lotus's</div>
+        <div class="template-acc">Accuracy: 94.5%</div>
+      </div>
+      <div class="template-card">
+        <div class="template-logo">&#127980;</div>
+        <div class="template-name">Big C</div>
+        <div class="template-acc">Accuracy: 93.9%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OCR Result Section EX-001 -->
+  <div class="ocr-result visible">
     <!-- Claim Banner -->
     <div class="claim-banner">
       <div>
-        <div style="font-size:.7rem;opacity:.7;margin-bottom:4px;">CLAIM ID</div>
-        <div class="claim-id-large" id="claimIdDisplay">EX-0026</div>
-        <div class="claim-banner-info">สร้างเมื่อ: <span id="claimDate">5 เม.ย. 2569</span> | ผู้เบิก: สมชาย ก.</div>
+        <div class="claim-id-large">EX-0026</div>
+        <div class="claim-banner-info">สร้างเมื่อ: 5 เม.ย. 2569 15:42 | โดย: สมชาย ใจดี</div>
       </div>
-      <div style="text-align:right;">
-        <div class="claim-status-badge">&#128221; ร่าง — รอตรวจสอบ</div>
-      </div>
+      <div class="claim-status-badge">&#128338; ร่าง — รอตรวจสอบ</div>
     </div>
 
-    <!-- Extracted Data -->
+    <!-- Policy Warning EX-006 -->
+    <div class="policy-warning" id="policyWarning" style="display:none;">
+      &#9888; ค่าใช้จ่ายนี้เกินลิมิตนโยบายบริษัท: ค่าอาหาร/มื้อ ไม่เกิน &#3647;500 (ยอดปัจจุบัน: &#3647;1,250)
+    </div>
+
+    <!-- Confidence Score OCR Fields EX-001 -->
     <div class="card">
-      <div class="card-title">&#129302; ข้อมูลที่ AI อ่านได้จากใบเสร็จ</div>
+      <div class="card-title">&#128203; ผลการอ่าน OCR — พร้อม Confidence Score</div>
       <div class="fields-grid">
-        <div class="field">
-          <div class="field-label">ร้านค้า / ผู้ออกใบเสร็จ</div>
-          <div class="field-value">บริษัท สยามฟู้ด จำกัด</div>
-          <div class="field-confidence conf-high">&#9989; ความมั่นใจ 98%</div>
+        <div class="field high-conf">
+          <div class="field-label">ชื่อร้านค้า</div>
+          <div class="field-value">7-Eleven สาขา อโศก</div>
+          <div class="field-input" style="display:none;"><input type="text" class="form-input" value="7-Eleven สาขา อโศก"></div>
+          <div class="field-confidence conf-high">&#9989; 97.3% — สูง</div>
+          <button class="field-edit-btn" onclick="toggleEdit(this)">&#9998; แก้ไข</button>
         </div>
-        <div class="field">
+        <div class="field high-conf">
           <div class="field-label">เลขประจำตัวผู้เสียภาษี</div>
-          <div class="field-value" style="font-family:Inter;">0-1234-56789-01-2</div>
-          <div class="field-confidence conf-high">&#9989; ความมั่นใจ 96%</div>
+          <div class="field-value" style="font-family:'Inter';">0105556123456</div>
+          <div class="field-confidence conf-high">&#9989; 98.1% — สูง</div>
+          <button class="field-edit-btn" onclick="toggleEdit(this)">&#9998; แก้ไข</button>
         </div>
-        <div class="field">
-          <div class="field-label">วันที่ในใบเสร็จ</div>
-          <div class="field-value">3 เมษายน 2569</div>
-          <div class="field-confidence conf-high">&#9989; ความมั่นใจ 99%</div>
+        <div class="field high-conf">
+          <div class="field-label">วันที่ใบเสร็จ</div>
+          <div class="field-value">5 เม.ย. 2569</div>
+          <div class="field-confidence conf-high">&#9989; 95.8% — สูง</div>
+          <button class="field-edit-btn" onclick="toggleEdit(this)">&#9998; แก้ไข</button>
         </div>
-        <div class="field">
-          <div class="field-label">จำนวนเงินรวม (รวม VAT)</div>
-          <div class="field-value amount">&#3647;2,850.00</div>
-          <div class="field-confidence conf-high">&#9989; ความมั่นใจ 97%</div>
-        </div>
-        <div class="field">
-          <div class="field-label">ภาษีมูลค่าเพิ่ม (VAT 7%)</div>
-          <div class="field-value">&#3647;186.45</div>
-          <div class="field-confidence conf-med">&#9888; ความมั่นใจ 82%</div>
-        </div>
-        <div class="field">
+        <div class="field high-conf">
           <div class="field-label">เลขที่ใบเสร็จ</div>
-          <div class="field-value" style="font-family:Inter;">INV-2026-04-00312</div>
-          <div class="field-confidence conf-high">&#9989; ความมั่นใจ 94%</div>
+          <div class="field-value" style="font-family:'Inter';">INV-2569-04-00342</div>
+          <div class="field-confidence conf-high">&#9989; 96.2% — สูง</div>
+          <button class="field-edit-btn" onclick="toggleEdit(this)">&#9998; แก้ไข</button>
+        </div>
+        <div class="field high-conf">
+          <div class="field-label">ยอดรวมก่อน VAT</div>
+          <div class="field-value amount">&#3647;1,168.22</div>
+          <div class="field-confidence conf-high">&#9989; 94.5% — สูง</div>
+          <button class="field-edit-btn" onclick="toggleEdit(this)">&#9998; แก้ไข</button>
+        </div>
+        <div class="field high-conf">
+          <div class="field-label">VAT 7%</div>
+          <div class="field-value amount">&#3647;81.78</div>
+          <div class="field-confidence conf-high">&#9989; 93.2% — สูง</div>
+          <button class="field-edit-btn" onclick="toggleEdit(this)">&#9998; แก้ไข</button>
+        </div>
+        <div class="field med-conf">
+          <div class="field-label">ยอดรวมสุทธิ</div>
+          <div class="field-value amount">&#3647;1,250.00</div>
+          <div class="field-confidence conf-med">&#9888; 78.4% — ปานกลาง</div>
+          <button class="field-edit-btn" onclick="toggleEdit(this)">&#9998; แก้ไข</button>
+        </div>
+        <div class="field low-conf">
+          <div class="field-label">ที่อยู่ร้านค้า</div>
+          <div class="field-value">3/15 ถ.สุขุมวิท ซ.21 แขว...</div>
+          <div class="field-confidence conf-low">&#9888; 62.1% — ต่ำ (ต้องตรวจสอบ)</div>
+          <button class="field-edit-btn" onclick="toggleEdit(this)">&#9998; แก้ไข</button>
         </div>
       </div>
     </div>
 
-    <!-- Additional Details Form -->
+    <!-- Manual Correction Summary EX-001 -->
     <div class="card">
-      <div class="card-title">&#128221; รายละเอียดเพิ่มเติม</div>
-      <div class="fields-grid">
-        <div class="form-group">
-          <label class="form-label">หมวดหมู่ค่าใช้จ่าย</label>
-          <select class="form-select">
-            <option>รับรอง — ค่าอาหาร</option>
-            <option>เดินทาง — ค่าขนส่ง</option>
-            <option>เดินทาง — ค่าน้ำมัน</option>
-            <option>ที่พัก</option>
-            <option>สำนักงาน</option>
-            <option>ซอฟต์แวร์</option>
-            <option>ฝึกอบรม</option>
-            <option>สื่อสาร</option>
-            <option>อื่นๆ</option>
-          </select>
+      <div class="card-title">&#128295; สรุปการตรวจสอบ</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px;">
+        <div style="text-align:center;padding:12px;background:var(--green-bg);border-radius:10px;">
+          <div style="font-size:1.2rem;font-weight:800;color:var(--green);">6</div>
+          <div style="font-size:.72rem;color:var(--green);font-weight:600;">&#9989; ความเชื่อมั่นสูง (&gt;90%)</div>
         </div>
-        <div class="form-group">
-          <label class="form-label">โปรเจกต์ / Cost Center</label>
-          <select class="form-select">
-            <option>PROJ-001 — Marketing Q2</option>
-            <option>PROJ-002 — Sales Team</option>
-            <option>PROJ-003 — IT Infrastructure</option>
-            <option>GENERAL — ค่าใช้จ่ายทั่วไป</option>
-          </select>
+        <div style="text-align:center;padding:12px;background:var(--orange-bg);border-radius:10px;">
+          <div style="font-size:1.2rem;font-weight:800;color:var(--orange);">1</div>
+          <div style="font-size:.72rem;color:var(--orange);font-weight:600;">&#9888; ปานกลาง (70-90%)</div>
+        </div>
+        <div style="text-align:center;padding:12px;background:var(--red-bg);border-radius:10px;">
+          <div style="font-size:1.2rem;font-weight:800;color:var(--red);">1</div>
+          <div style="font-size:.72rem;color:var(--red);font-weight:600;">&#9888; ต่ำ (&lt;70%) — ต้องแก้ไข</div>
         </div>
       </div>
-      <div class="form-group">
-        <label class="form-label">คำอธิบาย / วัตถุประสงค์</label>
-        <textarea class="form-textarea" placeholder="เช่น ค่าอาหารเลี้ยงรับรองลูกค้า บริษัท ABC วันที่ 3 เม.ย.">ค่าอาหารเลี้ยงรับรองลูกค้า บริษัท สยามฟู้ด — ประชุมแผนงาน Q2</textarea>
-      </div>
-      <div class="form-group">
-        <label class="form-label">ผู้ร่วมรับรอง (ถ้ามี)</label>
-        <input class="form-input" type="text" value="วิภา ส. (Sales), ณัฐ ว. (Marketing)">
-      </div>
+      <p style="font-size:.78rem;color:var(--muted);">กรุณาตรวจสอบช่องที่มีเครื่องหมาย &#9888; และแก้ไขข้อมูลให้ถูกต้องก่อนส่ง</p>
     </div>
 
     <!-- OCR Complete CTA -->
     <div class="ocr-complete-cta">
-      <div class="cta-text">&#9989; OCR Complete — ข้อมูลพร้อมสร้าง Claim</div>
+      <div class="cta-text">&#9989; OCR อ่านสำเร็จ — พร้อมสร้าง Expense Claim</div>
       <div class="cta-buttons">
-        <button class="btn btn-green" onclick="showClaimForm()">&#128203; สร้าง Claim ทันที</button>
-        <button class="btn btn-secondary" onclick="saveDraft()">&#128190; บันทึกร่าง</button>
+        <button class="btn btn-secondary">&#128190; บันทึกร่าง</button>
+        <button class="btn btn-green" onclick="showClaimForm()">&#128228; สร้าง Claim ส่งอนุมัติ</button>
       </div>
     </div>
 
-    <!-- Action Row -->
-    <div class="action-row">
-      <button class="btn btn-secondary" onclick="resetScan()">&#128247; สแกนใบเสร็จเพิ่ม</button>
-      <button class="btn btn-secondary" onclick="saveDraft()">&#128190; บันทึกร่าง</button>
-      <button class="btn btn-green" onclick="showClaimForm()">&#9989; สร้าง Claim ใหม่</button>
-    </div>
-
-    <!-- Claim Creation Form -->
-    <div class="claim-form card" id="claimForm">
-      <h3 style="font-size:.95rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;">&#128203; สร้าง Claim ใหม่จากใบเสร็จ</h3>
-      <div class="form-grid">
-        <div class="form-group">
-          <label>ชื่อ Claim</label>
-          <input id="cf-name" class="form-input" placeholder="เช่น ค่าอาหารประชุมลูกค้า">
-        </div>
-        <div class="form-group">
-          <label>หมวดหมู่</label>
-          <select id="cf-category" class="form-input">
-            <option>ค่าอาหาร</option>
-            <option>ค่าเดินทาง</option>
-            <option>ค่าน้ำมัน</option>
-            <option>ค่าที่พัก</option>
-            <option>ค่าจิปาถะ</option>
-            <option>ค่าอุปกรณ์</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>จำนวนเงิน (&#3647;)</label>
-          <input id="cf-amount" class="form-input" type="number">
-        </div>
-        <div class="form-group">
-          <label>วันที่ใบเสร็จ</label>
-          <input id="cf-date" class="form-input" type="date">
-        </div>
-        <div class="form-group" style="grid-column:span 2;">
-          <label>ร้านค้า / ผู้รับเงิน</label>
-          <input id="cf-vendor" class="form-input">
-        </div>
-        <div class="form-group" style="grid-column:span 2;">
-          <label>รายละเอียด</label>
-          <textarea id="cf-detail" class="form-input" rows="3"></textarea>
-        </div>
-        <div class="form-group">
-          <label>ผู้อนุมัติ</label>
-          <select id="cf-approver" class="form-input">
-            <option value="">เลือกผู้อนุมัติ</option>
-            <option value="นริศรา พงษ์พันธ์">นริศรา พงษ์พันธ์ (ผจก.)</option>
-            <option value="สุรชัย มั่นคง">สุรชัย มั่นคง (ผอ.)</option>
-            <option value="อรพิน ดำรงค์">อรพิน ดำรงค์ (CFO)</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>&#128247; ใบเสร็จที่แนบ</label>
-        <div class="attached-receipt">
-          <div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px;display:flex;align-items:center;gap:12px;">
-            <div style="font-size:2rem;">&#129534;</div>
-            <div>
-              <div style="font-weight:600;font-size:.82rem;" id="cf-receipt-name">receipt_scan.jpg</div>
-              <div style="font-size:.7rem;color:var(--muted);">AI OCR extracted &bull; Confidence 97%</div>
-            </div>
-            <span style="margin-left:auto;color:var(--green);font-weight:700;font-size:.78rem;">&#10003; แนบแล้ว</span>
+    <!-- Claim Form -->
+    <div class="claim-form" id="claimForm">
+      <div class="card">
+        <div class="card-title">&#128221; รายละเอียด Expense Claim</div>
+        <div class="form-grid">
+          <div class="form-group"><label class="form-label">หมวดค่าใช้จ่าย *</label>
+            <select class="form-input form-select"><option>เลือกหมวด...</option><option selected>ค่าอาหาร/เครื่องดื่ม</option><option>ค่าเดินทาง</option><option>ค่าที่พัก</option><option>อุปกรณ์สำนักงาน</option><option>ค่าบริการ IT</option></select>
+          </div>
+          <div class="form-group"><label class="form-label">โครงการ / Cost Center</label>
+            <select class="form-input form-select"><option>เลือกโครงการ...</option><option selected>PRJ-2569-042 Marketing Q1</option><option>PRJ-2569-038 Office Ops</option></select>
+          </div>
+          <div class="form-group" style="grid-column:1/-1;"><label class="form-label">หมายเหตุ</label>
+            <textarea class="form-input form-textarea" placeholder="เช่น เลี้ยงทีมหลังประชุม Q1 Review">เลี้ยงอาหารทีม Marketing หลังประชุม Sprint Review</textarea>
           </div>
         </div>
+        <div class="action-row">
+          <button class="btn btn-secondary" onclick="hideClaimForm()">&#10006; ยกเลิก</button>
+          <button class="btn btn-primary">&#128228; ส่งอนุมัติ</button>
+        </div>
       </div>
-      <div style="display:flex;gap:8px;margin-top:16px;">
-        <button class="btn btn-primary" onclick="submitClaim()">&#128203; สร้าง Claim</button>
-        <button class="btn btn-secondary" onclick="saveDraft()">&#128190; บันทึกร่าง</button>
-        <button class="btn btn-secondary" onclick="hideClaimForm()">ยกเลิก</button>
+    </div>
+
+    <!-- Recent Scans History -->
+    <div class="card">
+      <div class="card-title">&#128338; ประวัติสแกนล่าสุด</div>
+      <div style="overflow-x:auto;">
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>Claim</th>
+              <th>ร้านค้า</th>
+              <th>ยอดเงิน</th>
+              <th>Confidence</th>
+              <th>Template</th>
+              <th>สถานะ</th>
+              <th>วันที่สแกน</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight:700;color:var(--blue);font-family:'Inter';">EX-0026</td>
+              <td>7-Eleven อโศก</td>
+              <td style="font-weight:700;font-family:'Inter';">&#3647;1,250.00</td>
+              <td><span class="field-confidence conf-high">97.3%</span></td>
+              <td><span style="font-size:.68rem;font-weight:600;padding:2px 8px;border-radius:4px;background:var(--green-bg);color:var(--green);">7-Eleven</span></td>
+              <td><span class="status status-draft">&#9679; ร่าง</span></td>
+              <td>5 เม.ย. 2569</td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;color:var(--blue);font-family:'Inter';">EX-0025</td>
+              <td>Grab Taxi</td>
+              <td style="font-weight:700;font-family:'Inter';">&#3647;385.00</td>
+              <td><span class="field-confidence conf-high">95.1%</span></td>
+              <td><span style="font-size:.68rem;font-weight:600;padding:2px 8px;border-radius:4px;background:var(--blue-bg);color:var(--blue);">Digital</span></td>
+              <td><span class="status status-pending">&#9679; รออนุมัติ</span></td>
+              <td>4 เม.ย. 2569</td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;color:var(--blue);font-family:'Inter';">EX-0024</td>
+              <td>Makro สาทร</td>
+              <td style="font-weight:700;font-family:'Inter';">&#3647;4,580.00</td>
+              <td><span class="field-confidence conf-med">82.6%</span></td>
+              <td><span style="font-size:.68rem;font-weight:600;padding:2px 8px;border-radius:4px;background:var(--green-bg);color:var(--green);">Makro</span></td>
+              <td><span class="status status-approved">&#9679; อนุมัติ</span></td>
+              <td>3 เม.ย. 2569</td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;color:var(--blue);font-family:'Inter';">EX-0023</td>
+              <td>Big C ราชดำริ</td>
+              <td style="font-weight:700;font-family:'Inter';">&#3647;2,890.00</td>
+              <td><span class="field-confidence conf-high">94.8%</span></td>
+              <td><span style="font-size:.68rem;font-weight:600;padding:2px 8px;border-radius:4px;background:var(--green-bg);color:var(--green);">Big C</span></td>
+              <td><span class="status status-approved">&#9679; อนุมัติ</span></td>
+              <td>2 เม.ย. 2569</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
-
-  <!-- Recent Scans History -->
-  <div class="card" style="margin-top:24px;">
-    <div class="card-title">&#128337; ประวัติการสแกนล่าสุด</div>
-    <div style="overflow-x:auto;">
-      <table class="history-table">
-        <thead>
-          <tr>
-            <th>Claim ID</th>
-            <th>วันที่สแกน</th>
-            <th>ร้านค้า</th>
-            <th>จำนวนเงิน</th>
-            <th>หมวดหมู่</th>
-            <th>สถานะ</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-<!-- History Detail Drawer -->
-<div class="drawer-overlay" id="drawerOverlay" onclick="closeHistoryDetail()"></div>
-<div class="history-drawer" id="historyDrawer">
-  <div id="drawerContent"></div>
 </div>
 
 <script>
-let nextClaimId = 26;
-
-const SCAN_HISTORY = [
-  {id:'EX-0025', date:'4 เม.ย. 2569', vendor:'การบินไทย', amount:12500, category:'เดินทาง', status:'pending', statusLabel:'&#9203; รอดำเนินการ', statusClass:'status-pending',
-   detail: {invoiceNo:'INV-TG-2026-0412', taxId:'0107536000072', vat:816.82, confidence:96, items:['ตั๋วเครื่องบิน กรุงเทพ-เชียงใหม่ x1 ฿5,200','ตั๋วเครื่องบิน เชียงใหม่-กรุงเทพ x1 ฿5,200','ค่าธรรมเนียม ฿2,100'], project:'PROJ-002 — Sales Team', approver:'นริศรา พงษ์พันธ์', note:'เดินทางไปพบลูกค้า เชียงใหม่'}},
-  {id:'EX-0022', date:'2 เม.ย. 2569', vendor:'Grab Thailand', amount:2350, category:'เดินทาง', status:'processing', statusLabel:'&#9881; กำลังดำเนินการ', statusClass:'status-processing',
-   detail: {invoiceNo:'GRB-2026-88341', taxId:'0105558032089', vat:153.74, confidence:94, items:['Grab Car x4 trips','GrabFood x1'], project:'PROJ-001 — Marketing Q2', approver:'สุรชัย มั่นคง', note:'ค่าเดินทางไปงาน Event'}},
-  {id:'EX-0021', date:'1 เม.ย. 2569', vendor:'OfficeMate', amount:3200, category:'สำนักงาน', status:'approved', statusLabel:'&#9989; อนุมัติแล้ว', statusClass:'status-approved',
-   detail: {invoiceNo:'OM-2026-11204', taxId:'0105537103547', vat:209.35, confidence:98, items:['กระดาษ A4 x10 รีม ฿990','หมึกพิมพ์ HP x2 ฿1,600','อุปกรณ์สำนักงาน ฿610'], project:'GENERAL', approver:'นริศรา พงษ์พันธ์', note:'วัสดุสำนักงานประจำเดือน'}},
-  {id:'EX-0019', date:'31 มี.ค. 2569', vendor:'Adobe Inc.', amount:15900, category:'ซอฟต์แวร์', status:'approved', statusLabel:'&#9989; อนุมัติแล้ว', statusClass:'status-approved',
-   detail: {invoiceNo:'ADO-2026-CC-TH-512', taxId:'N/A (Foreign)', vat:0, confidence:92, items:['Adobe Creative Cloud Team x1 Year'], project:'PROJ-003 — IT Infrastructure', approver:'อรพิน ดำรงค์ (CFO)', note:'ต่ออายุ License ประจำปี'}},
-  {id:'EX-0017', date:'29 มี.ค. 2569', vendor:'True Corp.', amount:1850, category:'สื่อสาร', status:'approved', statusLabel:'&#9989; อนุมัติแล้ว', statusClass:'status-approved',
-   detail: {invoiceNo:'TRUE-2026-03-9981', taxId:'0107546000040', vat:121.03, confidence:97, items:['ค่าอินเทอร์เน็ตสำนักงาน ฿1,200','ค่าโทรศัพท์ ฿650'], project:'GENERAL', approver:'นริศรา พงษ์พันธ์', note:'ค่าสื่อสารประจำเดือน'}},
-  {id:'EX-0011', date:'23 มี.ค. 2569', vendor:'IT City', amount:8900, category:'อุปกรณ์', status:'draft', statusLabel:'&#128221; ร่าง', statusClass:'status-draft',
-   detail: {invoiceNo:'ITC-2026-03-4412', taxId:'0105551067878', vat:582.24, confidence:89, items:['Logitech MX Keys ฿3,200','Logitech MX Master 3S ฿3,500','USB-C Hub ฿2,200'], project:'PROJ-003 — IT Infrastructure', approver:'', note:'อุปกรณ์ทดแทนเครื่องเก่า'}}
-];
-
-function renderHistory() {
-  var tbody = document.querySelector('.history-table tbody');
-  tbody.innerHTML = SCAN_HISTORY.map(function(h) {
-    return '<tr onclick="openHistoryDetail(\'' + h.id + '\')" style="cursor:pointer;">' +
-      '<td style="font-weight:700;color:var(--blue);font-family:Inter;">' + h.id + '</td>' +
-      '<td>' + h.date + '</td>' +
-      '<td>' + h.vendor + '</td>' +
-      '<td style="font-weight:700;">&#3647;' + h.amount.toLocaleString() + '</td>' +
-      '<td>' + h.category + '</td>' +
-      '<td><span class="status ' + h.statusClass + '">' + h.statusLabel + '</span></td>' +
-      '</tr>';
-  }).join('');
+function toggleDark(){document.body.classList.toggle('dark');}
+function setMode(btn,mode){
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('attachSection').style.display=mode==='attach'?'block':'none';
+  document.getElementById('advanceSection').style.display=mode==='advance'?'block':'none';
+  document.getElementById('eslipSection').style.display=mode==='eslip'?'block':'none';
+  document.getElementById('promptpaySection').style.display=mode==='promptpay'?'block':'none';
+  document.getElementById('uploadArea').style.display=(mode==='new'||mode==='attach')?'block':'none';
 }
-
-function openHistoryDetail(id) {
-  var rec = SCAN_HISTORY.find(function(h) { return h.id === id; });
-  if (!rec) return;
-  var d = rec.detail;
-  var confClass = d.confidence >= 95 ? 'conf-high' : (d.confidence >= 85 ? 'conf-med' : 'conf-low');
-  var confIcon = d.confidence >= 95 ? '&#9989;' : (d.confidence >= 85 ? '&#9888;' : '&#10060;');
-
-  var itemsHtml = d.items.map(function(item) {
-    return '<div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:.78rem;">' + item + '</div>';
-  }).join('');
-
-  var actionsHtml = '';
-  if (rec.status === 'draft') {
-    actionsHtml += '<button class="btn btn-secondary btn-sm" onclick="showToast(\'&#128221; เปิดแก้ไข ' + rec.id + '\')">&#9998; แก้ไข</button>';
-    actionsHtml += '<button class="btn btn-primary btn-sm" onclick="showToast(\'&#128228; ส่งอนุมัติ ' + rec.id + ' แล้ว\');closeHistoryDetail();">&#128228; ส่งอนุมัติ</button>';
-  }
-  if (rec.status === 'pending') {
-    actionsHtml += '<button class="btn btn-primary btn-sm" onclick="showToast(\'&#128228; ส่งอนุมัติ ' + rec.id + ' แล้ว\');closeHistoryDetail();">&#128228; ส่งอนุมัติ</button>';
-  }
-  actionsHtml += '<button class="btn btn-secondary btn-sm" onclick="navigateToTasks()">&#128269; ดูรายละเอียดเพิ่มเติม</button>';
-  actionsHtml += '<button class="btn btn-secondary btn-sm" onclick="closeHistoryDetail()">&#10005; ปิด</button>';
-
-  var html = '' +
-    '<div class="claim-banner" style="border-radius:10px;padding:16px 20px;margin-bottom:20px;">' +
-      '<div>' +
-        '<div style="font-size:.65rem;opacity:.7;margin-bottom:2px;">CLAIM ID</div>' +
-        '<div style="font-size:1.4rem;font-weight:800;font-family:Inter;letter-spacing:1px;">' + rec.id + '</div>' +
-        '<div style="font-size:.75rem;opacity:.85;margin-top:2px;">' + rec.date + ' | ' + rec.vendor + '</div>' +
-      '</div>' +
-      '<div><span class="status ' + rec.statusClass + '" style="background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.3);color:#fff;">' + rec.statusLabel + '</span></div>' +
-    '</div>' +
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">' +
-      '<div class="field"><div class="field-label">ร้านค้า</div><div class="field-value">' + rec.vendor + '</div></div>' +
-      '<div class="field"><div class="field-label">เลขที่ใบเสร็จ</div><div class="field-value" style="font-family:Inter;font-size:.82rem;">' + d.invoiceNo + '</div></div>' +
-      '<div class="field"><div class="field-label">Tax ID</div><div class="field-value" style="font-family:Inter;font-size:.82rem;">' + d.taxId + '</div></div>' +
-      '<div class="field"><div class="field-label">จำนวนเงิน</div><div class="field-value amount">&#3647;' + rec.amount.toLocaleString() + '</div></div>' +
-      '<div class="field"><div class="field-label">VAT</div><div class="field-value">&#3647;' + d.vat.toLocaleString() + '</div></div>' +
-      '<div class="field"><div class="field-label">วันที่</div><div class="field-value">' + rec.date + '</div></div>' +
-      '<div class="field" style="grid-column:span 2;"><div class="field-label">OCR Confidence</div><div class="field-confidence ' + confClass + '">' + confIcon + ' ' + d.confidence + '%</div></div>' +
-    '</div>' +
-    '<div style="margin-bottom:16px;">' +
-      '<div style="font-size:.75rem;font-weight:700;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;">รายการ</div>' +
-      itemsHtml +
-    '</div>' +
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">' +
-      '<div class="field"><div class="field-label">โปรเจกต์</div><div class="field-value" style="font-size:.82rem;">' + d.project + '</div></div>' +
-      '<div class="field"><div class="field-label">ผู้อนุมัติ</div><div class="field-value" style="font-size:.82rem;">' + (d.approver || '— ยังไม่ระบุ —') + '</div></div>' +
-    '</div>' +
-    (d.note ? '<div class="field" style="margin-bottom:16px;"><div class="field-label">หมายเหตุ</div><div class="field-value" style="font-size:.82rem;">' + d.note + '</div></div>' : '') +
-    '<div style="display:flex;gap:8px;flex-wrap:wrap;">' + actionsHtml + '</div>';
-
-  document.getElementById('drawerContent').innerHTML = html;
-  document.getElementById('historyDrawer').classList.add('open');
-  document.getElementById('drawerOverlay').classList.add('show');
+function selectAttach(el,id){document.querySelectorAll('.attach-chip').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');}
+function selectBank(el){document.querySelectorAll('.bank-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');}
+function showClaimForm(){document.getElementById('claimForm').classList.add('visible');}
+function hideClaimForm(){document.getElementById('claimForm').classList.remove('visible');}
+function toggleEdit(btn){
+  const field=btn.closest('.field');
+  field.classList.toggle('editing');
+  btn.textContent=field.classList.contains('editing')?'&#9989; บันทึก':'&#9998; แก้ไข';
 }
-
-function closeHistoryDetail() {
-  document.getElementById('historyDrawer').classList.remove('open');
-  document.getElementById('drawerOverlay').classList.remove('show');
+function startBatchOCR(){
+  document.getElementById('batchProgress').classList.add('visible');
+  document.getElementById('fileQueue').style.display='none';
 }
-
-function navigateToTasks() {
-  closeHistoryDetail();
-  if (window.parent && window.parent !== window) {
-    window.parent.postMessage({type:'navigate', url:'modules/expense-tasks.html', title:'Claim Tasks'}, '*');
-  } else {
-    window.location.href = 'expense-tasks.html';
-  }
+function submitAdvance(){alert('ส่งขออนุมัติสำรองจ่ายสำเร็จ');}
+function confirmPayment(){
+  const s=document.querySelector('.qr-status');
+  s.className='qr-status confirmed';
+  s.innerHTML='&#9989; ชำระเงินสำเร็จ';
 }
-
-function setMode(el, mode) {
-  document.querySelectorAll('.mode-btn').forEach(function(b) { b.classList.remove('active'); });
-  el.classList.add('active');
-  document.getElementById('attachSection').style.display = mode === 'attach' ? 'block' : 'none';
-  document.getElementById('manualCreateSection').style.display = mode === 'new' ? '' : 'none';
-  document.getElementById('advanceSection').style.display = mode === 'advance' ? 'block' : 'none';
+// Drag and drop
+const dz=document.getElementById('dropZone');
+if(dz){
+  ['dragenter','dragover'].forEach(e=>dz.addEventListener(e,ev=>{ev.preventDefault();dz.classList.add('dragover');}));
+  ['dragleave','drop'].forEach(e=>dz.addEventListener(e,ev=>{ev.preventDefault();dz.classList.remove('dragover');}));
+  dz.addEventListener('drop',()=>{document.getElementById('fileQueue').style.display='block';});
 }
-
-function submitAdvancePayment() {
-  var purpose = document.getElementById('adv-purpose').value;
-  var amount = document.getElementById('adv-amount').value;
-  if (!purpose || !amount) { alert('กรุณากรอกวัตถุประสงค์และจำนวนเงิน'); return; }
-  var id = 'ADV-2026-' + String(Math.floor(Math.random()*900)+100);
-  showToast('&#9989; ส่งคำขอสำรองจ่ายสำเร็จ — ' + id);
-}
-
-var batchFiles = [];
-function handleFiles(files) {
-  if (!files || files.length === 0) return;
-  if (files.length === 1) {
-    handleFile(files[0]);
-    return;
-  }
-  // Batch mode
-  batchFiles = Array.from(files).slice(0, 20);
-  var listEl = document.getElementById('batchFileList');
-  var itemsEl = document.getElementById('batchFileItems');
-  listEl.style.display = 'block';
-  itemsEl.innerHTML = batchFiles.map(function(f, i) {
-    var sizeKB = (f.size / 1024).toFixed(1);
-    var icon = f.type.startsWith('image/') ? '&#128248;' : '&#128196;';
-    return '<div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;">' +
-      '<span style="font-size:1.4rem;">' + icon + '</span>' +
-      '<div style="flex:1;min-width:0;"><div style="font-weight:600;font-size:.82rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + f.name + '</div><div style="font-size:.7rem;color:var(--muted);">' + sizeKB + ' KB</div></div>' +
-      '<span style="font-size:.7rem;color:var(--green);font-weight:600;">&#128504; พร้อมสแกน</span>' +
-      '</div>';
-  }).join('');
-}
-
-function scanAllBatch() {
-  showToast('&#128260; กำลังสแกนทั้งหมด ' + batchFiles.length + ' ไฟล์...');
-  document.getElementById('batchFileList').style.display = 'none';
-  // Simulate processing the first file
-  if (batchFiles.length > 0) handleFile(batchFiles[0]);
-}
-
-function clearBatch() {
-  batchFiles = [];
-  document.getElementById('batchFileList').style.display = 'none';
-}
-
-function calcPerDiem() {
-  var days = parseInt(document.getElementById('perdiem-days').value) || 0;
-  var rateType = document.querySelector('input[name="perdiemRate"]:checked').value;
-  var customInput = document.getElementById('perdiem-custom-rate');
-  customInput.style.display = rateType === 'custom' ? '' : 'none';
-  var rate = rateType === 'gov' ? 240 : (parseFloat(customInput.value) || 0);
-  var total = days * rate;
-  document.getElementById('perdiem-total').innerHTML = '&#3647;' + total.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2});
-}
-
-function selectAttach(el, id) {
-  document.querySelectorAll('.attach-chip').forEach(function(c) { c.classList.remove('selected'); });
-  el.classList.add('selected');
-}
-
-function handleFile(file) {
-  if (!file) return;
-  // Show progress
-  document.getElementById('uploadZone').style.display = 'none';
-  var prog = document.getElementById('scanProgress');
-  prog.classList.add('visible');
-  var fill = document.getElementById('progressFill');
-  var text = document.getElementById('progressText');
-
-  var steps = [
-    {pct:15,msg:'&#128196; กำลังอ่านไฟล์...'},
-    {pct:35,msg:'&#129302; AI กำลังวิเคราะห์ข้อความ...'},
-    {pct:55,msg:'&#128270; ตรวจจับจำนวนเงินและวันที่...'},
-    {pct:75,msg:'&#128279; จับคู่ข้อมูลภาษี...'},
-    {pct:90,msg:'&#9989; ตรวจสอบความถูกต้อง...'},
-    {pct:100,msg:'&#127881; สแกนเสร็จสิ้น! กำลังสร้าง Claim...'}
-  ];
-
-  var i = 0;
-  var interval = setInterval(function() {
-    if (i < steps.length) {
-      fill.style.width = steps[i].pct + '%';
-      text.innerHTML = steps[i].msg;
-      i++;
-    } else {
-      clearInterval(interval);
-      setTimeout(function() {
-        prog.classList.remove('visible');
-        prog.style.display = 'none';
-        // Generate claim ID
-        var claimId = 'EX-' + String(nextClaimId).padStart(4, '0');
-        nextClaimId++;
-        document.getElementById('claimIdDisplay').textContent = claimId;
-        document.getElementById('ocrResult').classList.add('visible');
-      }, 400);
-    }
-  }, 600);
-}
-
-function resetScan() {
-  document.getElementById('ocrResult').classList.remove('visible');
-  document.getElementById('claimForm').classList.remove('visible');
-  document.getElementById('uploadZone').style.display = '';
-  document.getElementById('scanProgress').style.display = '';
-  document.getElementById('scanProgress').classList.remove('visible');
-  document.getElementById('progressFill').style.width = '0%';
-}
-
-// OCR extracted data (simulated)
-var ocrData = {
-  vendor: 'บริษัท สยามฟู้ด จำกัด',
-  amount: 2850,
-  date: '2026-04-03',
-  vat: 186.45,
-  invoiceNo: 'INV-2026-04-00312',
-  description: 'ค่าอาหารเลี้ยงรับรองลูกค้า บริษัท สยามฟู้ด — ประชุมแผนงาน Q2'
-};
-
-function prefillClaimForm() {
-  document.getElementById('cf-name').value = 'ค่าอาหาร — ' + ocrData.vendor;
-  document.getElementById('cf-amount').value = ocrData.amount;
-  document.getElementById('cf-date').value = ocrData.date;
-  document.getElementById('cf-vendor').value = ocrData.vendor;
-  document.getElementById('cf-detail').value = ocrData.description;
-}
-
-function showClaimForm() {
-  prefillClaimForm();
-  document.getElementById('claimForm').classList.add('visible');
-  document.getElementById('claimForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-function hideClaimForm() {
-  document.getElementById('claimForm').classList.remove('visible');
-}
-
-function submitClaim() {
-  var name = document.getElementById('cf-name').value;
-  var amount = document.getElementById('cf-amount').value;
-  var approver = document.getElementById('cf-approver').value;
-  if (!name) { alert('กรุณากรอกชื่อ Claim'); return; }
-  if (!amount) { alert('กรุณากรอกจำนวนเงิน'); return; }
-
-  var claimNum = 'CLM-2026-' + String(Math.floor(Math.random() * 900) + 100);
-  showToast('\u2705 สร้าง Claim สำเร็จ — ' + claimNum);
-
-  // Navigate back to Claim Tasks via parent postMessage
-  setTimeout(function() {
-    if (window.parent && window.parent !== window) {
-      window.parent.postMessage({type:'navigate', url:'modules/expense-tasks.html', title:'Claim Tasks'}, '*');
-    } else {
-      window.location.href = 'expense-tasks.html';
-    }
-  }, 1500);
-}
-
-function saveDraft() {
-  showToast('\uD83D\uDCBE บันทึกร่างเรียบร้อยแล้ว');
-}
-
-function showToast(msg) {
-  var toast = document.createElement('div');
-  toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:12px 24px;border-radius:10px;font-size:14px;font-weight:500;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.2);font-family:inherit;';
-  toast.innerHTML = msg;
-  document.body.appendChild(toast);
-  setTimeout(function() { toast.style.opacity='0'; toast.style.transition='opacity .3s'; setTimeout(function(){toast.remove();},300); }, 2500);
-}
-
-// Manual create form functions
-function showManualForm() {
-  document.getElementById('manualForm').style.display = 'block';
-  document.getElementById('manualForm').scrollIntoView({behavior:'smooth'});
-}
-
-function scrollToUpload() {
-  document.getElementById('uploadZone').scrollIntoView({behavior:'smooth'});
-  document.getElementById('uploadZone').style.borderColor = 'var(--blue)';
-  setTimeout(function() { document.getElementById('uploadZone').style.borderColor = ''; }, 2000);
-}
-
-function attachManualFile(input) {
-  if (input.files[0]) {
-    document.getElementById('mf-attached').style.display = 'block';
-    document.getElementById('mf-filename').textContent = input.files[0].name;
-  }
-}
-
-function submitManualClaim() {
-  var name = document.getElementById('mf-name').value;
-  var amount = document.getElementById('mf-amount').value;
-  if (!name || !amount) { alert('กรุณากรอกชื่อ Claim และจำนวนเงิน'); return; }
-  var id = 'CLM-2026-' + String(Math.floor(Math.random()*900)+100);
-  showToast('&#9989; สร้าง Claim สำเร็จ — ' + id);
-  setTimeout(function() {
-    if (window.parent && window.parent !== window) {
-      window.parent.postMessage({type:'navigate', url:'modules/expense-tasks.html', title:'Claim Tasks'}, '*');
-    } else { window.location.href = 'expense-tasks.html'; }
-  }, 1500);
-}
-
-// Listen for messages from parent
-window.addEventListener('message', function(e) {
-  if (e.data && e.data.type === 'navigate') {
-    if (window.parent && window.parent !== window) {
-      window.parent.postMessage(e.data, '*');
-    }
-  }
-});
-
-// Initialize history table on page load
-renderHistory();
-
-function toggleDark() {
-  document.body.classList.toggle('dark');
-  const isDark = document.body.classList.contains('dark');
-  document.querySelector('.dark-toggle').textContent = isDark ? '☀' : '☾';
-  localStorage.setItem('autopilot-dark', isDark ? '1' : '0');
-}
-// Restore on load
-if (localStorage.getItem('autopilot-dark') === '1') {
-  document.body.classList.add('dark');
-  document.querySelector('.dark-toggle').textContent = '☀';
-}
+document.getElementById('fileInput')?.addEventListener('change',()=>{document.getElementById('fileQueue').style.display='block';});
 </script>
 </body>
 </html>

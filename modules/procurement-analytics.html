@@ -118,6 +118,34 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .animate-in{animation:fadeUp .4s ease both;}
 .delay-1{animation-delay:.05s;}.delay-2{animation-delay:.1s;}.delay-3{animation-delay:.15s;}.delay-4{animation-delay:.2s;}.delay-5{animation-delay:.25s;}.delay-6{animation-delay:.3s;}
 
+/* Print-friendly layout */
+@media print{
+  body{background:#fff!important;color:#000!important;font-size:12px!important;}
+  .dark-toggle,.page-actions,.btn,.filter-bar,.svg-tooltip{display:none!important;}
+  .page-wrap{max-width:100%;padding:10px;}
+  .card{break-inside:avoid;box-shadow:none!important;border:1px solid #ccc!important;margin-bottom:12px;}
+  .kpi{break-inside:avoid;box-shadow:none!important;}
+  .grid-2,.grid-3-2{grid-template-columns:1fr!important;}
+  .kpi-grid{grid-template-columns:repeat(2,1fr)!important;}
+  svg{max-width:100%!important;}
+}
+
+/* Department Filter */
+.dept-filter-bar{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+.dept-chip{padding:5px 14px;border-radius:20px;font-size:.72rem;font-weight:600;border:1px solid var(--border);background:var(--card-bg);cursor:pointer;transition:all .15s;font-family:inherit;color:var(--text2);}
+.dept-chip.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+.dept-chip:hover:not(.active){border-color:var(--blue);color:var(--blue);}
+
+/* Export dropdown */
+.export-dropdown{position:absolute;top:100%;right:0;margin-top:4px;background:var(--card-bg);border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:50;min-width:200px;padding:6px 0;display:none;}
+.export-dropdown.show{display:block;}
+.export-item{padding:10px 16px;cursor:pointer;font-size:.78rem;display:flex;align-items:center;gap:8px;transition:background .15s;color:var(--text2);}
+.export-item:hover{background:var(--blue-bg);color:var(--blue);}
+.export-item:first-child{border-radius:10px 10px 0 0;}
+.export-item:last-child{border-radius:0 0 10px 10px;}
+.export-divider{border-top:1px solid var(--border);margin:4px 0;}
+.export-format-label{font-size:.65rem;color:var(--muted);padding:4px 16px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;}
+
 /* Responsive */
 @media(max-width:1200px){.kpi-grid{grid-template-columns:repeat(2,1fr);}.grid-2,.grid-3-2{grid-template-columns:1fr;}.top-items-grid{grid-template-columns:1fr !important;}}
 @media(max-width:768px){.kpi-grid{grid-template-columns:1fr;}}
@@ -154,13 +182,33 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
       <div class="filter-tag" id="quarterTag">&#128197; Q1/2569</div>
       <div style="position:relative;display:inline-block;">
         <button class="btn btn-outline btn-sm" onclick="toggleAnalyticsExport()">&#128229; Export &#9662;</button>
-        <div id="analyticsExportMenu" style="display:none;position:absolute;top:100%;right:0;margin-top:4px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.1);z-index:50;min-width:140px;">
-          <div style="padding:8px 14px;cursor:pointer;font-size:.78rem;border-radius:8px 8px 0 0;transition:background .15s;" onmouseover="this.style.background='var(--blue-bg)'" onmouseout="this.style.background=''" onclick="showAnalyticsToast('กำลัง Export Excel...');toggleAnalyticsExport()">&#128202; Export Excel</div>
-          <div style="padding:8px 14px;cursor:pointer;font-size:.78rem;border-radius:0 0 8px 8px;transition:background .15s;" onmouseover="this.style.background='var(--blue-bg)'" onmouseout="this.style.background=''" onclick="showAnalyticsToast('กำลัง Export CSV...');toggleAnalyticsExport()">&#128196; Export CSV</div>
+        <div id="analyticsExportMenu" class="export-dropdown">
+          <div class="export-format-label">รูปแบบไฟล์</div>
+          <div class="export-item" onclick="doExport('xlsx')">&#128202; Excel (.xlsx) — รองรับ Pivot Table</div>
+          <div class="export-item" onclick="doExport('csv')">&#128196; CSV (.csv) — ใช้กับทุกโปรแกรม</div>
+          <div class="export-item" onclick="doExport('pdf')">&#128196; PDF (.pdf) — พิมพ์ได้ทันที</div>
+          <div class="export-divider"></div>
+          <div class="export-format-label">ช่วงข้อมูล</div>
+          <div class="export-item" onclick="doExport('xlsx','current')">&#128197; เฉพาะเดือนที่เลือก</div>
+          <div class="export-item" onclick="doExport('xlsx','quarter')">&#128198; ทั้ง Quarter (Q1/2569)</div>
+          <div class="export-item" onclick="doExport('xlsx','year')">&#128466; ทั้งปี พ.ศ. 2569</div>
         </div>
       </div>
+      <button class="btn btn-outline btn-sm" onclick="window.print()">&#128424; พิมพ์รายงาน</button>
       <button class="btn btn-primary btn-sm">&#128260; รีเฟรชข้อมูล</button>
     </div>
+  </div>
+
+  <!-- Department Filter -->
+  <div class="dept-filter-bar">
+    <span style="font-size:.72rem;font-weight:600;color:var(--muted);margin-right:4px;">&#127970; แผนก:</span>
+    <button class="dept-chip active" onclick="filterByDept('all',this)">ทั้งหมด</button>
+    <button class="dept-chip" onclick="filterByDept('IT',this)">IT</button>
+    <button class="dept-chip" onclick="filterByDept('Operations',this)">Operations</button>
+    <button class="dept-chip" onclick="filterByDept('Marketing',this)">Marketing</button>
+    <button class="dept-chip" onclick="filterByDept('HR',this)">HR</button>
+    <button class="dept-chip" onclick="filterByDept('Finance',this)">Finance</button>
+    <button class="dept-chip" onclick="filterByDept('Procurement',this)">Procurement</button>
   </div>
 
   <!-- KPI Row -->
@@ -540,17 +588,31 @@ function showAnalyticsToast(msg){
   setTimeout(()=>{t.style.display='none';},3000);
 }
 
-// ============ EXPORT TOGGLE ============
+// ============ EXPORT TOGGLE (Enhanced) ============
 function toggleAnalyticsExport(){
   const el=document.getElementById('analyticsExportMenu');
-  el.style.display=el.style.display==='none'?'block':'none';
+  el.classList.toggle('show');
+}
+function doExport(format,range){
+  const rangeLabel=range==='quarter'?'Q1/2569':range==='year'?'ปี 2569':'เดือนปัจจุบัน';
+  showAnalyticsToast('กำลัง Export '+format.toUpperCase()+' ('+rangeLabel+')...');
+  toggleAnalyticsExport();
 }
 document.addEventListener('click',e=>{
-  if(!e.target.closest('[onclick*="toggleAnalyticsExport"]')){
+  if(!e.target.closest('[onclick*="toggleAnalyticsExport"]')&&!e.target.closest('.export-dropdown')){
     const m=document.getElementById('analyticsExportMenu');
-    if(m)m.style.display='none';
+    if(m)m.classList.remove('show');
   }
 });
+
+// ============ DEPARTMENT FILTER ============
+let currentDeptFilter='all';
+function filterByDept(dept,btn){
+  currentDeptFilter=dept;
+  document.querySelectorAll('.dept-chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  showAnalyticsToast('กรองข้อมูล: '+(dept==='all'?'ทุกแผนก':dept));
+}
 
 // ============ BUDDHIST ERA TOGGLE ============
 let useBE=true;

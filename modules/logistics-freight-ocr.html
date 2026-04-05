@@ -57,6 +57,66 @@ body {
 .breadcrumb-nav a{color:var(--blue);text-decoration:none;font-weight:500;}
 .breadcrumb-nav a:hover{text-decoration:underline;}
 
+/* Thai Document Type Selector */
+.thai-doc-selector{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+.thai-doc-btn{padding:10px 18px;border-radius:10px;border:2px solid var(--border);background:var(--card-bg);color:var(--text);font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit;display:flex;align-items:center;gap:8px;}
+.thai-doc-btn:hover{border-color:var(--blue);background:rgba(37,99,235,.05);}
+.thai-doc-btn.active{border-color:var(--blue);background:rgba(37,99,235,.08);color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+.thai-doc-btn .doc-icon{font-size:1.2rem;}
+.thai-doc-btn .doc-label-th{font-size:.65rem;color:var(--text-dim);font-weight:500;display:block;}
+
+/* OCR Confidence Display */
+.confidence-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-bottom:16px;}
+.confidence-item{padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--card-bg);font-size:.78rem;}
+.confidence-item .field-name{font-size:.68rem;color:var(--text-dim);font-weight:600;text-transform:uppercase;letter-spacing:.3px;margin-bottom:3px;}
+.confidence-item .field-value{font-weight:700;margin-bottom:4px;}
+.confidence-item .conf-bar{height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;}
+.confidence-item .conf-bar .fill{height:100%;border-radius:2px;transition:width .6s;}
+.confidence-item .conf-pct{font-size:.65rem;font-weight:700;margin-top:2px;}
+.conf-high{color:#059669;}.conf-high .fill{background:#059669;}
+.conf-med{color:#D97706;}.conf-med .fill{background:#D97706;}
+.conf-low{color:#DC2626;}.conf-low .fill{background:#DC2626;}
+
+/* Logistics Field Extraction */
+.logistics-fields{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:var(--shadow);}
+.logistics-fields h3{font-size:.92rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.logi-field-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+@media(max-width:768px){.logi-field-grid{grid-template-columns:1fr;}}
+.logi-field{padding:12px;border:1px solid var(--border);border-radius:10px;background:var(--bg2);}
+.logi-field .label{font-size:.65rem;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;}
+.logi-field .value{font-size:.92rem;font-weight:700;font-family:'Inter',sans-serif;}
+.logi-field .value-editable{border:1px solid transparent;background:transparent;color:var(--text);font-size:.92rem;font-weight:700;font-family:'Inter',sans-serif;padding:2px 4px;border-radius:4px;width:100%;transition:all .15s;}
+.logi-field .value-editable:hover{border-color:var(--border);}
+.logi-field .value-editable:focus{outline:none;border-color:var(--blue);background:var(--card-bg);box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+
+/* Manual Correction UI */
+.correction-panel{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:var(--shadow);}
+.correction-panel h3{font-size:.92rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.correction-row{display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:8px;margin-bottom:6px;background:var(--bg2);font-size:.78rem;}
+.correction-row .original{flex:1;color:var(--text-dim);text-decoration:line-through;}
+.correction-row .arrow{color:var(--blue);font-weight:700;}
+.correction-row .corrected{flex:1;}
+.correction-row .corrected input{width:100%;border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-size:.78rem;font-family:inherit;background:var(--card-bg);color:var(--text);}
+.correction-row .corrected input:focus{outline:none;border-color:var(--blue);}
+.correction-row .status-tag{font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:4px;}
+.correction-row .status-tag.auto{background:rgba(5,150,105,.1);color:#059669;}
+.correction-row .status-tag.manual{background:rgba(37,99,235,.1);color:#2563EB;}
+
+/* Batch Processing */
+.batch-section{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:var(--shadow);}
+.batch-section h3{font-size:.92rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.batch-queue{display:flex;flex-direction:column;gap:8px;}
+.batch-item{display:flex;align-items:center;gap:12px;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:.78rem;transition:all .15s;}
+.batch-item:hover{background:var(--bg2);}
+.batch-item .doc-name{flex:1;font-weight:600;}
+.batch-item .batch-status{font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:6px;}
+.batch-item .batch-status.done{background:rgba(5,150,105,.1);color:#059669;}
+.batch-item .batch-status.processing{background:rgba(37,99,235,.1);color:#2563EB;animation:batchPulse 1.5s infinite;}
+.batch-item .batch-status.queued{background:var(--bg3);color:var(--text-dim);}
+@keyframes batchPulse{0%,100%{opacity:1;}50%{opacity:.5;}}
+.batch-progress{flex:0 0 80px;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;}
+.batch-progress .fill{height:100%;border-radius:3px;background:var(--blue);transition:width .3s;}
+
 /* Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -1485,6 +1545,30 @@ body {
     <label>&#128197; วันที่: <strong id="assignedDate">5 เม.ย. 2569</strong></label>
   </div>
 
+  <!-- Thai Document Type Selector -->
+  <div class="thai-doc-selector" id="thaiDocSelector">
+    <button class="thai-doc-btn active" onclick="selectThaiDocType(this,'freight')">
+      <span class="doc-icon">&#128196;</span>
+      <div>Bill of Lading<span class="doc-label-th">ใบตราส่งสินค้า</span></div>
+    </button>
+    <button class="thai-doc-btn" onclick="selectThaiDocType(this,'delivery')">
+      <span class="doc-icon">&#128230;</span>
+      <div>Delivery Note<span class="doc-label-th">ใบส่งมอบสินค้า</span></div>
+    </button>
+    <button class="thai-doc-btn" onclick="selectThaiDocType(this,'customs')">
+      <span class="doc-icon">&#128220;</span>
+      <div>Customs Declaration<span class="doc-label-th">ใบขนสินค้า กรมศุลกากร</span></div>
+    </button>
+    <button class="thai-doc-btn" onclick="selectThaiDocType(this,'invoice')">
+      <span class="doc-icon">&#128176;</span>
+      <div>Tax Invoice<span class="doc-label-th">ใบกำกับภาษี</span></div>
+    </button>
+    <button class="thai-doc-btn" onclick="selectThaiDocType(this,'packing')">
+      <span class="doc-icon">&#128230;</span>
+      <div>Packing List<span class="doc-label-th">ใบรายการบรรจุ</span></div>
+    </button>
+  </div>
+
   <!-- Upload Zone -->
   <div class="upload-zone" id="uploadZone">
     <span class="icon">&#128674;</span>
@@ -1618,6 +1702,114 @@ body {
       <button class="action-btn btn-outline" onclick="showToast('เปรียบเทียบกับ PO #4420187 -- ตรงกัน 98.5%')">
         &#128269; เปรียบเทียบกับ PO
       </button>
+    </div>
+  </div>
+
+  <!-- Thai OCR Confidence Display -->
+  <div class="logistics-fields" id="ocrConfidenceSection">
+    <h3>&#129302; ระดับความมั่���ใจ OCR ต่อฟิลด์ (Thai Document OCR)</h3>
+    <div class="confidence-grid" id="confidenceGrid">
+      <div class="confidence-item conf-high"><div class="field-name">เลขที่ Tracking</div><div class="field-value">KEX-2569040612345</div><div class="conf-bar"><div class="fill" style="width:98%"></div></div><div class="conf-pct">98.2%</div></div>
+      <div class="confidence-item conf-high"><div class="field-name">น้ำหนัก (Weight)</div><div class="field-value">12.5 กก.</div><div class="conf-bar"><div class="fill" style="width:96%"></div></div><div class="conf-pct">96.1%</div></div>
+      <div class="confidence-item conf-high"><div class="field-name">ขนาด (Dimensions)</div><div class="field-value">40 x 30 x 25 ซม.</div><div class="conf-bar"><div class="fill" style="width:94%"></div></div><div class="conf-pct">94.5%</div></div>
+      <div class="confidence-item conf-high"><div class="field-name">ผู้ส่ง (Shipper)</div><div class="field-value">บจก. สยามเทค โซลูชัน</div><div class="conf-bar"><div class="fill" style="width:92%"></div></div><div class="conf-pct">92.3%</div></div>
+      <div class="confidence-item conf-med"><div class="field-name">ผู้รับ (Consignee)</div><div class="field-value">คุณสมชาย วงศ์ประเสริฐ</div><div class="conf-bar"><div class="fill" style="width:78%"></div></div><div class="conf-pct">78.4%</div></div>
+      <div class="confidence-item conf-high"><div class="field-name">ที่อยู่ส่ง</div><div class="field-value">123/45 ถ.สุขุมวิท แขวงคลองเตย</div><div class="conf-bar"><div class="fill" style="width:89%"></div></div><div class="conf-pct">89.1%</div></div>
+      <div class="confidence-item conf-low"><div class="field-name">หมายเหตุ (Remarks)</div><div class="field-value">สินค้าแตกง่าย โปรดระวัง</div><div class="conf-bar"><div class="fill" style="width:62%"></div></div><div class="conf-pct">62.0%</div></div>
+      <div class="confidence-item conf-high"><div class="field-name">มูลค่าสินค้า</div><div class="field-value">&#3647;45,000.00</div><div class="conf-bar"><div class="fill" style="width:97%"></div></div><div class="conf-pct">97.8%</div></div>
+    </div>
+  </div>
+
+  <!-- Logistics-specific Field Extraction -->
+  <div class="logistics-fields" id="logiFieldsSection">
+    <h3>&#128666; ข้อมูลเฉพาะทาง Logistics (สกัดอัตโนมัติ)</h3>
+    <div class="logi-field-grid">
+      <div class="logi-field"><div class="label">Tracking Number</div><input class="value-editable" value="KEX-2569040612345"></div>
+      <div class="logi-field"><div class="label">น้ำหนักรวม (กก.)</div><input class="value-editable" value="12.5"></div>
+      <div class="logi-field"><div class="label">ขนาด (กว้าง x ยาว x สูง ซม.)</div><input class="value-editable" value="40 x 30 x 25"></div>
+      <div class="logi-field"><div class="label">จำนวนกล่อง</div><input class="value-editable" value="3"></div>
+      <div class="logi-field"><div class="label">น้ำหนักเชิงปริมาตร (กก.)</div><input class="value-editable" value="10.0"></div>
+      <div class="logi-field"><div class="label">ประเภทบริการ</div><input class="value-editable" value="Express (1-2 วัน)"></div>
+      <div class="logi-field"><div class="label">Incoterm</div><input class="value-editable" value="CIF Bangkok"></div>
+      <div class="logi-field"><div class="label">HS Code</div><input class="value-editable" value="8471.30.10"></div>
+      <div class="logi-field"><div class="label">จังหวัดปลายทาง</div><input class="value-editable" value="กรุงเทพมหานคร"></div>
+    </div>
+  </div>
+
+  <!-- Manual Correction UI for Thai Text -->
+  <div class="correction-panel" id="correctionPanel">
+    <h3>&#9998; แก้ไขข้อความไทย (Manual Correction)</h3>
+    <div style="font-size:.72rem;color:var(--text-dim);margin-bottom:12px;">OCR อาจอ่านภาษาไทยผิดพลาดบางตัว -- แก้ไขได้ที่นี่</div>
+    <div class="correction-row">
+      <span class="original">บจก. สยามเทค โ���ลูชัร</span>
+      <span class="arrow">&#8594;</span>
+      <span class="corrected"><input value="บจก. สยามเทค โซลูชัน"></span>
+      <span class="status-tag manual">&#9998; แก้ไขแล้ว</span>
+    </div>
+    <div class="correction-row">
+      <span class="original">คุณสมชาย วงศ์ปรเสริฐ</span>
+      <span class="arrow">&#8594;</span>
+      <span class="corrected"><input value="คุณสมชาย วงศ์ประเสริฐ"></span>
+      <span class="status-tag manual">&#9998; แก้ไขแล้ว</span>
+    </div>
+    <div class="correction-row">
+      <span class="original">��.สุขุมวิท แขวงคลองเตย</span>
+      <span class="arrow">&#8594;</span>
+      <span class="corrected"><input value="ถ.สุขุมวิท แขวงคลองเตย"></span>
+      <span class="status-tag auto">&#10003; ถูกต้อง</span>
+    </div>
+    <div class="correction-row">
+      <span class="original">สินค้าแตกง่าย โปรดระวัน</span>
+      <span class="arrow">&#8594;</span>
+      <span class="corrected"><input value="สินค้าแตกง่าย โปรดระวัง"></span>
+      <span class="status-tag manual">&#9998; แก้ไขแล้ว</span>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px;">
+      <button class="action-btn btn-primary" style="font-size:.78rem;padding:8px 16px;" onclick="showToast('บันทึกการแก้ไขสำเร็จ')">&#128190; บันทึกการแก้ไข</button>
+      <button class="action-btn btn-outline" style="font-size:.78rem;padding:8px 16px;" onclick="showToast('ยืนยันทุกฟิลด์แล้ว')">&#10003; ยืนยันทั้งหมด</button>
+    </div>
+  </div>
+
+  <!-- Batch Document Processing -->
+  <div class="batch-section" id="batchSection">
+    <h3>&#128230; ประมวลผลเอกสารแบบ Batch (Batch Processing)</h3>
+    <div style="font-size:.72rem;color:var(--text-dim);margin-bottom:12px;">อัพโหลดหลายเอกสารพร้อมกันเพื่อ OCR ทีเดียว -- รองรับสูงสุด 50 ไฟล์ต่อครั้ง</div>
+    <div class="batch-queue" id="batchQueue">
+      <div class="batch-item">
+        <span>&#128196;</span>
+        <span class="doc-name">DHL_Invoice_04521.pdf</span>
+        <div class="batch-progress"><div class="fill" style="width:100%"></div></div>
+        <span class="batch-status done">&#10003; เสร็จสิ้น</span>
+      </div>
+      <div class="batch-item">
+        <span>&#128196;</span>
+        <span class="doc-name">COSCO_BOL_789.pdf</span>
+        <div class="batch-progress"><div class="fill" style="width:100%"></div></div>
+        <span class="batch-status done">&#10003; เสร็จสิ้น</span>
+      </div>
+      <div class="batch-item">
+        <span>&#128196;</span>
+        <span class="doc-name">Customs_Dec_15893.pdf</span>
+        <div class="batch-progress"><div class="fill" style="width:67%"></div></div>
+        <span class="batch-status processing">&#128260; กำลังประมวลผล 67%</span>
+      </div>
+      <div class="batch-item">
+        <span>&#128196;</span>
+        <span class="doc-name">Maersk_Invoice_88120.pdf</span>
+        <div class="batch-progress"><div class="fill" style="width:0%"></div></div>
+        <span class="batch-status queued">&#128339; รอคิว</span>
+      </div>
+      <div class="batch-item">
+        <span>&#128196;</span>
+        <span class="doc-name">Kerry_Delivery_Note.pdf</span>
+        <div class="batch-progress"><div class="fill" style="width:0%"></div></div>
+        <span class="batch-status queued">&#128339; รอคิว</span>
+      </div>
+    </div>
+    <div style="margin-top:14px;display:flex;gap:8px;align-items:center;">
+      <button class="action-btn btn-primary" style="font-size:.78rem;padding:8px 16px;" onclick="showToast('เริ่ม Batch OCR สำหรับเอกสารที่เหลื���')">&#9654; เริ่ม Batch OCR</button>
+      <button class="action-btn btn-outline" style="font-size:.78rem;padding:8px 16px;" onclick="showToast('อัพโหลดไฟล์เพิ่มเติม')">&#10133; เพิ่มเอกสาร</button>
+      <span style="margin-left:auto;font-size:.68rem;color:var(--text-dim);">2/5 เสร็จสิ้น &bull; 1 กำลังดำเนินการ &bull; 2 รอคิว</span>
     </div>
   </div>
 
@@ -2186,6 +2378,13 @@ if(localStorage.getItem('darkMode')==='true'){
     document.addEventListener('DOMContentLoaded',()=>{
         document.querySelector('.dark-toggle').textContent='\u2600\uFE0F';
     });
+}
+
+// Thai Document Type Selector
+function selectThaiDocType(btn, type) {
+  document.querySelectorAll('.thai-doc-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  showToast('เลือกประเภทเอกสาร: ' + type);
 }
 
 // Upload zone drag & drop visual feedback

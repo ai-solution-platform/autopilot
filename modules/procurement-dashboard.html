@@ -242,6 +242,35 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
     </div>
   </div>
 
+  <!-- Quick Action Buttons -->
+  <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;" id="quickActions">
+    <a href="procurement-prpo.html" style="text-decoration:none;flex:1;min-width:180px;">
+      <div style="background:linear-gradient(135deg,#2563EB,#3B82F6);color:#fff;padding:14px 20px;border-radius:12px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;box-shadow:0 4px 12px rgba(37,99,235,.2);" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+        <span style="font-size:1.4rem;">📄</span>
+        <div><div style="font-weight:700;font-size:.85rem;">สร้าง PR ใหม่</div><div style="font-size:.68rem;opacity:.8;">ใบขอซื้อ</div></div>
+      </div>
+    </a>
+    <a href="procurement-prpo.html" style="text-decoration:none;flex:1;min-width:180px;">
+      <div style="background:linear-gradient(135deg,#7C3AED,#8B5CF6);color:#fff;padding:14px 20px;border-radius:12px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;box-shadow:0 4px 12px rgba(124,58,237,.2);" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+        <span style="font-size:1.4rem;">📋</span>
+        <div><div style="font-weight:700;font-size:.85rem;">สร้าง PO</div><div style="font-size:.68rem;opacity:.8;">ใบสั่งซื้อ</div></div>
+      </div>
+    </a>
+    <a href="procurement-matching.html" style="text-decoration:none;flex:1;min-width:180px;">
+      <div style="background:linear-gradient(135deg,#059669,#10B981);color:#fff;padding:14px 20px;border-radius:12px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;box-shadow:0 4px 12px rgba(5,150,105,.2);" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+        <span style="font-size:1.4rem;">🔍</span>
+        <div><div style="font-weight:700;font-size:.85rem;">ค้นหาเอกสาร</div><div style="font-size:.68rem;opacity:.8;">3-Way Match</div></div>
+      </div>
+    </a>
+    <a href="procurement-approval.html" style="text-decoration:none;flex:1;min-width:180px;">
+      <div style="background:linear-gradient(135deg,#D97706,#F59E0B);color:#fff;padding:14px 20px;border-radius:12px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;box-shadow:0 4px 12px rgba(217,119,6,.2);position:relative;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+        <span style="font-size:1.4rem;">✅</span>
+        <div><div style="font-weight:700;font-size:.85rem;">รออนุมัติ</div><div style="font-size:.68rem;opacity:.8;">11 รายการ</div></div>
+        <span style="position:absolute;top:8px;right:12px;background:#fff;color:#D97706;font-size:.65rem;font-weight:800;padding:2px 8px;border-radius:10px;">11</span>
+      </div>
+    </a>
+  </div>
+
   <!-- KPI Grid: 4 cards, 1 row -->
   <div class="kpi-grid">
     <!-- KPI 1: Active PRs -->
@@ -388,6 +417,33 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
       <div class="chart-legend" id="donutStatusLegend"></div>
     </div>
 
+  </div>
+
+  <!-- Pending Approvals Widget + Budget vs Actual -->
+  <div class="charts-grid">
+    <!-- Pending Approvals Widget -->
+    <div class="card">
+      <div class="card-header">
+        <h3>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+          รายการรออนุมัติ
+        </h3>
+        <span class="badge badge-orange">11 รายการ</span>
+      </div>
+      <div id="pendingApprovalsWidget" style="max-height:300px;overflow-y:auto;"></div>
+    </div>
+
+    <!-- Budget vs Actual Comparison -->
+    <div class="card">
+      <div class="card-header">
+        <h3>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+          งบประมาณ vs ค่าใช้จ่ายจริง
+        </h3>
+        <span class="badge badge-blue">Q2/2569</span>
+      </div>
+      <div id="budgetVsActual" style="height:220px;position:relative;"></div>
+    </div>
   </div>
 
   <!-- Bottom Section: 2 columns -->
@@ -755,6 +811,68 @@ function renderInsights(){
   `).join('');
 }
 
+// ========== Pending Approvals Widget ==========
+function renderPendingApprovals(){
+  const items = [
+    {id:'PR-2569-0478',requester:'สมชาย ว.',dept:'ฝ่ายผลิต',amount:'฿187,500',days:1.8,type:'PR',ai:'แนะนำอนุมัติ',aiConf:94},
+    {id:'PR-2569-0475',requester:'นภัสสร ศ.',dept:'���่ายบัญชี',amount:'฿45,200',days:0.5,type:'PR',ai:'แนะนำอนุมัติ',aiConf:96},
+    {id:'PO-2569-0312',requester:'สุรศักดิ์ ท.',dept:'ฝ่าย IT',amount:'฿520,000',days:0.7,type:'PO',ai:'ผ่าน 3 quotes',aiConf:95},
+    {id:'PR-2569-0477',requester:'นิติ พ.',dept:'ฝ่ายผลิต',amount:'฿92,000',days:0.3,type:'PR',ai:'เร่งด่วน',aiConf:91},
+    {id:'PR-2569-0480',requester:'วรรณิสา เ.',dept:'ฝ่ายจัดซื้อ',amount:'฿124,000',days:3.1,type:'PR',ai:'ราคาสูงกว่าตลาด',aiConf:42},
+  ];
+  const el = document.getElementById('pendingApprovalsWidget');
+  el.innerHTML = items.map(item=>{
+    const urgent = item.days > 2;
+    const confColor = item.aiConf >= 90 ? 'var(--green)' : item.aiConf >= 70 ? 'var(--orange)' : 'var(--red)';
+    return `<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--border);transition:background .15s;cursor:pointer;" onmouseover="this.style.background='var(--blue-bg)'" onmouseout="this.style.background=''">
+      <div style="width:36px;height:36px;border-radius:8px;background:${item.type==='PR'?'var(--blue-bg)':'var(--purple-bg)'};color:${item.type==='PR'?'var(--blue)':'var(--purple)'};display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;">${item.type}</div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:.78rem;font-weight:600;">${item.id} — ${item.requester}</div>
+        <div style="font-size:.65rem;color:var(--muted);">${item.dept} · ${item.amount} · <span style="${urgent?'color:var(--red);font-weight:700':''}">⏱ ${item.days} วัน</span></div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:.62rem;color:${confColor};font-weight:700;">AI ${item.aiConf}%</div>
+        <div style="font-size:.6rem;color:var(--muted);">${item.ai}</div>
+      </div>
+      <button style="padding:4px 10px;border-radius:6px;border:none;background:var(--green);color:#fff;font-size:.68rem;font-weight:600;cursor:pointer;">อนุมัติ</button>
+    </div>`;
+  }).join('');
+}
+
+// ========== Budget vs Actual Chart ==========
+function renderBudgetVsActual(){
+  const el = document.getElementById('budgetVsActual');
+  const depts = [
+    {name:'ฝ่ายผลิต',budget:2500,actual:1850},
+    {name:'ฝ่าย IT',budget:800,actual:620},
+    {name:'ซ่อมบำรุง',budget:700,actual:480},
+    {name:'สำนักงาน',budget:400,actual:210},
+    {name:'คลังสินค้า',budget:450,actual:380},
+    {name:'บุคคล',budget:250,actual:95},
+  ];
+  const maxVal = Math.max(...depts.map(d=>d.budget));
+  const barH = 26, gap = 8, padL = 80, padR = 60, padT = 10;
+  const W = 500, H = padT + depts.length*(barH+gap) + 20;
+
+  let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;overflow:visible;">`;
+  depts.forEach((d,i)=>{
+    const y = padT + i*(barH+gap);
+    const bw = (d.budget/maxVal)*(W-padL-padR);
+    const aw = (d.actual/maxVal)*(W-padL-padR);
+    const pct = Math.round((d.actual/d.budget)*100);
+    const pctColor = pct > 85 ? '#DC2626' : pct > 65 ? '#D97706' : '#059669';
+
+    svg += `<text x="${padL-6}" y="${y+barH/2+4}" text-anchor="end" font-size="9" fill="var(--text2)" font-family="Noto Sans Thai" font-weight="500">${d.name}</text>`;
+    svg += `<rect x="${padL}" y="${y}" width="${bw}" height="${barH/2-1}" rx="3" fill="var(--bg3)" opacity="0.6"/>`;
+    svg += `<rect x="${padL}" y="${y+barH/2+1}" width="${aw}" height="${barH/2-1}" rx="3" fill="${pctColor}" opacity="0.8"/>`;
+    svg += `<text x="${padL+Math.max(bw,aw)+6}" y="${y+barH/2+4}" font-size="8" fill="${pctColor}" font-weight="700" font-family="Inter">${pct}%</text>`;
+  });
+
+  svg += `<text x="${padL}" y="${H-4}" font-size="7" fill="var(--muted)" font-family="Noto Sans Thai">&#9633; งบประมาณ &nbsp;&nbsp; &#9632; ค่าใช้จ่ายจริง &nbsp;&nbsp; (หน่วย: K&#3647;)</text>`;
+  svg += `</svg>`;
+  el.innerHTML = svg;
+}
+
 // ========== Render All ==========
 function renderAllCharts(){
   // Sparklines
@@ -799,6 +917,12 @@ function renderAllCharts(){
 
   // AI Insights
   renderInsights();
+
+  // Pending Approvals Widget
+  renderPendingApprovals();
+
+  // Budget vs Actual
+  renderBudgetVsActual();
 }
 
 // ========== Init ==========

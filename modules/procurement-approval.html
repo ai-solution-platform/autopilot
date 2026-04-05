@@ -216,10 +216,76 @@ textarea.form-input{resize:vertical;min-height:60px;}
       </div>
     </div>
 
+    <!-- Approval Matrix (วงเงิน auto-approve) -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header">
+        <div class="card-title">&#128176; เกณฑ์อนุมัติตามวงเงิน (Approval Matrix)</div>
+        <button class="btn btn-sm btn-outline" onclick="showToast('info','แก้ไขเกณฑ์','เปิดหน้าตั้งค่าเกณฑ์อนุมัติ')">&#9881; แก้ไข</button>
+      </div>
+      <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:.78rem;">
+          <thead>
+            <tr style="background:var(--bg2);">
+              <th style="padding:10px 14px;text-align:left;font-size:.7rem;color:var(--muted);font-weight:600;border-bottom:1px solid var(--border);">วงเงิน</th>
+              <th style="padding:10px 14px;text-align:center;font-size:.7rem;color:var(--muted);font-weight:600;border-bottom:1px solid var(--border);">ผู้อนุมัติ</th>
+              <th style="padding:10px 14px;text-align:center;font-size:.7rem;color:var(--muted);font-weight:600;border-bottom:1px solid var(--border);">ระ��ับ</th>
+              <th style="padding:10px 14px;text-align:center;font-size:.7rem;color:var(--muted);font-weight:600;border-bottom:1px solid var(--border);">สถานะ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:10px 14px;font-weight:600;">&#8804; &#3647;10,000</td>
+              <td style="padding:10px 14px;text-align:center;">ระบบอัตโนมัติ (AI)</td>
+              <td style="padding:10px 14px;text-align:center;"><span style="background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:600;">Auto</span></td>
+              <td style="padding:10px 14px;text-align:center;"><span style="color:var(--green);font-weight:700;">&#9989; เปิดใช้งาน</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:10px 14px;font-weight:600;">&#3647;10,001 - &#3647;100,000</td>
+              <td style="padding:10px 14px;text-align:center;">หัวหน้าแผนก</td>
+              <td style="padding:10px 14px;text-align:center;"><span style="background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:600;">Level 1</span></td>
+              <td style="padding:10px 14px;text-align:center;"><span style="color:var(--blue);font-weight:700;">1 คน</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:10px 14px;font-weight:600;">&#3647;100,001 - &#3647;500,000</td>
+              <td style="padding:10px 14px;text-align:center;">หัวหน้าแผนก + ผู้จัดการ</td>
+              <td style="padding:10px 14px;text-align:center;"><span style="background:var(--purple-bg);color:var(--purple);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:600;">Level 2</span></td>
+              <td style="padding:10px 14px;text-align:center;"><span style="color:var(--purple);font-weight:700;">2 คน</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:10px 14px;font-weight:600;">> &#3647;500,000</td>
+              <td style="padding:10px 14px;text-align:center;">��ัวหน้าแผนก + ผู้จัดการ + CFO</td>
+              <td style="padding:10px 14px;text-align:center;"><span style="background:var(--orange-bg);color:var(--orange);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:600;">Level 3</span></td>
+              <td style="padding:10px 14px;text-align:center;"><span style="color:var(--orange);font-weight:700;">3 คน</span></td>
+            </tr>
+            <tr>
+              <td style="padding:10px 14px;font-weight:600;">> &#3647;2,000,000</td>
+              <td style="padding:10px 14px;text-align:center;">ทุกระดับ + CEO</td>
+              <td style="padding:10px 14px;text-align:center;"><span style="background:var(--red-bg);color:var(--red);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:600;">Level 4</span></td>
+              <td style="padding:10px 14px;text-align:center;"><span style="color:var(--red);font-weight:700;">4 คน</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     <div class="filter-pills" id="filterPills">
       <button class="filter-pill active" data-filter="all" onclick="filterCards('all')">ทั้งหมด (11)</button>
-      <button class="filter-pill" data-filter="pr" onclick="filterCards('pr')">PR เท่านั้น (8)</button>
+      <button class="filter-pill" data-filter="pr" onclick="filterCards('pr')">PR เท���านั้น (8)</button>
       <button class="filter-pill" data-filter="po" onclick="filterCards('po')">PO เท่านั้น (3)</button>
+    </div>
+
+    <!-- Batch Actions -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <label style="display:flex;align-items:center;gap:6px;font-size:.78rem;cursor:pointer;color:var(--text2);">
+          <input type="checkbox" id="selectAllApprovals" onchange="toggleSelectAll(this.checked)"> เลือกทั้งหมด
+        </label>
+        <span id="batchCount" style="font-size:.72rem;color:var(--muted);display:none;">เลือกแล้ว 0 รายการ</span>
+      </div>
+      <div style="display:flex;gap:6px;" id="batchActions" style="display:none;">
+        <button class="btn btn-sm btn-green" onclick="batchApprove()" id="batchApproveBtn" style="display:none;">&#9989; อนุมัติทั้งหมดที่เลือก</button>
+        <button class="btn btn-sm btn-danger" onclick="batchReject()" id="batchRejectBtn" style="display:none;">&#10060; ปฏิเสธทั้งหมดที่เลือก</button>
+      </div>
     </div>
 
     <div class="approval-grid" id="approvalGrid"></div>
@@ -501,6 +567,120 @@ function showToast(type,title,msg){
   toast.innerHTML=`<span class="toast-icon">${icons[type]||'&#8505;'}</span><div class="toast-msg"><strong>${title}</strong><small>${msg}</small></div><span class="toast-close" onclick="this.parentElement.remove()">&#10005;</span>`;
   container.appendChild(toast);
   setTimeout(()=>{toast.style.opacity='0';toast.style.transform='translateX(40px)';toast.style.transition='all .3s';setTimeout(()=>toast.remove(),300);},4000);
+}
+
+// --- BATCH APPROVE/REJECT ---
+let selectedApprovalIds=new Set();
+
+function toggleSelectAll(checked){
+  const checkboxes=document.querySelectorAll('.approval-checkbox');
+  checkboxes.forEach(cb=>{cb.checked=checked;});
+  selectedApprovalIds.clear();
+  if(checked){
+    approvalData.forEach(d=>selectedApprovalIds.add(d.id));
+  }
+  updateBatchUI();
+}
+
+function toggleApprovalSelect(id,checked){
+  if(checked)selectedApprovalIds.add(id); else selectedApprovalIds.delete(id);
+  updateBatchUI();
+}
+
+function updateBatchUI(){
+  const count=selectedApprovalIds.size;
+  const countEl=document.getElementById('batchCount');
+  const approveBtn=document.getElementById('batchApproveBtn');
+  const rejectBtn=document.getElementById('batchRejectBtn');
+  if(count>0){
+    if(countEl){countEl.style.display='inline';countEl.textContent='เลือกแล้ว '+count+' รายการ';}
+    if(approveBtn)approveBtn.style.display='inline-flex';
+    if(rejectBtn)rejectBtn.style.display='inline-flex';
+  }else{
+    if(countEl)countEl.style.display='none';
+    if(approveBtn)approveBtn.style.display='none';
+    if(rejectBtn)rejectBtn.style.display='none';
+  }
+}
+
+function batchApprove(){
+  const count=selectedApprovalIds.size;
+  selectedApprovalIds.forEach(id=>{
+    const card=document.getElementById('card-'+id);
+    if(card){card.classList.add('removing');setTimeout(()=>card.remove(),500);}
+  });
+  showToast('success','อนุมัติแบบกลุ่ม','อนุมัติ '+count+' รายการสำเร็จ — ส่งต่อขั้นตอนถัดไป');
+  selectedApprovalIds.clear();
+  updateBatchUI();
+  document.getElementById('selectAllApprovals').checked=false;
+}
+
+function batchReject(){
+  const count=selectedApprovalIds.size;
+  showToast('warning','ปฏิเสธแบบกลุ่ม','กรุณาระบุเหตุผลสำหรับ '+count+' รายการ');
+  selectedApprovalIds.clear();
+  updateBatchUI();
+}
+
+// --- Inject checkbox into approval cards ---
+const origRenderCards=renderApprovalCards;
+renderApprovalCards=function(filter){
+  origRenderCards(filter||'all');
+  // Add checkboxes to each card
+  document.querySelectorAll('.approval-card').forEach(card=>{
+    const id=card.id.replace('card-','');
+    const header=card.querySelector('.ac-header');
+    if(header&&!header.querySelector('.approval-checkbox')){
+      const cb=document.createElement('input');
+      cb.type='checkbox';
+      cb.className='approval-checkbox';
+      cb.style.cssText='cursor:pointer;margin-right:6px;';
+      cb.checked=selectedApprovalIds.has(id);
+      cb.onchange=function(){toggleApprovalSelect(id,this.checked);};
+      header.insertBefore(cb,header.firstChild);
+    }
+  });
+};
+
+// --- APPROVAL TIMELINE VISUALIZATION ---
+// Add timeline section to chain tab
+const chainTab=document.getElementById('tab-chain');
+if(chainTab){
+  const timelineSection=document.createElement('div');
+  timelineSection.className='card';
+  timelineSection.style.marginTop='16px';
+  timelineSection.innerHTML=`
+    <div class="card-header">
+      <div class="card-title">&#128336; Approval Timeline — ภาพรวมระยะเวลาอนุมัติ</div>
+    </div>
+    <div style="padding:8px 0;">
+      <div style="display:flex;align-items:center;gap:0;position:relative;padding:20px 0;">
+        <div style="position:absolute;top:50%;left:40px;right:40px;height:3px;background:var(--bg3);transform:translateY(-50%);"></div>
+        ${[
+          {label:'สร้างเอกสาร',time:'10 นาที',icon:'&#128196;',color:'var(--blue)',done:true},
+          {label:'หัวหน้าแผนก',time:'2 ชม.',icon:'&#128101;',color:'var(--green)',done:true},
+          {label:'ผู้จัดการ',time:'4 ชม.',icon:'&#128188;',color:'var(--orange)',done:false,current:true},
+          {label:'CFO',time:'รอ',icon:'&#128176;',color:'var(--muted)',done:false},
+          {label:'เสร็จสิ้น',time:'-',icon:'&#9989;',color:'var(--muted)',done:false}
+        ].map((step,i)=>`
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;position:relative;z-index:1;">
+            <div style="width:40px;height:40px;border-radius:50%;background:${step.done?step.color:step.current?step.color:'var(--bg3)'};${step.current?'box-shadow:0 0 0 4px rgba(217,119,6,.2);':''}color:${step.done||step.current?'#fff':'var(--muted)'};display:flex;align-items:center;justify-content:center;font-size:1rem;border:3px solid ${step.done?step.color:step.current?step.color:'var(--border)'};">${step.icon}</div>
+            <div style="font-size:.72rem;font-weight:600;margin-top:6px;text-align:center;color:${step.done?'var(--text)':'var(--muted)'};">${step.label}</div>
+            <div style="font-size:.62rem;color:${step.done?'var(--green)':step.current?'var(--orange)':'var(--muted)'};margin-top:2px;">${step.time}</div>
+          </div>
+        `).join('')}
+      </div>
+      <div style="display:flex;justify-content:center;gap:16px;margin-top:8px;">
+        <div style="display:flex;align-items:center;gap:4px;font-size:.68rem;color:var(--muted);"><span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;"></span> เสร็จแล้ว</div>
+        <div style="display:flex;align-items:center;gap:4px;font-size:.68rem;color:var(--muted);"><span style="width:8px;height:8px;border-radius:50%;background:var(--orange);display:inline-block;"></span> กำลังดำเนินการ</div>
+        <div style="display:flex;align-items:center;gap:4px;font-size:.68rem;color:var(--muted);"><span style="width:8px;height:8px;border-radius:50%;background:var(--bg3);display:inline-block;"></span> รอดำเนินการ</div>
+      </div>
+      <div style="text-align:center;margin-top:12px;padding:10px;background:var(--blue-bg);border-radius:8px;">
+        <span style="font-size:.78rem;font-weight:600;color:var(--blue);">&#9201; เวลารวมที่ใช้: 6 ชม. 10 นาที | SLA: 24 ชม. | &#9989; ภายในเกณฑ์</span>
+      </div>
+    </div>
+  `;
+  chainTab.appendChild(timelineSection);
 }
 
 // --- INIT ---

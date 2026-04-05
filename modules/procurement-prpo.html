@@ -257,7 +257,7 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
       <div class="user-avatar">AC</div>
       <div>
         <div class="user-name">สวัสดี Artit C. | Procurement Manager</div>
-        <div class="user-role">แผนกจัดซื้อ · ออนไลน์</div>
+        <div class="user-role">แผนกจัดซื้อ · ออนไลน์ · <span id="globalAutoSave" style="color:var(--green);font-weight:600;">💾 Auto-save เปิดใช้งาน</span></div>
       </div>
     </div>
     <div class="view-toggle">
@@ -316,6 +316,15 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
         <div class="kpi-label">ประหยัดจากการเปรียบเทียบ</div>
       </div>
     </div>
+  </div>
+
+  <!-- Department Budget Summary -->
+  <div class="card" style="margin-bottom:20px;">
+    <div class="card-header">
+      <div class="card-title">💰 งบประมาณตามแผนก (พ.ศ. 2569)</div>
+      <span style="font-size:.7rem;color:var(--muted);">อัปเดตอัตโนมัติทุก 30 วินาที</span>
+    </div>
+    <div id="deptBudgetSummary"></div>
   </div>
 
   <!-- Tabs -->
@@ -959,7 +968,7 @@ function renderPRTable(){
   const body=document.getElementById('prTableBody');
   body.innerHTML=data.map(r=>{
     let action='';
-    if(r.status==='approved')action=`<button class="btn btn-success btn-sm" onclick="event.stopPropagation();convertPRtoPO('${r.pr}','${r.title}',${r.amount},'${r.requester}','${r.dept}',${r.items})">➡️ สร้าง PO</button>`;
+    if(r.status==='approved')action=`<input type="checkbox" style="margin-right:6px;cursor:pointer;" onclick="toggleBulkSelect('${r.pr}',this.closest('tr'))" title="เลือกเพื่อสร้าง PO แบบกลุ่ม"><button class="btn btn-success btn-sm" onclick="event.stopPropagation();convertPRtoPO('${r.pr}','${r.title}',${r.amount},'${r.requester}','${r.dept}',${r.items})">➡ แปลงเป็น PO</button>`;
     else if(r.status==='pending')action=`<button class="btn btn-outline btn-sm" disabled>รอดำเนินการ</button>`;
     else if(r.status==='converted')action=`<span class="link-text" onclick="switchTab('po')">${r.poRef} →</span>`;
     else if(r.status==='draft')action=`<button class="btn btn-outline btn-sm">✎ แก้ไข</button>`;
@@ -1129,15 +1138,238 @@ function convertPRtoPO(prNum,title,amount,requester,dept,items){
   openModal('poFromPRModal');
 }
 
-// ============ AUTO-SAVE DRAFT ============
-setInterval(()=>{
+// ============ AUTO-SAVE DRAFT (localStorage-based, every 30 seconds) ============
+const AUTOSAVE_KEY='autopilot_pr_draft_v2';
+const UNDO_KEY='autopilot_pr_undo_stack';
+let undoStack=[];
+let undoIndex=-1;
+const MAX_UNDO=50;
+let autoSaveState='saved'; // 'saved' | 'saving' | 'unsaved'
+
+function collectFormData(){
+  const inputs=document.querySelectorAll('#prCreateModal input, #prCreateModal select, #prCreateModal textarea');
+  const data={};
+  inputs.forEach((el,i)=>{
+    data['field_'+i]={value:el.value,type:el.type,name:el.name||el.placeholder||''};
+  });
+  const poInputs=document.querySelectorAll('#poFromPRModal input, #poFromPRModal select');
+  poInputs.forEach((el,i)=>{
+    data['po_field_'+i]={value:el.value,type:el.type,name:el.name||el.placeholder||''};
+  });
+  data._timestamp=Date.now();
+  data._view=currentView;
+  return data;
+}
+
+function restoreFormData(data){
+  if(!data)return;
+  const inputs=document.querySelectorAll('#prCreateModal input, #prCreateModal select, #prCreateModal textarea');
+  inputs.forEach((el,i)=>{
+    const saved=data['field_'+i];
+    if(saved&&!el.readOnly)el.value=saved.value;
+  });
+}
+
+function updateAutoSaveIndicator(state){
+  autoSaveState=state;
+  const el=document.getElementById('autoSaveIndicator');
+  const el2=document.getElementById('autoSaveTimePO');
   const now=new Date();
   const timeStr=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0')+':'+now.getSeconds().toString().padStart(2,'0');
-  const el=document.getElementById('autoSaveTime');
-  const el2=document.getElementById('autoSaveTimePO');
-  if(el)el.textContent='บันทึกแล้ว '+timeStr;
-  if(el2)el2.textContent='บันทึกแล้ว '+timeStr;
-},30000);
+  if(state==='saving'){
+    if(el)el.innerHTML='<span style="color:var(--orange);">🔄 กำลังบันทึก...</span>';
+    if(el2)el2.textContent='กำลังบันทึก...';
+  } else if(state==='saved'){
+    if(el)el.innerHTML='<span style="color:var(--green);">💾 บันทึกร่างอัตโนมัติ — บันทึกแล้ว '+timeStr+'</span>';
+    if(el2)el2.textContent='บันทึกแล้ว '+timeStr;
+  }
+}
+
+function performAutoSave(){
+  updateAutoSaveIndicator('saving');
+  const data=collectFormData();
+  try{
+    localStorage.setItem(AUTOSAVE_KEY,JSON.stringify(data));
+    // Push to undo stack
+    if(undoStack.length>=MAX_UNDO)undoStack.shift();
+    undoStack.push(JSON.stringify(data));
+    undoIndex=undoStack.length-1;
+    localStorage.setItem(UNDO_KEY,JSON.stringify(undoStack));
+  }catch(e){console.warn('Auto-save failed:',e);}
+  setTimeout(()=>updateAutoSaveIndicator('saved'),500);
+}
+
+// Auto-save every 30 seconds
+setInterval(performAutoSave,30000);
+
+// Also auto-save on any input change (debounced)
+let autoSaveDebounce=null;
+document.addEventListener('input',e=>{
+  if(e.target.closest('#prCreateModal')||e.target.closest('#poFromPRModal')){
+    clearTimeout(autoSaveDebounce);
+    autoSaveDebounce=setTimeout(performAutoSave,2000);
+  }
+});
+
+// ============ UNDO/REDO (Ctrl+Z / Ctrl+Shift+Z) ============
+document.addEventListener('keydown',e=>{
+  if(e.ctrlKey&&e.key==='z'&&!e.shiftKey){
+    e.preventDefault();
+    if(undoIndex>0){
+      undoIndex--;
+      const data=JSON.parse(undoStack[undoIndex]);
+      restoreFormData(data);
+      showUndoIndicator('↩ Undo สำเร็จ ('+undoIndex+'/'+undoStack.length+')');
+    } else {
+      showUndoIndicator('⚠ ไม่มีข้อมูลย้อนกลับเพิ่มเติม');
+    }
+  }
+  if(e.ctrlKey&&(e.key==='y'||(e.key==='z'&&e.shiftKey))){
+    e.preventDefault();
+    if(undoIndex<undoStack.length-1){
+      undoIndex++;
+      const data=JSON.parse(undoStack[undoIndex]);
+      restoreFormData(data);
+      showUndoIndicator('↪ Redo สำเร็จ ('+undoIndex+'/'+undoStack.length+')');
+    }
+  }
+});
+
+function showUndoIndicator(msg){
+  let indicator=document.getElementById('undoIndicator');
+  if(!indicator){
+    indicator=document.createElement('div');
+    indicator.id='undoIndicator';
+    indicator.style.cssText='position:fixed;top:60px;right:24px;background:var(--card-bg);border:1px solid var(--blue);color:var(--blue);padding:10px 18px;border-radius:10px;font-size:.82rem;font-weight:600;box-shadow:0 4px 20px rgba(37,99,235,.15);z-index:9999;font-family:Noto Sans Thai,Inter,sans-serif;transition:all .3s;opacity:0;transform:translateY(-10px);';
+    document.body.appendChild(indicator);
+  }
+  indicator.textContent=msg;
+  indicator.style.opacity='1';
+  indicator.style.transform='translateY(0)';
+  setTimeout(()=>{indicator.style.opacity='0';indicator.style.transform='translateY(-10px)';},2000);
+}
+
+// ============ DRAFT RESTORE DIALOG ON PAGE LOAD ============
+function checkDraftRestore(){
+  try{
+    const saved=localStorage.getItem(AUTOSAVE_KEY);
+    if(!saved)return;
+    const data=JSON.parse(saved);
+    const age=Date.now()-data._timestamp;
+    if(age>86400000)return; // Skip if older than 24 hours
+    const ageMinutes=Math.floor(age/60000);
+    const ageText=ageMinutes<60?ageMinutes+' นาทีที่แล้ว':Math.floor(ageMinutes/60)+' ชั่วโมงที่แล้ว';
+
+    let dialog=document.createElement('div');
+    dialog.id='draftRestoreDialog';
+    dialog.style.cssText='position:fixed;inset:0;background:rgba(15,23,42,.5);backdrop-filter:blur(4px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
+    dialog.innerHTML=`
+      <div style="background:var(--card-bg);border-radius:16px;padding:28px;max-width:480px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,.15);text-align:center;">
+        <div style="font-size:2rem;margin-bottom:12px;">💾</div>
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:8px;">พบร่างเอกสารที่ยังไม่เสร็จ</h3>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:20px;">บันทึกอัตโนมัติเมื่อ ${ageText}<br>ต้องการกู้คืนข้อมูลที่กรอกไว้หรือไม่?</p>
+        <div style="display:flex;gap:10px;justify-content:center;">
+          <button onclick="discardDraft()" style="padding:10px 24px;border-radius:8px;border:1px solid var(--border);background:var(--card-bg);color:var(--text2);font-size:.82rem;font-weight:600;cursor:pointer;font-family:inherit;">🗑 ยกเลิกร่าง</button>
+          <button onclick="restoreDraft()" style="padding:10px 24px;border-radius:8px;border:none;background:var(--grad);color:#fff;font-size:.82rem;font-weight:600;cursor:pointer;font-family:inherit;box-shadow:0 4px 12px rgba(37,99,235,.2);">✅ กู้คืนร่าง</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(dialog);
+  }catch(e){}
+}
+
+function restoreDraft(){
+  try{
+    const saved=localStorage.getItem(AUTOSAVE_KEY);
+    if(saved){
+      const data=JSON.parse(saved);
+      openModal('prCreateModal');
+      setTimeout(()=>restoreFormData(data),100);
+      showToast('กู้คืนร่างสำเร็จ — กรุณาตรวจสอบข้อมูลก่อนส่ง');
+    }
+  }catch(e){}
+  document.getElementById('draftRestoreDialog')?.remove();
+}
+
+function discardDraft(){
+  localStorage.removeItem(AUTOSAVE_KEY);
+  localStorage.removeItem(UNDO_KEY);
+  document.getElementById('draftRestoreDialog')?.remove();
+  showToast('ลบร่างเรียบร้อยแล้ว');
+}
+
+// ============ BULK PO CREATION ============
+let bulkSelectedPRs=new Set();
+
+function toggleBulkSelect(prNum,el){
+  event.stopPropagation();
+  if(bulkSelectedPRs.has(prNum)){
+    bulkSelectedPRs.delete(prNum);
+    el.style.background='';el.style.borderColor='var(--border)';
+  }else{
+    bulkSelectedPRs.add(prNum);
+    el.style.background='var(--blue-bg)';el.style.borderColor='var(--blue)';
+  }
+  updateBulkActions();
+}
+
+function updateBulkActions(){
+  let bar=document.getElementById('bulkActionBar');
+  if(bulkSelectedPRs.size===0){
+    if(bar)bar.style.display='none';
+    return;
+  }
+  if(!bar){
+    bar=document.createElement('div');
+    bar.id='bulkActionBar';
+    bar.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--card-bg);border:1px solid var(--blue);border-radius:12px;padding:12px 24px;box-shadow:0 8px 32px rgba(37,99,235,.2);z-index:100;display:flex;align-items:center;gap:16px;font-family:Noto Sans Thai,Inter,sans-serif;';
+    document.body.appendChild(bar);
+  }
+  bar.style.display='flex';
+  bar.innerHTML=`
+    <span style="font-size:.82rem;font-weight:600;">📋 เลือกแล้ว ${bulkSelectedPRs.size} รายการ</span>
+    <button class="btn btn-success btn-sm" onclick="bulkCreatePO()">➡ สร้าง PO ทั้งหมด</button>
+    <button class="btn btn-outline btn-sm" onclick="clearBulkSelection()">✕ ยกเลิก</button>
+  `;
+}
+
+function bulkCreatePO(){
+  const count=bulkSelectedPRs.size;
+  showToast('กำลังสร้าง PO จำนวน '+count+' รายการ... สำเร็จ!');
+  clearBulkSelection();
+}
+
+function clearBulkSelection(){
+  bulkSelectedPRs.clear();
+  updateBulkActions();
+  renderPRTable();
+}
+
+// ============ DEPARTMENT BUDGET TRACKING ============
+const DEPT_BUDGETS={
+  IT:{budget:2000000,used:1240000},
+  Marketing:{budget:800000,used:413500},
+  Operations:{budget:3000000,used:2570000},
+  HR:{budget:500000,used:225000},
+  Finance:{budget:600000,used:180000},
+  Procurement:{budget:400000,used:193000}
+};
+
+function renderDeptBudgetSummary(){
+  let container=document.getElementById('deptBudgetSummary');
+  if(!container)return;
+  container.innerHTML=Object.entries(DEPT_BUDGETS).map(([dept,b])=>{
+    const pct=Math.round((b.used/b.budget)*100);
+    const colorClass=pct>=80?'budget-danger':pct>=60?'budget-warn':'budget-ok';
+    return `<div style="display:flex;align-items:center;gap:10px;padding:6px 0;">
+      <span style="width:80px;font-size:.75rem;font-weight:600;">${dept}</span>
+      <div style="flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;">
+        <div class="budget-fill ${colorClass}" style="width:${pct}%;height:100%;border-radius:3px;"></div>
+      </div>
+      <span style="font-size:.68rem;color:var(--muted);min-width:100px;text-align:right;">฿${fmt(b.used)} / ฿${fmt(b.budget)} (${pct}%)</span>
+    </div>`;
+  }).join('');
+}
 
 // ============ INIT ============
 renderPRTable();
@@ -1146,6 +1378,18 @@ renderLinkedTasks();
 renderApprovals();
 renderVendorSelector();
 renderAdvanceTable();
+
+// Load undo stack from localStorage
+try{
+  const savedUndo=localStorage.getItem(UNDO_KEY);
+  if(savedUndo){undoStack=JSON.parse(savedUndo);undoIndex=undoStack.length-1;}
+}catch(e){}
+
+// Check for draft to restore
+setTimeout(checkDraftRestore,500);
+
+// Render department budget summary
+renderDeptBudgetSummary();
 </script>
 
 </body>

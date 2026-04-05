@@ -14,21 +14,20 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
 .dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);}
 
-.page{max-width:1280px;margin:0 auto;padding:24px;}
+.page{max-width:1320px;margin:0 auto;padding:24px;}
 .breadcrumb{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--muted);margin-bottom:12px;}
-.breadcrumb a{color:var(--blue);text-decoration:none;font-weight:500;}
-.breadcrumb a:hover{text-decoration:underline;}
+.breadcrumb a{color:var(--blue);text-decoration:none;font-weight:500;}.breadcrumb a:hover{text-decoration:underline;}
 
 .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
 .page-title{font-size:1.4rem;font-weight:800;display:flex;align-items:center;gap:10px;}
 .page-subtitle{font-size:.82rem;color:var(--muted);margin-top:2px;}
 
-/* Date Range */
+/* Date Range & Export */
 .date-range-bar{display:flex;align-items:center;gap:8px;margin-bottom:20px;flex-wrap:wrap;}
 .date-btn{padding:7px 16px;border-radius:8px;font-size:.78rem;font-weight:600;border:1px solid var(--border);background:var(--card-bg);cursor:pointer;transition:all .2s;font-family:inherit;color:var(--text2);}
 .date-btn:hover{border-color:var(--blue);color:var(--blue);}
 .date-btn.active{background:var(--grad);color:#fff;border-color:transparent;}
-.export-group{margin-left:auto;display:flex;gap:6px;}
+.export-group{margin-left:auto;display:flex;gap:6px;position:relative;}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:.82rem;font-weight:600;border:none;cursor:pointer;transition:all .2s;font-family:inherit;}
 .btn-primary{background:var(--grad);color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.2);}
 .btn-primary:hover{box-shadow:0 6px 16px rgba(37,99,235,.3);transform:translateY(-1px);}
@@ -36,6 +35,15 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .btn-outline:hover{border-color:var(--blue);color:var(--blue);}
 .btn-export{padding:6px 12px;border-radius:8px;font-size:.72rem;font-weight:600;border:1px solid var(--border);background:var(--card-bg);cursor:pointer;font-family:inherit;color:var(--text2);transition:all .15s;display:flex;align-items:center;gap:4px;}
 .btn-export:hover{border-color:var(--green);color:var(--green);}
+
+/* Export Dropdown */
+.export-dropdown{position:absolute;top:100%;right:0;margin-top:6px;background:var(--card-bg);border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:100;min-width:200px;display:none;overflow:hidden;}
+.export-dropdown.show{display:block;}
+.export-option{display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:.8rem;font-weight:500;color:var(--text2);cursor:pointer;transition:background .15s;border-bottom:1px solid var(--border);}
+.export-option:last-child{border-bottom:none;}
+.export-option:hover{background:var(--bg2);color:var(--blue);}
+.export-option .exp-icon{font-size:1rem;}
+.export-option .exp-desc{font-size:.65rem;color:var(--muted);}
 
 /* KPI Grid */
 .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
@@ -47,7 +55,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .kpi:nth-child(3)::before{background:var(--cyan);}
 .kpi:nth-child(4)::before{background:var(--green);}
 .kpi-label{font-size:.7rem;color:var(--muted);font-weight:500;margin-bottom:2px;}
-.kpi-value{font-size:1.4rem;font-weight:800;line-height:1.1;}
+.kpi-value{font-size:1.4rem;font-weight:800;line-height:1.1;font-family:'Inter',sans-serif;}
 .kpi-change{display:inline-flex;align-items:center;gap:3px;font-size:.65rem;font-weight:600;padding:2px 7px;border-radius:5px;margin-top:4px;}
 .kpi-change.up{background:var(--green-bg);color:var(--green);}
 .kpi-change.down{background:var(--red-bg);color:var(--red);}
@@ -56,29 +64,60 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:20px;}
 .card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
 .card-title{font-size:.92rem;font-weight:700;display:flex;align-items:center;gap:8px;}
-
-/* Charts Grid */
 .charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
 .full-width{grid-column:1/-1;}
 
-/* Bar Chart */
-.bar-chart{width:100%;overflow-x:auto;}
-.bar-chart svg{width:100%;min-width:500px;}
+/* Period Comparison */
+.comparison-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.comparison-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;}
+.comparison-period{font-size:.72rem;font-weight:600;color:var(--muted);margin-bottom:6px;}
+.comparison-value{font-size:1.3rem;font-weight:800;font-family:'Inter';}
+.comparison-diff{margin-top:14px;padding:12px;border-radius:10px;text-align:center;}
+.comparison-diff.positive{background:var(--red-bg);border:1px solid var(--red);}
+.comparison-diff.negative{background:var(--green-bg);border:1px solid var(--green);}
+.diff-value{font-size:1.1rem;font-weight:800;font-family:'Inter';}
+.diff-label{font-size:.72rem;color:var(--muted);margin-top:2px;}
 
-/* Donut */
-.donut-wrap{display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
-.donut-svg{flex-shrink:0;}
-.donut-legend{flex:1;min-width:160px;}
-.legend-item{display:flex;align-items:center;gap:8px;font-size:.76rem;padding:5px 8px;border-radius:6px;cursor:pointer;transition:background .15s;}
-.legend-item:hover{background:var(--bg2);}
-.legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
-.legend-label{flex:1;color:var(--text2);}
-.legend-value{font-weight:700;font-size:.78rem;}
-.legend-pct{font-size:.66rem;color:var(--muted);font-weight:600;}
+/* Heatmap */
+.heatmap{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+.heatmap-cell{aspect-ratio:1;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:600;cursor:pointer;transition:all .15s;position:relative;}
+.heatmap-cell:hover{transform:scale(1.15);z-index:2;}
+.heatmap-header{font-size:.6rem;font-weight:700;color:var(--muted);text-align:center;background:transparent !important;}
+.heat-0{background:var(--bg3);color:var(--muted);}
+.heat-1{background:rgba(37,99,235,.15);color:var(--blue);}
+.heat-2{background:rgba(37,99,235,.3);color:var(--blue);}
+.heat-3{background:rgba(37,99,235,.5);color:#fff;}
+.heat-4{background:rgba(37,99,235,.7);color:#fff;}
+.heat-5{background:rgba(37,99,235,.9);color:#fff;}
+.heatmap-legend{display:flex;align-items:center;gap:4px;justify-content:flex-end;margin-top:8px;font-size:.62rem;color:var(--muted);}
+.legend-block{width:14px;height:14px;border-radius:2px;}
 
-/* Line Chart */
-.line-chart-area{position:relative;width:100%;height:260px;}
-.chart-tooltip{position:absolute;background:var(--text);color:var(--bg);padding:6px 12px;border-radius:8px;font-size:.72rem;font-weight:600;pointer-events:none;opacity:0;transition:opacity .15s;z-index:10;white-space:nowrap;}
+/* Anomaly Detection */
+.anomaly-list{display:flex;flex-direction:column;gap:10px;}
+.anomaly-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:10px;border:1px solid;transition:all .2s;}
+.anomaly-item:hover{transform:translateX(4px);}
+.anomaly-item.high{background:var(--red-bg);border-color:var(--red);}
+.anomaly-item.medium{background:var(--orange-bg);border-color:var(--orange);}
+.anomaly-item.low{background:var(--blue-bg);border-color:var(--blue);}
+.anomaly-icon{font-size:1.3rem;flex-shrink:0;}
+.anomaly-info{flex:1;}
+.anomaly-title{font-size:.82rem;font-weight:700;}
+.anomaly-desc{font-size:.72rem;color:var(--text2);margin-top:2px;}
+.anomaly-severity{font-size:.65rem;font-weight:700;padding:3px 10px;border-radius:6px;}
+.anomaly-severity.high{background:var(--red);color:#fff;}
+.anomaly-severity.medium{background:var(--orange);color:#fff;}
+.anomaly-severity.low{background:var(--blue);color:#fff;}
+
+/* Forecast Section */
+.forecast-bars{display:flex;flex-direction:column;gap:12px;}
+.forecast-row{display:flex;align-items:center;gap:12px;}
+.forecast-month{min-width:60px;font-size:.78rem;font-weight:600;}
+.forecast-track{flex:1;height:28px;background:var(--bg3);border-radius:6px;overflow:hidden;position:relative;}
+.forecast-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding-left:8px;font-size:.68rem;font-weight:700;color:#fff;transition:width .6s;}
+.forecast-fill.actual{background:var(--blue);}
+.forecast-fill.projected{background:var(--purple);opacity:.7;background-image:repeating-linear-gradient(45deg,transparent,transparent 4px,rgba(255,255,255,.15) 4px,rgba(255,255,255,.15) 8px);}
+.forecast-val{min-width:80px;text-align:right;font-size:.78rem;font-weight:700;font-family:'Inter';}
+.forecast-val.projected{color:var(--purple);font-style:italic;}
 
 /* Employee Table */
 .emp-table{width:100%;border-collapse:collapse;}
@@ -89,8 +128,6 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .emp-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fff;flex-shrink:0;}
 .emp-name{font-weight:600;}
 .emp-dept{font-size:.65rem;color:var(--muted);}
-
-/* Comparison Bar */
 .comp-bar-wrap{display:flex;align-items:center;gap:8px;}
 .comp-bar-track{flex:1;height:8px;background:var(--bg3);border-radius:4px;overflow:hidden;}
 .comp-bar-fill{height:100%;border-radius:4px;transition:width .6s ease-out;}
@@ -106,9 +143,17 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .dept-claims{font-size:.65rem;color:var(--muted);margin-top:2px;}
 .dept-change{font-size:.62rem;font-weight:600;margin-top:4px;display:inline-block;padding:2px 6px;border-radius:4px;}
 
-/* Responsive */
-@media(max-width:768px){.kpi-grid{grid-template-columns:repeat(2,1fr);}.charts-grid{grid-template-columns:1fr;}.dept-grid{grid-template-columns:1fr;}.date-range-bar{flex-direction:column;align-items:stretch;}.export-group{margin-left:0;}}
-@keyframes toastIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+/* Donut Chart */
+.donut-wrap{display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+.donut-legend{flex:1;min-width:160px;}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:.76rem;padding:5px 8px;border-radius:6px;cursor:pointer;transition:background .15s;}
+.legend-item:hover{background:var(--bg2);}
+.legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
+.legend-label{flex:1;color:var(--text2);}
+.legend-value{font-weight:700;font-size:.78rem;}
+.legend-pct{font-size:.66rem;color:var(--muted);font-weight:600;}
+
+@media(max-width:768px){.kpi-grid{grid-template-columns:repeat(2,1fr);}.charts-grid{grid-template-columns:1fr;}.dept-grid{grid-template-columns:1fr;}.date-range-bar{flex-direction:column;align-items:stretch;}.export-group{margin-left:0;}.comparison-grid{grid-template-columns:1fr;}.heatmap{grid-template-columns:repeat(4,1fr);}}
 </style>
 </head>
 <body>
@@ -124,11 +169,11 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
   <div class="page-header">
     <div>
       <div class="page-title">&#128202; Expense Analytics</div>
-      <div class="page-subtitle">วิเคราะห์ค่าใช้จ่ายระดับทีมและแผนก — เปรียบเทียบพนักงาน, แนวโน้มรายเดือน</div>
+      <div class="page-subtitle">วิเคราะห์ค่าใช้จ่ายระดับทีมและแผนก — เปรียบเทียบ, Anomaly Detection, Forecast</div>
     </div>
   </div>
 
-  <!-- Date Range -->
+  <!-- Date Range & Export Dropdown -->
   <div class="date-range-bar">
     <button class="date-btn" onclick="setDateRange(this)">7 วัน</button>
     <button class="date-btn" onclick="setDateRange(this)">30 วัน</button>
@@ -136,8 +181,25 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
     <button class="date-btn" onclick="setDateRange(this)">ปีนี้</button>
     <button class="date-btn" onclick="setDateRange(this)">กำหนดเอง</button>
     <div class="export-group">
-      <button class="btn-export">&#128196; PDF</button>
-      <button class="btn-export">&#128202; Excel</button>
+      <button class="btn-export" onclick="toggleExport()">&#128229; ส่งออก &#9660;</button>
+      <div class="export-dropdown" id="exportDropdown">
+        <div class="export-option" onclick="alert('ส่งออก Excel สำเร็จ')">
+          <span class="exp-icon">&#128202;</span>
+          <div><div>Excel (.xlsx)</div><div class="exp-desc">ข้อมูลดิบ + กราฟ สำหรับวิเคราะห์เพิ่มเติม</div></div>
+        </div>
+        <div class="export-option" onclick="alert('ส่งออก CSV สำเร็จ')">
+          <span class="exp-icon">&#128196;</span>
+          <div><div>CSV (.csv)</div><div class="exp-desc">ข้อมูลดิบ สำหรับ Import ระบบอื่น</div></div>
+        </div>
+        <div class="export-option" onclick="alert('ส่งออก PDF สำเร็จ')">
+          <span class="exp-icon">&#128462;</span>
+          <div><div>PDF Report</div><div class="exp-desc">รายงานพร้อมกราฟ สำหรับผู้บริหาร</div></div>
+        </div>
+        <div class="export-option" onclick="alert('ส่งออก Google Sheets สำเร็จ')">
+          <span class="exp-icon">&#127760;</span>
+          <div><div>Google Sheets</div><div class="exp-desc">เชื่อมต่อ Google Workspace โดยตรง</div></div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -146,7 +208,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
     <div class="kpi">
       <div class="kpi-label">ค่าใช้จ่ายรวมไตรมาส</div>
       <div class="kpi-value">&#3647;2.84M</div>
-      <div class="kpi-change up">&#9650; +8.2% vs Q4</div>
+      <div class="kpi-change up">&#9650; +8.2% vs Q4/2568</div>
     </div>
     <div class="kpi">
       <div class="kpi-label">Claims ทั้งหมด</div>
@@ -165,7 +227,192 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
     </div>
   </div>
 
-  <!-- Charts Row 1 -->
+  <!-- Row 1: Period Comparison + Anomaly Detection -->
+  <div class="charts-grid">
+    <!-- Period Comparison (This Month vs Last Month) -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">&#128197; เปรียบเทียบช่วงเวลา</div>
+        <select style="padding:4px 10px;border:1px solid var(--border);border-radius:6px;font-size:.75rem;font-family:inherit;background:var(--card-bg);color:var(--text);">
+          <option>เดือนนี้ vs เดือนก่อน</option>
+          <option>ไตรมาสนี้ vs ไตรมาสก่อน</option>
+          <option>ปีนี้ vs ปีก่อน</option>
+        </select>
+      </div>
+      <div class="comparison-grid">
+        <div class="comparison-card">
+          <div class="comparison-period">&#128197; เม.ย. 2569 (ปัจจุบัน)</div>
+          <div class="comparison-value" style="color:var(--blue);">&#3647;186,420</div>
+          <div style="font-size:.72rem;color:var(--muted);margin-top:4px;">28 claims | Avg &#3647;6,658</div>
+        </div>
+        <div class="comparison-card">
+          <div class="comparison-period">&#128197; มี.ค. 2569</div>
+          <div class="comparison-value">&#3647;165,800</div>
+          <div style="font-size:.72rem;color:var(--muted);margin-top:4px;">23 claims | Avg &#3647;7,209</div>
+        </div>
+      </div>
+      <div class="comparison-diff positive">
+        <div class="diff-value" style="color:var(--red);">&#9650; +&#3647;20,620 (+12.4%)</div>
+        <div class="diff-label">ค่าใช้จ่ายเดือนนี้เพิ่มขึ้น — หมวดค่าเดินทางเพิ่มสูงสุด (+&#3647;12,500)</div>
+      </div>
+    </div>
+
+    <!-- Anomaly Detection -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">&#128680; Anomaly Detection</div>
+        <span style="font-size:.68rem;color:var(--muted);">AI ตรวจจับอัตโนมัติ</span>
+      </div>
+      <div class="anomaly-list">
+        <div class="anomaly-item high">
+          <span class="anomaly-icon">&#128680;</span>
+          <div class="anomaly-info">
+            <div class="anomaly-title">ค่าใช้จ่าย IT สูงผิดปกติ +45%</div>
+            <div class="anomaly-desc">แผนก IT มียอด &#3647;680K ซึ่งสูงกว่า Avg. 3 เดือนย้อนหลัง 45% — Software License renewal</div>
+          </div>
+          <span class="anomaly-severity high">&#128308; สูง</span>
+        </div>
+        <div class="anomaly-item medium">
+          <span class="anomaly-icon">&#9888;</span>
+          <div class="anomaly-info">
+            <div class="anomaly-title">ค่าอาหารเกินงบ 3 เดือนติด</div>
+            <div class="anomaly-desc">หมวดค่าอาหารเกินงบ 95% ติดต่อกัน 3 เดือน — แนะนำปรับงบประมาณ</div>
+          </div>
+          <span class="anomaly-severity medium">&#128992; ปานกลาง</span>
+        </div>
+        <div class="anomaly-item low">
+          <span class="anomaly-icon">&#128161;</span>
+          <div class="anomaly-info">
+            <div class="anomaly-title">Duplicate Receipt ที่อาจซ้ำ</div>
+            <div class="anomaly-desc">EX-0018 และ EX-0015 มียอดและร้านค้าเดียวกัน (&#3647;4,580 / Makro สาทร)</div>
+          </div>
+          <span class="anomaly-severity low">&#128309; ต่ำ</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 2: Heatmap + Forecast -->
+  <div class="charts-grid">
+    <!-- Expense Category Heatmap -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">&#127777; Expense Heatmap (ตามหมวด x สัปดาห์)</div>
+      </div>
+      <div class="heatmap">
+        <!-- Headers -->
+        <div class="heatmap-cell heatmap-header"></div>
+        <div class="heatmap-cell heatmap-header">สป.1</div>
+        <div class="heatmap-cell heatmap-header">สป.2</div>
+        <div class="heatmap-cell heatmap-header">สป.3</div>
+        <div class="heatmap-cell heatmap-header">สป.4</div>
+        <div class="heatmap-cell heatmap-header">สป.5</div>
+        <div class="heatmap-cell heatmap-header">รวม</div>
+        <!-- Row 1: Travel -->
+        <div class="heatmap-cell heatmap-header" style="text-align:left;">เดินทาง</div>
+        <div class="heatmap-cell heat-3" title="&#3647;12K">12K</div>
+        <div class="heatmap-cell heat-2" title="&#3647;8K">8K</div>
+        <div class="heatmap-cell heat-5" title="&#3647;18K">18K</div>
+        <div class="heatmap-cell heat-1" title="&#3647;6K">6K</div>
+        <div class="heatmap-cell heat-4" title="&#3647;8K">8K</div>
+        <div class="heatmap-cell heat-5" title="&#3647;52K">52K</div>
+        <!-- Row 2: Food -->
+        <div class="heatmap-cell heatmap-header" style="text-align:left;">อาหาร</div>
+        <div class="heatmap-cell heat-2" title="&#3647;8K">8K</div>
+        <div class="heatmap-cell heat-3" title="&#3647;10K">10K</div>
+        <div class="heatmap-cell heat-2" title="&#3647;8K">8K</div>
+        <div class="heatmap-cell heat-3" title="&#3647;7K">7K</div>
+        <div class="heatmap-cell heat-1" title="&#3647;5K">5K</div>
+        <div class="heatmap-cell heat-4" title="&#3647;38K">38K</div>
+        <!-- Row 3: Hotel -->
+        <div class="heatmap-cell heatmap-header" style="text-align:left;">ที่พัก</div>
+        <div class="heatmap-cell heat-0">0</div>
+        <div class="heatmap-cell heat-4" title="&#3647;16K">16K</div>
+        <div class="heatmap-cell heat-0">0</div>
+        <div class="heatmap-cell heat-3" title="&#3647;12K">12K</div>
+        <div class="heatmap-cell heat-0">0</div>
+        <div class="heatmap-cell heat-3" title="&#3647;28K">28K</div>
+        <!-- Row 4: IT -->
+        <div class="heatmap-cell heatmap-header" style="text-align:left;">IT</div>
+        <div class="heatmap-cell heat-1" title="&#3647;4K">4K</div>
+        <div class="heatmap-cell heat-0">0</div>
+        <div class="heatmap-cell heat-5" title="&#3647;15K">15K</div>
+        <div class="heatmap-cell heat-1" title="&#3647;3K">3K</div>
+        <div class="heatmap-cell heat-0">0</div>
+        <div class="heatmap-cell heat-3" title="&#3647;22K">22K</div>
+        <!-- Row 5: Other -->
+        <div class="heatmap-cell heatmap-header" style="text-align:left;">อื่นๆ</div>
+        <div class="heatmap-cell heat-1" title="&#3647;3K">3K</div>
+        <div class="heatmap-cell heat-1" title="&#3647;2K">2K</div>
+        <div class="heatmap-cell heat-2" title="&#3647;5K">5K</div>
+        <div class="heatmap-cell heat-1" title="&#3647;2K">2K</div>
+        <div class="heatmap-cell heat-1" title="&#3647;2K">2K</div>
+        <div class="heatmap-cell heat-2" title="&#3647;14K">14K</div>
+      </div>
+      <div class="heatmap-legend">
+        <span>น้อย</span>
+        <div class="legend-block heat-0"></div>
+        <div class="legend-block heat-1"></div>
+        <div class="legend-block heat-2"></div>
+        <div class="legend-block heat-3"></div>
+        <div class="legend-block heat-4"></div>
+        <div class="legend-block heat-5"></div>
+        <span>มาก</span>
+      </div>
+    </div>
+
+    <!-- Forecast Projection -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">&#128302; Forecast Projection (คาดการณ์)</div>
+        <span style="font-size:.68rem;color:var(--muted);">AI Prediction 3 เดือนข้างหน้า</span>
+      </div>
+      <div class="forecast-bars">
+        <div class="forecast-row">
+          <div class="forecast-month">ม.ค.</div>
+          <div class="forecast-track"><div class="forecast-fill actual" style="width:55%;">120K</div></div>
+          <div class="forecast-val">&#3647;120K</div>
+        </div>
+        <div class="forecast-row">
+          <div class="forecast-month">ก.พ.</div>
+          <div class="forecast-track"><div class="forecast-fill actual" style="width:68%;">148K</div></div>
+          <div class="forecast-val">&#3647;148K</div>
+        </div>
+        <div class="forecast-row">
+          <div class="forecast-month">มี.ค.</div>
+          <div class="forecast-track"><div class="forecast-fill actual" style="width:76%;">165K</div></div>
+          <div class="forecast-val">&#3647;165K</div>
+        </div>
+        <div class="forecast-row">
+          <div class="forecast-month" style="font-weight:800;color:var(--blue);">เม.ย.</div>
+          <div class="forecast-track"><div class="forecast-fill actual" style="width:86%;background:var(--purple);">186K</div></div>
+          <div class="forecast-val" style="color:var(--purple);font-weight:800;">&#3647;186K</div>
+        </div>
+        <div class="forecast-row">
+          <div class="forecast-month" style="color:var(--muted);font-style:italic;">พ.ค.</div>
+          <div class="forecast-track"><div class="forecast-fill projected" style="width:72%;">~155K</div></div>
+          <div class="forecast-val projected">~&#3647;155K</div>
+        </div>
+        <div class="forecast-row">
+          <div class="forecast-month" style="color:var(--muted);font-style:italic;">มิ.ย.</div>
+          <div class="forecast-track"><div class="forecast-fill projected" style="width:65%;">~140K</div></div>
+          <div class="forecast-val projected">~&#3647;140K</div>
+        </div>
+        <div class="forecast-row">
+          <div class="forecast-month" style="color:var(--muted);font-style:italic;">ก.ค.</div>
+          <div class="forecast-track"><div class="forecast-fill projected" style="width:70%;">~150K</div></div>
+          <div class="forecast-val projected">~&#3647;150K</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:12px;font-size:.68rem;">
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;background:var(--blue);border-radius:2px;display:inline-block;"></span> ค่าจริง</span>
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;background:var(--purple);border-radius:2px;display:inline-block;"></span> เดือนปัจจุบัน</span>
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;background:var(--purple);opacity:.5;border-radius:2px;display:inline-block;"></span> คาดการณ์ (AI)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 3: Department Expense + Employee Table -->
   <div class="charts-grid">
     <!-- Department Expense -->
     <div class="card">
@@ -177,301 +424,92 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
           <div class="dept-icon">&#128187;</div>
           <div class="dept-name">IT</div>
           <div class="dept-amount">&#3647;680K</div>
-          <div class="dept-claims">89 claims</div>
-          <div class="dept-change" style="background:var(--green-bg);color:var(--green);">&#9650; +12%</div>
+          <div class="dept-claims">86 claims</div>
+          <div class="dept-change" style="background:var(--red-bg);color:var(--red);">&#9650; +45%</div>
         </div>
         <div class="dept-card">
-          <div class="dept-icon">&#128200;</div>
-          <div class="dept-name">Sales</div>
-          <div class="dept-amount">&#3647;520K</div>
-          <div class="dept-claims">67 claims</div>
-          <div class="dept-change" style="background:var(--red-bg);color:var(--red);">&#9660; -5%</div>
-        </div>
-        <div class="dept-card">
-          <div class="dept-icon">&#127912;</div>
+          <div class="dept-icon">&#128226;</div>
           <div class="dept-name">Marketing</div>
-          <div class="dept-amount">&#3647;440K</div>
-          <div class="dept-claims">54 claims</div>
-          <div class="dept-change" style="background:var(--green-bg);color:var(--green);">&#9650; +8%</div>
+          <div class="dept-amount">&#3647;576K</div>
+          <div class="dept-claims">72 claims</div>
+          <div class="dept-change" style="background:var(--green-bg);color:var(--green);">&#9660; -3%</div>
         </div>
         <div class="dept-card">
           <div class="dept-icon">&#128176;</div>
           <div class="dept-name">Finance</div>
-          <div class="dept-amount">&#3647;380K</div>
+          <div class="dept-amount">&#3647;384K</div>
           <div class="dept-claims">48 claims</div>
-          <div class="dept-change" style="background:var(--orange-bg);color:var(--orange);">&#8596; 0%</div>
+          <div class="dept-change" style="background:var(--green-bg);color:var(--green);">&#9660; -8%</div>
+        </div>
+        <div class="dept-card">
+          <div class="dept-icon">&#128101;</div>
+          <div class="dept-name">HR</div>
+          <div class="dept-amount">&#3647;304K</div>
+          <div class="dept-claims">38 claims</div>
+          <div class="dept-change" style="background:var(--orange-bg);color:var(--orange);">&#9650; +12%</div>
         </div>
         <div class="dept-card">
           <div class="dept-icon">&#128666;</div>
           <div class="dept-name">Operations</div>
-          <div class="dept-amount">&#3647;520K</div>
-          <div class="dept-claims">52 claims</div>
-          <div class="dept-change" style="background:var(--green-bg);color:var(--green);">&#9650; +18%</div>
+          <div class="dept-amount">&#3647;496K</div>
+          <div class="dept-claims">62 claims</div>
+          <div class="dept-change" style="background:var(--green-bg);color:var(--green);">&#9660; -5%</div>
         </div>
         <div class="dept-card">
-          <div class="dept-icon">&#128101;</div>
-          <div class="dept-name">HR / Admin</div>
-          <div class="dept-amount">&#3647;300K</div>
-          <div class="dept-claims">32 claims</div>
-          <div class="dept-change" style="background:var(--red-bg);color:var(--red);">&#9660; -2%</div>
+          <div class="dept-icon">&#128188;</div>
+          <div class="dept-name">Sales</div>
+          <div class="dept-amount">&#3647;420K</div>
+          <div class="dept-claims">36 claims</div>
+          <div class="dept-change" style="background:var(--orange-bg);color:var(--orange);">&#9650; +18%</div>
         </div>
       </div>
     </div>
 
-    <!-- Category Donut -->
+    <!-- Employee Comparison -->
     <div class="card">
       <div class="card-header">
-        <div class="card-title">&#127856; ค่าใช้จ่ายตามหมวดหมู่</div>
-        <span style="font-size:.7rem;color:var(--muted);">ไตรมาสนี้</span>
+        <div class="card-title">&#128101; เปรียบเทียบพนักงาน</div>
       </div>
-      <div class="donut-wrap">
-        <svg class="donut-svg" width="200" height="200" viewBox="0 0 200 200" id="donutChart"></svg>
-        <div class="donut-legend" id="donutLegend"></div>
+      <div style="overflow-x:auto;">
+        <table class="emp-table">
+          <thead><tr><th>พนักงาน</th><th>Claims</th><th>ยอดรวม</th><th>เทียบค่าเฉลี่ย</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><div class="emp-cell"><div class="emp-avatar" style="background:var(--blue);">สช</div><div><div class="emp-name">สมชาย ใจดี</div><div class="emp-dept">Marketing</div></div></div></td>
+              <td>12</td>
+              <td style="font-weight:700;font-family:'Inter';">&#3647;68,500</td>
+              <td><div class="comp-bar-wrap"><div class="comp-bar-track"><div class="comp-bar-fill" style="width:85%;background:var(--blue);"></div></div><div class="comp-bar-value">+28%</div></div></td>
+            </tr>
+            <tr>
+              <td><div class="emp-cell"><div class="emp-avatar" style="background:var(--purple);">วส</div><div><div class="emp-name">วิภา สุขสันต์</div><div class="emp-dept">Sales</div></div></div></td>
+              <td>9</td>
+              <td style="font-weight:700;font-family:'Inter';">&#3647;54,200</td>
+              <td><div class="comp-bar-wrap"><div class="comp-bar-track"><div class="comp-bar-fill" style="width:68%;background:var(--purple);"></div></div><div class="comp-bar-value">+12%</div></div></td>
+            </tr>
+            <tr>
+              <td><div class="emp-cell"><div class="emp-avatar" style="background:var(--green);">ธว</div><div><div class="emp-name">ธนา วิชัย</div><div class="emp-dept">IT</div></div></div></td>
+              <td>8</td>
+              <td style="font-weight:700;font-family:'Inter';">&#3647;42,800</td>
+              <td><div class="comp-bar-wrap"><div class="comp-bar-track"><div class="comp-bar-fill" style="width:52%;background:var(--green);"></div></div><div class="comp-bar-value">-2%</div></div></td>
+            </tr>
+            <tr>
+              <td><div class="emp-cell"><div class="emp-avatar" style="background:var(--orange);">พร</div><div><div class="emp-name">พิมพ์ใจ รักเรียน</div><div class="emp-dept">HR</div></div></div></td>
+              <td>6</td>
+              <td style="font-weight:700;font-family:'Inter';">&#3647;31,500</td>
+              <td><div class="comp-bar-wrap"><div class="comp-bar-track"><div class="comp-bar-fill" style="width:38%;background:var(--orange);"></div></div><div class="comp-bar-value">-18%</div></div></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </div>
-  </div>
-
-  <!-- Historical Trend (Full Width) -->
-  <div class="card">
-    <div class="card-header">
-      <div class="card-title">&#128200; แนวโน้มค่าใช้จ่ายรายเดือน — 12 เดือน</div>
-      <div style="display:flex;gap:12px;font-size:.72rem;">
-        <span style="display:flex;align-items:center;gap:4px;"><span style="width:12px;height:3px;background:#2563EB;border-radius:2px;display:inline-block;"></span> ค่าใช้จ่ายจริง</span>
-        <span style="display:flex;align-items:center;gap:4px;"><span style="width:12px;height:3px;background:#D97706;border-radius:2px;display:inline-block;"></span> งบประมาณ</span>
-      </div>
-    </div>
-    <div class="line-chart-area" id="trendChartArea">
-      <svg width="100%" height="260" id="trendChart" style="overflow:visible;"></svg>
-      <div class="chart-tooltip" id="trendTooltip"></div>
-    </div>
-  </div>
-
-  <!-- Employee Comparison -->
-  <div class="card">
-    <div class="card-header">
-      <div class="card-title">&#128101; เปรียบเทียบค่าใช้จ่ายตามพนักงาน</div>
-      <span style="font-size:.7rem;color:var(--muted);">เรียงตามยอดรวม (สูง-ต่ำ)</span>
-    </div>
-    <div style="overflow-x:auto;">
-      <table class="emp-table">
-        <thead>
-          <tr>
-            <th>อันดับ</th>
-            <th>พนักงาน</th>
-            <th>แผนก</th>
-            <th>จำนวน Claims</th>
-            <th>ยอดรวม</th>
-            <th style="min-width:200px;">เปรียบเทียบ</th>
-            <th>เฉลี่ย/Claim</th>
-            <th>Approval Rate</th>
-          </tr>
-        </thead>
-        <tbody id="empTableBody"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Employee Comparison Bar Chart -->
-  <div class="card">
-    <div class="card-header">
-      <div class="card-title">&#128202; กราฟเปรียบเทียบยอดค่าใช้จ่ายรายพนักงาน</div>
-    </div>
-    <div class="bar-chart">
-      <svg id="empBarChart" height="320" style="width:100%;min-width:600px;overflow:visible;"></svg>
     </div>
   </div>
 </div>
 
 <script>
-// === Employee Data ===
-const employees = [
-  {name:'ธนา ป.',dept:'IT',avatar:'#0891B2',claims:28,total:580000,rate:96},
-  {name:'อนุชา บ.',dept:'Operations',avatar:'#DC2626',claims:22,total:420000,rate:91},
-  {name:'วิภา ส.',dept:'Sales',avatar:'#7C3AED',claims:19,total:385000,rate:88},
-  {name:'สมชาย ก.',dept:'Finance',avatar:'#2563EB',claims:18,total:340000,rate:97},
-  {name:'ณัฐ ว.',dept:'Marketing',avatar:'#059669',claims:16,total:310000,rate:94},
-  {name:'สุภาพร ล.',dept:'HR',avatar:'#DB2777',claims:14,total:245000,rate:100},
-  {name:'พรทิพย์ จ.',dept:'Admin',avatar:'#D97706',claims:12,total:198000,rate:92},
-  {name:'กิตติ ช.',dept:'Operations',avatar:'#DC2626',claims:10,total:165000,rate:90},
-  {name:'นภา พ.',dept:'Sales',avatar:'#7C3AED',claims:9,total:142000,rate:89},
-  {name:'วีระ อ.',dept:'IT',avatar:'#0891B2',claims:8,total:120000,rate:100},
-];
-
-const maxTotal = Math.max(...employees.map(e=>e.total));
-
-function renderEmpTable(){
-  const body = document.getElementById('empTableBody');
-  body.innerHTML = employees.map((e,i)=>{
-    const pct = (e.total/maxTotal*100).toFixed(0);
-    const avg = Math.round(e.total/e.claims);
-    return `<tr>
-      <td style="font-weight:700;color:var(--muted);text-align:center;">${i+1}</td>
-      <td><div class="emp-cell"><div class="emp-avatar" style="background:${e.avatar};">${e.name.charAt(0)}</div><div class="emp-name">${e.name}</div></div></td>
-      <td><span style="font-size:.72rem;color:var(--muted);">${e.dept}</span></td>
-      <td style="text-align:center;font-weight:600;">${e.claims}</td>
-      <td style="font-weight:700;font-family:Inter;">&#3647;${(e.total/1000).toFixed(0)}K</td>
-      <td><div class="comp-bar-wrap"><div class="comp-bar-track"><div class="comp-bar-fill" style="width:${pct}%;background:${e.avatar};"></div></div><div class="comp-bar-value">${pct}%</div></div></td>
-      <td style="font-family:Inter;font-size:.78rem;">&#3647;${(avg/1000).toFixed(1)}K</td>
-      <td style="text-align:center;"><span style="font-weight:600;color:${e.rate>=95?'var(--green)':e.rate>=90?'var(--orange)':'var(--red)'};">${e.rate}%</span></td>
-    </tr>`;
-  }).join('');
-}
-
-// === Donut Chart ===
-function drawDonut(){
-  const data = [
-    {label:'เดินทาง',value:720,color:'#2563EB'},
-    {label:'รับรอง',value:485,color:'#7C3AED'},
-    {label:'ซอฟต์แวร์',value:410,color:'#0891B2'},
-    {label:'อุปกรณ์',value:380,color:'#D97706'},
-    {label:'ที่พัก',value:290,color:'#059669'},
-    {label:'สำนักงาน',value:210,color:'#DB2777'},
-    {label:'ฝึกอบรม',value:180,color:'#DC2626'},
-    {label:'อื่นๆ',value:165,color:'#64748B'}
-  ];
-  const total = data.reduce((a,b)=>a+b.value,0);
-  const svg = document.getElementById('donutChart');
-  const cx=100,cy=100,r=80,r2=50;
-  let angle=-90, paths='';
-  data.forEach(d=>{
-    const pct=d.value/total;
-    const sweep=pct*360;
-    const a1=angle*Math.PI/180, a2=(angle+sweep)*Math.PI/180;
-    const large=sweep>180?1:0;
-    const x1o=cx+r*Math.cos(a1),y1o=cy+r*Math.sin(a1);
-    const x2o=cx+r*Math.cos(a2),y2o=cy+r*Math.sin(a2);
-    const x1i=cx+r2*Math.cos(a2),y1i=cy+r2*Math.sin(a2);
-    const x2i=cx+r2*Math.cos(a1),y2i=cy+r2*Math.sin(a1);
-    paths+=`<path d="M${x1o},${y1o} A${r},${r} 0 ${large} 1 ${x2o},${y2o} L${x1i},${y1i} A${r2},${r2} 0 ${large} 0 ${x2i},${y2i}Z" fill="${d.color}" opacity="0.85" style="cursor:pointer;transition:opacity .2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'"><title>${d.label}: ฿${d.value}K (${(pct*100).toFixed(1)}%)</title></path>`;
-    angle+=sweep;
-  });
-  paths+=`<text x="${cx}" y="${cy-4}" text-anchor="middle" font-size="15" font-weight="800" fill="var(--text)" font-family="Inter">&#3647;${(total/1000).toFixed(1)}M</text>`;
-  paths+=`<text x="${cx}" y="${cy+12}" text-anchor="middle" font-size="9" fill="var(--muted)" font-family="Noto Sans Thai">ไตรมาส Q1</text>`;
-  svg.innerHTML=paths;
-
-  document.getElementById('donutLegend').innerHTML = data.map(d=>`
-    <div class="legend-item">
-      <div class="legend-dot" style="background:${d.color};"></div>
-      <span class="legend-label">${d.label}</span>
-      <span class="legend-value">&#3647;${d.value}K</span>
-      <span class="legend-pct">${(d.value/total*100).toFixed(1)}%</span>
-    </div>
-  `).join('');
-}
-
-// === Trend Line Chart (12 months, 2 lines) ===
-function drawTrendChart(){
-  const months=['พ.ค.65','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.','ม.ค.66','ก.พ.','มี.ค.','เม.ย.'];
-  const actual=[580,620,640,610,680,710,690,730,680,750,790,847];
-  const budget=[650,650,650,650,700,700,700,700,750,750,750,750];
-  const svg=document.getElementById('trendChart');
-  const tooltip=document.getElementById('trendTooltip');
-  const w=svg.clientWidth||900,h=260;
-  const padL=55,padR=20,padT=20,padB=35;
-  const chartW=w-padL-padR,chartH=h-padT-padB;
-  const allVals=[...actual,...budget];
-  const maxV=Math.max(...allVals)*1.1;
-
-  let s='';
-  // Grid
-  for(let i=0;i<=5;i++){
-    const y=padT+(i/5)*chartH;
-    const val=Math.round(maxV*(1-i/5));
-    s+=`<line x1="${padL}" y1="${y}" x2="${w-padR}" y2="${y}" stroke="var(--border)" stroke-dasharray="3,3"/>`;
-    s+=`<text x="${padL-8}" y="${y+4}" text-anchor="end" font-size="10" fill="var(--muted)" font-family="Inter">${val}K</text>`;
-  }
-  // X labels
-  months.forEach((m,i)=>{
-    const x=padL+(i/(months.length-1))*chartW;
-    s+=`<text x="${x}" y="${h-4}" text-anchor="middle" font-size="9" fill="var(--muted)" font-family="Noto Sans Thai">${m}</text>`;
-  });
-
-  // Budget line (dashed)
-  const bPts=budget.map((v,i)=>({x:padL+(i/(months.length-1))*chartW,y:padT+chartH-(v/maxV)*chartH}));
-  s+=`<path d="${bPts.map((p,i)=>(i===0?'M':'L')+p.x+','+p.y).join(' ')}" fill="none" stroke="#D97706" stroke-width="2" stroke-dasharray="6,4" opacity="0.6"/>`;
-
-  // Actual area
-  const aPts=actual.map((v,i)=>({x:padL+(i/(months.length-1))*chartW,y:padT+chartH-(v/maxV)*chartH,v}));
-  s+=`<defs><linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#2563EB" stop-opacity="0"/></linearGradient></defs>`;
-  s+=`<path d="M${aPts[0].x},${aPts[0].y} ${aPts.map(p=>`L${p.x},${p.y}`).join(' ')} L${aPts[aPts.length-1].x},${padT+chartH} L${aPts[0].x},${padT+chartH}Z" fill="url(#areaGrad)" opacity="0.12"/>`;
-  s+=`<path d="${aPts.map((p,i)=>(i===0?'M':'L')+p.x+','+p.y).join(' ')}" fill="none" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;
-
-  // Dots
-  aPts.forEach((p,i)=>{
-    s+=`<circle cx="${p.x}" cy="${p.y}" r="4" fill="#2563EB" stroke="#fff" stroke-width="2" style="cursor:pointer;" onmouseover="showTrendTip(event,${actual[i]},${budget[i]},'${months[i]}')" onmouseout="hideTrendTip()"/>`;
-  });
-  svg.innerHTML=s;
-}
-
-function showTrendTip(e,a,b,m){
-  const t=document.getElementById('trendTooltip');
-  const area=document.getElementById('trendChartArea');
-  const rect=area.getBoundingClientRect();
-  t.innerHTML=`${m}<br>จริง: &#3647;${a}K | งบ: &#3647;${b}K`;
-  t.style.opacity='1';
-  t.style.left=(e.clientX-rect.left+10)+'px';
-  t.style.top=(e.clientY-rect.top-40)+'px';
-}
-function hideTrendTip(){document.getElementById('trendTooltip').style.opacity='0';}
-
-// === Employee Bar Chart ===
-function drawEmpBarChart(){
-  const svg=document.getElementById('empBarChart');
-  const w=svg.clientWidth||800,h=320;
-  const padL=90,padR=60,padT=20,padB=10;
-  const chartW=w-padL-padR;
-  const barH=24,gap=8;
-  const maxVal=maxTotal;
-  const colors = employees.map(e=>e.avatar);
-
-  let s='';
-  employees.forEach((emp,i)=>{
-    const y=padT+i*(barH+gap);
-    const barW=(emp.total/maxVal)*chartW;
-    // Name label
-    s+=`<text x="${padL-8}" y="${y+barH/2+4}" text-anchor="end" font-size="11" fill="var(--text2)" font-family="Noto Sans Thai" font-weight="600">${emp.name}</text>`;
-    // Bar background
-    s+=`<rect x="${padL}" y="${y}" width="${chartW}" height="${barH}" rx="4" fill="var(--bg3)" opacity="0.5"/>`;
-    // Bar fill
-    s+=`<rect x="${padL}" y="${y}" width="${barW}" height="${barH}" rx="4" fill="${colors[i]}" opacity="0.8" style="cursor:pointer;transition:opacity .2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'"><title>${emp.name}: ฿${(emp.total/1000).toFixed(0)}K (${emp.claims} claims)</title></rect>`;
-    // Value label
-    s+=`<text x="${padL+barW+8}" y="${y+barH/2+4}" font-size="11" fill="var(--text)" font-family="Inter" font-weight="700">&#3647;${(emp.total/1000).toFixed(0)}K</text>`;
-  });
-  svg.innerHTML=s;
-}
-
-function setDateRange(el){
-  document.querySelectorAll('.date-btn').forEach(b=>b.classList.remove('active'));
-  el.classList.add('active');
-}
-
-// Init
-renderEmpTable();
-drawDonut();
-drawTrendChart();
-drawEmpBarChart();
-window.addEventListener('resize',()=>{drawTrendChart();drawEmpBarChart();});
-
-
-function showToast(icon, title, msg) {
-  const t = document.createElement('div');
-  t.style.cssText = 'position:fixed;bottom:24px;right:24px;background:var(--card-bg,#fff);color:var(--text,#0F172A);border:1px solid var(--border,#E2E8F0);padding:14px 20px;border-radius:12px;font-size:.82rem;font-weight:500;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.15);display:flex;align-items:center;gap:10px;font-family:inherit;max-width:380px;animation:toastIn .4s ease;';
-  t.innerHTML = (icon ? '<span style="font-size:1.2rem;">'+icon+'</span>' : '') + '<div>' + (title ? '<strong>'+title+'</strong> ' : '') + (msg||'') + '</div>';
-  document.body.appendChild(t);
-  setTimeout(function(){t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(function(){t.remove();},300);},3000);
-}
-
-function toggleDark() {
-  document.body.classList.toggle('dark');
-  const isDark = document.body.classList.contains('dark');
-  document.querySelector('.dark-toggle').textContent = isDark ? '☀' : '☾';
-  localStorage.setItem('autopilot-dark', isDark ? '1' : '0');
-}
-// Restore on load
-if (localStorage.getItem('autopilot-dark') === '1') {
-  document.body.classList.add('dark');
-  document.querySelector('.dark-toggle').textContent = '☀';
-}
+function toggleDark(){document.body.classList.toggle('dark');}
+function setDateRange(btn){document.querySelectorAll('.date-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+function toggleExport(){document.getElementById('exportDropdown').classList.toggle('show');}
+document.addEventListener('click',e=>{if(!e.target.closest('.export-group'))document.getElementById('exportDropdown')?.classList.remove('show');});
 </script>
 </body>
 </html>

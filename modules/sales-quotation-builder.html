@@ -4,1415 +4,330 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sales Quotation Builder — Autopilot v2 | ANTS AI Solution Hub</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+Thai:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
-body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);}
-
-* { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior: smooth; }
-
-body {
-    font-family: 'Noto Sans Thai', 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    line-height: 1.6;
-    font-size: 14px;
-}
-
-/* Dark toggle */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+:root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--cyan-bg:#ECFEFF;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
+body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);--cyan-bg:rgba(8,145,178,0.15);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.6;}
+::-webkit-scrollbar{width:6px;height:6px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px;}
 .dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);}
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+.app-header{position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:16px;padding:14px 24px;background:var(--card-bg);border-bottom:1px solid var(--border);box-shadow:var(--shadow);font-size:.85rem;color:var(--muted);}
+.app-header a{color:var(--muted);text-decoration:none;}.app-header a:hover{color:var(--blue);}
+.app-header .sep{opacity:.4;}.app-header .current{color:var(--text);font-weight:600;}
 
-/* Breadcrumb Header */
-.app-header {
-    position: sticky; top: 0; z-index: 100;
-    display: flex; align-items: center; gap: 16px;
-    padding: 14px 24px;
-    background: var(--card-bg);
-    border-bottom: 1px solid var(--border);
-    box-shadow: var(--shadow);
-    font-size: 0.85rem;
-    color: var(--muted);
-}
-.app-header a { color: var(--muted); text-decoration: none; }
-.app-header a:hover { color: var(--blue); }
-.app-header .sep { opacity: 0.4; }
-.app-header .current { color: var(--text); font-weight: 600; }
+.container{max-width:1200px;margin:0 auto;padding:24px;}
 
-/* Container */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 24px;
-}
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:20px;}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.card-header h3{font-size:.95rem;font-weight:700;display:flex;align-items:center;gap:8px;}
+.badge{padding:4px 10px;border-radius:12px;font-size:.7rem;font-weight:600;}
+.badge-blue{background:var(--blue-bg);color:var(--blue);}
+.badge-green{background:var(--green-bg);color:var(--green);}
 
-/* Page Title */
-.page-title-row {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 24px;
-}
-.page-title-row h1 {
-    font-size: 1.4rem; font-weight: 800;
-    color: var(--text);
-}
-.page-title-row .subtitle {
-    font-size: 0.85rem; color: var(--muted); margin-top: 2px;
-}
+/* Form */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-group{margin-bottom:16px;}
+.form-group.full{grid-column:1/-1;}
+.form-label{display:block;font-size:.78rem;font-weight:600;color:var(--text2);margin-bottom:6px;}
+.form-input,.form-select,.form-textarea{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg2);color:var(--text);font-family:inherit;font-size:.82rem;outline:none;transition:border-color .2s;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+.form-textarea{min-height:60px;resize:vertical;}
 
-/* Recent Quotations Panel */
-.recent-quotes {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    margin-bottom: 24px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-}
-.recent-quotes .rq-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 18px;
-    background: var(--bg2);
-    border-bottom: 1px solid var(--border);
-}
-.recent-quotes .rq-header h3 {
-    font-size: 0.85rem; font-weight: 700;
-    display: flex; align-items: center; gap: 8px;
-    color: var(--text);
-}
-.rq-table { width: 100%; border-collapse: collapse; }
-.rq-table th {
-    padding: 8px 14px; text-align: left;
-    font-size: 0.7rem; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.8px;
-    color: var(--muted); background: var(--bg2);
-    border-bottom: 1px solid var(--border);
-}
-.rq-table td {
-    padding: 10px 14px; font-size: 0.82rem;
-    border-bottom: 1px solid var(--border);
-    color: var(--text2);
-}
-.rq-table tbody tr { transition: background 0.15s; cursor: pointer; }
-.rq-table tbody tr:hover { background: var(--blue-bg); }
-.rq-table tbody tr:last-child td { border-bottom: none; }
-.rq-table .qt-link { color: var(--blue); font-weight: 600; text-decoration: none; }
-.rq-table .qt-link:hover { text-decoration: underline; }
+/* Item Table */
+.item-table{width:100%;border-collapse:collapse;font-size:.82rem;margin-bottom:12px;}
+.item-table th{padding:10px 12px;background:var(--bg3);text-align:left;font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
+.item-table th:first-child{border-radius:8px 0 0 0;}
+.item-table th:last-child{border-radius:0 8px 0 0;}
+.item-table td{padding:10px 12px;border-bottom:1px solid var(--border);}
+.item-table input{width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:6px;background:var(--card-bg);color:var(--text);font-family:inherit;font-size:.82rem;outline:none;}
+.item-table input:focus{border-color:var(--blue);}
+.item-table .num{text-align:right;font-family:'Inter',sans-serif;font-variant-numeric:tabular-nums;}
+.remove-btn{width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:var(--bg2);cursor:pointer;color:var(--red);font-size:.8rem;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.remove-btn:hover{background:var(--red-bg);border-color:var(--red);}
 
-/* Status Badge */
-.badge {
-    display: inline-flex; align-items: center; gap: 5px;
-    padding: 4px 12px;
-    border-radius: 100px;
-    font-size: 0.72rem;
-    font-weight: 600;
-}
-.badge-draft { background: var(--bg3); color: var(--muted); }
-.badge-sent { background: var(--blue-bg); color: var(--blue); }
-.badge-review { background: var(--orange-bg); color: var(--orange); }
-.badge-complete { background: var(--green-bg); color: var(--green); }
-.badge-accepted { background: var(--green-bg); color: var(--green); }
-.badge-rejected { background: var(--red-bg); color: var(--red); }
-.badge-expired { background: var(--orange-bg); color: var(--orange); }
-.badge-negotiation { background: var(--purple-bg); color: var(--purple); }
-.badge-won { background: var(--green-bg); color: var(--green); }
-.badge-lost { background: var(--red-bg); color: var(--red); }
+/* Totals */
+.totals-section{display:flex;justify-content:flex-end;}
+.totals-box{min-width:300px;background:var(--bg2);border-radius:10px;padding:16px;border:1px solid var(--border);}
+.total-row{display:flex;justify-content:space-between;padding:6px 0;font-size:.82rem;}
+.total-row.grand{font-size:1rem;font-weight:800;border-top:2px solid var(--text);margin-top:8px;padding-top:10px;}
+.total-row .t-val{font-family:'Inter',sans-serif;font-weight:600;}
+.total-row.grand .t-val{color:var(--blue);}
+
+/* e-Signature */
+.sig-area{border:2px dashed var(--border);border-radius:10px;padding:24px;text-align:center;min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:all .2s;background:var(--bg2);}
+.sig-area:hover{border-color:var(--blue);background:var(--blue-bg);}
+.sig-icon{font-size:2rem;}
+.sig-label{font-size:.85rem;font-weight:600;color:var(--text2);}
+.sig-sub{font-size:.7rem;color:var(--muted);}
 
 /* Buttons */
-.btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 8px 18px;
-    border: none;
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-decoration: none;
-}
-.btn-primary {
-    background: var(--grad);
-    color: white;
-    box-shadow: 0 2px 8px rgba(37,99,235,0.2);
-}
-.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(37,99,235,0.3); }
-.btn-secondary {
-    background: var(--bg3);
-    color: var(--text);
-    border: 1px solid var(--border);
-}
-.btn-secondary:hover { border-color: var(--blue); color: var(--blue); }
-.btn-success { background: linear-gradient(135deg,#059669,#0891B2); color: white; }
-.btn-success:hover { transform: translateY(-1px); }
-.btn-sm { padding: 6px 14px; font-size: 0.78rem; }
-.btn-ghost {
-    background: transparent; color: var(--muted);
-    border: 1px solid var(--border);
-}
-.btn-ghost:hover { color: var(--blue); border-color: var(--blue); }
-.btn-danger { background: var(--red-bg); color: var(--red); }
-.btn-danger:hover { background: rgba(220,38,38,0.15); }
+.btn-row{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;}
+.btn-primary{display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:var(--grad);color:#fff;border:none;border-radius:10px;font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 12px rgba(37,99,235,.25);}
+.btn-primary:hover{transform:translateY(-1px);}
+.btn-outline{display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:transparent;color:var(--blue);border:1.5px solid var(--blue);border-radius:10px;font-family:inherit;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;}
+.btn-outline:hover{background:var(--blue-bg);}
+.btn-green{display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:var(--green);color:#fff;border:none;border-radius:10px;font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;}
 
-/* Builder Layout */
-.builder-layout {
-    display: grid;
-    grid-template-columns: 1fr 400px;
-    gap: 20px;
-    min-height: 70vh;
-}
-.builder-main {
-    display: flex; flex-direction: column; gap: 16px;
-}
+/* Recent Quotations */
+.rq-table{width:100%;border-collapse:collapse;}
+.rq-table th{padding:8px 14px;text-align:left;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);background:var(--bg2);border-bottom:1px solid var(--border);}
+.rq-table td{padding:10px 14px;font-size:.82rem;border-bottom:1px solid var(--border);color:var(--text2);}
+.rq-table tr:hover td{background:var(--blue-bg);}
+.status{display:inline-flex;align-items:center;gap:4px;font-size:.7rem;font-weight:600;padding:3px 10px;border-radius:6px;}
+.status-sent{background:var(--blue-bg);color:var(--blue);}
+.status-approved{background:var(--green-bg);color:var(--green);}
+.status-draft{background:var(--bg3);color:var(--muted);}
+.status-expired{background:var(--red-bg);color:var(--red);}
 
-/* Card Sections */
-.section-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    box-shadow: var(--shadow);
-}
-.section-card .section-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 18px;
-    border-bottom: 1px solid var(--border);
-    background: var(--bg2);
-}
-.section-card .section-header h3 {
-    font-size: 0.85rem; font-weight: 700;
-    display: flex; align-items: center; gap: 8px;
-    color: var(--text);
-}
-.section-card .section-body { padding: 18px; }
+/* Grid */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
 
-/* Form Elements */
-.form-group { margin-bottom: 14px; }
-.form-group:last-child { margin-bottom: 0; }
-.form-label {
-    display: block;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 5px;
-}
-.form-input, .form-select, .form-textarea {
-    width: 100%;
-    padding: 9px 12px;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--text);
-    font-family: inherit;
-    font-size: 0.85rem;
-    outline: none;
-    transition: border-color 0.2s;
-}
-.form-input:focus, .form-select:focus, .form-textarea:focus {
-    border-color: var(--blue);
-    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
-}
-.form-select { cursor: pointer; appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2364748B' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 36px;
-}
-.form-select option { background: var(--card-bg); color: var(--text); }
-.form-textarea { resize: vertical; min-height: 80px; }
-
-/* Template Cards */
-.template-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-}
-.template-card {
-    background: var(--bg2);
-    border: 2px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-.template-card:hover { border-color: rgba(37,99,235,0.3); }
-.template-card.selected {
-    border-color: var(--blue);
-    background: var(--blue-bg);
-    box-shadow: 0 0 16px rgba(37,99,235,0.1);
-}
-.template-card .tmpl-icon { font-size: 2rem; margin-bottom: 8px; }
-.template-card .tmpl-name { font-size: 0.85rem; font-weight: 700; color: var(--text); }
-.template-card .tmpl-desc { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
-
-/* Product Catalog Popup */
-.catalog-overlay {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.4);
-    backdrop-filter: blur(4px);
-    z-index: 500;
-    display: none; align-items: center; justify-content: center;
-}
-.catalog-overlay.open { display: flex; }
-.catalog-modal {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    width: 900px; max-height: 80vh;
-    overflow: hidden;
-    box-shadow: 0 25px 80px rgba(0,0,0,0.15);
-    animation: modalUp 0.3s ease;
-}
-@keyframes modalUp {
-    from { opacity: 0; transform: translateY(20px) scale(0.97); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-/* Quotation Items */
-.qi-table { width: 100%; border-collapse: collapse; }
-.qi-table th {
-    padding: 8px 10px; text-align: left;
-    font-size: 0.7rem; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.8px;
-    color: var(--muted);
-    background: var(--bg2);
-    border-bottom: 1px solid var(--border);
-}
-.qi-table td {
-    padding: 8px 10px;
-    font-size: 0.82rem;
-    border-bottom: 1px solid var(--border);
-    color: var(--text2);
-}
-.qi-table .qi-input {
-    width: 100%; padding: 6px 10px;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text);
-    font-family: inherit;
-    font-size: 0.82rem;
-    outline: none;
-    text-align: right;
-    transition: border-color 0.2s;
-}
-.qi-table .qi-input:focus { border-color: var(--blue); }
-.qi-table .drag-handle { cursor: grab; color: var(--muted); font-size: 1rem; user-select: none; }
-.qi-table .drag-handle:active { cursor: grabbing; }
-.qi-table tr.dragging { opacity: 0.5; background: var(--blue-bg); }
-.qi-table .row-total { font-weight: 700; color: var(--text); text-align: right; white-space: nowrap; }
-.ai-hint {
-    display: flex; align-items: center; gap: 6px;
-    padding: 6px 12px;
-    background: var(--purple-bg);
-    border: 1px solid rgba(124,58,237,0.2);
-    border-radius: 6px;
-    font-size: 0.72rem;
-    color: var(--purple);
-    margin-top: 4px;
-    animation: hintPulse 2s ease-in-out infinite;
-}
-@keyframes hintPulse {
-    0%, 100% { opacity: 0.8; }
-    50% { opacity: 1; }
-}
-
-/* Summary */
-.summary-table { width: 100%; border-collapse: collapse; }
-.summary-table td { padding: 8px 0; font-size: 0.85rem; }
-.summary-table .sum-label { color: var(--muted); }
-.summary-table .sum-value { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--text); }
-.summary-table .sum-grand td {
-    padding-top: 12px;
-    border-top: 2px solid var(--blue);
-    font-size: 1.2rem;
-    font-weight: 800;
-}
-.summary-table .sum-grand .sum-value {
-    background: var(--grad);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-/* Preview Panel */
-.preview-panel {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    position: sticky;
-    top: 70px;
-    max-height: calc(100vh - 85px);
-    overflow-y: auto;
-    box-shadow: var(--shadow);
-}
-.preview-panel .preview-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 18px;
-    border-bottom: 1px solid var(--border);
-    background: var(--bg2);
-}
-.preview-panel .preview-header h3 {
-    font-size: 0.85rem; font-weight: 700;
-    display: flex; align-items: center; gap: 8px;
-    color: var(--text);
-}
-.preview-doc {
-    background: white;
-    margin: 14px;
-    border-radius: 8px;
-    min-height: 500px;
-    color: #1a1a1a;
-    font-size: 0.72rem;
-    line-height: 1.5;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    overflow: hidden;
-}
-.preview-doc .doc-header {
-    padding: 24px 24px 16px;
-    border-bottom: 2px solid #2563EB;
-}
-.preview-doc .doc-header.professional {
-    background: linear-gradient(135deg, #1e293b, #334155);
-    color: white;
-    border-bottom: 3px solid #2563EB;
-}
-.preview-doc .doc-header.premium {
-    background: linear-gradient(135deg, #2563EB, #7C3AED, #EC4899);
-    color: white;
-    border-bottom: none;
-}
-.preview-doc .doc-company { font-size: 0.9rem; font-weight: 800; margin-bottom: 4px; }
-.preview-doc .doc-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.7; }
-.preview-doc .doc-meta {
-    padding: 12px 24px;
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    font-size: 0.68rem;
-    border-bottom: 1px solid #e5e7eb;
-}
-.preview-doc .doc-meta .label { color: #6b7280; }
-.preview-doc .doc-items { padding: 12px 24px; }
-.preview-doc .doc-items table { width: 100%; border-collapse: collapse; font-size: 0.68rem; }
-.preview-doc .doc-items th {
-    background: #f3f4f6; padding: 6px 8px; text-align: left;
-    font-size: 0.62rem; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.5px; color: #374151; border-bottom: 1px solid #d1d5db;
-}
-.preview-doc .doc-items td { padding: 6px 8px; border-bottom: 1px solid #e5e7eb; color: #374151; }
-.preview-doc .doc-summary { padding: 12px 24px 24px; display: flex; justify-content: flex-end; }
-.preview-doc .doc-summary table { width: 200px; border-collapse: collapse; font-size: 0.68rem; }
-.preview-doc .doc-summary td { padding: 4px 0; color: #374151; }
-.preview-doc .doc-summary .grand {
-    font-weight: 800; font-size: 0.78rem;
-    border-top: 2px solid #2563EB; padding-top: 6px; color: #2563EB;
-}
-.preview-doc .doc-footer {
-    padding: 12px 24px; border-top: 1px solid #e5e7eb;
-    font-size: 0.62rem; color: #9ca3af;
-}
-
-/* Actions Bar */
-.actions-bar {
-    display: flex; gap: 10px;
-    padding: 14px 18px;
-    border-top: 1px solid var(--border);
-    background: var(--bg2);
-    flex-wrap: wrap;
-}
-
-/* Creator/Assignee Info Bar */
-.meta-info-bar {
-    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
-    padding: 12px 18px;
-    background: var(--blue-bg);
-    border-bottom: 1px solid var(--border);
-    font-size: 0.82rem;
-}
-.meta-info-bar .meta-item {
-    display: flex; align-items: center; gap: 6px;
-}
-.meta-info-bar .meta-label {
-    font-size: 0.72rem; color: var(--muted); font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.3px;
-}
-.meta-info-bar .meta-value {
-    font-weight: 600; color: var(--text);
-}
-.meta-info-bar .meta-avatar {
-    width: 26px; height: 26px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.68rem; font-weight: 700; color: white;
-}
-.meta-info-bar .assign-select {
-    padding: 5px 10px; border-radius: 6px;
-    background: var(--bg2); border: 1px solid var(--border);
-    color: var(--text); font-family: inherit; font-size: 0.82rem;
-    cursor: pointer; outline: none;
-}
-.meta-info-bar .assign-select:focus { border-color: var(--blue); }
-
-/* Tabs */
-.tabs {
-    display: flex; gap: 4px;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 4px;
-    margin-bottom: 20px;
-    width: fit-content;
-}
-.tab-btn {
-    padding: 8px 20px;
-    border: none;
-    border-radius: 8px;
-    background: transparent;
-    color: var(--muted);
-    font-family: inherit;
-    font-size: 0.85rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex; align-items: center; gap: 8px;
-}
-.tab-btn:hover { color: var(--text); background: var(--bg3); }
-.tab-btn.active {
-    background: var(--blue);
-    color: white;
-    box-shadow: 0 2px 8px rgba(37,99,235,0.25);
-}
-
-/* Tab Panels */
-.tab-panel { display: none; }
-.tab-panel.active { display: block; animation: fadeUp 0.3s ease; }
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Table */
-.table-wrap {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    box-shadow: var(--shadow);
-}
-.table-toolbar {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--border);
-}
-.table-toolbar .search-box {
-    display: flex; align-items: center; gap: 8px;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px 14px;
-    width: 280px;
-}
-.table-toolbar .search-box input {
-    border: none; background: transparent;
-    color: var(--text); font-family: inherit;
-    font-size: 0.85rem; width: 100%; outline: none;
-}
-.table-toolbar .search-box input::placeholder { color: var(--muted); }
-
-table {
-    width: 100%; border-collapse: collapse;
-}
-table th {
-    padding: 10px 14px;
-    text-align: left;
-    font-size: 0.72rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--muted);
-    background: var(--bg2);
-    border-bottom: 1px solid var(--border);
-}
-table td {
-    padding: 10px 14px;
-    font-size: 0.85rem;
-    border-bottom: 1px solid var(--border);
-    color: var(--text2);
-}
-table tbody tr { transition: background 0.15s; }
-table tbody tr:hover { background: var(--blue-bg); }
-table tbody tr:last-child td { border-bottom: none; }
-
-/* Toast */
-.toast {
-    position: fixed; bottom: 24px; right: 24px;
-    padding: 14px 24px;
-    background: var(--card-bg);
-    border: 1px solid var(--green);
-    border-radius: var(--radius);
-    color: var(--green);
-    font-size: 0.85rem;
-    font-weight: 600;
-    display: flex; align-items: center; gap: 8px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-    transform: translateY(100px);
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
-    z-index: 1000;
-}
-.toast.show { transform: translateY(0); opacity: 1; }
-
-/* Responsive */
-@media (max-width: 1200px) {
-    .builder-layout { grid-template-columns: 1fr; }
-    .preview-panel { position: static; max-height: none; }
-}
-@media (max-width: 768px) {
-    .template-grid { grid-template-columns: 1fr; }
-    .container { padding: 16px; }
-    .meta-info-bar { flex-direction: column; align-items: flex-start; }
-}
+@keyframes toastIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@media(max-width:900px){.form-grid,.grid-2{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
 
-<!-- Dark Mode Toggle -->
-<button class="dark-toggle" onclick="toggleDark()">&#127769;</button>
+<button class="dark-toggle" onclick="document.body.classList.toggle('dark')">&#127769;</button>
 
-<!-- Header / Breadcrumb -->
-<header class="app-header">
-    <a href="#">Autopilot v2</a>
-    <span class="sep">/</span>
-    <a href="#">Sales Doc Gen</a>
-    <span class="sep">/</span>
-    <span class="current">Quotation Builder</span>
-</header>
+<div class="app-header">
+<a href="#">Autopilot v2</a><span class="sep">/</span>
+<a href="#">Sales Doc Gen</a><span class="sep">/</span>
+<span class="current">Quotation Builder</span>
+</div>
 
-<!-- Main Content -->
 <div class="container">
 
-    <!-- Page Title -->
-    <div class="page-title-row">
-        <div>
-            <h1>Sales Quotation Builder</h1>
-            <div class="subtitle">สร้างใบเสนอราคาอัตโนมัติด้วย AI &#8212; ระบบ Multi-User Task | ลดเวลา 95% เพิ่มอัตราปิดดีล</div>
-        </div>
-        <button class="btn btn-primary" onclick="switchTab('builder')">&#x2795; สร้างใบเสนอราคาใหม่</button>
-    </div>
-
-    <!-- Recent Quotations Panel -->
-    <div class="recent-quotes" id="recentQuotesPanel">
-        <div class="rq-header">
-            <h3>&#x1f4cb; ใบเสนอราคาล่าสุดของคุณ</h3>
-            <span style="font-size:0.72rem;color:var(--muted);">คลิกเพื่อโหลดเข้า Builder</span>
-        </div>
-        <table class="rq-table">
-            <thead>
-                <tr>
-                    <th>เลขที่</th>
-                    <th>ลูกค้า</th>
-                    <th style="text-align:right;">มูลค่า</th>
-                    <th>สถานะ</th>
-                    <th>แก้ไขล่าสุด</th>
-                    <th>ผู้รับผิดชอบ</th>
-                </tr>
-            </thead>
-            <tbody id="recentQuotesBody"></tbody>
-        </table>
-    </div>
-
-    <!-- Tabs -->
-    <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('list')">&#x1f4cb; รายการใบเสนอราคาทั้งหมด</button>
-        <button class="tab-btn" onclick="switchTab('builder')">&#x2795; สร้างใบเสนอราคาใหม่</button>
-    </div>
-
-    <!-- Tab 1: Quotation List -->
-    <div id="tab-list" class="tab-panel active">
-        <div class="table-wrap">
-            <div class="table-toolbar">
-                <div class="search-box">
-                    <span>&#x1f50d;</span>
-                    <input type="text" placeholder="ค้นหาเลขที่ / ลูกค้า / พนักงาน..." id="listSearch" oninput="filterQuotations()">
-                </div>
-                <button class="btn btn-primary btn-sm" onclick="switchTab('builder')">&#x2795; สร้างใบเสนอราคาใหม่</button>
-            </div>
-            <div style="overflow-x:auto;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>เลขที่</th>
-                            <th>ลูกค้า</th>
-                            <th>รายการ</th>
-                            <th style="text-align:right;">มูลค่ารวม</th>
-                            <th>สถานะ</th>
-                            <th>วันที่สร้าง</th>
-                            <th>พนักงานขาย</th>
-                        </tr>
-                    </thead>
-                    <tbody id="quotationListBody"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- Tab 2: Quotation Builder -->
-    <div id="tab-builder" class="tab-panel">
-
-        <!-- Creator / Assignee Info Bar -->
-        <div class="section-card" style="margin-bottom:16px;">
-            <div class="meta-info-bar">
-                <div class="meta-item">
-                    <span class="meta-label">สร้างโดย:</span>
-                    <div class="meta-avatar" style="background:#2563EB;">&#xE2A;&#xE0A;</div>
-                    <span class="meta-value" id="createdByName">สมชาย ก.</span>
-                </div>
-                <div style="width:1px;height:24px;background:var(--border);"></div>
-                <div class="meta-item">
-                    <span class="meta-label">มอบหมายให้:</span>
-                    <select class="assign-select" id="assigneeSelect" onchange="onAssigneeChange()">
-                        <option value="somchai">สมชาย ก.</option>
-                        <option value="suwanna">สุวรรณา ท.</option>
-                        <option value="natthapong">ณัฐพงษ์ ส.</option>
-                        <option value="wipa">วิภา ล.</option>
-                        <option value="pichai">พิชัย ส.</option>
-                    </select>
-                </div>
-                <div style="width:1px;height:24px;background:var(--border);"></div>
-                <div class="meta-item">
-                    <span class="meta-label">สถานะ Task:</span>
-                    <select class="assign-select" id="taskStatusSelect" onchange="onTaskStatusChange()">
-                        <option value="draft">Draft (ร่าง)</option>
-                        <option value="sent">Sent (ส่งแล้ว)</option>
-                        <option value="negotiation">Negotiation (เจรจา)</option>
-                        <option value="won">Won (ชนะ)</option>
-                        <option value="lost">Lost (แพ้)</option>
-                    </select>
-                </div>
-                <div style="width:1px;height:24px;background:var(--border);"></div>
-                <div class="meta-item">
-                    <span class="meta-label">เลขที่:</span>
-                    <span class="meta-value" id="currentQTNumber" style="color:var(--blue);">QT-2026-0157</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="builder-layout">
-
-            <!-- Left: Builder Form -->
-            <div class="builder-main">
-
-                <!-- Customer Selection -->
-                <div class="section-card">
-                    <div class="section-header">
-                        <h3>&#x1f464; ข้อมูลลูกค้า</h3>
-                    </div>
-                    <div class="section-body">
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
-                            <div class="form-group">
-                                <label class="form-label">ลูกค้า</label>
-                                <select class="form-select" id="customerSelect" onchange="onCustomerChange()">
-                                    <option value="">-- เลือกลูกค้า --</option>
-                                    <option value="c1">บจก. สยามเทค โซลูชั่น</option>
-                                    <option value="c2">บมจ. ไทย อินโนเวชั่น กรุ๊ป</option>
-                                    <option value="c3">บจก. กรีน เอ็นเนอร์ยี่ พลัส</option>
-                                    <option value="c4">บจก. แอดวานซ์ ซอฟต์แวร์</option>
-                                    <option value="c5">บมจ. เมโทร รีเทล</option>
-                                    <option value="c6">หจก. ดิจิทัล เฟิร์ส</option>
-                                    <option value="c7">บจก. โปร เซอร์วิส กรุ๊ป</option>
-                                    <option value="c8">บมจ. สมาร์ท เทรดดิ้ง</option>
-                                    <option value="new">+ เพิ่มลูกค้าใหม่</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">ผู้ติดต่อ</label>
-                                <input class="form-input" id="contactName" placeholder="ชื่อผู้ติดต่อ">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">อีเมล</label>
-                                <input class="form-input" type="email" id="contactEmail" placeholder="email@company.com">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">โทรศัพท์</label>
-                                <input class="form-input" id="contactPhone" placeholder="0xx-xxx-xxxx">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Template Picker -->
-                <div class="section-card">
-                    <div class="section-header">
-                        <h3>&#x1f3a8; เทมเพลต</h3>
-                    </div>
-                    <div class="section-body">
-                        <div class="template-grid">
-                            <div class="template-card selected" onclick="selectTemplate('standard')" id="tmpl-standard">
-                                <div class="tmpl-icon">&#x1f4c4;</div>
-                                <div class="tmpl-name">Standard</div>
-                                <div class="tmpl-desc">เรียบง่าย สะอาดตา</div>
-                            </div>
-                            <div class="template-card" onclick="selectTemplate('professional')" id="tmpl-professional">
-                                <div class="tmpl-icon">&#x1f3e2;</div>
-                                <div class="tmpl-name">Professional</div>
-                                <div class="tmpl-desc">มีโลโก้ / Header</div>
-                            </div>
-                            <div class="template-card" onclick="selectTemplate('premium')" id="tmpl-premium">
-                                <div class="tmpl-icon">&#x2728;</div>
-                                <div class="tmpl-name">Premium</div>
-                                <div class="tmpl-desc">สีสัน / กราฟิก</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Quotation Items -->
-                <div class="section-card">
-                    <div class="section-header">
-                        <h3>&#x1f6d2; รายการสินค้า</h3>
-                        <button class="btn btn-primary btn-sm" onclick="openCatalog()">&#x2795; เพิ่มจากแคตตาล็อก</button>
-                    </div>
-                    <div style="overflow-x:auto;">
-                        <table class="qi-table" id="quoteItemsTable">
-                            <thead>
-                                <tr>
-                                    <th style="width:30px;"></th>
-                                    <th>สินค้า</th>
-                                    <th style="width:80px;">จำนวน</th>
-                                    <th style="width:120px;">ราคาต่อหน่วย</th>
-                                    <th style="width:80px;">ส่วนลด %</th>
-                                    <th style="width:120px;text-align:right;">รวม</th>
-                                    <th style="width:40px;"></th>
-                                </tr>
-                            </thead>
-                            <tbody id="quoteItemsBody">
-                                <tr id="emptyRow">
-                                    <td colspan="7" style="text-align:center;padding:40px;color:var(--muted);">
-                                        ยังไม่มีรายการ &mdash; กดปุ่ม "เพิ่มจากแคตตาล็อก" เพื่อเริ่มต้น
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Summary -->
-                <div class="section-card">
-                    <div class="section-header">
-                        <h3>&#x1f4b0; สรุปยอด</h3>
-                    </div>
-                    <div class="section-body">
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
-                            <div>
-                                <div class="form-group">
-                                    <label class="form-label">เงื่อนไขการชำระ</label>
-                                    <select class="form-select" id="paymentTerms" onchange="updatePreview()">
-                                        <option value="30">Credit 30 วัน</option>
-                                        <option value="60">Credit 60 วัน</option>
-                                        <option value="cod">เงินสด / COD</option>
-                                        <option value="50-50">มัดจำ 50% / ส่งมอบ 50%</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">วันหมดอายุใบเสนอราคา</label>
-                                    <input class="form-input" type="date" id="expiryDate" onchange="updatePreview()">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">หมายเหตุ</label>
-                                    <textarea class="form-textarea" id="notes" placeholder="หมายเหตุเพิ่มเติม..." oninput="updatePreview()"></textarea>
-                                </div>
-                            </div>
-                            <div>
-                                <table class="summary-table">
-                                    <tr>
-                                        <td class="sum-label">รวมก่อนส่วนลด</td>
-                                        <td class="sum-value" id="sumSubtotal">&#x0E3F;0.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="sum-label">ส่วนลดรวม</td>
-                                        <td class="sum-value" style="color:var(--red);" id="sumDiscount">-&#x0E3F;0.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="sum-label">ราคาหลังส่วนลด</td>
-                                        <td class="sum-value" id="sumAfterDisc">&#x0E3F;0.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="sum-label">VAT 7%</td>
-                                        <td class="sum-value" id="sumVat">&#x0E3F;0.00</td>
-                                    </tr>
-                                    <tr class="sum-grand">
-                                        <td class="sum-label" style="font-weight:800;">ยอดรวมทั้งหมด</td>
-                                        <td class="sum-value" id="sumGrand">&#x0E3F;0.00</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="actions-bar">
-                        <button class="btn btn-secondary" onclick="saveDraft()">&#x1f4be; บันทึกร่าง</button>
-                        <button class="btn btn-success" onclick="sendEmail()">&#x2709; ส่ง Email</button>
-                        <button class="btn btn-primary" onclick="downloadPDF()">&#x1f4e5; ดาวน์โหลด PDF</button>
-                        <button class="btn btn-ghost" onclick="printQuote()">&#x1f5a8; พิมพ์</button>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Right: Preview Panel -->
-            <div class="preview-panel">
-                <div class="preview-header">
-                    <h3>&#x1f441; ตัวอย่างเอกสาร</h3>
-                    <span style="font-size:0.72rem;color:var(--muted);">อัพเดทอัตโนมัติ</span>
-                </div>
-                <div class="preview-doc" id="previewDoc">
-                    <div class="doc-header" id="docHeader">
-                        <div class="doc-company">ANTS AI Solution Hub</div>
-                        <div class="doc-title">ใบเสนอราคา / QUOTATION</div>
-                    </div>
-                    <div class="doc-meta" id="docMeta">
-                        <div>
-                            <div class="label">เลขที่</div>
-                            <div style="font-weight:700;" id="previewQTNo">QT-2026-0157</div>
-                        </div>
-                        <div>
-                            <div class="label">วันที่</div>
-                            <div id="previewDate">5 เมษายน 2569</div>
-                        </div>
-                        <div>
-                            <div class="label">ลูกค้า</div>
-                            <div id="previewCustomer" style="font-weight:600;">-</div>
-                        </div>
-                        <div>
-                            <div class="label">หมดอายุ</div>
-                            <div id="previewExpiry">-</div>
-                        </div>
-                        <div>
-                            <div class="label">ผู้จัดทำ</div>
-                            <div id="previewCreator" style="font-weight:600;">สมชาย ก.</div>
-                        </div>
-                        <div>
-                            <div class="label">ผู้รับผิดชอบ</div>
-                            <div id="previewAssignee" style="font-weight:600;">สมชาย ก.</div>
-                        </div>
-                    </div>
-                    <div class="doc-items" id="docItems">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>รายการ</th>
-                                    <th>จำนวน</th>
-                                    <th style="text-align:right;">ราคา/หน่วย</th>
-                                    <th style="text-align:right;">รวม</th>
-                                </tr>
-                            </thead>
-                            <tbody id="previewItemsBody">
-                                <tr><td colspan="5" style="text-align:center;color:#9ca3af;padding:20px;">ยังไม่มีรายการ</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="doc-summary" id="docSummary">
-                        <table>
-                            <tr><td>รวม</td><td style="text-align:right;" id="previewSubtotal">&#x0E3F;0.00</td></tr>
-                            <tr><td>ส่วนลด</td><td style="text-align:right;" id="previewDiscount">-&#x0E3F;0.00</td></tr>
-                            <tr><td>VAT 7%</td><td style="text-align:right;" id="previewVat">&#x0E3F;0.00</td></tr>
-                            <tr class="grand"><td>ยอดรวม</td><td style="text-align:right;" id="previewGrand">&#x0E3F;0.00</td></tr>
-                        </table>
-                    </div>
-                    <div class="doc-footer" id="docFooter">
-                        <div>เงื่อนไข: Credit 30 วัน</div>
-                        <div style="margin-top:4px;">ใบเสนอราคานี้จัดทำโดย Autopilot v2 &mdash; ANTS AI Solution Hub</div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
+<!-- Title -->
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+<div>
+<h1 style="font-size:1.4rem;font-weight:800;">&#128203; &#3626;&#3619;&#3657;&#3634;&#3591;&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634; (Quotation Builder)</h1>
+<p style="font-size:.85rem;color:var(--muted);margin-top:2px;">&#3648;&#3607;&#3617;&#3648;&#3614;&#3621;&#3605;&#3616;&#3634;&#3625;&#3634;&#3652;&#3607;&#3618; &#3614;&#3619;&#3657;&#3629;&#3617; VAT 7% &#3649;&#3621;&#3632;&#3627;&#3633;&#3585; &#3603; &#3607;&#3637;&#3656;&#3592;&#3656;&#3634;&#3618;&#3629;&#3633;&#3605;&#3650;&#3609;&#3617;&#3633;&#3605;&#3636; | &#3614;.&#3624;. 2569</p>
+</div>
 </div>
 
-<!-- Product Catalog Modal -->
-<div class="catalog-overlay" id="catalogOverlay">
-    <div class="catalog-modal">
-        <div class="section-header" style="background:var(--bg2);">
-            <h3>&#x1f4e6; แคตตาล็อกสินค้า</h3>
-            <button class="btn btn-ghost btn-sm" onclick="closeCatalog()">&#x2715; ปิด</button>
-        </div>
-        <div style="padding:14px;border-bottom:1px solid var(--border);">
-            <div style="display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px 14px;width:100%;">
-                <span>&#x1f50d;</span>
-                <input type="text" placeholder="ค้นหาสินค้า... (รหัส / ชื่อ)" id="catalogSearch" oninput="filterCatalog()" style="border:none;background:transparent;color:var(--text);font-family:inherit;font-size:0.85rem;width:100%;outline:none;">
-            </div>
-        </div>
-        <div style="max-height:50vh;overflow-y:auto;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>รหัสสินค้า</th>
-                        <th>ชื่อสินค้า</th>
-                        <th>หน่วย</th>
-                        <th style="text-align:right;">ราคา</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody id="catalogBody"></tbody>
-            </table>
-        </div>
-    </div>
+<!-- Recent Quotations -->
+<div class="card">
+<div class="card-header">
+<h3>&#128196; &#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634;&#3621;&#3656;&#3634;&#3626;&#3640;&#3604;</h3>
+<span class="badge badge-blue">5 &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;</span>
+</div>
+<table class="rq-table">
+<thead><tr><th>&#3648;&#3621;&#3586;&#3607;&#3637;&#3656;</th><th>&#3621;&#3641;&#3585;&#3588;&#3657;&#3634;</th><th>&#3617;&#3641;&#3621;&#3588;&#3656;&#3634;</th><th>&#3623;&#3633;&#3609;&#3607;&#3637;&#3656;</th><th>&#3626;&#3606;&#3634;&#3609;&#3632;</th></tr></thead>
+<tbody>
+<tr><td style="font-weight:600;color:var(--blue);">QT-2569-0157</td><td>ABC Corporation</td><td style="font-family:'Inter';font-weight:600;">&#3647;379,850</td><td>6 &#3648;&#3617;.&#3618;. 69</td><td><span class="status status-sent">&#3626;&#3656;&#3591;&#3649;&#3621;&#3657;&#3623;</span></td></tr>
+<tr><td style="font-weight:600;color:var(--blue);">QT-2569-0156</td><td>XYZ Trading</td><td style="font-family:'Inter';font-weight:600;">&#3647;892,500</td><td>4 &#3648;&#3617;.&#3618;. 69</td><td><span class="status status-approved">&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;</span></td></tr>
+<tr><td style="font-weight:600;color:var(--blue);">QT-2569-0155</td><td>DEF Industries</td><td style="font-family:'Inter';font-weight:600;">&#3647;1,250,000</td><td>2 &#3648;&#3617;.&#3618;. 69</td><td><span class="status status-draft">&#3649;&#3610;&#3610;&#3619;&#3656;&#3634;&#3591;</span></td></tr>
+<tr><td style="font-weight:600;color:var(--blue);">QT-2569-0154</td><td>GHI Holdings</td><td style="font-family:'Inter';font-weight:600;">&#3647;445,000</td><td>28 &#3617;&#3637;.&#3588;. 69</td><td><span class="status status-expired">&#3627;&#3617;&#3604;&#3629;&#3634;&#3618;&#3640;</span></td></tr>
+<tr><td style="font-weight:600;color:var(--blue);">QT-2569-0153</td><td>JKL Manufacturing</td><td style="font-family:'Inter';font-weight:600;">&#3647;680,000</td><td>25 &#3617;&#3637;.&#3588;. 69</td><td><span class="status status-approved">&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;</span></td></tr>
+</tbody>
+</table>
 </div>
 
-<!-- Toast -->
-<div class="toast" id="toast"></div>
+<!-- Company Header Preview -->
+<div class="card" style="border-left:4px solid var(--blue);">
+<div style="text-align:center;margin-bottom:16px;">
+<div style="font-size:1.2rem;font-weight:800;color:var(--text);">&#3610;&#3619;&#3636;&#3625;&#3633;&#3607; ANTS Intelligence &#3592;&#3635;&#3585;&#3633;&#3604;</div>
+<div style="font-size:.78rem;color:var(--muted);">ANTS Intelligence Co., Ltd.</div>
+<div style="font-size:.72rem;color:var(--muted);margin-top:4px;">123/45 &#3606;.&#3626;&#3640;&#3586;&#3640;&#3617;&#3623;&#3636;&#3607; &#3649;&#3586;&#3623;&#3591;&#3588;&#3621;&#3629;&#3591;&#3605;&#3633;&#3609;&#3648;&#3627;&#3609;&#3639;&#3629; &#3648;&#3586;&#3605;&#3588;&#3621;&#3629;&#3591;&#3648;&#3605;&#3618; &#3585;&#3619;&#3640;&#3591;&#3648;&#3607;&#3614;&#3631; 10110 | &#3648;&#3621;&#3586;&#3611;&#3619;&#3632;&#3592;&#3635;&#3605;&#3633;&#3623;&#3612;&#3641;&#3657;&#3648;&#3626;&#3637;&#3618;&#3616;&#3634;&#3625;&#3637;: 0-1234-56789-01-2</div>
+<div style="font-size:.72rem;color:var(--muted);">&#3650;&#3607;&#3619;: 02-123-4567 | Email: sales@ants.co.th</div>
+<div style="font-size:1rem;font-weight:800;color:var(--blue);margin-top:12px;padding-top:12px;border-top:2px solid var(--border);">&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634; / Quotation</div>
+</div>
+</div>
 
-<!-- Footer -->
-<div style="text-align:center;padding:24px;color:var(--muted);font-size:0.75rem;border-top:1px solid var(--border);">
-  Autopilot v2 by ANTS — AI Solution Hub &copy; 2569 | Sales Quotation Builder Module
+<!-- Quotation Form -->
+<div class="card">
+<div class="card-header">
+<h3>&#128221; &#3586;&#3657;&#3629;&#3617;&#3641;&#3621;&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634;</h3>
+<span class="badge badge-green">QT-2569-0158</span>
+</div>
+
+<div class="form-grid">
+<div class="form-group">
+<label class="form-label">&#3594;&#3639;&#3656;&#3629;&#3621;&#3641;&#3585;&#3588;&#3657;&#3634;/&#3610;&#3619;&#3636;&#3625;&#3633;&#3607;</label>
+<input class="form-input" type="text" placeholder="&#3610;&#3619;&#3636;&#3625;&#3633;&#3607; &#3605;&#3633;&#3623;&#3629;&#3618;&#3656;&#3634;&#3591; &#3592;&#3635;&#3585;&#3633;&#3604;">
+</div>
+<div class="form-group">
+<label class="form-label">&#3648;&#3621;&#3586;&#3611;&#3619;&#3632;&#3592;&#3635;&#3605;&#3633;&#3623;&#3612;&#3641;&#3657;&#3648;&#3626;&#3637;&#3618;&#3616;&#3634;&#3625;&#3637;</label>
+<input class="form-input" type="text" placeholder="0-1234-56789-01-2">
+</div>
+<div class="form-group full">
+<label class="form-label">&#3607;&#3637;&#3656;&#3629;&#3618;&#3641;&#3656; (&#3619;&#3641;&#3611;&#3649;&#3610;&#3610;&#3652;&#3607;&#3618;)</label>
+<textarea class="form-textarea" placeholder="123/45 &#3606;&#3609;&#3609;&#3605;&#3633;&#3623;&#3629;&#3618;&#3656;&#3634;&#3591; &#3649;&#3586;&#3623;&#3591;&#3605;&#3633;&#3623;&#3629;&#3618;&#3656;&#3634;&#3591; &#3648;&#3586;&#3605;&#3605;&#3633;&#3623;&#3629;&#3618;&#3656;&#3634;&#3591; &#3585;&#3619;&#3640;&#3591;&#3648;&#3607;&#3614;&#3617;&#3627;&#3634;&#3609;&#3588;&#3619; 10000"></textarea>
+</div>
+<div class="form-group">
+<label class="form-label">&#3612;&#3641;&#3657;&#3605;&#3636;&#3604;&#3605;&#3656;&#3629;</label>
+<input class="form-input" type="text" placeholder="&#3588;&#3640;&#3603;&#3626;&#3617;&#3594;&#3634;&#3618;">
+</div>
+<div class="form-group">
+<label class="form-label">&#3648;&#3610;&#3629;&#3619;&#3660;&#3650;&#3607;&#3619;</label>
+<input class="form-input" type="text" placeholder="081-234-5678">
+</div>
+<div class="form-group">
+<label class="form-label">&#3648;&#3591;&#3639;&#3656;&#3629;&#3609;&#3652;&#3586;&#3585;&#3634;&#3619;&#3594;&#3635;&#3619;&#3632;</label>
+<select class="form-select" id="paymentTerms">
+<option value="30">&#3594;&#3635;&#3619;&#3632;&#3616;&#3634;&#3618;&#3651;&#3609; 30 &#3623;&#3633;&#3609;</option>
+<option value="60">&#3594;&#3635;&#3619;&#3632;&#3616;&#3634;&#3618;&#3651;&#3609; 60 &#3623;&#3633;&#3609;</option>
+<option value="90">&#3594;&#3635;&#3619;&#3632;&#3616;&#3634;&#3618;&#3651;&#3609; 90 &#3623;&#3633;&#3609;</option>
+<option value="0">&#3648;&#3591;&#3636;&#3609;&#3626;&#3604;</option>
+</select>
+</div>
+<div class="form-group">
+<label class="form-label">&#3627;&#3633;&#3585; &#3603; &#3607;&#3637;&#3656;&#3592;&#3656;&#3634;&#3618;</label>
+<select class="form-select" id="whtSelect" onchange="recalcTotals()">
+<option value="0">&#3652;&#3617;&#3656;&#3627;&#3633;&#3585;</option>
+<option value="1">1% — &#3588;&#3656;&#3634;&#3586;&#3609;&#3626;&#3656;&#3591;</option>
+<option value="2">2% — &#3588;&#3656;&#3634;&#3650;&#3590;&#3625;&#3603;&#3634;</option>
+<option value="3" selected>3% — &#3588;&#3656;&#3634;&#3610;&#3619;&#3636;&#3585;&#3634;&#3619;/&#3588;&#3656;&#3634;&#3592;&#3657;&#3634;&#3591;</option>
+<option value="5">5% — &#3588;&#3656;&#3634;&#3648;&#3594;&#3656;&#3634;</option>
+</select>
+</div>
+</div>
+</div>
+
+<!-- Line Items -->
+<div class="card">
+<div class="card-header">
+<h3>&#128230; &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;&#3626;&#3636;&#3609;&#3588;&#3657;&#3634;/&#3610;&#3619;&#3636;&#3585;&#3634;&#3619;</h3>
+<button class="btn-outline" onclick="addItem()" style="padding:6px 14px;font-size:.75rem;">+ &#3648;&#3614;&#3636;&#3656;&#3617;&#3619;&#3634;&#3618;&#3585;&#3634;&#3619;</button>
+</div>
+<table class="item-table" id="itemTable">
+<thead>
+<tr><th style="width:40px;">#</th><th>&#3619;&#3634;&#3618;&#3585;&#3634;&#3619;</th><th style="width:80px;">&#3592;&#3635;&#3609;&#3623;&#3609;</th><th style="width:130px;">&#3619;&#3634;&#3588;&#3634;/&#3627;&#3609;&#3656;&#3623;&#3618;</th><th style="width:130px;">&#3619;&#3623;&#3617;</th><th style="width:40px;"></th></tr>
+</thead>
+<tbody id="itemBody">
+<tr>
+<td style="text-align:center;color:var(--muted);">1</td>
+<td><input type="text" value="&#3619;&#3632;&#3610;&#3610; CRM Enterprise License (1 &#3611;&#3637;)" oninput="recalcTotals()"></td>
+<td><input type="number" value="1" min="1" style="text-align:right;" oninput="recalcTotals()"></td>
+<td><input type="number" value="250000" min="0" style="text-align:right;" oninput="recalcTotals()"></td>
+<td class="num" style="font-weight:600;">&#3647;250,000</td>
+<td><button class="remove-btn" onclick="removeItem(this)">&#10005;</button></td>
+</tr>
+<tr>
+<td style="text-align:center;color:var(--muted);">2</td>
+<td><input type="text" value="&#3610;&#3619;&#3636;&#3585;&#3634;&#3619; Implementation & Setup" oninput="recalcTotals()"></td>
+<td><input type="number" value="1" min="1" style="text-align:right;" oninput="recalcTotals()"></td>
+<td><input type="number" value="80000" min="0" style="text-align:right;" oninput="recalcTotals()"></td>
+<td class="num" style="font-weight:600;">&#3647;80,000</td>
+<td><button class="remove-btn" onclick="removeItem(this)">&#10005;</button></td>
+</tr>
+<tr>
+<td style="text-align:center;color:var(--muted);">3</td>
+<td><input type="text" value="&#3588;&#3656;&#3634; Training &#3612;&#3641;&#3657;&#3651;&#3594;&#3657;&#3591;&#3634;&#3609; (5 &#3623;&#3633;&#3609;)" oninput="recalcTotals()"></td>
+<td><input type="number" value="1" min="1" style="text-align:right;" oninput="recalcTotals()"></td>
+<td><input type="number" value="25000" min="0" style="text-align:right;" oninput="recalcTotals()"></td>
+<td class="num" style="font-weight:600;">&#3647;25,000</td>
+<td><button class="remove-btn" onclick="removeItem(this)">&#10005;</button></td>
+</tr>
+</tbody>
+</table>
+
+<!-- Totals -->
+<div class="totals-section">
+<div class="totals-box">
+<div class="total-row"><span>&#3619;&#3623;&#3617;&#3585;&#3656;&#3629;&#3609; VAT</span><span class="t-val" id="subtotal">&#3647;355,000.00</span></div>
+<div class="total-row"><span>VAT 7%</span><span class="t-val" id="vatAmount">&#3647;24,850.00</span></div>
+<div class="total-row"><span>&#3627;&#3633;&#3585; &#3603; &#3607;&#3637;&#3656;&#3592;&#3656;&#3634;&#3618; (<span id="whtPct">3</span>%)</span><span class="t-val" id="whtAmount" style="color:var(--red);">-&#3647;10,650.00</span></div>
+<div class="total-row grand"><span>&#3618;&#3629;&#3604;&#3626;&#3640;&#3607;&#3608;&#3636;</span><span class="t-val" id="grandTotal">&#3647;369,200.00</span></div>
+</div>
+</div>
+</div>
+
+<!-- e-Signature -->
+<div class="grid-2">
+<div class="card">
+<div class="card-header">
+<h3>&#9997;&#65039; &#3621;&#3634;&#3618;&#3648;&#3595;&#3655;&#3609;&#3612;&#3641;&#3657;&#3648;&#3626;&#3609;&#3629;</h3>
+<span class="badge badge-blue">e-Signature</span>
+</div>
+<div class="sig-area" onclick="showToast('&#9997;&#65039;','e-Signature','&#3648;&#3611;&#3636;&#3604;&#3627;&#3609;&#3657;&#3634;&#3605;&#3656;&#3634;&#3591;&#3621;&#3634;&#3618;&#3648;&#3595;&#3655;&#3609;&#3629;&#3636;&#3648;&#3621;&#3655;&#3585;&#3607;&#3619;&#3629;&#3609;&#3636;&#3585;&#3626;&#3660;...')">
+<div class="sig-icon">&#9997;&#65039;</div>
+<div class="sig-label">&#3621;&#3634;&#3618;&#3648;&#3595;&#3655;&#3609;&#3629;&#3636;&#3648;&#3621;&#3655;&#3585;&#3607;&#3619;&#3629;&#3609;&#3636;&#3585;&#3626;&#3660;&#3612;&#3641;&#3657;&#3648;&#3626;&#3609;&#3629;</div>
+<div class="sig-sub">&#3588;&#3621;&#3636;&#3585;&#3648;&#3614;&#3639;&#3656;&#3629;&#3648;&#3595;&#3655;&#3609;&#3594;&#3639;&#3656;&#3629;&#3627;&#3619;&#3639;&#3629;&#3623;&#3634;&#3604;&#3621;&#3634;&#3618;&#3648;&#3595;&#3655;&#3609;</div>
+</div>
+<div style="margin-top:12px;text-align:center;">
+<div style="font-size:.78rem;font-weight:600;">&#3608;&#3609;&#3634;&#3585;&#3634;&#3609; &#3648;&#3611;&#3619;&#3617;&#3607;&#3629;&#3591;</div>
+<div style="font-size:.72rem;color:var(--muted);">&#3612;&#3641;&#3657;&#3592;&#3633;&#3604;&#3585;&#3634;&#3619;&#3613;&#3656;&#3634;&#3618;&#3586;&#3634;&#3618;</div>
+<div style="font-size:.68rem;color:var(--muted);">&#3623;&#3633;&#3609;&#3607;&#3637;&#3656;: 6 &#3648;&#3617;.&#3618;. &#3614;.&#3624;. 2569</div>
+</div>
+</div>
+<div class="card">
+<div class="card-header">
+<h3>&#9997;&#65039; &#3621;&#3634;&#3618;&#3648;&#3595;&#3655;&#3609;&#3612;&#3641;&#3657;&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;</h3>
+<span class="badge badge-green">&#3621;&#3641;&#3585;&#3588;&#3657;&#3634;</span>
+</div>
+<div class="sig-area" onclick="showToast('&#9997;&#65039;','e-Signature','&#3626;&#3656;&#3591;&#3621;&#3636;&#3591;&#3585;&#3660;&#3651;&#3627;&#3657;&#3621;&#3641;&#3585;&#3588;&#3657;&#3634;&#3648;&#3595;&#3655;&#3609;&#3594;&#3639;&#3656;&#3629;...')">
+<div class="sig-icon">&#128228;</div>
+<div class="sig-label">&#3626;&#3656;&#3591;&#3651;&#3627;&#3657;&#3621;&#3641;&#3585;&#3588;&#3657;&#3634;&#3648;&#3595;&#3655;&#3609;&#3629;&#3636;&#3648;&#3621;&#3655;&#3585;&#3607;&#3619;&#3629;&#3609;&#3636;&#3585;&#3626;&#3660;</div>
+<div class="sig-sub">&#3626;&#3656;&#3591;&#3621;&#3636;&#3591;&#3585;&#3660;&#3648;&#3595;&#3655;&#3609;&#3612;&#3656;&#3634;&#3609; Email &#3627;&#3619;&#3639;&#3629; LINE</div>
+</div>
+<div style="margin-top:12px;text-align:center;">
+<div style="font-size:.78rem;font-weight:600;color:var(--muted);">( &#3619;&#3629;&#3621;&#3634;&#3618;&#3648;&#3595;&#3655;&#3609;&#3621;&#3641;&#3585;&#3588;&#3657;&#3634; )</div>
+<div style="font-size:.72rem;color:var(--muted);">&#3612;&#3641;&#3657;&#3617;&#3637;&#3629;&#3635;&#3609;&#3634;&#3592;&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;</div>
+</div>
+</div>
+</div>
+
+<!-- Action Buttons -->
+<div class="btn-row">
+<button class="btn-primary" onclick="showToast('&#128190;','&#3610;&#3633;&#3609;&#3607;&#3638;&#3585;&#3649;&#3621;&#3657;&#3623;','&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634; QT-2569-0158 &#3610;&#3633;&#3609;&#3607;&#3638;&#3585;&#3626;&#3635;&#3648;&#3619;&#3655;&#3592;')">&#128190; &#3610;&#3633;&#3609;&#3607;&#3638;&#3585;&#3649;&#3610;&#3610;&#3619;&#3656;&#3634;&#3591;</button>
+<button class="btn-outline" onclick="showToast('&#128424;','&#3626;&#3656;&#3591;&#3651;&#3627;&#3657;&#3621;&#3641;&#3585;&#3588;&#3657;&#3634;','&#3626;&#3656;&#3591;&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634;&#3612;&#3656;&#3634;&#3609; Email...')">&#128424; &#3626;&#3656;&#3591; Email</button>
+<button class="btn-outline" onclick="showToast('&#128196;','PDF','&#3585;&#3635;&#3621;&#3633;&#3591;&#3626;&#3619;&#3657;&#3634;&#3591; PDF...')">&#128196; Export PDF</button>
+<button class="btn-green" onclick="showToast('&#128228;','LINE','&#3626;&#3656;&#3591;&#3612;&#3656;&#3634;&#3609; LINE Official...')">&#128228; &#3626;&#3656;&#3591;&#3612;&#3656;&#3634;&#3609; LINE</button>
+</div>
+
 </div>
 
 <script>
-// Dark mode
-function toggleDark(){document.body.classList.toggle('dark');const d=document.body.classList.contains('dark');localStorage.setItem('darkMode',d);document.querySelector('.dark-toggle').textContent=d?'\u2600\uFE0F':'\uD83C\uDF19';}
-if(localStorage.getItem('darkMode')==='true'){document.body.classList.add('dark');document.addEventListener('DOMContentLoaded',()=>{document.querySelector('.dark-toggle').textContent='\u2600\uFE0F';});}
+function formatThai(n){return '฿'+n.toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2});}
 
-// Team members
-const teamMembers = {
-    somchai: { name: 'สมชาย ก.', color: '#2563EB', initials: 'สช' },
-    suwanna: { name: 'สุวรรณา ท.', color: '#7C3AED', initials: 'สว' },
-    natthapong: { name: 'ณัฐพงษ์ ส.', color: '#059669', initials: 'ณฐ' },
-    wipa: { name: 'วิภา ล.', color: '#D97706', initials: 'วภ' },
-    pichai: { name: 'พิชัย ส.', color: '#0891B2', initials: 'พช' },
-};
-
-// Data
-const customers = {
-    c1: { name: 'บจก. สยามเทค โซลูชั่น', contact: 'คุณวิชัย สมบูรณ์', email: 'wichai@siamtech.co.th', phone: '02-123-4567' },
-    c2: { name: 'บมจ. ไทย อินโนเวชั่น กรุ๊ป', contact: 'คุณพรทิพย์ ศรีสุข', email: 'porntip@thaiinno.com', phone: '02-234-5678' },
-    c3: { name: 'บจก. กรีน เอ็นเนอร์ยี่ พลัส', contact: 'คุณสมศักดิ์ พลังดี', email: 'somsak@greenenergy.co.th', phone: '02-345-6789' },
-    c4: { name: 'บจก. แอดวานซ์ ซอฟต์แวร์', contact: 'คุณนภา รัตนะ', email: 'napa@advsoft.co.th', phone: '02-456-7890' },
-    c5: { name: 'บมจ. เมโทร รีเทล', contact: 'คุณธนา ภิรมย์', email: 'thana@metroretail.com', phone: '02-567-8901' },
-    c6: { name: 'หจก. ดิจิทัล เฟิร์ส', contact: 'คุณปิยะ ดิจิตอล', email: 'piya@digitalfirst.co.th', phone: '02-678-9012' },
-    c7: { name: 'บจก. โปร เซอร์วิส กรุ๊ป', contact: 'คุณอรุณ เซอร์วิส', email: 'arun@proservice.co.th', phone: '02-789-0123' },
-    c8: { name: 'บมจ. สมาร์ท เทรดดิ้ง', contact: 'คุณกิตติ สมาร์ท', email: 'kitti@smarttrading.com', phone: '02-890-1234' },
-};
-
-const products = [
-    { code: 'AP-001', name: 'Autopilot v2 — Standard License (1 ปี)', unit: 'License', price: 450000 },
-    { code: 'AP-002', name: 'Autopilot v2 — Professional License (1 ปี)', unit: 'License', price: 850000 },
-    { code: 'AP-003', name: 'Autopilot v2 — Enterprise License (1 ปี)', unit: 'License', price: 1500000 },
-    { code: 'MD-001', name: 'AI Document Processing Module', unit: 'Module', price: 180000 },
-    { code: 'MD-002', name: 'AI Sales Forecasting Module', unit: 'Module', price: 220000 },
-    { code: 'MD-003', name: 'AI Customer Insights Module', unit: 'Module', price: 195000 },
-    { code: 'MD-004', name: 'AI Inventory Optimization Module', unit: 'Module', price: 250000 },
-    { code: 'MD-005', name: 'AI Chatbot & Support Module', unit: 'Module', price: 165000 },
-    { code: 'SV-001', name: 'Implementation & Setup Service', unit: 'Project', price: 350000 },
-    { code: 'SV-002', name: 'Data Migration Service', unit: 'Project', price: 280000 },
-    { code: 'SV-003', name: 'Custom Integration (API)', unit: 'Project', price: 420000 },
-    { code: 'SV-004', name: 'Training Workshop (On-site)', unit: 'Session', price: 45000 },
-    { code: 'SV-005', name: 'Training Workshop (Online)', unit: 'Session', price: 25000 },
-    { code: 'SP-001', name: 'Premium Support Package (1 ปี)', unit: 'Package', price: 120000 },
-    { code: 'SP-002', name: 'SLA 24/7 Support (1 ปี)', unit: 'Package', price: 240000 },
-];
-
-const aiPriceHints = {
-    c1: { 'AP-002': 780000, 'MD-001': 165000, 'SV-001': 320000 },
-    c2: { 'AP-003': 1380000, 'MD-002': 200000 },
-    c3: { 'AP-001': 420000, 'MD-004': 230000 },
-    c5: { 'AP-002': 800000, 'SV-003': 380000, 'SP-001': 105000 },
-};
-
-// Recent quotations for the current user (multi-user task data)
-const recentMyQuotes = [
-    { no: 'QT-0156', customer: 'ABC Corp', customerTh: 'บจก. สยามเทค โซลูชั่น', amount: 450000, amountLabel: '฿450K', status: 'complete', statusLabel: 'เสร็จสิ้น', lastModified: '4 เม.ย.', assignee: 'somchai', custKey: 'c1', taskStatus: 'won' },
-    { no: 'QT-0155', customer: 'XYZ Ltd', customerTh: 'บมจ. ไทย อินโนเวชั่น กรุ๊ป', amount: 280000, amountLabel: '฿280K', status: 'review', statusLabel: 'รอตรวจสอบ', lastModified: '3 เม.ย.', assignee: 'somchai', custKey: 'c2', taskStatus: 'negotiation' },
-    { no: 'QT-0154', customer: 'DEF Inc', customerTh: 'บจก. กรีน เอ็นเนอร์ยี่ พลัส', amount: 180000, amountLabel: '฿180K', status: 'draft', statusLabel: 'ร่าง', lastModified: '2 เม.ย.', assignee: 'somchai', custKey: 'c3', taskStatus: 'draft' },
-    { no: 'QT-0153', customer: 'GHI Trading', customerTh: 'บจก. แอดวานซ์ ซอฟต์แวร์', amount: 620000, amountLabel: '฿620K', status: 'complete', statusLabel: 'เสร็จสิ้น', lastModified: '1 เม.ย.', assignee: 'suwanna', custKey: 'c4', taskStatus: 'sent' },
-    { no: 'QT-0152', customer: 'JKL Systems', customerTh: 'บมจ. เมโทร รีเทล', amount: 890000, amountLabel: '฿890K', status: 'review', statusLabel: 'รอตรวจสอบ', lastModified: '31 มี.ค.', assignee: 'natthapong', custKey: 'c5', taskStatus: 'negotiation' },
-    { no: 'QT-0151', customer: 'MNO Digital', customerTh: 'หจก. ดิจิทัล เฟิร์ส', amount: 350000, amountLabel: '฿350K', status: 'draft', statusLabel: 'ร่าง', lastModified: '30 มี.ค.', assignee: 'somchai', custKey: 'c6', taskStatus: 'draft' },
-];
-
-const quotations = [
-    { no: 'QT-2026-0156', customer: 'บจก. สยามเทค โซลูชั่น', items: 4, total: 1850000, status: 'sent', date: '3 เม.ย. 69', rep: 'สมชาย ก.' },
-    { no: 'QT-2026-0155', customer: 'บมจ. ไทย อินโนเวชั่น กรุ๊ป', items: 6, total: 3200000, status: 'accepted', date: '2 เม.ย. 69', rep: 'วิภา ล.' },
-    { no: 'QT-2026-0154', customer: 'บจก. กรีน เอ็นเนอร์ยี่ พลัส', items: 3, total: 920000, status: 'draft', date: '2 เม.ย. 69', rep: 'สมชาย ก.' },
-    { no: 'QT-2026-0153', customer: 'บมจ. เมโทร รีเทล', items: 5, total: 2150000, status: 'accepted', date: '1 เม.ย. 69', rep: 'พิชัย ส.' },
-    { no: 'QT-2026-0152', customer: 'บจก. แอดวานซ์ ซอฟต์แวร์', items: 2, total: 680000, status: 'rejected', date: '31 มี.ค. 69', rep: 'วิภา ล.' },
-    { no: 'QT-2026-0151', customer: 'หจก. ดิจิทัล เฟิร์ส', items: 7, total: 4100000, status: 'sent', date: '30 มี.ค. 69', rep: 'สมชาย ก.' },
-    { no: 'QT-2026-0150', customer: 'บจก. โปร เซอร์วิส กรุ๊ป', items: 3, total: 1250000, status: 'accepted', date: '29 มี.ค. 69', rep: 'พิชัย ส.' },
-    { no: 'QT-2026-0149', customer: 'บมจ. สมาร์ท เทรดดิ้ง', items: 4, total: 1780000, status: 'expired', date: '28 มี.ค. 69', rep: 'วิภา ล.' },
-    { no: 'QT-2026-0148', customer: 'บจก. สยามเทค โซลูชั่น', items: 2, total: 540000, status: 'accepted', date: '27 มี.ค. 69', rep: 'สมชาย ก.' },
-    { no: 'QT-2026-0147', customer: 'บมจ. ไทย อินโนเวชั่น กรุ๊ป', items: 5, total: 2850000, status: 'sent', date: '26 มี.ค. 69', rep: 'พิชัย ส.' },
-    { no: 'QT-2026-0146', customer: 'บจก. กรีน เอ็นเนอร์ยี่ พลัส', items: 3, total: 1100000, status: 'draft', date: '25 มี.ค. 69', rep: 'วิภา ล.' },
-    { no: 'QT-2026-0145', customer: 'บจก. แอดวานซ์ ซอฟต์แวร์', items: 8, total: 5200000, status: 'accepted', date: '24 มี.ค. 69', rep: 'สมชาย ก.' },
-];
-
-const statusMap = {
-    draft: { label: 'ร่าง', cls: 'badge-draft' },
-    sent: { label: 'ส่งแล้ว', cls: 'badge-sent' },
-    accepted: { label: 'ตอบรับ', cls: 'badge-accepted' },
-    rejected: { label: 'ปฏิเสธ', cls: 'badge-rejected' },
-    expired: { label: 'หมดอายุ', cls: 'badge-expired' },
-    complete: { label: 'เสร็จสิ้น', cls: 'badge-complete' },
-    review: { label: 'รอตรวจสอบ', cls: 'badge-review' },
-    negotiation: { label: 'เจรจา', cls: 'badge-negotiation' },
-    won: { label: 'ชนะ', cls: 'badge-won' },
-    lost: { label: 'แพ้', cls: 'badge-lost' },
-};
-
-// State
-let quoteItems = [];
-let selectedTemplate = 'standard';
-let dragIdx = null;
-let currentAssignee = 'somchai';
-let currentCreator = 'somchai';
-
-// Init
-document.addEventListener('DOMContentLoaded', () => {
-    renderRecentQuotes();
-    renderQuotationList();
-    renderCatalog();
-    setDefaultExpiry();
-});
-
-function setDefaultExpiry() {
-    const d = new Date();
-    d.setDate(d.getDate() + 30);
-    document.getElementById('expiryDate').value = d.toISOString().split('T')[0];
+function recalcTotals(){
+  var rows=document.querySelectorAll('#itemBody tr');
+  var subtotal=0;
+  rows.forEach(function(row,i){
+    var inputs=row.querySelectorAll('input[type=number]');
+    var qty=parseFloat(inputs[0].value)||0;
+    var price=parseFloat(inputs[1].value)||0;
+    var total=qty*price;
+    subtotal+=total;
+    row.querySelector('.num').textContent=formatThai(total);
+    row.querySelector('td').textContent=i+1;
+  });
+  var vat=subtotal*0.07;
+  var whtRate=parseFloat(document.getElementById('whtSelect').value)||0;
+  var wht=subtotal*(whtRate/100);
+  var grand=subtotal+vat-wht;
+  document.getElementById('subtotal').textContent=formatThai(subtotal);
+  document.getElementById('vatAmount').textContent=formatThai(vat);
+  document.getElementById('whtPct').textContent=whtRate;
+  document.getElementById('whtAmount').textContent='-'+formatThai(wht);
+  document.getElementById('grandTotal').textContent=formatThai(grand);
 }
 
-// Render Recent Quotations
-function renderRecentQuotes() {
-    const body = document.getElementById('recentQuotesBody');
-    body.innerHTML = recentMyQuotes.map(q => {
-        const s = statusMap[q.status] || { label: q.status, cls: 'badge-draft' };
-        const member = teamMembers[q.assignee] || teamMembers.somchai;
-        return `<tr onclick="loadQuoteIntoBuilder('${q.no}')">
-            <td><a class="qt-link" href="javascript:void(0)">${q.no}</a></td>
-            <td><span style="font-weight:600;">${q.customer}</span><br><span style="font-size:0.72rem;color:var(--muted);">${q.customerTh}</span></td>
-            <td style="text-align:right;font-weight:700;font-variant-numeric:tabular-nums;">${q.amountLabel}</td>
-            <td><span class="badge ${s.cls}">${s.label}</span></td>
-            <td style="color:var(--muted);">${q.lastModified}</td>
-            <td>
-                <div style="display:flex;align-items:center;gap:6px;">
-                    <div style="width:22px;height:22px;border-radius:50%;background:${member.color};display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:700;color:white;">${member.initials}</div>
-                    <span style="font-size:0.78rem;">${member.name}</span>
-                </div>
-            </td>
-        </tr>`;
-    }).join('');
+function addItem(){
+  var body=document.getElementById('itemBody');
+  var count=body.querySelectorAll('tr').length+1;
+  var tr=document.createElement('tr');
+  tr.innerHTML='<td style="text-align:center;color:var(--muted);">'+count+'</td><td><input type="text" placeholder="&#3619;&#3634;&#3618;&#3585;&#3634;&#3619;&#3651;&#3627;&#3617;&#3656;" oninput="recalcTotals()"></td><td><input type="number" value="1" min="1" style="text-align:right;" oninput="recalcTotals()"></td><td><input type="number" value="0" min="0" style="text-align:right;" oninput="recalcTotals()"></td><td class="num" style="font-weight:600;">฿0.00</td><td><button class="remove-btn" onclick="removeItem(this)">&#10005;</button></td>';
+  body.appendChild(tr);
 }
 
-// Load quote into builder
-function loadQuoteIntoBuilder(qtNo) {
-    const q = recentMyQuotes.find(x => x.no === qtNo);
-    if (!q) return;
-    switchTab('builder');
-    // Set customer
-    if (q.custKey) {
-        document.getElementById('customerSelect').value = q.custKey;
-        onCustomerChange();
-    }
-    // Set assignee
-    if (q.assignee) {
-        document.getElementById('assigneeSelect').value = q.assignee;
-        onAssigneeChange();
-    }
-    // Set task status
-    if (q.taskStatus) {
-        document.getElementById('taskStatusSelect').value = q.taskStatus;
-    }
-    // Update QT number
-    document.getElementById('currentQTNumber').textContent = q.no;
-    document.getElementById('previewQTNo').textContent = q.no;
-    showToast('โหลดใบเสนอราคา ' + qtNo + ' เข้า Builder แล้ว');
+function removeItem(btn){
+  var row=btn.closest('tr');
+  row.remove();
+  recalcTotals();
 }
 
-// Assignee change
-function onAssigneeChange() {
-    const val = document.getElementById('assigneeSelect').value;
-    currentAssignee = val;
-    const member = teamMembers[val];
-    if (member) {
-        document.getElementById('previewAssignee').textContent = member.name;
-    }
-    updatePreview();
-}
-
-function onTaskStatusChange() {
-    updatePreview();
-}
-
-// Tabs
-function switchTab(tab) {
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('tab-' + tab).classList.add('active');
-    document.querySelectorAll('.tab-btn')[tab === 'list' ? 0 : 1].classList.add('active');
-    if (tab === 'builder') updatePreview();
-}
-
-// Quotation List
-function renderQuotationList(data) {
-    const list = data || quotations;
-    const body = document.getElementById('quotationListBody');
-    body.innerHTML = list.map(q => {
-        const s = statusMap[q.status];
-        return `<tr>
-            <td style="font-weight:600;color:var(--blue);">${q.no}</td>
-            <td>${q.customer}</td>
-            <td style="text-align:center;">${q.items} รายการ</td>
-            <td style="text-align:right;font-weight:600;font-variant-numeric:tabular-nums;">&#x0E3F;${q.total.toLocaleString()}</td>
-            <td><span class="badge ${s.cls}">${s.label}</span></td>
-            <td style="color:var(--muted);">${q.date}</td>
-            <td>${q.rep}</td>
-        </tr>`;
-    }).join('');
-}
-
-function filterQuotations() {
-    const q = document.getElementById('listSearch').value.toLowerCase();
-    if (!q) { renderQuotationList(); return; }
-    renderQuotationList(quotations.filter(r =>
-        r.no.toLowerCase().includes(q) ||
-        r.customer.toLowerCase().includes(q) ||
-        r.rep.toLowerCase().includes(q)
-    ));
-}
-
-// Customer
-function onCustomerChange() {
-    const val = document.getElementById('customerSelect').value;
-    if (val === 'new') {
-        document.getElementById('contactName').value = '';
-        document.getElementById('contactEmail').value = '';
-        document.getElementById('contactPhone').value = '';
-        document.getElementById('contactName').focus();
-    } else if (val && customers[val]) {
-        const c = customers[val];
-        document.getElementById('contactName').value = c.contact;
-        document.getElementById('contactEmail').value = c.email;
-        document.getElementById('contactPhone').value = c.phone;
-    }
-    renderQuoteItems();
-    updatePreview();
-}
-
-// Template
-function selectTemplate(tmpl) {
-    selectedTemplate = tmpl;
-    document.querySelectorAll('.template-card').forEach(c => c.classList.remove('selected'));
-    document.getElementById('tmpl-' + tmpl).classList.add('selected');
-    updatePreview();
-}
-
-// Product Catalog
-function openCatalog() {
-    document.getElementById('catalogOverlay').classList.add('open');
-    document.getElementById('catalogSearch').value = '';
-    renderCatalog();
-}
-function closeCatalog() {
-    document.getElementById('catalogOverlay').classList.remove('open');
-}
-
-function renderCatalog(data) {
-    const list = data || products;
-    document.getElementById('catalogBody').innerHTML = list.map(p => `
-        <tr>
-            <td style="font-weight:600;color:var(--cyan);">${p.code}</td>
-            <td>${p.name}</td>
-            <td>${p.unit}</td>
-            <td style="text-align:right;font-weight:600;font-variant-numeric:tabular-nums;">&#x0E3F;${p.price.toLocaleString()}</td>
-            <td><button class="btn btn-primary btn-sm" onclick="addProduct('${p.code}')">&#x2795; เพิ่ม</button></td>
-        </tr>
-    `).join('');
-}
-
-function filterCatalog() {
-    const q = document.getElementById('catalogSearch').value.toLowerCase();
-    if (!q) { renderCatalog(); return; }
-    renderCatalog(products.filter(p =>
-        p.code.toLowerCase().includes(q) ||
-        p.name.toLowerCase().includes(q)
-    ));
-}
-
-// Add Product
-function addProduct(code) {
-    const p = products.find(x => x.code === code);
-    if (!p) return;
-    const existing = quoteItems.find(x => x.code === code);
-    if (existing) { existing.qty += 1; }
-    else { quoteItems.push({ code: p.code, name: p.name, unit: p.unit, qty: 1, price: p.price, discount: 0 }); }
-    renderQuoteItems();
-    recalc();
-    showToast('เพิ่ม "' + p.name + '" แล้ว');
-}
-
-function removeItem(idx) {
-    quoteItems.splice(idx, 1);
-    renderQuoteItems();
-    recalc();
-}
-
-// Render Quote Items
-function renderQuoteItems() {
-    const body = document.getElementById('quoteItemsBody');
-    if (quoteItems.length === 0) {
-        body.innerHTML = '<tr id="emptyRow"><td colspan="7" style="text-align:center;padding:40px;color:var(--muted);">ยังไม่มีรายการ &mdash; กดปุ่ม "เพิ่มจากแคตตาล็อก" เพื่อเริ่มต้น</td></tr>';
-        return;
-    }
-    const custVal = document.getElementById('customerSelect').value;
-    body.innerHTML = quoteItems.map((item, i) => {
-        const lineTotal = item.qty * item.price * (1 - item.discount / 100);
-        const hint = getAIHint(custVal, item.code);
-        return '<tr draggable="true" ondragstart="dragStart(event,' + i + ')" ondragover="dragOver(event)" ondrop="drop(event,' + i + ')" ondragend="dragEnd(event)">' +
-            '<td><span class="drag-handle">&#x2630;</span></td>' +
-            '<td>' +
-                '<div style="font-weight:600;color:var(--text);">' + item.name + '</div>' +
-                '<div style="font-size:0.72rem;color:var(--muted);">' + item.code + ' &middot; ' + item.unit + '</div>' +
-                (hint ? '<div class="ai-hint">&#x1f916; AI: ลูกค้านี้เคยซื้อราคา &#x0E3F;' + hint.toLocaleString() + ' ครั้งก่อน</div>' : '') +
-            '</td>' +
-            '<td><input class="qi-input" type="number" min="1" value="' + item.qty + '" onchange="updateItem(' + i + ',\'qty\',this.value)" style="width:70px;"></td>' +
-            '<td><input class="qi-input" type="number" min="0" value="' + item.price + '" onchange="updateItem(' + i + ',\'price\',this.value)" style="width:110px;"></td>' +
-            '<td><input class="qi-input" type="number" min="0" max="100" value="' + item.discount + '" onchange="updateItem(' + i + ',\'discount\',this.value)" style="width:70px;"></td>' +
-            '<td class="row-total">&#x0E3F;' + lineTotal.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
-            '<td><button class="btn btn-danger btn-sm" onclick="removeItem(' + i + ')" style="padding:4px 8px;">&#x2715;</button></td>' +
-        '</tr>';
-    }).join('');
-}
-
-function getAIHint(custVal, code) {
-    if (custVal && aiPriceHints[custVal] && aiPriceHints[custVal][code]) return aiPriceHints[custVal][code];
-    return null;
-}
-
-function updateItem(idx, field, val) {
-    const n = parseFloat(val);
-    if (isNaN(n) || n < 0) return;
-    quoteItems[idx][field] = n;
-    renderQuoteItems();
-    recalc();
-}
-
-// Drag & Drop
-function dragStart(e, idx) { dragIdx = idx; e.currentTarget.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; }
-function dragOver(e) { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; }
-function drop(e, idx) {
-    e.preventDefault();
-    if (dragIdx === null || dragIdx === idx) return;
-    const item = quoteItems.splice(dragIdx, 1)[0];
-    quoteItems.splice(idx, 0, item);
-    dragIdx = null;
-    renderQuoteItems(); recalc();
-}
-function dragEnd(e) { e.currentTarget.classList.remove('dragging'); dragIdx = null; }
-
-// Recalculate
-function recalc() {
-    let subtotal = 0, totalDiscount = 0;
-    quoteItems.forEach(item => {
-        const gross = item.qty * item.price;
-        const disc = gross * (item.discount / 100);
-        subtotal += gross; totalDiscount += disc;
-    });
-    const afterDisc = subtotal - totalDiscount;
-    const vat = afterDisc * 0.07;
-    const grand = afterDisc + vat;
-    document.getElementById('sumSubtotal').innerHTML = '&#x0E3F;' + subtotal.toLocaleString(undefined,{minimumFractionDigits:2});
-    document.getElementById('sumDiscount').innerHTML = '-&#x0E3F;' + totalDiscount.toLocaleString(undefined,{minimumFractionDigits:2});
-    document.getElementById('sumAfterDisc').innerHTML = '&#x0E3F;' + afterDisc.toLocaleString(undefined,{minimumFractionDigits:2});
-    document.getElementById('sumVat').innerHTML = '&#x0E3F;' + vat.toLocaleString(undefined,{minimumFractionDigits:2});
-    document.getElementById('sumGrand').innerHTML = '&#x0E3F;' + grand.toLocaleString(undefined,{minimumFractionDigits:2});
-    updatePreview();
-}
-
-// Update Preview
-function updatePreview() {
-    const hdr = document.getElementById('docHeader');
-    hdr.className = 'doc-header';
-    if (selectedTemplate === 'professional') hdr.classList.add('professional');
-    if (selectedTemplate === 'premium') hdr.classList.add('premium');
-
-    const custVal = document.getElementById('customerSelect').value;
-    const custName = (custVal && custVal !== 'new' && customers[custVal]) ? customers[custVal].name : (document.getElementById('contactName').value || '-');
-    document.getElementById('previewCustomer').textContent = custName;
-
-    const exp = document.getElementById('expiryDate').value;
-    document.getElementById('previewExpiry').textContent = exp ? new Date(exp).toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' }) : '-';
-
-    // Update creator and assignee in preview
-    const creatorMember = teamMembers[currentCreator];
-    document.getElementById('previewCreator').textContent = creatorMember ? creatorMember.name : 'สมชาย ก.';
-    const assigneeVal = document.getElementById('assigneeSelect').value;
-    const assigneeMember = teamMembers[assigneeVal];
-    document.getElementById('previewAssignee').textContent = assigneeMember ? assigneeMember.name : '-';
-
-    const pBody = document.getElementById('previewItemsBody');
-    if (quoteItems.length === 0) {
-        pBody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#9ca3af;padding:20px;">ยังไม่มีรายการ</td></tr>';
-    } else {
-        pBody.innerHTML = quoteItems.map((item, i) => {
-            const lt = item.qty * item.price * (1 - item.discount / 100);
-            return '<tr>' +
-                '<td>' + (i + 1) + '</td>' +
-                '<td>' + item.name + '</td>' +
-                '<td>' + item.qty + '</td>' +
-                '<td style="text-align:right;">&#x0E3F;' + item.price.toLocaleString() + '</td>' +
-                '<td style="text-align:right;font-weight:600;">&#x0E3F;' + lt.toLocaleString(undefined,{minimumFractionDigits:2}) + '</td>' +
-            '</tr>';
-        }).join('');
-    }
-
-    let subtotal = 0, totalDiscount = 0;
-    quoteItems.forEach(item => {
-        const gross = item.qty * item.price;
-        subtotal += gross; totalDiscount += gross * (item.discount / 100);
-    });
-    const afterDisc = subtotal - totalDiscount;
-    const vat = afterDisc * 0.07;
-    const grand = afterDisc + vat;
-
-    document.getElementById('previewSubtotal').innerHTML = '&#x0E3F;' + subtotal.toLocaleString(undefined,{minimumFractionDigits:2});
-    document.getElementById('previewDiscount').innerHTML = '-&#x0E3F;' + totalDiscount.toLocaleString(undefined,{minimumFractionDigits:2});
-    document.getElementById('previewVat').innerHTML = '&#x0E3F;' + vat.toLocaleString(undefined,{minimumFractionDigits:2});
-    document.getElementById('previewGrand').innerHTML = '&#x0E3F;' + grand.toLocaleString(undefined,{minimumFractionDigits:2});
-
-    const terms = document.getElementById('paymentTerms');
-    const termsText = terms.options[terms.selectedIndex].text;
-    const notes = document.getElementById('notes').value;
-    document.getElementById('docFooter').innerHTML =
-        '<div>เงื่อนไข: ' + termsText + '</div>' +
-        (notes ? '<div style="margin-top:4px;">หมายเหตุ: ' + notes + '</div>' : '') +
-        '<div style="margin-top:4px;">ใบเสนอราคานี้จัดทำโดย Autopilot v2 &mdash; ANTS AI Solution Hub</div>';
-}
-
-// Actions
-function saveDraft() { showToast('บันทึกร่างเรียบร้อยแล้ว'); }
-function sendEmail() {
-    const email = document.getElementById('contactEmail').value;
-    if (!email) { showToast('กรุณาระบุอีเมลลูกค้า'); return; }
-    showToast('ส่งใบเสนอราคาไปที่ ' + email + ' เรียบร้อยแล้ว');
-}
-function downloadPDF() { showToast('กำลังสร้าง PDF... ดาวน์โหลดจะเริ่มในไม่ช้า'); }
-function printQuote() { window.print(); }
-
-// Toast
-function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.innerHTML = '&#x2714; ' + msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 3000);
+function showToast(icon,title,msg){
+  var t=document.createElement('div');
+  t.style.cssText='position:fixed;bottom:24px;right:24px;background:var(--card-bg,#fff);color:var(--text,#0F172A);border:1px solid var(--border,#E2E8F0);padding:14px 20px;border-radius:12px;font-size:.82rem;font-weight:500;z-index:99999;box-shadow:0 8px 32px rgba(0,0,0,.15);display:flex;align-items:center;gap:10px;font-family:inherit;max-width:380px;animation:toastIn .4s ease;';
+  t.innerHTML=(icon?'<span style="font-size:1.2rem;">'+icon+'</span>':'')+'<div>'+(title?'<strong>'+title+'</strong> ':'')+msg+'</div>';
+  document.body.appendChild(t);
+  setTimeout(function(){t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(function(){t.remove();},300);},3000);
 }
 </script>
-
 </body>
 </html>

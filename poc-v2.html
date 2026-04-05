@@ -307,6 +307,72 @@ select.form-input{cursor:pointer;}
 .dft-switch{display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden;}
 .dft-opt{padding:3px 8px;font-size:.6rem;font-weight:600;cursor:pointer;border:none;background:var(--white);color:var(--muted);transition:all .15s;font-family:inherit;}
 .dft-opt.active{background:var(--blue);color:#fff;}
+
+/* Command Palette */
+.cmd-palette{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);z-index:2000;display:flex;align-items:flex-start;justify-content:center;padding-top:12vh;opacity:0;pointer-events:none;transition:opacity .2s;}
+.cmd-palette.show{opacity:1;pointer-events:all;}
+.cmd-palette-box{background:var(--white);border:1px solid var(--border);border-radius:16px;width:580px;max-width:92vw;box-shadow:var(--sh3);overflow:hidden;transform:scale(.97);transition:transform .2s;}
+.cmd-palette.show .cmd-palette-box{transform:scale(1);}
+.cmd-input-wrap{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--border);}
+.cmd-input-wrap .cmd-icon{font-size:1.1rem;color:var(--muted);}
+.cmd-input{flex:1;border:none;background:none;font-size:1rem;font-family:inherit;color:var(--text);outline:none;}
+.cmd-input::placeholder{color:var(--light);}
+.cmd-kbd{font-size:.6rem;font-weight:700;color:var(--light);background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:2px 6px;}
+.cmd-results{max-height:360px;overflow-y:auto;padding:6px 0;}
+.cmd-cat{padding:6px 18px 4px;font-size:.6rem;font-weight:700;color:var(--light);letter-spacing:1px;text-transform:uppercase;}
+.cmd-item{display:flex;align-items:center;gap:10px;padding:9px 18px;cursor:pointer;font-size:.82rem;color:var(--text2);transition:background .1s;}
+.cmd-item:hover,.cmd-item.active{background:var(--blue-l);color:var(--blue);}
+.cmd-item .cmd-item-icon{width:24px;text-align:center;font-size:.9rem;}
+.cmd-item .cmd-item-label{flex:1;}
+.cmd-item .cmd-item-hint{font-size:.65rem;color:var(--light);}
+
+/* Sidebar Favorites */
+.fav-section{padding:8px 12px 4px;}
+.fav-section .nav-label{font-size:.6rem;font-weight:700;color:var(--light);letter-spacing:1.2px;text-transform:uppercase;padding:0 8px;margin-bottom:4px;}
+.fav-item{display:flex;align-items:center;gap:8px;padding:4px 12px;border-radius:6px;cursor:pointer;font-size:.7rem;color:var(--orange);transition:all .15s;border:none;background:none;width:100%;text-align:left;font-family:inherit;}
+.fav-item:hover{background:var(--orange-l);color:var(--orange);}
+.nav-item .fav-star{margin-left:auto;font-size:.7rem;cursor:pointer;opacity:0;transition:opacity .15s;color:var(--light);background:none;border:none;font-family:inherit;padding:2px 4px;}
+.nav-item:hover .fav-star{opacity:1;}
+.nav-item .fav-star.starred{opacity:1;color:var(--orange);}
+
+/* Keyboard Shortcut Hints */
+.nav-item .kbd-hint{margin-left:auto;font-size:.55rem;font-weight:700;color:var(--light);background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:1px 5px;opacity:0;transition:opacity .15s;}
+.nav-item:hover .kbd-hint{opacity:1;}
+
+/* Undo/Redo Indicator */
+.undo-redo-wrap{display:flex;align-items:center;gap:2px;margin-right:4px;}
+.undo-redo-btn{width:30px;height:30px;border-radius:7px;border:1px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.85rem;transition:all .15s;color:var(--muted);}
+.undo-redo-btn:hover{background:var(--bg);border-color:var(--blue);color:var(--blue);}
+.undo-redo-btn[disabled]{opacity:.4;cursor:default;pointer-events:none;}
+
+/* Settings Search */
+.settings-search{margin-bottom:20px;}
+.settings-search input{width:100%;padding:10px 14px 10px 36px;border:1px solid var(--border);border-radius:10px;font-family:inherit;font-size:.85rem;background:var(--bg);transition:border-color .15s;color:var(--text);}
+.settings-search input:focus{outline:none;border-color:var(--blue);background:var(--white);}
+.settings-search-wrap{position:relative;}
+.settings-search-wrap .ss-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.9rem;}
+
+/* Toggle Switch */
+.toggle-switch{position:relative;width:40px;height:22px;flex-shrink:0;}
+.toggle-switch input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;cursor:pointer;inset:0;background:var(--border2);border-radius:11px;transition:background .2s;}
+.toggle-slider::before{content:'';position:absolute;height:16px;width:16px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:transform .2s;}
+.toggle-switch input:checked + .toggle-slider{background:var(--green);}
+.toggle-switch input:checked + .toggle-slider::before{transform:translateX(18px);}
+
+/* Role Template Card */
+.role-template{border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;transition:all .2s;background:var(--white);}
+.role-template:hover{border-color:var(--blue);box-shadow:var(--sh2);}
+.role-template.selected{border-color:var(--purple);background:var(--purple-l);}
+.role-template .rt-icon{font-size:1.4rem;margin-bottom:6px;}
+.role-template .rt-name{font-weight:700;font-size:.82rem;margin-bottom:2px;}
+.role-template .rt-desc{font-size:.68rem;color:var(--muted);line-height:1.4;}
+
+/* Usage Bar */
+.usage-bar-wrap{margin-bottom:14px;}
+.usage-bar-label{display:flex;justify-content:space-between;font-size:.75rem;margin-bottom:4px;}
+.usage-bar{width:100%;height:8px;background:var(--bg);border-radius:4px;overflow:hidden;}
+.usage-fill{height:100%;border-radius:4px;transition:width .4s ease;}
 </style>
 </head>
 <body>
@@ -320,6 +386,11 @@ select.form-input{cursor:pointer;}
 
     <div class="nav-section"><div class="nav-label">Home</div>
         <button class="nav-item active" onclick="loadModule('modules/home.html','Home')"><span class="icon">🏠</span>Home</button>
+    </div>
+
+    <div class="fav-section" id="favSection" style="display:none;">
+        <div class="nav-label">⭐ รายการโปรด</div>
+        <div id="favList"></div>
     </div>
 
     <div class="recent-visited" id="recentVisitedSection" style="display:none;">
@@ -427,7 +498,11 @@ select.form-input{cursor:pointer;}
         <div class="header-title" id="headerTitle">Dashboard</div>
     </div>
     <div class="header-right">
-        <div class="search-input" style="width:220px;"><span>🔍</span><input placeholder="Search..." /></div>
+        <div class="undo-redo-wrap">
+            <button class="undo-redo-btn" id="undoBtn" title="Undo (Ctrl+Z)" onclick="doUndo()">↩</button>
+            <button class="undo-redo-btn" id="redoBtn" title="Redo (Ctrl+Y)" onclick="doRedo()" disabled>↪</button>
+        </div>
+        <div class="search-input" style="width:220px;cursor:pointer;" onclick="openCmdPalette()"><span>🔍</span><input placeholder="ค้นหา... (Ctrl+K)" style="cursor:pointer;" readonly /></div>
         <div style="position:relative;">
             <button class="header-btn" onclick="toggleNotif()">🔔<span class="dot"></span></button>
             <div class="notif-panel" id="notifPanel">
@@ -821,7 +896,11 @@ select.form-input{cursor:pointer;}
 <!-- ════ USERS ════ -->
 <div id="page-users" class="page hidden">
     <div class="flex-between mb-16"><div><h2>Users & Permissions</h2><p class="text-sm text-muted">จัดการผู้ใช้ — รองรับ 10 ถึง 5,000+ users</p></div>
-        <button class="btn btn-primary btn-sm" onclick="showModal('invite')">+ Invite User</button></div>
+        <div style="display:flex;gap:8px;">
+            <button class="btn btn-outline btn-sm" onclick="showToast('📤','CSV Upload','กำลังอัปโหลดรายชื่อผู้ใช้...')">📤 Bulk Import (CSV)</button>
+            <button class="btn btn-primary btn-sm" onclick="showModal('invite')">+ Invite User</button>
+        </div>
+    </div>
     <div class="kpi-grid" style="grid-template-columns:repeat(5,1fr);">
         <div class="kpi card-sm"><div class="kpi-label">Total</div><div class="kpi-value" style="font-size:1.4rem;color:var(--blue);">24</div></div>
         <div class="kpi card-sm"><div class="kpi-label">Admin</div><div class="kpi-value" style="font-size:1.4rem;color:var(--purple);">2</div></div>
@@ -831,13 +910,48 @@ select.form-input{cursor:pointer;}
     <div class="card" style="padding:0;overflow:hidden;">
         <table class="data-table"><thead><tr><th>User</th><th>Email</th><th>Role</th><th>Dept</th><th>Tasks</th><th>Last Active</th><th>Actions</th></tr></thead><tbody id="usersBody"></tbody></table>
     </div>
+
+    <div class="card mt-16">
+        <div class="card-header"><span class="card-title">🔐 Role Templates</span>
+            <div style="display:flex;gap:8px;">
+                <button class="btn btn-outline btn-sm" onclick="showToast('📋','Clone Role','เลือก Role ที่ต้องการ Clone')">📋 Clone Role</button>
+                <button class="btn btn-primary btn-sm" onclick="showToast('➕','Custom Role','สร้าง Role ใหม่')">+ สร้าง Role ใหม่</button>
+            </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;" id="roleTemplatesGrid">
+            <div class="role-template" onclick="selectRoleTemplate(this,'super-admin')"><div class="rt-icon">👑</div><div class="rt-name">Super Admin</div><div class="rt-desc">สิทธิ์ทั้งหมด รวม Billing & User Management</div></div>
+            <div class="role-template" onclick="selectRoleTemplate(this,'manager')"><div class="rt-icon">👔</div><div class="rt-name">Manager</div><div class="rt-desc">อนุมัติ, ดูข้อมูลทุก Module, Export</div></div>
+            <div class="role-template" onclick="selectRoleTemplate(this,'finance-staff')"><div class="rt-icon">🏦</div><div class="rt-name">Finance Staff</div><div class="rt-desc">จัดการเอกสารสินเชื่อ, Expense</div></div>
+            <div class="role-template" onclick="selectRoleTemplate(this,'procurement-staff')"><div class="rt-icon">📋</div><div class="rt-name">Procurement Staff</div><div class="rt-desc">สร้าง PR/PO, จัดการ Vendor</div></div>
+            <div class="role-template" onclick="selectRoleTemplate(this,'sales-staff')"><div class="rt-icon">💰</div><div class="rt-name">Sales Staff</div><div class="rt-desc">สร้างใบเสนอราคา, Pipeline</div></div>
+            <div class="role-template" onclick="selectRoleTemplate(this,'logistics-staff')"><div class="rt-icon">🚢</div><div class="rt-name">Logistics Staff</div><div class="rt-desc">FX, Freight OCR, Cost Calculator</div></div>
+            <div class="role-template" onclick="selectRoleTemplate(this,'viewer')"><div class="rt-icon">👁️</div><div class="rt-name">Viewer</div><div class="rt-desc">ดูอย่างเดียว ไม่สามารถแก้ไข</div></div>
+            <div class="role-template" onclick="selectRoleTemplate(this,'auditor')"><div class="rt-icon">📊</div><div class="rt-name">Auditor</div><div class="rt-desc">ดู Audit Log, Reports, Read-only</div></div>
+        </div>
+    </div>
+
     <div class="card mt-16"><div class="card-title">Role Permissions Matrix</div>
-        <table class="data-table mt-8"><thead><tr><th>Permission</th><th>Admin</th><th>Manager</th><th>Analyst</th><th>Viewer</th></tr></thead><tbody>
-            <tr><td>Create Tasks</td><td>✅</td><td>✅</td><td>✅</td><td>❌</td></tr><tr><td>View All Tasks</td><td>✅</td><td>✅</td><td>Own only</td><td>Assigned</td></tr>
-            <tr><td>Approve / Reject</td><td>✅</td><td>✅</td><td>❌</td><td>❌</td></tr><tr><td>Export Reports</td><td>✅</td><td>✅</td><td>✅</td><td>❌</td></tr>
-            <tr><td>Manage Users</td><td>✅</td><td>❌</td><td>❌</td><td>❌</td></tr><tr><td>Configure Channels</td><td>✅</td><td>✅</td><td>❌</td><td>❌</td></tr>
-            <tr><td>API Access</td><td>✅</td><td>✅</td><td>Read only</td><td>❌</td></tr>
-            <tr><td>Billing Management</td><td>✅</td><td>❌</td><td>❌</td><td>❌</td></tr></tbody></table></div>
+        <div style="overflow-x:auto;">
+        <table class="data-table mt-8"><thead><tr><th>Module / Permission</th><th>Super Admin</th><th>Manager</th><th>Finance</th><th>Procurement</th><th>Sales</th><th>Logistics</th><th>Viewer</th><th>Auditor</th></tr></thead><tbody>
+            <tr><td style="font-weight:600;">📋 Procurement</td><td>✅</td><td>✅</td><td>👁️</td><td>✅</td><td>❌</td><td>❌</td><td>👁️</td><td>👁️</td></tr>
+            <tr><td style="font-weight:600;">🧾 Expense & Receipt</td><td>✅</td><td>✅</td><td>✅</td><td>✏️</td><td>❌</td><td>❌</td><td>👁️</td><td>👁️</td></tr>
+            <tr><td style="font-weight:600;">🏦 Finance Doc Hub</td><td>✅</td><td>✅</td><td>✅</td><td>❌</td><td>❌</td><td>❌</td><td>👁️</td><td>👁️</td></tr>
+            <tr><td style="font-weight:600;">🚢 Logistics FX</td><td>✅</td><td>✅</td><td>❌</td><td>❌</td><td>❌</td><td>✅</td><td>👁️</td><td>👁️</td></tr>
+            <tr><td style="font-weight:600;">💰 Sales Doc Gen</td><td>✅</td><td>✅</td><td>❌</td><td>❌</td><td>✅</td><td>❌</td><td>👁️</td><td>👁️</td></tr>
+            <tr><td style="font-weight:600;">🏢 Vendor Management</td><td>✅</td><td>✅</td><td>👁️</td><td>✅</td><td>❌</td><td>❌</td><td>👁️</td><td>👁️</td></tr>
+            <tr style="background:var(--bg);"><td colspan="9" style="font-weight:700;font-size:.72rem;color:var(--muted);letter-spacing:.5px;">SYSTEM PERMISSIONS</td></tr>
+            <tr><td>Create Tasks</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>❌</td><td>❌</td></tr>
+            <tr><td>Approve / Reject</td><td>✅</td><td>✅</td><td>✅</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td></tr>
+            <tr><td>Export Reports</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>❌</td><td>✅</td></tr>
+            <tr><td>Manage Users</td><td>✅</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td></tr>
+            <tr><td>Configure Channels</td><td>✅</td><td>✅</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td></tr>
+            <tr><td>API Access</td><td>✅</td><td>✅</td><td>Read</td><td>Read</td><td>Read</td><td>Read</td><td>❌</td><td>Read</td></tr>
+            <tr><td>Billing Management</td><td>✅</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td></tr>
+            <tr><td>Audit Log</td><td>✅</td><td>✅</td><td>👁️</td><td>👁️</td><td>❌</td><td>❌</td><td>❌</td><td>✅</td></tr>
+        </tbody></table>
+        </div>
+        <div class="text-xs text-muted mt-8">✅ = เต็มรูปแบบ &nbsp; ✏️ = แก้ไข &nbsp; 👁️ = ดูอย่างเดียว &nbsp; ❌ = ไม่มีสิทธิ์</div>
+    </div>
 </div>
 
 <!-- ════ CHANNELS ════ -->
@@ -915,6 +1029,58 @@ select.form-input{cursor:pointer;}
         <div class="card"><div class="flex-between"><span style="font-weight:700;">💰 Sales Doc Gen</span><span class="status status-complete">Active</span></div><div class="text-sm text-muted mt-8">Auto quotation, templates, catalog</div><button class="btn btn-outline btn-sm mt-8" onclick="loadModule('modules/sales-quotation-builder.html','Sales Doc Gen')">Open Module →</button></div>
     </div>
 
+    <div class="card mb-16">
+        <div class="card-title">📊 Usage Tracking</div>
+        <div class="grid-3">
+            <div>
+                <div class="usage-bar-wrap">
+                    <div class="usage-bar-label"><span style="font-weight:600;">🤖 API Calls</span><span class="text-muted">7,420 / 10,000</span></div>
+                    <div class="usage-bar"><div class="usage-fill" style="width:74%;background:var(--blue);"></div></div>
+                </div>
+                <div class="usage-bar-wrap">
+                    <div class="usage-bar-label"><span style="font-weight:600;">🧠 AI Tokens</span><span class="text-muted">847K / 1M</span></div>
+                    <div class="usage-bar"><div class="usage-fill" style="width:85%;background:var(--purple);"></div></div>
+                </div>
+            </div>
+            <div>
+                <div class="usage-bar-wrap">
+                    <div class="usage-bar-label"><span style="font-weight:600;">📄 OCR Pages</span><span class="text-muted">12,480 / 50,000</span></div>
+                    <div class="usage-bar"><div class="usage-fill" style="width:25%;background:var(--green);"></div></div>
+                </div>
+                <div class="usage-bar-wrap">
+                    <div class="usage-bar-label"><span style="font-weight:600;">💾 Storage</span><span class="text-muted">18.4 GB / 100 GB</span></div>
+                    <div class="usage-bar"><div class="usage-fill" style="width:18%;background:var(--cyan);"></div></div>
+                </div>
+            </div>
+            <div>
+                <div class="usage-bar-wrap">
+                    <div class="usage-bar-label"><span style="font-weight:600;">👥 Users</span><span class="text-muted">24 / 50</span></div>
+                    <div class="usage-bar"><div class="usage-fill" style="width:48%;background:var(--orange);"></div></div>
+                </div>
+                <div class="usage-bar-wrap">
+                    <div class="usage-bar-label"><span style="font-weight:600;">🔌 Connectors</span><span class="text-muted">4 / 10</span></div>
+                    <div class="usage-bar"><div class="usage-fill" style="width:40%;background:var(--pink);"></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-16">
+        <div class="card-title">📋 Plan Comparison</div>
+        <div style="overflow-x:auto;">
+        <table class="data-table"><thead><tr><th>Feature</th><th style="text-align:center;">Starter<br><span class="text-xs" style="font-weight:400;">฿9,900/mo</span></th><th style="text-align:center;background:var(--purple-l);">Business<br><span class="text-xs" style="font-weight:400;">฿29,900/mo</span></th><th style="text-align:center;">Enterprise<br><span class="text-xs" style="font-weight:400;">฿49,000+/mo</span></th></tr></thead><tbody>
+            <tr><td>AI Tokens</td><td style="text-align:center;">100K</td><td style="text-align:center;background:var(--purple-l);">500K</td><td style="text-align:center;">1M+</td></tr>
+            <tr><td>OCR Pages/mo</td><td style="text-align:center;">5,000</td><td style="text-align:center;background:var(--purple-l);">20,000</td><td style="text-align:center;">50,000+</td></tr>
+            <tr><td>Users</td><td style="text-align:center;">10</td><td style="text-align:center;background:var(--purple-l);">25</td><td style="text-align:center;">Unlimited</td></tr>
+            <tr><td>Modules</td><td style="text-align:center;">2</td><td style="text-align:center;background:var(--purple-l);">3</td><td style="text-align:center;">5+</td></tr>
+            <tr><td>API Access</td><td style="text-align:center;">❌</td><td style="text-align:center;background:var(--purple-l);">✅</td><td style="text-align:center;">✅</td></tr>
+            <tr><td>SSO / 2FA</td><td style="text-align:center;">❌</td><td style="text-align:center;background:var(--purple-l);">✅</td><td style="text-align:center;">✅</td></tr>
+            <tr><td>Priority Support</td><td style="text-align:center;">❌</td><td style="text-align:center;background:var(--purple-l);">Email</td><td style="text-align:center;">24/7 + SLA</td></tr>
+            <tr><td>Custom Roles</td><td style="text-align:center;">❌</td><td style="text-align:center;background:var(--purple-l);">4 roles</td><td style="text-align:center;">Unlimited</td></tr>
+        </tbody></table>
+        </div>
+    </div>
+
     <div class="grid-2">
         <div class="card"><div class="card-title">💳 Top Up Tokens</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;">
@@ -931,7 +1097,7 @@ select.form-input{cursor:pointer;}
             </div>
         </div>
     </div>
-    <div class="card mt-16"><div class="card-title">Payment History</div>
+    <div class="card mt-16"><div class="card-header"><span class="card-title">📜 Invoice History</span><button class="btn btn-outline btn-sm" onclick="showToast('📥','Export','invoices_2026.csv downloading...')">📥 Export All</button></div>
         <table class="data-table"><thead><tr><th>Date</th><th>Description</th><th>Amount</th><th>Status</th><th>Receipt</th></tr></thead><tbody>
             <tr><td>1 Apr 2026</td><td>Procurement — Enterprise</td><td class="num">฿49,000</td><td><span class="status status-complete">Paid</span></td><td><a class="link" onclick="showToast('📥','Downloading','receipt_apr2026.pdf')">Download</a></td></tr>
             <tr><td>1 Apr 2026</td><td>Finance Doc Hub — Business</td><td class="num">฿29,900</td><td><span class="status status-complete">Paid</span></td><td><a class="link">Download</a></td></tr>
@@ -943,37 +1109,85 @@ select.form-input{cursor:pointer;}
 <!-- ════ SETTINGS ════ -->
 <div id="page-settings" class="page hidden">
     <h2 class="mb-16">Settings</h2>
-    <div class="grid-2">
-        <div class="card"><div class="card-title">🏢 Organization</div>
+    <div class="settings-search">
+        <div class="settings-search-wrap">
+            <span class="ss-icon">🔍</span>
+            <input id="settingsSearchInput" placeholder="ค้นหาการตั้งค่า..." oninput="filterSettings(this.value)" />
+        </div>
+    </div>
+    <div class="grid-2" id="settingsGrid">
+        <div class="card settings-card" data-settings-keywords="organization company tax language องค์กร บริษัท ภาษา"><div class="card-title">🏢 Organization</div>
             <div class="form-group"><label class="form-label">Company Name</label><input class="form-input" value="บริษัท ไทยสตีลเคเบิล จำกัด (มหาชน)" /></div>
             <div class="form-group"><label class="form-label">Tax ID</label><input class="form-input" value="0107536000421" /></div>
             <div class="form-group"><label class="form-label">Default Language</label><select class="form-input"><option>Thai (ไทย)</option><option>English</option></select></div>
             <button class="btn btn-primary btn-sm mt-8" onclick="showToast('✅','Saved','Organization settings updated')">Save Changes</button>
         </div>
-        <div class="card"><div class="card-title">🔑 API & Integrations</div>
+        <div class="card settings-card" data-settings-keywords="api integration webhook key"><div class="card-title">🔑 API & Integrations</div>
             <div class="form-group"><label class="form-label">API Key</label><div style="display:flex;gap:8px;"><input class="form-input" value="ap_live_7f3k...x9m2" style="font-family:monospace;" readonly /><button class="btn btn-outline btn-sm" onclick="showToast('📋','Copied','API key copied to clipboard')">Copy</button></div></div>
             <div class="form-group"><label class="form-label">Webhook URL</label><input class="form-input" value="https://api.autopilot.ai/webhook/tsc" /></div>
             <div class="form-group"><label class="form-label">Rate Limit</label><input class="form-input" value="10,000 requests/day" readonly /></div>
             <button class="btn btn-outline btn-sm mt-8" onclick="showToast('🔄','Regenerated','New API key generated')">Regenerate Key</button>
         </div>
-        <div class="card"><div class="card-title">🔔 Notifications</div>
-            <label style="display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:.82rem;cursor:pointer;"><input type="checkbox" checked> Task completion alerts</label>
-            <label style="display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:.82rem;cursor:pointer;"><input type="checkbox" checked> Channel intake notifications</label>
-            <label style="display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:.82rem;cursor:pointer;"><input type="checkbox" checked> Approval requests</label>
-            <label style="display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:.82rem;cursor:pointer;"><input type="checkbox"> Weekly summary email</label>
+        <div class="card settings-card" data-settings-keywords="notification alert line email in-app แจ้งเตือน"><div class="card-title">🔔 Notification Preferences</div>
+            <div style="font-size:.75rem;font-weight:700;color:var(--muted);margin-bottom:10px;">ช่องทางการแจ้งเตือน</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-size:.82rem;"><span>💬 LINE Notifications</span><label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-size:.82rem;"><span>📧 Email Notifications</span><label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-size:.82rem;"><span>🔔 In-app Notifications</span><label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:6px;">
+            <div style="font-size:.75rem;font-weight:700;color:var(--muted);margin-bottom:10px;">ประเภทการแจ้งเตือน</div>
+            <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:.82rem;cursor:pointer;"><input type="checkbox" checked> Task completion alerts</label>
+            <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:.82rem;cursor:pointer;"><input type="checkbox" checked> Channel intake notifications</label>
+            <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:.82rem;cursor:pointer;"><input type="checkbox" checked> Approval requests</label>
+            <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:.82rem;cursor:pointer;"><input type="checkbox"> Weekly summary email</label>
             <label style="display:flex;align-items:center;gap:8px;font-size:.82rem;cursor:pointer;"><input type="checkbox"> Slack notifications</label>
-            <button class="btn btn-primary btn-sm mt-12" onclick="showToast('✅','Saved','Notification preferences updated')">Save</button>
+            </div>
+            <button class="btn btn-primary btn-sm mt-12" onclick="showToast('✅','Saved','Notification preferences updated')">บันทึก</button>
         </div>
-        <div class="card"><div class="card-title">🛡️ Security</div>
-            <div class="form-group"><label class="form-label">Two-Factor Authentication</label><div style="display:flex;align-items:center;gap:8px;"><span class="status status-active">Enabled</span><button class="btn btn-outline btn-sm">Configure</button></div></div>
+        <div class="card settings-card" data-settings-keywords="security 2fa sso session ip whitelist password ความปลอดภัย"><div class="card-title">🛡️ Security</div>
+            <div class="form-group"><label class="form-label">Two-Factor Authentication (2FA)</label>
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                    <div style="display:flex;align-items:center;gap:8px;"><span class="status status-active">Enabled</span><span class="text-xs text-muted">Authenticator App</span></div>
+                    <label class="toggle-switch"><input type="checkbox" checked onchange="showToast(this.checked?'🔒':'🔓','2FA',this.checked?'เปิดใช้งาน 2FA แล้ว':'ปิด 2FA แล้ว')"><span class="toggle-slider"></span></label>
+                </div>
+            </div>
+            <div class="form-group"><label class="form-label">Single Sign-On (SSO)</label>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:.78rem;">
+                        <span>🔷 Azure AD</span><span class="status status-active" style="font-size:.6rem;">Connected</span>
+                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:.78rem;">
+                        <span>🔴 Google Workspace</span><span class="status status-inactive" style="font-size:.6rem;">Not connected</span>
+                    </div>
+                    <button class="btn btn-outline btn-sm" onclick="showToast('🔗','SSO','กำลังเชื่อมต่อ...')">+ เพิ่ม SSO Provider</button>
+                </div>
+            </div>
             <div class="form-group"><label class="form-label">Session Timeout</label><select class="form-input"><option>30 minutes</option><option selected>1 hour</option><option>4 hours</option><option>8 hours</option></select></div>
+            <div class="form-group"><label class="form-label">Active Sessions</label>
+                <div style="font-size:.78rem;color:var(--text2);line-height:1.8;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid var(--border);"><span>💻 Chrome — macOS (ปัจจุบัน)</span><span class="status status-active" style="font-size:.6rem;">Active</span></div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid var(--border);"><span>📱 Safari — iPhone</span><span class="text-xs text-muted">2 hrs ago</span></div>
+                </div>
+                <button class="btn btn-danger btn-sm mt-8" onclick="showToast('🔒','Sessions','ออกจากระบบอุปกรณ์อื่นทั้งหมด')">ออกจากระบบทุกอุปกรณ์</button>
+            </div>
             <div class="form-group"><label class="form-label">IP Whitelist</label><input class="form-input" placeholder="e.g., 203.150.x.x/24" /></div>
-            <button class="btn btn-primary btn-sm mt-8" onclick="showToast('✅','Saved','Security settings updated')">Save</button>
+            <button class="btn btn-primary btn-sm mt-8" onclick="showToast('✅','Saved','Security settings updated')">บันทึก</button>
         </div>
     </div>
 </div>
 
 </div></div></div>
+
+<!-- COMMAND PALETTE -->
+<div class="cmd-palette" id="cmdPalette" onclick="if(event.target===this)closeCmdPalette()">
+  <div class="cmd-palette-box">
+    <div class="cmd-input-wrap">
+      <span class="cmd-icon">🔍</span>
+      <input class="cmd-input" id="cmdInput" placeholder="ค้นหาหน้า, คำสั่ง, การตั้งค่า..." autocomplete="off" />
+      <span class="cmd-kbd">ESC</span>
+    </div>
+    <div class="cmd-results" id="cmdResults"></div>
+  </div>
+</div>
 
 <!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()"><div class="modal" id="modalContent"></div></div>
@@ -1285,17 +1499,156 @@ function setDateFormat(fmt){
     document.getElementById('dftAD').classList.toggle('active',fmt==='en-gregorian');
 })();
 
+// ═══ COMMAND PALETTE ═══
+const CMD_ITEMS=[
+    {cat:'Pages',icon:'🏠',label:'Home',action:()=>loadModule('modules/home.html','Home'),keys:'หน้าแรก home'},
+    {cat:'Pages',icon:'📈',label:'Procurement Dashboard',action:()=>loadModule('modules/procurement-dashboard.html','Procurement Dashboard'),keys:'จัดซื้อ procurement'},
+    {cat:'Pages',icon:'📄',label:'PR / PO',action:()=>loadModule('modules/procurement-prpo.html','PR / PO'),keys:'ใบสั่งซื้อ pr po'},
+    {cat:'Pages',icon:'🔗',label:'3-Way Match',action:()=>loadModule('modules/procurement-matching.html','3-Way Match'),keys:'matching จับคู่'},
+    {cat:'Pages',icon:'🧾',label:'Expense Dashboard',action:()=>loadModule('modules/expense-dashboard.html','Expense Dashboard'),keys:'ค่าใช้จ่าย expense'},
+    {cat:'Pages',icon:'📷',label:'Receipt OCR',action:()=>loadModule('modules/expense-receipt-ocr.html','Receipt OCR'),keys:'สแกนใบเสร็จ ocr'},
+    {cat:'Pages',icon:'🏦',label:'Finance Dashboard',action:()=>loadModule('modules/finance-cases.html','Finance Dashboard'),keys:'การเงิน เอกสาร finance'},
+    {cat:'Pages',icon:'🚢',label:'Logistics FX',action:()=>loadModule('modules/logistics-fx-dashboard.html','Logistics Dashboard'),keys:'โลจิสติกส์ logistics fx'},
+    {cat:'Pages',icon:'💰',label:'Sales Dashboard',action:()=>loadModule('modules/sales-dashboard.html','Sales Dashboard'),keys:'ขาย sales'},
+    {cat:'Pages',icon:'📝',label:'Quotation Builder',action:()=>loadModule('modules/sales-quotation-builder.html','Quotation Builder'),keys:'ใบเสนอราคา quotation'},
+    {cat:'Pages',icon:'🏢',label:'Vendor Management',action:()=>loadModule('modules/vendor-management.html','Vendor Management'),keys:'ผู้จำหน่าย vendor'},
+    {cat:'Pages',icon:'📊',label:'API Dashboard',action:()=>loadModule('connectors/api-dashboard.html','API Usage Dashboard'),keys:'api'},
+    {cat:'Pages',icon:'🌐',label:'Connector Hub',action:()=>loadModule('connectors/connector-hub.html','Connector Hub'),keys:'connector เชื่อมต่อ'},
+    {cat:'Pages',icon:'🎯',label:'Customer Feedback',action:()=>loadModule('modules/customer-feedback.html','Customer Feedback'),keys:'feedback ข้อเสนอแนะ'},
+    {cat:'Pages',icon:'🗺️',label:'Product Roadmap',action:()=>loadModule('modules/product-roadmap.html','Product Roadmap'),keys:'roadmap แผน'},
+    {cat:'System',icon:'👥',label:'Users & Roles',action:()=>showPage('users'),keys:'ผู้ใช้ users roles สิทธิ์'},
+    {cat:'System',icon:'🔗',label:'Channels',action:()=>showPage('channels'),keys:'ช่องทาง channels'},
+    {cat:'System',icon:'💳',label:'Billing & Packages',action:()=>showPage('billing'),keys:'ชำระเงิน billing แพ็กเกจ'},
+    {cat:'System',icon:'⚙️',label:'Settings',action:()=>showPage('settings'),keys:'ตั้งค่า settings การตั้งค่า'},
+    {cat:'Actions',icon:'➕',label:'สร้าง PR ใหม่',action:()=>loadModule('modules/procurement-prpo.html','PR / PO'),keys:'สร้าง create pr'},
+    {cat:'Actions',icon:'📝',label:'สร้าง Claim ใหม่',action:()=>loadModule('modules/expense-tasks.html','Claim Tasks'),keys:'สร้าง claim เบิก'},
+    {cat:'Actions',icon:'📄',label:'สร้างใบเสนอราคา',action:()=>loadModule('modules/sales-quotation-builder.html','Quotation Builder'),keys:'สร้าง quotation ใบเสนอราคา'},
+    {cat:'Actions',icon:'📷',label:'Scan Receipt',action:()=>showPage('receiptOcr'),keys:'สแกน scan receipt ใบเสร็จ'},
+    {cat:'Actions',icon:'🌙',label:'Toggle Dark Mode',action:()=>{toggleDark();closeCmdPalette();},keys:'dark mode มืด'},
+    {cat:'Settings',icon:'🔒',label:'Security & 2FA',action:()=>showPage('settings'),keys:'security 2fa ความปลอดภัย'},
+    {cat:'Settings',icon:'🔔',label:'Notification Preferences',action:()=>showPage('settings'),keys:'notification แจ้งเตือน'},
+];
+let cmdActiveIdx=0;
+function openCmdPalette(){
+    document.getElementById('cmdPalette').classList.add('show');
+    const inp=document.getElementById('cmdInput');
+    inp.value='';inp.focus();
+    cmdActiveIdx=0;
+    renderCmdResults('');
+}
+function closeCmdPalette(){document.getElementById('cmdPalette').classList.remove('show');}
+function renderCmdResults(q){
+    const el=document.getElementById('cmdResults');
+    const query=q.toLowerCase().trim();
+    let filtered=CMD_ITEMS;
+    if(query){filtered=CMD_ITEMS.filter(it=>(it.label.toLowerCase()+' '+it.keys).includes(query));}
+    if(!filtered.length){el.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);font-size:.82rem;">ไม่พบผลลัพธ์</div>';return;}
+    let html='',lastCat='';
+    filtered.forEach((it,i)=>{
+        if(it.cat!==lastCat){html+=`<div class="cmd-cat">${it.cat}</div>`;lastCat=it.cat;}
+        html+=`<div class="cmd-item${i===cmdActiveIdx?' active':''}" data-cmd-idx="${i}" onclick="execCmd(${CMD_ITEMS.indexOf(it)})" onmouseenter="cmdActiveIdx=${i};highlightCmd()"><span class="cmd-item-icon">${it.icon}</span><span class="cmd-item-label">${it.label}</span></div>`;
+    });
+    el.innerHTML=html;
+}
+function highlightCmd(){document.querySelectorAll('.cmd-item').forEach((el,i)=>el.classList.toggle('active',i===cmdActiveIdx));}
+function execCmd(idx){closeCmdPalette();CMD_ITEMS[idx].action();}
+document.getElementById('cmdInput').addEventListener('input',function(e){cmdActiveIdx=0;renderCmdResults(e.target.value);});
+document.getElementById('cmdInput').addEventListener('keydown',function(e){
+    const items=document.querySelectorAll('.cmd-item');
+    if(e.key==='ArrowDown'){e.preventDefault();cmdActiveIdx=Math.min(cmdActiveIdx+1,items.length-1);highlightCmd();items[cmdActiveIdx]?.scrollIntoView({block:'nearest'});}
+    if(e.key==='ArrowUp'){e.preventDefault();cmdActiveIdx=Math.max(cmdActiveIdx-1,0);highlightCmd();items[cmdActiveIdx]?.scrollIntoView({block:'nearest'});}
+    if(e.key==='Enter'){e.preventDefault();const active=items[cmdActiveIdx];if(active)active.click();}
+    if(e.key==='Escape'){closeCmdPalette();}
+});
+
+// ═══ SIDEBAR FAVORITES ═══
+function getFavorites(){return JSON.parse(localStorage.getItem('sidebarFavorites')||'[]');}
+function saveFavorites(favs){localStorage.setItem('sidebarFavorites',JSON.stringify(favs));}
+function toggleFavorite(url,title,e){
+    if(e)e.stopPropagation();
+    let favs=getFavorites();
+    const exists=favs.findIndex(f=>f.url===url);
+    if(exists>=0){favs.splice(exists,1);}
+    else{if(favs.length>=8){showToast('⚠️','Limit','สูงสุด 8 รายการโปรด');return;}favs.push({url,title});}
+    saveFavorites(favs);
+    renderFavorites();
+    updateFavStars();
+}
+function renderFavorites(){
+    const favs=getFavorites();
+    const sec=document.getElementById('favSection');
+    const list=document.getElementById('favList');
+    if(!favs.length){sec.style.display='none';return;}
+    sec.style.display='block';
+    list.innerHTML=favs.map(f=>`<button class="fav-item" onclick="loadModule('${f.url.replace(/'/g,"\\'")}','${f.title.replace(/'/g,"\\'")}')">⭐ ${f.title}</button>`).join('');
+}
+function updateFavStars(){
+    const favs=getFavorites();
+    const favUrls=favs.map(f=>f.url);
+    document.querySelectorAll('.nav-item .fav-star').forEach(star=>{
+        star.classList.toggle('starred',favUrls.includes(star.dataset.favUrl));
+        star.textContent=favUrls.includes(star.dataset.favUrl)?'★':'☆';
+    });
+}
+function addFavStarsToSidebar(){
+    document.querySelectorAll('.nav-item[onclick*="loadModule"]').forEach(item=>{
+        if(item.querySelector('.fav-star'))return;
+        const match=item.getAttribute('onclick').match(/loadModule\('([^']+)','([^']+)'\)/);
+        if(!match)return;
+        const url=match[1],title=match[2];
+        const star=document.createElement('button');
+        star.className='fav-star';
+        star.dataset.favUrl=url;
+        star.textContent='☆';
+        star.title='Toggle favorite';
+        star.onclick=function(e){toggleFavorite(url,title,e);};
+        item.appendChild(star);
+    });
+    updateFavStars();
+}
+
+// ═══ UNDO/REDO INDICATOR ═══
+let undoStack=[],redoStack=[];
+function pushUndo(action){undoStack.push(action);if(undoStack.length>20)undoStack.shift();redoStack=[];updateUndoUI();}
+function doUndo(){if(!undoStack.length)return;const a=undoStack.pop();redoStack.push(a);updateUndoUI();showToast('↩','Undo',a.label||'การดำเ��ินการถูกย้อนกลับ');}
+function doRedo(){if(!redoStack.length)return;const a=redoStack.pop();undoStack.push(a);updateUndoUI();showToast('↪','Redo',a.label||'ทำซ้ำการดำเนินการ');}
+function updateUndoUI(){document.getElementById('undoBtn').disabled=!undoStack.length;document.getElementById('redoBtn').disabled=!redoStack.length;}
+
+// ═══ SETTINGS SEARCH ═══
+function filterSettings(q){
+    const query=q.toLowerCase().trim();
+    document.querySelectorAll('.settings-card').forEach(card=>{
+        const keywords=(card.dataset.settingsKeywords||'')+' '+(card.textContent||'');
+        card.style.display=!query||keywords.toLowerCase().includes(query)?'':'none';
+    });
+}
+
+// ═══ ROLE TEMPLATE SELECTION ═══
+function selectRoleTemplate(el,role){
+    document.querySelectorAll('.role-template').forEach(r=>r.classList.remove('selected'));
+    el.classList.add('selected');
+    showToast('🔐','Role Template','เลือก template: '+el.querySelector('.rt-name').textContent);
+}
+
 // ═══ KEYBOARD SHORTCUTS ═══
 document.addEventListener('keydown',function(e){
-    // Ctrl+K / Cmd+K: Focus search
+    // Ctrl+K / Cmd+K: Command Palette
     if((e.ctrlKey||e.metaKey)&&e.key==='k'){
         e.preventDefault();
-        var searchInput=document.querySelector('.search-input input');
-        if(searchInput){searchInput.focus();searchInput.select();}
+        if(document.getElementById('cmdPalette').classList.contains('show'))closeCmdPalette();
+        else openCmdPalette();
     }
-    // Escape: Close modals, notification panel, user menu
+    // Ctrl+Z: Undo
+    if((e.ctrlKey||e.metaKey)&&e.key==='z'&&!e.shiftKey&&!e.target.matches('input,textarea,select')){
+        e.preventDefault();doUndo();
+    }
+    // Ctrl+Y or Ctrl+Shift+Z: Redo
+    if((e.ctrlKey||e.metaKey)&&(e.key==='y'||(e.key==='z'&&e.shiftKey))&&!e.target.matches('input,textarea,select')){
+        e.preventDefault();doRedo();
+    }
+    // Escape: Close modals, notification panel, user menu, command palette
     if(e.key==='Escape'){
-        closeModal();closeNotif();closeUserMenu();
+        closeCmdPalette();closeModal();closeNotif();closeUserMenu();
     }
     // Alt+1-9: Quick navigate to sidebar modules 1-9
     if(e.altKey&&e.key>='1'&&e.key<='9'){
@@ -1958,6 +2311,24 @@ buildDonut('donutChannel',[{label:'Upload',val:562,color:'#2563EB'},{label:'Emai
 
 buildLineChart('lineAccuracy',[{label:'W1',v:96.2},{label:'W2',v:97.1},{label:'W3',v:96.8},{label:'W4',v:97.5},{label:'W5',v:98.0},{label:'W6',v:97.8},{label:'W7',v:98.3},{label:'W8',v:98.7}],'#7C3AED','%','');
 buildLineChart('lineCost',[{label:'Nov',v:180},{label:'Dec',v:220},{label:'Jan',v:310},{label:'Feb',v:380},{label:'Mar',v:420},{label:'Apr',v:490}],'#059669','','฿');
+
+// Init favorites & keyboard hints
+renderFavorites();
+setTimeout(function(){addFavStarsToSidebar();},100);
+
+// Add keyboard shortcut hints to main sidebar nav items
+(function addKbdHints(){
+    var hintMap={'Home':'Alt+1','Procurement Dashboard':'Alt+2','PR / PO':'Alt+3','3-Way Match':'Alt+4'};
+    document.querySelectorAll('.nav-item[onclick*="loadModule"]').forEach(function(item,idx){
+        if(idx<9){
+            var hint=document.createElement('span');
+            hint.className='kbd-hint';
+            hint.textContent='Alt+'+(idx+1);
+            // Only add if no fav-star yet (will be added after stars)
+            item.appendChild(hint);
+        }
+    });
+})();
 
 // Auto-load Home on startup
 loadModule('modules/home.html','Home');

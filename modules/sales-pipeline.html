@@ -4,819 +4,434 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sales Pipeline | Autopilot v2 by ANTS</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
-body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);}
-
-* { margin:0; padding:0; box-sizing:border-box; }
-
-body {
-  font-family: 'Noto Sans Thai', 'Inter', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
-  font-size: 14px;
-}
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap');
+:root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--cyan-bg:#ECFEFF;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
+body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);--cyan-bg:rgba(8,145,178,0.15);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;font-size:14px;}
+::-webkit-scrollbar{width:6px;height:6px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px;}
 .dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);}
 
-/* Breadcrumb Header */
-.header {
-  background: var(--card-bg);
-  border-bottom: 1px solid var(--border);
-  padding: 14px 24px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: var(--shadow);
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-.header a { color: var(--muted); text-decoration: none; }
-.header a:hover { color: var(--blue); }
-.header .sep { opacity: 0.4; }
-.header .current { color: var(--text); font-weight: 600; }
+.header{background:var(--card-bg);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:100;box-shadow:var(--shadow);font-size:.85rem;color:var(--muted);}
+.header a{color:var(--muted);text-decoration:none;}.header a:hover{color:var(--blue);}
+.header .sep{opacity:.4;}.header .current{color:var(--text);font-weight:600;}
 
-/* Container */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 24px;
-}
+.container{max-width:1400px;margin:0 auto;padding:24px;}
 
-/* Page Title */
-.page-title { margin-bottom: 24px; }
-.page-title h2 { font-size: 1.4rem; font-weight: 800; color: var(--text); }
-.page-title p { color: var(--muted); font-size: 0.85rem; margin-top: 2px; }
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+.kpi-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:relative;overflow:hidden;box-shadow:var(--shadow);}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.kpi-card:nth-child(1)::before{background:var(--blue);}
+.kpi-card:nth-child(2)::before{background:var(--green);}
+.kpi-card:nth-child(3)::before{background:var(--purple);}
+.kpi-card:nth-child(4)::before{background:var(--orange);}
+.kpi-label{font-size:.72rem;color:var(--muted);font-weight:500;margin-bottom:4px;text-transform:uppercase;}
+.kpi-value{font-size:1.3rem;font-weight:800;font-family:'Inter',sans-serif;}
+.kpi-change{display:inline-flex;align-items:center;gap:4px;font-size:.7rem;font-weight:600;margin-top:4px;padding:2px 8px;border-radius:8px;}
+.kpi-change.up{color:var(--green);background:var(--green-bg);}
+.kpi-change.down{color:var(--red);background:var(--red-bg);}
 
-/* Filter Bar */
-.filter-bar {
-  display: flex; align-items: center; gap: 8px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-}
-.filter-btn {
-  padding: 7px 16px;
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  background: var(--card-bg);
-  color: var(--muted);
-  font-family: inherit;
-  font-size: 0.82rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex; align-items: center; gap: 6px;
-}
-.filter-btn:hover { border-color: var(--blue); color: var(--blue); }
-.filter-btn.active {
-  background: var(--blue);
-  color: white;
-  border-color: var(--blue);
-  box-shadow: 0 2px 8px rgba(37,99,235,0.2);
-}
-.filter-btn .filter-avatar {
-  width: 20px; height: 20px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.6rem; font-weight: 700; color: white;
-}
-.filter-btn.active .filter-avatar { box-shadow: 0 0 0 2px white; }
-
-/* KPI Cards */
-.kpi-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-bottom: 24px;
-}
-.kpi-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 16px 20px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  transition: transform 0.2s;
-}
-.kpi-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-.kpi-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 3px;
-}
-.kpi-card:nth-child(1)::before { background: var(--blue); }
-.kpi-card:nth-child(2)::before { background: var(--green); }
-.kpi-card:nth-child(3)::before { background: var(--purple); }
-.kpi-card:nth-child(4)::before { background: var(--orange); }
-.kpi-card .kpi-icon {
-  width: 36px; height: 36px; border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; margin-bottom: 10px;
-}
-.kpi-card .kpi-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 4px; font-weight: 500; }
-.kpi-card .kpi-value { font-size: 1.5rem; font-weight: 800; color: var(--text); font-family: 'Inter', sans-serif; }
-.kpi-card .kpi-change { font-size: 0.75rem; margin-top: 4px; font-weight: 600; }
-.kpi-change.up { color: var(--green); }
-.kpi-change.down { color: var(--red); }
-
-/* Section */
-.section { margin-bottom: 24px; }
-.section-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 14px;
-}
-.section-header h3 { font-size: 1rem; font-weight: 700; color: var(--text); }
-.section-header .section-badge {
-  padding: 4px 12px;
-  background: var(--blue-bg);
-  border: 1px solid rgba(37,99,235,0.2);
-  border-radius: 20px;
-  font-size: 0.75rem; color: var(--blue); font-weight: 600;
-}
+/* Filter */
+.filter-bar{display:flex;align-items:center;gap:8px;margin-bottom:20px;flex-wrap:wrap;}
+.filter-btn{padding:7px 16px;border:1px solid var(--border);border-radius:20px;background:var(--card-bg);color:var(--muted);font-family:inherit;font-size:.82rem;font-weight:500;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;}
+.filter-btn:hover{border-color:var(--blue);color:var(--blue);}
+.filter-btn.active{background:var(--blue);color:white;border-color:var(--blue);}
+.filter-btn .avatar{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:white;}
 
 /* Kanban Board */
-.kanban-board {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 14px;
-  overflow-x: auto;
-  padding-bottom: 8px;
-}
-.kanban-column {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 14px;
-  min-width: 200px;
-}
-.kanban-col-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 12px; padding-bottom: 10px;
-  border-bottom: 1px solid var(--border);
-}
-.kanban-col-title { font-size: 0.85rem; font-weight: 700; }
-.kanban-col-meta { text-align: right; }
-.kanban-col-count { font-size: 0.72rem; color: var(--muted); }
-.kanban-col-value { font-size: 0.82rem; font-weight: 700; font-family: 'Inter', sans-serif; }
+.kanban-board{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px;min-height:400px;}
+.kanban-col{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;min-height:350px;}
+.kanban-col-header{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.kanban-col-title{font-size:.82rem;font-weight:700;display:flex;align-items:center;gap:6px;}
+.kanban-col-count{font-size:.68rem;font-weight:600;padding:2px 8px;border-radius:8px;background:var(--bg3);color:var(--muted);}
+.kanban-col-value{font-size:.68rem;font-weight:700;color:var(--text2);}
+.kanban-col-body{padding:10px;display:flex;flex-direction:column;gap:8px;min-height:200px;}
+.kanban-col-body.drag-over{background:var(--blue-bg);border:2px dashed var(--blue);border-radius:0 0 10px 10px;}
 
-.kanban-card {
-  background: var(--card-bg);
-  border-radius: 10px;
-  padding: 12px;
-  margin-bottom: 8px;
-  border-left: 4px solid;
-  cursor: grab;
-  transition: transform 0.15s, box-shadow 0.15s;
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border);
-  border-left-width: 4px;
-}
-.kanban-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
-.kanban-card:active { cursor: grabbing; transform: scale(0.97); opacity: 0.85; }
-.kanban-card .card-qt { font-size: 0.68rem; color: var(--muted); font-weight: 600; margin-bottom: 2px; letter-spacing: 0.3px; }
-.kanban-card .card-customer { font-size: 0.82rem; font-weight: 600; margin-bottom: 6px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.kanban-card .card-value { font-size: 0.9rem; font-weight: 800; font-family: 'Inter', sans-serif; margin-bottom: 6px; }
-.kanban-card .card-footer { display: flex; align-items: center; justify-content: space-between; }
-.kanban-card .card-days { font-size: 0.7rem; color: var(--muted); background: var(--bg3); padding: 2px 8px; border-radius: 8px; }
-.kanban-card .card-days.overdue { background: var(--red-bg); color: var(--red); font-weight: 600; }
-.kanban-card .card-avatar { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; color: white; }
+/* Deal Card */
+.deal-card{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:12px;cursor:grab;transition:all .2s;box-shadow:var(--shadow);}
+.deal-card:hover{border-color:var(--blue);box-shadow:0 4px 12px rgba(37,99,235,.1);}
+.deal-card.dragging{opacity:.5;transform:rotate(2deg);}
+.deal-card .dc-name{font-size:.82rem;font-weight:600;margin-bottom:4px;}
+.deal-card .dc-company{font-size:.7rem;color:var(--muted);margin-bottom:6px;}
+.deal-card .dc-value{font-size:.85rem;font-weight:800;color:var(--blue);font-family:'Inter',sans-serif;margin-bottom:6px;}
+.deal-card .dc-footer{display:flex;align-items:center;justify-content:space-between;}
+.deal-card .dc-rep{display:flex;align-items:center;gap:6px;font-size:.7rem;color:var(--text2);}
+.deal-card .dc-rep-dot{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.5rem;font-weight:700;color:#fff;}
+.deal-card .dc-actions{display:flex;gap:4px;}
+.deal-card .dc-btn{width:24px;height:24px;border-radius:6px;border:1px solid var(--border);background:var(--bg2);cursor:pointer;font-size:.7rem;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all .15s;}
+.deal-card .dc-btn:hover{background:var(--blue-bg);color:var(--blue);border-color:var(--blue);}
+.deal-card .dc-prob{font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:4px;margin-left:auto;}
 
 /* Stage Colors */
-.stage-quote { border-left-color: var(--blue); }
-.stage-follow { border-left-color: var(--orange); }
-.stage-negotiate { border-left-color: var(--purple); }
-.stage-won { border-left-color: var(--green); }
-.stage-lost { border-left-color: var(--red); }
+.stage-lead .kanban-col-title{color:var(--blue);}
+.stage-contact .kanban-col-title{color:var(--cyan);}
+.stage-proposal .kanban-col-title{color:var(--purple);}
+.stage-negotiate .kanban-col-title{color:var(--orange);}
+.stage-won .kanban-col-title{color:var(--green);}
 
-.col-quote .kanban-col-title { color: var(--blue); }
-.col-follow .kanban-col-title { color: var(--orange); }
-.col-negotiate .kanban-col-title { color: var(--purple); }
-.col-won .kanban-col-title { color: var(--green); }
-.col-lost .kanban-col-title { color: var(--red); }
+/* Win/Loss Chart */
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:20px;}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.card-header h3{font-size:.95rem;font-weight:700;}
+.badge{padding:4px 10px;border-radius:12px;font-size:.7rem;font-weight:600;}
+.badge-green{background:var(--green-bg);color:var(--green);}
+.badge-blue{background:var(--blue-bg);color:var(--blue);}
 
-.kanban-drag-hint {
-  text-align: center; font-size: 0.7rem; color: var(--muted);
-  padding: 8px; border: 1px dashed var(--border);
-  border-radius: 8px; opacity: 0.5; margin-top: 4px;
-}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
 
-/* Funnel Chart */
-.funnel-container {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 24px;
-  box-shadow: var(--shadow);
-}
-.funnel-svg-wrap { display: flex; justify-content: center; }
+/* Win/Loss bars */
+.wl-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.wl-label{font-size:.78rem;font-weight:500;min-width:80px;color:var(--text2);}
+.wl-bars{flex:1;display:flex;gap:2px;height:20px;border-radius:4px;overflow:hidden;}
+.wl-win{background:var(--green);border-radius:4px 0 0 4px;}
+.wl-loss{background:var(--red);border-radius:0 4px 4px 0;}
+.wl-pct{font-size:.72rem;font-weight:600;min-width:50px;text-align:right;color:var(--text2);}
 
-/* Alert Cards */
-.alert-list { display: flex; flex-direction: column; gap: 10px; }
-.alert-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 14px 18px;
-  display: flex; align-items: center; gap: 12px;
-  transition: border-color 0.2s;
-  box-shadow: var(--shadow);
-}
-.alert-card:hover { border-color: var(--blue); }
-.alert-card .alert-icon { font-size: 20px; flex-shrink: 0; }
-.alert-card .alert-body { flex: 1; }
-.alert-card .alert-title { font-size: 0.85rem; font-weight: 600; color: var(--text); margin-bottom: 2px; }
-.alert-card .alert-desc { font-size: 0.75rem; color: var(--muted); }
-.alert-card .alert-rep {
-  display: flex; align-items: center; gap: 6px;
-  font-size: 0.72rem; color: var(--text2); margin-top: 4px;
-}
-.alert-card .alert-rep .rep-dot {
-  width: 18px; height: 18px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.55rem; font-weight: 700; color: white;
-}
-.alert-card .alert-action {
-  padding: 6px 14px;
-  background: var(--blue-bg);
-  border: 1px solid rgba(37,99,235,0.2);
-  border-radius: 8px;
-  font-size: 0.75rem; color: var(--blue); font-weight: 600;
-  cursor: pointer; white-space: nowrap;
-  transition: background 0.2s;
-}
-.alert-card .alert-action:hover { background: rgba(37,99,235,0.15); }
+/* Activity Timeline */
+.timeline{display:flex;flex-direction:column;gap:0;}
+.timeline-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);position:relative;}
+.timeline-item:last-child{border-bottom:none;}
+.timeline-dot{width:8px;height:8px;border-radius:50%;margin-top:6px;flex-shrink:0;}
+.timeline-content{flex:1;}
+.timeline-content .t-text{font-size:.78rem;color:var(--text2);line-height:1.5;}
+.timeline-content .t-text strong{color:var(--text);font-weight:600;}
+.timeline-content .t-time{font-size:.68rem;color:var(--muted);margin-top:2px;}
 
-/* Data Table */
-.data-table-wrap {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: var(--shadow);
-}
-.data-table { width: 100%; border-collapse: collapse; }
-.data-table th {
-  background: var(--bg2);
-  text-align: left; padding: 12px 16px;
-  font-size: 0.72rem; font-weight: 700; color: var(--muted);
-  text-transform: uppercase; letter-spacing: 0.5px;
-  border-bottom: 1px solid var(--border);
-}
-.data-table td {
-  padding: 12px 16px; font-size: 0.85rem;
-  border-bottom: 1px solid var(--border);
-  color: var(--text2);
-}
-.data-table tr:last-child td { border-bottom: none; }
-.data-table tr:hover td { background: var(--blue-bg); }
+/* Drag hint */
+.drag-hint{text-align:center;font-size:.7rem;color:var(--muted);padding:8px;border:1px dashed var(--border);border-radius:8px;opacity:.5;margin-top:4px;}
 
-.rep-cell { display: flex; align-items: center; gap: 10px; }
-.rep-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; color: white; }
-.win-bar { display: flex; gap: 3px; align-items: center; }
-.win-bar .bar-segment { height: 8px; border-radius: 4px; }
-.win-bar .bar-win { background: var(--green); }
-.win-bar .bar-loss { background: var(--red); }
-
-/* Chart Area */
-.chart-container {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 24px;
-  box-shadow: var(--shadow);
-}
-.chart-svg-wrap { width: 100%; overflow-x: auto; }
-
-/* Two Column Layout */
-.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-
-/* Responsive */
-@media (max-width: 1200px) {
-  .kanban-board { grid-template-columns: repeat(3, 1fr); }
-  .two-col { grid-template-columns: 1fr; }
-}
-@media (max-width: 768px) {
-  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-  .kanban-board { grid-template-columns: 1fr 1fr; }
-  .filter-bar { gap: 6px; }
-}
-@media (max-width: 480px) {
-  .kpi-grid { grid-template-columns: 1fr; }
-  .kanban-board { grid-template-columns: 1fr; }
-}
-
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 3px; }
 @keyframes toastIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@media(max-width:1200px){.kanban-board{grid-template-columns:repeat(3,1fr);}.grid-2{grid-template-columns:1fr;}}
+@media(max-width:768px){.kpi-grid{grid-template-columns:repeat(2,1fr);}.kanban-board{grid-template-columns:1fr 1fr;}}
 </style>
 </head>
 <body>
 
-<!-- Dark Mode Toggle -->
-<button class="dark-toggle" onclick="toggleDark()">&#127769;</button>
+<button class="dark-toggle" onclick="document.body.classList.toggle('dark')">&#127769;</button>
 
-<!-- Breadcrumb Header -->
 <div class="header">
-  <a href="#">Autopilot v2</a>
-  <span class="sep">/</span>
-  <a href="#">Sales Doc Gen</a>
-  <span class="sep">/</span>
-  <span class="current">Sales Pipeline</span>
+<a href="#">Autopilot v2</a><span class="sep">/</span>
+<a href="#">Sales Doc Gen</a><span class="sep">/</span>
+<span class="current">Sales Pipeline</span>
 </div>
 
-<!-- Main -->
 <div class="container">
 
-  <!-- Page Title -->
-  <div class="page-title">
-    <h2>Sales Pipeline — Multi-User Task Board</h2>
-    <p>ภาพรวมกระบวนการขายและติดตามใบเสนอราคาทุกสมาชิกทีม | อัปเดตล่าสุด: 5 เมษายน 2569</p>
-  </div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+<div>
+<h2 style="font-size:1.4rem;font-weight:800;">Sales Pipeline — Drag & Drop Board</h2>
+<p style="color:var(--muted);font-size:.85rem;">&#3621;&#3634;&#3585;&#3604;&#3637;&#3621;&#3619;&#3632;&#3627;&#3623;&#3656;&#3634;&#3591; Stage &#3652;&#3604;&#3657; | &#3626;&#3619;&#3657;&#3634;&#3591;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;&#3629;&#3633;&#3605;&#3650;&#3609;&#3617;&#3633;&#3605;&#3636;&#3592;&#3634;&#3585;&#3586;&#3657;&#3629;&#3617;&#3641;&#3621; Pipeline | 6 &#3648;&#3617;.&#3618;. &#3614;.&#3624;. 2569</p>
+</div>
+</div>
 
-  <!-- Filter Bar -->
-  <div class="filter-bar" id="filterBar">
-    <span style="font-size:0.82rem;font-weight:600;color:var(--text);margin-right:4px;">กรองตามสมาชิก:</span>
-    <button class="filter-btn active" onclick="filterByMember('all')">
-      ทุกคน
-    </button>
-    <button class="filter-btn" onclick="filterByMember('somchai')">
-      <div class="filter-avatar" style="background:#2563EB;">สม</div>
-      สมชาย ก.
-    </button>
-    <button class="filter-btn" onclick="filterByMember('suwanna')">
-      <div class="filter-avatar" style="background:#7C3AED;">สว</div>
-      สุวรรณา ท.
-    </button>
-    <button class="filter-btn" onclick="filterByMember('natthapong')">
-      <div class="filter-avatar" style="background:#059669;">ณฐ</div>
-      ณัฐพงษ์ ส.
-    </button>
-    <button class="filter-btn" onclick="filterByMember('pornthip')">
-      <div class="filter-avatar" style="background:#D97706;">พร</div>
-      พรทิพย์ ร.
-    </button>
-  </div>
+<!-- Filter -->
+<div class="filter-bar">
+<span style="font-size:.82rem;font-weight:600;margin-right:4px;">&#3585;&#3619;&#3629;&#3591;:</span>
+<button class="filter-btn active" onclick="filterMember('all',this)">&#3607;&#3640;&#3585;&#3588;&#3609;</button>
+<button class="filter-btn" onclick="filterMember('somchai',this)"><div class="avatar" style="background:#2563EB;">&#3626;&#3617;</div> &#3626;&#3617;&#3594;&#3634;&#3618; &#3585;.</button>
+<button class="filter-btn" onclick="filterMember('suwanna',this)"><div class="avatar" style="background:#7C3AED;">&#3626;&#3623;</div> &#3626;&#3640;&#3623;&#3619;&#3619;&#3603;&#3634; &#3607;.</button>
+<button class="filter-btn" onclick="filterMember('natthapong',this)"><div class="avatar" style="background:#059669;">&#3603;&#3600;</div> &#3603;&#3633;&#3600;&#3614;&#3591;&#3625;&#3660; &#3626;.</button>
+<button class="filter-btn" onclick="filterMember('pornthip',this)"><div class="avatar" style="background:#D97706;">&#3614;&#3619;</div> &#3614;&#3619;&#3607;&#3636;&#3614;&#3618;&#3660; &#3619;.</button>
+</div>
 
-  <!-- KPI Cards -->
-  <div class="kpi-grid" id="kpiGrid">
-    <div class="kpi-card">
-      <div class="kpi-icon" style="background:var(--blue-bg);color:var(--blue);">&#128176;</div>
-      <div class="kpi-label">มูลค่า Pipeline รวม</div>
-      <div class="kpi-value" id="kpiPipelineValue" style="color:var(--blue);">&#3647;12.8M</div>
-      <div class="kpi-change up">+18.3% จากเดือนที่แล้ว</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-icon" style="background:var(--green-bg);color:var(--green);">&#127919;</div>
-      <div class="kpi-label">Win Rate</div>
-      <div class="kpi-value" id="kpiWinRate" style="color:var(--green);">42.5%</div>
-      <div class="kpi-change up">+3.2% จากเดือนที่แล้ว</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-icon" style="background:var(--purple-bg);color:var(--purple);">&#128202;</div>
-      <div class="kpi-label">มูลค่าเฉลี่ยต่อดีล</div>
-      <div class="kpi-value" id="kpiAvgDeal" style="color:var(--purple);">&#3647;556K</div>
-      <div class="kpi-change up">+8.7% จากเดือนที่แล้ว</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-icon" style="background:var(--orange-bg);color:var(--orange);">&#9201;&#65039;</div>
-      <div class="kpi-label">วงจรขายเฉลี่ย</div>
-      <div class="kpi-value" id="kpiCycleTime" style="color:var(--orange);">18 วัน</div>
-      <div class="kpi-change down">+2 วันจากเดือนที่แล้ว</div>
-    </div>
-  </div>
+<!-- KPI -->
+<div class="kpi-grid">
+<div class="kpi-card">
+<div class="kpi-label">&#3617;&#3641;&#3621;&#3588;&#3656;&#3634; Pipeline &#3619;&#3623;&#3617;</div>
+<div class="kpi-value" style="color:var(--blue);">&#3647;12.8M</div>
+<div class="kpi-change up">&#8593; +18.3% &#3592;&#3634;&#3585;&#3648;&#3604;&#3639;&#3629;&#3609;&#3607;&#3637;&#3656;&#3649;&#3621;&#3657;&#3623;</div>
+</div>
+<div class="kpi-card">
+<div class="kpi-label">Win Rate</div>
+<div class="kpi-value" style="color:var(--green);">42.5%</div>
+<div class="kpi-change up">&#8593; +3.2%</div>
+</div>
+<div class="kpi-card">
+<div class="kpi-label">&#3617;&#3641;&#3621;&#3588;&#3656;&#3634;&#3648;&#3593;&#3621;&#3637;&#3656;&#3618;/&#3604;&#3637;&#3621;</div>
+<div class="kpi-value" style="color:var(--purple);">&#3647;556K</div>
+<div class="kpi-change up">&#8593; +8.7%</div>
+</div>
+<div class="kpi-card">
+<div class="kpi-label">&#3623;&#3591;&#3592;&#3619;&#3586;&#3634;&#3618;&#3648;&#3593;&#3621;&#3637;&#3656;&#3618;</div>
+<div class="kpi-value" style="color:var(--orange);">18 &#3623;&#3633;&#3609;</div>
+<div class="kpi-change down">&#8593; +2 &#3623;&#3633;&#3609;</div>
+</div>
+</div>
 
-  <!-- Kanban Pipeline Board -->
-  <div class="section">
-    <div class="section-header">
-      <h3>Kanban Pipeline Board</h3>
-      <div class="section-badge" id="totalDealsLabel">23 ดีลทั้งหมด</div>
-    </div>
-    <div class="kanban-board" id="kanbanBoard">
-      <!-- Rendered by JS -->
-    </div>
-  </div>
+<!-- Kanban Board with Drag-and-Drop -->
+<div class="kanban-board" id="kanbanBoard">
 
-  <!-- Two Column: Funnel + Follow-up Alerts -->
-  <div class="two-col section">
-    <!-- Sales Funnel -->
-    <div>
-      <div class="section-header"><h3>Sales Funnel</h3></div>
-      <div class="funnel-container">
-        <div class="funnel-svg-wrap" id="funnelChart">
-          <!-- Rendered by JS -->
-        </div>
-      </div>
-    </div>
+<!-- Lead -->
+<div class="kanban-col stage-lead" data-stage="lead">
+<div class="kanban-col-header">
+<div><div class="kanban-col-title">&#128308; Lead &#3651;&#3627;&#3617;&#3656; <span class="dc-prob" style="background:var(--blue-bg);color:var(--blue);">10%</span></div><div class="kanban-col-value">&#3619;&#3623;&#3617; &#3647;3.2M</div></div>
+<span class="kanban-col-count">5</span>
+</div>
+<div class="kanban-col-body" ondragover="onDragOver(event)" ondrop="onDrop(event,this)" ondragleave="onDragLeave(event,this)">
+<div class="deal-card" draggable="true" ondragstart="onDragStart(event,this)" data-member="somchai">
+<div class="dc-name">&#3650;&#3611;&#3619;&#3648;&#3592;&#3585;&#3605;&#3660; Smart Factory</div>
+<div class="dc-company">MNO Manufacturing</div>
+<div class="dc-value">&#3647;1,800,000</div>
+<div class="dc-footer">
+<div class="dc-rep"><div class="dc-rep-dot" style="background:#2563EB;">&#3626;&#3617;</div> &#3626;&#3617;&#3594;&#3634;&#3618;</div>
+<div class="dc-actions">
+<button class="dc-btn" title="&#3626;&#3619;&#3657;&#3634;&#3591;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;" onclick="showToast('&#128203;','Auto-Generate','&#3585;&#3635;&#3621;&#3633;&#3591;&#3626;&#3619;&#3657;&#3634;&#3591;&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634;&#3592;&#3634;&#3585;&#3586;&#3657;&#3629;&#3617;&#3641;&#3621; Pipeline...')">&#128203;</button>
+<button class="dc-btn" title="&#3604;&#3641;&#3619;&#3634;&#3618;&#3621;&#3632;&#3648;&#3629;&#3637;&#3618;&#3604;">&#128065;&#65039;</button>
+</div>
+</div>
+</div>
+<div class="deal-card" draggable="true" ondragstart="onDragStart(event,this)" data-member="suwanna">
+<div class="dc-name">Cloud Backup Solution</div>
+<div class="dc-company">PQR Tech</div>
+<div class="dc-value">&#3647;650,000</div>
+<div class="dc-footer">
+<div class="dc-rep"><div class="dc-rep-dot" style="background:#7C3AED;">&#3626;&#3623;</div> &#3626;&#3640;&#3623;&#3619;&#3619;&#3603;&#3634;</div>
+<div class="dc-actions"><button class="dc-btn" onclick="showToast('&#128203;','Auto-Generate','&#3585;&#3635;&#3621;&#3633;&#3591;&#3626;&#3619;&#3657;&#3634;&#3591;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;...')">&#128203;</button><button class="dc-btn">&#128065;&#65039;</button></div>
+</div>
+</div>
+<div class="drag-hint">&#8693; &#3621;&#3634;&#3585;&#3604;&#3637;&#3621;&#3617;&#3634;&#3623;&#3634;&#3591;&#3607;&#3637;&#3656;&#3609;&#3637;&#3656;</div>
+</div>
+</div>
 
-    <!-- Follow-up Alerts per Sales Rep -->
-    <div>
-      <div class="section-header"><h3>แจ้งเตือนติดตาม (Follow-up Alerts)</h3></div>
-      <div class="alert-list" id="alertList">
-        <!-- Rendered by JS -->
-      </div>
-    </div>
-  </div>
+<!-- Contact -->
+<div class="kanban-col stage-contact" data-stage="contact">
+<div class="kanban-col-header">
+<div><div class="kanban-col-title">&#128309; &#3605;&#3636;&#3604;&#3605;&#3656;&#3629;&#3649;&#3621;&#3657;&#3623; <span class="dc-prob" style="background:var(--cyan-bg);color:var(--cyan);">30%</span></div><div class="kanban-col-value">&#3619;&#3623;&#3617; &#3647;2.4M</div></div>
+<span class="kanban-col-count">4</span>
+</div>
+<div class="kanban-col-body" ondragover="onDragOver(event)" ondrop="onDrop(event,this)" ondragleave="onDragLeave(event,this)">
+<div class="deal-card" draggable="true" ondragstart="onDragStart(event,this)" data-member="natthapong">
+<div class="dc-name">Data Analytics Platform</div>
+<div class="dc-company">GHI Holdings</div>
+<div class="dc-value">&#3647;890,000</div>
+<div class="dc-footer">
+<div class="dc-rep"><div class="dc-rep-dot" style="background:#059669;">&#3603;&#3600;</div> &#3603;&#3633;&#3600;&#3614;&#3591;&#3625;&#3660;</div>
+<div class="dc-actions"><button class="dc-btn" onclick="showToast('&#128203;','Auto-Generate','&#3585;&#3635;&#3621;&#3633;&#3591;&#3626;&#3619;&#3657;&#3634;&#3591;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;...')">&#128203;</button><button class="dc-btn">&#128065;&#65039;</button></div>
+</div>
+</div>
+<div class="deal-card" draggable="true" ondragstart="onDragStart(event,this)" data-member="pornthip">
+<div class="dc-name">HR Automation</div>
+<div class="dc-company">STU Corp</div>
+<div class="dc-value">&#3647;520,000</div>
+<div class="dc-footer">
+<div class="dc-rep"><div class="dc-rep-dot" style="background:#D97706;">&#3614;&#3619;</div> &#3614;&#3619;&#3607;&#3636;&#3614;&#3618;&#3660;</div>
+<div class="dc-actions"><button class="dc-btn" onclick="showToast('&#128203;','Auto-Generate','&#3585;&#3635;&#3621;&#3633;&#3591;&#3626;&#3619;&#3657;&#3634;&#3591;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;...')">&#128203;</button><button class="dc-btn">&#128065;&#65039;</button></div>
+</div>
+</div>
+<div class="drag-hint">&#8693; &#3621;&#3634;&#3585;&#3604;&#3637;&#3621;&#3617;&#3634;&#3623;&#3634;&#3591;&#3607;&#3637;&#3656;&#3609;&#3637;&#3656;</div>
+</div>
+</div>
 
-  <!-- Team Performance Table -->
-  <div class="section">
-    <div class="section-header">
-      <h3>ผลงานทีมขาย — Team Performance</h3>
-      <div class="section-badge">Q1/2569</div>
-    </div>
-    <div class="data-table-wrap">
-      <table class="data-table" id="perfTable">
-        <thead>
-          <tr>
-            <th>พนักงานขาย</th>
-            <th>Active (กำลังดำเนินการ)</th>
-            <th>Won (ชนะ)</th>
-            <th>Lost (แพ้)</th>
-            <th>Win Rate</th>
-            <th>Revenue (รายได้)</th>
-          </tr>
-        </thead>
-        <tbody id="perfBody">
-        </tbody>
-      </table>
-    </div>
-  </div>
+<!-- Proposal -->
+<div class="kanban-col stage-proposal" data-stage="proposal">
+<div class="kanban-col-header">
+<div><div class="kanban-col-title">&#128995; &#3626;&#3656;&#3591;&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634; <span class="dc-prob" style="background:var(--purple-bg);color:var(--purple);">50%</span></div><div class="kanban-col-value">&#3619;&#3623;&#3617; &#3647;3.8M</div></div>
+<span class="kanban-col-count">5</span>
+</div>
+<div class="kanban-col-body" ondragover="onDragOver(event)" ondrop="onDrop(event,this)" ondragleave="onDragLeave(event,this)">
+<div class="deal-card" draggable="true" ondragstart="onDragStart(event,this)" data-member="somchai">
+<div class="dc-name">ERP &#3610;&#3619;&#3636;&#3625;&#3633;&#3607; ABC</div>
+<div class="dc-company">ABC Corporation</div>
+<div class="dc-value">&#3647;2,500,000</div>
+<div class="dc-footer">
+<div class="dc-rep"><div class="dc-rep-dot" style="background:#2563EB;">&#3626;&#3617;</div> &#3626;&#3617;&#3594;&#3634;&#3618;</div>
+<div class="dc-actions"><button class="dc-btn" onclick="showToast('&#128203;','Auto-Generate','&#3626;&#3619;&#3657;&#3634;&#3591;&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634; QT-2569-0157 &#3629;&#3633;&#3605;&#3650;&#3609;&#3617;&#3633;&#3605;&#3636;&#3592;&#3634;&#3585; Pipeline!')">&#128203;</button><button class="dc-btn">&#128065;&#65039;</button></div>
+</div>
+</div>
+<div class="deal-card" draggable="true" ondragstart="onDragStart(event,this)" data-member="suwanna">
+<div class="dc-name">CRM + Automation</div>
+<div class="dc-company">XYZ Trading</div>
+<div class="dc-value">&#3647;1,300,000</div>
+<div class="dc-footer">
+<div class="dc-rep"><div class="dc-rep-dot" style="background:#7C3AED;">&#3626;&#3623;</div> &#3626;&#3640;&#3623;&#3619;&#3619;&#3603;&#3634;</div>
+<div class="dc-actions"><button class="dc-btn" onclick="showToast('&#128203;','Auto-Generate','&#3626;&#3619;&#3657;&#3634;&#3591;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;...')">&#128203;</button><button class="dc-btn">&#128065;&#65039;</button></div>
+</div>
+</div>
+<div class="drag-hint">&#8693; &#3621;&#3634;&#3585;&#3604;&#3637;&#3621;&#3617;&#3634;&#3623;&#3634;&#3591;&#3607;&#3637;&#3656;&#3609;&#3637;&#3656;</div>
+</div>
+</div>
 
-  <!-- Monthly Conversion Trend -->
-  <div class="section">
-    <div class="section-header">
-      <h3>แนวโน้มการแปลงรายเดือน</h3>
-      <div class="section-badge">6 เดือนล่าสุด</div>
-    </div>
-    <div class="chart-container">
-      <div class="chart-svg-wrap">
-        <svg viewBox="0 0 700 320" width="100%" style="max-width:700px;">
-          <line x1="60" y1="40" x2="660" y2="40" stroke="var(--border)" stroke-width="1"/>
-          <line x1="60" y1="90" x2="660" y2="90" stroke="var(--border)" stroke-width="1"/>
-          <line x1="60" y1="140" x2="660" y2="140" stroke="var(--border)" stroke-width="1"/>
-          <line x1="60" y1="190" x2="660" y2="190" stroke="var(--border)" stroke-width="1"/>
-          <line x1="60" y1="240" x2="660" y2="240" stroke="var(--border)" stroke-width="1"/>
+<!-- Negotiate -->
+<div class="kanban-col stage-negotiate" data-stage="negotiate">
+<div class="kanban-col-header">
+<div><div class="kanban-col-title">&#128992; &#3648;&#3592;&#3619;&#3592;&#3634; <span class="dc-prob" style="background:var(--orange-bg);color:var(--orange);">75%</span></div><div class="kanban-col-value">&#3619;&#3623;&#3617; &#3647;2.1M</div></div>
+<span class="kanban-col-count">3</span>
+</div>
+<div class="kanban-col-body" ondragover="onDragOver(event)" ondrop="onDrop(event,this)" ondragleave="onDragLeave(event,this)">
+<div class="deal-card" draggable="true" ondragstart="onDragStart(event,this)" data-member="natthapong">
+<div class="dc-name">Cloud Migration</div>
+<div class="dc-company">DEF Industries</div>
+<div class="dc-value">&#3647;1,200,000</div>
+<div class="dc-footer">
+<div class="dc-rep"><div class="dc-rep-dot" style="background:#059669;">&#3603;&#3600;</div> &#3603;&#3633;&#3600;&#3614;&#3591;&#3625;&#3660;</div>
+<div class="dc-actions"><button class="dc-btn" onclick="showToast('&#128203;','Auto-Generate','&#3626;&#3619;&#3657;&#3634;&#3591;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;...')">&#128203;</button><button class="dc-btn">&#128065;&#65039;</button></div>
+</div>
+</div>
+<div class="drag-hint">&#8693; &#3621;&#3634;&#3585;&#3604;&#3637;&#3621;&#3617;&#3634;&#3623;&#3634;&#3591;&#3607;&#3637;&#3656;&#3609;&#3637;&#3656;</div>
+</div>
+</div>
 
-          <text x="50" y="44" text-anchor="end" fill="var(--muted)" font-size="11" font-family="Inter, sans-serif">30</text>
-          <text x="50" y="94" text-anchor="end" fill="var(--muted)" font-size="11" font-family="Inter, sans-serif">24</text>
-          <text x="50" y="144" text-anchor="end" fill="var(--muted)" font-size="11" font-family="Inter, sans-serif">18</text>
-          <text x="50" y="194" text-anchor="end" fill="var(--muted)" font-size="11" font-family="Inter, sans-serif">12</text>
-          <text x="50" y="244" text-anchor="end" fill="var(--muted)" font-size="11" font-family="Inter, sans-serif">6</text>
-
-          <text x="110" y="270" text-anchor="middle" fill="var(--muted)" font-size="11" font-family="Noto Sans Thai, sans-serif">พ.ย.</text>
-          <text x="220" y="270" text-anchor="middle" fill="var(--muted)" font-size="11" font-family="Noto Sans Thai, sans-serif">ธ.ค.</text>
-          <text x="330" y="270" text-anchor="middle" fill="var(--muted)" font-size="11" font-family="Noto Sans Thai, sans-serif">ม.ค.</text>
-          <text x="440" y="270" text-anchor="middle" fill="var(--muted)" font-size="11" font-family="Noto Sans Thai, sans-serif">ก.พ.</text>
-          <text x="550" y="270" text-anchor="middle" fill="var(--muted)" font-size="11" font-family="Noto Sans Thai, sans-serif">มี.ค.</text>
-          <text x="660" y="270" text-anchor="middle" fill="var(--muted)" font-size="11" font-family="Noto Sans Thai, sans-serif">เม.ย.</text>
-
-          <polyline points="110,120 220,93 330,107 440,73 550,80 660,53" fill="none" stroke="#2563EB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          <polygon points="110,120 220,93 330,107 440,73 550,80 660,53 660,240 110,240" fill="url(#blueGrad)" opacity="0.15"/>
-          <circle cx="110" cy="120" r="5" fill="#2563EB" stroke="var(--bg)" stroke-width="2"/>
-          <circle cx="220" cy="93" r="5" fill="#2563EB" stroke="var(--bg)" stroke-width="2"/>
-          <circle cx="330" cy="107" r="5" fill="#2563EB" stroke="var(--bg)" stroke-width="2"/>
-          <circle cx="440" cy="73" r="5" fill="#2563EB" stroke="var(--bg)" stroke-width="2"/>
-          <circle cx="550" cy="80" r="5" fill="#2563EB" stroke="var(--bg)" stroke-width="2"/>
-          <circle cx="660" cy="53" r="5" fill="#2563EB" stroke="var(--bg)" stroke-width="2"/>
-
-          <polyline points="110,200 220,187 330,180 440,173 550,167 660,160" fill="none" stroke="#059669" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          <polygon points="110,200 220,187 330,180 440,173 550,167 660,160 660,240 110,240" fill="url(#greenGrad)" opacity="0.15"/>
-          <circle cx="110" cy="200" r="5" fill="#059669" stroke="var(--bg)" stroke-width="2"/>
-          <circle cx="220" cy="187" r="5" fill="#059669" stroke="var(--bg)" stroke-width="2"/>
-          <circle cx="330" cy="180" r="5" fill="#059669" stroke="var(--bg)" stroke-width="2"/>
-          <circle cx="440" cy="173" r="5" fill="#059669" stroke="var(--bg)" stroke-width="2"/>
-          <circle cx="550" cy="167" r="5" fill="#059669" stroke="var(--bg)" stroke-width="2"/>
-          <circle cx="660" cy="160" r="5" fill="#059669" stroke="var(--bg)" stroke-width="2"/>
-
-          <text x="110" y="112" text-anchor="middle" fill="#2563EB" font-size="10" font-weight="600" font-family="Inter">18</text>
-          <text x="220" y="85" text-anchor="middle" fill="#2563EB" font-size="10" font-weight="600" font-family="Inter">22</text>
-          <text x="330" y="99" text-anchor="middle" fill="#2563EB" font-size="10" font-weight="600" font-family="Inter">20</text>
-          <text x="440" y="65" text-anchor="middle" fill="#2563EB" font-size="10" font-weight="600" font-family="Inter">25</text>
-          <text x="550" y="72" text-anchor="middle" fill="#2563EB" font-size="10" font-weight="600" font-family="Inter">24</text>
-          <text x="660" y="45" text-anchor="middle" fill="#2563EB" font-size="10" font-weight="600" font-family="Inter">28</text>
-
-          <text x="110" y="215" text-anchor="middle" fill="#059669" font-size="10" font-weight="600" font-family="Inter">6</text>
-          <text x="220" y="202" text-anchor="middle" fill="#059669" font-size="10" font-weight="600" font-family="Inter">8</text>
-          <text x="330" y="195" text-anchor="middle" fill="#059669" font-size="10" font-weight="600" font-family="Inter">9</text>
-          <text x="440" y="188" text-anchor="middle" fill="#059669" font-size="10" font-weight="600" font-family="Inter">10</text>
-          <text x="550" y="182" text-anchor="middle" fill="#059669" font-size="10" font-weight="600" font-family="Inter">11</text>
-          <text x="660" y="175" text-anchor="middle" fill="#059669" font-size="10" font-weight="600" font-family="Inter">12</text>
-
-          <circle cx="240" cy="300" r="5" fill="#2563EB"/>
-          <text x="250" y="304" fill="var(--muted)" font-size="12" font-family="Noto Sans Thai, sans-serif">ใบเสนอราคาส่ง</text>
-          <circle cx="390" cy="300" r="5" fill="#059669"/>
-          <text x="400" y="304" fill="var(--muted)" font-size="12" font-family="Noto Sans Thai, sans-serif">ปิดการขายได้</text>
-
-          <defs>
-            <linearGradient id="blueGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#2563EB" stop-opacity="0.4"/>
-              <stop offset="100%" stop-color="#2563EB" stop-opacity="0"/>
-            </linearGradient>
-            <linearGradient id="greenGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#059669" stop-opacity="0.4"/>
-              <stop offset="100%" stop-color="#059669" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
-    </div>
-  </div>
+<!-- Won -->
+<div class="kanban-col stage-won" data-stage="won">
+<div class="kanban-col-header">
+<div><div class="kanban-col-title">&#128994; &#3611;&#3636;&#3604;&#3604;&#3637;&#3621;&#3626;&#3635;&#3648;&#3619;&#3655;&#3592; <span class="dc-prob" style="background:var(--green-bg);color:var(--green);">100%</span></div><div class="kanban-col-value">&#3619;&#3623;&#3617; &#3647;1.3M</div></div>
+<span class="kanban-col-count">3</span>
+</div>
+<div class="kanban-col-body" ondragover="onDragOver(event)" ondrop="onDrop(event,this)" ondragleave="onDragLeave(event,this)">
+<div class="deal-card" draggable="true" ondragstart="onDragStart(event,this)" data-member="pornthip">
+<div class="dc-name">IoT Platform JKL</div>
+<div class="dc-company">JKL Manufacturing</div>
+<div class="dc-value">&#3647;680,000</div>
+<div class="dc-footer">
+<div class="dc-rep"><div class="dc-rep-dot" style="background:#D97706;">&#3614;&#3619;</div> &#3614;&#3619;&#3607;&#3636;&#3614;&#3618;&#3660;</div>
+<div class="dc-actions"><button class="dc-btn" onclick="showToast('&#128203;','Auto-Generate','&#3626;&#3619;&#3657;&#3634;&#3591;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;...')">&#128203;</button><button class="dc-btn">&#128065;&#65039;</button></div>
+</div>
+</div>
+<div class="deal-card" draggable="true" ondragstart="onDragStart(event,this)" data-member="somchai">
+<div class="dc-name">Security Audit VWX</div>
+<div class="dc-company">VWX Bank</div>
+<div class="dc-value">&#3647;620,000</div>
+<div class="dc-footer">
+<div class="dc-rep"><div class="dc-rep-dot" style="background:#2563EB;">&#3626;&#3617;</div> &#3626;&#3617;&#3594;&#3634;&#3618;</div>
+<div class="dc-actions"><button class="dc-btn" onclick="showToast('&#128203;','Auto-Generate','&#3626;&#3619;&#3657;&#3634;&#3591;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;...')">&#128203;</button><button class="dc-btn">&#128065;&#65039;</button></div>
+</div>
+</div>
+<div class="drag-hint">&#8693; &#3621;&#3634;&#3585;&#3604;&#3637;&#3621;&#3617;&#3634;&#3623;&#3634;&#3591;&#3607;&#3637;&#3656;&#3609;&#3637;&#3656;</div>
+</div>
+</div>
 
 </div>
 
-<!-- Footer -->
-<div style="text-align:center;padding:24px;color:var(--muted);font-size:0.75rem;border-top:1px solid var(--border);">
-  Autopilot v2 by ANTS — AI Solution Hub &copy; 2569 | Sales Pipeline Module
+<!-- Win/Loss + Activity Timeline -->
+<div class="grid-2">
+<div class="card">
+<div class="card-header">
+<h3>&#128200; Win/Loss Ratio &#3605;&#3634;&#3617;&#3626;&#3617;&#3634;&#3594;&#3636;&#3585;</h3>
+<span class="badge badge-green">&#3648;&#3604;&#3639;&#3629;&#3609;&#3609;&#3637;&#3657;</span>
+</div>
+<div class="wl-row">
+<div class="wl-label">&#3626;&#3617;&#3594;&#3634;&#3618;</div>
+<div class="wl-bars"><div class="wl-win" style="width:55%;"></div><div class="wl-loss" style="width:45%;"></div></div>
+<div class="wl-pct" style="color:var(--green);">55%</div>
+</div>
+<div class="wl-row">
+<div class="wl-label">&#3626;&#3640;&#3623;&#3619;&#3619;&#3603;&#3634;</div>
+<div class="wl-bars"><div class="wl-win" style="width:48%;"></div><div class="wl-loss" style="width:52%;"></div></div>
+<div class="wl-pct" style="color:var(--green);">48%</div>
+</div>
+<div class="wl-row">
+<div class="wl-label">&#3603;&#3633;&#3600;&#3614;&#3591;&#3625;&#3660;</div>
+<div class="wl-bars"><div class="wl-win" style="width:38%;"></div><div class="wl-loss" style="width:62%;"></div></div>
+<div class="wl-pct" style="color:var(--orange);">38%</div>
+</div>
+<div class="wl-row">
+<div class="wl-label">&#3614;&#3619;&#3607;&#3636;&#3614;&#3618;&#3660;</div>
+<div class="wl-bars"><div class="wl-win" style="width:42%;"></div><div class="wl-loss" style="width:58%;"></div></div>
+<div class="wl-pct" style="color:var(--orange);">42%</div>
+</div>
+<div style="margin-top:12px;display:flex;gap:16px;font-size:.7rem;color:var(--muted);">
+<span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:var(--green);"></span> Won</span>
+<span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:var(--red);"></span> Lost</span>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header">
+<h3>&#128197; Activity Timeline</h3>
+<span class="badge badge-blue">&#3623;&#3633;&#3609;&#3609;&#3637;&#3657;</span>
+</div>
+<div class="timeline">
+<div class="timeline-item">
+<div class="timeline-dot" style="background:var(--green);"></div>
+<div class="timeline-content">
+<div class="t-text"><strong>&#3614;&#3619;&#3607;&#3636;&#3614;&#3618;&#3660;</strong> &#3611;&#3636;&#3604;&#3604;&#3637;&#3621;&#3626;&#3635;&#3648;&#3619;&#3655;&#3592; IoT Platform JKL &#3617;&#3641;&#3621;&#3588;&#3656;&#3634; &#3647;680K</div>
+<div class="t-time">10:30 &#3609;. &#3623;&#3633;&#3609;&#3609;&#3637;&#3657;</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-dot" style="background:var(--blue);"></div>
+<div class="timeline-content">
+<div class="t-text"><strong>&#3626;&#3617;&#3594;&#3634;&#3618;</strong> &#3626;&#3656;&#3591;&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634; QT-0157 &#3651;&#3627;&#3657; ABC Corp</div>
+<div class="t-time">09:15 &#3609;. &#3623;&#3633;&#3609;&#3609;&#3637;&#3657;</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-dot" style="background:var(--purple);"></div>
+<div class="timeline-content">
+<div class="t-text"><strong>&#3626;&#3640;&#3623;&#3619;&#3619;&#3603;&#3634;</strong> &#3618;&#3657;&#3634;&#3618;&#3604;&#3637;&#3621; CRM XYZ &#3652;&#3611; Stage &#3648;&#3592;&#3619;&#3592;&#3634;</div>
+<div class="t-time">&#3648;&#3617;&#3639;&#3656;&#3629;&#3623;&#3634;&#3609; 16:45 &#3609;.</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-dot" style="background:var(--orange);"></div>
+<div class="timeline-content">
+<div class="t-text"><strong>&#3603;&#3633;&#3600;&#3614;&#3591;&#3625;&#3660;</strong> &#3609;&#3633;&#3604;&#3611;&#3619;&#3632;&#3594;&#3640;&#3617; Cloud Migration &#3585;&#3633;&#3610; DEF Industries</div>
+<div class="t-time">&#3648;&#3617;&#3639;&#3656;&#3629;&#3623;&#3634;&#3609; 14:00 &#3609;.</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-dot" style="background:var(--red);"></div>
+<div class="timeline-content">
+<div class="t-text"><strong>&#3619;&#3632;&#3610;&#3610;</strong> &#3649;&#3592;&#3657;&#3591;&#3648;&#3605;&#3639;&#3629;&#3609;: &#3604;&#3637;&#3621; ABC Corp &#3651;&#3585;&#3621;&#3657;&#3627;&#3617;&#3604;&#3629;&#3634;&#3618;&#3640;&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634;</div>
+<div class="t-time">&#3648;&#3617;&#3639;&#3656;&#3629;&#3623;&#3634;&#3609; 11:20 &#3609;.</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
 </div>
 
 <script>
-// Dark Mode
-function toggleDark(){document.body.classList.toggle('dark');const d=document.body.classList.contains('dark');localStorage.setItem('darkMode',d);document.querySelector('.dark-toggle').textContent=d?'\u2600\uFE0F':'\uD83C\uDF19';}
-if(localStorage.getItem('darkMode')==='true'){document.body.classList.add('dark');document.addEventListener('DOMContentLoaded',()=>{document.querySelector('.dark-toggle').textContent='\u2600\uFE0F';});}
-
-// Team members data
-const teamMembers = {
-  somchai:    { name: 'สมชาย ก.',    fullName: 'สมชาย วิทยากร',  role: 'Senior Sales',    color: '#2563EB', initials: 'สม' },
-  suwanna:    { name: 'สุวรรณา ท.',  fullName: 'สุวรรณา ทองดี',  role: 'Sales Lead',      color: '#7C3AED', initials: 'สว' },
-  natthapong: { name: 'ณัฐพงษ์ ส.',  fullName: 'ณัฐพงษ์ สุขศรี',  role: 'Sales Executive', color: '#059669', initials: 'ณฐ' },
-  pornthip:   { name: 'พรทิพย์ ร.',  fullName: 'พรทิพย์ รักษ์ดี',  role: 'Junior Sales',    color: '#D97706', initials: 'พร' },
-};
-
-// Pipeline deals data (all team members)
-const allDeals = [
-  // Stage: quote (Draft/Sent)
-  { id: 'QT-0189', customer: 'บจก. สยามเทค โซลูชัน',    value: 820000,  stage: 'quote',     days: 3,  member: 'somchai' },
-  { id: 'QT-0188', customer: 'บจก. ไทยสตีล อินดัสตรี',    value: 1200000, stage: 'quote',     days: 1,  member: 'suwanna' },
-  { id: 'QT-0187', customer: 'บมจ. เอเชียแปซิฟิค',       value: 650000,  stage: 'quote',     days: 5,  member: 'natthapong' },
-  { id: 'QT-0186', customer: 'บจก. แกรนด์ โลจิสติกส์',    value: 480000,  stage: 'quote',     days: 2,  member: 'somchai' },
-  { id: 'QT-0185', customer: 'บจก. เมโทร ฟู้ดส์',         value: 390000,  stage: 'quote',     days: 4,  member: 'pornthip' },
-  { id: 'QT-0184', customer: 'หจก. กรีนพาวเวอร์',        value: 270000,  stage: 'quote',     days: 6,  member: 'suwanna' },
-  { id: 'QT-0183', customer: 'บจก. ยูนิเวิร์ส มีเดีย',    value: 210000,  stage: 'quote',     days: 1,  member: 'natthapong' },
-  { id: 'QT-0182', customer: 'บจก. ดิจิทัล เวนเจอร์',     value: 180000,  stage: 'quote',     days: 7,  member: 'pornthip' },
-  // Stage: follow
-  { id: 'QT-0175', customer: 'บมจ. ไทยออยล์ พลัส',       value: 950000,  stage: 'follow',    days: 8,  member: 'somchai' },
-  { id: 'QT-0174', customer: 'บจก. พรีเมียร์ เฮลท์',      value: 720000,  stage: 'follow',    days: 5,  member: 'natthapong' },
-  { id: 'QT-0173', customer: 'บจก. สมาร์ท โฮม',          value: 540000,  stage: 'follow',    days: 12, member: 'suwanna' },
-  { id: 'QT-0172', customer: 'บจก. ออโต้พาร์ท',          value: 410000,  stage: 'follow',    days: 3,  member: 'pornthip' },
-  { id: 'QT-0171', customer: 'บจก. ครีเอทีฟ แล็บ',       value: 290000,  stage: 'follow',    days: 9,  member: 'somchai' },
-  { id: 'QT-0170', customer: 'หจก. นอร์ธเทิร์น ทรานส์',   value: 190000,  stage: 'follow',    days: 15, member: 'natthapong' },
-  // Stage: negotiate
-  { id: 'QT-0162', customer: 'บมจ. เซ็นทรัล รีเทล',      value: 1100000, stage: 'negotiate', days: 10, member: 'suwanna' },
-  { id: 'QT-0161', customer: 'บจก. โกลบอล เทรด',         value: 780000,  stage: 'negotiate', days: 14, member: 'somchai' },
-  { id: 'QT-0160', customer: 'บจก. อินโนเวชัน ฮับ',       value: 560000,  stage: 'negotiate', days: 7,  member: 'pornthip' },
-  { id: 'QT-0159', customer: 'บจก. ไบร์ท สตาร์',         value: 360000,  stage: 'negotiate', days: 18, member: 'natthapong' },
-  // Stage: won
-  { id: 'QT-0148', customer: 'บมจ. แบงค์กรุ๊ป โฮลดิ้ง',   value: 890000,  stage: 'won',       days: 22, member: 'somchai' },
-  { id: 'QT-0147', customer: 'บจก. ฟิวเจอร์ เอ็นเนอร์ยี่',  value: 620000,  stage: 'won',       days: 15, member: 'suwanna' },
-  { id: 'QT-0146', customer: 'บจก. เพอร์เฟค ดีไซน์',      value: 390000,  stage: 'won',       days: 12, member: 'natthapong' },
-  // Stage: lost
-  { id: 'QT-0138', customer: 'บจก. สตาร์ไลท์ กรุ๊ป',      value: 520000,  stage: 'lost',      days: 25, member: 'pornthip' },
-  { id: 'QT-0137', customer: 'หจก. ซัพพลาย ลิงค์',       value: 280000,  stage: 'lost',      days: 30, member: 'suwanna' },
-];
-
-// Follow-up alerts data
-const followUpAlerts = [
-  { qt: 'QT-0182', title: 'QT-0182 อยู่ใน Draft นาน 7 วัน', desc: 'ลูกค้า: บจก. ดิจิทัล เวนเจอร์ — มูลค่า ฿180K', member: 'pornthip', icon: '&#9888;&#65039;', borderColor: 'var(--orange)', actionLabel: 'ติดตาม' },
-  { qt: 'QT-0170', title: 'QT-0170 ไม่มีการตอบกลับ 15 วัน', desc: 'หจก. นอร์ธเทิร์น ทรานส์ — มูลค่า ฿190K — เกินกำหนดติดตาม', member: 'natthapong', icon: '&#128293;', borderColor: 'var(--red)', actionLabel: 'โทรเลย' },
-  { qt: 'QT-0173', title: 'QT-0173 รอติดตาม 12 วัน', desc: 'บจก. สมาร์ท โฮม — มูลค่า ฿540K — ควรนัดประชุม', member: 'suwanna', icon: '&#128222;', borderColor: 'var(--blue)', actionLabel: 'นัดประชุม' },
-  { qt: 'QT-0159', title: 'QT-0159 เจรจานาน 18 วัน', desc: 'บจก. ไบร์ท สตาร์ — มูลค่า ฿360K — ลูกค้าขอส่วนลดเพิ่ม', member: 'natthapong', icon: '&#129309;', borderColor: 'var(--purple)', actionLabel: 'ดูรายละเอียด' },
-  { qt: 'QT-0175', title: 'QT-0175 ยังไม่ติดตาม 8 วัน', desc: 'บมจ. ไทยออยล์ พลัส — มูลค่า ฿950K — ดีลใหญ่ต้องดูแล', member: 'somchai', icon: '&#128176;', borderColor: 'var(--blue)', actionLabel: 'ติดตาม' },
-];
-
-// Performance data per member
-const perfData = {
-  somchai:    { active: 5, won: 12, lost: 4, revenue: 4200000, cycle: 15 },
-  suwanna:    { active: 4, won: 10, lost: 5, revenue: 3500000, cycle: 18 },
-  natthapong: { active: 5, won: 8,  lost: 6, revenue: 2900000, cycle: 20 },
-  pornthip:   { active: 4, won: 5,  lost: 7, revenue: 2200000, cycle: 22 },
-};
-
-// Current filter
-let activeFilter = 'all';
-
-// Stage config
-const stageConfig = {
-  quote:     { label: '&#128196; ส่งใบเสนอราคา', cls: 'col-quote',     cardCls: 'stage-quote',     colorVar: 'var(--blue)' },
-  follow:    { label: '&#128222; ติดตาม',         cls: 'col-follow',     cardCls: 'stage-follow',    colorVar: 'var(--orange)' },
-  negotiate: { label: '&#129309; เจรจา',          cls: 'col-negotiate',  cardCls: 'stage-negotiate', colorVar: 'var(--purple)' },
-  won:       { label: '&#9989; ปิดการขาย',        cls: 'col-won',        cardCls: 'stage-won',       colorVar: 'var(--green)' },
-  lost:      { label: '&#10060; แพ้',             cls: 'col-lost',       cardCls: 'stage-lost',      colorVar: 'var(--red)' },
-};
-
-const stageOrder = ['quote', 'follow', 'negotiate', 'won', 'lost'];
-
-// Format currency
-function fmtCurrency(val) {
-  if (val >= 1000000) return '฿' + (val / 1000000).toFixed(1) + 'M';
-  if (val >= 1000) return '฿' + (val / 1000).toFixed(0) + 'K';
-  return '฿' + val.toLocaleString();
+// Drag and Drop
+var draggedCard=null;
+function onDragStart(e,card){
+  draggedCard=card;
+  card.classList.add('dragging');
+  e.dataTransfer.effectAllowed='move';
 }
-
-// Filter deals
-function getFilteredDeals() {
-  if (activeFilter === 'all') return allDeals;
-  return allDeals.filter(d => d.member === activeFilter);
+function onDragOver(e){
+  e.preventDefault();
+  e.currentTarget.classList.add('drag-over');
 }
-
-// Filter by member
-function filterByMember(member) {
-  activeFilter = member;
-  // Update filter buttons
-  document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-  event.currentTarget.classList.add('active');
-  renderAll();
+function onDragLeave(e,col){
+  col.classList.remove('drag-over');
 }
-
-// Render everything
-function renderAll() {
-  renderKanban();
-  renderFunnel();
-  renderAlerts();
-  renderPerfTable();
-  updateKPIs();
-}
-
-// Update KPIs based on filter
-function updateKPIs() {
-  const deals = getFilteredDeals();
-  const totalValue = deals.reduce((s, d) => s + d.value, 0);
-  const wonDeals = deals.filter(d => d.stage === 'won');
-  const lostDeals = deals.filter(d => d.stage === 'lost');
-  const closedDeals = wonDeals.length + lostDeals.length;
-  const winRate = closedDeals > 0 ? ((wonDeals.length / closedDeals) * 100).toFixed(1) : '0.0';
-  const avgDeal = deals.length > 0 ? totalValue / deals.length : 0;
-
-  document.getElementById('kpiPipelineValue').innerHTML = fmtCurrency(totalValue);
-  document.getElementById('kpiWinRate').textContent = winRate + '%';
-  document.getElementById('kpiAvgDeal').innerHTML = fmtCurrency(avgDeal);
-}
-
-// Render Kanban
-function renderKanban() {
-  const deals = getFilteredDeals();
-  const board = document.getElementById('kanbanBoard');
-  let totalCount = deals.length;
-  document.getElementById('totalDealsLabel').textContent = totalCount + ' ดีลทั้งหมด';
-
-  let html = '';
-  stageOrder.forEach(stage => {
-    const sc = stageConfig[stage];
-    const stageDeals = deals.filter(d => d.stage === stage);
-    const stageValue = stageDeals.reduce((s, d) => s + d.value, 0);
-
-    html += '<div class="kanban-column ' + sc.cls + '">';
-    html += '<div class="kanban-col-header">';
-    html += '<div class="kanban-col-title">' + sc.label + '</div>';
-    html += '<div class="kanban-col-meta">';
-    html += '<div class="kanban-col-count">' + stageDeals.length + ' ดีล</div>';
-    html += '<div class="kanban-col-value" style="color:' + sc.colorVar + ';">' + fmtCurrency(stageValue) + '</div>';
-    html += '</div></div>';
-
-    stageDeals.forEach(deal => {
-      const m = teamMembers[deal.member];
-      const isOverdue = (stage !== 'won' && stage !== 'lost' && deal.days > 10);
-      html += '<div class="kanban-card ' + sc.cardCls + '" draggable="true">';
-      html += '<div class="card-qt">' + deal.id + '</div>';
-      html += '<div class="card-customer">' + deal.customer + '</div>';
-      html += '<div class="card-value" style="color:' + sc.colorVar + ';">' + fmtCurrency(deal.value) + '</div>';
-      html += '<div class="card-footer">';
-      html += '<span class="card-days' + (isOverdue ? ' overdue' : '') + '">' + deal.days + ' วัน</span>';
-      html += '<div class="card-avatar" style="background:' + m.color + ';" title="' + m.name + '">' + m.initials + '</div>';
-      html += '</div></div>';
-    });
-
-    html += '<div class="kanban-drag-hint">ลากการ์ดเพื่อย้ายสถานะ</div>';
-    html += '</div>';
-  });
-
-  board.innerHTML = html;
-}
-
-// Render Funnel
-function renderFunnel() {
-  const deals = getFilteredDeals();
-  const stages = {};
-  stageOrder.forEach(s => { stages[s] = { count: 0, value: 0 }; });
-  deals.forEach(d => { stages[d.stage].count++; stages[d.stage].value += d.value; });
-
-  // Cumulative for funnel (quote = all, follow = all except lost that were only in quote, etc.)
-  const quoteTotal = deals.length;
-  const followCount = stages.follow.count + stages.negotiate.count + stages.won.count;
-  const negotiateCount = stages.negotiate.count + stages.won.count;
-  const wonCount = stages.won.count;
-  const lostCount = stages.lost.count;
-
-  const quoteValue = deals.reduce((s,d)=>s+d.value,0);
-  const followValue = deals.filter(d=>d.stage!=='quote').reduce((s,d)=>s+d.value,0);
-  const negotiateValue = deals.filter(d=>d.stage==='negotiate'||d.stage==='won').reduce((s,d)=>s+d.value,0);
-  const wonValue = stages.won.value;
-
-  const pct = (n) => quoteTotal > 0 ? Math.round((n/quoteTotal)*100) : 0;
-
-  const funnelColors = ['#2563EB', '#D97706', '#7C3AED', '#059669', '#DC2626'];
-  const funnelLabels = ['ส่งใบเสนอราคา', 'ติดตาม', 'เจรจา', 'ปิดการขาย', 'แพ้'];
-  const funnelData = [
-    { count: quoteTotal,    value: quoteValue,     pct: 100 },
-    { count: followCount,   value: followValue,    pct: pct(followCount) },
-    { count: negotiateCount,value: negotiateValue,  pct: pct(negotiateCount) },
-    { count: wonCount,      value: wonValue,        pct: pct(wonCount) },
-    { count: lostCount,     value: stages.lost.value, pct: 0 },
-  ];
-
-  // Points for trapezoids
-  const yStart = 10;
-  const rowH = 60;
-  const gap = 8;
-  const cx = 250;
-  const maxW = 440;
-
-  let svg = '<svg viewBox="0 0 500 340" width="100%" style="max-width:500px;">';
-  funnelData.forEach((d, i) => {
-    const y1 = yStart + i * (rowH + gap);
-    const y2 = y1 + rowH;
-    const w1 = i === 0 ? maxW : maxW * (0.4 + 0.6 * funnelData[i].pct / 100);
-    const w2 = (i < 4) ? maxW * (0.4 + 0.6 * (funnelData[Math.min(i+1,4)].pct || 10) / 100) : w1 * 0.7;
-    const x1l = cx - w1/2, x1r = cx + w1/2;
-    const x2l = cx - w2/2, x2r = cx + w2/2;
-
-    svg += '<polygon points="' + x1l + ',' + y1 + ' ' + x1r + ',' + y1 + ' ' + x2r + ',' + y2 + ' ' + x2l + ',' + y2 + '" fill="' + funnelColors[i] + '" opacity="0.9"/>';
-    svg += '<text x="' + cx + '" y="' + (y1 + 24) + '" text-anchor="middle" fill="white" font-size="13" font-weight="700" font-family="Noto Sans Thai, Inter, sans-serif">' + funnelLabels[i] + '</text>';
-    svg += '<text x="' + cx + '" y="' + (y1 + 44) + '" text-anchor="middle" fill="white" font-size="11" opacity="0.85" font-family="Inter, sans-serif">' + d.count + ' ดีล — ' + fmtCurrency(d.value) + (d.pct > 0 ? ' (' + d.pct + '%)' : '') + '</text>';
-  });
-  svg += '</svg>';
-
-  document.getElementById('funnelChart').innerHTML = svg;
-}
-
-// Render Alerts
-function renderAlerts() {
-  const alerts = activeFilter === 'all' ? followUpAlerts : followUpAlerts.filter(a => a.member === activeFilter);
-  const list = document.getElementById('alertList');
-
-  if (alerts.length === 0) {
-    list.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted);font-size:0.85rem;">ไม่มีแจ้งเตือนสำหรับสมาชิกนี้</div>';
-    return;
+function onDrop(e,col){
+  e.preventDefault();
+  col.classList.remove('drag-over');
+  if(draggedCard){
+    var hint=col.querySelector('.drag-hint');
+    col.insertBefore(draggedCard,hint);
+    draggedCard.classList.remove('dragging');
+    var stage=col.closest('.kanban-col').getAttribute('data-stage');
+    showToast('&#9989;','&#3618;&#3657;&#3634;&#3618; Stage','&#3618;&#3657;&#3634;&#3618;&#3604;&#3637;&#3621;&#3652;&#3611; Stage: '+stage+' &#3626;&#3635;&#3648;&#3619;&#3655;&#3592;');
+    draggedCard=null;
   }
-
-  list.innerHTML = alerts.map(a => {
-    const m = teamMembers[a.member];
-    return '<div class="alert-card" style="border-left: 3px solid ' + a.borderColor + ';">' +
-      '<div class="alert-icon">' + a.icon + '</div>' +
-      '<div class="alert-body">' +
-        '<div class="alert-title">' + a.title + '</div>' +
-        '<div class="alert-desc">' + a.desc + '</div>' +
-        '<div class="alert-rep"><div class="rep-dot" style="background:' + m.color + ';">' + m.initials + '</div> ' + m.name + '</div>' +
-      '</div>' +
-      '<div class="alert-action">' + a.actionLabel + '</div>' +
-    '</div>';
-  }).join('');
 }
 
-// Render Performance Table
-function renderPerfTable() {
-  const body = document.getElementById('perfBody');
-  const memberKeys = activeFilter === 'all' ? Object.keys(teamMembers) : [activeFilter];
-
-  body.innerHTML = memberKeys.map(key => {
-    const m = teamMembers[key];
-    const p = perfData[key];
-    if (!m || !p) return '';
-    const totalClosed = p.won + p.lost;
-    const winRate = totalClosed > 0 ? ((p.won / totalClosed) * 100).toFixed(1) : '0.0';
-    const winW = Math.round((p.won / Math.max(totalClosed, 1)) * 80);
-    const lossW = 80 - winW;
-    const wrColor = parseFloat(winRate) >= 60 ? 'var(--green)' : parseFloat(winRate) >= 45 ? 'var(--orange)' : 'var(--red)';
-
-    return '<tr>' +
-      '<td><div class="rep-cell"><div class="rep-avatar" style="background:' + m.color + ';">' + m.initials + '</div><div><div style="font-weight:600;color:var(--text);">' + m.fullName + '</div><div style="font-size:0.75rem;color:var(--muted);">' + m.role + '</div></div></div></td>' +
-      '<td style="font-family:\'Inter\';font-weight:600;">' + p.active + '</td>' +
-      '<td style="font-family:\'Inter\';font-weight:600;color:var(--green);">' + p.won + '</td>' +
-      '<td style="font-family:\'Inter\';font-weight:600;color:var(--red);">' + p.lost + '</td>' +
-      '<td><div class="win-bar"><div class="bar-segment bar-win" style="width:' + winW + 'px;"></div><div class="bar-segment bar-loss" style="width:' + lossW + 'px;"></div><span style="font-size:0.82rem;margin-left:8px;font-weight:700;color:' + wrColor + ';font-family:\'Inter\';">' + winRate + '%</span></div></td>' +
-      '<td style="font-family:\'Inter\';font-weight:700;">' + fmtCurrency(p.revenue) + '</td>' +
-    '</tr>';
-  }).join('');
+function filterMember(member,btn){
+  document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  document.querySelectorAll('.deal-card').forEach(function(card){
+    if(member==='all'||card.getAttribute('data-member')===member){
+      card.style.display='';
+    }else{
+      card.style.display='none';
+    }
+  });
 }
 
-// Init
-document.addEventListener('DOMContentLoaded', () => {
-  renderAll();
-});
-
-
-function showToast(icon, title, msg) {
-  const t = document.createElement('div');
-  t.style.cssText = 'position:fixed;bottom:24px;right:24px;background:var(--card-bg,#fff);color:var(--text,#0F172A);border:1px solid var(--border,#E2E8F0);padding:14px 20px;border-radius:12px;font-size:.82rem;font-weight:500;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.15);display:flex;align-items:center;gap:10px;font-family:inherit;max-width:380px;animation:toastIn .4s ease;';
-  t.innerHTML = (icon ? '<span style="font-size:1.2rem;">'+icon+'</span>' : '') + '<div>' + (title ? '<strong>'+title+'</strong> ' : '') + (msg||'') + '</div>';
+function showToast(icon,title,msg){
+  var t=document.createElement('div');
+  t.style.cssText='position:fixed;bottom:24px;right:24px;background:var(--card-bg,#fff);color:var(--text,#0F172A);border:1px solid var(--border,#E2E8F0);padding:14px 20px;border-radius:12px;font-size:.82rem;font-weight:500;z-index:99999;box-shadow:0 8px 32px rgba(0,0,0,.15);display:flex;align-items:center;gap:10px;font-family:inherit;max-width:380px;animation:toastIn .4s ease;';
+  t.innerHTML=(icon?'<span style="font-size:1.2rem;">'+icon+'</span>':'')+'<div>'+(title?'<strong>'+title+'</strong> ':'')+msg+'</div>';
   document.body.appendChild(t);
   setTimeout(function(){t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(function(){t.remove();},300);},3000);
 }
 </script>
-
 </body>
 </html>

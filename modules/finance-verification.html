@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Finance Verification Queue | Multi-User | Autopilot v2 by ANTS</title>
+<title>Finance Verification Queue | Checklist Templates | Autopilot v2 by ANTS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+Thai:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -22,7 +22,6 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:all 0.2s;}
 .dark-toggle:hover{transform:scale(1.1);}
 
-/* Header */
 .header{position:sticky;top:0;z-index:100;background:var(--card-bg);border-bottom:1px solid var(--border);box-shadow:var(--shadow);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;}
 .header-brand{display:flex;align-items:center;gap:12px;}
 .header-brand .logo{width:36px;height:36px;background:var(--grad);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;color:#fff;}
@@ -33,11 +32,11 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .header-user{display:flex;align-items:center;gap:12px;}
 .header-user .avatar{width:32px;height:32px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;}
 
-.container{max-width:1280px;margin:0 auto;padding:24px;}
+.container{max-width:1400px;margin:0 auto;padding:24px;}
 
 /* Stats Grid */
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
-.stat-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;position:relative;overflow:hidden;transition:all 0.2s;cursor:default;}
+.stat-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;position:relative;overflow:hidden;transition:all 0.2s;}
 .stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
 .stat-card:nth-child(1)::before{background:linear-gradient(135deg,var(--cyan),var(--blue));}
 .stat-card:nth-child(2)::before{background:linear-gradient(135deg,var(--orange),#F97316);}
@@ -45,15 +44,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .stat-card:nth-child(4)::before{background:linear-gradient(135deg,var(--red),#F97316);}
 .stat-card:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.06);}
 .stat-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:10px;}
-.stat-card:nth-child(1) .stat-icon{background:rgba(8,145,178,0.1);}
-.stat-card:nth-child(2) .stat-icon{background:var(--orange-bg);}
-.stat-card:nth-child(3) .stat-icon{background:var(--green-bg);}
-.stat-card:nth-child(4) .stat-icon{background:var(--red-bg);}
 .stat-value{font-size:1.5rem;font-weight:800;line-height:1;margin-bottom:4px;}
-.stat-card:nth-child(1) .stat-value{color:var(--cyan);}
-.stat-card:nth-child(2) .stat-value{color:var(--orange);}
-.stat-card:nth-child(3) .stat-value{color:var(--green);}
-.stat-card:nth-child(4) .stat-value{color:var(--red);}
 .stat-label{font-size:12px;color:var(--muted);}
 .stat-sub{font-size:11px;color:var(--muted);margin-top:2px;}
 
@@ -66,6 +57,20 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .filter-tab .count{background:rgba(255,255,255,0.25);padding:1px 7px;border-radius:100px;font-size:0.65rem;}
 .filter-tab:not(.active) .count{background:var(--bg3);color:var(--muted);}
 
+/* Checklist Template Selector */
+.template-selector{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px;}
+.template-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px;cursor:pointer;transition:all 0.2s;text-align:center;position:relative;}
+.template-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.08);border-color:var(--blue);}
+.template-card.active{border-color:var(--blue);background:var(--blue-bg);box-shadow:0 0 0 2px rgba(37,99,235,0.2);}
+.template-card .tc-icon{font-size:24px;margin-bottom:6px;}
+.template-card .tc-name{font-size:0.78rem;font-weight:700;color:var(--text);margin-bottom:2px;}
+.template-card .tc-items{font-size:0.68rem;color:var(--muted);}
+.template-card .tc-badge{position:absolute;top:6px;right:6px;font-size:0.55rem;padding:2px 6px;border-radius:100px;font-weight:700;}
+
+/* Page Grid */
+.page-grid{display:grid;grid-template-columns:1fr 420px;gap:20px;}
+@media(max-width:1100px){.page-grid{grid-template-columns:1fr;}.template-selector{grid-template-columns:repeat(3,1fr);}}
+
 /* Queue Table */
 .queue-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
 .queue-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);}
@@ -73,19 +78,19 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .queue-table{width:100%;border-collapse:collapse;}
 .queue-table thead th{font-size:0.68rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;padding:10px 14px;text-align:left;border-bottom:1px solid var(--border);background:var(--bg2);}
 .queue-table tbody td{font-size:0.8rem;padding:12px 14px;border-bottom:1px solid var(--border);color:var(--text2);}
-.queue-table tbody tr{transition:background 0.15s;}
+.queue-table tbody tr{transition:background 0.15s;cursor:pointer;}
 .queue-table tbody tr:hover{background:var(--blue-bg);}
+.queue-table tbody tr.selected{background:var(--blue-bg);border-left:3px solid var(--blue);}
 
 .doc-type-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:6px;font-size:0.68rem;font-weight:600;}
 .badge-invoice{background:var(--blue-bg);color:var(--blue);}
+.badge-receipt{background:var(--green-bg);color:var(--green);}
+.badge-tax{background:var(--orange-bg);color:var(--orange);}
 .badge-contract{background:var(--purple-bg);color:var(--purple);}
-.badge-id{background:var(--green-bg);color:var(--green);}
 .badge-bank{background:rgba(8,145,178,0.12);color:var(--cyan);}
-.badge-guarantee{background:var(--orange-bg);color:var(--orange);}
 
 .verifier-cell{display:flex;align-items:center;gap:8px;}
 .verifier-cell .v-avatar{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:#fff;flex-shrink:0;}
-.verifier-cell .unassigned{font-size:0.72rem;color:var(--muted);font-style:italic;}
 
 .status-pill{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:100px;font-size:0.68rem;font-weight:600;}
 .status-pending{background:var(--orange-bg);color:var(--orange);}
@@ -94,90 +99,42 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .status-failed{background:var(--red-bg);color:var(--red);}
 .status-escalated{background:var(--purple-bg);color:var(--purple);}
 
-.confidence-mini{display:flex;align-items:center;gap:6px;}
-.confidence-mini .conf-bar{width:40px;height:4px;border-radius:2px;background:var(--bg3);overflow:hidden;}
-.confidence-mini .conf-bar .fill{height:100%;border-radius:2px;}
+/* Completion percentage */
+.completion-bar{display:flex;align-items:center;gap:6px;}
+.completion-bar .cb-bar{width:50px;height:5px;border-radius:3px;background:var(--bg3);overflow:hidden;}
+.completion-bar .cb-fill{height:100%;border-radius:3px;}
+.completion-bar .cb-text{font-size:0.68rem;font-weight:700;}
 
-.action-btns{display:flex;gap:4px;}
-.action-btns button{padding:4px 10px;border-radius:6px;font-size:0.68rem;font-weight:600;cursor:pointer;transition:all 0.2s;border:1px solid var(--border);background:var(--card-bg);color:var(--text2);font-family:inherit;}
-.action-btns button:hover{border-color:var(--blue);color:var(--text);background:var(--blue-bg);}
-.action-btns .btn-claim{border-color:var(--blue);color:var(--blue);background:var(--blue-bg);}
-.action-btns .btn-claim:hover{background:var(--blue);color:#fff;}
-.action-btns .btn-senior{border-color:rgba(124,58,237,0.25);color:var(--purple);background:var(--purple-bg);}
-.action-btns .btn-senior:hover{background:var(--purple);color:#fff;}
-.action-btns .btn-approve{border-color:rgba(5,150,105,0.25);color:var(--green);background:var(--green-bg);}
-.action-btns .btn-approve:hover{background:var(--green);color:#fff;}
-.action-btns .btn-reject{border-color:rgba(220,38,38,0.25);color:var(--red);background:var(--red-bg);}
-.action-btns .btn-reject:hover{background:var(--red);color:#fff;}
+/* Sidebar */
+.sidebar{position:sticky;top:80px;height:fit-content;display:flex;flex-direction:column;gap:16px;}
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:border-color 0.3s;}
+.card:hover{border-color:rgba(37,99,235,0.3);}
+.card-title{font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:6px;}
 
-/* Verification Detail Sidebar */
-.page-grid{display:grid;grid-template-columns:1fr 380px;gap:20px;}
-@media(max-width:1100px){.page-grid{grid-template-columns:1fr;}}
-.sidebar{position:sticky;top:80px;height:fit-content;}
-.sidebar .card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px;}
-.sidebar .card-title{font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:6px;}
-.sidebar .doc-preview{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center;margin-bottom:16px;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.sidebar .doc-preview .preview-icon{font-size:3rem;opacity:0.3;margin-bottom:12px;}
-.sidebar .doc-preview .preview-text{font-size:0.82rem;color:var(--muted);}
-.ocr-data{margin-top:12px;}
+/* PDF Annotation Toolbar */
+.pdf-annotation-bar{display:flex;align-items:center;gap:6px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;margin-bottom:12px;}
+.pdf-tool{width:32px;height:32px;border-radius:6px;border:1px solid var(--border);background:var(--card-bg);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:all 0.2s;}
+.pdf-tool:hover{border-color:var(--blue);background:var(--blue-bg);color:var(--blue);}
+.pdf-tool.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+.pdf-tool-sep{width:1px;height:20px;background:var(--border);margin:0 2px;}
+
+/* Doc Preview */
+.doc-preview{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center;min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.doc-preview .preview-icon{font-size:3rem;opacity:0.3;margin-bottom:12px;}
+.doc-preview .preview-text{font-size:0.82rem;color:var(--muted);}
+.doc-preview .annotation-overlay{position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;}
+.doc-preview .highlight-zone{position:absolute;background:rgba(255,213,79,0.3);border:2px solid #FFD54F;border-radius:4px;}
+.doc-preview .stamp-mark{position:absolute;font-size:0.6rem;font-weight:700;color:#DC2626;border:2px solid #DC2626;border-radius:4px;padding:2px 6px;transform:rotate(-15deg);}
+.doc-preview .comment-pin{position:absolute;width:20px;height:20px;background:var(--blue);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;cursor:pointer;}
+
+/* OCR Data */
 .ocr-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:0.78rem;}
 .ocr-row:last-child{border-bottom:none;}
 .ocr-row .label{color:var(--muted);}
 .ocr-row .value{color:var(--text);font-weight:600;}
-.verify-result{margin-top:16px;padding:14px;border-radius:10px;display:flex;align-items:center;gap:10px;}
-.verify-result.pass{background:var(--green-bg);border:1px solid rgba(5,150,105,0.2);}
-.verify-result.fail{background:var(--red-bg);border:1px solid rgba(220,38,38,0.2);}
-.verify-result.warning{background:var(--orange-bg);border:1px solid rgba(217,119,6,0.2);}
-.verify-result.pending-result{background:var(--bg2);border:1px solid var(--border);}
-.verify-result .vr-icon{font-size:1.2rem;}
-.verify-result .vr-text .vr-label{font-size:0.82rem;font-weight:700;}
-.verify-result.pass .vr-text .vr-label{color:var(--green);}
-.verify-result.fail .vr-text .vr-label{color:var(--red);}
-.verify-result.warning .vr-text .vr-label{color:var(--orange);}
-.verify-result.pending-result .vr-text .vr-label{color:var(--muted);}
-.verify-result .vr-text .vr-sub{font-size:0.7rem;color:var(--muted);}
 
-/* Checklist */
-.check-list{margin-top:12px;}
-.check-item{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:0.75rem;}
-.check-item:last-child{border-bottom:none;}
-.check-item .check-label{display:flex;align-items:center;gap:6px;color:var(--text2);}
-.check-item .check-conf{font-weight:600;font-size:0.7rem;}
-
-/* Timeline */
-.timeline-section{margin-top:14px;}
-.timeline-list{overflow:hidden;transition:max-height 0.35s ease;}
-.timeline-list.collapsed{max-height:120px;}
-.timeline-list.expanded{max-height:600px;}
-.timeline-entry{display:flex;gap:10px;padding:6px 0;font-size:0.72rem;border-left:2px solid var(--border);margin-left:6px;padding-left:12px;position:relative;}
-.timeline-entry::before{content:'';position:absolute;left:-5px;top:10px;width:8px;height:8px;border-radius:50%;background:var(--border);}
-.timeline-entry.tl-success::before{background:var(--green);}
-.timeline-entry.tl-warning::before{background:var(--orange);}
-.timeline-entry.tl-error::before{background:var(--red);}
-.timeline-entry.tl-info::before{background:var(--blue);}
-.timeline-time{color:var(--muted);font-weight:600;white-space:nowrap;min-width:36px;}
-.timeline-body{flex:1;}
-.timeline-action{color:var(--text2);}
-.timeline-user{color:var(--muted);font-size:0.65rem;}
-
-.timeline-toggle{display:block;width:100%;text-align:center;padding:6px 0;font-size:0.7rem;font-weight:600;color:var(--blue);cursor:pointer;border:none;background:transparent;font-family:inherit;margin-top:4px;}
-.timeline-toggle:hover{text-decoration:underline;}
-
-/* Compact action buttons in sidebar */
-.compact-actions{display:flex;gap:4px;flex-wrap:wrap;margin-top:14px;}
-.compact-actions button{padding:5px 12px;font-size:0.72rem;font-weight:600;border-radius:6px;border:1px solid var(--border);cursor:pointer;transition:all 0.2s;font-family:inherit;display:inline-flex;align-items:center;gap:4px;}
-.compact-actions .ca-approve{background:var(--green-bg);color:var(--green);border-color:rgba(5,150,105,0.25);}
-.compact-actions .ca-approve:hover{background:var(--green);color:#fff;}
-.compact-actions .ca-reject{background:var(--red-bg);color:var(--red);border-color:rgba(220,38,38,0.25);}
-.compact-actions .ca-reject:hover{background:var(--red);color:#fff;}
-.compact-actions .ca-escalate{background:var(--purple-bg);color:var(--purple);border-color:rgba(124,58,237,0.25);}
-.compact-actions .ca-escalate:hover{background:var(--purple);color:#fff;}
-.compact-actions .ca-note{background:var(--bg2);color:var(--text2);border-color:var(--border);}
-.compact-actions .ca-note:hover{background:var(--blue-bg);color:var(--blue);border-color:var(--blue);}
-
-/* Verification Checklist Panel */
-.checklist-panel{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px;}
-.checklist-panel .card-title{font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:6px;}
+/* Checklist Panel */
+.checklist-panel{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;}
 .checklist-progress{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
 .checklist-progress .progress-text{font-size:0.78rem;font-weight:700;color:var(--text);white-space:nowrap;}
 .checklist-progress .progress-bar{flex:1;height:6px;border-radius:3px;background:var(--bg3);overflow:hidden;}
@@ -188,42 +145,83 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .checklist-item.checked .check-box{background:var(--green);border-color:var(--green);color:#fff;}
 .checklist-item.checked .check-text{text-decoration:line-through;color:var(--muted);}
 
-/* Document Type Grouping */
-.doc-group{margin-bottom:12px;}
-.doc-group-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.2s;user-select:none;}
-.doc-group-header:hover{background:var(--bg3);}
-.doc-group-header .dg-left{display:flex;align-items:center;gap:8px;font-size:0.82rem;font-weight:600;color:var(--text);}
-.doc-group-header .dg-count{font-size:0.68rem;color:var(--muted);background:var(--bg3);padding:2px 8px;border-radius:100px;}
-.doc-group-header .dg-chevron{font-size:0.7rem;color:var(--muted);transition:transform 0.2s;}
-.doc-group-header.collapsed .dg-chevron{transform:rotate(-90deg);}
-.doc-group-items{padding:4px 0 0;overflow:hidden;transition:max-height 0.3s ease;}
-.doc-group-items.collapsed{max-height:0 !important;padding:0;}
+/* e-Tax Invoice Validation */
+.etax-panel{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;}
+.etax-check{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:0.78rem;}
+.etax-check:last-child{border-bottom:none;}
+.etax-icon{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+.etax-check.pass .etax-icon{background:var(--green-bg);color:var(--green);}
+.etax-check.fail .etax-icon{background:var(--red-bg);color:var(--red);}
+.etax-check.pending .etax-icon{background:var(--bg3);color:var(--muted);}
+
+/* Version History Panel */
+.version-panel{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;}
+.version-entry{display:flex;gap:10px;padding:8px 0;border-left:2px solid var(--border);margin-left:8px;padding-left:14px;position:relative;font-size:0.75rem;}
+.version-entry::before{content:'';position:absolute;left:-5px;top:12px;width:8px;height:8px;border-radius:50%;background:var(--border);}
+.version-entry.current::before{background:var(--blue);}
+.version-entry .v-meta{color:var(--muted);font-size:0.68rem;}
+.version-entry .v-action{color:var(--text2);}
+.version-entry .v-user{font-weight:600;color:var(--text);}
+.version-entry .v-tag{font-size:0.6rem;padding:1px 6px;border-radius:4px;font-weight:600;}
+
+/* Custom Checklist Builder */
+.builder-section{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);}
+.builder-input{display:flex;gap:6px;}
+.builder-input input{flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:0.78rem;background:var(--bg2);color:var(--text);font-family:inherit;}
+.builder-input input:focus{outline:none;border-color:var(--blue);}
+.builder-input button{padding:8px 14px;border-radius:8px;border:none;background:var(--blue);color:#fff;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit;}
+
+/* Action buttons */
+.action-btns{display:flex;gap:4px;}
+.action-btns button{padding:4px 10px;border-radius:6px;font-size:0.68rem;font-weight:600;cursor:pointer;transition:all 0.2s;border:1px solid var(--border);background:var(--card-bg);color:var(--text2);font-family:inherit;}
+.action-btns button:hover{border-color:var(--blue);color:var(--text);background:var(--blue-bg);}
+.action-btns .btn-claim{border-color:var(--blue);color:var(--blue);background:var(--blue-bg);}
+.action-btns .btn-approve{border-color:rgba(5,150,105,0.25);color:var(--green);background:var(--green-bg);}
+.action-btns .btn-approve:hover{background:var(--green);color:#fff;}
+.action-btns .btn-reject{border-color:rgba(220,38,38,0.25);color:var(--red);background:var(--red-bg);}
+.action-btns .btn-reject:hover{background:var(--red);color:#fff;}
+
+/* Compact sidebar actions */
+.compact-actions{display:flex;gap:4px;flex-wrap:wrap;margin-top:14px;}
+.compact-actions button{padding:5px 12px;font-size:0.72rem;font-weight:600;border-radius:6px;border:1px solid var(--border);cursor:pointer;transition:all 0.2s;font-family:inherit;display:inline-flex;align-items:center;gap:4px;background:var(--card-bg);color:var(--text2);}
+.compact-actions .ca-approve{background:var(--green-bg);color:var(--green);border-color:rgba(5,150,105,0.25);}
+.compact-actions .ca-approve:hover{background:var(--green);color:#fff;}
+.compact-actions .ca-reject{background:var(--red-bg);color:var(--red);border-color:rgba(220,38,38,0.25);}
+.compact-actions .ca-reject:hover{background:var(--red);color:#fff;}
+.compact-actions .ca-escalate{background:var(--purple-bg);color:var(--purple);border-color:rgba(124,58,237,0.25);}
+.compact-actions .ca-escalate:hover{background:var(--purple);color:#fff;}
 
 /* Toast */
 .toast-container{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;flex-direction:column;gap:8px;}
 .toast{padding:14px 20px;border-radius:12px;background:var(--card-bg);border:1px solid var(--border);display:flex;align-items:center;gap:10px;font-size:0.82rem;color:var(--text);box-shadow:0 8px 32px rgba(0,0,0,0.1);animation:toast-in 0.4s ease;max-width:380px;}
-.toast.success{border-color:rgba(5,150,105,0.3);}
-.toast.info{border-color:rgba(37,99,235,0.3);}
-.toast.warning{border-color:rgba(217,119,6,0.3);}
 @keyframes toast-in{from{opacity:0;transform:translateY(20px) scale(0.95);}to{opacity:1;transform:translateY(0) scale(1);}}
 @keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:0.3;}}
+
+@media(max-width:640px){
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+  .template-selector{grid-template-columns:1fr 1fr;}
+  .container{padding:16px;}
+}
+@media print{
+  .dark-toggle,.header-user,.compact-actions,.pdf-annotation-bar{display:none !important;}
+  body{background:#fff !important;color:#000 !important;}
+}
 </style>
 </head>
 <body>
-<button class="dark-toggle" onclick="document.body.classList.toggle('dark');this.textContent=document.body.classList.contains('dark')?'☀':'☾'">☾</button>
+<button class="dark-toggle" onclick="document.body.classList.toggle('dark');this.textContent=document.body.classList.contains('dark')?'\u2600':'\u263D'">&#9789;</button>
 
-<!-- Header -->
 <nav class="header">
     <div class="header-brand">
-        <div class="logo">A</div>
+        <div class="logo">A2</div>
         <h1>Verification Queue</h1>
     </div>
     <div class="header-breadcrumb">
         <a href="#">Autopilot v2</a> / <a href="finance-cases.html">Finance Doc Hub</a> / <span style="color:var(--text);font-weight:500;">Verification Queue</span>
     </div>
     <div class="header-user">
-        <span style="font-size:0.78rem;color:var(--text2);">ปรีชา ม. | Senior Officer</span>
-        <div class="avatar">ปม</div>
+        <span style="font-size:0.78rem;color:var(--text2);">&#128994; ปรีชา ม. | Senior Officer | 6 เม.ย. พ.ศ. 2569</span>
+        <div class="avatar">&#3611;&#3617;</div>
     </div>
 </nav>
 
@@ -231,38 +229,73 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
     <!-- Stats -->
     <div class="stats-grid">
         <div class="stat-card">
-            <div class="stat-icon">📋</div>
-            <div class="stat-value" id="statTotal">8</div>
+            <div class="stat-icon" style="background:rgba(8,145,178,0.1);">&#128203;</div>
+            <div class="stat-value" style="color:var(--cyan);">12</div>
             <div class="stat-label">เอกสารรอตรวจสอบ</div>
-            <div class="stat-sub">จาก 6 เคส</div>
+            <div class="stat-sub">จาก 8 เคส</div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon">⏳</div>
-            <div class="stat-value" id="statVerifying">2</div>
+            <div class="stat-icon" style="background:var(--orange-bg);">&#9203;</div>
+            <div class="stat-value" style="color:var(--orange);">3</div>
             <div class="stat-label">กำลังตรวจสอบ</div>
-            <div class="stat-sub">โดย 2 เจ้าหน้าที่</div>
+            <div class="stat-sub">โดย 3 เจ้าหน้าที่</div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon">✅</div>
-            <div class="stat-value" id="statVerified">2</div>
+            <div class="stat-icon" style="background:var(--green-bg);">&#9989;</div>
+            <div class="stat-value" style="color:var(--green);">5</div>
             <div class="stat-label">ผ่านแล้ววันนี้</div>
             <div class="stat-sub">ความถูกต้อง 98.7%</div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon">🚨</div>
-            <div class="stat-value" id="statFailed">2</div>
+            <div class="stat-icon" style="background:var(--red-bg);">&#128680;</div>
+            <div class="stat-value" style="color:var(--red);">2</div>
             <div class="stat-label">ตรวจไม่ผ่าน / Escalated</div>
             <div class="stat-sub">ต้อง Senior ตรวจ</div>
         </div>
     </div>
 
-    <!-- Filter -->
+    <!-- 5 Pre-built Verification Checklist Templates -->
+    <div style="font-size:0.72rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-bottom:10px;">&#128203; Checklist Templates (เลือกแม่แบบตรวจสอบ)</div>
+    <div class="template-selector">
+        <div class="template-card active" onclick="selectTemplate(this,'invoice')">
+            <div class="tc-badge" style="background:var(--blue-bg);color:var(--blue);">8 รายการ</div>
+            <div class="tc-icon">&#128203;</div>
+            <div class="tc-name">Invoice Review</div>
+            <div class="tc-items">ตรวจใบแจ้งหนี้</div>
+        </div>
+        <div class="template-card" onclick="selectTemplate(this,'tax')">
+            <div class="tc-badge" style="background:var(--orange-bg);color:var(--orange);">10 รายการ</div>
+            <div class="tc-icon">&#128176;</div>
+            <div class="tc-name">Tax Document</div>
+            <div class="tc-items">ตรวจเอกสารภาษี</div>
+        </div>
+        <div class="template-card" onclick="selectTemplate(this,'payment')">
+            <div class="tc-badge" style="background:var(--green-bg);color:var(--green);">7 รายการ</div>
+            <div class="tc-icon">&#128179;</div>
+            <div class="tc-name">Payment Voucher</div>
+            <div class="tc-items">ตรวจใบสำคัญจ่าย</div>
+        </div>
+        <div class="template-card" onclick="selectTemplate(this,'receipt')">
+            <div class="tc-badge" style="background:var(--purple-bg);color:var(--purple);">6 รายการ</div>
+            <div class="tc-icon">&#129534;</div>
+            <div class="tc-name">Receipt Validation</div>
+            <div class="tc-items">ตรวจใบเสร็จ</div>
+        </div>
+        <div class="template-card" onclick="selectTemplate(this,'contract')">
+            <div class="tc-badge" style="background:rgba(8,145,178,0.12);color:var(--cyan);">9 รายการ</div>
+            <div class="tc-icon">&#128221;</div>
+            <div class="tc-name">Contract Review</div>
+            <div class="tc-items">ตรวจสัญญา</div>
+        </div>
+    </div>
+
+    <!-- Filter Tabs -->
     <div class="filter-row">
-        <div class="filter-tabs" id="filterTabs">
-            <button class="filter-tab active" onclick="filterQueue(this,'all')">ทั้งหมด <span class="count" id="countAll">8</span></button>
-            <button class="filter-tab" onclick="filterQueue(this,'my')">ของฉัน <span class="count" id="countMy">3</span></button>
-            <button class="filter-tab" onclick="filterQueue(this,'unassigned')">ยังไม่มีคนรับ <span class="count" id="countUnassigned">1</span></button>
-            <button class="filter-tab" onclick="filterQueue(this,'escalated')">Escalated <span class="count" id="countEscalated" style="background:var(--red);color:#fff;">1</span></button>
+        <div class="filter-tabs">
+            <button class="filter-tab active" onclick="filterQueue(this,'all')">&#128203; ทั้งหมด <span class="count">12</span></button>
+            <button class="filter-tab" onclick="filterQueue(this,'my')">&#128100; ของฉัน <span class="count">4</span></button>
+            <button class="filter-tab" onclick="filterQueue(this,'unassigned')">&#10067; ยังไม่มีคนรับ <span class="count">2</span></button>
+            <button class="filter-tab" onclick="filterQueue(this,'escalated')">&#128680; Escalated <span class="count" style="background:var(--red);color:#fff;">1</span></button>
         </div>
     </div>
 
@@ -271,7 +304,8 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
         <div>
             <div class="queue-card">
                 <div class="queue-header">
-                    <h3>📋 Verification Queue ทั้งหมด</h3>
+                    <h3>&#128203; Verification Queue</h3>
+                    <span style="font-size:0.72rem;color:var(--muted);">&#128338; อัปเดตล่าสุด: 14:32 น.</span>
                 </div>
                 <table class="queue-table">
                     <thead>
@@ -281,80 +315,188 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
                             <th>ประเภท</th>
                             <th>ผู้ตรวจ</th>
                             <th>สถานะ</th>
-                            <th>AI Conf.</th>
+                            <th>Checklist</th>
                             <th>ดำเนินการ</th>
                         </tr>
                     </thead>
-                    <tbody id="queueBody">
+                    <tbody>
+                        <tr class="selected" onclick="selectDoc(this,1)">
+                            <td><strong style="color:var(--text);">INV-2569-0142</strong><br><span style="font-size:0.68rem;color:var(--muted);">ใบแจ้งหนี้ค่าบริการ</span></td>
+                            <td style="font-size:0.72rem;color:var(--blue);font-weight:600;">FN-0847</td>
+                            <td><span class="doc-type-badge badge-invoice">&#128203; Invoice</span></td>
+                            <td><div class="verifier-cell"><div class="v-avatar" style="background:#2563EB;">&#3611;&#3617;</div><span style="font-size:0.72rem;">ปรีชา ม.</span></div></td>
+                            <td><span class="status-pill status-verifying">&#9679; กำลังตรวจ</span></td>
+                            <td>
+                                <div class="completion-bar">
+                                    <div class="cb-bar"><div class="cb-fill" style="width:62%;background:var(--blue);"></div></div>
+                                    <span class="cb-text" style="color:var(--blue);">5/8</span>
+                                </div>
+                            </td>
+                            <td><div class="action-btns"><button class="btn-approve" onclick="event.stopPropagation();approveDoc(1)">&#9989; ผ่าน</button><button class="btn-reject" onclick="event.stopPropagation();rejectDoc(1)">&#10060; ไม่ผ่าน</button></div></td>
+                        </tr>
+                        <tr onclick="selectDoc(this,2)">
+                            <td><strong style="color:var(--text);">TAX-2569-0055</strong><br><span style="font-size:0.68rem;color:var(--muted);">ใบกำกับภาษีอิเล็กทรอนิกส์</span></td>
+                            <td style="font-size:0.72rem;color:var(--blue);font-weight:600;">FN-0845</td>
+                            <td><span class="doc-type-badge badge-tax">&#128176; e-Tax</span></td>
+                            <td><div class="verifier-cell"><div class="v-avatar" style="background:#7C3AED;">&#3626;&#3585;</div><span style="font-size:0.72rem;">สมศักดิ์ ก.</span></div></td>
+                            <td><span class="status-pill status-verifying">&#9679; กำลังตรวจ</span></td>
+                            <td>
+                                <div class="completion-bar">
+                                    <div class="cb-bar"><div class="cb-fill" style="width:30%;background:var(--orange);"></div></div>
+                                    <span class="cb-text" style="color:var(--orange);">3/10</span>
+                                </div>
+                            </td>
+                            <td><div class="action-btns"><button class="btn-approve" onclick="event.stopPropagation();">&#9989; ผ่าน</button><button class="btn-reject" onclick="event.stopPropagation();">&#10060;</button></div></td>
+                        </tr>
+                        <tr onclick="selectDoc(this,3)">
+                            <td><strong style="color:var(--text);">RCP-2569-0087</strong><br><span style="font-size:0.68rem;color:var(--muted);">ใบเสร็จรับเงินค่าสินค้า</span></td>
+                            <td style="font-size:0.72rem;color:var(--blue);font-weight:600;">FN-0846</td>
+                            <td><span class="doc-type-badge badge-receipt">&#129534; Receipt</span></td>
+                            <td><div class="verifier-cell"><div class="v-avatar" style="background:#059669;">&#3623;&#3614;</div><span style="font-size:0.72rem;">วิภา พ.</span></div></td>
+                            <td><span class="status-pill status-pending">&#9679; รอตรวจ</span></td>
+                            <td>
+                                <div class="completion-bar">
+                                    <div class="cb-bar"><div class="cb-fill" style="width:0%;background:var(--muted);"></div></div>
+                                    <span class="cb-text" style="color:var(--muted);">0/6</span>
+                                </div>
+                            </td>
+                            <td><div class="action-btns"><button class="btn-claim" onclick="event.stopPropagation();">&#128100; รับงาน</button></div></td>
+                        </tr>
+                        <tr onclick="selectDoc(this,4)">
+                            <td><strong style="color:var(--text);">CTR-2569-0023</strong><br><span style="font-size:0.68rem;color:var(--muted);">สัญญาจ้างติดตั้งระบบ</span></td>
+                            <td style="font-size:0.72rem;color:var(--blue);font-weight:600;">FN-0844</td>
+                            <td><span class="doc-type-badge badge-contract">&#128221; Contract</span></td>
+                            <td><span style="font-size:0.72rem;color:var(--muted);font-style:italic;">ยังไม่มีคนรับ</span></td>
+                            <td><span class="status-pill status-pending">&#9679; รอตรวจ</span></td>
+                            <td>
+                                <div class="completion-bar">
+                                    <div class="cb-bar"><div class="cb-fill" style="width:0%;"></div></div>
+                                    <span class="cb-text" style="color:var(--muted);">0/9</span>
+                                </div>
+                            </td>
+                            <td><div class="action-btns"><button class="btn-claim" onclick="event.stopPropagation();">&#128100; รับงาน</button></div></td>
+                        </tr>
+                        <tr onclick="selectDoc(this,5)">
+                            <td><strong style="color:var(--text);">INV-2569-0140</strong><br><span style="font-size:0.68rem;color:var(--muted);">ใบแจ้งหนี้ค่าวัสดุ (ตรวจไม่ผ่าน)</span></td>
+                            <td style="font-size:0.72rem;color:var(--blue);font-weight:600;">FN-0840</td>
+                            <td><span class="doc-type-badge badge-invoice">&#128203; Invoice</span></td>
+                            <td><div class="verifier-cell"><div class="v-avatar" style="background:#DC2626;">&#3608;&#3611;</div><span style="font-size:0.72rem;">ธนากร ป.</span></div></td>
+                            <td><span class="status-pill status-escalated">&#128680; Escalated</span></td>
+                            <td>
+                                <div class="completion-bar">
+                                    <div class="cb-bar"><div class="cb-fill" style="width:88%;background:var(--red);"></div></div>
+                                    <span class="cb-text" style="color:var(--red);">7/8</span>
+                                </div>
+                            </td>
+                            <td><div class="action-btns"><button class="btn-approve" onclick="event.stopPropagation();">&#9989; ผ่าน</button><button class="btn-reject" onclick="event.stopPropagation();">&#10060;</button></div></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- Sidebar: Detail -->
+        <!-- Sidebar -->
         <div class="sidebar">
-            <div class="card" id="sidebarDefault">
-                <div class="card-title">📄 รายละเอียดเอกสาร</div>
+            <!-- PDF Annotation & Preview -->
+            <div class="card">
+                <div class="card-title">&#128196; ตัวอย่างเอกสาร + Annotation</div>
+                <div class="pdf-annotation-bar">
+                    <button class="pdf-tool active" title="เลือก">&#9995;</button>
+                    <button class="pdf-tool" title="ไฮไลท์" onclick="toggleTool(this)">&#128221;</button>
+                    <button class="pdf-tool" title="ตราประทับ" onclick="toggleTool(this)">&#128276;</button>
+                    <button class="pdf-tool" title="ความคิดเห็น" onclick="toggleTool(this)">&#128172;</button>
+                    <div class="pdf-tool-sep"></div>
+                    <button class="pdf-tool" title="ซูมเข้า">&#128269;</button>
+                    <button class="pdf-tool" title="ซูมออก">&#128270;</button>
+                    <div class="pdf-tool-sep"></div>
+                    <button class="pdf-tool" title="ดาวน์โหลด">&#128229;</button>
+                </div>
                 <div class="doc-preview">
-                    <div class="preview-icon">📄</div>
-                    <div class="preview-text">เลือกเอกสารจากตารางเพื่อดูรายละเอียด</div>
+                    <div class="annotation-overlay">
+                        <div class="highlight-zone" style="top:25%;left:15%;width:70%;height:10%;"></div>
+                        <div class="stamp-mark" style="top:60%;right:15%;">VERIFIED</div>
+                        <div class="comment-pin" style="top:40%;right:10%;">1</div>
+                    </div>
+                    <div class="preview-icon">&#128196;</div>
+                    <div class="preview-text">INV-2569-0142<br>ใบแจ้งหนี้ค่าบริการ - บจ. สยามพัฒนา<br><span style="font-size:0.72rem;">&#3647;245,000.00</span></div>
+                </div>
+                <div style="margin-top:12px;">
+                    <div class="ocr-row"><span class="label">เลขที่เอกสาร</span><span class="value">INV-2569-0142</span></div>
+                    <div class="ocr-row"><span class="label">ผู้ออก</span><span class="value">บจ. สยามพัฒนา จำกัด</span></div>
+                    <div class="ocr-row"><span class="label">วันที่</span><span class="value">1 เม.ย. พ.ศ. 2569</span></div>
+                    <div class="ocr-row"><span class="label">มูลค่า</span><span class="value">&#3647;245,000.00</span></div>
+                    <div class="ocr-row"><span class="label">VAT 7%</span><span class="value">&#3647;17,150.00</span></div>
+                    <div class="ocr-row"><span class="label">เลขผู้เสียภาษี</span><span class="value">0-1234-56789-01-2</span></div>
+                    <div class="ocr-row"><span class="label">ระบบบัญชี</span><span class="value" style="color:var(--blue);">&#128279; Express Accounting</span></div>
+                </div>
+                <div class="compact-actions">
+                    <button class="ca-approve" onclick="showToast('อนุมัติเอกสารสำเร็จ','success')">&#9989; อนุมัติ</button>
+                    <button class="ca-reject" onclick="showToast('ปฏิเสธเอกสาร','warning')">&#10060; ปฏิเสธ</button>
+                    <button class="ca-escalate" onclick="showToast('ส่งต่อ Senior แล้ว','info')">&#128680; ส่งต่อ</button>
+                    <button onclick="showToast('เพิ่มหมายเหตุแล้ว','info')">&#128221; หมายเหตุ</button>
                 </div>
             </div>
-            <!-- Verification Checklist -->
-            <div class="checklist-panel" id="verificationChecklist">
-                <div class="card-title">📋 Checklist ตรวจสอบเอกสาร</div>
+
+            <!-- Verification Checklist (from selected template) -->
+            <div class="checklist-panel" id="checklistPanel">
+                <div class="card-title">&#9989; Invoice Review Checklist</div>
                 <div class="checklist-progress">
-                    <span class="progress-text" id="checklistCount">0/7 เสร็จแล้ว</span>
-                    <div class="progress-bar"><div class="progress-fill" id="checklistBar" style="width:0%"></div></div>
+                    <span class="progress-text" id="progressText">5/8 (62%)</span>
+                    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:62%;"></div></div>
                 </div>
                 <div id="checklistItems">
-                    <div class="checklist-item" onclick="toggleChecklist(this)"><div class="check-box"></div><span class="check-text">ตรวจสอบเลขที่เอกสาร</span></div>
-                    <div class="checklist-item" onclick="toggleChecklist(this)"><div class="check-box"></div><span class="check-text">ตรวจสอบเลขประจำตัวผู้เสียภาษี</span></div>
-                    <div class="checklist-item" onclick="toggleChecklist(this)"><div class="check-box"></div><span class="check-text">ตรวจสอบยอดเงินตรงกับ PO</span></div>
-                    <div class="checklist-item" onclick="toggleChecklist(this)"><div class="check-box"></div><span class="check-text">ตรวจสอบวันที่เอกสาร</span></div>
-                    <div class="checklist-item" onclick="toggleChecklist(this)"><div class="check-box"></div><span class="check-text">ตรวจสอบลายเซ็นผู้มีอำนาจ</span></div>
-                    <div class="checklist-item" onclick="toggleChecklist(this)"><div class="check-box"></div><span class="check-text">ตรวจสอบเงื่อนไขการชำระเงิน</span></div>
-                    <div class="checklist-item" onclick="toggleChecklist(this)"><div class="check-box"></div><span class="check-text">แนบเอกสารประกอบครบ</span></div>
+                    <div class="checklist-item checked" onclick="toggleCheck(this)"><div class="check-box">&#10003;</div><span class="check-text">ตรวจเลขที่เอกสาร</span></div>
+                    <div class="checklist-item checked" onclick="toggleCheck(this)"><div class="check-box">&#10003;</div><span class="check-text">ตรวจชื่อผู้ออก/ผู้รับ</span></div>
+                    <div class="checklist-item checked" onclick="toggleCheck(this)"><div class="check-box">&#10003;</div><span class="check-text">ตรวจวันที่ออกเอกสาร</span></div>
+                    <div class="checklist-item checked" onclick="toggleCheck(this)"><div class="check-box">&#10003;</div><span class="check-text">ตรวจรายการสินค้า/บริการ</span></div>
+                    <div class="checklist-item checked" onclick="toggleCheck(this)"><div class="check-box">&#10003;</div><span class="check-text">ตรวจยอดเงินและ VAT</span></div>
+                    <div class="checklist-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">ตรวจเลขประจำตัวผู้เสียภาษี</span></div>
+                    <div class="checklist-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">ตรวจลายเซ็นผู้มีอำนาจ</span></div>
+                    <div class="checklist-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">ยืนยันตรงกับระบบ Express</span></div>
+                </div>
+                <!-- Custom Checklist Builder -->
+                <div class="builder-section">
+                    <div style="font-size:0.72rem;font-weight:600;color:var(--muted);margin-bottom:8px;">+ เพิ่มรายการตรวจสอบ</div>
+                    <div class="builder-input">
+                        <input type="text" id="newCheckItem" placeholder="พิมพ์รายการตรวจสอบเพิ่มเติม...">
+                        <button onclick="addCheckItem()">+ เพิ่ม</button>
+                    </div>
                 </div>
             </div>
 
-            <!-- Document Type Grouping -->
-            <div class="card" id="docTypeGrouping">
-                <div class="card-title">📂 เอกสารจัดกลุ่มตามประเภท</div>
-                <div id="docGroupContainer"></div>
+            <!-- e-Tax Invoice Validation Section -->
+            <div class="etax-panel">
+                <div class="card-title">&#128176; e-Tax Invoice Validation (กรมสรรพากร)</div>
+                <div class="etax-check pass"><div class="etax-icon">&#9989;</div><div><strong style="color:var(--text);">รูปแบบ XML</strong><br><span style="font-size:0.68rem;color:var(--muted);">ตรงตามมาตรฐาน ETDA</span></div></div>
+                <div class="etax-check pass"><div class="etax-icon">&#9989;</div><div><strong style="color:var(--text);">ลายเซ็นดิจิทัล</strong><br><span style="font-size:0.68rem;color:var(--muted);">Certificate ถูกต้อง</span></div></div>
+                <div class="etax-check pass"><div class="etax-icon">&#9989;</div><div><strong style="color:var(--text);">เลขประจำตัวผู้เสียภาษี</strong><br><span style="font-size:0.68rem;color:var(--muted);">0-1234-56789-01-2 ตรวจแล้ว</span></div></div>
+                <div class="etax-check pass"><div class="etax-icon">&#9989;</div><div><strong style="color:var(--text);">ชื่อ-ที่อยู่ผู้ขาย</strong><br><span style="font-size:0.68rem;color:var(--muted);">ตรงกับฐานข้อมูล DBD</span></div></div>
+                <div class="etax-check pending"><div class="etax-icon">&#9203;</div><div><strong style="color:var(--text);">การยื่น ภ.พ.30</strong><br><span style="font-size:0.68rem;color:var(--muted);">รอตรวจสอบรอบยื่น</span></div></div>
             </div>
 
-            <div id="sidebarDetail" style="display:none;">
-                <!-- Document Preview Card -->
-                <div class="card">
-                    <div class="card-title">📄 <span id="detailDocName"></span></div>
-                    <div class="doc-preview">
-                        <div class="preview-icon">📄</div>
-                        <div class="preview-text" id="detailPreviewText"></div>
-                    </div>
-                    <div class="ocr-data" id="ocrData"></div>
-                    <div id="verifyResultArea"></div>
-                </div>
-
-                <!-- Checklist Card -->
-                <div class="card">
-                    <div class="card-title">🔍 ผลตรวจสอบ AI</div>
-                    <div class="check-list" id="checkList"></div>
-                </div>
-
-                <!-- Timeline Card -->
-                <div class="card">
-                    <div class="card-title">📝 Activity Timeline</div>
-                    <div class="timeline-section">
-                        <div class="timeline-list collapsed" id="timelineList"></div>
-                        <button class="timeline-toggle" id="timelineToggle" onclick="toggleTimeline()" style="display:none;">▼ แสดงทั้งหมด</button>
+            <!-- Document Version History -->
+            <div class="version-panel">
+                <div class="card-title">&#128337; ประวัติเวอร์ชัน</div>
+                <div class="version-entry current">
+                    <div>
+                        <div class="v-user">v3 (ปัจจุบัน)</div>
+                        <div class="v-action">แก้ไขยอด VAT จาก &#3647;16,800 เป็น &#3647;17,150</div>
+                        <div class="v-meta">ปรีชา ม. | 6 เม.ย. 2569 14:15 น.</div>
                     </div>
                 </div>
-
-                <!-- Compact Actions Card -->
-                <div class="card">
-                    <div class="card-title">⚡ ดำเนินการ</div>
-                    <div class="compact-actions" id="compactActions"></div>
+                <div class="version-entry">
+                    <div>
+                        <div class="v-user">v2</div>
+                        <div class="v-action">เพิ่มเลขผู้เสียภาษีผู้ซื้อ</div>
+                        <div class="v-meta">สมศักดิ์ ก. | 5 เม.ย. 2569 10:30 น.</div>
+                    </div>
+                </div>
+                <div class="version-entry">
+                    <div>
+                        <div class="v-user">v1</div>
+                        <div class="v-action">อัปโหลดเอกสารต้นฉบับ</div>
+                        <div class="v-meta">ระบบ | 4 เม.ย. 2569 09:00 น. <span class="v-tag" style="background:var(--blue-bg);color:var(--blue);">Original</span></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -364,479 +506,84 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-const CURRENT_USER = 'ปรีชา ม.';
-
-const VERIFICATION_DOCS = [
-  {
-    id: 1,
-    docName: 'Invoice #INV-4521',
-    caseId: '#0847',
-    caseRef: 'FN-2026-0847',
-    type: 'invoice',
-    typeBadge: 'badge-invoice',
-    typeLabel: '📄 Invoice',
-    verifier: {name: 'ปรีชา ม.', initials: 'ปม', color: '#2563EB'},
-    status: 'verifying',
-    confidence: 97,
-    preview: {
-      docType: 'ใบแจ้งหนี้/Invoice',
-      docNo: 'INV-4521',
-      issueDate: '28 มี.ค. 2569',
-      vendor: 'ABC Auto Dealer Co., Ltd.',
-      amount: '฿485,000',
-      taxId: '0105558123456',
-      vat: '฿33,950'
-    },
-    checks: [
-      {label: 'Document authenticity', status: 'pass', confidence: 99},
-      {label: 'Tax ID validation', status: 'pass', confidence: 98},
-      {label: 'Amount cross-reference', status: 'pass', confidence: 96},
-      {label: 'Date consistency', status: 'pass', confidence: 95},
-      {label: 'Vendor match', status: 'pass', confidence: 97}
-    ],
-    timeline: [
-      {time: '10:45', action: 'เริ่มตรวจสอบเอกสาร', user: 'ปรีชา ม.', type: 'info'},
-      {time: '10:46', action: 'AI OCR สแกนเสร็จ — Confidence 97%', user: 'AI Engine', type: 'success'},
-      {time: '10:47', action: 'ตรวจสอบ Tax ID — PASS', user: 'AI Engine', type: 'success'},
-      {time: '10:48', action: 'Cross-reference กับ Case #0847', user: 'AI Engine', type: 'info'},
-      {time: '10:49', action: 'รอ Senior Officer ยืนยัน', user: 'System', type: 'warning'}
-    ]
-  },
-  {
-    id: 2,
-    docName: 'Bill of Lading #BL-882',
-    caseId: '#0851',
-    caseRef: 'FN-2026-0851',
-    type: 'contract',
-    typeBadge: 'badge-contract',
-    typeLabel: '📜 B/L',
-    verifier: {name: 'สมศักดิ์ ก.', initials: 'สก', color: '#7C3AED'},
-    status: 'verifying',
-    confidence: 94,
-    preview: {
-      docType: 'Bill of Lading',
-      docNo: 'BL-882',
-      issueDate: '25 มี.ค. 2569',
-      vendor: 'COSCO Shipping Lines',
-      amount: '฿125,000',
-      taxId: 'N/A',
-      vat: 'N/A'
-    },
-    checks: [
-      {label: 'Document format validation', status: 'pass', confidence: 96},
-      {label: 'Shipping details match', status: 'pass', confidence: 93},
-      {label: 'Weight/quantity check', status: 'warning', confidence: 78},
-      {label: 'Carrier verification', status: 'pass', confidence: 95}
-    ],
-    timeline: [
-      {time: '09:30', action: 'รับเอกสารจาก Email', user: 'System', type: 'info'},
-      {time: '09:32', action: 'AI OCR สแกนเสร็จ — Confidence 94%', user: 'AI Engine', type: 'success'},
-      {time: '09:35', action: 'น้ำหนัก/ปริมาณ ต้องตรวจสอบเพิ่ม', user: 'AI Engine', type: 'warning'},
-      {time: '09:40', action: 'Assign ให้ สมศักดิ์ ก.', user: 'System', type: 'info'}
-    ]
-  },
-  {
-    id: 3,
-    docName: 'บัตรประชาชน นายสมชาย',
-    caseId: '#0847',
-    caseRef: 'FN-2026-0847',
-    type: 'id',
-    typeBadge: 'badge-id',
-    typeLabel: '🪪 ID Card',
-    verifier: {name: 'วิภา พ.', initials: 'วพ', color: '#0891B2'},
-    status: 'verified',
-    confidence: 99,
-    preview: {docType: 'บัตรประชาชน', docNo: '1-1234-56789-01-2', issueDate: '15 ม.ค. 2565', vendor: 'กรมการปกครอง', amount: 'N/A', taxId: 'N/A', vat: 'N/A'},
-    checks: [{label: 'Face detection', status: 'pass', confidence: 99},{label: 'Laser ID check', status: 'pass', confidence: 98},{label: 'Expiry validation', status: 'pass', confidence: 100},{label: 'Checksum validation', status: 'pass', confidence: 99}],
-    timeline: [{time: '08:15', action: 'รับเอกสารจาก LINE', user: 'System', type: 'info'},{time: '08:16', action: 'eKYC scan — PASS', user: 'AI Engine', type: 'success'},{time: '08:17', action: 'ตรวจสอบเสร็จสิ้น ✓', user: 'วิภา พ.', type: 'success'}]
-  },
-  {
-    id: 4,
-    docName: 'สลิปเงินเดือน มี.ค. 2569',
-    caseId: '#0848',
-    caseRef: 'FN-2026-0848',
-    type: 'bank',
-    typeBadge: 'badge-bank',
-    typeLabel: '🏦 Bank Slip',
-    verifier: {name: 'นิตยา ส.', initials: 'นส', color: '#059669'},
-    status: 'pending',
-    confidence: 0,
-    preview: {docType: 'สลิปเงินเดือน', docNo: 'SAL-2569-03', issueDate: '31 มี.ค. 2569', vendor: 'บริษัท XYZ จำกัด', amount: '฿45,000', taxId: '0105551234567', vat: 'N/A'},
-    checks: [{label: 'Document format', status: 'pending', confidence: 0},{label: 'Amount validation', status: 'pending', confidence: 0}],
-    timeline: [{time: '11:00', action: 'อัพโหลดเอกสาร', user: 'ลูกค้า', type: 'info'},{time: '11:01', action: 'รอคิวตรวจสอบ', user: 'System', type: 'warning'}]
-  },
-  {
-    id: 5,
-    docName: 'สัญญาซื้อขาย #CT-2569-041',
-    caseId: '#0852',
-    caseRef: 'FN-2026-0852',
-    type: 'contract',
-    typeBadge: 'badge-contract',
-    typeLabel: '📝 Contract',
-    verifier: {name: 'ปรีชา ม.', initials: 'ปม', color: '#2563EB'},
-    status: 'failed',
-    confidence: 62,
-    preview: {docType: 'สัญญาซื้อขาย', docNo: 'CT-2569-041', issueDate: '20 มี.ค. 2569', vendor: 'นายทดสอบ ทดลอง', amount: '฿1,250,000', taxId: '3-1234-00000-00-0', vat: '฿87,500'},
-    checks: [{label: 'Document authenticity', status: 'fail', confidence: 55},{label: 'Signature match', status: 'fail', confidence: 48},{label: 'Date consistency', status: 'pass', confidence: 92},{label: 'Stamp verification', status: 'warning', confidence: 71}],
-    timeline: [{time: '14:00', action: 'รับเอกสาร', user: 'System', type: 'info'},{time: '14:02', action: 'AI ตรวจพบความผิดปกติ!', user: 'AI Engine', type: 'error'},{time: '14:03', action: 'Escalate ส่ง Senior', user: 'System', type: 'warning'},{time: '14:15', action: 'Senior กำลังตรวจสอบ', user: 'ปรีชา ม.', type: 'info'}]
-  },
-  {
-    id: 6,
-    docName: 'หนังสือรับรองเงินเดือน',
-    caseId: '#0849',
-    caseRef: 'FN-2026-0849',
-    type: 'bank',
-    typeBadge: 'badge-bank',
-    typeLabel: '📄 Certificate',
-    verifier: {name: 'ธนากร ป.', initials: 'ธป', color: '#DC2626'},
-    status: 'verified',
-    confidence: 96,
-    preview: {docType: 'หนังสือรับรองเงินเดือน', docNo: 'CER-2569-032', issueDate: '1 เม.ย. 2569', vendor: 'บริษัท ABC จำกัด', amount: '฿55,000/เดือน', taxId: '0105559876543', vat: 'N/A'},
-    checks: [{label: 'Company stamp', status: 'pass', confidence: 97},{label: 'Signature verification', status: 'pass', confidence: 94},{label: 'Income amount match', status: 'pass', confidence: 96}],
-    timeline: [{time: '09:00', action: 'รับเอกสาร Email', user: 'System', type: 'info'},{time: '09:02', action: 'OCR scan เสร็จ', user: 'AI Engine', type: 'success'},{time: '09:10', action: 'ตรวจผ่าน ✓', user: 'ธนากร ป.', type: 'success'}]
-  },
-  {
-    id: 7,
-    docName: 'ทะเบียนบ้าน สมชาย',
-    caseId: '#0847',
-    caseRef: 'FN-2026-0847',
-    type: 'id',
-    typeBadge: 'badge-id',
-    typeLabel: '🏠 ทะเบียนบ้าน',
-    verifier: null,
-    status: 'pending',
-    confidence: 0,
-    preview: {docType: 'สำเนาทะเบียนบ้าน', docNo: 'TRB-1234', issueDate: 'N/A', vendor: 'กรมการปกครอง', amount: 'N/A', taxId: 'N/A', vat: 'N/A'},
-    checks: [{label: 'Document scan quality', status: 'pending', confidence: 0}],
-    timeline: [{time: '11:30', action: 'รับเอกสารจาก Upload', user: 'System', type: 'info'}]
-  },
-  {
-    id: 8,
-    docName: 'ใบเสร็จค่าจดทะเบียน',
-    caseId: '#0853',
-    caseRef: 'FN-2026-0853',
-    type: 'guarantee',
-    typeBadge: 'badge-guarantee',
-    typeLabel: '🧾 Receipt',
-    verifier: {name: 'สมศักดิ์ ก.', initials: 'สก', color: '#7C3AED'},
-    status: 'escalated',
-    confidence: 71,
-    preview: {docType: 'ใบเสร็จรับเงิน', docNo: 'RCP-8890', issueDate: '3 เม.ย. 2569', vendor: 'กรมการขนส่งทางบก', amount: '฿8,500', taxId: 'N/A', vat: 'N/A'},
-    checks: [{label: 'Receipt authenticity', status: 'warning', confidence: 72},{label: 'Amount validation', status: 'pass', confidence: 88},{label: 'Date check', status: 'pass', confidence: 95}],
-    timeline: [{time: '15:00', action: 'รับเอกสาร', user: 'System', type: 'info'},{time: '15:02', action: 'AI confidence ต่ำ', user: 'AI Engine', type: 'warning'},{time: '15:05', action: 'Escalated to Senior', user: 'System', type: 'warning'}]
-  }
-];
-
-let currentFilter = 'all';
-let timelineExpanded = false;
-let selectedDocId = null;
-
-function getStatusLabel(status) {
-    const map = {
-        'pending': '● รอคิว',
-        'verifying': '● ตรวจสอบ',
-        'verified': '● ผ่านแล้ว',
-        'failed': '● ไม่ผ่าน',
-        'escalated': '● Escalated'
+function selectTemplate(el, type){
+    document.querySelectorAll('.template-card').forEach(t=>t.classList.remove('active'));
+    el.classList.add('active');
+    const templates = {
+        invoice: {name:'Invoice Review Checklist', items:['ตรวจเลขที่เอกสาร','ตรวจชื่อผู้ออก/ผู้รับ','ตรวจวันที่ออกเอกสาร','ตรวจรายการสินค้า/บริการ','ตรวจยอดเงินและ VAT','ตรวจเลขประจำตัวผู้เสียภาษี','ตรวจลายเซ็นผู้มีอำนาจ','ยืนยันตรงกับระบบบัญชี']},
+        tax: {name:'Tax Document Checklist', items:['ตรวจรูปแบบ XML ตาม ETDA','ตรวจลายเซ็นดิจิทัล','ตรวจเลขผู้เสียภาษี','ตรวจชื่อ-ที่อยู่ผู้ขาย','ตรวจรายละเอียดสินค้า','ตรวจยอด VAT 7%','ตรวจวันที่ออกใบกำกับ','ตรวจเงื่อนไข ภ.พ.30','ตรวจสำเนาตรงต้นฉบับ','ตรวจสถานะ e-Tax Invoice']},
+        payment: {name:'Payment Voucher Checklist', items:['ตรวจเลขที่ใบสำคัญจ่าย','ตรวจผู้อนุมัติ','ตรวจยอดเงินตรงใบแจ้งหนี้','ตรวจบัญชีธนาคารปลายทาง','ตรวจเอกสารแนบครบ','ตรวจวันที่จ่าย','ตรวจหัก ณ ที่จ่าย']},
+        receipt: {name:'Receipt Validation Checklist', items:['ตรวจเลขที่ใบเสร็จ','ตรวจชื่อผู้จ่ายเงิน','ตรวจยอดเงินรับ','ตรวจวิธีการชำระเงิน','ตรวจลายเซ็นผู้รับเงิน','ตรวจตรงกับ Invoice']},
+        contract: {name:'Contract Review Checklist', items:['ตรวจคู่สัญญา','ตรวจระยะเวลาสัญญา','ตรวจมูลค่าสัญญา','ตรวจเงื่อนไขการชำระ','ตรวจขอบเขตงาน','ตรวจเบี้ยปรับ/ค่าเสียหาย','ตรวจลายเซ็นคู่สัญญา','ตรวจพยานลงนาม','ตรวจอากรแสตมป์']}
     };
-    return map[status] || status;
+    const t = templates[type];
+    if(!t) return;
+    document.querySelector('#checklistPanel .card-title').textContent = '\u2705 '+t.name;
+    const container = document.getElementById('checklistItems');
+    container.innerHTML = t.items.map(item=>'<div class="checklist-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">'+item+'</span></div>').join('');
+    updateProgress();
+    showToast('โหลดแม่แบบ: '+t.name, 'info');
 }
 
-function getConfColor(conf) {
-    if (conf === 0) return 'var(--muted)';
-    if (conf >= 90) return 'var(--green)';
-    if (conf >= 75) return 'var(--orange)';
-    return 'var(--red)';
+function selectDoc(el, id){
+    document.querySelectorAll('.queue-table tbody tr').forEach(r=>r.classList.remove('selected'));
+    el.classList.add('selected');
 }
 
-function getFilteredDocs(filter) {
-    switch(filter) {
-        case 'my': return VERIFICATION_DOCS.filter(d => d.verifier && d.verifier.name === CURRENT_USER);
-        case 'unassigned': return VERIFICATION_DOCS.filter(d => d.verifier === null);
-        case 'escalated': return VERIFICATION_DOCS.filter(d => d.status === 'escalated');
-        default: return VERIFICATION_DOCS;
-    }
+function filterQueue(el, filter){
+    document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
+    el.classList.add('active');
 }
 
-function updateCounts() {
-    document.getElementById('countAll').textContent = VERIFICATION_DOCS.length;
-    document.getElementById('countMy').textContent = VERIFICATION_DOCS.filter(d => d.verifier && d.verifier.name === CURRENT_USER).length;
-    document.getElementById('countUnassigned').textContent = VERIFICATION_DOCS.filter(d => d.verifier === null).length;
-    document.getElementById('countEscalated').textContent = VERIFICATION_DOCS.filter(d => d.status === 'escalated').length;
-
-    // Stats
-    document.getElementById('statTotal').textContent = VERIFICATION_DOCS.length;
-    document.getElementById('statVerifying').textContent = VERIFICATION_DOCS.filter(d => d.status === 'verifying').length;
-    document.getElementById('statVerified').textContent = VERIFICATION_DOCS.filter(d => d.status === 'verified').length;
-    document.getElementById('statFailed').textContent = VERIFICATION_DOCS.filter(d => d.status === 'failed' || d.status === 'escalated').length;
+function toggleCheck(el){
+    el.classList.toggle('checked');
+    const box = el.querySelector('.check-box');
+    box.innerHTML = el.classList.contains('checked') ? '\u2713' : '';
+    updateProgress();
 }
 
-function renderQueue() {
-    const docs = getFilteredDocs(currentFilter);
-    const tbody = document.getElementById('queueBody');
-    tbody.innerHTML = '';
-
-    docs.forEach(doc => {
-        const tr = document.createElement('tr');
-        tr.style.cursor = 'pointer';
-        if (doc.id === selectedDocId) tr.style.background = 'var(--blue-bg)';
-        tr.onclick = function() { selectDoc(this, doc.id); };
-
-        // Verifier cell
-        let verifierHTML;
-        if (doc.verifier) {
-            verifierHTML = `<div class="verifier-cell">
-                <div class="v-avatar" style="background:${doc.verifier.color};">${doc.verifier.initials}</div>
-                ${doc.verifier.name}
-            </div>`;
-        } else {
-            verifierHTML = `<div class="verifier-cell"><span class="unassigned">ยังไม่มีคนรับ</span></div>`;
-        }
-
-        // Action buttons
-        let actionsHTML;
-        if (doc.status === 'verified') {
-            actionsHTML = `<div class="action-btns"><button style="border-color:var(--green);color:var(--green);" disabled>✓ เสร็จ</button></div>`;
-        } else if (doc.status === 'failed') {
-            actionsHTML = `<div class="action-btns">
-                <button class="btn-senior" onclick="event.stopPropagation();doAction('senior','${doc.docName}')">▲ Senior</button>
-            </div>`;
-        } else if (!doc.verifier) {
-            actionsHTML = `<div class="action-btns">
-                <button class="btn-claim" onclick="event.stopPropagation();doAction('claim','${doc.docName}')">👤 รับเรื่อง</button>
-                <button class="btn-senior" onclick="event.stopPropagation();doAction('senior','${doc.docName}')">▲ Senior</button>
-            </div>`;
-        } else {
-            actionsHTML = `<div class="action-btns">
-                <button class="btn-approve" onclick="event.stopPropagation();doAction('approve','${doc.docName}')">✓ ผ่าน</button>
-                <button class="btn-reject" onclick="event.stopPropagation();doAction('reject','${doc.docName}')">✗</button>
-            </div>`;
-        }
-
-        tr.innerHTML = `
-            <td style="font-weight:600;color:var(--text);">${doc.docName}</td>
-            <td><a href="finance-case-detail.html" style="color:var(--blue);font-weight:600;text-decoration:none;">${doc.caseId}</a></td>
-            <td><span class="doc-type-badge ${doc.typeBadge}">${doc.typeLabel}</span></td>
-            <td>${verifierHTML}</td>
-            <td><span class="status-pill status-${doc.status}">${getStatusLabel(doc.status)}</span></td>
-            <td>
-                <div class="confidence-mini">
-                    <div class="conf-bar"><div class="fill" style="width:${doc.confidence}%;background:${getConfColor(doc.confidence)};"></div></div>
-                    <span style="font-size:0.72rem;font-weight:600;color:${getConfColor(doc.confidence)};">${doc.confidence > 0 ? doc.confidence + '%' : '—'}</span>
-                </div>
-            </td>
-            <td>${actionsHTML}</td>
-        `;
-        tbody.appendChild(tr);
-    });
-}
-
-function selectDoc(row, id) {
-    selectedDocId = id;
-    document.querySelectorAll('.queue-table tbody tr').forEach(r => r.style.background = '');
-    if (row) row.style.background = 'var(--blue-bg)';
-
-    const doc = VERIFICATION_DOCS.find(d => d.id === id);
-    if (!doc) return;
-
-    document.getElementById('sidebarDefault').style.display = 'none';
-    document.getElementById('sidebarDetail').style.display = 'block';
-
-    // Doc name
-    document.getElementById('detailDocName').textContent = doc.docName;
-    document.getElementById('detailPreviewText').textContent = doc.confidence > 0 ? 'AI OCR สแกนเรียบร้อยแล้ว' : 'รอ AI OCR สแกน...';
-
-    // OCR data
-    const ocrData = document.getElementById('ocrData');
-    const p = doc.preview;
-    ocrData.innerHTML = `
-        <div class="ocr-row"><span class="label">ประเภท</span><span class="value">${p.docType}</span></div>
-        <div class="ocr-row"><span class="label">เลขที่</span><span class="value">${p.docNo}</span></div>
-        <div class="ocr-row"><span class="label">วันที่</span><span class="value">${p.issueDate}</span></div>
-        <div class="ocr-row"><span class="label">ผู้ออก</span><span class="value">${p.vendor}</span></div>
-        <div class="ocr-row"><span class="label">จำนวนเงิน</span><span class="value">${p.amount}</span></div>
-        ${p.taxId !== 'N/A' ? `<div class="ocr-row"><span class="label">Tax ID</span><span class="value">${p.taxId}</span></div>` : ''}
-        ${p.vat !== 'N/A' ? `<div class="ocr-row"><span class="label">VAT</span><span class="value">${p.vat}</span></div>` : ''}
-    `;
-
-    // Verify result
-    const vrArea = document.getElementById('verifyResultArea');
-    let vrClass, vrIcon, vrLabel;
-    if (doc.status === 'verified') { vrClass = 'pass'; vrIcon = '✓'; vrLabel = 'AI Verification: ผ่าน'; }
-    else if (doc.status === 'failed') { vrClass = 'fail'; vrIcon = '✗'; vrLabel = 'AI Verification: ไม่ผ่าน'; }
-    else if (doc.status === 'escalated') { vrClass = 'warning'; vrIcon = '⚠'; vrLabel = 'AI Verification: ต้องตรวจเพิ่ม'; }
-    else if (doc.status === 'verifying') { vrClass = 'pass'; vrIcon = '⏳'; vrLabel = 'AI Verification: กำลังตรวจ'; }
-    else { vrClass = 'pending-result'; vrIcon = '⏸'; vrLabel = 'รอเข้าคิวตรวจสอบ'; }
-
-    vrArea.innerHTML = `
-        <div class="verify-result ${vrClass}" style="margin-top:16px;">
-            <div class="vr-icon">${vrIcon}</div>
-            <div class="vr-text">
-                <div class="vr-label">${vrLabel}</div>
-                <div class="vr-sub">Confidence: ${doc.confidence > 0 ? doc.confidence + '%' : '—'}</div>
-            </div>
-        </div>
-    `;
-
-    // Checklist
-    const checkList = document.getElementById('checkList');
-    checkList.innerHTML = doc.checks.map(c => {
-        let icon, color;
-        if (c.status === 'pass') { icon = '✅'; color = 'var(--green)'; }
-        else if (c.status === 'fail') { icon = '❌'; color = 'var(--red)'; }
-        else if (c.status === 'warning') { icon = '⚠️'; color = 'var(--orange)'; }
-        else { icon = '⏳'; color = 'var(--muted)'; }
-        return `<div class="check-item">
-            <span class="check-label">${icon} ${c.label}</span>
-            <span class="check-conf" style="color:${color}">${c.confidence > 0 ? c.confidence + '%' : '—'}</span>
-        </div>`;
-    }).join('');
-
-    // Timeline
-    timelineExpanded = false;
-    const timelineList = document.getElementById('timelineList');
-    const timelineToggle = document.getElementById('timelineToggle');
-    timelineList.className = 'timeline-list collapsed';
-
-    timelineList.innerHTML = doc.timeline.map(t =>
-        `<div class="timeline-entry tl-${t.type}">
-            <span class="timeline-time">${t.time}</span>
-            <div class="timeline-body">
-                <div class="timeline-action">${t.action}</div>
-                <div class="timeline-user">${t.user}</div>
-            </div>
-        </div>`
-    ).join('');
-
-    if (doc.timeline.length > 3) {
-        timelineToggle.style.display = 'block';
-        timelineToggle.textContent = `▼ แสดงทั้งหมด (${doc.timeline.length} รายการ)`;
-    } else {
-        timelineToggle.style.display = 'none';
-        timelineList.className = 'timeline-list expanded';
-    }
-
-    // Compact actions
-    const ca = document.getElementById('compactActions');
-    if (doc.status === 'verified') {
-        ca.innerHTML = `<button class="ca-approve" disabled>✓ ผ่านแล้ว</button>`;
-    } else if (doc.status === 'failed') {
-        ca.innerHTML = `
-            <button class="ca-escalate" onclick="doAction('senior','${doc.docName}')">⬆ Escalate</button>
-            <button class="ca-note" onclick="doAction('note','${doc.docName}')">💬 Note</button>
-        `;
-    } else {
-        ca.innerHTML = `
-            <button class="ca-approve" onclick="doAction('approve','${doc.docName}')">✓ ผ่าน</button>
-            <button class="ca-reject" onclick="doAction('reject','${doc.docName}')">✗ ไม่ผ่าน</button>
-            <button class="ca-escalate" onclick="doAction('senior','${doc.docName}')">⬆ Escalate</button>
-            <button class="ca-note" onclick="doAction('note','${doc.docName}')">💬 Note</button>
-        `;
-    }
-}
-
-function toggleTimeline() {
-    const list = document.getElementById('timelineList');
-    const toggle = document.getElementById('timelineToggle');
-    timelineExpanded = !timelineExpanded;
-    if (timelineExpanded) {
-        list.className = 'timeline-list expanded';
-        toggle.textContent = '▲ ย่อ';
-    } else {
-        list.className = 'timeline-list collapsed';
-        const doc = VERIFICATION_DOCS.find(d => d.id === selectedDocId);
-        toggle.textContent = `▼ แสดงทั้งหมด (${doc ? doc.timeline.length : 0} รายการ)`;
-    }
-}
-
-function filterQueue(btn, view) {
-    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-    btn.classList.add('active');
-    currentFilter = view;
-    renderQueue();
-}
-
-function doAction(action, docName) {
-    const msgs = {
-        'approve': '✓ อนุมัติเอกสาร ' + docName + ' สำเร็จ',
-        'reject': '✗ ปฏิเสธเอกสาร ' + docName,
-        'claim': '👤 รับเรื่อง ' + docName + ' แล้ว',
-        'senior': '▲ ส่งต่อ Senior แล้ว: ' + docName,
-        'note': '💬 เปิด Note สำหรับ ' + docName
-    };
-    showToast(action === 'reject' ? 'warning' : 'success', msgs[action] || action);
-}
-
-function showToast(type, message) {
-    const container = document.getElementById('toastContainer');
-    const toast = document.createElement('div');
-    toast.className = 'toast ' + type;
-    toast.innerHTML = message;
-    container.appendChild(toast);
-    setTimeout(() => { toast.style.animation = 'toast-out 0.3s ease forwards'; setTimeout(() => toast.remove(), 300); }, 3500);
-}
-
-// Verification Checklist
-function toggleChecklist(item) {
-    item.classList.toggle('checked');
-    const box = item.querySelector('.check-box');
-    box.innerHTML = item.classList.contains('checked') ? '✓' : '';
-    updateChecklistProgress();
-}
-
-function updateChecklistProgress() {
+function updateProgress(){
     const items = document.querySelectorAll('#checklistItems .checklist-item');
     const checked = document.querySelectorAll('#checklistItems .checklist-item.checked');
     const total = items.length;
     const done = checked.length;
-    document.getElementById('checklistCount').textContent = done + '/' + total + ' เสร็จแล้ว';
-    document.getElementById('checklistBar').style.width = (total > 0 ? (done / total * 100) : 0) + '%';
+    const pct = total > 0 ? Math.round((done/total)*100) : 0;
+    document.getElementById('progressText').textContent = done+'/'+total+' ('+pct+'%)';
+    document.getElementById('progressFill').style.width = pct+'%';
+    if(pct===100) showToast('Checklist เสร็จสมบูรณ์! พร้อมอนุมัติ','success');
 }
 
-// Document Type Grouping
-function renderDocGroups() {
-    const groups = {};
-    VERIFICATION_DOCS.forEach(function(doc) {
-        let groupKey, groupIcon, groupLabel;
-        if (doc.type === 'invoice') { groupKey = 'invoice'; groupIcon = '📄'; groupLabel = 'ใบแจ้งหนี้ (Invoice)'; }
-        else if (doc.type === 'guarantee' || doc.typeLabel.includes('Receipt')) { groupKey = 'receipt'; groupIcon = '🧾'; groupLabel = 'ใบเสร็จรับเงิน (Receipt)'; }
-        else if (doc.type === 'contract') { groupKey = 'contract'; groupIcon = '📋'; groupLabel = 'สัญญา (Contract)'; }
-        else if (doc.type === 'id') { groupKey = 'id'; groupIcon = '🪪'; groupLabel = 'เอกสารยืนยันตัวตน (ID)'; }
-        else if (doc.type === 'bank') { groupKey = 'bank'; groupIcon = '🏦'; groupLabel = 'เอกสารธนาคาร (Bank)'; }
-        else { groupKey = 'other'; groupIcon = '📎'; groupLabel = 'อื่นๆ'; }
-        if (!groups[groupKey]) groups[groupKey] = { icon: groupIcon, label: groupLabel, docs: [] };
-        groups[groupKey].docs.push(doc);
-    });
-    var container = document.getElementById('docGroupContainer');
-    container.innerHTML = '';
-    Object.keys(groups).forEach(function(key) {
-        var g = groups[key];
-        var groupDiv = document.createElement('div');
-        groupDiv.className = 'doc-group';
-        groupDiv.innerHTML = '<div class="doc-group-header" onclick="toggleDocGroup(this)">' +
-            '<span class="dg-left">' + g.icon + ' ' + g.label + '</span>' +
-            '<span style="display:flex;align-items:center;gap:8px;">' +
-            '<span class="dg-count">' + g.docs.length + ' ไฟล์</span>' +
-            '<span class="dg-chevron">▼</span></span></div>' +
-            '<div class="doc-group-items" style="max-height:' + (g.docs.length * 40 + 8) + 'px;">' +
-            g.docs.map(function(d) {
-                return '<div style="padding:6px 14px;font-size:0.75rem;color:var(--text2);display:flex;align-items:center;gap:6px;cursor:pointer;" onclick="selectDoc(null,' + d.id + ')">' +
-                    '<span class="status-pill status-' + d.status + '" style="font-size:0.6rem;padding:1px 6px;">' + getStatusLabel(d.status) + '</span> ' + d.docName + '</div>';
-            }).join('') + '</div>';
-        container.appendChild(groupDiv);
-    });
+function addCheckItem(){
+    const input = document.getElementById('newCheckItem');
+    const val = input.value.trim();
+    if(!val) return;
+    const div = document.createElement('div');
+    div.className = 'checklist-item';
+    div.onclick = function(){ toggleCheck(this); };
+    div.innerHTML = '<div class="check-box"></div><span class="check-text">'+val+'</span>';
+    document.getElementById('checklistItems').appendChild(div);
+    input.value = '';
+    updateProgress();
+    showToast('เพิ่มรายการตรวจสอบ: '+val, 'info');
 }
 
-function toggleDocGroup(header) {
-    header.classList.toggle('collapsed');
-    var items = header.nextElementSibling;
-    items.classList.toggle('collapsed');
+function toggleTool(el){
+    document.querySelectorAll('.pdf-tool').forEach(t=>t.classList.remove('active'));
+    el.classList.add('active');
 }
 
-// Init
-updateCounts();
-renderQueue();
-renderDocGroups();
+function approveDoc(id){ showToast('อนุมัติเอกสาร #'+id+' สำเร็จ', 'success'); }
+function rejectDoc(id){ showToast('ปฏิเสธเอกสาร #'+id, 'warning'); }
+
+function showToast(msg, type){
+    const c = document.getElementById('toastContainer');
+    const t = document.createElement('div');
+    t.className = 'toast';
+    const icons = {success:'\u2705',info:'\uD83D\uDCCC',warning:'\u26A0\uFE0F'};
+    t.innerHTML = (icons[type]||'\uD83D\uDCCC')+' '+msg;
+    c.appendChild(t);
+    setTimeout(()=>t.remove(), 3500);
+}
 </script>
 </body>
 </html>

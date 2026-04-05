@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Finance Doc Hub | Analytics Dashboard | Autopilot v2 by ANTS</title>
+<title>Finance Doc Hub | Document Dashboard | Autopilot v2 by ANTS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -20,7 +20,6 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 ::-webkit-scrollbar-thumb:hover{background:var(--muted);}
 
-/* Dark Mode Toggle */
 .dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:all 0.2s;}
 .dark-toggle:hover{transform:scale(1.1);}
 
@@ -38,7 +37,6 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .top-nav .notif-badge{position:absolute;top:-4px;right:-4px;width:16px;height:16px;border-radius:50%;background:var(--red);font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;color:#fff;}
 .top-nav .avatar{width:34px;height:34px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff;cursor:pointer;}
 
-/* Layout */
 .main-content{max-width:1400px;margin:0 auto;padding:16px 32px;}
 
 /* User Context Banner */
@@ -55,22 +53,18 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .user-context .team-member-avatars .mini-avatar:hover{transform:scale(1.15);z-index:2;}
 .user-context .team-member-avatars .mini-avatar:first-child{margin-left:0;}
 
-/* View Toggle */
-.view-toggle-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;}
-.view-tabs{display:flex;background:var(--bg2);border-radius:10px;padding:3px;border:1px solid var(--border);}
-.view-tab{padding:8px 18px;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all 0.2s;border:none;background:transparent;color:var(--muted);font-family:inherit;display:flex;align-items:center;gap:6px;}
-.view-tab.active{background:var(--blue);color:#fff;box-shadow:0 2px 6px rgba(37,99,235,0.25);}
-.view-tab:not(.active):hover{color:var(--text);background:var(--bg3);}
-.view-tab .count{background:rgba(255,255,255,0.25);padding:1px 7px;border-radius:100px;font-size:0.65rem;}
-.view-tab:not(.active) .count{background:var(--bg3);color:var(--muted);}
-.view-actions{display:flex;gap:8px;}
-
 .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;border:none;font-family:inherit;}
 .btn-primary{background:var(--blue);color:#fff;box-shadow:0 2px 8px rgba(37,99,235,0.2);}
 .btn-primary:hover{opacity:0.9;transform:translateY(-1px);}
 .btn-outline{background:var(--card-bg);color:var(--text2);border:1px solid var(--border);}
 .btn-outline:hover{border-color:var(--blue);color:var(--text);}
 .btn-sm{padding:6px 12px;font-size:12px;border-radius:6px;}
+.btn-green{background:var(--green);color:#fff;}
+.btn-green:hover{opacity:0.9;}
+.btn-orange{background:var(--orange);color:#fff;}
+.btn-orange:hover{opacity:0.9;}
+.btn-purple{background:var(--purple);color:#fff;}
+.btn-purple:hover{opacity:0.9;}
 
 /* KPI Cards */
 .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
@@ -79,41 +73,126 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .kpi-card:nth-child(3){border-top-color:var(--green);}
 .kpi-card:nth-child(4){border-top-color:var(--orange);}
 .kpi-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.08);}
-.kpi-card .kpi-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
-.kpi-card .kpi-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.kpi-card .kpi-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:8px;}
 .kpi-card .kpi-label{font-size:0.78rem;color:var(--muted);font-weight:500;}
 .kpi-card .kpi-value{font-size:1.8rem;font-weight:800;line-height:1.2;}
 .kpi-card .kpi-change{display:inline-flex;align-items:center;gap:3px;font-size:0.72rem;font-weight:600;padding:2px 8px;border-radius:100px;margin-top:6px;}
 .kpi-card .kpi-change.up{background:var(--green-bg);color:var(--green);}
 .kpi-card .kpi-change.down{background:var(--red-bg);color:var(--red);}
-.kpi-card .kpi-sparkline{position:absolute;bottom:0;right:0;opacity:0.15;}
 
-/* Charts Grid */
-.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;}
-.chart-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;transition:all 0.2s;}
-.chart-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.06);}
-.chart-card .chart-title{font-size:0.85rem;font-weight:700;margin-bottom:2px;}
-.chart-card .chart-subtitle{font-size:0.72rem;color:var(--muted);margin-bottom:10px;}
-.chart-card svg{width:100%;overflow:visible;max-height:200px;}
+/* View Toggle + Grouping Toggle */
+.toolbar-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;}
+.view-tabs{display:flex;background:var(--bg2);border-radius:10px;padding:3px;border:1px solid var(--border);}
+.view-tab{padding:8px 18px;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all 0.2s;border:none;background:transparent;color:var(--muted);font-family:inherit;display:flex;align-items:center;gap:6px;}
+.view-tab.active{background:var(--blue);color:#fff;box-shadow:0 2px 6px rgba(37,99,235,0.25);}
+.view-tab:not(.active):hover{color:var(--text);background:var(--bg3);}
+.view-tab .count{background:rgba(255,255,255,0.25);padding:1px 7px;border-radius:100px;font-size:0.65rem;}
+.view-tab:not(.active) .count{background:var(--bg3);color:var(--muted);}
+.toolbar-actions{display:flex;gap:8px;align-items:center;}
 
-/* SVG Chart Tooltip */
-.svg-tooltip{position:fixed;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:12px;font-weight:600;pointer-events:none;z-index:1000;box-shadow:0 4px 12px rgba(0,0,0,0.15);opacity:0;transition:opacity 0.15s;}
-.svg-tooltip.visible{opacity:1;}
+/* Document Type Filter Chips */
+.filter-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+.filter-chip{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:100px;font-size:0.75rem;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--card-bg);color:var(--text2);transition:all 0.2s;user-select:none;}
+.filter-chip:hover{border-color:var(--blue);color:var(--text);}
+.filter-chip.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+.filter-chip .chip-icon{font-size:14px;}
+.filter-chip .chip-count{font-size:0.65rem;opacity:0.8;}
+.filter-chip.chip-invoice.active{background:#2563EB;}
+.filter-chip.chip-receipt.active{background:#059669;}
+.filter-chip.chip-tax.active{background:#D97706;}
+.filter-chip.chip-contract.active{background:#7C3AED;}
 
-/* Donut Chart Legend */
-.donut-legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;justify-content:center;}
-.donut-legend-item{display:flex;align-items:center;gap:5px;font-size:0.72rem;color:var(--text2);}
-.donut-legend-item .dot{width:10px;height:10px;border-radius:3px;}
+/* Thai Keyword Search with Autocomplete */
+.search-section{margin-bottom:14px;position:relative;}
+.search-box{display:flex;gap:8px;align-items:center;}
+.search-input-wrap{position:relative;flex:1;}
+.search-input-wrap input{width:100%;padding:10px 14px 10px 38px;border:1px solid var(--border);border-radius:10px;font-size:13px;background:var(--card-bg);color:var(--text);font-family:inherit;transition:border 0.2s;}
+.search-input-wrap input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,0.1);}
+.search-input-wrap .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;}
+.autocomplete-dropdown{position:absolute;top:100%;left:0;right:0;background:var(--card-bg);border:1px solid var(--border);border-radius:10px;margin-top:4px;box-shadow:0 8px 24px rgba(0,0,0,0.12);z-index:50;display:none;overflow:hidden;}
+.autocomplete-dropdown.visible{display:block;}
+.ac-item{padding:10px 14px;font-size:0.82rem;cursor:pointer;display:flex;align-items:center;gap:8px;color:var(--text2);transition:background 0.15s;}
+.ac-item:hover{background:var(--blue-bg);}
+.ac-item .ac-type{font-size:0.65rem;padding:2px 8px;border-radius:100px;font-weight:600;}
+.ac-item .ac-highlight{color:var(--blue);font-weight:600;}
 
-/* Summary Section - 3 columns */
+/* Batch Operations Toolbar */
+.batch-toolbar{display:none;align-items:center;gap:12px;padding:10px 18px;background:var(--blue-bg);border:1px solid rgba(37,99,235,0.2);border-radius:var(--radius);margin-bottom:12px;font-size:13px;}
+.batch-toolbar.visible{display:flex;}
+.batch-toolbar .sel-count{font-weight:700;color:var(--blue);}
+.batch-toolbar .batch-actions{display:flex;gap:6px;margin-left:auto;}
+
+/* Document Grouping Grid */
+.doc-group-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px;}
+.doc-group-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;}
+.doc-group-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.08);border-color:var(--blue);}
+.doc-group-card .dg-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.doc-group-card .dg-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.doc-group-card .dg-title{font-size:0.85rem;font-weight:700;}
+.doc-group-card .dg-subtitle{font-size:0.72rem;color:var(--muted);}
+.doc-group-card .dg-count{font-size:1.6rem;font-weight:800;margin-bottom:4px;}
+.doc-group-card .dg-bar{height:4px;border-radius:2px;background:var(--bg3);overflow:hidden;}
+.doc-group-card .dg-bar .fill{height:100%;border-radius:2px;transition:width 0.5s;}
+.doc-group-card .auto-badge{position:absolute;top:10px;right:10px;font-size:0.6rem;padding:2px 8px;border-radius:100px;font-weight:600;background:var(--green-bg);color:var(--green);}
+
+/* Case Table */
+.table-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px;}
+.table-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border);}
+.table-header h3{font-size:0.85rem;font-weight:700;display:flex;align-items:center;gap:8px;}
+table{width:100%;border-collapse:collapse;}
+thead{background:var(--bg2);}
+th{padding:10px 14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);text-align:left;border-bottom:1px solid var(--border);}
+td{padding:12px 14px;font-size:0.8rem;border-bottom:1px solid var(--border);color:var(--text2);}
+tbody tr{transition:background 0.15s;cursor:pointer;}
+tbody tr:hover{background:var(--blue-bg);}
+
+.case-id-cell{font-weight:700;color:var(--blue);font-size:0.78rem;}
+.doc-type-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:6px;font-size:0.68rem;font-weight:600;}
+.badge-invoice{background:var(--blue-bg);color:var(--blue);}
+.badge-receipt{background:var(--green-bg);color:var(--green);}
+.badge-tax{background:var(--orange-bg);color:var(--orange);}
+.badge-contract{background:var(--purple-bg);color:var(--purple);}
+
+/* SLA Badge */
+.sla-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:100px;font-size:0.68rem;font-weight:700;}
+.sla-badge.sla-ok{background:var(--green-bg);color:var(--green);}
+.sla-badge.sla-warning{background:var(--orange-bg);color:var(--orange);}
+.sla-badge.sla-overdue{background:var(--red-bg);color:var(--red);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
+
+.status-pill{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:100px;font-size:0.68rem;font-weight:600;}
+.status-open{background:var(--blue-bg);color:var(--blue);}
+.status-verifying{background:var(--orange-bg);color:var(--orange);}
+.status-done{background:var(--green-bg);color:var(--green);}
+.status-rejected{background:var(--red-bg);color:var(--red);}
+
+/* Monthly Closing Workflow */
+.closing-panel{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px;display:none;}
+.closing-panel.visible{display:block;}
+.closing-panel .cp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.closing-panel .cp-title{font-size:0.95rem;font-weight:700;display:flex;align-items:center;gap:8px;}
+.closing-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
+.closing-step{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;transition:all 0.2s;cursor:pointer;position:relative;}
+.closing-step:hover{border-color:var(--blue);}
+.closing-step .cs-num{width:28px;height:28px;border-radius:50%;background:var(--bg3);color:var(--muted);display:inline-flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;margin-bottom:8px;}
+.closing-step.completed .cs-num{background:var(--green);color:#fff;}
+.closing-step.active .cs-num{background:var(--blue);color:#fff;}
+.closing-step .cs-label{font-size:0.72rem;font-weight:600;color:var(--text2);}
+.closing-step.completed .cs-label{color:var(--green);}
+.closing-step .cs-sub{font-size:0.65rem;color:var(--muted);margin-top:2px;}
+.closing-progress{display:flex;align-items:center;gap:10px;margin-top:14px;}
+.closing-progress .cp-bar{flex:1;height:6px;border-radius:3px;background:var(--bg3);overflow:hidden;}
+.closing-progress .cp-fill{height:100%;border-radius:3px;background:var(--green);transition:width 0.5s;}
+.closing-progress .cp-text{font-size:0.78rem;font-weight:700;color:var(--green);}
+
+/* Summary Cards */
 .summary-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:18px;}
 .summary-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;transition:all 0.2s;}
 .summary-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.06);}
 .summary-card .card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
 .summary-card .card-header h3{font-size:0.85rem;font-weight:700;display:flex;align-items:center;gap:6px;}
-.summary-card .card-header .badge{font-size:0.65rem;padding:2px 8px;border-radius:100px;font-weight:600;}
 
-/* Officer Workload */
+/* Officer Row */
 .officer-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);}
 .officer-row:last-child{border-bottom:none;}
 .officer-row .officer-avatar{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;}
@@ -121,10 +200,8 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .officer-row .officer-name{font-size:0.78rem;font-weight:600;}
 .officer-row .officer-role{font-size:0.65rem;color:var(--muted);}
 .officer-row .officer-count{font-size:1rem;font-weight:800;color:var(--blue);}
-.officer-bar{height:4px;border-radius:2px;background:var(--bg3);margin-top:3px;overflow:hidden;}
-.officer-bar .fill{height:100%;border-radius:2px;background:var(--blue);transition:width 0.5s;}
 
-/* Activity Feed */
+/* Activity */
 .activity-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:0.78rem;}
 .activity-item:last-child{border-bottom:none;}
 .activity-dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0;}
@@ -132,9 +209,34 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .activity-text{flex:1;color:var(--text2);}
 .activity-text strong{color:var(--text);font-weight:600;}
 
+/* AI Insights */
+.ai-card{background:linear-gradient(135deg,rgba(37,99,235,0.04),rgba(124,58,237,0.06));border:1px solid rgba(124,58,237,0.2);border-radius:var(--radius);padding:16px;position:relative;overflow:hidden;}
+.ai-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad);border-radius:var(--radius) var(--radius) 0 0;}
+.ai-insight-item{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;background:var(--card-bg);border:1px solid var(--border);border-radius:10px;margin-bottom:8px;font-size:0.78rem;line-height:1.5;transition:all 0.2s;}
+.ai-insight-item:last-child{margin-bottom:0;}
+.ai-insight-item:hover{border-color:var(--purple);box-shadow:0 2px 8px rgba(124,58,237,0.1);}
+.ai-insight-icon{font-size:18px;flex-shrink:0;}
+.ai-insight-text{flex:1;color:var(--text2);}
+.ai-insight-text strong{color:var(--text);font-weight:600;}
+
+/* Charts */
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;}
+.chart-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;}
+.chart-card .chart-title{font-size:0.85rem;font-weight:700;margin-bottom:2px;}
+.chart-card .chart-subtitle{font-size:0.72rem;color:var(--muted);margin-bottom:10px;}
+.chart-card svg{width:100%;overflow:visible;max-height:200px;}
+.bar-rect{transition:opacity 0.2s;cursor:pointer;}
+.bar-rect:hover{opacity:0.75;}
+
+/* Section Divider */
+.section-divider{display:flex;align-items:center;gap:8px;margin:14px 0 10px;font-size:0.78rem;font-weight:700;color:var(--text);}
+.section-divider::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* Bottom Grid */
+.bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;}
+
 /* SLA Risk */
 .sla-risk-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;margin-bottom:6px;font-size:0.78rem;}
-.sla-risk-item:last-child{margin-bottom:0;}
 .sla-risk-item.green{background:var(--green-bg);}
 .sla-risk-item.orange{background:var(--orange-bg);}
 .sla-risk-item.red{background:var(--red-bg);}
@@ -142,134 +244,37 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .sla-risk-info{flex:1;}
 .sla-risk-count{font-weight:800;font-size:1rem;}
 
-/* Bottom Row - 2 columns */
-.bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;}
+/* Toast */
+.toast-container{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;flex-direction:column;gap:8px;}
+.toast{padding:14px 20px;border-radius:12px;background:var(--card-bg);border:1px solid var(--border);display:flex;align-items:center;gap:10px;font-size:0.82rem;color:var(--text);box-shadow:0 8px 32px rgba(0,0,0,0.1);animation:toast-in 0.4s ease;max-width:380px;}
+@keyframes toast-in{from{opacity:0;transform:translateY(20px) scale(0.95);}to{opacity:1;transform:translateY(0) scale(1);}}
 
-/* Channel Breakdown */
-.channel-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
-.channel-row:last-child{border-bottom:none;}
-.channel-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;}
-.channel-info{flex:1;}
-.channel-name{font-size:0.78rem;font-weight:600;}
-.channel-bar-wrap{height:6px;border-radius:3px;background:var(--bg3);margin-top:4px;overflow:hidden;}
-.channel-bar-fill{height:100%;border-radius:3px;transition:width 0.6s;}
-.channel-pct{font-size:0.85rem;font-weight:800;min-width:45px;text-align:right;}
-
-/* AI Insights */
-.ai-card{background:linear-gradient(135deg,rgba(37,99,235,0.04),rgba(124,58,237,0.06));border:1px solid rgba(124,58,237,0.2);border-radius:var(--radius);padding:16px;}
-.ai-insight-item{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;background:var(--card-bg);border:1px solid var(--border);border-radius:10px;margin-bottom:8px;font-size:0.78rem;line-height:1.5;transition:all 0.2s;}
-.ai-insight-item:last-child{margin-bottom:0;}
-.ai-insight-item:hover{border-color:var(--purple);box-shadow:0 2px 8px rgba(124,58,237,0.1);}
-.ai-insight-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
-.ai-insight-text{flex:1;color:var(--text2);}
-.ai-insight-text strong{color:var(--text);font-weight:600;}
-.ai-tag{display:inline-block;font-size:0.6rem;padding:1px 6px;border-radius:4px;font-weight:600;margin-top:4px;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.fade-up{animation:fadeUp 0.4s ease both;}
+.fade-up:nth-child(2){animation-delay:0.05s;}
+.fade-up:nth-child(3){animation-delay:0.1s;}
+.fade-up:nth-child(4){animation-delay:0.15s;}
 
 /* Responsive */
 @media(max-width:1100px){
   .kpi-grid{grid-template-columns:repeat(2,1fr);}
-  .charts-grid,.bottom-grid{grid-template-columns:1fr;}
-  .summary-grid{grid-template-columns:1fr;}
+  .doc-group-grid{grid-template-columns:repeat(2,1fr);}
+  .charts-grid,.bottom-grid,.summary-grid{grid-template-columns:1fr;}
+  .closing-steps{grid-template-columns:repeat(3,1fr);}
 }
 @media(max-width:640px){
-  .kpi-grid{grid-template-columns:1fr;}
+  .kpi-grid,.doc-group-grid{grid-template-columns:1fr;}
   .top-nav{padding:10px 16px;}
   .main-content{padding:16px;}
-  .user-context{flex-direction:column;gap:12px;align-items:flex-start;}
+  .closing-steps{grid-template-columns:1fr 1fr;}
 }
-
-/* SLA Badge */
-.sla-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:100px;font-size:0.68rem;font-weight:700;animation:pulse 2s infinite;}
-.sla-badge.sla-overdue{background:var(--red-bg);color:var(--red);border:1px solid rgba(220,38,38,0.2);}
-.sla-badge.sla-warning{background:var(--orange-bg);color:var(--orange);border:1px solid rgba(217,119,6,0.2);}
-.sla-badge.sla-ok{background:var(--green-bg);color:var(--green);border:1px solid rgba(5,150,105,0.2);}
-
-/* Pulse animation for live badge */
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
-.badge-live{animation:pulse 2s infinite;}
-
-/* Animate */
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
-.fade-up{animation:fadeUp 0.4s ease both;}
-.fade-up:nth-child(1){animation-delay:0.02s;}
-.fade-up:nth-child(2){animation-delay:0.05s;}
-.fade-up:nth-child(3){animation-delay:0.1s;}
-.fade-up:nth-child(4){animation-delay:0.15s;}
-.fade-up:nth-child(5){animation-delay:0.2s;}
-.fade-up:nth-child(6){animation-delay:0.25s;}
-
-/* Section divider */
-.section-divider{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  margin:14px 0 10px;
-  font-size:0.78rem;
-  font-weight:700;
-  color:var(--text);
-}
-.section-divider::after{
-  content:'';
-  flex:1;
-  height:1px;
-  background:var(--border);
-}
-.section-divider .section-icon{
-  width:22px;
-  height:22px;
-  border-radius:6px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:12px;
-}
-
-/* Print styles */
 @media print{
-  .dark-toggle,.top-nav .notif-btn,.view-actions{display:none !important;}
+  .dark-toggle,.top-nav .notif-btn,.toolbar-actions,.batch-toolbar{display:none !important;}
   body{background:#fff !important;color:#000 !important;}
-  .chart-card,.summary-card,.kpi-card,.ai-card{break-inside:avoid;page-break-inside:avoid;}
 }
-
-/* Focus & accessibility */
-.btn:focus-visible,.view-tab:focus-visible,.dark-toggle:focus-visible{
-  outline:2px solid var(--blue);
-  outline-offset:2px;
-}
-
-/* SVG hover effects */
-.donut-segment{transition:opacity 0.2s,transform 0.2s;cursor:pointer;transform-origin:center;}
-.donut-segment:hover{opacity:0.8;}
-.bar-rect{transition:opacity 0.2s;cursor:pointer;}
-.bar-rect:hover{opacity:0.8;}
-.line-dot{transition:r 0.2s;cursor:pointer;}
-.line-dot:hover{r:6;}
-
-/* Status dot */
-.status-dot-online{
-  width:8px;height:8px;
-  border-radius:50%;
-  background:var(--green);
-  display:inline-block;
-  margin-right:4px;
-  box-shadow:0 0 0 2px var(--green-bg);
-}
-
-/* Gradient border accent for AI card */
-.ai-card::before{
-  content:'';
-  position:absolute;
-  top:0;left:0;right:0;
-  height:3px;
-  background:var(--grad);
-  border-radius:var(--radius) var(--radius) 0 0;
-}
-.ai-card{position:relative;overflow:hidden;}
-@keyframes toastIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 </style>
 </head>
 <body>
-<!-- Dark Mode Toggle -->
 <button class="dark-toggle" onclick="toggleDark()" title="Toggle Dark Mode">&#9789;</button>
 
 <!-- Top Nav -->
@@ -284,11 +289,8 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
     <strong style="color:var(--text)">Dashboard</strong>
   </div>
   <div class="user-area">
-    <button class="notif-btn" title="Notifications">
-      &#128276;
-      <span class="notif-badge">5</span>
-    </button>
-    <div class="avatar" title="Sompong P.">SP</div>
+    <button class="notif-btn" title="การแจ้งเตือน">&#128276;<span class="notif-badge">7</span></button>
+    <div class="avatar" title="สมปอง พ.">SP</div>
   </div>
 </nav>
 
@@ -298,718 +300,459 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
     <div class="greeting">
       <div class="avatar-lg">SP</div>
       <div class="info">
-        <h2>สวัสดีครับ, สมพงษ์ ประเสริฐ</h2>
-        <p>
-          <span>&#128188; Finance Manager</span>
-          <span style="opacity:0.3">|</span>
-          <span>&#127970; ANTS Financial Services</span>
-          <span style="opacity:0.3">|</span>
-          <span>&#128338; อัปเดตล่าสุด: 5 เม.ย. 2569, 14:32</span>
-        </p>
+        <h2>สวัสดีครับ สมปอง</h2>
+        <p>Finance Operations A | Senior Officer | 6 เม.ย. พ.ศ. 2569</p>
       </div>
     </div>
     <div class="team-info">
-      <div class="team-stat"><strong>8</strong><span>สมาชิกทีม</span></div>
-      <div class="team-stat"><strong>247</strong><span>เคสทั้งหมด</span></div>
-      <div class="team-stat"><strong>94.2%</strong><span>SLA On-time</span></div>
+      <div class="team-stat"><strong>47</strong>เคสดำเนินการ</div>
+      <div class="team-stat"><strong>89%</strong>SLA</div>
+      <div class="team-stat"><strong>5</strong>ออนไลน์</div>
       <div class="team-member-avatars">
-        <div class="mini-avatar" style="background:#2563EB" title="กมล ว.">กว</div>
-        <div class="mini-avatar" style="background:#7C3AED" title="นภา ส.">นส</div>
-        <div class="mini-avatar" style="background:#059669" title="วิชัย พ.">วพ</div>
-        <div class="mini-avatar" style="background:#D97706" title="สุรีย์ จ.">สจ</div>
-        <div class="mini-avatar" style="background:#DC2626" title="ปรีชา ม.">ปม</div>
-        <div class="mini-avatar" style="background:var(--muted)" title="+3 คน">+3</div>
+        <div class="mini-avatar" style="background:#2563EB;" title="ปรีชา ม.">ปม</div>
+        <div class="mini-avatar" style="background:#7C3AED;" title="สมศักดิ์ ก.">สก</div>
+        <div class="mini-avatar" style="background:#059669;" title="วิภา พ.">วพ</div>
+        <div class="mini-avatar" style="background:#D97706;" title="นิตยา ส.">นส</div>
+        <div class="mini-avatar" style="background:#DC2626;" title="ธนากร ป.">ธป</div>
       </div>
     </div>
   </div>
 
-  <!-- View Toggle -->
-  <div class="view-toggle-row fade-up">
+  <!-- KPI Cards -->
+  <div class="kpi-grid fade-up">
+    <div class="kpi-card">
+      <div class="kpi-icon" style="background:var(--blue-bg);">&#128203;</div>
+      <div class="kpi-label">เอกสารทั้งหมดเดือนนี้</div>
+      <div class="kpi-value" style="color:var(--blue);">312</div>
+      <span class="kpi-change up">&#9650; 12% จากเดือนที่แล้ว</span>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon" style="background:var(--purple-bg);">&#9997;</div>
+      <div class="kpi-label">รอตรวจสอบ</div>
+      <div class="kpi-value" style="color:var(--purple);">47</div>
+      <span class="kpi-change down">&#9650; 3 จากเมื่อวาน</span>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon" style="background:var(--green-bg);">&#9989;</div>
+      <div class="kpi-label">ผ่านการตรวจสอบ</div>
+      <div class="kpi-value" style="color:var(--green);">258</div>
+      <span class="kpi-change up">&#9650; 15% ความถูกต้อง 98.5%</span>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon" style="background:var(--orange-bg);">&#9888;</div>
+      <div class="kpi-label">เคส SLA เกินกำหนด</div>
+      <div class="kpi-value" style="color:var(--orange);">3</div>
+      <span class="kpi-change down">&#9660; ต้องดำเนินการด่วน</span>
+    </div>
+  </div>
+
+  <!-- Toolbar: View Toggle + Grouping + Monthly Closing -->
+  <div class="toolbar-row fade-up">
     <div class="view-tabs">
-      <button class="view-tab active" onclick="setView(this)">&#128100; My Dashboard <span class="count">42</span></button>
-      <button class="view-tab" onclick="setView(this)">&#128101; Team Dashboard <span class="count">156</span></button>
-      <button class="view-tab" onclick="setView(this)">&#127760; All <span class="count">247</span></button>
+      <button class="view-tab active" onclick="switchView(this,'list')">&#128196; รายการ <span class="count">47</span></button>
+      <button class="view-tab" onclick="switchView(this,'group')">&#128194; จัดกลุ่ม</button>
+      <button class="view-tab" onclick="switchView(this,'kanban')">&#128202; Kanban</button>
     </div>
-    <div class="view-actions">
-      <button class="btn btn-primary btn-sm" onclick="createMonthlyClosing()">📅 สร้าง Monthly Closing Tasks</button>
-      <button class="btn btn-outline btn-sm">&#128197; ช่วงเวลา: 30 วัน</button>
-      <button class="btn btn-outline btn-sm">&#128229; Export</button>
-      <button class="btn btn-outline btn-sm">&#8635; Refresh</button>
-    </div>
-  </div>
-
-  <!-- KPI Grid -->
-  <div class="kpi-grid">
-    <div class="kpi-card fade-up">
-      <div class="kpi-header">
-        <span class="kpi-label">Active Cases</span>
-        <div class="kpi-icon" style="background:var(--blue-bg);color:var(--blue);">&#128203;</div>
-      </div>
-      <div class="kpi-value" style="color:var(--blue);">156</div>
-      <span class="kpi-change up">&#9650; +8.3% จากเดือนก่อน</span>
-      <svg class="kpi-sparkline" width="80" height="32" viewBox="0 0 80 32"><polyline points="0,28 12,22 24,25 36,18 48,20 60,12 72,8 80,10" fill="none" stroke="var(--blue)" stroke-width="2" opacity="0.5"/></svg>
-    </div>
-    <div class="kpi-card fade-up">
-      <div class="kpi-header">
-        <span class="kpi-label">Document Completion Rate</span>
-        <div class="kpi-icon" style="background:var(--purple-bg);color:var(--purple);">&#128196;</div>
-      </div>
-      <div class="kpi-value" style="color:var(--purple);">87.4%</div>
-      <span class="kpi-change up">&#9650; +2.1% จากเดือนก่อน</span>
-      <svg class="kpi-sparkline" width="80" height="32" viewBox="0 0 80 32"><polyline points="0,24 12,22 24,20 36,18 48,16 60,14 72,10 80,8" fill="none" stroke="var(--purple)" stroke-width="2" opacity="0.5"/></svg>
-    </div>
-    <div class="kpi-card fade-up">
-      <div class="kpi-header">
-        <span class="kpi-label">Average SLA (Days Remaining)</span>
-        <div class="kpi-icon" style="background:var(--green-bg);color:var(--green);">&#9203;</div>
-      </div>
-      <div class="kpi-value" style="color:var(--green);">4.2 <span style="font-size:0.5em;font-weight:500;">วัน</span></div>
-      <span class="kpi-change down">&#9660; -0.5 วัน จากเดือนก่อน</span>
-      <svg class="kpi-sparkline" width="80" height="32" viewBox="0 0 80 32"><polyline points="0,10 12,12 24,14 36,16 48,18 60,20 72,22 80,20" fill="none" stroke="var(--green)" stroke-width="2" opacity="0.5"/></svg>
-    </div>
-    <div class="kpi-card fade-up">
-      <div class="kpi-header">
-        <span class="kpi-label">Cases Closed This Month</span>
-        <div class="kpi-icon" style="background:var(--orange-bg);color:var(--orange);">&#9989;</div>
-      </div>
-      <div class="kpi-value" style="color:var(--orange);">91</div>
-      <span class="kpi-change up">&#9650; +12.3% จากเดือนก่อน</span>
-      <svg class="kpi-sparkline" width="80" height="32" viewBox="0 0 80 32"><polyline points="0,26 12,24 24,20 36,22 48,16 60,12 72,8 80,6" fill="none" stroke="var(--orange)" stroke-width="2" opacity="0.5"/></svg>
+    <div class="toolbar-actions">
+      <button class="btn btn-outline btn-sm" onclick="toggleClosing()">&#128197; ปิดบัญชีรายเดือน</button>
+      <button class="btn btn-outline btn-sm" onclick="exportCases()">&#128229; ส่งออก</button>
+      <button class="btn btn-primary btn-sm">+ เพิ่มเอกสารใหม่</button>
     </div>
   </div>
 
-  <!-- Section: Charts -->
-  <div class="section-divider fade-up">
-    <div class="section-icon" style="background:var(--blue-bg);color:var(--blue);">&#128202;</div>
-    Charts &amp; Analytics
-  </div>
-
-  <!-- Charts Grid (2x2) -->
-  <div class="charts-grid">
-    <!-- Donut: Case Type Distribution -->
-    <div class="chart-card fade-up">
-      <div class="chart-title">&#128200; การกระจายประเภทเคส (Case Type Distribution)</div>
-      <div class="chart-subtitle">สัดส่วนเคสที่ Active ทั้งหมด 156 เคส</div>
-      <div style="display:flex;align-items:center;justify-content:center;">
-        <svg id="donutChart" viewBox="0 0 260 180" style="max-width:300px;"></svg>
-      </div>
-      <div class="donut-legend" id="donutLegend"></div>
-    </div>
-
-    <!-- Line: Monthly Case Volume -->
-    <div class="chart-card fade-up">
-      <div class="chart-title">&#128200; ปริมาณเคสรายเดือน (Monthly Case Volume)</div>
-      <div class="chart-subtitle">เปรียบเทียบเคสเปิดใหม่ vs ปิดแล้ว (6 เดือนล่าสุด)</div>
-      <svg id="lineChart" viewBox="0 0 500 190" style="max-height:200px;"></svg>
-      <div style="display:flex;justify-content:center;gap:16px;margin-top:4px;font-size:0.72rem;color:var(--text2);">
-        <span><span style="display:inline-block;width:12px;height:3px;background:#2563EB;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>เปิดใหม่</span>
-        <span><span style="display:inline-block;width:12px;height:3px;background:#059669;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>ปิดแล้ว</span>
-      </div>
-    </div>
-
-    <!-- Horizontal Bar: SLA Performance -->
-    <div class="chart-card fade-up">
-      <div class="chart-title">&#9203; SLA Performance ตามประเภทเคส</div>
-      <div class="chart-subtitle">เปรียบเทียบ On-time vs Delayed ต่อประเภท</div>
-      <svg id="slaChart" viewBox="0 0 500 190" style="max-height:200px;"></svg>
-      <div style="display:flex;justify-content:center;gap:16px;margin-top:4px;font-size:0.72rem;color:var(--text2);">
-        <span><span style="display:inline-block;width:12px;height:10px;background:#059669;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>On-time</span>
-        <span><span style="display:inline-block;width:12px;height:10px;background:#DC2626;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>Delayed</span>
-      </div>
-    </div>
-
-    <!-- Stacked Bar: Document Completeness -->
-    <div class="chart-card fade-up">
-      <div class="chart-title">&#128196; Document Completeness Distribution</div>
-      <div class="chart-subtitle">% เอกสารครบถ้วนของเคสที่ Active ทั้งหมด</div>
-      <svg id="docChart" viewBox="0 0 500 190" style="max-height:200px;"></svg>
-      <div style="display:flex;justify-content:center;gap:16px;margin-top:4px;font-size:0.72rem;color:var(--text2);">
-        <span><span style="display:inline-block;width:12px;height:10px;background:#059669;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>100% ครบ</span>
-        <span><span style="display:inline-block;width:12px;height:10px;background:#2563EB;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>75-99%</span>
-        <span><span style="display:inline-block;width:12px;height:10px;background:#D97706;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>50-74%</span>
-        <span><span style="display:inline-block;width:12px;height:10px;background:#DC2626;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>&lt;50%</span>
+  <!-- Thai Keyword Search with Autocomplete -->
+  <div class="search-section fade-up">
+    <div class="search-box">
+      <div class="search-input-wrap">
+        <span class="search-icon">&#128269;</span>
+        <input type="text" id="thaiSearch" placeholder="ค้นหาเอกสาร... (ชื่อลูกค้า, เลขที่ใบแจ้งหนี้, เลขประจำตัวผู้เสียภาษี)" oninput="handleSearch(this.value)" onfocus="showAutocomplete()" onblur="setTimeout(()=>hideAutocomplete(),200)">
+        <div class="autocomplete-dropdown" id="autocompleteDropdown">
+          <div class="ac-item" onclick="selectAC('ใบแจ้งหนี้ INV-2569-0142')"><span class="ac-type" style="background:var(--blue-bg);color:var(--blue);">Invoice</span><span>ใบแจ้งหนี้ <span class="ac-highlight">INV-2569-0142</span></span></div>
+          <div class="ac-item" onclick="selectAC('บริษัท สยามพัฒนา จำกัด')"><span class="ac-type" style="background:var(--purple-bg);color:var(--purple);">ลูกค้า</span><span>บริษัท <span class="ac-highlight">สยามพัฒนา</span> จำกัด</span></div>
+          <div class="ac-item" onclick="selectAC('ใบเสร็จรับเงิน RCP-0087')"><span class="ac-type" style="background:var(--green-bg);color:var(--green);">Receipt</span><span>ใบเสร็จรับเงิน <span class="ac-highlight">RCP-0087</span></span></div>
+          <div class="ac-item" onclick="selectAC('ใบกำกับภาษี TAX-2569-0055')"><span class="ac-type" style="background:var(--orange-bg);color:var(--orange);">Tax</span><span>ใบกำกับภาษี <span class="ac-highlight">TAX-2569-0055</span></span></div>
+          <div class="ac-item" onclick="selectAC('สัญญาจ้าง CTR-0023')"><span class="ac-type" style="background:var(--purple-bg);color:var(--purple);">Contract</span><span>สัญญาจ้าง <span class="ac-highlight">CTR-0023</span></span></div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Section: Summary & Operations -->
-  <div class="section-divider fade-up">
-    <div class="section-icon" style="background:var(--green-bg);color:var(--green);">&#128203;</div>
-    Summary &amp; Operations Intelligence
+  <!-- Document Type Filter Chips -->
+  <div class="filter-chips fade-up">
+    <button class="filter-chip active" onclick="filterByType(this,'all')"><span class="chip-icon">&#128196;</span> ทั้งหมด <span class="chip-count">(312)</span></button>
+    <button class="filter-chip chip-invoice" onclick="filterByType(this,'invoice')"><span class="chip-icon">&#128203;</span> ใบแจ้งหนี้ / Invoice <span class="chip-count">(142)</span></button>
+    <button class="filter-chip chip-receipt" onclick="filterByType(this,'receipt')"><span class="chip-icon">&#129534;</span> ใบเสร็จรับเงิน / Receipt <span class="chip-count">(89)</span></button>
+    <button class="filter-chip chip-tax" onclick="filterByType(this,'tax')"><span class="chip-icon">&#128176;</span> เอกสารภาษี / Tax <span class="chip-count">(52)</span></button>
+    <button class="filter-chip chip-contract" onclick="filterByType(this,'contract')"><span class="chip-icon">&#128221;</span> สัญญา / Contract <span class="chip-count">(29)</span></button>
   </div>
 
-  <!-- Summary Cards (3-column) -->
-  <div class="summary-grid">
+  <!-- Batch Operations Toolbar -->
+  <div class="batch-toolbar" id="batchToolbar">
+    <input type="checkbox" checked onchange="toggleBatchAll(this)">
+    <span>เลือกแล้ว <span class="sel-count" id="batchCount">0</span> รายการ</span>
+    <div class="batch-actions">
+      <button class="btn btn-sm btn-green" onclick="batchApprove()">&#9989; อนุมัติทั้งหมด</button>
+      <button class="btn btn-sm btn-outline" onclick="batchAssign()">&#128100; มอบหมาย</button>
+      <button class="btn btn-sm btn-outline" onclick="batchExport()">&#128229; ส่งออก</button>
+      <button class="btn btn-sm btn-outline" style="color:var(--red);border-color:var(--red);" onclick="batchCancel()">&#10005; ยกเลิก</button>
+    </div>
+  </div>
+
+  <!-- Monthly Closing Workflow Panel -->
+  <div class="closing-panel" id="closingPanel">
+    <div class="cp-header">
+      <div class="cp-title">&#128197; ปิดบัญชีรายเดือน - เมษายน พ.ศ. 2569</div>
+      <button class="btn btn-sm btn-outline" onclick="toggleClosing()">&#10005; ปิด</button>
+    </div>
+    <div class="closing-steps">
+      <div class="closing-step completed">
+        <div class="cs-num">&#10003;</div>
+        <div class="cs-label">รวบรวมเอกสาร</div>
+        <div class="cs-sub">312/312 เสร็จ</div>
+      </div>
+      <div class="closing-step completed">
+        <div class="cs-num">&#10003;</div>
+        <div class="cs-label">ตรวจสอบเอกสาร</div>
+        <div class="cs-sub">258/312 ผ่าน</div>
+      </div>
+      <div class="closing-step active">
+        <div class="cs-num">3</div>
+        <div class="cs-label">กระทบยอด</div>
+        <div class="cs-sub">กำลังดำเนินการ</div>
+      </div>
+      <div class="closing-step">
+        <div class="cs-num">4</div>
+        <div class="cs-label">ส่ง Express/PEAK</div>
+        <div class="cs-sub">รอดำเนินการ</div>
+      </div>
+      <div class="closing-step">
+        <div class="cs-num">5</div>
+        <div class="cs-label">อนุมัติปิดบัญชี</div>
+        <div class="cs-sub">รอผู้จัดการ</div>
+      </div>
+    </div>
+    <div class="closing-progress">
+      <div class="cp-bar"><div class="cp-fill" style="width:50%;"></div></div>
+      <div class="cp-text">50%</div>
+    </div>
+  </div>
+
+  <!-- Document Grouping Grid (toggle view) -->
+  <div id="groupView" style="display:none;">
+    <div class="doc-group-grid fade-up">
+      <div class="doc-group-card" onclick="filterByType(null,'invoice')">
+        <div class="auto-badge">AI Auto-Categorize</div>
+        <div class="dg-header">
+          <div class="dg-icon" style="background:var(--blue-bg);">&#128203;</div>
+          <div><div class="dg-title">ใบแจ้งหนี้ / Invoice</div><div class="dg-subtitle">ใบแจ้งหนี้, ใบวางบิล</div></div>
+        </div>
+        <div class="dg-count" style="color:var(--blue);">142</div>
+        <div class="dg-bar"><div class="fill" style="width:45%;background:var(--blue);"></div></div>
+      </div>
+      <div class="doc-group-card" onclick="filterByType(null,'receipt')">
+        <div class="auto-badge">AI Auto-Categorize</div>
+        <div class="dg-header">
+          <div class="dg-icon" style="background:var(--green-bg);">&#129534;</div>
+          <div><div class="dg-title">ใบเสร็จรับเงิน / Receipt</div><div class="dg-subtitle">ใบเสร็จ, หลักฐานการชำระ</div></div>
+        </div>
+        <div class="dg-count" style="color:var(--green);">89</div>
+        <div class="dg-bar"><div class="fill" style="width:29%;background:var(--green);"></div></div>
+      </div>
+      <div class="doc-group-card" onclick="filterByType(null,'tax')">
+        <div class="auto-badge">AI Auto-Categorize</div>
+        <div class="dg-header">
+          <div class="dg-icon" style="background:var(--orange-bg);">&#128176;</div>
+          <div><div class="dg-title">เอกสารภาษี / Tax</div><div class="dg-subtitle">ใบกำกับภาษี, ภ.พ.30</div></div>
+        </div>
+        <div class="dg-count" style="color:var(--orange);">52</div>
+        <div class="dg-bar"><div class="fill" style="width:17%;background:var(--orange);"></div></div>
+      </div>
+      <div class="doc-group-card" onclick="filterByType(null,'contract')">
+        <div class="auto-badge">AI Auto-Categorize</div>
+        <div class="dg-header">
+          <div class="dg-icon" style="background:var(--purple-bg);">&#128221;</div>
+          <div><div class="dg-title">สัญญา / Contract</div><div class="dg-subtitle">สัญญาจ้าง, สัญญาซื้อขาย</div></div>
+        </div>
+        <div class="dg-count" style="color:var(--purple);">29</div>
+        <div class="dg-bar"><div class="fill" style="width:9%;background:var(--purple);"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Case List Table -->
+  <div id="listView">
+    <div class="table-card fade-up">
+      <div class="table-header">
+        <h3>&#128196; เอกสารทั้งหมด (47 รายการดำเนินการ)</h3>
+        <span style="font-size:0.72rem;color:var(--muted);">เรียงตาม: วันที่รับเอกสาร (ล่าสุด)</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th><input type="checkbox" onchange="toggleSelectAll(this)"></th>
+            <th>เลขที่เคส</th>
+            <th>ลูกค้า / เอกสาร</th>
+            <th>ประเภท</th>
+            <th>มูลค่า</th>
+            <th>SLA</th>
+            <th>สถานะ</th>
+            <th>ผู้รับผิดชอบ</th>
+            <th>ระบบบัญชี</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr onclick="openCase('FN-2569-0847')">
+            <td><input type="checkbox" onclick="event.stopPropagation();updateBatch()"></td>
+            <td class="case-id-cell">FN-2569-0847</td>
+            <td><strong>บจ. สยามพัฒนา</strong><br><span style="font-size:0.72rem;color:var(--muted);">INV-2569-0142 ใบแจ้งหนี้ค่าบริการ</span></td>
+            <td><span class="doc-type-badge badge-invoice">&#128203; Invoice</span></td>
+            <td style="font-weight:700;">&#3647;245,000</td>
+            <td><span class="sla-badge sla-ok">&#9679; ปกติ (2 วัน)</span></td>
+            <td><span class="status-pill status-verifying">&#9679; กำลังตรวจ</span></td>
+            <td style="font-size:0.75rem;">ปรีชา ม.</td>
+            <td><span style="font-size:0.68rem;padding:2px 8px;border-radius:4px;background:var(--blue-bg);color:var(--blue);font-weight:600;">Express</span></td>
+          </tr>
+          <tr onclick="openCase('FN-2569-0846')">
+            <td><input type="checkbox" onclick="event.stopPropagation();updateBatch()"></td>
+            <td class="case-id-cell">FN-2569-0846</td>
+            <td><strong>บจ. กรุงเทพเทรดดิ้ง</strong><br><span style="font-size:0.72rem;color:var(--muted);">RCP-2569-0087 ใบเสร็จรับเงินค่าสินค้า</span></td>
+            <td><span class="doc-type-badge badge-receipt">&#129534; Receipt</span></td>
+            <td style="font-weight:700;">&#3647;89,500</td>
+            <td><span class="sla-badge sla-warning">&#9679; ใกล้กำหนด (4 ชม.)</span></td>
+            <td><span class="status-pill status-open">&#9679; รอตรวจ</span></td>
+            <td style="font-size:0.75rem;">วิภา พ.</td>
+            <td><span style="font-size:0.68rem;padding:2px 8px;border-radius:4px;background:var(--green-bg);color:var(--green);font-weight:600;">PEAK</span></td>
+          </tr>
+          <tr onclick="openCase('FN-2569-0845')">
+            <td><input type="checkbox" onclick="event.stopPropagation();updateBatch()"></td>
+            <td class="case-id-cell">FN-2569-0845</td>
+            <td><strong>บจ. อีสเทิร์นซัพพลาย</strong><br><span style="font-size:0.72rem;color:var(--muted);">TAX-2569-0055 ใบกำกับภาษีอิเล็กทรอนิกส์</span></td>
+            <td><span class="doc-type-badge badge-tax">&#128176; Tax</span></td>
+            <td style="font-weight:700;">&#3647;178,200</td>
+            <td><span class="sla-badge sla-overdue">&#9679; เกินกำหนด! (2 ชม.)</span></td>
+            <td><span class="status-pill status-verifying">&#9679; กำลังตรวจ</span></td>
+            <td style="font-size:0.75rem;">สมศักดิ์ ก.</td>
+            <td><span style="font-size:0.68rem;padding:2px 8px;border-radius:4px;background:var(--purple-bg);color:var(--purple);font-weight:600;">Prosoft</span></td>
+          </tr>
+          <tr onclick="openCase('FN-2569-0844')">
+            <td><input type="checkbox" onclick="event.stopPropagation();updateBatch()"></td>
+            <td class="case-id-cell">FN-2569-0844</td>
+            <td><strong>บจ. ไทยทอป เอ็นจิเนียริ่ง</strong><br><span style="font-size:0.72rem;color:var(--muted);">CTR-2569-0023 สัญญาจ้างติดตั้งระบบ</span></td>
+            <td><span class="doc-type-badge badge-contract">&#128221; Contract</span></td>
+            <td style="font-weight:700;">&#3647;1,450,000</td>
+            <td><span class="sla-badge sla-ok">&#9679; ปกติ (5 วัน)</span></td>
+            <td><span class="status-pill status-open">&#9679; รอตรวจ</span></td>
+            <td style="font-size:0.75rem;">นิตยา ส.</td>
+            <td><span style="font-size:0.68rem;padding:2px 8px;border-radius:4px;background:var(--blue-bg);color:var(--blue);font-weight:600;">Express</span></td>
+          </tr>
+          <tr onclick="openCase('FN-2569-0843')">
+            <td><input type="checkbox" onclick="event.stopPropagation();updateBatch()"></td>
+            <td class="case-id-cell">FN-2569-0843</td>
+            <td><strong>หจ. ทรัพย์มงคล</strong><br><span style="font-size:0.72rem;color:var(--muted);">INV-2569-0141 ใบแจ้งหนี้ค่าวัสดุ</span></td>
+            <td><span class="doc-type-badge badge-invoice">&#128203; Invoice</span></td>
+            <td style="font-weight:700;">&#3647;67,300</td>
+            <td><span class="sla-badge sla-ok">&#9679; ปกติ (3 วัน)</span></td>
+            <td><span class="status-pill status-done">&#9679; ตรวจผ่าน</span></td>
+            <td style="font-size:0.75rem;">ธนากร ป.</td>
+            <td><span style="font-size:0.68rem;padding:2px 8px;border-radius:4px;background:var(--green-bg);color:var(--green);font-weight:600;">PEAK</span></td>
+          </tr>
+          <tr onclick="openCase('FN-2569-0842')">
+            <td><input type="checkbox" onclick="event.stopPropagation();updateBatch()"></td>
+            <td class="case-id-cell">FN-2569-0842</td>
+            <td><strong>บจ. แกรนด์ คอนซัลท์</strong><br><span style="font-size:0.72rem;color:var(--muted);">TAX-2569-0054 ใบกำกับภาษี e-Tax</span></td>
+            <td><span class="doc-type-badge badge-tax">&#128176; e-Tax</span></td>
+            <td style="font-weight:700;">&#3647;520,000</td>
+            <td><span class="sla-badge sla-warning">&#9679; ใกล้กำหนด (8 ชม.)</span></td>
+            <td><span class="status-pill status-verifying">&#9679; กำลังตรวจ</span></td>
+            <td style="font-size:0.75rem;">ปรีชา ม.</td>
+            <td><span style="font-size:0.68rem;padding:2px 8px;border-radius:4px;background:var(--purple-bg);color:var(--purple);font-weight:600;">Prosoft</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Summary Row -->
+  <div class="section-divider">&#128202; สรุปภาพรวม</div>
+  <div class="summary-grid fade-up">
     <!-- Officer Workload -->
-    <div class="summary-card fade-up">
+    <div class="summary-card">
       <div class="card-header">
-        <h3>&#128100; Officer Workload (Top 5)</h3>
-        <span class="badge" style="background:var(--blue-bg);color:var(--blue);">Active</span>
+        <h3>&#128100; งานต่อเจ้าหน้าที่</h3>
       </div>
-      <div id="officerList"></div>
+      <div class="officer-row"><div class="officer-avatar" style="background:#2563EB;">ปม</div><div class="officer-info"><div class="officer-name">ปรีชา ม.</div><div class="officer-role">Senior Officer</div></div><div class="officer-count">12</div></div>
+      <div class="officer-row"><div class="officer-avatar" style="background:#7C3AED;">สก</div><div class="officer-info"><div class="officer-name">สมศักดิ์ ก.</div><div class="officer-role">Senior Officer</div></div><div class="officer-count">10</div></div>
+      <div class="officer-row"><div class="officer-avatar" style="background:#059669;">วพ</div><div class="officer-info"><div class="officer-name">วิภา พ.</div><div class="officer-role">Officer</div></div><div class="officer-count">9</div></div>
+      <div class="officer-row"><div class="officer-avatar" style="background:#D97706;">นส</div><div class="officer-info"><div class="officer-name">นิตยา ส.</div><div class="officer-role">Officer</div></div><div class="officer-count">8</div></div>
+      <div class="officer-row"><div class="officer-avatar" style="background:#DC2626;">ธป</div><div class="officer-info"><div class="officer-name">ธนากร ป.</div><div class="officer-role">Junior Officer</div></div><div class="officer-count">8</div></div>
     </div>
 
-    <!-- Recent Activity Feed -->
-    <div class="summary-card fade-up">
+    <!-- SLA Risk -->
+    <div class="summary-card">
       <div class="card-header">
-        <h3>&#128337; Recent Activity</h3>
-        <span class="badge" style="background:var(--green-bg);color:var(--green);">Live</span>
+        <h3>&#128680; SLA Risk Monitor</h3>
       </div>
-      <div id="activityFeed" style="max-height:260px;overflow-y:auto;"></div>
+      <div class="sla-risk-item green"><div class="sla-risk-dot" style="background:var(--green);"></div><div class="sla-risk-info"><div style="font-weight:600;color:var(--green);">ปกติ - มากกว่า 24 ชม.</div><div style="font-size:0.68rem;color:var(--muted);">อยู่ในเกณฑ์</div></div><div class="sla-risk-count" style="color:var(--green);">38</div></div>
+      <div class="sla-risk-item orange"><div class="sla-risk-dot" style="background:var(--orange);"></div><div class="sla-risk-info"><div style="font-weight:600;color:var(--orange);">ใกล้กำหนด - น้อยกว่า 12 ชม.</div><div style="font-size:0.68rem;color:var(--muted);">ต้องเร่ง</div></div><div class="sla-risk-count" style="color:var(--orange);">6</div></div>
+      <div class="sla-risk-item red"><div class="sla-risk-dot" style="background:var(--red);"></div><div class="sla-risk-info"><div style="font-weight:600;color:var(--red);">เกินกำหนด!</div><div style="font-size:0.68rem;color:var(--muted);">ต้องแก้ไขทันที</div></div><div class="sla-risk-count" style="color:var(--red);">3</div></div>
     </div>
 
-    <!-- SLA Risk Alert -->
-    <div class="summary-card fade-up">
+    <!-- Recent Activity -->
+    <div class="summary-card">
       <div class="card-header">
-        <h3>&#9888; SLA Risk Alert</h3>
-        <span class="badge" style="background:var(--red-bg);color:var(--red);">Monitor</span>
+        <h3>&#128338; กิจกรรมล่าสุด</h3>
       </div>
-      <div id="slaRisk"></div>
+      <div class="activity-item"><div class="activity-dot" style="background:var(--green);"></div><div class="activity-text"><strong>ปรีชา ม.</strong> อนุมัติ INV-2569-0138</div><div class="activity-time">5 นาที</div></div>
+      <div class="activity-item"><div class="activity-dot" style="background:var(--blue);"></div><div class="activity-text"><strong>AI</strong> จัดหมวดหมู่อัตโนมัติ 3 เอกสาร</div><div class="activity-time">12 นาที</div></div>
+      <div class="activity-item"><div class="activity-dot" style="background:var(--orange);"></div><div class="activity-text"><strong>ระบบ</strong> แจ้งเตือน SLA ใกล้กำหนด FN-2569-0846</div><div class="activity-time">18 นาที</div></div>
+      <div class="activity-item"><div class="activity-dot" style="background:var(--red);"></div><div class="activity-text"><strong>วิภา พ.</strong> ส่งต่อ Escalation TAX-2569-0055</div><div class="activity-time">25 นาที</div></div>
+      <div class="activity-item"><div class="activity-dot" style="background:var(--purple);"></div><div class="activity-text"><strong>Express</strong> ซิงค์ข้อมูลสำเร็จ 8 รายการ</div><div class="activity-time">32 นาที</div></div>
     </div>
   </div>
 
-  <!-- Section: Channels & AI -->
-  <div class="section-divider fade-up">
-    <div class="section-icon" style="background:var(--purple-bg);color:var(--purple);">&#129302;</div>
-    Channels &amp; AI-Powered Insights
-  </div>
-
-  <!-- Bottom Row (2-column) -->
-  <div class="bottom-grid">
-    <!-- Channel Intake -->
-    <div class="summary-card fade-up">
-      <div class="card-header">
-        <h3>&#128225; Channel Intake Breakdown</h3>
-        <span class="badge" style="background:var(--purple-bg);color:var(--purple);">30 วัน</span>
+  <!-- Charts Row -->
+  <div class="section-divider">&#128202; แนวโน้มเอกสาร</div>
+  <div class="charts-grid fade-up">
+    <div class="chart-card">
+      <div class="chart-title">&#128203; เอกสารรายวัน (7 วันล่าสุด)</div>
+      <div class="chart-subtitle">จำนวนเอกสารที่รับเข้าระบบ</div>
+      <svg viewBox="0 0 400 180">
+        <defs><linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#7C3AED"/></linearGradient></defs>
+        <g transform="translate(40,10)">
+          <line x1="0" y1="150" x2="340" y2="150" stroke="var(--border)" stroke-width="1"/>
+          <rect class="bar-rect" x="10" y="60" width="35" height="90" rx="4" fill="url(#barGrad)" opacity="0.7"><title>จ. 31 มี.ค.: 42</title></rect>
+          <rect class="bar-rect" x="60" y="45" width="35" height="105" rx="4" fill="url(#barGrad)" opacity="0.8"><title>อ. 1 เม.ย.: 49</title></rect>
+          <rect class="bar-rect" x="110" y="30" width="35" height="120" rx="4" fill="url(#barGrad)" opacity="0.85"><title>พ. 2 เม.ย.: 56</title></rect>
+          <rect class="bar-rect" x="160" y="50" width="35" height="100" rx="4" fill="url(#barGrad)" opacity="0.75"><title>พฤ. 3 เม.ย.: 47</title></rect>
+          <rect class="bar-rect" x="210" y="25" width="35" height="125" rx="4" fill="url(#barGrad)" opacity="0.9"><title>ศ. 4 เม.ย.: 58</title></rect>
+          <rect class="bar-rect" x="260" y="70" width="35" height="80" rx="4" fill="url(#barGrad)" opacity="0.6"><title>ส. 5 เม.ย.: 37</title></rect>
+          <rect class="bar-rect" x="310" y="55" width="35" height="95" rx="4" fill="url(#barGrad)" opacity="0.95"><title>อา. 6 เม.ย.: 23 (วันนี้)</title></rect>
+          <text x="27" y="168" text-anchor="middle" fill="var(--muted)" font-size="10" font-family="'Noto Sans Thai',sans-serif">จ.</text>
+          <text x="77" y="168" text-anchor="middle" fill="var(--muted)" font-size="10" font-family="'Noto Sans Thai',sans-serif">อ.</text>
+          <text x="127" y="168" text-anchor="middle" fill="var(--muted)" font-size="10" font-family="'Noto Sans Thai',sans-serif">พ.</text>
+          <text x="177" y="168" text-anchor="middle" fill="var(--muted)" font-size="10" font-family="'Noto Sans Thai',sans-serif">พฤ.</text>
+          <text x="227" y="168" text-anchor="middle" fill="var(--muted)" font-size="10" font-family="'Noto Sans Thai',sans-serif">ศ.</text>
+          <text x="277" y="168" text-anchor="middle" fill="var(--muted)" font-size="10" font-family="'Noto Sans Thai',sans-serif">ส.</text>
+          <text x="327" y="168" text-anchor="middle" fill="var(--blue)" font-size="10" font-weight="700" font-family="'Noto Sans Thai',sans-serif">วันนี้</text>
+        </g>
+      </svg>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">&#128200; ประเภทเอกสาร (เดือนนี้)</div>
+      <div class="chart-subtitle">สัดส่วนตามประเภท</div>
+      <svg viewBox="0 0 400 180">
+        <g transform="translate(200,95)">
+          <circle cx="0" cy="0" r="70" fill="none" stroke="var(--bg3)" stroke-width="24"/>
+          <circle cx="0" cy="0" r="70" fill="none" stroke="#2563EB" stroke-width="24" stroke-dasharray="200 240" stroke-dashoffset="0" class="donut-segment"><title>Invoice: 45%</title></circle>
+          <circle cx="0" cy="0" r="70" fill="none" stroke="#059669" stroke-width="24" stroke-dasharray="126 314" stroke-dashoffset="-200" class="donut-segment"><title>Receipt: 29%</title></circle>
+          <circle cx="0" cy="0" r="70" fill="none" stroke="#D97706" stroke-width="24" stroke-dasharray="75 365" stroke-dashoffset="-326" class="donut-segment"><title>Tax: 17%</title></circle>
+          <circle cx="0" cy="0" r="70" fill="none" stroke="#7C3AED" stroke-width="24" stroke-dasharray="39 401" stroke-dashoffset="-401" class="donut-segment"><title>Contract: 9%</title></circle>
+          <text x="0" y="-5" text-anchor="middle" font-size="18" font-weight="800" fill="var(--text)" font-family="Inter">312</text>
+          <text x="0" y="12" text-anchor="middle" font-size="9" fill="var(--muted)" font-family="'Noto Sans Thai'">เอกสารทั้งหมด</text>
+        </g>
+      </svg>
+      <div style="display:flex;justify-content:center;gap:14px;margin-top:4px;font-size:0.72rem;">
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:3px;background:#2563EB;display:inline-block;"></span>Invoice 45%</span>
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:3px;background:#059669;display:inline-block;"></span>Receipt 29%</span>
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:3px;background:#D97706;display:inline-block;"></span>Tax 17%</span>
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:3px;background:#7C3AED;display:inline-block;"></span>Contract 9%</span>
       </div>
-      <div id="channelList"></div>
-    </div>
-
-    <!-- AI Insights -->
-    <div class="ai-card fade-up">
-      <div class="card-header" style="margin-bottom:14px;">
-        <h3 style="font-size:0.85rem;font-weight:700;">&#129302; AI Insights &amp; Predictions</h3>
-        <span class="badge" style="background:var(--purple-bg);color:var(--purple);">ANTS AI</span>
-      </div>
-      <div id="aiInsights"></div>
     </div>
   </div>
 
-  <!-- Footer -->
-  <div style="text-align:center;padding:14px 0 8px;border-top:1px solid var(--border);margin-top:4px;">
-    <div style="font-size:0.72rem;color:var(--muted);line-height:1.8;">
-      <strong style="color:var(--text);">Autopilot v2 -- ANTS AI Solution Hub</strong><br>
-      Finance Document Hub Analytics Dashboard<br>
-      Powered by ANTS AI Engine v3.2 | Data refreshed every 5 minutes<br>
-      <span style="opacity:0.6;">Build 2569.04.05 | Environment: Production</span>
+  <!-- AI Insights -->
+  <div class="section-divider">&#129302; AI Insights</div>
+  <div class="ai-card fade-up">
+    <div style="font-size:0.85rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;">&#129302; คำแนะนำจาก AI วิเคราะห์</div>
+    <div class="ai-insight-item">
+      <div class="ai-insight-icon">&#128680;</div>
+      <div class="ai-insight-text"><strong>เคส FN-2569-0845 เกินกำหนด SLA 2 ชั่วโมง</strong> - แนะนำให้ escalate ถึง Senior Officer เพื่อเร่งตรวจสอบใบกำกับภาษีอิเล็กทรอนิกส์ตามรูปแบบกรมสรรพากร<br><span style="font-size:0.6rem;padding:1px 6px;border-radius:4px;font-weight:600;background:var(--red-bg);color:var(--red);margin-top:4px;display:inline-block;">เร่งด่วน</span></div>
+    </div>
+    <div class="ai-insight-item">
+      <div class="ai-insight-icon">&#128200;</div>
+      <div class="ai-insight-text"><strong>ระบบ Auto-Categorize จัดกลุ่มเอกสาร 3 รายการใหม่</strong> - ใบแจ้งหนี้ 2 ฉบับ, ใบเสร็จ 1 ฉบับ ตรวจพบความถูกต้อง 97.2%<br><span style="font-size:0.6rem;padding:1px 6px;border-radius:4px;font-weight:600;background:var(--green-bg);color:var(--green);margin-top:4px;display:inline-block;">อัตโนมัติ</span></div>
+    </div>
+    <div class="ai-insight-item">
+      <div class="ai-insight-icon">&#128279;</div>
+      <div class="ai-insight-text"><strong>ซิงค์ Express/PEAK สำเร็จ 8 รายการ</strong> - ข้อมูลตรงกับระบบบัญชี 100% พร้อมสำหรับปิดบัญชีรายเดือน<br><span style="font-size:0.6rem;padding:1px 6px;border-radius:4px;font-weight:600;background:var(--blue-bg);color:var(--blue);margin-top:4px;display:inline-block;">Integration</span></div>
     </div>
   </div>
+</div>
 
-</div><!-- /main-content -->
-
-<!-- Tooltip -->
-<div class="svg-tooltip" id="svgTooltip"></div>
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
 
 <script>
-// ====== MOCK DATA ======
-const DONUT_DATA = [
-  { label: 'สินเชื่อรถ', value: 48, color: '#2563EB' },
-  { label: 'กู้บ้าน', value: 36, color: '#7C3AED' },
-  { label: 'สินเชื่อส่วนบุคคล', value: 32, color: '#059669' },
-  { label: 'Refinance', value: 24, color: '#D97706' },
-  { label: 'สินเชื่อธุรกิจ', value: 16, color: '#0891B2' }
-];
-
-const MONTHLY_DATA = {
-  months: ['พ.ย.', 'ธ.ค.', 'ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.'],
-  newCases: [68, 74, 82, 78, 95, 88],
-  closed:   [62, 70, 75, 72, 81, 91]
-};
-
-const SLA_DATA = [
-  { type: 'สินเชื่อรถ', ontime: 42, delayed: 6 },
-  { type: 'กู้บ้าน', ontime: 30, delayed: 6 },
-  { type: 'สินเชื่อส่วนบุคคล', ontime: 28, delayed: 4 },
-  { type: 'Refinance', ontime: 20, delayed: 4 },
-  { type: 'สินเชื่อธุรกิจ', ontime: 14, delayed: 2 }
-];
-
-const DOC_COMPLETE_DATA = [
-  { type: 'สินเชื่อรถ', full: 22, high: 14, mid: 8, low: 4 },
-  { type: 'กู้บ้าน', full: 16, high: 10, mid: 6, low: 4 },
-  { type: 'ส่วนบุคคล', full: 18, high: 8, mid: 4, low: 2 },
-  { type: 'Refinance', full: 12, high: 6, mid: 4, low: 2 },
-  { type: 'ธุรกิจ', full: 8, high: 4, mid: 2, low: 2 }
-];
-
-const OFFICERS = [
-  { name: 'กมล วงศ์สุวรรณ', role: 'Senior Officer', count: 28, color: '#2563EB' },
-  { name: 'นภา สมศรี', role: 'Officer', count: 24, color: '#7C3AED' },
-  { name: 'วิชัย พิทักษ์', role: 'Senior Officer', count: 22, color: '#059669' },
-  { name: 'สุรีย์ จันทร์ดี', role: 'Officer', count: 18, color: '#D97706' },
-  { name: 'ปรีชา มั่นคง', role: 'Junior Officer', count: 14, color: '#DC2626' }
-];
-
-const ACTIVITIES = [
-  { time: '14:28', text: '<strong>กมล ว.</strong> อัปโหลดเอกสารสัญญาสินเชื่อ เคส #FC-2569-0247', color: '#2563EB' },
-  { time: '14:15', text: '<strong>นภา ส.</strong> อนุมัติเอกสาร เคส #FC-2569-0243 (กู้บ้าน)', color: '#059669' },
-  { time: '13:52', text: '<strong>AI OCR</strong> ตรวจจับเอกสารไม่ชัด เคส #FC-2569-0241', color: '#D97706' },
-  { time: '13:40', text: '<strong>วิชัย พ.</strong> ปิดเคส #FC-2569-0238 สำเร็จ', color: '#059669' },
-  { time: '13:22', text: '<strong>ระบบ</strong> แจ้งเตือน SLA ใกล้ครบ เคส #FC-2569-0235', color: '#DC2626' },
-  { time: '12:58', text: '<strong>สุรีย์ จ.</strong> เปิดเคสใหม่ #FC-2569-0248 (Refinance)', color: '#2563EB' },
-  { time: '12:45', text: '<strong>LINE Bot</strong> รับเอกสารจากลูกค้า เคส #FC-2569-0244', color: '#7C3AED' },
-  { time: '12:30', text: '<strong>ปรีชา ม.</strong> ส่งเอกสารให้หัวหน้าตรวจ เคส #FC-2569-0240', color: '#0891B2' },
-  { time: '11:55', text: '<strong>AI</strong> ตรวจพบเอกสารซ้ำ เคส #FC-2569-0236', color: '#D97706' },
-  { time: '11:40', text: '<strong>กมล ว.</strong> อัปเดตสถานะ เคส #FC-2569-0232 เป็น "รอลูกค้า"', color: '#2563EB' }
-];
-
-const SLA_RISKS = [
-  { level: 'green', label: 'ปลอดภัย (>5 วัน)', count: 98, pct: 62.8, dotColor: '#059669' },
-  { level: 'orange', label: 'เฝ้าระวัง (2-5 วัน)', count: 41, pct: 26.3, dotColor: '#D97706' },
-  { level: 'red', label: 'เร่งด่วน (<2 วัน)', count: 17, pct: 10.9, dotColor: '#DC2626' }
-];
-
-const CHANNELS = [
-  { name: 'LINE Official', icon: '&#128172;', count: 89, pct: 36, color: '#059669', bg: 'var(--green-bg)' },
-  { name: 'Email', icon: '&#9993;', count: 67, pct: 27, color: '#2563EB', bg: 'var(--blue-bg)' },
-  { name: 'Walk-in', icon: '&#128694;', count: 54, pct: 22, color: '#7C3AED', bg: 'var(--purple-bg)' },
-  { name: 'API / Partner', icon: '&#128268;', count: 37, pct: 15, color: '#D97706', bg: 'var(--orange-bg)' }
-];
-
-const AI_INSIGHTS = [
-  { icon: '&#9888;', title: 'Bottleneck Detection', text: 'พบเอกสาร <strong>"ใบรับรองเงินเดือน"</strong> เป็นเอกสารที่ขาดหายบ่อยที่สุด (23% ของเคส) ทำให้ SLA ล่าช้าเฉลี่ย 1.8 วัน', tag: 'Bottleneck', tagBg: 'var(--orange-bg)', tagColor: 'var(--orange)' },
-  { icon: '&#128200;', title: 'At-Risk Prediction', text: '<strong>12 เคส</strong> มีแนวโน้ม SLA เกินกำหนดภายใน 48 ชม. — แนะนำให้จัดลำดับความสำคัญใหม่', tag: 'Prediction', tagBg: 'var(--red-bg)', tagColor: 'var(--red)' },
-  { icon: '&#128161;', title: 'Optimization', text: 'เคสประเภท <strong>Refinance</strong> ใช้เวลาตรวจเอกสารนานกว่าค่าเฉลี่ย 35% — แนะนำเพิ่ม Auto-verify สำหรับเอกสาร KYC', tag: 'Optimize', tagBg: 'var(--blue-bg)', tagColor: 'var(--blue)' },
-  { icon: '&#129302;', title: 'Workload Balancing', text: 'Officer <strong>กมล ว.</strong> มีเคสมากกว่าค่าเฉลี่ยทีม 40% — แนะนำกระจายเคสใหม่ไปยัง ปรีชา ม. หรือ สุรีย์ จ.', tag: 'Balance', tagBg: 'var(--purple-bg)', tagColor: 'var(--purple)' },
-  { icon: '&#128202;', title: 'Trend Alert', text: 'ปริมาณเคส <strong>สินเชื่อรถ</strong> เพิ่มขึ้น 18% ใน 2 สัปดาห์ล่าสุด — อาจต้องเพิ่มทรัพยากร', tag: 'Trend', tagBg: 'var(--green-bg)', tagColor: 'var(--green)' }
-];
-
-// ====== TOOLTIP ======
-const tooltip = document.getElementById('svgTooltip');
-function showTooltip(evt, html) {
-  tooltip.innerHTML = html;
-  tooltip.classList.add('visible');
-  const rect = evt.target.getBoundingClientRect();
-  tooltip.style.left = (rect.left + rect.width/2 - tooltip.offsetWidth/2) + 'px';
-  tooltip.style.top = (rect.top - tooltip.offsetHeight - 8) + 'px';
-}
-function hideTooltip() { tooltip.classList.remove('visible'); }
-
-// ====== DONUT CHART ======
-(function drawDonut() {
-  const svg = document.getElementById('donutChart');
-  const total = DONUT_DATA.reduce((s, d) => s + d.value, 0);
-  const cx = 130, cy = 86, R = 65, r = 38;
-  let angle = -Math.PI / 2;
-  let paths = '';
-
-  DONUT_DATA.forEach(d => {
-    const frac = d.value / total;
-    const a1 = angle;
-    const a2 = angle + frac * 2 * Math.PI;
-    const large = frac > 0.5 ? 1 : 0;
-    const x1o = cx + R * Math.cos(a1), y1o = cy + R * Math.sin(a1);
-    const x2o = cx + R * Math.cos(a2), y2o = cy + R * Math.sin(a2);
-    const x1i = cx + r * Math.cos(a2), y1i = cy + r * Math.sin(a2);
-    const x2i = cx + r * Math.cos(a1), y2i = cy + r * Math.sin(a1);
-    paths += `<path class="donut-segment" d="M${x1o},${y1o} A${R},${R} 0 ${large} 1 ${x2o},${y2o} L${x1i},${y1i} A${r},${r} 0 ${large} 0 ${x2i},${y2i} Z" fill="${d.color}" data-label="${d.label}" data-value="${d.value}" data-pct="${(frac*100).toFixed(1)}"/>`;
-    angle = a2;
-  });
-
-  // Center text
-  paths += `<text x="${cx}" y="${cy-6}" text-anchor="middle" fill="var(--text)" font-size="18" font-weight="800">${total}</text>`;
-  paths += `<text x="${cx}" y="${cy+12}" text-anchor="middle" fill="var(--muted)" font-size="10">เคสทั้งหมด</text>`;
-  svg.innerHTML = paths;
-
-  // Events
-  svg.querySelectorAll('.donut-segment').forEach(seg => {
-    seg.addEventListener('mouseenter', e => showTooltip(e, `${seg.dataset.label}: ${seg.dataset.value} เคส (${seg.dataset.pct}%)`));
-    seg.addEventListener('mouseleave', hideTooltip);
-  });
-
-  // Legend
-  const legend = document.getElementById('donutLegend');
-  legend.innerHTML = DONUT_DATA.map(d => `<div class="donut-legend-item"><div class="dot" style="background:${d.color}"></div>${d.label} (${d.value})</div>`).join('');
-})();
-
-// ====== LINE CHART ======
-(function drawLine() {
-  const svg = document.getElementById('lineChart');
-  const { months, newCases, closed } = MONTHLY_DATA;
-  const W = 500, H = 190, padL = 50, padR = 20, padT = 15, padB = 35;
-  const chartW = W - padL - padR, chartH = H - padT - padB;
-  const maxVal = Math.max(...newCases, ...closed) * 1.15;
-  const stepX = chartW / (months.length - 1);
-
-  let html = '';
-
-  // Grid lines + Y labels
-  for (let i = 0; i <= 4; i++) {
-    const y = padT + (chartH / 4) * i;
-    const val = Math.round(maxVal - (maxVal / 4) * i);
-    html += `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="var(--border)" stroke-width="1" stroke-dasharray="4"/>`;
-    html += `<text x="${padL-8}" y="${y+4}" text-anchor="end" fill="var(--muted)" font-size="10">${val}</text>`;
-  }
-
-  // X labels
-  months.forEach((m, i) => {
-    const x = padL + i * stepX;
-    html += `<text x="${x}" y="${H-8}" text-anchor="middle" fill="var(--muted)" font-size="10">${m}</text>`;
-  });
-
-  // Helper
-  function toPoint(vals) {
-    return vals.map((v, i) => {
-      const x = padL + i * stepX;
-      const y = padT + chartH - (v / maxVal) * chartH;
-      return { x, y, v };
-    });
-  }
-
-  // Lines + dots
-  function drawSeries(vals, color) {
-    const pts = toPoint(vals);
-    const line = pts.map(p => `${p.x},${p.y}`).join(' ');
-    // Area
-    html += `<polygon points="${pts[0].x},${padT+chartH} ${line} ${pts[pts.length-1].x},${padT+chartH}" fill="${color}" opacity="0.07"/>`;
-    html += `<polyline points="${line}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;
-    pts.forEach((p, i) => {
-      html += `<circle class="line-dot" cx="${p.x}" cy="${p.y}" r="4" fill="${color}" stroke="var(--card-bg)" stroke-width="2" data-label="${months[i]}" data-value="${p.v}" data-color="${color}"/>`;
-    });
-  }
-
-  drawSeries(newCases, '#2563EB');
-  drawSeries(closed, '#059669');
-  svg.innerHTML = html;
-
-  svg.querySelectorAll('.line-dot').forEach(dot => {
-    dot.addEventListener('mouseenter', e => showTooltip(e, `${dot.dataset.label}: ${dot.dataset.value} เคส`));
-    dot.addEventListener('mouseleave', hideTooltip);
-  });
-})();
-
-// ====== SLA HORIZONTAL BAR ======
-(function drawSLA() {
-  const svg = document.getElementById('slaChart');
-  const W = 500, H = 190, padL = 100, padR = 30, padT = 8, padB = 14;
-  const chartW = W - padL - padR;
-  const barH = 22, gap = 12;
-  const maxVal = Math.max(...SLA_DATA.map(d => d.ontime + d.delayed)) * 1.1;
-
-  let html = '';
-  SLA_DATA.forEach((d, i) => {
-    const y = padT + i * (barH + gap);
-    const wOn = (d.ontime / maxVal) * chartW;
-    const wDel = (d.delayed / maxVal) * chartW;
-
-    // Label
-    html += `<text x="${padL-8}" y="${y + barH/2 + 4}" text-anchor="end" fill="var(--text2)" font-size="11" font-weight="500">${d.type}</text>`;
-    // On-time bar
-    html += `<rect class="bar-rect" x="${padL}" y="${y}" width="${wOn}" height="${barH}" rx="4" fill="#059669" data-label="${d.type} On-time" data-value="${d.ontime}"/>`;
-    // Delayed bar
-    html += `<rect class="bar-rect" x="${padL + wOn}" y="${y}" width="${wDel}" height="${barH}" rx="4" fill="#DC2626" data-label="${d.type} Delayed" data-value="${d.delayed}"/>`;
-    // Value labels
-    html += `<text x="${padL + wOn + wDel + 6}" y="${y + barH/2 + 4}" fill="var(--muted)" font-size="10">${d.ontime + d.delayed}</text>`;
-  });
-
-  svg.innerHTML = html;
-  svg.querySelectorAll('.bar-rect').forEach(bar => {
-    bar.addEventListener('mouseenter', e => showTooltip(e, `${bar.dataset.label}: ${bar.dataset.value} เคส`));
-    bar.addEventListener('mouseleave', hideTooltip);
-  });
-})();
-
-// ====== DOCUMENT COMPLETENESS STACKED BAR ======
-(function drawDocComplete() {
-  const svg = document.getElementById('docChart');
-  const W = 500, H = 190, padL = 80, padR = 30, padT = 8, padB = 14;
-  const chartW = W - padL - padR;
-  const barH = 22, gap = 12;
-  const colors = ['#059669', '#2563EB', '#D97706', '#DC2626'];
-  const keys = ['full', 'high', 'mid', 'low'];
-
-  const maxVal = Math.max(...DOC_COMPLETE_DATA.map(d => d.full + d.high + d.mid + d.low)) * 1.1;
-  let html = '';
-
-  DOC_COMPLETE_DATA.forEach((d, i) => {
-    const y = padT + i * (barH + gap);
-    html += `<text x="${padL-8}" y="${y + barH/2 + 4}" text-anchor="end" fill="var(--text2)" font-size="11" font-weight="500">${d.type}</text>`;
-    let x = padL;
-    const total = d.full + d.high + d.mid + d.low;
-    const labels = ['100%', '75-99%', '50-74%', '<50%'];
-    keys.forEach((k, ki) => {
-      const w = (d[k] / maxVal) * chartW;
-      html += `<rect class="bar-rect" x="${x}" y="${y}" width="${w}" height="${barH}" rx="${ki===0?'4 0 0 4':ki===keys.length-1?'0 4 4 0':'0'}" fill="${colors[ki]}" data-label="${d.type} ${labels[ki]}" data-value="${d[k]}"/>`;
-      x += w;
-    });
-    html += `<text x="${x + 6}" y="${y + barH/2 + 4}" fill="var(--muted)" font-size="10">${total}</text>`;
-  });
-
-  svg.innerHTML = html;
-  svg.querySelectorAll('.bar-rect').forEach(bar => {
-    bar.addEventListener('mouseenter', e => showTooltip(e, `${bar.dataset.label}: ${bar.dataset.value} เคส`));
-    bar.addEventListener('mouseleave', hideTooltip);
-  });
-})();
-
-// ====== OFFICER WORKLOAD ======
-(function renderOfficers() {
-  const container = document.getElementById('officerList');
-  const maxCount = Math.max(...OFFICERS.map(o => o.count));
-  container.innerHTML = OFFICERS.map((o, i) => `
-    <div class="officer-row">
-      <div class="officer-avatar" style="background:${o.color}">${o.name.charAt(0)}${o.name.split(' ')[1]?.charAt(0) || ''}</div>
-      <div class="officer-info">
-        <div class="officer-name">${o.name}</div>
-        <div class="officer-role">${o.role}</div>
-        <div class="officer-bar"><div class="fill" style="width:${(o.count/maxCount*100)}%;background:${o.color}"></div></div>
-      </div>
-      <div class="officer-count" style="color:${o.color}">${o.count}</div>
-    </div>
-  `).join('');
-})();
-
-// ====== ACTIVITY FEED ======
-(function renderActivity() {
-  const container = document.getElementById('activityFeed');
-  container.innerHTML = ACTIVITIES.map(a => `
-    <div class="activity-item">
-      <div class="activity-dot" style="background:${a.color}"></div>
-      <div class="activity-text">${a.text}</div>
-      <div class="activity-time">${a.time}</div>
-    </div>
-  `).join('');
-})();
-
-// ====== SLA RISK ======
-(function renderSLARisk() {
-  const container = document.getElementById('slaRisk');
-  container.innerHTML = SLA_RISKS.map(r => `
-    <div class="sla-risk-item ${r.level}">
-      <div class="sla-risk-dot" style="background:${r.dotColor}"></div>
-      <div class="sla-risk-info">
-        <div style="font-weight:600;">${r.label}</div>
-        <div style="font-size:0.7rem;color:var(--muted);">${r.pct}% ของทั้งหมด</div>
-      </div>
-      <div class="sla-risk-count" style="color:${r.dotColor}">${r.count}</div>
-    </div>
-  `).join('');
-
-  // Risk summary bar
-  const totalCases = SLA_RISKS.reduce((s, r) => s + r.count, 0);
-  let barHTML = '<div style="display:flex;height:8px;border-radius:4px;overflow:hidden;margin-top:14px;">';
-  SLA_RISKS.forEach(r => {
-    barHTML += `<div style="width:${(r.count/totalCases*100)}%;background:${r.dotColor};"></div>`;
-  });
-  barHTML += '</div>';
-  barHTML += '<div style="text-align:center;font-size:0.7rem;color:var(--muted);margin-top:6px;">รวม ' + totalCases + ' เคส Active</div>';
-  container.innerHTML += barHTML;
-})();
-
-// ====== CHANNEL INTAKE ======
-(function renderChannels() {
-  const container = document.getElementById('channelList');
-  container.innerHTML = CHANNELS.map(c => `
-    <div class="channel-row">
-      <div class="channel-icon" style="background:${c.bg};color:${c.color};">${c.icon}</div>
-      <div class="channel-info">
-        <div class="channel-name">${c.name}</div>
-        <div class="channel-bar-wrap"><div class="channel-bar-fill" style="width:${c.pct}%;background:${c.color};"></div></div>
-      </div>
-      <div class="channel-pct" style="color:${c.color};">${c.count} <span style="font-size:0.65rem;color:var(--muted);">(${c.pct}%)</span></div>
-    </div>
-  `).join('');
-
-  // Total
-  const total = CHANNELS.reduce((s, c) => s + c.count, 0);
-  container.innerHTML += `<div style="text-align:center;font-size:0.72rem;color:var(--muted);padding-top:8px;border-top:1px solid var(--border);margin-top:4px;">รวมทั้งหมด <strong style="color:var(--text);">${total}</strong> เคส (30 วัน)</div>`;
-})();
-
-// ====== AI INSIGHTS ======
-(function renderAI() {
-  const container = document.getElementById('aiInsights');
-  container.innerHTML = AI_INSIGHTS.map(a => `
-    <div class="ai-insight-item">
-      <div class="ai-insight-icon">${a.icon}</div>
-      <div class="ai-insight-text">
-        <div style="font-weight:700;font-size:0.8rem;color:var(--text);margin-bottom:2px;">${a.title}</div>
-        ${a.text}
-        <div><span class="ai-tag" style="background:${a.tagBg};color:${a.tagColor};">${a.tag}</span></div>
-      </div>
-    </div>
-  `).join('');
-})();
-
-// ====== VIEW TOGGLE ======
-function setView(el) {
-  document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-}
-
-// ====== REFRESH TIMER ======
-(function startRefreshTimer() {
-  const REFRESH_INTERVAL_MS = 300000; // 5 minutes
-  let lastRefresh = new Date();
-
-  function updateTimestamp() {
-    const now = new Date();
-    const hh = String(now.getHours()).padStart(2, '0');
-    const mm = String(now.getMinutes()).padStart(2, '0');
-    const timeStr = hh + ':' + mm;
-
-    // Update user context timestamp
-    const contextP = document.querySelector('.user-context .info p');
-    if (contextP) {
-      const spans = contextP.querySelectorAll('span');
-      if (spans.length >= 5) {
-        spans[4].innerHTML = '&#128338; อัปเดตล่าสุด: ' + timeStr;
-      }
-    }
-  }
-
-  // Auto-refresh simulation
-  setInterval(function() {
-    updateTimestamp();
-    lastRefresh = new Date();
-  }, REFRESH_INTERVAL_MS);
-})();
-
-// ====== KEYBOARD SHORTCUTS ======
-document.addEventListener('keydown', function(e) {
-  // Ctrl+D = toggle dark mode
-  if (e.ctrlKey && e.key === 'd') {
-    e.preventDefault();
-    document.body.classList.toggle('dark');
-    const btn = document.querySelector('.dark-toggle');
-    btn.textContent = document.body.classList.contains('dark') ? '\u2600' : '\u263D';
-  }
-  // Ctrl+R = simulate refresh
-  if (e.ctrlKey && e.key === 'r' && !e.shiftKey) {
-    // Let browser handle default refresh
-  }
-});
-
-// ====== RESPONSIVE CHART RESIZE ======
-(function handleResize() {
-  let resizeTimeout;
-  window.addEventListener('resize', function() {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(function() {
-      // Charts are SVG viewBox-based, so they scale automatically.
-      // This handler is reserved for future dynamic recalculations.
-    }, 250);
-  });
-})();
-
-// ====== MOCK DATA SUMMARY (for debugging/export) ======
-const DASHBOARD_META = {
-  version: '2.0.0',
-  module: 'finance-doc-hub',
-  page: 'analytics-dashboard',
-  generatedAt: '2026-04-05T14:32:00+07:00',
-  dataSource: 'ANTS AI Engine v3.2',
-  refreshInterval: '5m',
-  totalActiveCases: 156,
-  totalClosedThisMonth: 91,
-  avgSLADaysRemaining: 4.2,
-  docCompletionRate: 87.4,
-  teamSize: 8,
-  environment: 'production'
-};
-
-// ====== INIT DARK MODE from system preference ======
-if (window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches) {
-  document.body.classList.add('dark');
-  document.querySelector('.dark-toggle').textContent = '\u2600';
-}
-
-// Console welcome
-console.log(
-  '%c ANTS Autopilot v2 %c Finance Doc Hub Dashboard ',
-  'background:#2563EB;color:#fff;padding:4px 8px;border-radius:4px 0 0 4px;font-weight:bold;',
-  'background:#7C3AED;color:#fff;padding:4px 8px;border-radius:0 4px 4px 0;font-weight:bold;'
-);
-console.table(DASHBOARD_META);
-
-
-// ====== SLA BADGE INDICATOR ======
-// Inject SLA badges into SLA Risk items
-(function addSLABadges() {
-  // Add SLA badge next to the KPI cards to indicate cases over SLA
-  var slaRiskEl = document.getElementById('slaRisk');
-  if (slaRiskEl) {
-    // After SLA risk renders, add overdue badge indicator
-    var observer = new MutationObserver(function() {
-      var items = slaRiskEl.querySelectorAll('.sla-risk-item.red');
-      items.forEach(function(item) {
-        if (!item.querySelector('.sla-badge')) {
-          var badge = document.createElement('span');
-          badge.className = 'sla-badge sla-overdue';
-          badge.innerHTML = '&#9200; เกิน SLA';
-          badge.style.marginLeft = '8px';
-          var info = item.querySelector('.sla-risk-info');
-          if (info) info.appendChild(badge);
-        }
-      });
-      var orangeItems = slaRiskEl.querySelectorAll('.sla-risk-item.orange');
-      orangeItems.forEach(function(item) {
-        if (!item.querySelector('.sla-badge')) {
-          var badge = document.createElement('span');
-          badge.className = 'sla-badge sla-warning';
-          badge.innerHTML = '&#9888; ใกล้ SLA';
-          badge.style.marginLeft = '8px';
-          var info = item.querySelector('.sla-risk-info');
-          if (info) info.appendChild(badge);
-        }
-      });
-    });
-    observer.observe(slaRiskEl, { childList: true, subtree: true });
-  }
-
-  // Also add SLA badges to the activity feed for overdue cases
-  var kpiCards = document.querySelectorAll('.kpi-card');
-  if (kpiCards.length >= 3) {
-    var slaCard = kpiCards[2]; // Average SLA card
-    var slaVal = slaCard.querySelector('.kpi-value');
-    if (slaVal) {
-      var avgDays = parseFloat(slaVal.textContent);
-      if (avgDays < 5) {
-        var warningNote = document.createElement('div');
-        warningNote.style.cssText = 'margin-top:6px;';
-        warningNote.innerHTML = '<span class="sla-badge sla-warning" style="animation:none;">&#9888; 17 เคส เกิน SLA 3 วัน</span>';
-        slaCard.appendChild(warningNote);
-      }
-    }
-  }
-})();
-
-// ====== MONTHLY CLOSING ======
-function createMonthlyClosing() {
-  var months = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
-  var now = new Date();
-  var monthName = months[now.getMonth()];
-  var year = now.getFullYear() + 543;
-  showToast('📅', 'Monthly Closing', 'สร้าง 12 tasks สำหรับ monthly closing เดือน ' + monthName + ' ' + year + ' เรียบร้อย');
-}
-
-function showToast(icon, title, msg) {
-  const t = document.createElement('div');
-  t.style.cssText = 'position:fixed;bottom:24px;right:24px;background:var(--card-bg,#fff);color:var(--text,#0F172A);border:1px solid var(--border,#E2E8F0);padding:14px 20px;border-radius:12px;font-size:.82rem;font-weight:500;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.15);display:flex;align-items:center;gap:10px;font-family:inherit;max-width:380px;animation:toastIn .4s ease;';
-  t.innerHTML = (icon ? '<span style="font-size:1.2rem;">'+icon+'</span>' : '') + '<div>' + (title ? '<strong>'+title+'</strong> ' : '') + (msg||'') + '</div>';
-  document.body.appendChild(t);
-  setTimeout(function(){t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(function(){t.remove();},300);},3000);
-}
-
-function toggleDark() {
+function toggleDark(){
   document.body.classList.toggle('dark');
-  const isDark = document.body.classList.contains('dark');
-  document.querySelector('.dark-toggle').textContent = isDark ? '☀' : '☾';
-  localStorage.setItem('autopilot-dark', isDark ? '1' : '0');
+  document.querySelector('.dark-toggle').textContent=document.body.classList.contains('dark')?'\u2600':'\u263D';
 }
-// Restore on load
-if (localStorage.getItem('autopilot-dark') === '1') {
-  document.body.classList.add('dark');
-  document.querySelector('.dark-toggle').textContent = '☀';
+
+function switchView(el, view){
+  document.querySelectorAll('.view-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('listView').style.display = view==='list'?'block':'none';
+  document.getElementById('groupView').style.display = view==='group'?'block':'none';
+}
+
+function filterByType(el, type){
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  if(el) el.classList.add('active');
+  showToast('กรองตามประเภท: '+type, 'info');
+}
+
+function toggleClosing(){
+  const panel = document.getElementById('closingPanel');
+  panel.classList.toggle('visible');
+}
+
+function showAutocomplete(){
+  const v = document.getElementById('thaiSearch').value;
+  if(v.length > 0) document.getElementById('autocompleteDropdown').classList.add('visible');
+}
+function hideAutocomplete(){
+  document.getElementById('autocompleteDropdown').classList.remove('visible');
+}
+function handleSearch(val){
+  if(val.length > 0) document.getElementById('autocompleteDropdown').classList.add('visible');
+  else hideAutocomplete();
+}
+function selectAC(text){
+  document.getElementById('thaiSearch').value = text;
+  hideAutocomplete();
+  showToast('ค้นหา: '+text, 'info');
+}
+
+function toggleSelectAll(cb){
+  document.querySelectorAll('tbody input[type=checkbox]').forEach(c=>c.checked=cb.checked);
+  updateBatch();
+}
+function updateBatch(){
+  const checked = document.querySelectorAll('tbody input[type=checkbox]:checked').length;
+  const toolbar = document.getElementById('batchToolbar');
+  if(checked > 0){
+    toolbar.classList.add('visible');
+    document.getElementById('batchCount').textContent = checked;
+  } else {
+    toolbar.classList.remove('visible');
+  }
+}
+function batchApprove(){ showToast('อนุมัติเอกสารที่เลือก สำเร็จ!', 'success'); }
+function batchAssign(){ showToast('มอบหมายงานสำเร็จ', 'info'); }
+function batchExport(){ showToast('กำลังส่งออก...', 'info'); }
+function batchCancel(){ document.querySelectorAll('tbody input[type=checkbox]').forEach(c=>c.checked=false); updateBatch(); }
+
+function exportCases(){ showToast('กำลังส่งออกข้อมูลเป็น Excel...', 'info'); }
+function openCase(id){ showToast('เปิดเคส '+id, 'info'); }
+
+function showToast(msg, type){
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = 'toast '+(type||'');
+  const icons = {success:'&#9989;', info:'&#128204;', warning:'&#9888;'};
+  toast.innerHTML = (icons[type]||'&#128204;')+' '+msg;
+  container.appendChild(toast);
+  setTimeout(()=>toast.remove(), 3500);
 }
 </script>
 </body>

@@ -499,13 +499,314 @@ body {
   text-align: center;
 }
 
+/* ── THAI LOGISTICS PROVIDERS ───────────────────────────── */
+.provider-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.provider-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+  transition: all .25s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.provider-card:hover {
+  box-shadow: var(--sh2);
+  transform: translateY(-3px);
+  border-color: var(--blue);
+}
+.provider-card .provider-logo {
+  font-size: 2rem;
+  margin-bottom: 6px;
+}
+.provider-card .provider-name {
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.provider-card .provider-name-th {
+  font-size: .68rem;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.provider-card .provider-stat {
+  font-size: .68rem;
+  color: var(--text2);
+  padding: 3px 8px;
+  background: var(--bg2);
+  border-radius: 4px;
+  display: inline-block;
+}
+.provider-card .provider-status {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+/* ── SHIPMENT TRACKING WIDGET ──────────────────────────── */
+.tracking-widget {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: var(--sh1);
+}
+.tracking-widget h3 {
+  font-size: .92rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tracking-timeline {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  position: relative;
+  padding: 0 10px;
+}
+.tracking-step {
+  flex: 1;
+  text-align: center;
+  position: relative;
+}
+.tracking-step::before {
+  content: '';
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  width: 100%;
+  height: 3px;
+  background: var(--border);
+  z-index: 0;
+}
+.tracking-step:last-child::before { display: none; }
+.tracking-step.done::before { background: var(--green); }
+.tracking-step.active::before { background: linear-gradient(90deg, var(--green), var(--border)); }
+.tracking-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .85rem;
+  position: relative;
+  z-index: 1;
+  background: var(--bg2);
+  border: 2px solid var(--border);
+  margin-bottom: 8px;
+}
+.tracking-step.done .tracking-dot {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+}
+.tracking-step.active .tracking-dot {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+  box-shadow: 0 0 0 4px rgba(37,99,235,.2);
+  animation: trackPulse 2s infinite;
+}
+@keyframes trackPulse { 0%,100%{box-shadow:0 0 0 4px rgba(37,99,235,.2);}50%{box-shadow:0 0 0 8px rgba(37,99,235,.1);} }
+.tracking-step .step-label {
+  font-size: .68rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+.tracking-step.done .step-label,
+.tracking-step.active .step-label {
+  color: var(--text);
+  font-weight: 600;
+}
+.tracking-step .step-time {
+  font-size: .62rem;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* ── PROVINCE RATE LOOKUP ──────────────────────────────── */
+.rate-lookup {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: var(--sh1);
+}
+.rate-lookup h3 {
+  font-size: .92rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.rate-lookup-form {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.rate-lookup-form .form-group { flex: 1; min-width: 160px; }
+.rate-result-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+.rate-result-item {
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  text-align: center;
+  background: var(--bg2);
+  transition: all .2s;
+}
+.rate-result-item:hover {
+  border-color: var(--blue);
+  background: var(--card-bg);
+}
+.rate-result-item .carrier {
+  font-size: .72rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.rate-result-item .price {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--blue);
+  font-family: 'Inter', sans-serif;
+}
+.rate-result-item .eta {
+  font-size: .65rem;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.rate-result-item.cheapest {
+  border-color: var(--green);
+  background: rgba(5,150,105,.05);
+}
+.rate-result-item.cheapest::after {
+  content: 'ถูกที่สุด';
+  display: block;
+  font-size: .58rem;
+  font-weight: 700;
+  color: var(--green);
+  margin-top: 4px;
+}
+
+/* ── COST COMPARISON CHART ─────────────────────────────── */
+.cost-chart-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: var(--sh1);
+}
+.cost-chart-card h3 {
+  font-size: .92rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  height: 140px;
+  padding: 0 10px;
+}
+.bar-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.bar-fill {
+  width: 100%;
+  border-radius: 6px 6px 0 0;
+  transition: height .6s ease;
+  min-height: 4px;
+}
+.bar-label {
+  font-size: .65rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-align: center;
+}
+.bar-value {
+  font-size: .72rem;
+  font-weight: 800;
+  font-family: 'Inter', sans-serif;
+  color: var(--text);
+}
+
+/* ── SHIPMENT VOLUME ANALYTICS ─────────────────────────── */
+.volume-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.volume-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--sh1);
+}
+.volume-card h3 {
+  font-size: .92rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.volume-stat {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--bg2);
+  font-size: .78rem;
+}
+.volume-stat:last-child { border-bottom: none; }
+.volume-stat .label { color: var(--text2); display: flex; align-items: center; gap: 6px; }
+.volume-stat .val { font-weight: 700; font-family: 'Inter', sans-serif; }
+
 /* ── RESPONSIVE ──────────────────────────────────────────── */
 @media (max-width: 960px) {
   .fx-grid { grid-template-columns: repeat(2, 1fr); }
   .bottom-row { grid-template-columns: 1fr; }
+  .provider-grid { grid-template-columns: repeat(3, 1fr); }
+  .rate-result-grid { grid-template-columns: repeat(3, 1fr); }
+  .volume-row { grid-template-columns: 1fr; }
 }
 @media (max-width: 600px) {
   .fx-grid { grid-template-columns: 1fr; }
+  .provider-grid { grid-template-columns: repeat(2, 1fr); }
+  .rate-result-grid { grid-template-columns: repeat(2, 1fr); }
   .main { padding: 12px 16px 32px; }
   .top-bar { padding: 0 16px; }
   .breadcrumb { padding: 10px 16px 0; }
@@ -827,6 +1128,204 @@ body {
 
   </div><!-- /bottom-row -->
 
+  <!-- ── SECTION: THAI LOGISTICS PROVIDERS ────────────── -->
+  <h2 style="font-size:1rem;font-weight:800;margin:24px 0 14px;display:flex;align-items:center;gap:8px;">&#128666; ผู้ให้บริการขนส่งไทย</h2>
+  <div class="provider-grid">
+    <div class="provider-card" onclick="alert('Kerry Express: เปิดหน้ารายละเอียด')">
+      <div class="provider-status"></div>
+      <div class="provider-logo">&#128230;</div>
+      <div class="provider-name">Kerry Express</div>
+      <div class="provider-name-th">เคอรี่ เอ็กซ์เพรส</div>
+      <div class="provider-stat">&#128666; 1,245 พัสดุ/เดือน</div>
+    </div>
+    <div class="provider-card" onclick="alert('Flash Express: เปิดหน้ารายละเอียด')">
+      <div class="provider-status"></div>
+      <div class="provider-logo">&#9889;</div>
+      <div class="provider-name">Flash Express</div>
+      <div class="provider-name-th">แฟลช เอ็กซ์เพรส</div>
+      <div class="provider-stat">&#128666; 987 พัสดุ/เดือน</div>
+    </div>
+    <div class="provider-card" onclick="alert('J&T Express: เปิดหน้ารายละเอียด')">
+      <div class="provider-status"></div>
+      <div class="provider-logo">&#128230;</div>
+      <div class="provider-name">J&amp;T Express</div>
+      <div class="provider-name-th">เจแอนด์ที เอ็กซ์เพรส</div>
+      <div class="provider-stat">&#128666; 756 พัสดุ/เดือน</div>
+    </div>
+    <div class="provider-card" onclick="alert('Thailand Post: เปิดหน้ารายละเอียด')">
+      <div class="provider-status"></div>
+      <div class="provider-logo">&#128235;</div>
+      <div class="provider-name">Thailand Post</div>
+      <div class="provider-name-th">ไปรษณีย์ไทย</div>
+      <div class="provider-stat">&#128666; 2,103 พัสดุ/เดือน</div>
+    </div>
+    <div class="provider-card" onclick="alert('Ninja Van: เปิดหน้ารายละเอียด')">
+      <div class="provider-status"></div>
+      <div class="provider-logo">&#129399;</div>
+      <div class="provider-name">Ninja Van</div>
+      <div class="provider-name-th">นินจาแวน</div>
+      <div class="provider-stat">&#128666; 432 พัสดุ/เดือน</div>
+    </div>
+  </div>
+
+  <!-- ── SECTION: REAL-TIME SHIPMENT TRACKING ────────── -->
+  <div class="tracking-widget">
+    <h3>&#128674; ติดตามพัสดุแบบเรียลไทม์ <span style="margin-left:auto;font-size:.68rem;font-weight:500;color:var(--muted);">Tracking #: KEX-2569040612345</span></h3>
+    <div class="tracking-timeline">
+      <div class="tracking-step done">
+        <div class="tracking-dot">&#128230;</div>
+        <div class="step-label">รับพัสดุแล้ว</div>
+        <div class="step-time">3 เม.ย. 69 09:00</div>
+      </div>
+      <div class="tracking-step done">
+        <div class="tracking-dot">&#10003;</div>
+        <div class="step-label">ศูนย์คัดแยก กทม.</div>
+        <div class="step-time">3 เม.ย. 69 14:30</div>
+      </div>
+      <div class="tracking-step done">
+        <div class="tracking-dot">&#10003;</div>
+        <div class="step-label">ออกจากศูนย์คัดแยก</div>
+        <div class="step-time">4 เม.ย. 69 06:00</div>
+      </div>
+      <div class="tracking-step active">
+        <div class="tracking-dot">&#128666;</div>
+        <div class="step-label">กำลังจัดส่ง</div>
+        <div class="step-time">6 เม.ย. 69 08:45</div>
+      </div>
+      <div class="tracking-step">
+        <div class="tracking-dot">&#127968;</div>
+        <div class="step-label">จัดส่งสำเร็จ</div>
+        <div class="step-time">รอดำเนินการ</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION: THAI PROVINCE RATE LOOKUP ──────────── -->
+  <div class="rate-lookup">
+    <h3>&#128205; คำนวณค่าส่งตามจังหวัด (จังหวัดต้นทาง &#8594; จังหวัดปลายทาง)</h3>
+    <div class="rate-lookup-form">
+      <div class="form-group">
+        <label class="form-label">จังหวัดต้นทาง</label>
+        <select class="form-select" id="fxOriginProvince">
+          <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
+          <option value="นนทบุรี">นนทบุรี</option>
+          <option value="ปทุมธานี">ปทุมธานี</option>
+          <option value="สมุทรปราการ">สมุทรปราการ</option>
+          <option value="เชียงใหม่">เชียงใหม่</option>
+          <option value="ชลบุรี">ชลบุรี</option>
+          <option value="ภูเก็ต">ภูเก็ต</option>
+          <option value="ขอนแก่น">ขอนแก่น</option>
+          <option value="สงขลา">สงขลา</option>
+          <option value="นครราชสีมา">นครราชสีมา</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">จังหวัดปลายทาง</label>
+        <select class="form-select" id="fxDestProvince">
+          <option value="เชียงใหม่">เชียงใหม่</option>
+          <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
+          <option value="นครราชสีมา">นครราชสีมา</option>
+          <option value="ขอนแก่น">ขอนแก่น</option>
+          <option value="สงขลา">สงขลา</option>
+          <option value="ภูเก็ต">ภูเก็ต</option>
+          <option value="อุดรธานี">อุดรธานี</option>
+          <option value="สุราษฎร์ธานี">สุราษฎร์ธานี</option>
+          <option value="เชียงราย">เชียงราย</option>
+          <option value="ระยอง">ระยอง</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">น้ำหนัก (กก.)</label>
+        <input type="number" class="form-input" id="fxWeight" value="2" min="0.1" step="0.1">
+      </div>
+      <button class="btn-primary" style="padding:8px 20px;border-radius:8px;border:none;font-family:inherit;font-weight:700;font-size:.82rem;cursor:pointer;" onclick="calcProvRate()">&#128269; คำนวณ</button>
+    </div>
+    <div class="rate-result-grid" id="rateResultGrid">
+      <div class="rate-result-item cheapest">
+        <div class="carrier">&#128230; Kerry Express</div>
+        <div class="price">&#3647;65</div>
+        <div class="eta">&#128339; 1-2 วัน</div>
+      </div>
+      <div class="rate-result-item">
+        <div class="carrier">&#9889; Flash Express</div>
+        <div class="price">&#3647;70</div>
+        <div class="eta">&#128339; 1-2 วัน</div>
+      </div>
+      <div class="rate-result-item">
+        <div class="carrier">&#128230; J&amp;T Express</div>
+        <div class="price">&#3647;72</div>
+        <div class="eta">&#128339; 2-3 วัน</div>
+      </div>
+      <div class="rate-result-item">
+        <div class="carrier">&#128235; ไปรษณีย์ไทย</div>
+        <div class="price">&#3647;50</div>
+        <div class="eta">&#128339; 3-5 วัน</div>
+      </div>
+      <div class="rate-result-item">
+        <div class="carrier">&#129399; Ninja Van</div>
+        <div class="price">&#3647;68</div>
+        <div class="eta">&#128339; 2-3 วัน</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION: COST COMPARISON CHART ──────────────── -->
+  <div class="cost-chart-card">
+    <h3>&#128202; เปรียบเทียบต้นทุนขนส่งรายผู้ให้บริการ (เม.ย. 2569)</h3>
+    <div class="bar-chart" id="costBarChart">
+      <div class="bar-col">
+        <div class="bar-value">&#3647;65</div>
+        <div class="bar-fill" style="height:70%;background:var(--green);"></div>
+        <div class="bar-label">Kerry</div>
+      </div>
+      <div class="bar-col">
+        <div class="bar-value">&#3647;70</div>
+        <div class="bar-fill" style="height:76%;background:var(--blue);"></div>
+        <div class="bar-label">Flash</div>
+      </div>
+      <div class="bar-col">
+        <div class="bar-value">&#3647;72</div>
+        <div class="bar-fill" style="height:78%;background:var(--purple);"></div>
+        <div class="bar-label">J&amp;T</div>
+      </div>
+      <div class="bar-col">
+        <div class="bar-value">&#3647;50</div>
+        <div class="bar-fill" style="height:54%;background:var(--orange);"></div>
+        <div class="bar-label">ไปรษณีย์ไทย</div>
+      </div>
+      <div class="bar-col">
+        <div class="bar-value">&#3647;68</div>
+        <div class="bar-fill" style="height:74%;background:var(--red);"></div>
+        <div class="bar-label">Ninja Van</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION: SHIPMENT VOLUME ANALYTICS ──────────── -->
+  <div class="volume-row">
+    <div class="volume-card">
+      <h3>&#128230; ปริมาณพัสดุรายเดือน (พ.ศ. 2569)</h3>
+      <div class="volume-stat"><span class="label">&#128197; มกราคม</span><span class="val">4,521 พัสดุ</span></div>
+      <div class="volume-stat"><span class="label">&#128197; กุมภาพันธ์</span><span class="val">4,102 พัสดุ</span></div>
+      <div class="volume-stat"><span class="label">&#128197; มีนาคม</span><span class="val">5,287 พัสดุ</span></div>
+      <div class="volume-stat"><span class="label">&#128197; เมษายน (จนถึงวันนี้)</span><span class="val" style="color:var(--blue);">1,893 พัสดุ</span></div>
+      <div style="margin-top:12px;padding:12px 14px;background:var(--bg2);border-radius:8px;font-size:.75rem;">
+        <strong>รวมทั้งหมด Q1/2569:</strong> <span style="font-weight:800;font-family:'Inter';color:var(--blue);">15,803 พัสดุ</span>
+        <span style="color:var(--green);font-weight:600;margin-left:8px;">&#9650; +12.3% YoY</span>
+      </div>
+    </div>
+    <div class="volume-card">
+      <h3>&#128200; สัดส่วนต้นทุน FX ต่อรายได้</h3>
+      <div class="volume-stat"><span class="label">&#128176; ต้นทุนขนส่งรวม (มี.ค.)</span><span class="val">&#3647;385,200</span></div>
+      <div class="volume-stat"><span class="label">&#128176; ต้นทุนเฉลี่ย/พัสดุ</span><span class="val">&#3647;72.85</span></div>
+      <div class="volume-stat"><span class="label">&#128200; สัดส่วนต่อรายได้</span><span class="val" style="color:var(--orange);">8.2%</span></div>
+      <div class="volume-stat"><span class="label">&#127919; เป้าหมายสัดส่วน</span><span class="val" style="color:var(--green);">&lt;10%</span></div>
+      <div style="margin-top:12px;padding:12px 14px;background:rgba(5,150,105,.08);border:1px solid rgba(5,150,105,.15);border-radius:8px;font-size:.75rem;color:var(--green);font-weight:600;">
+        &#10003; ต้นทุนขนส่งอยู่ในเป้าหมาย &mdash; ต่ำกว่าเกณฑ์ 1.8%
+      </div>
+    </div>
+  </div>
+
 </main>
 
 <script>
@@ -1023,6 +1522,36 @@ function drawMainChart() {
 
 window.addEventListener('load', drawMainChart);
 window.addEventListener('resize', drawMainChart);
+
+/* ── THAI PROVINCE RATE CALCULATOR ────────────────────── */
+function calcProvRate() {
+  const origin = document.getElementById('fxOriginProvince').value;
+  const dest = document.getElementById('fxDestProvince').value;
+  const weight = parseFloat(document.getElementById('fxWeight').value) || 1;
+
+  // Zone-based pricing simulation
+  const sameRegion = origin === dest;
+  const basePrices = { 'Kerry Express': 35, 'Flash Express': 38, 'J&T Express': 40, 'ไปรษณีย์ไทย': 25, 'Ninja Van': 37 };
+  const weightRate = { 'Kerry Express': 15, 'Flash Express': 16, 'J&T Express': 14, 'ไปรษณีย์ไทย': 12, 'Ninja Van': 15 };
+  const zoneMult = sameRegion ? 1 : 1.5;
+  const icons = { 'Kerry Express': '&#128230;', 'Flash Express': '&#9889;', 'J&T Express': '&#128230;', 'ไปรษณีย์ไทย': '&#128235;', 'Ninja Van': '&#129399;' };
+  const etas = { 'Kerry Express': '1-2 วัน', 'Flash Express': '1-2 วัน', 'J&T Express': '2-3 วัน', 'ไปรษณีย์ไทย': '3-5 วัน', 'Ninja Van': '2-3 วัน' };
+
+  const results = Object.keys(basePrices).map(carrier => {
+    const price = Math.round((basePrices[carrier] + weightRate[carrier] * weight) * zoneMult);
+    return { carrier, price, icon: icons[carrier], eta: etas[carrier] };
+  });
+
+  const minPrice = Math.min(...results.map(r => r.price));
+  const grid = document.getElementById('rateResultGrid');
+  grid.innerHTML = results.map(r => `
+    <div class="rate-result-item ${r.price === minPrice ? 'cheapest' : ''}">
+      <div class="carrier">${r.icon} ${r.carrier}</div>
+      <div class="price">&#3647;${r.price}</div>
+      <div class="eta">&#128339; ${r.eta}</div>
+    </div>
+  `).join('');
+}
 </script>
 <div id="chartTooltip" style="position:fixed;display:none;background:var(--text);color:var(--bg);padding:10px 14px;border-radius:10px;font-size:.75rem;font-weight:500;z-index:9999;pointer-events:none;box-shadow:0 4px 20px rgba(0,0,0,.3);max-width:220px;line-height:1.6;"></div>
 </body>

@@ -288,7 +288,78 @@ tr:last-child td{border-bottom:none;}
 /* Responsive */
 @media(max-width:1100px){.board-grid{grid-template-columns:repeat(2,1fr);}  .kpi-strip{flex-wrap:wrap;} .kpi-strip-item{flex:1 1 45%;border-bottom:1px solid var(--border);}}
 @media(max-width:780px){.board-grid{grid-template-columns:1fr;} .info-grid{grid-template-columns:1fr 1fr;} .doc-grid{grid-template-columns:1fr 1fr;} .cost-grid{grid-template-columns:1fr 1fr;} .carrier-section{grid-template-columns:1fr;} .form-grid{grid-template-columns:1fr;} .form-grid-3{grid-template-columns:1fr 1fr;}}
-@media(max-width:600px){.kpi-strip{flex-direction:column;} .kpi-strip-item{border-right:none;border-bottom:1px solid var(--border);} .kpi-strip-item:last-child{border-bottom:none;} .page-title{font-size:1.2rem;} .route-steps{flex-wrap:wrap;} .modal-box{border-radius:12px;} .form-grid-3{grid-template-columns:1fr;}}
+@media(max-width:600px){.kpi-strip{flex-direction:column;} .kpi-strip-item{border-right:none;border-bottom:1px solid var(--border);} .kpi-strip-item:last-child{border-bottom:none;} .page-title{font-size:1.2rem;} .route-steps{flex-wrap:wrap;} .modal-box{border-radius:12px;} .form-grid-3{grid-template-columns:1fr;} .multi-carrier-grid{grid-template-columns:1fr !important;}}
+
+/* ===== REAL-TIME TRACKING TIMELINE ===== */
+.rt-tracking{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:20px;box-shadow:var(--sh);}
+.rt-tracking h3{font-size:.92rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.rt-timeline{position:relative;padding-left:28px;}
+.rt-timeline::before{content:'';position:absolute;left:12px;top:0;bottom:0;width:2px;background:var(--border);}
+.rt-step{position:relative;padding-bottom:20px;}
+.rt-step:last-child{padding-bottom:0;}
+.rt-step .dot{position:absolute;left:-22px;top:2px;width:14px;height:14px;border-radius:50%;border:2px solid var(--border);background:var(--card-bg);z-index:1;}
+.rt-step.done .dot{background:var(--green);border-color:var(--green);}
+.rt-step.active .dot{background:var(--blue);border-color:var(--blue);box-shadow:0 0 0 4px rgba(37,99,235,.2);animation:rtPulse 2s infinite;}
+@keyframes rtPulse{0%,100%{box-shadow:0 0 0 4px rgba(37,99,235,.2);}50%{box-shadow:0 0 0 8px rgba(37,99,235,.1);}}
+.rt-step .time{font-size:.65rem;color:var(--muted);font-weight:500;}
+.rt-step .label-th{font-size:.82rem;font-weight:600;color:var(--text);margin-top:1px;}
+.rt-step .detail{font-size:.72rem;color:var(--text2);margin-top:2px;}
+
+/* ===== MULTI-CARRIER TRACKING ===== */
+.multi-carrier{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:20px;box-shadow:var(--sh);}
+.multi-carrier h3{font-size:.92rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.multi-carrier-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.carrier-track-card{border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;transition:all .2s;cursor:pointer;position:relative;overflow:hidden;}
+.carrier-track-card:hover{border-color:var(--blue);box-shadow:var(--sh2);transform:translateY(-2px);}
+.carrier-track-card .carrier-name{font-size:.82rem;font-weight:700;margin-bottom:2px;}
+.carrier-track-card .carrier-name-th{font-size:.65rem;color:var(--muted);margin-bottom:8px;}
+.carrier-track-card .track-input{width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:.72rem;font-family:inherit;background:var(--bg2);color:var(--text);text-align:center;outline:none;transition:border-color .15s;}
+.carrier-track-card .track-input:focus{border-color:var(--blue);}
+.carrier-track-card .track-btn{width:100%;margin-top:6px;padding:6px;border:none;border-radius:6px;background:var(--blue);color:#fff;font-size:.72rem;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .15s;}
+.carrier-track-card .track-btn:hover{opacity:.9;}
+.carrier-track-card .carrier-logo{font-size:1.6rem;margin-bottom:4px;}
+.carrier-track-card.active-carrier{border-color:var(--green);box-shadow:0 0 0 3px rgba(5,150,105,.15);}
+.carrier-track-card .carrier-status{display:inline-flex;padding:2px 8px;border-radius:4px;font-size:.62rem;font-weight:700;margin-top:6px;}
+.carrier-track-card .carrier-status.online{background:rgba(5,150,105,.1);color:var(--green);}
+
+/* ===== DELIVERY TIME ESTIMATION ===== */
+.delivery-est{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:20px;box-shadow:var(--sh);}
+.delivery-est h3{font-size:.92rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.est-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+@media(max-width:780px){.est-grid{grid-template-columns:1fr;}}
+.est-card{padding:14px;border:1px solid var(--border);border-radius:10px;text-align:center;}
+.est-card .est-label{font-size:.68rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px;}
+.est-card .est-value{font-size:1.3rem;font-weight:800;font-family:'Inter',sans-serif;}
+.est-card .est-sub{font-size:.65rem;color:var(--text2);margin-top:2px;}
+
+/* ===== PROOF OF DELIVERY ===== */
+.pod-section{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:20px;box-shadow:var(--sh);}
+.pod-section h3{font-size:.92rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.pod-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:780px){.pod-grid{grid-template-columns:1fr;}}
+.pod-info{display:flex;flex-direction:column;gap:10px;}
+.pod-field{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:.78rem;}
+.pod-field:last-child{border-bottom:none;}
+.pod-field .label{color:var(--muted);font-weight:500;}
+.pod-field .value{font-weight:600;}
+.pod-photo{border:2px dashed var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;min-height:180px;text-align:center;color:var(--muted);font-size:.78rem;background:var(--bg2);}
+.pod-photo .pod-icon{font-size:2rem;margin-bottom:6px;}
+
+/* ===== TRACKING BARCODE/QR ===== */
+.barcode-section{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:20px;box-shadow:var(--sh);}
+.barcode-section h3{font-size:.92rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.barcode-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:780px){.barcode-grid{grid-template-columns:1fr;}}
+.barcode-display{border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;background:var(--bg2);}
+.barcode-display .barcode-svg{margin:12px 0;display:flex;justify-content:center;}
+.barcode-display .tracking-num{font-size:.92rem;font-weight:800;font-family:'Inter',sans-serif;letter-spacing:2px;margin-top:8px;}
+.barcode-display .barcode-label{font-size:.68rem;color:var(--muted);font-weight:600;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;}
+.qr-display{border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;background:var(--bg2);}
+.qr-display .qr-placeholder{width:140px;height:140px;margin:12px auto;background:var(--text);border-radius:8px;position:relative;display:flex;align-items:center;justify-content:center;}
+.qr-display .qr-inner{width:120px;height:120px;background:var(--card-bg);border-radius:4px;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);gap:1px;padding:6px;}
+.qr-cell{border-radius:1px;}
+.qr-cell.dark{background:var(--text);}
+.qr-cell.light{background:var(--card-bg);}
 </style>
 </head>
 <body>
@@ -413,6 +484,215 @@ tr:last-child td{border-bottom:none;}
         </thead>
         <tbody id="tableBody"></tbody>
       </table>
+    </div>
+  </div>
+</div>
+
+<!-- ===== REAL-TIME TRACKING TIMELINE (Thai Status Labels) ===== -->
+<div class="rt-tracking">
+  <h3>&#128674; ติดตามพัสดุแบบเรียลไทม์ &mdash; สถานะภาษาไทย <span style="margin-left:auto;font-size:.68rem;font-weight:500;color:var(--muted);">SHP-2026-035 &bull; Kerry Express</span></h3>
+  <div class="rt-timeline" id="rtTimeline">
+    <div class="rt-step done">
+      <div class="dot"></div>
+      <div class="time">3 เม.ย. 2569 &bull; 09:15 น.</div>
+      <div class="label-th">&#128230; รับพัสดุจากผู้ส่ง (Picked Up)</div>
+      <div class="detail">รับพัสดุที่ บจก. สยามเทค โซลูชัน &mdash; กรุงเทพมหานคร</div>
+    </div>
+    <div class="rt-step done">
+      <div class="dot"></div>
+      <div class="time">3 เม.ย. 2569 &bull; 14:30 น.</div>
+      <div class="label-th">&#127970; ถึงศูนย์คัดแยก กรุงเทพ (Arrived at Sort Center)</div>
+      <div class="detail">ศูนย์คัดแยก Kerry Express บางนา &mdash; กำลังจัดเรียงสินค้า</div>
+    </div>
+    <div class="rt-step done">
+      <div class="dot"></div>
+      <div class="time">4 เม.ย. 2569 &bull; 06:00 น.</div>
+      <div class="label-th">&#128666; ออกจากศูนย์คัดแยก (Departed Sort Center)</div>
+      <div class="detail">ออกเดินทางจาก กทม. ไป เชียงใหม่ &mdash; รถขนส่งรอบเช้า</div>
+    </div>
+    <div class="rt-step done">
+      <div class="dot"></div>
+      <div class="time">5 เม.ย. 2569 &bull; 08:00 น.</div>
+      <div class="label-th">&#127970; ถึงศูนย์คัดแยกปลายทาง (Arrived at Destination)</div>
+      <div class="detail">ศูนย์คัดแยก Kerry Express เชียงใหม่</div>
+    </div>
+    <div class="rt-step active">
+      <div class="dot"></div>
+      <div class="time">6 เม.ย. 2569 &bull; 08:45 น.</div>
+      <div class="label-th">&#128666; กำลังนำจ่าย (Out for Delivery)</div>
+      <div class="detail">พนักงานจัดส่ง: คุณสมชาย &mdash; ตำบลช้างเผือก อ.เมืองเชียงใหม่</div>
+    </div>
+    <div class="rt-step">
+      <div class="dot"></div>
+      <div class="time">รอดำเนินการ</div>
+      <div class="label-th">&#127968; จัดส่งสำเร็จ (Delivered)</div>
+      <div class="detail">คาดว่าจะจัดส่งภายในวันนี้ ก่อน 18:00 น.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MULTI-CARRIER TRACKING ===== -->
+<div class="multi-carrier">
+  <h3>&#128666; ติดตามพัสดุหลายผู้ให้บริการ (Multi-Carrier Tracking)</h3>
+  <div class="multi-carrier-grid">
+    <div class="carrier-track-card active-carrier">
+      <div class="carrier-logo">&#128230;</div>
+      <div class="carrier-name">Kerry Express</div>
+      <div class="carrier-name-th">เคอรี่ เอ็กซ์เพรส</div>
+      <input type="text" class="track-input" placeholder="เลข Tracking Kerry" value="KEX-2569040612345">
+      <button class="track-btn" onclick="showToast('ค้นหา Kerry: KEX-2569040612345')">&#128269; ติดตาม</button>
+      <div class="carrier-status online">&#128994; API เชื่อมต่อแล้ว</div>
+    </div>
+    <div class="carrier-track-card">
+      <div class="carrier-logo">&#9889;</div>
+      <div class="carrier-name">Flash Express</div>
+      <div class="carrier-name-th">แฟลช เอ็กซ์เพรส</div>
+      <input type="text" class="track-input" placeholder="เลข Tracking Flash" value="">
+      <button class="track-btn" onclick="showToast('กรุณากรอกเลข Tracking Flash')">&#128269; ติดตาม</button>
+      <div class="carrier-status online">&#128994; API เชื่อมต่อแล้ว</div>
+    </div>
+    <div class="carrier-track-card">
+      <div class="carrier-logo">&#128230;</div>
+      <div class="carrier-name">J&amp;T Express</div>
+      <div class="carrier-name-th">เจแอนด์ที เอ็กซ์เพรส</div>
+      <input type="text" class="track-input" placeholder="เลข Tracking J&T" value="">
+      <button class="track-btn" onclick="showToast('กรุณากรอกเลข Tracking J&T')">&#128269; ติดตาม</button>
+      <div class="carrier-status online">&#128994; API เชื่อมต่อแล้ว</div>
+    </div>
+    <div class="carrier-track-card">
+      <div class="carrier-logo">&#128235;</div>
+      <div class="carrier-name">Thailand Post</div>
+      <div class="carrier-name-th">ไปรษณีย์ไทย</div>
+      <input type="text" class="track-input" placeholder="เลข Tracking EMS" value="">
+      <button class="track-btn" onclick="showToast('กรุณากรอกเลข Tracking ไปรษณีย์ไทย')">&#128269; ติดตาม</button>
+      <div class="carrier-status online">&#128994; API เชื่อมต่อแล้ว</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DELIVERY TIME ESTIMATION ===== -->
+<div class="delivery-est">
+  <h3>&#128339; ประมาณเวลาจัดส่ง (Delivery Time Estimation)</h3>
+  <div class="est-grid">
+    <div class="est-card">
+      <div class="est-label">เวลาจัดส่งโดยประมาณ</div>
+      <div class="est-value" style="color:var(--blue);">1-2 วัน</div>
+      <div class="est-sub">Kerry Express &bull; กรุงเทพฯ &#8594; เชียงใหม่</div>
+    </div>
+    <div class="est-card">
+      <div class="est-label">คาดว่าจะถึงภายใน</div>
+      <div class="est-value" style="color:var(--green);">6 เม.ย. 2569</div>
+      <div class="est-sub">ก่อนเวลา 18:00 น.</div>
+    </div>
+    <div class="est-card">
+      <div class="est-label">เวลาที่ผ่านไป</div>
+      <div class="est-value" style="color:var(--orange);">3 วัน 0 ชม.</div>
+      <div class="est-sub">ตั้งแต่รับพัสดุ (3 เม.ย. 09:15)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PROOF OF DELIVERY ===== -->
+<div class="pod-section">
+  <h3>&#128247; หลักฐานการจัดส่ง (Proof of Delivery)</h3>
+  <div class="pod-grid">
+    <div class="pod-info">
+      <div class="pod-field"><span class="label">สถานะ POD</span><span class="value" style="color:var(--orange);">&#128339; รอรับพัสดุ</span></div>
+      <div class="pod-field"><span class="label">ผู้รับพัสดุ</span><span class="value">คุณวิชัย ศรีสุข</span></div>
+      <div class="pod-field"><span class="label">ที่อยู่จัดส่ง</span><span class="value">99/12 ถ.เชียงใหม่-ลำปาง ต.ช้างเผือก</span></div>
+      <div class="pod-field"><span class="label">เบอร์โทรผู้รับ</span><span class="value">089-123-4567</span></div>
+      <div class="pod-field"><span class="label">วิธีจัดส่ง</span><span class="value">ส่งถึงหน้าประตูบ้าน</span></div>
+      <div class="pod-field"><span class="label">หมายเหตุ</span><span class="value">สินค้าแตกง่าย โปรดระวัง</span></div>
+    </div>
+    <div class="pod-photo">
+      <div>
+        <div class="pod-icon">&#128247;</div>
+        <div>ภาพหลักฐานการจัดส่ง</div>
+        <div style="font-size:.68rem;margin-top:4px;">จะแสดงเมื่อจัดส่งสำเร็จ</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TRACKING BARCODE/QR ===== -->
+<div class="barcode-section">
+  <h3>&#128260; บาร์โค้ด/QR Code สำหรับติดตามพัสดุ</h3>
+  <div class="barcode-grid">
+    <div class="barcode-display">
+      <div class="barcode-label">Barcode (Code 128)</div>
+      <div class="barcode-svg">
+        <svg width="240" height="60" viewBox="0 0 240 60">
+          <rect x="5" y="0" width="2" height="50" fill="var(--text)"/>
+          <rect x="9" y="0" width="1" height="50" fill="var(--text)"/>
+          <rect x="12" y="0" width="3" height="50" fill="var(--text)"/>
+          <rect x="17" y="0" width="1" height="50" fill="var(--text)"/>
+          <rect x="20" y="0" width="2" height="50" fill="var(--text)"/>
+          <rect x="24" y="0" width="3" height="50" fill="var(--text)"/>
+          <rect x="29" y="0" width="1" height="50" fill="var(--text)"/>
+          <rect x="32" y="0" width="2" height="50" fill="var(--text)"/>
+          <rect x="36" y="0" width="1" height="50" fill="var(--text)"/>
+          <rect x="39" y="0" width="3" height="50" fill="var(--text)"/>
+          <rect x="44" y="0" width="2" height="50" fill="var(--text)"/>
+          <rect x="48" y="0" width="1" height="50" fill="var(--text)"/>
+          <rect x="51" y="0" width="3" height="50" fill="var(--text)"/>
+          <rect x="56" y="0" width="1" height="50" fill="var(--text)"/>
+          <rect x="59" y="0" width="2" height="50" fill="var(--text)"/>
+          <rect x="63" y="0" width="3" height="50" fill="var(--text)"/>
+          <rect x="68" y="0" width="1" height="50" fill="var(--text)"/>
+          <rect x="71" y="0" width="2" height="50" fill="var(--text)"/>
+          <rect x="75" y="0" width="1" height="50" fill="var(--text)"/>
+          <rect x="78" y="0" width="3" height="50" fill="var(--text)"/>
+          <rect x="83" y="0" width="2" height="50" fill="var(--text)"/>
+          <rect x="87" y="0" width="1" height="50" fill="var(--text)"/>
+          <rect x="90" y="0" width="3" height="50" fill="var(--text)"/>
+          <rect x="95" y="0" width="1" height="50" fill="var(--text)"/>
+          <rect x="98" y="0" width="2" height="50" fill="var(--text)"/>
+          <rect x="102" y="0" width="3" height="50" fill="var(--text)"/>
+          <rect x="107" y="0" width="1" height="50" fill="var(--text)"/>
+          <rect x="110" y="0" width="2" height="50" fill="var(--text)"/>
+          <rect x="114" y="0" width="1" height="50" fill="var(--text)"/>
+          <rect x="117" y="0" width="3" height="50" fill="var(--text)"/>
+          <rect x="122" y="0" width="2" height="50" fill="var(--text)"/>
+          <rect x="126" y="0" width="1" height="50" fill="var(--text)"/>
+          <rect x="129" y="0" width="3" height="50" fill="var(--text)"/>
+          <rect x="134" y="0" width="1" height="50" fill="var(--text)"/>
+          <rect x="137" y="0" width="2" height="50" fill="var(--text)"/>
+          <rect x="141" y="0" width="3" height="50" fill="var(--text)"/>
+          <rect x="146" y="0" width="1" height="50" fill="var(--text)"/>
+          <rect x="149" y="0" width="2" height="50" fill="var(--text)"/>
+          <rect x="153" y="0" width="1" height="50" fill="var(--text)"/>
+          <rect x="156" y="0" width="3" height="50" fill="var(--text)"/>
+          <rect x="161" y="0" width="2" height="50" fill="var(--text)"/>
+          <rect x="165" y="0" width="1" height="50" fill="var(--text)"/>
+          <rect x="168" y="0" width="3" height="50" fill="var(--text)"/>
+          <rect x="173" y="0" width="1" height="50" fill="var(--text)"/>
+          <rect x="176" y="0" width="2" height="50" fill="var(--text)"/>
+          <rect x="180" y="0" width="3" height="50" fill="var(--text)"/>
+          <rect x="185" y="0" width="1" height="50" fill="var(--text)"/>
+          <rect x="188" y="0" width="2" height="50" fill="var(--text)"/>
+          <rect x="192" y="0" width="1" height="50" fill="var(--text)"/>
+          <rect x="195" y="0" width="3" height="50" fill="var(--text)"/>
+          <rect x="200" y="0" width="2" height="50" fill="var(--text)"/>
+          <rect x="204" y="0" width="1" height="50" fill="var(--text)"/>
+          <rect x="207" y="0" width="3" height="50" fill="var(--text)"/>
+          <rect x="212" y="0" width="1" height="50" fill="var(--text)"/>
+          <rect x="215" y="0" width="2" height="50" fill="var(--text)"/>
+          <rect x="219" y="0" width="3" height="50" fill="var(--text)"/>
+          <rect x="224" y="0" width="1" height="50" fill="var(--text)"/>
+          <rect x="227" y="0" width="2" height="50" fill="var(--text)"/>
+          <rect x="231" y="0" width="3" height="50" fill="var(--text)"/>
+        </svg>
+      </div>
+      <div class="tracking-num">KEX-2569040612345</div>
+      <div style="margin-top:8px;"><button class="btn btn-sm btn-secondary" onclick="showToast('คัดลอกเลข Tracking แล้ว','success')">&#128203; คัดลอก</button></div>
+    </div>
+    <div class="qr-display">
+      <div class="barcode-label">QR Code</div>
+      <div class="qr-placeholder">
+        <div class="qr-inner" id="qrGrid"></div>
+      </div>
+      <div class="tracking-num">KEX-2569040612345</div>
+      <div style="margin-top:8px;"><button class="btn btn-sm btn-secondary" onclick="showToast('ดาวน์โหลด QR Code แล้ว','success')">&#128229; ดาวน์โหลด QR</button></div>
     </div>
   </div>
 </div>
@@ -1300,6 +1580,27 @@ function truncate(s,n){return s.length>n?s.slice(0,n)+'…':s;}
 // Close modals on overlay click
 document.getElementById('detailModal').addEventListener('click', e=>{if(e.target===e.currentTarget)closeDetail();});
 document.getElementById('createModal').addEventListener('click', e=>{if(e.target===e.currentTarget)closeCreateModal();});
+
+/* ============================================================
+   QR CODE GENERATOR (simple visual pattern)
+============================================================ */
+function generateQR(){
+  const grid = document.getElementById('qrGrid');
+  if(!grid) return;
+  let html = '';
+  // Generate a pseudo-random QR pattern using tracking number as seed
+  const seed = 'KEX2569040612345';
+  for(let i=0;i<64;i++){
+    const charCode = seed.charCodeAt(i % seed.length);
+    const isDark = ((charCode * (i+7) * 13) % 100) > 42;
+    // Always make corners dark for QR-like appearance
+    const row = Math.floor(i/8), col = i%8;
+    const isCorner = (row<2&&col<2)||(row<2&&col>5)||(row>5&&col<2);
+    html += '<div class="qr-cell '+(isCorner||isDark?'dark':'light')+'"></div>';
+  }
+  grid.innerHTML = html;
+}
+generateQR();
 
 /* ============================================================
    INIT
