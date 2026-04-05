@@ -16,7 +16,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .app-layout{display:flex;min-height:100vh;}
 .sidebar{width:var(--sidebar-w);background:var(--white);border-right:1px solid var(--border);position:fixed;top:0;left:0;bottom:0;z-index:50;display:flex;flex-direction:column;overflow-y:auto;transition:transform .25s ease,width .25s ease;}
 .sidebar.collapsed{transform:translateX(-100%);}
-.main-wrap{margin-left:var(--sidebar-w);flex:1;min-height:100vh;display:flex;flex-direction:column;transition:margin-left .25s ease;overflow-x:hidden;}
+.main-wrap{margin-left:var(--sidebar-w);flex:1;height:100vh;display:flex;flex-direction:column;transition:margin-left .25s ease;overflow:hidden;}
 .main-wrap.expanded{margin-left:0;}
 .header{height:var(--header-h);background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:40;}
 .main{flex:1;padding:24px;overflow-y:auto;}
@@ -32,8 +32,8 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .nav-item .badge.warn{background:var(--orange);}.nav-item .badge.green{background:var(--green);}
 .sidebar-footer{margin-top:auto;padding:12px;border-top:1px solid var(--border);}
 .plan-badge{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--purple-l);border-radius:10px;font-size:.72rem;color:var(--purple);font-weight:600;}
-.module-frame{width:100%;margin:0;border:none;height:calc(100vh - var(--header-h));display:block;background:var(--bg);}
-.main.has-module{padding:0;}
+.module-frame{width:100%;margin:0;border:none;flex:1;display:block;background:var(--bg);}
+.main.has-module{padding:0;display:flex;flex-direction:column;overflow:hidden;}
 .module-frame.hidden{display:none;}
 .connector-section .nav-item{font-size:.72rem;opacity:.85;}
 .connector-section .nav-item:hover{opacity:1;}
@@ -428,7 +428,8 @@ select.form-input{cursor:pointer;}
     </div>
     <div class="header-right">
         <div class="search-input" style="width:220px;"><span>🔍</span><input placeholder="Search..." /></div>
-        <button class="header-btn" onclick="toggleNotif()" style="position:relative;">🔔<span class="dot"></span>
+        <div style="position:relative;">
+            <button class="header-btn" onclick="toggleNotif()">🔔<span class="dot"></span></button>
             <div class="notif-panel" id="notifPanel">
                 <div class="notif-header">Notifications <span class="text-xs text-muted">3 new</span></div>
                 <div class="notif-filters">
@@ -441,7 +442,7 @@ select.form-input{cursor:pointer;}
                 <div class="notif-item" data-notif-type="urgent" onclick="showPage('finCaseDetail','FN-2024-0847')"><div class="notif-icon" style="background:var(--blue-l);">🏦</div><div><div class="notif-text"><strong>Case #FN-0847</strong> เอกสารครบ 75%</div><div class="notif-time">10 min ago</div></div></div>
                 <div class="notif-item" data-notif-type="approval" onclick="showPage('channels')"><div class="notif-icon" style="background:var(--blue-l);">📨</div><div><div class="notif-text"><strong>LINE</strong> received 2 quotations</div><div class="notif-time">15 min ago</div></div></div>
             </div>
-        </button>
+        </div>
         <button class="header-btn dark-toggle" onclick="toggleDark()" title="Toggle Dark Mode">🌙</button>
         <button class="header-btn" onclick="showModal('help')">❓</button>
         <div class="user-pill" onclick="toggleUserMenu()"><div class="user-avatar">TN</div>Thanakan
@@ -1397,7 +1398,7 @@ function toggleNotif(){document.getElementById('notifPanel').classList.toggle('s
 function closeNotif(){document.getElementById('notifPanel').classList.remove('show');}
 function toggleUserMenu(){document.getElementById('userMenu').classList.toggle('show');closeNotif();}
 function closeUserMenu(){document.getElementById('userMenu').classList.remove('show');}
-document.addEventListener('click',e=>{if(!e.target.closest('.header-btn'))closeNotif();if(!e.target.closest('.user-pill'))closeUserMenu();});
+document.addEventListener('click',e=>{if(!e.target.closest('.header-btn')&&!e.target.closest('.notif-panel'))closeNotif();if(!e.target.closest('.user-pill'))closeUserMenu();});
 
 function toggleFiles(){const el=document.getElementById('tdFileList'),btn=document.getElementById('toggleFilesBtn');if(el.style.maxHeight==='180px'){el.style.maxHeight='none';btn.textContent='Collapse';}else{el.style.maxHeight='180px';btn.textContent='Show All';}}
 function toggleTimeline(){const el=document.getElementById('tdTimeline'),btn=document.getElementById('toggleTlBtn');if(el.style.maxHeight==='120px'){el.style.maxHeight='none';el.style.overflow='visible';btn.textContent='Collapse';}else{el.style.maxHeight='120px';el.style.overflow='hidden';btn.textContent='View All';}}
