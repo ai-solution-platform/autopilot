@@ -1032,6 +1032,101 @@ a.connector-link {
 
 
 
+    <!-- Thai Business Connectors Section -->
+    <div class="section fade-up" style="background:linear-gradient(135deg,rgba(37,99,235,0.04),rgba(124,58,237,0.04));border:1px solid rgba(37,99,235,0.15);">
+      <div class="section-header">
+        <div class="section-title" style="font-size:18px;">🇹🇭 Thai Business Connectors</div>
+        <span style="font-size:12px;color:var(--text-dim);">ระบบที่ใช้งานบ่อยในธุรกิจไทย</span>
+      </div>
+      <div class="connector-grid" style="grid-template-columns:repeat(3,1fr);">
+
+        <div class="connector-card" style="border-left:3px solid var(--blue);">
+          <div class="connector-top">
+            <div class="connector-icon" style="background:linear-gradient(135deg,#1D4ED8,#3B82F6);font-size:18px;">EX</div>
+            <div class="connector-info">
+              <div class="connector-name">Express Accounting</div>
+              <div style="font-size:11px;color:var(--text-dim);margin-top:2px;">ระบบบัญชี Express</div>
+            </div>
+            <div class="connector-status status-active"><span class="status-dot"></span> พร้อมใช้</div>
+          </div>
+          <div class="connector-actions" style="margin-top:12px;">
+            <button class="btn btn-primary btn-sm" style="flex:1;justify-content:center;" onclick="connectThaiConnector('Express Accounting')">🔗 เชื่อมต่อ</button>
+          </div>
+        </div>
+
+        <div class="connector-card" style="border-left:3px solid var(--purple);">
+          <div class="connector-top">
+            <div class="connector-icon" style="background:linear-gradient(135deg,#7C3AED,#A855F7);font-size:18px;">PK</div>
+            <div class="connector-info">
+              <div class="connector-name">PEAK Accounting</div>
+              <div style="font-size:11px;color:var(--text-dim);margin-top:2px;">ระบบบัญชี PEAK</div>
+            </div>
+            <div class="connector-status status-active"><span class="status-dot"></span> พร้อมใช้</div>
+          </div>
+          <div class="connector-actions" style="margin-top:12px;">
+            <button class="btn btn-primary btn-sm" style="flex:1;justify-content:center;" onclick="connectThaiConnector('PEAK Accounting')">🔗 เชื่อมต่อ</button>
+          </div>
+        </div>
+
+        <div class="connector-card" style="border-left:3px solid #06C755;">
+          <div class="connector-top">
+            <div class="connector-icon" style="background:linear-gradient(135deg,#06C755,#00B900);font-size:18px;">💬</div>
+            <div class="connector-info">
+              <div class="connector-name">LINE Official Account</div>
+              <div style="font-size:11px;color:var(--text-dim);margin-top:2px;">แจ้งเตือนผ่าน LINE</div>
+            </div>
+            <div class="connector-status status-active"><span class="status-dot"></span> พร้อมใช้</div>
+          </div>
+          <div class="connector-actions" style="margin-top:12px;">
+            <button class="btn btn-primary btn-sm" style="flex:1;justify-content:center;" onclick="connectThaiConnector('LINE Official Account')">🔗 เชื่อมต่อ</button>
+          </div>
+        </div>
+
+        <div class="connector-card" style="border-left:3px solid #4E2D8F;">
+          <div class="connector-top">
+            <div class="connector-icon" style="background:linear-gradient(135deg,#4E2D8F,#7B3FBF);font-size:18px;">💜</div>
+            <div class="connector-info">
+              <div class="connector-name">SCB Business API</div>
+              <div style="font-size:11px;color:var(--text-dim);margin-top:2px;">ธนาคารไทยพาณิชย์</div>
+            </div>
+            <div class="connector-status status-active"><span class="status-dot"></span> พร้อมใช้</div>
+          </div>
+          <div class="connector-actions" style="margin-top:12px;">
+            <button class="btn btn-primary btn-sm" style="flex:1;justify-content:center;" onclick="connectThaiConnector('SCB Business API')">🔗 เชื่อมต่อ</button>
+          </div>
+        </div>
+
+        <div class="connector-card" style="border-left:3px solid #059669;">
+          <div class="connector-top">
+            <div class="connector-icon" style="background:linear-gradient(135deg,#059669,#047857);font-size:18px;">💚</div>
+            <div class="connector-info">
+              <div class="connector-name">KBANK K-BIZ API</div>
+              <div style="font-size:11px;color:var(--text-dim);margin-top:2px;">ธนาคารกสิกรไทย</div>
+            </div>
+            <div class="connector-status status-active"><span class="status-dot"></span> พร้อมใช้</div>
+          </div>
+          <div class="connector-actions" style="margin-top:12px;">
+            <button class="btn btn-primary btn-sm" style="flex:1;justify-content:center;" onclick="connectThaiConnector('KBANK K-BIZ API')">🔗 เชื่อมต่อ</button>
+          </div>
+        </div>
+
+        <div class="connector-card" style="border-left:3px solid var(--orange);opacity:0.7;">
+          <div class="connector-top">
+            <div class="connector-icon" style="background:linear-gradient(135deg,#EA580C,#F97316);font-size:18px;">📦</div>
+            <div class="connector-info">
+              <div class="connector-name">Thailand Post API</div>
+              <div style="font-size:11px;color:var(--text-dim);margin-top:2px;">ไปรษณีย์ไทย</div>
+            </div>
+            <div style="position:absolute;top:16px;right:16px;"><span style="font-size:11px;font-weight:600;color:var(--orange);background:var(--orange-bg);padding:2px 8px;border-radius:100px;">เร็วๆ นี้</span></div>
+          </div>
+          <div class="connector-actions" style="margin-top:12px;">
+            <button class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;" disabled>🔗 เร็วๆ นี้</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <!-- Config KPI Row -->
     <div class="kpi-row fade-up" style="grid-template-columns:repeat(5,1fr);">
       <div class="kpi-card">
@@ -1413,28 +1508,30 @@ a.connector-link {
       <div class="wizard-step" data-step="5"><span class="step-num">5</span>เปิดใช้งาน</div>
     </div>
 
-    <!-- Step 1: Category -->
+    <!-- Step 1: Category (Guided) -->
     <div class="wizard-content" id="wizStep1">
       <div class="form-group">
-        <label class="form-label">เลือกหมวดหมู่ Connector</label>
+        <label class="form-label">ขั้นตอนที่ 1: เลือกประเภทระบบที่ต้องการเชื่อมต่อ</label>
+        <p style="font-size:12px;color:var(--text-dim);margin-bottom:12px;">เลือกประเภทระบบเพื่อให้เราแนะนำ Connector ที่เหมาะสม</p>
         <div class="provider-grid" style="grid-template-columns: repeat(2,1fr);">
-          <div class="provider-option" onclick="selectCategory(this, 'ocr')"><div class="picon">🔎</div>OCR Providers</div>
-          <div class="provider-option" onclick="selectCategory(this, 'ekyc')"><div class="picon">🪪</div>eKYC & Identity</div>
-          <div class="provider-option" onclick="selectCategory(this, 'bank')"><div class="picon">🏦</div>Banking & Finance</div>
-          <div class="provider-option" onclick="selectCategory(this, 'doc')"><div class="picon">📄</div>Document Types</div>
-          <div class="provider-option" onclick="selectCategory(this, 'comm')"><div class="picon">🔗</div>Communication</div>
-          <div class="provider-option" onclick="selectCategory(this, 'cloud')"><div class="picon">☁️</div>Cloud Storage</div>
+          <div class="provider-option" onclick="selectCategory(this, 'ocr')"><div class="picon">🏢</div>ERP<div style="font-size:10px;color:var(--text-dim);margin-top:4px;">SAP, Oracle, Express</div></div>
+          <div class="provider-option" onclick="selectCategory(this, 'bank')"><div class="picon">📒</div>Accounting<div style="font-size:10px;color:var(--text-dim);margin-top:4px;">Express, PEAK, QuickBooks</div></div>
+          <div class="provider-option" onclick="selectCategory(this, 'bank')"><div class="picon">🏦</div>Banking<div style="font-size:10px;color:var(--text-dim);margin-top:4px;">SCB, KBANK, BBL API</div></div>
+          <div class="provider-option" onclick="selectCategory(this, 'comm')"><div class="picon">💬</div>Communication<div style="font-size:10px;color:var(--text-dim);margin-top:4px;">LINE, Email, Teams</div></div>
+          <div class="provider-option" onclick="selectCategory(this, 'doc')"><div class="picon">🛒</div>E-Commerce<div style="font-size:10px;color:var(--text-dim);margin-top:4px;">Shopee, Lazada, WooCommerce</div></div>
+          <div class="provider-option" onclick="selectCategory(this, 'ekyc')"><div class="picon">🪪</div>eKYC & Identity<div style="font-size:10px;color:var(--text-dim);margin-top:4px;">NDID, Thai ID Verify</div></div>
         </div>
       </div>
       <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="nextStep(2)">ถัดไป ➜</button>
     </div>
 
-    <!-- Step 2: Provider -->
+    <!-- Step 2: Provider (Pre-built Thai Options) -->
     <div class="wizard-content" id="wizStep2" style="display:none;">
       <div class="form-group">
-        <label class="form-label">เลือก Provider</label>
+        <label class="form-label">ขั้นตอนที่ 2: เลือกระบบที่ต้องการเชื่อมต่อ</label>
+        <p style="font-size:12px;color:var(--text-dim);margin-bottom:12px;">เลือกจากรายการ Connector ที่รองรับ หรือกำหนดเอง</p>
         <div class="provider-grid" id="providerOptions">
-          <!-- Dynamic -->
+          <!-- Dynamic, enhanced below -->
         </div>
       </div>
       <div style="display:flex;gap:8px;">
@@ -1443,25 +1540,32 @@ a.connector-link {
       </div>
     </div>
 
-    <!-- Step 3: API Key -->
+    <!-- Step 3: Credentials (Thai helper text) -->
     <div class="wizard-content" id="wizStep3" style="display:none;">
       <div class="form-group">
+        <label class="form-label">ขั้นตอนที่ 3: กรอกข้อมูล Credentials</label>
+        <p style="font-size:12px;color:var(--text-dim);margin-bottom:12px;">กรอกข้อมูลที่ได้รับจาก Provider เพื่อเชื่อมต่อระ���บ</p>
+      </div>
+      <div class="form-group">
         <label class="form-label">API Key / Secret</label>
-        <input class="form-input" type="password" placeholder="กรอก API Key ของ Provider..." id="apiKeyInput">
+        <input class="form-input" type="password" placeholder="กรอก API Key ที่ได้รับจาก Provider..." id="apiKeyInput">
+        <span style="font-size:11px;color:var(--text-dim);display:block;margin-top:4px;">💡 หาได้จากหน้า Settings > API ของระบบปลายทาง</span>
       </div>
       <div class="form-group">
         <label class="form-label">Endpoint URL (ถ้ามี)</label>
         <input class="form-input" type="text" placeholder="https://api.provider.com/v1/" id="endpointInput">
+        <span style="font-size:11px;color:var(--text-dim);display:block;margin-top:4px;">💡 ปกติจะอยู่ในเอกสาร API Documentation ของ Provider</span>
       </div>
       <div class="form-group">
         <label class="form-label">Region / Environment</label>
         <select class="form-select">
-          <option>Asia Pacific (Bangkok)</option>
+          <option>Asia Pacific (Bangkok) - แนะนำสำหรับธุรกิจไทย</option>
           <option>Asia Pacific (Singapore)</option>
           <option>Asia Pacific (Tokyo)</option>
           <option>US East</option>
           <option>EU West</option>
         </select>
+        <span style="font-size:11px;color:var(--text-dim);display:block;margin-top:4px;">💡 เลือก Bangkok เพื่อความเร็วในการเชื่อมต่อที่ดีที่สุด</span>
       </div>
       <div style="display:flex;gap:8px;">
         <button class="btn btn-secondary" style="flex:1;justify-content:center;" onclick="nextStep(2)">❮ กลับ</button>
@@ -1469,11 +1573,14 @@ a.connector-link {
       </div>
     </div>
 
-    <!-- Step 4: Test -->
+    <!-- Step 4: Test Connection -->
     <div class="wizard-content" id="wizStep4" style="display:none;">
+      <div class="form-group">
+        <label class="form-label">ข��้นตอนที่ 4: ทดสอบการเชื่อมต่อ</label>
+        <p style="font-size:12px;color:var(--text-dim);margin-bottom:8px;">กดปุ่มด้านล่างเพื่อทดสอบว่า Credentials ถูกต้องและเ���ื่อมต่อได้</p>
+      </div>
       <div style="text-align:center;padding:20px 0;">
         <div style="font-size:48px;margin-bottom:12px;">🔌</div>
-        <p style="color:var(--text-dim);margin-bottom:20px;">คลิกเพื่อทดสอบการเชื่อมต่อ</p>
         <button class="btn btn-primary" style="padding:12px 32px;font-size:14px;" onclick="testConnection()">⚡ ทดสอบการเชื่อมต่อ</button>
       </div>
       <div class="test-result" id="testResult"></div>
@@ -1792,6 +1899,36 @@ if(localStorage.getItem('darkMode')==='true'){
   });
 }
 
+
+// Thai Connector Quick Connect
+function connectThaiConnector(name) {
+  openWizard();
+  // Auto-advance to step 3 for quick setup
+  wizardStep = 3;
+  selectedProvider = name;
+  updateWizardUI();
+  showToast('🔗', 'เชื่อมต่อ ' + name, 'กรุณากรอก Credentials เพื่อเชื่อมต่อ');
+}
+
+// Enhanced provider rendering with Thai connector logos
+var providerLogos = {
+  'SAP': '🏢', 'Express': '📒', 'PEAK': '📊',
+  'LINE OA': '����', 'SCB Open Banking': '💜', 'KBank API': '💚',
+  'PromptPay': '💳', 'Google Document AI': '🇬', 'AWS Textract': '☁️'
+};
+
+var originalRenderProviders = renderProviderOptions;
+renderProviderOptions = function() {
+  var el = document.getElementById('providerOptions');
+  var providers = providersByCat[selectedCategory] || [];
+  el.innerHTML = providers.map(function(p) {
+    var icon = providerLogos[p] || '🔌';
+    return '<div class="provider-option" onclick="selectProvider(this, \'' + p + '\')" style="text-align:center;">' +
+      '<div class="picon" style="font-size:24px;">' + icon + '</div>' +
+      '<div style="font-weight:600;margin-top:4px;">' + p + '</div>' +
+      '</div>';
+  }).join('');
+};
 
 function showToast(icon, title, msg) {
   const t = document.createElement('div');

@@ -271,6 +271,41 @@ select.form-input{cursor:pointer;}
 
 @media(max-width:1024px){.kpi-grid{grid-template-columns:1fr 1fr;}.grid-2,.grid-3{grid-template-columns:1fr;}.ocr-viewer{grid-template-columns:1fr;}}
 @media(max-width:768px){.sidebar{transform:translateX(-100%);}.main-wrap{margin-left:0;}.kpi-grid{grid-template-columns:1fr;}}
+
+/* Breadcrumb Bar */
+.breadcrumb-bar{padding:8px 24px;font-size:.75rem;color:var(--muted);border-bottom:1px solid var(--border);background:var(--white);display:flex;align-items:center;gap:6px;}
+.bc-home{cursor:pointer;color:var(--muted);transition:color .15s;}.bc-home:hover{color:var(--blue);}
+.bc-sep{color:var(--light);font-size:.65rem;}
+.bc-section{color:var(--muted);font-weight:500;}
+.bc-current{color:var(--text2);font-weight:600;}
+
+/* Quick Actions Bar */
+.quick-actions-bar{padding:10px 24px;border-bottom:1px solid var(--border);background:var(--bg);display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.quick-actions-bar .qa-title{font-size:.68rem;font-weight:700;color:var(--light);text-transform:uppercase;letter-spacing:.8px;margin-right:4px;}
+.qa-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:7px;font-size:.72rem;font-weight:500;border:1px solid var(--border);background:var(--white);color:var(--text2);cursor:pointer;transition:all .15s;font-family:inherit;position:relative;}
+.qa-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-l);}
+.qa-btn .qa-badge{font-size:.58rem;font-weight:700;background:var(--red);color:#fff;padding:1px 5px;border-radius:8px;margin-left:2px;}
+.qa-toggle{margin-left:auto;font-size:.68rem;color:var(--muted);cursor:pointer;border:none;background:none;font-family:inherit;padding:4px 8px;border-radius:6px;transition:all .15s;}
+.qa-toggle:hover{background:var(--white);color:var(--text);}
+
+/* Recently Visited */
+.recent-visited{padding:8px 12px 4px;}
+.recent-visited .nav-label{font-size:.6rem;font-weight:700;color:var(--light);letter-spacing:1.2px;text-transform:uppercase;padding:0 8px;margin-bottom:4px;}
+.rv-item{display:flex;align-items:center;gap:8px;padding:4px 12px;border-radius:6px;cursor:pointer;font-size:.7rem;color:var(--muted);transition:all .15s;border:none;background:none;width:100%;text-align:left;font-family:inherit;}
+.rv-item:hover{background:var(--blue-l);color:var(--blue);}
+
+/* Notification Filter Tabs */
+.notif-filters{display:flex;gap:2px;padding:6px 12px;border-bottom:1px solid var(--border);background:var(--bg);}
+.notif-filter-tab{padding:4px 8px;font-size:.65rem;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:none;border-radius:5px;transition:all .15s;font-family:inherit;white-space:nowrap;}
+.notif-filter-tab:hover{color:var(--text);}
+.notif-filter-tab.active{background:var(--blue-l);color:var(--blue);font-weight:600;}
+
+/* Date Format Toggle */
+.date-format-toggle{display:flex;align-items:center;gap:8px;padding:8px 12px;margin-bottom:4px;}
+.date-format-toggle .dft-label{font-size:.65rem;color:var(--muted);font-weight:500;}
+.dft-switch{display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+.dft-opt{padding:3px 8px;font-size:.6rem;font-weight:600;cursor:pointer;border:none;background:var(--white);color:var(--muted);transition:all .15s;font-family:inherit;}
+.dft-opt.active{background:var(--blue);color:#fff;}
 </style>
 </head>
 <body>
@@ -280,6 +315,11 @@ select.form-input{cursor:pointer;}
     <div class="sidebar-logo">
         <div class="logo-icon">AI</div>
         <div><div class="logo-text">Autopilot v2</div><div class="logo-sub">ANTS — AI Solution Hub</div></div>
+    </div>
+
+    <div class="recent-visited" id="recentVisitedSection" style="display:none;">
+        <div class="nav-label">🕐 เข้าล่าสุด</div>
+        <div id="recentVisitedList"></div>
     </div>
 
     <div class="nav-section"><div class="nav-label">Home</div>
@@ -354,6 +394,7 @@ select.form-input{cursor:pointer;}
 
     <div class="nav-section"><div class="nav-label">📊 Insights</div>
         <button class="nav-item" onclick="loadModule('modules/customer-feedback.html','Customer Feedback')"><span class="icon">🎯</span>Customer Feedback<span class="badge green">512K</span></button>
+        <button class="nav-item" onclick="loadModule('modules/product-roadmap.html','Product Roadmap')"><span class="icon">🗺️</span>Product Roadmap<span class="badge" style="background:#7C3AED22;color:#7C3AED;">v2.0</span></button>
     </div>
 
     <div class="nav-section"><div class="nav-label">System</div>
@@ -365,7 +406,16 @@ select.form-input{cursor:pointer;}
             <button class="nav-item" onclick="showPage('settings')" data-page="settings"><span class="icon">⚙️</span>Settings</button>
         </div>
     </div>
-    <div class="sidebar-footer"><div class="plan-badge">⭐ Enterprise Plan — 5 Modules Active</div></div>
+    <div class="sidebar-footer">
+        <div class="date-format-toggle">
+            <span class="dft-label">📅 รูปแบบวันที่:</span>
+            <div class="dft-switch">
+                <button class="dft-opt" id="dftBE" onclick="setDateFormat('th-buddhist')">พ.ศ.</button>
+                <button class="dft-opt" id="dftAD" onclick="setDateFormat('en-gregorian')">ค.ศ.</button>
+            </div>
+        </div>
+        <div class="plan-badge">⭐ Enterprise Plan — 5 Modules Active</div>
+    </div>
 </div>
 
 <!-- MAIN -->
@@ -380,9 +430,15 @@ select.form-input{cursor:pointer;}
         <button class="header-btn" onclick="toggleNotif()" style="position:relative;">🔔<span class="dot"></span>
             <div class="notif-panel" id="notifPanel">
                 <div class="notif-header">Notifications <span class="text-xs text-muted">3 new</span></div>
-                <div class="notif-item" onclick="showPage('taskDetail','TK-0012')"><div class="notif-icon" style="background:var(--green-l);">✅</div><div><div class="notif-text"><strong>Task #TK-0012</strong> completed</div><div class="notif-time">2 min ago</div></div></div>
-                <div class="notif-item" onclick="showPage('finCaseDetail','FN-2024-0847')"><div class="notif-icon" style="background:var(--blue-l);">🏦</div><div><div class="notif-text"><strong>Case #FN-0847</strong> เอกสารครบ 75%</div><div class="notif-time">10 min ago</div></div></div>
-                <div class="notif-item" onclick="showPage('channels')"><div class="notif-icon" style="background:var(--blue-l);">📨</div><div><div class="notif-text"><strong>LINE</strong> received 2 quotations</div><div class="notif-time">15 min ago</div></div></div>
+                <div class="notif-filters">
+                    <button class="notif-filter-tab active" onclick="filterNotifs('all',this)">ทั้งหมด</button>
+                    <button class="notif-filter-tab" onclick="filterNotifs('urgent',this)">🔴 เร่งด่วน</button>
+                    <button class="notif-filter-tab" onclick="filterNotifs('approval',this)">📋 อนุมัติ</button>
+                    <button class="notif-filter-tab" onclick="filterNotifs('info',this)">ℹ️ แจ้งเตือน</button>
+                </div>
+                <div class="notif-item" data-notif-type="info" onclick="showPage('taskDetail','TK-0012')"><div class="notif-icon" style="background:var(--green-l);">✅</div><div><div class="notif-text"><strong>Task #TK-0012</strong> completed</div><div class="notif-time">2 min ago</div></div></div>
+                <div class="notif-item" data-notif-type="urgent" onclick="showPage('finCaseDetail','FN-2024-0847')"><div class="notif-icon" style="background:var(--blue-l);">🏦</div><div><div class="notif-text"><strong>Case #FN-0847</strong> เอกสารครบ 75%</div><div class="notif-time">10 min ago</div></div></div>
+                <div class="notif-item" data-notif-type="approval" onclick="showPage('channels')"><div class="notif-icon" style="background:var(--blue-l);">📨</div><div><div class="notif-text"><strong>LINE</strong> received 2 quotations</div><div class="notif-time">15 min ago</div></div></div>
             </div>
         </button>
         <button class="header-btn dark-toggle" onclick="toggleDark()" title="Toggle Dark Mode">🌙</button>
@@ -396,6 +452,25 @@ select.form-input{cursor:pointer;}
             </div>
         </div>
     </div>
+</div>
+
+<div class="breadcrumb-bar" id="breadcrumbBar" style="display:none;">
+  <span class="bc-home" onclick="loadModule('modules/home.html','Home')">🏠 Home</span>
+  <span class="bc-sep">/</span>
+  <span class="bc-section" id="bcSection"></span>
+  <span class="bc-sep">/</span>
+  <span class="bc-current" id="bcCurrent"></span>
+</div>
+
+<div class="quick-actions-bar" id="quickActionsBar">
+  <span class="qa-title">Quick Actions</span>
+  <button class="qa-btn" onclick="loadModule('modules/procurement-prpo.html','PR / PO')">➕ สร้าง PR</button>
+  <button class="qa-btn" onclick="loadModule('modules/expense-tasks.html','Claim Tasks')">📝 สร้าง Claim</button>
+  <button class="qa-btn" onclick="loadModule('modules/sales-quotation-builder.html','Quotation Builder')">📄 สร้างใบเสนอราคา</button>
+  <button class="qa-btn" onclick="loadModule('modules/finance-cases.html','Finance Dashboard')">🔍 ค้นหาเอกสาร</button>
+  <button class="qa-btn" onclick="loadModule('modules/expense-approval.html','Expense Approval')">✅ รออนุมัติ<span class="qa-badge">8</span></button>
+  <button class="qa-btn" onclick="loadModule('modules/procurement-analytics.html','Procurement Analytics')">📊 Analytics</button>
+  <button class="qa-toggle" id="qaToggle" onclick="toggleQuickActions()">▲ ซ่อน</button>
 </div>
 
 <div class="main" id="mainContent">
@@ -1123,12 +1198,117 @@ function loadModule(url, title){
     });
     currentPage='module';
     closeNotif();closeUserMenu();
+
+    // ── Breadcrumb: find section label from sidebar ──
+    var section='';
+    document.querySelectorAll('.nav-item[onclick]').forEach(function(n){
+        if(n.getAttribute('onclick').includes(url)){
+            var parentSec=n.closest('.nav-section');
+            if(parentSec){
+                var lbl=parentSec.querySelector('.nav-label');
+                if(lbl) section=lbl.textContent.replace(/[^\w\sก-๙]/g,'').trim();
+            }
+            if(!section){
+                var parentChildren=n.closest('.module-children');
+                if(parentChildren){
+                    var hdr=parentChildren.previousElementSibling;
+                    while(hdr && !hdr.classList.contains('module-header')) hdr=hdr.previousElementSibling;
+                    if(hdr) section=hdr.textContent.replace('✓','').trim();
+                }
+            }
+        }
+    });
+    var bb=document.getElementById('breadcrumbBar');
+    bb.style.display='flex';
+    document.getElementById('bcSection').textContent=section||'Module';
+    document.getElementById('bcCurrent').textContent=title||'Module';
+
+    // ── Recently Visited: store in localStorage ──
+    addRecentVisited(url, title);
 }
+
+// ═══ RECENTLY VISITED ═══
+function addRecentVisited(url, title){
+    if(!url||!title) return;
+    var rv=JSON.parse(localStorage.getItem('recentVisited')||'[]');
+    rv=rv.filter(function(r){return r.url!==url;});
+    rv.unshift({url:url,title:title});
+    if(rv.length>5) rv=rv.slice(0,5);
+    localStorage.setItem('recentVisited',JSON.stringify(rv));
+    renderRecentVisited();
+}
+function renderRecentVisited(){
+    var rv=JSON.parse(localStorage.getItem('recentVisited')||'[]');
+    var sec=document.getElementById('recentVisitedSection');
+    var list=document.getElementById('recentVisitedList');
+    if(!rv.length){sec.style.display='none';return;}
+    sec.style.display='block';
+    list.innerHTML=rv.map(function(r){
+        return '<button class="rv-item" onclick="loadModule(\''+r.url.replace(/'/g,"\\'")+'\',\''+r.title.replace(/'/g,"\\'")+'\')">🕐 '+r.title+'</button>';
+    }).join('');
+}
+renderRecentVisited();
+
+// ═══ NOTIFICATION FILTERS ═══
+function filterNotifs(type, btn){
+    document.querySelectorAll('.notif-filter-tab').forEach(function(t){t.classList.remove('active');});
+    if(btn) btn.classList.add('active');
+    document.querySelectorAll('.notif-item').forEach(function(item){
+        if(type==='all'){item.style.display='flex';}
+        else{item.style.display=item.getAttribute('data-notif-type')===type?'flex':'none';}
+    });
+}
+
+// ═══ QUICK ACTIONS TOGGLE ═══
+function toggleQuickActions(){
+    var bar=document.getElementById('quickActionsBar');
+    var toggle=document.getElementById('qaToggle');
+    var btns=bar.querySelectorAll('.qa-btn, .qa-title');
+    var hidden=btns[0].style.display==='none';
+    btns.forEach(function(b){b.style.display=hidden?'':'none';});
+    toggle.textContent=hidden?'▲ ซ่อน':'▼ Quick Actions';
+}
+
+// ═══ DATE FORMAT TOGGLE (พ.ศ./ค.ศ.) ═══
+function setDateFormat(fmt){
+    localStorage.setItem('dateFormat',fmt);
+    document.getElementById('dftBE').classList.toggle('active',fmt==='th-buddhist');
+    document.getElementById('dftAD').classList.toggle('active',fmt==='en-gregorian');
+    showToast('📅','Date Format','เปลี่ยนรูปแบบวันที่เป็น '+(fmt==='th-buddhist'?'พ.ศ.':'ค.ศ.'));
+}
+(function initDateFormat(){
+    var fmt=localStorage.getItem('dateFormat')||'th-buddhist';
+    document.getElementById('dftBE').classList.toggle('active',fmt==='th-buddhist');
+    document.getElementById('dftAD').classList.toggle('active',fmt==='en-gregorian');
+})();
+
+// ═══ KEYBOARD SHORTCUTS ═══
+document.addEventListener('keydown',function(e){
+    // Ctrl+K / Cmd+K: Focus search
+    if((e.ctrlKey||e.metaKey)&&e.key==='k'){
+        e.preventDefault();
+        var searchInput=document.querySelector('.search-input input');
+        if(searchInput){searchInput.focus();searchInput.select();}
+    }
+    // Escape: Close modals, notification panel, user menu
+    if(e.key==='Escape'){
+        closeModal();closeNotif();closeUserMenu();
+    }
+    // Alt+1-9: Quick navigate to sidebar modules 1-9
+    if(e.altKey&&e.key>='1'&&e.key<='9'){
+        e.preventDefault();
+        var idx=parseInt(e.key)-1;
+        var navItems=document.querySelectorAll('.sidebar .nav-item[onclick*="loadModule"]');
+        if(navItems[idx]){navItems[idx].click();}
+    }
+});
 
 function showPage(page,extra){
     // Hide iframe when showing internal pages
     document.getElementById('moduleFrame').classList.add('hidden');
     document.getElementById('moduleFrame').src='about:blank';
+    // Hide breadcrumb for internal pages
+    document.getElementById('breadcrumbBar').style.display='none';
     document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
     document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
     const el=document.getElementById('page-'+page);

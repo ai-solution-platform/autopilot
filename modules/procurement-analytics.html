@@ -142,8 +142,23 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
       <span style="font-size:.72rem;color:var(--muted);">ข้อมูลเดือน มกราคม - มีนาคม 2569</span>
     </div>
     <div class="page-actions">
-      <div class="filter-tag">&#128197; Q1/2569</div>
-      <button class="btn btn-outline btn-sm">&#128229; Export</button>
+      <div style="display:flex;align-items:center;gap:6px;padding:4px 10px;background:var(--bg2);border-radius:6px;border:1px solid var(--border);">
+        <span style="font-size:.7rem;font-weight:600;color:var(--muted);">ค.ศ.</span>
+        <label style="position:relative;display:inline-block;width:36px;height:20px;cursor:pointer;">
+          <input type="checkbox" id="beToggle" onchange="toggleBE()" style="display:none;">
+          <span style="position:absolute;inset:0;background:var(--border);border-radius:10px;transition:all .3s;" id="beSlider"></span>
+          <span style="position:absolute;top:2px;left:2px;width:16px;height:16px;background:#fff;border-radius:50%;transition:all .3s;box-shadow:0 1px 3px rgba(0,0,0,.15);" id="beKnob"></span>
+        </label>
+        <span style="font-size:.7rem;font-weight:600;color:var(--muted);">พ.ศ.</span>
+      </div>
+      <div class="filter-tag" id="quarterTag">&#128197; Q1/2569</div>
+      <div style="position:relative;display:inline-block;">
+        <button class="btn btn-outline btn-sm" onclick="toggleAnalyticsExport()">&#128229; Export &#9662;</button>
+        <div id="analyticsExportMenu" style="display:none;position:absolute;top:100%;right:0;margin-top:4px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.1);z-index:50;min-width:140px;">
+          <div style="padding:8px 14px;cursor:pointer;font-size:.78rem;border-radius:8px 8px 0 0;transition:background .15s;" onmouseover="this.style.background='var(--blue-bg)'" onmouseout="this.style.background=''" onclick="showAnalyticsToast('กำลัง Export Excel...');toggleAnalyticsExport()">&#128202; Export Excel</div>
+          <div style="padding:8px 14px;cursor:pointer;font-size:.78rem;border-radius:0 0 8px 8px;transition:background .15s;" onmouseover="this.style.background='var(--blue-bg)'" onmouseout="this.style.background=''" onclick="showAnalyticsToast('กำลัง Export CSV...');toggleAnalyticsExport()">&#128196; Export CSV</div>
+        </div>
+      </div>
       <button class="btn btn-primary btn-sm">&#128260; รีเฟรชข้อมูล</button>
     </div>
   </div>
@@ -200,6 +215,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
         <div style="display:flex;gap:12px;font-size:.68rem;color:var(--muted);">
           <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;background:var(--blue);border-radius:2px;display:inline-block;"></span> ยอดจัดซื้อ</span>
           <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:3px;background:var(--green);border-radius:2px;display:inline-block;"></span> Savings</span>
+          <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:2px dashed #DC2626;display:inline-block;"></span> เป้าหมาย</span>
         </div>
       </div>
       <div id="monthlyTrend" style="width:100%;overflow:visible;"></div>
@@ -382,6 +398,13 @@ function getCSSColor(varName){return getComputedStyle(document.documentElement).
     const t=svgEl('text',{x:x+barW/2,y:H-pad.b+16,'text-anchor':'middle','font-size':'10',fill:'var(--muted)','font-family':'Noto Sans Thai'});
     t.textContent=MONTHS[i];svg.appendChild(t);
   });
+  // Benchmark target line (เป้าหมาย)
+  const targetVal=17;
+  const targetY=pad.t+cH-(targetVal/maxSpend)*cH;
+  svg.appendChild(svgEl('line',{x1:pad.l,y1:targetY,x2:W-pad.r,y2:targetY,stroke:'#DC2626','stroke-width':1.5,'stroke-dasharray':'6,4',opacity:'0.7'}));
+  const targetLabel=svgEl('text',{x:W-pad.r+4,y:targetY+3,'font-size':'8','font-weight':'700',fill:'#DC2626','font-family':'Noto Sans Thai'});
+  targetLabel.textContent='\u2691 เป้าหมาย '+targetVal+'M';svg.appendChild(targetLabel);
+
   let pts=savingsData.map((v,i)=>{const x=pad.l+(cW/12)*i+cW/12/2;const y=pad.t+cH-(v/maxSave)*(cH*0.8);return`${x},${y}`;});
   svg.appendChild(svgEl('polyline',{points:pts.join(' '),fill:'none',stroke:'#059669','stroke-width':2.5,'stroke-linecap':'round','stroke-linejoin':'round'}));
   savingsData.forEach((v,i)=>{
@@ -507,6 +530,60 @@ function getCSSColor(varName){return getComputedStyle(document.documentElement).
   renderColumn('topItemsLeft',topItems.slice(0,10),0);
   renderColumn('topItemsRight',topItems.slice(10,20),10);
 })();
+
+// ============ TOAST ============
+function showAnalyticsToast(msg){
+  let t=document.getElementById('analyticsToast');
+  if(!t){t=document.createElement('div');t.id='analyticsToast';t.style.cssText='position:fixed;bottom:24px;right:24px;background:var(--text);color:var(--bg);padding:12px 20px;border-radius:10px;font-size:.82rem;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.2);z-index:9999;display:none;align-items:center;gap:8px;font-family:Noto Sans Thai,Inter,sans-serif;';t.innerHTML='<span>\u2705</span><span id="analyticsToastMsg"></span>';document.body.appendChild(t);}
+  document.getElementById('analyticsToastMsg').textContent=msg;
+  t.style.display='flex';
+  setTimeout(()=>{t.style.display='none';},3000);
+}
+
+// ============ EXPORT TOGGLE ============
+function toggleAnalyticsExport(){
+  const el=document.getElementById('analyticsExportMenu');
+  el.style.display=el.style.display==='none'?'block':'none';
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('[onclick*="toggleAnalyticsExport"]')){
+    const m=document.getElementById('analyticsExportMenu');
+    if(m)m.style.display='none';
+  }
+});
+
+// ============ BUDDHIST ERA TOGGLE ============
+let useBE=true;
+function toggleBE(){
+  useBE=document.getElementById('beToggle').checked;
+  const knob=document.getElementById('beKnob');
+  const slider=document.getElementById('beSlider');
+  if(useBE){
+    knob.style.left='18px';
+    slider.style.background='var(--blue)';
+  }else{
+    knob.style.left='2px';
+    slider.style.background='var(--border)';
+  }
+  // Update visible date elements
+  const dateEl=document.querySelector('.page-header span[style*="muted"]');
+  const tagEl=document.getElementById('quarterTag');
+  const footerEl=document.querySelector('.page-wrap > div:last-child');
+  if(useBE){
+    if(dateEl)dateEl.innerHTML='\u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25\u0E40\u0E14\u0E37\u0E2D\u0E19 \u0E21\u0E01\u0E23\u0E32\u0E04\u0E21 - \u0E21\u0E35\u0E19\u0E32\u0E04\u0E21 2569';
+    if(tagEl)tagEl.innerHTML='\uD83D\uDCC5 Q1/2569';
+    if(footerEl&&footerEl.textContent.includes('Autopilot'))footerEl.innerHTML='Autopilot v2 by ANTS \u2014 AI Solution Hub \u00B7 Procurement Analytics Module \u00B7 \u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25 \u0E13 \u0E27\u0E31\u0E19\u0E17\u0E35\u0E48 4 \u0E40\u0E21\u0E29\u0E32\u0E22\u0E19 2569';
+  }else{
+    if(dateEl)dateEl.innerHTML='\u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25\u0E40\u0E14\u0E37\u0E2D\u0E19 January - March 2026';
+    if(tagEl)tagEl.innerHTML='\uD83D\uDCC5 Q1/2026';
+    if(footerEl&&footerEl.textContent.includes('Autopilot'))footerEl.innerHTML='Autopilot v2 by ANTS \u2014 AI Solution Hub \u00B7 Procurement Analytics Module \u00B7 Data as of 4 April 2026';
+  }
+}
+// Initialize BE toggle state
+document.addEventListener('DOMContentLoaded',()=>{
+  const toggle=document.getElementById('beToggle');
+  if(toggle){toggle.checked=true;toggleBE();}
+});
 </script>
 </body>
 </html>

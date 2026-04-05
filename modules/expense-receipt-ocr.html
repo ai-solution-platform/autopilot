@@ -148,6 +148,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
   <div class="mode-toggle">
     <button class="mode-btn active" onclick="setMode(this,'new')">&#10133; สร้าง Claim ใหม่</button>
     <button class="mode-btn" onclick="setMode(this,'attach')">&#128206; แนบกับ Claim ที่มี</button>
+    <button class="mode-btn" onclick="setMode(this,'advance')">&#128176; สำรองจ่ายล่วงหน้า</button>
   </div>
 
   <!-- Attach to Existing Section (hidden by default) -->
@@ -161,12 +162,106 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
     </div>
   </div>
 
+  <!-- Advance Payment Section (hidden by default) -->
+  <div class="card" id="advanceSection" style="display:none;">
+    <div class="card-title">&#128176; แบบฟอร์มสำรองจ่ายล่วงหน้า</div>
+    <div class="fields-grid">
+      <div class="form-group">
+        <label class="form-label">วัตถุประสงค์ *</label>
+        <input id="adv-purpose" class="form-input" placeholder="เช่น สำรองจ่ายค่าเดินทางไปสัมมนา">
+      </div>
+      <div class="form-group">
+        <label class="form-label">จำนวนเงินที่ขอสำรอง (&#3647;) *</label>
+        <input id="adv-amount" class="form-input" type="number" placeholder="0.00">
+      </div>
+      <div class="form-group">
+        <label class="form-label">วันที่ต้องการใช้ *</label>
+        <input id="adv-date" class="form-input" type="date">
+      </div>
+      <div class="form-group">
+        <label class="form-label">แผนก / โปรเจค</label>
+        <select id="adv-dept" class="form-select">
+          <option>PROJ-001 — Marketing Q2</option>
+          <option>PROJ-002 — Sales Team</option>
+          <option>PROJ-003 — IT Infrastructure</option>
+          <option>GENERAL — ค่าใช้จ่ายทั่วไป</option>
+        </select>
+      </div>
+      <div class="form-group" style="grid-column:span 2;">
+        <label class="form-label">หมายเหตุ</label>
+        <textarea id="adv-note" class="form-textarea" placeholder="รายละเอียดเพิ่มเติม..."></textarea>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:16px;">
+      <button class="btn btn-primary" onclick="submitAdvancePayment()">&#128176; ส่งคำขอสำรองจ่าย</button>
+      <button class="btn btn-secondary" onclick="saveDraft()">&#128190; บันทึกร่าง</button>
+    </div>
+  </div>
+
   <!-- Upload Zone -->
-  <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="event.preventDefault();this.classList.remove('dragover');handleFile(event.dataTransfer.files[0])">
+  <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="event.preventDefault();this.classList.remove('dragover');handleFiles(event.dataTransfer.files)">
     <div class="upload-icon">&#128247;</div>
     <div class="upload-title">ลากวางใบเสร็จ หรือ คลิกเพื่ออัปโหลด</div>
     <div class="upload-subtitle">รองรับ JPG, PNG, PDF — สูงสุด 10MB | AI OCR จะอ่านข้อมูลอัตโนมัติ</div>
-    <input type="file" id="fileInput" accept="image/*,.pdf" onchange="handleFile(this.files[0])">
+    <div style="font-size:.75rem;color:var(--blue);font-weight:600;margin-top:6px;">รองรับอัพโหลดหลายไฟล์พร้อมกัน (สูงสุด 20 ไฟล์)</div>
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:12px;">
+      <button class="btn btn-secondary btn-sm" onclick="event.stopPropagation();showToast('&#128241; กำลังประมวลผล e-Slip...')">&#128241; แนบ e-Slip ธนาคาร</button>
+      <button class="btn btn-secondary btn-sm" onclick="event.stopPropagation();showToast('&#128306; กำลังประมวลผล PromptPay QR...')">&#128306; สแกน PromptPay QR</button>
+    </div>
+    <input type="file" id="fileInput" accept="image/*,.pdf" multiple onchange="handleFiles(this.files)">
+  </div>
+
+  <!-- Batch File List (hidden by default) -->
+  <div id="batchFileList" style="display:none;margin-bottom:20px;">
+    <div class="card">
+      <div class="card-title">&#128194; ไฟล์ที่เลือก</div>
+      <div id="batchFileItems" style="display:flex;flex-direction:column;gap:8px;"></div>
+      <div style="display:flex;gap:8px;margin-top:16px;">
+        <button class="btn btn-primary" onclick="scanAllBatch()">&#128260; สแกนทั้งหมด</button>
+        <button class="btn btn-secondary" onclick="clearBatch()">&#10005; ล้างทั้งหมด</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Per Diem Calculator -->
+  <div class="card" style="margin-bottom:20px;">
+    <div class="card-title">&#128202; คำนวณ Per Diem อัตโนมัติ</div>
+    <div class="fields-grid">
+      <div class="form-group">
+        <label class="form-label">จังหวัดปลายทาง</label>
+        <select id="perdiem-province" class="form-select" onchange="calcPerDiem()">
+          <option value="">-- เลือกจังหวัด --</option>
+          <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
+          <option value="เชียงใหม่">เชียงใหม่</option>
+          <option value="ภูเก็ต">ภูเก็ต</option>
+          <option value="ชลบุรี">ชลบุรี</option>
+          <option value="นครราชสีมา">นครราชสีมา</option>
+          <option value="ขอนแก่น">ขอนแก่น</option>
+          <option value="สงขลา">สงขลา</option>
+          <option value="อื่นๆ">อื่นๆ</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">จำนวนวัน</label>
+        <input id="perdiem-days" class="form-input" type="number" min="1" value="1" onchange="calcPerDiem()" oninput="calcPerDiem()">
+      </div>
+      <div class="form-group">
+        <label class="form-label">อัตรา</label>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <label style="font-size:.75rem;display:flex;align-items:center;gap:4px;cursor:pointer;">
+            <input type="radio" name="perdiemRate" value="gov" checked onchange="calcPerDiem()"> ราชการ &#3647;240/วัน
+          </label>
+          <label style="font-size:.75rem;display:flex;align-items:center;gap:4px;cursor:pointer;">
+            <input type="radio" name="perdiemRate" value="custom" onchange="calcPerDiem()"> กำหนดเอง
+          </label>
+          <input id="perdiem-custom-rate" class="form-input" type="number" placeholder="อัตรา/วัน" style="width:100px;display:none;" oninput="calcPerDiem()">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">ยอดรวม Per Diem</label>
+        <div id="perdiem-total" style="font-size:1.2rem;font-weight:800;color:var(--blue);font-family:Inter,sans-serif;padding:9px 0;">&#3647;240.00</div>
+      </div>
+    </div>
   </div>
 
   <!-- Manual Create Section -->
@@ -554,6 +649,60 @@ function setMode(el, mode) {
   el.classList.add('active');
   document.getElementById('attachSection').style.display = mode === 'attach' ? 'block' : 'none';
   document.getElementById('manualCreateSection').style.display = mode === 'new' ? '' : 'none';
+  document.getElementById('advanceSection').style.display = mode === 'advance' ? 'block' : 'none';
+}
+
+function submitAdvancePayment() {
+  var purpose = document.getElementById('adv-purpose').value;
+  var amount = document.getElementById('adv-amount').value;
+  if (!purpose || !amount) { alert('กรุณากรอกวัตถุประสงค์และจำนวนเงิน'); return; }
+  var id = 'ADV-2026-' + String(Math.floor(Math.random()*900)+100);
+  showToast('&#9989; ส่งคำขอสำรองจ่ายสำเร็จ — ' + id);
+}
+
+var batchFiles = [];
+function handleFiles(files) {
+  if (!files || files.length === 0) return;
+  if (files.length === 1) {
+    handleFile(files[0]);
+    return;
+  }
+  // Batch mode
+  batchFiles = Array.from(files).slice(0, 20);
+  var listEl = document.getElementById('batchFileList');
+  var itemsEl = document.getElementById('batchFileItems');
+  listEl.style.display = 'block';
+  itemsEl.innerHTML = batchFiles.map(function(f, i) {
+    var sizeKB = (f.size / 1024).toFixed(1);
+    var icon = f.type.startsWith('image/') ? '&#128248;' : '&#128196;';
+    return '<div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;">' +
+      '<span style="font-size:1.4rem;">' + icon + '</span>' +
+      '<div style="flex:1;min-width:0;"><div style="font-weight:600;font-size:.82rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + f.name + '</div><div style="font-size:.7rem;color:var(--muted);">' + sizeKB + ' KB</div></div>' +
+      '<span style="font-size:.7rem;color:var(--green);font-weight:600;">&#128504; พร้อมสแกน</span>' +
+      '</div>';
+  }).join('');
+}
+
+function scanAllBatch() {
+  showToast('&#128260; กำลังสแกนทั้งหมด ' + batchFiles.length + ' ไฟล์...');
+  document.getElementById('batchFileList').style.display = 'none';
+  // Simulate processing the first file
+  if (batchFiles.length > 0) handleFile(batchFiles[0]);
+}
+
+function clearBatch() {
+  batchFiles = [];
+  document.getElementById('batchFileList').style.display = 'none';
+}
+
+function calcPerDiem() {
+  var days = parseInt(document.getElementById('perdiem-days').value) || 0;
+  var rateType = document.querySelector('input[name="perdiemRate"]:checked').value;
+  var customInput = document.getElementById('perdiem-custom-rate');
+  customInput.style.display = rateType === 'custom' ? '' : 'none';
+  var rate = rateType === 'gov' ? 240 : (parseFloat(customInput.value) || 0);
+  var total = days * rate;
+  document.getElementById('perdiem-total').innerHTML = '&#3647;' + total.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2});
 }
 
 function selectAttach(el, id) {

@@ -324,6 +324,7 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
     <button class="tab" onclick="switchTab('po')">📋 ใบสั่งซื้อ (PO)</button>
     <button class="tab" onclick="switchTab('linked')">🔗 Quotation Tasks</button>
     <button class="tab" onclick="switchTab('approval')" style="position:relative;">✅ อนุมัติ<span class="tab-badge">4</span></button>
+    <button class="tab" onclick="switchTab('advance')" style="position:relative;">💰 สำรองจ่าย<span class="tab-badge">3</span></button>
   </div>
 
   <!-- PR Tab -->
@@ -348,6 +349,15 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
         <option>HR</option>
         <option>Finance</option>
       </select>
+      <button class="btn btn-outline" onclick="openModal('templateModal')">📋 เลือก Template</button>
+      <div style="position:relative;display:inline-block;">
+        <button class="btn btn-outline" onclick="toggleExportMenu('prExportMenu')">📥 Export ▾</button>
+        <div id="prExportMenu" style="display:none;position:absolute;top:100%;right:0;margin-top:4px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.1);z-index:50;min-width:140px;">
+          <div style="padding:8px 14px;cursor:pointer;font-size:.8rem;border-radius:8px 8px 0 0;transition:background .15s;" onmouseover="this.style.background='var(--blue-bg)'" onmouseout="this.style.background=''" onclick="showToast('กำลัง Export PDF...');toggleExportMenu('prExportMenu')">📄 Export PDF</div>
+          <div style="padding:8px 14px;cursor:pointer;font-size:.8rem;transition:background .15s;" onmouseover="this.style.background='var(--blue-bg)'" onmouseout="this.style.background=''" onclick="showToast('กำลัง Export Excel...');toggleExportMenu('prExportMenu')">📊 Export Excel</div>
+          <div style="padding:8px 14px;cursor:pointer;font-size:.8rem;border-radius:0 0 8px 8px;transition:background .15s;" onmouseover="this.style.background='var(--blue-bg)'" onmouseout="this.style.background=''" onclick="showToast('กำลัง Export CSV...');toggleExportMenu('prExportMenu')">📝 Export CSV</div>
+        </div>
+      </div>
       <button class="btn btn-primary" onclick="openModal('prCreateModal')">+ สร้าง PR ใหม่</button>
     </div>
 
@@ -363,6 +373,7 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
             <th style="text-align:center;">รายการ</th>
             <th>สถานะ</th>
             <th>วันที่</th>
+            <th>จัดการ</th>
           </tr>
         </thead>
         <tbody id="prTableBody"></tbody>
@@ -438,6 +449,202 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
       <div id="approvalList"></div>
     </div>
   </div>
+
+  <!-- Advance Payment Tab -->
+  <div id="tab-advance" class="tab-content">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">💰 รายการสำรองจ่าย (Advance Payment)</div>
+        <button class="btn btn-primary btn-sm" onclick="openModal('advanceModal')">+ ขอสำรองจ่าย</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>เลขที่</th>
+              <th>วันที่ขอ</th>
+              <th>ผู้ขอ</th>
+              <th>วัตถุประสงค์</th>
+              <th style="text-align:right;">จำนวนเงิน</th>
+              <th>สถานะ</th>
+              <th>จัดการ</th>
+            </tr>
+          </thead>
+          <tbody id="advanceTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Advance Payment Modal -->
+<div id="advanceModal" class="modal-overlay" onclick="if(event.target===this)closeModal('advanceModal')">
+  <div class="modal modal-md">
+    <div class="modal-header">
+      <h3>💰 ขอสำรองจ่าย (Advance Payment Request)</h3>
+      <button class="modal-close" onclick="closeModal('advanceModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">ผู้ขอ</label>
+          <input class="form-input" type="text" value="Artit C." readonly style="background:var(--bg3);">
+        </div>
+        <div class="form-group">
+          <label class="form-label">แผนก</label>
+          <select class="form-select"><option>Procurement</option><option>IT</option><option>Marketing</option><option>Operations</option><option>HR</option></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">จำนวนเงินที่ขอ (฿)</label>
+          <input class="form-input" type="number" placeholder="0.00">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">วัตถุประสงค์</label>
+          <textarea class="form-textarea" placeholder="ระบุวัตถุประสงค์ในการสำรองจ่าย เช่น ค่าเดินทาง, ค่าจัดซื้อเร่งด่วน"></textarea>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">เอกสารประกอบ</label>
+          <div style="padding:20px;border:2px dashed var(--border);border-radius:8px;text-align:center;color:var(--muted);font-size:.8rem;cursor:pointer;" onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='var(--border)'">📎 ลากไฟล์มาวาง หรือ คลิกเพื่อเลือก</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('advanceModal')">ยกเลิก</button>
+      <button class="btn btn-primary" onclick="showToast('ส่งคำขอสำรองจ่ายเรียบร้อยแล้ว');closeModal('advanceModal')">📤 ส่งคำขอ</button>
+    </div>
+  </div>
+</div>
+
+<!-- PR Template Modal -->
+<div id="templateModal" class="modal-overlay" onclick="if(event.target===this)closeModal('templateModal')">
+  <div class="modal modal-md">
+    <div class="modal-header">
+      <h3>📋 เลือก Template ใบขอซื้อ</h3>
+      <button class="modal-close" onclick="closeModal('templateModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:grid;gap:10px;" id="templateList">
+        <div class="template-card" onclick="applyTemplate('office')" style="padding:14px 18px;border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;background:var(--card-bg);" onmouseover="this.style.borderColor='var(--blue)';this.style.background='var(--blue-bg)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--card-bg)'">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.4rem;">🖊️</span>
+            <div style="flex:1;">
+              <div style="font-weight:700;font-size:.88rem;">อุปกรณ์สำนักงาน (Office Supplies)</div>
+              <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">หมวด: วัสดุสำนักงาน · รายการทั่วไป: กระดาษ, หมึกพิมพ์, เครื่องเขียน · งบ: ฿10,000 - ฿100,000</div>
+              <div style="font-size:.68rem;color:var(--blue);margin-top:4px;">Vendor แนะนำ: Metro Office Supply (★ 4.3)</div>
+            </div>
+          </div>
+        </div>
+        <div class="template-card" onclick="applyTemplate('raw')" style="padding:14px 18px;border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;background:var(--card-bg);" onmouseover="this.style.borderColor='var(--purple)';this.style.background='var(--purple-bg)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--card-bg)'">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.4rem;">🏭</span>
+            <div style="flex:1;">
+              <div style="font-weight:700;font-size:.88rem;">วัตถุดิบการผลิต (Raw Materials)</div>
+              <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">หมวด: วัตถุดิบ · รายการทั่วไป: เหล็ก, น้ำมัน, ท่อ, สารเคมี · งบ: ฿100,000 - ฿5,000,000</div>
+              <div style="font-size:.68rem;color:var(--purple);margin-top:4px;">Vendor แนะนำ: SCG Industrial (★ 4.8), Bangkok Steel (★ 3.8)</div>
+            </div>
+          </div>
+        </div>
+        <div class="template-card" onclick="applyTemplate('it')" style="padding:14px 18px;border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;background:var(--card-bg);" onmouseover="this.style.borderColor='var(--cyan)';this.style.background='rgba(8,145,178,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--card-bg)'">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.4rem;">💻</span>
+            <div style="flex:1;">
+              <div style="font-weight:700;font-size:.88rem;">IT Equipment</div>
+              <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">หมวด: อุปกรณ์ IT · รายการทั่วไป: คอมพิวเตอร์, จอภาพ, Server, Network · งบ: ฿50,000 - ฿3,000,000</div>
+              <div style="font-size:.68rem;color:var(--cyan);margin-top:4px;">Vendor แนะนำ: Thai Tech Solutions (★ 4.4), Digital Systems (★ 3.9)</div>
+            </div>
+          </div>
+        </div>
+        <div class="template-card" onclick="applyTemplate('mro')" style="padding:14px 18px;border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;background:var(--card-bg);" onmouseover="this.style.borderColor='var(--green)';this.style.background='var(--green-bg)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--card-bg)'">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.4rem;">🔧</span>
+            <div style="flex:1;">
+              <div style="font-weight:700;font-size:.88rem;">MRO / บำรุงรักษา</div>
+              <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">หมวด: MRO · รายการทั่วไป: อะไหล่, น้ำมันหล่อลื่น, อุปกรณ์ช่าง · งบ: ฿20,000 - ฿1,000,000</div>
+              <div style="font-size:.68rem;color:var(--green);margin-top:4px;">Vendor แนะนำ: MRO Partners (★ 4.0), เจ เจ พี ซัพพลาย (★ 4.2)</div>
+            </div>
+          </div>
+        </div>
+        <div class="template-card" onclick="applyTemplate('event')" style="padding:14px 18px;border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;background:var(--card-bg);" onmouseover="this.style.borderColor='var(--orange)';this.style.background='var(--orange-bg)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--card-bg)'">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.4rem;">🎪</span>
+            <div style="flex:1;">
+              <div style="font-weight:700;font-size:.88rem;">Event / Marketing Materials</div>
+              <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">หมวด: การตลาด · รายการทั่วไป: ป้ายโฆษณา, ของแจก, สื่อสิ่งพิมพ์ · งบ: ฿30,000 - ฿500,000</div>
+              <div style="font-size:.68rem;color:var(--orange);margin-top:4px;">Vendor แนะนำ: ไทยเอ็กซ์เพรส (★ 3.8)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PO from PR Modal -->
+<div id="poFromPRModal" class="modal-overlay" onclick="if(event.target===this)closeModal('poFromPRModal')">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <h3>📋 สร้างใบสั่งซื้อจาก PR (Quick Convert)</h3>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-size:.7rem;color:var(--green);display:flex;align-items:center;gap:4px;opacity:.8;">💾 บันทึกร่างอัตโนมัติ — <span id="autoSaveTimePO">บันทึกแล้ว</span></span>
+        <button class="modal-close" onclick="closeModal('poFromPRModal')">✕</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="ai-suggestion">
+        <div class="ai-icon">AI</div>
+        <div class="ai-text"><strong>ข้อมูลถูกดึงอัตโนมัติจาก PR:</strong> ตรวจสอบข้อมูลและเลือก Vendor ก่อนสร้าง PO</div>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">PR อ้างอิง</label>
+          <input class="form-input" type="text" id="poPrRef" readonly style="background:var(--bg3);font-weight:700;color:var(--blue);">
+        </div>
+        <div class="form-group">
+          <label class="form-label">ผู้ขอซื้อ</label>
+          <input class="form-input" type="text" id="poRequester" readonly style="background:var(--bg3);">
+        </div>
+        <div class="form-group">
+          <label class="form-label">แผนก</label>
+          <input class="form-input" type="text" id="poDept" readonly style="background:var(--bg3);">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">หัวข้อ / รายละเอียด</label>
+          <input class="form-input" type="text" id="poTitle" readonly style="background:var(--bg3);">
+        </div>
+        <div class="form-group">
+          <label class="form-label">มูลค่ารวม</label>
+          <input class="form-input" type="text" id="poAmount" readonly style="background:var(--bg3);font-weight:700;">
+        </div>
+        <div class="form-group">
+          <label class="form-label">เลือก Vendor</label>
+          <select class="form-select" id="poVendorSelect">
+            <option>บริษัท ศรีรุ่งเรือง แมชชีนแอนด์ทูลส์ (★ 4.5)</option>
+            <option>บริษัท เจ เจ พี ซัพพลาย (★ 4.2)</option>
+            <option>บริษัท ชลบุรี ฮาร์ดแวร์ (★ 4.0)</option>
+            <option>บริษัท ไทยเอ็กซ์เพรส ซัพพลาย (★ 3.8)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">กำหนดส่งสินค้า</label>
+          <input class="form-input" type="date">
+        </div>
+        <div class="form-group">
+          <label class="form-label">เงื่อนไขการชำระ</label>
+          <select class="form-select"><option>Credit 30 วัน</option><option>Credit 45 วัน</option><option>Credit 60 วัน</option><option>ชำระทันที</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('poFromPRModal')">ยกเลิก</button>
+      <button class="btn btn-outline">💾 บันทึกร่าง</button>
+      <button class="btn btn-primary" onclick="showToast('สร้าง PO สำเร็จ! กำลังส่งไปยัง Vendor...');closeModal('poFromPRModal')">📤 สร้าง PO & ส่ง Vendor</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Notification -->
+<div id="toastNotification" style="position:fixed;bottom:24px;right:24px;background:var(--text);color:var(--bg);padding:12px 20px;border-radius:10px;font-size:.82rem;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.2);z-index:9999;display:none;align-items:center;gap:8px;font-family:'Noto Sans Thai','Inter',sans-serif;transition:all .3s;">
+  <span>✅</span><span id="toastMsg"></span>
 </div>
 
 <!-- PR Creation Modal -->
@@ -445,20 +652,26 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
   <div class="modal modal-lg">
     <div class="modal-header">
       <h3>📄 สร้างใบขอซื้อ (Purchase Request)</h3>
-      <button class="modal-close" onclick="closeModal('prCreateModal')">✕</button>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span id="autoSaveIndicator" style="font-size:.7rem;color:var(--green);display:flex;align-items:center;gap:4px;opacity:.8;">💾 บันทึกร่างอัตโนมัติ — <span id="autoSaveTime">บันทึกแล้ว</span></span>
+        <button class="modal-close" onclick="closeModal('prCreateModal')">✕</button>
+      </div>
     </div>
     <div class="modal-body">
       <div class="ai-suggestion">
         <div class="ai-icon">AI</div>
         <div class="ai-text"><strong>ระบบแนะนำ vendor จากประวัติ:</strong> บริษัท ศรีรุ่งเรือง แมชชีนแอนด์ทูลส์ (คะแนน 4.5/5.0) - ส่งมอบตรงเวลา 98%, ราคาแข่งขันได้ดี, ประวัติ 3 ปี</div>
       </div>
-      <div class="budget-bar">
+      <div class="budget-bar" id="budgetBarSection">
         <div class="budget-header">
-          <span>💰 งบประมาณแผนก IT ไตรมาส 2/2026</span>
-          <span style="color:var(--green);">เหลือ ฿2,850,000 / ฿5,000,000</span>
+          <span>💰 งบประมาณแผนก: ฿500,000</span>
+          <span style="color:var(--orange);">ใช้ไปแล้ว: ฿320,000 (64%) | คงเหลือ: ฿180,000</span>
         </div>
-        <div class="budget-track"><div class="budget-fill budget-ok" style="width:43%;"></div></div>
-        <div style="font-size:.68rem;color:var(--muted);margin-top:4px;">ใช้ไป 43% (฿2,150,000) • คงเหลือ 57%</div>
+        <div class="budget-track"><div class="budget-fill budget-warn" id="budgetFill" style="width:64%;"></div></div>
+        <div style="font-size:.68rem;color:var(--muted);margin-top:4px;display:flex;justify-content:space-between;">
+          <span>📊 อัตราการใช้จ่าย: 64% ของงบประมาณ</span>
+          <span id="budgetWarning" style="color:var(--orange);font-weight:600;">⚠ เกิน 60% — โปรดพิจารณาก่อนอนุมัติ</span>
+        </div>
       </div>
 
       <!-- Vendor selector with scores from System -->
@@ -711,6 +924,7 @@ function switchTab(tabId){
     if(tabId==='po'&&t.textContent.includes('PO')&&!t.textContent.includes('PR'))t.classList.add('active');
     if(tabId==='linked'&&t.textContent.includes('Quotation'))t.classList.add('active');
     if(tabId==='approval'&&t.textContent.includes('อนุมัติ'))t.classList.add('active');
+    if(tabId==='advance'&&t.textContent.includes('สำรองจ่าย'))t.classList.add('active');
   });
 }
 
@@ -745,7 +959,7 @@ function renderPRTable(){
   const body=document.getElementById('prTableBody');
   body.innerHTML=data.map(r=>{
     let action='';
-    if(r.status==='approved')action=`<button class="btn btn-success btn-sm" onclick="openModal('prCreateModal')">📄→📋 สร้าง PO</button>`;
+    if(r.status==='approved')action=`<button class="btn btn-success btn-sm" onclick="event.stopPropagation();convertPRtoPO('${r.pr}','${r.title}',${r.amount},'${r.requester}','${r.dept}',${r.items})">➡️ สร้าง PO</button>`;
     else if(r.status==='pending')action=`<button class="btn btn-outline btn-sm" disabled>รอดำเนินการ</button>`;
     else if(r.status==='converted')action=`<span class="link-text" onclick="switchTab('po')">${r.poRef} →</span>`;
     else if(r.status==='draft')action=`<button class="btn btn-outline btn-sm">✎ แก้ไข</button>`;
@@ -759,6 +973,7 @@ function renderPRTable(){
       <td style="text-align:center;">${r.items}</td>
       <td>${statusHTML(r.status)}</td>
       <td style="white-space:nowrap;">${r.date}</td>
+      <td>${action}</td>
     </tr>`;
   }).join('');
 }
@@ -846,12 +1061,91 @@ function addPrItem(){
   tbody.appendChild(tr);
 }
 
+// ============ ADVANCE PAYMENT DATA & RENDER ============
+const ADVANCE_DATA=[
+  {id:'ADV-2026-0012',date:'03/04/2026',requester:'วิภา สุขสมบูรณ์',purpose:'ค่าจัดงาน Marketing Event Q2',amount:85000,status:'รออนุมัติ'},
+  {id:'ADV-2026-0011',date:'01/04/2026',requester:'ประยุทธ์ แก้วมณี',purpose:'ค่าซื้ออะไหล่เร่งด่วนสายผลิต',amount:45000,status:'อนุมัติ'},
+  {id:'ADV-2026-0010',date:'28/03/2026',requester:'สมชาย พรหมมา',purpose:'ค่าเดินทางไปติดตั้งระบบ IT สาขา',amount:25000,status:'เคลียร์แล้ว'},
+  {id:'ADV-2026-0009',date:'25/03/2026',requester:'นภา จันทร์ดี',purpose:'ค่าจัดซื้อของรางวัลพนักงานดีเด่น',amount:15000,status:'รออนุมัติ'},
+  {id:'ADV-2026-0008',date:'22/03/2026',requester:'Artit C.',purpose:'ค่าเดินทางเยี่ยม Vendor ต่างจังหวัด',amount:12000,status:'เคลียร์แล้ว'},
+  {id:'ADV-2026-0007',date:'20/03/2026',requester:'กิตติ วงศ์สวัสดิ์',purpose:'ค่าอุปกรณ์ IT ฉุกเฉิน',amount:35000,status:'รออนุมัติ'}
+];
+
+function renderAdvanceTable(){
+  const body=document.getElementById('advanceTableBody');
+  body.innerHTML=ADVANCE_DATA.map(a=>{
+    const statusMap={'รออนุมัติ':'status-pending','อนุมัติ':'status-approved','เคลียร์แล้ว':'status-closed'};
+    const statusClass=statusMap[a.status]||'status-draft';
+    const actionBtn=a.status==='รออนุมัติ'?
+      `<button class="btn btn-success btn-sm" onclick="event.stopPropagation();showToast('อนุมัติสำรองจ่าย ${a.id} แล้ว')">✅ อนุมัติ</button>
+       <button class="btn btn-danger btn-sm" onclick="event.stopPropagation()">❌</button>`:
+      a.status==='อนุมัติ'?
+      `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showToast('เคลียร์เงินสำรองจ่าย ${a.id} แล้ว')">📝 เคลียร์</button>`:'<span style="font-size:.7rem;color:var(--muted);">—</span>';
+    return `<tr>
+      <td><span class="link-text">${a.id}</span></td>
+      <td>${a.date}</td>
+      <td>${a.requester}</td>
+      <td>${a.purpose}</td>
+      <td style="text-align:right;font-weight:600;">฿${fmt(a.amount)}</td>
+      <td><span class="status ${statusClass}">● ${a.status}</span></td>
+      <td>${actionBtn}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ============ TOAST NOTIFICATION ============
+function showToast(msg){
+  const t=document.getElementById('toastNotification');
+  document.getElementById('toastMsg').textContent=msg;
+  t.style.display='flex';
+  setTimeout(()=>{t.style.display='none';},3000);
+}
+
+// ============ EXPORT MENU TOGGLE ============
+function toggleExportMenu(id){
+  const el=document.getElementById(id);
+  el.style.display=el.style.display==='none'?'block':'none';
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('[onclick*="toggleExportMenu"]')){
+    document.querySelectorAll('[id$="ExportMenu"]').forEach(m=>m.style.display='none');
+  }
+});
+
+// ============ PR TEMPLATE ============
+function applyTemplate(type){
+  closeModal('templateModal');
+  openModal('prCreateModal');
+  showToast('โหลด Template สำเร็จ — กรุณาตรวจสอบข้อมูลก่อนส่ง');
+}
+
+// ============ PR-to-PO QUICK CONVERSION ============
+function convertPRtoPO(prNum,title,amount,requester,dept,items){
+  document.getElementById('poPrRef').value=prNum;
+  document.getElementById('poTitle').value=title;
+  document.getElementById('poAmount').value='฿'+fmt(amount);
+  document.getElementById('poRequester').value=requester;
+  document.getElementById('poDept').value=dept;
+  openModal('poFromPRModal');
+}
+
+// ============ AUTO-SAVE DRAFT ============
+setInterval(()=>{
+  const now=new Date();
+  const timeStr=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0')+':'+now.getSeconds().toString().padStart(2,'0');
+  const el=document.getElementById('autoSaveTime');
+  const el2=document.getElementById('autoSaveTimePO');
+  if(el)el.textContent='บันทึกแล้ว '+timeStr;
+  if(el2)el2.textContent='บันทึกแล้ว '+timeStr;
+},30000);
+
 // ============ INIT ============
 renderPRTable();
 renderPOTable();
 renderLinkedTasks();
 renderApprovals();
 renderVendorSelector();
+renderAdvanceTable();
 </script>
 
 </body>

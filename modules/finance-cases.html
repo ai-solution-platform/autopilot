@@ -178,6 +178,12 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
   .user-context{flex-direction:column;gap:12px;align-items:flex-start;}
 }
 
+/* SLA Badge */
+.sla-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:100px;font-size:0.68rem;font-weight:700;animation:pulse 2s infinite;}
+.sla-badge.sla-overdue{background:var(--red-bg);color:var(--red);border:1px solid rgba(220,38,38,0.2);}
+.sla-badge.sla-warning{background:var(--orange-bg);color:var(--orange);border:1px solid rgba(217,119,6,0.2);}
+.sla-badge.sla-ok{background:var(--green-bg);color:var(--green);border:1px solid rgba(5,150,105,0.2);}
+
 /* Pulse animation for live badge */
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
 .badge-live{animation:pulse 2s infinite;}
@@ -325,6 +331,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
       <button class="view-tab" onclick="setView(this)">&#127760; All <span class="count">247</span></button>
     </div>
     <div class="view-actions">
+      <button class="btn btn-primary btn-sm" onclick="createMonthlyClosing()">📅 สร้าง Monthly Closing Tasks</button>
       <button class="btn btn-outline btn-sm">&#128197; ช่วงเวลา: 30 วัน</button>
       <button class="btn btn-outline btn-sm">&#128229; Export</button>
       <button class="btn btn-outline btn-sm">&#8635; Refresh</button>
@@ -924,6 +931,66 @@ console.log(
 );
 console.table(DASHBOARD_META);
 
+
+// ====== SLA BADGE INDICATOR ======
+// Inject SLA badges into SLA Risk items
+(function addSLABadges() {
+  // Add SLA badge next to the KPI cards to indicate cases over SLA
+  var slaRiskEl = document.getElementById('slaRisk');
+  if (slaRiskEl) {
+    // After SLA risk renders, add overdue badge indicator
+    var observer = new MutationObserver(function() {
+      var items = slaRiskEl.querySelectorAll('.sla-risk-item.red');
+      items.forEach(function(item) {
+        if (!item.querySelector('.sla-badge')) {
+          var badge = document.createElement('span');
+          badge.className = 'sla-badge sla-overdue';
+          badge.innerHTML = '&#9200; เกิน SLA';
+          badge.style.marginLeft = '8px';
+          var info = item.querySelector('.sla-risk-info');
+          if (info) info.appendChild(badge);
+        }
+      });
+      var orangeItems = slaRiskEl.querySelectorAll('.sla-risk-item.orange');
+      orangeItems.forEach(function(item) {
+        if (!item.querySelector('.sla-badge')) {
+          var badge = document.createElement('span');
+          badge.className = 'sla-badge sla-warning';
+          badge.innerHTML = '&#9888; ใกล้ SLA';
+          badge.style.marginLeft = '8px';
+          var info = item.querySelector('.sla-risk-info');
+          if (info) info.appendChild(badge);
+        }
+      });
+    });
+    observer.observe(slaRiskEl, { childList: true, subtree: true });
+  }
+
+  // Also add SLA badges to the activity feed for overdue cases
+  var kpiCards = document.querySelectorAll('.kpi-card');
+  if (kpiCards.length >= 3) {
+    var slaCard = kpiCards[2]; // Average SLA card
+    var slaVal = slaCard.querySelector('.kpi-value');
+    if (slaVal) {
+      var avgDays = parseFloat(slaVal.textContent);
+      if (avgDays < 5) {
+        var warningNote = document.createElement('div');
+        warningNote.style.cssText = 'margin-top:6px;';
+        warningNote.innerHTML = '<span class="sla-badge sla-warning" style="animation:none;">&#9888; 17 เคส เกิน SLA 3 วัน</span>';
+        slaCard.appendChild(warningNote);
+      }
+    }
+  }
+})();
+
+// ====== MONTHLY CLOSING ======
+function createMonthlyClosing() {
+  var months = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+  var now = new Date();
+  var monthName = months[now.getMonth()];
+  var year = now.getFullYear() + 543;
+  showToast('📅', 'Monthly Closing', 'สร้าง 12 tasks สำหรับ monthly closing เดือน ' + monthName + ' ' + year + ' เรียบร้อย');
+}
 
 function showToast(icon, title, msg) {
   const t = document.createElement('div');

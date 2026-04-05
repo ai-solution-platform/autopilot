@@ -396,12 +396,19 @@ body {
   transform-origin: bottom;
 }
 
+/* Connection Health */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .kpi-row { grid-template-columns: repeat(2, 1fr); }
   .chart-grid { grid-template-columns: 1fr; }
   .two-col { grid-template-columns: 1fr; }
   .donut-container { flex-direction: column; }
+  #healthCards { grid-template-columns: repeat(2, 1fr) !important; }
 }
 </style>
 </head>
@@ -715,7 +722,7 @@ body {
       </table>
     </div>
 
-    <!-- Error Log -->
+    <!-- Error Log with Thai Descriptions -->
     <div class="section-card" style="margin-bottom:0;">
       <div class="section-title">🔴 Error Log (ล่าสุด)</div>
       <div class="error-item">
@@ -725,6 +732,7 @@ body {
         </div>
         <div class="error-time">05/04/2569 14:29:35</div>
         <div class="error-msg">Service Unavailable - upstream server timeout after 5000ms</div>
+        <div style="margin-top:4px;padding:4px 10px;background:var(--orange-bg);border-radius:6px;font-size:.68rem;color:var(--orange);font-weight:600;">📋 คำอธิบาย: ระบบปลายทางปิดปรับปรุง — กรุณาลองใหม่ภายหลัง</div>
       </div>
       <div class="error-item">
         <div class="error-header">
@@ -733,6 +741,7 @@ body {
         </div>
         <div class="error-time">05/04/2569 14:31:05</div>
         <div class="error-msg">Internal Server Error - OCR engine process crashed unexpectedly</div>
+        <div style="margin-top:4px;padding:4px 10px;background:var(--red-bg);border-radius:6px;font-size:.68rem;color:var(--red);font-weight:600;">📋 คำอธิบาย: ระบบปลายทางขัดข้อง — กรุณาติดต่อ support</div>
       </div>
       <div class="error-item">
         <div class="error-header">
@@ -741,6 +750,7 @@ body {
         </div>
         <div class="error-time">05/04/2569 14:30:28</div>
         <div class="error-msg">Unprocessable Entity - document format not supported (PDF/A-3)</div>
+        <div style="margin-top:4px;padding:4px 10px;background:var(--orange-bg);border-radius:6px;font-size:.68rem;color:var(--orange);font-weight:600;">📋 คำอธิบาย: ข้อมูลไม่ถูกต้อง — ตรวจสอบ payload</div>
       </div>
       <div class="error-item">
         <div class="error-header">
@@ -749,6 +759,7 @@ body {
         </div>
         <div class="error-time">05/04/2569 14:31:30</div>
         <div class="error-msg">Bad Request - image resolution too low (min 300dpi required)</div>
+        <div style="margin-top:4px;padding:4px 10px;background:var(--orange-bg);border-radius:6px;font-size:.68rem;color:var(--orange);font-weight:600;">📋 คำอธิบาย: คำขอไม่ถูกต้อง — ตรวจสอบข้อมูลที่ส่ง</div>
       </div>
       <div class="error-item">
         <div class="error-header">
@@ -757,10 +768,131 @@ body {
         </div>
         <div class="error-time">05/04/2569 13:45:12</div>
         <div class="error-msg">Bad Gateway - NDID upstream service returned invalid response</div>
+        <div style="margin-top:4px;padding:4px 10px;background:var(--red-bg);border-radius:6px;font-size:.68rem;color:var(--red);font-weight:600;">📋 คำอธิบาย: ระบบปลายทางขัดข้อง — กรุณาติดต่อ support</div>
       </div>
     </div>
 
   </div><!-- end two-col -->
+
+  <!-- Connection Health Status Section -->
+  <div class="section-card fade-up" style="margin-top:24px;">
+    <div class="section-title">🟢 สถานะการเชื่อมต่อ (Connection Health)</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;" id="healthCards">
+
+      <div style="padding:14px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--card-bg);position:relative;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+          <span style="width:10px;height:10px;border-radius:50%;background:#059669;box-shadow:0 0 8px rgba(5,150,105,0.5);display:inline-block;"></span>
+          <span style="font-weight:700;font-size:.82rem;">Thai OCR</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted);margin-bottom:6px;">
+          <span>Uptime</span><span style="font-weight:700;color:var(--green);">99.9%</span>
+        </div>
+        <div style="height:4px;border-radius:2px;background:var(--bg3);overflow:hidden;margin-bottom:6px;">
+          <div style="width:99.9%;height:100%;background:var(--green);border-radius:2px;"></div>
+        </div>
+        <div style="font-size:.65rem;color:var(--muted);">Last ping: 2 วินาทีที่แล้ว</div>
+      </div>
+
+      <div style="padding:14px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--card-bg);position:relative;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+          <span style="width:10px;height:10px;border-radius:50%;background:#059669;box-shadow:0 0 8px rgba(5,150,105,0.5);display:inline-block;"></span>
+          <span style="font-weight:700;font-size:.82rem;">Google Vision</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted);margin-bottom:6px;">
+          <span>Uptime</span><span style="font-weight:700;color:var(--green);">99.8%</span>
+        </div>
+        <div style="height:4px;border-radius:2px;background:var(--bg3);overflow:hidden;margin-bottom:6px;">
+          <div style="width:99.8%;height:100%;background:var(--green);border-radius:2px;"></div>
+        </div>
+        <div style="font-size:.65rem;color:var(--muted);">Last ping: 5 วินาทีที่แล้ว</div>
+      </div>
+
+      <div style="padding:14px;border-radius:var(--radius-sm);border:1px solid rgba(220,38,38,0.3);background:var(--card-bg);position:relative;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+          <span style="width:10px;height:10px;border-radius:50%;background:#DC2626;box-shadow:0 0 8px rgba(220,38,38,0.5);display:inline-block;animation:pulse 2s infinite;"></span>
+          <span style="font-weight:700;font-size:.82rem;">Passport OCR</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted);margin-bottom:6px;">
+          <span>Uptime</span><span style="font-weight:700;color:var(--red);">97.9%</span>
+        </div>
+        <div style="height:4px;border-radius:2px;background:var(--bg3);overflow:hidden;margin-bottom:6px;">
+          <div style="width:97.9%;height:100%;background:var(--red);border-radius:2px;"></div>
+        </div>
+        <div style="font-size:.65rem;color:var(--red);font-weight:600;">Last ping: ขัดข้อง 3 นาที</div>
+      </div>
+
+      <div style="padding:14px;border-radius:var(--radius-sm);border:1px solid rgba(217,119,6,0.3);background:var(--card-bg);position:relative;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+          <span style="width:10px;height:10px;border-radius:50%;background:#D97706;box-shadow:0 0 8px rgba(217,119,6,0.5);display:inline-block;animation:pulse 2s infinite;"></span>
+          <span style="font-weight:700;font-size:.82rem;">eKYC / NDID</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted);margin-bottom:6px;">
+          <span>Uptime</span><span style="font-weight:700;color:var(--orange);">99.1%</span>
+        </div>
+        <div style="height:4px;border-radius:2px;background:var(--bg3);overflow:hidden;margin-bottom:6px;">
+          <div style="width:99.1%;height:100%;background:var(--orange);border-radius:2px;"></div>
+        </div>
+        <div style="font-size:.65rem;color:var(--orange);font-weight:600;">Last ping: 45 วินาทีที่แล้ว (ช้า)</div>
+      </div>
+
+      <div style="padding:14px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--card-bg);position:relative;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+          <span style="width:10px;height:10px;border-radius:50%;background:#059669;box-shadow:0 0 8px rgba(5,150,105,0.5);display:inline-block;"></span>
+          <span style="font-weight:700;font-size:.82rem;">SCB API</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted);margin-bottom:6px;">
+          <span>Uptime</span><span style="font-weight:700;color:var(--green);">99.7%</span>
+        </div>
+        <div style="height:4px;border-radius:2px;background:var(--bg3);overflow:hidden;margin-bottom:6px;">
+          <div style="width:99.7%;height:100%;background:var(--green);border-radius:2px;"></div>
+        </div>
+        <div style="font-size:.65rem;color:var(--muted);">Last ping: 10 วินาทีที่แล้ว</div>
+      </div>
+
+      <div style="padding:14px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--card-bg);position:relative;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+          <span style="width:10px;height:10px;border-radius:50%;background:#059669;box-shadow:0 0 8px rgba(5,150,105,0.5);display:inline-block;"></span>
+          <span style="font-weight:700;font-size:.82rem;">KBank API</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted);margin-bottom:6px;">
+          <span>Uptime</span><span style="font-weight:700;color:var(--green);">99.5%</span>
+        </div>
+        <div style="height:4px;border-radius:2px;background:var(--bg3);overflow:hidden;margin-bottom:6px;">
+          <div style="width:99.5%;height:100%;background:var(--green);border-radius:2px;"></div>
+        </div>
+        <div style="font-size:.65rem;color:var(--muted);">Last ping: 15 วินาทีที่แล้ว</div>
+      </div>
+
+      <div style="padding:14px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--card-bg);position:relative;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+          <span style="width:10px;height:10px;border-radius:50%;background:#059669;box-shadow:0 0 8px rgba(5,150,105,0.5);display:inline-block;"></span>
+          <span style="font-weight:700;font-size:.82rem;">LINE OA</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted);margin-bottom:6px;">
+          <span>Uptime</span><span style="font-weight:700;color:var(--green);">100%</span>
+        </div>
+        <div style="height:4px;border-radius:2px;background:var(--bg3);overflow:hidden;margin-bottom:6px;">
+          <div style="width:100%;height:100%;background:var(--green);border-radius:2px;"></div>
+        </div>
+        <div style="font-size:.65rem;color:var(--muted);">Last ping: 1 วินาทีที่แล้ว</div>
+      </div>
+
+      <div style="padding:14px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--card-bg);position:relative;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+          <span style="width:10px;height:10px;border-radius:50%;background:#059669;box-shadow:0 0 8px rgba(5,150,105,0.5);display:inline-block;"></span>
+          <span style="font-weight:700;font-size:.82rem;">Gov Doc Parser</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted);margin-bottom:6px;">
+          <span>Uptime</span><span style="font-weight:700;color:var(--green);">99.6%</span>
+        </div>
+        <div style="height:4px;border-radius:2px;background:var(--bg3);overflow:hidden;margin-bottom:6px;">
+          <div style="width:99.6%;height:100%;background:var(--green);border-radius:2px;"></div>
+        </div>
+        <div style="font-size:.65rem;color:var(--muted);">Last ping: 8 วินาทีที่แล้ว</div>
+      </div>
+
+    </div>
+  </div>
 
 </div><!-- end container -->
 

@@ -175,6 +175,30 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .compact-actions .ca-note{background:var(--bg2);color:var(--text2);border-color:var(--border);}
 .compact-actions .ca-note:hover{background:var(--blue-bg);color:var(--blue);border-color:var(--blue);}
 
+/* Verification Checklist Panel */
+.checklist-panel{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px;}
+.checklist-panel .card-title{font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:6px;}
+.checklist-progress{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.checklist-progress .progress-text{font-size:0.78rem;font-weight:700;color:var(--text);white-space:nowrap;}
+.checklist-progress .progress-bar{flex:1;height:6px;border-radius:3px;background:var(--bg3);overflow:hidden;}
+.checklist-progress .progress-fill{height:100%;border-radius:3px;background:var(--green);transition:width 0.4s ease;}
+.checklist-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:background 0.15s;font-size:0.78rem;color:var(--text2);user-select:none;}
+.checklist-item:hover{background:var(--bg2);}
+.checklist-item .check-box{width:20px;height:20px;border-radius:6px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;transition:all 0.2s;flex-shrink:0;}
+.checklist-item.checked .check-box{background:var(--green);border-color:var(--green);color:#fff;}
+.checklist-item.checked .check-text{text-decoration:line-through;color:var(--muted);}
+
+/* Document Type Grouping */
+.doc-group{margin-bottom:12px;}
+.doc-group-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.2s;user-select:none;}
+.doc-group-header:hover{background:var(--bg3);}
+.doc-group-header .dg-left{display:flex;align-items:center;gap:8px;font-size:0.82rem;font-weight:600;color:var(--text);}
+.doc-group-header .dg-count{font-size:0.68rem;color:var(--muted);background:var(--bg3);padding:2px 8px;border-radius:100px;}
+.doc-group-header .dg-chevron{font-size:0.7rem;color:var(--muted);transition:transform 0.2s;}
+.doc-group-header.collapsed .dg-chevron{transform:rotate(-90deg);}
+.doc-group-items{padding:4px 0 0;overflow:hidden;transition:max-height 0.3s ease;}
+.doc-group-items.collapsed{max-height:0 !important;padding:0;}
+
 /* Toast */
 .toast-container{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;flex-direction:column;gap:8px;}
 .toast{padding:14px 20px;border-radius:12px;background:var(--card-bg);border:1px solid var(--border);display:flex;align-items:center;gap:10px;font-size:0.82rem;color:var(--text);box-shadow:0 8px 32px rgba(0,0,0,0.1);animation:toast-in 0.4s ease;max-width:380px;}
@@ -276,6 +300,30 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
                     <div class="preview-text">เลือกเอกสารจากตารางเพื่อดูรายละเอียด</div>
                 </div>
             </div>
+            <!-- Verification Checklist -->
+            <div class="checklist-panel" id="verificationChecklist">
+                <div class="card-title">📋 Checklist ตรวจสอบเอกสาร</div>
+                <div class="checklist-progress">
+                    <span class="progress-text" id="checklistCount">0/7 เสร็จแล้ว</span>
+                    <div class="progress-bar"><div class="progress-fill" id="checklistBar" style="width:0%"></div></div>
+                </div>
+                <div id="checklistItems">
+                    <div class="checklist-item" onclick="toggleChecklist(this)"><div class="check-box"></div><span class="check-text">ตรวจสอบเลขที่เอกสาร</span></div>
+                    <div class="checklist-item" onclick="toggleChecklist(this)"><div class="check-box"></div><span class="check-text">ตรวจสอบเลขประจำตัวผู้เสียภาษี</span></div>
+                    <div class="checklist-item" onclick="toggleChecklist(this)"><div class="check-box"></div><span class="check-text">ตรวจสอบยอดเงินตรงกับ PO</span></div>
+                    <div class="checklist-item" onclick="toggleChecklist(this)"><div class="check-box"></div><span class="check-text">ตรวจสอบวันที่เอกสาร</span></div>
+                    <div class="checklist-item" onclick="toggleChecklist(this)"><div class="check-box"></div><span class="check-text">ตรวจสอบลายเซ็นผู้มีอำนาจ</span></div>
+                    <div class="checklist-item" onclick="toggleChecklist(this)"><div class="check-box"></div><span class="check-text">ตรวจสอบเงื่อนไขการชำระเงิน</span></div>
+                    <div class="checklist-item" onclick="toggleChecklist(this)"><div class="check-box"></div><span class="check-text">แนบเอกสารประกอบครบ</span></div>
+                </div>
+            </div>
+
+            <!-- Document Type Grouping -->
+            <div class="card" id="docTypeGrouping">
+                <div class="card-title">📂 เอกสารจัดกลุ่มตามประเภท</div>
+                <div id="docGroupContainer"></div>
+            </div>
+
             <div id="sidebarDetail" style="display:none;">
                 <!-- Document Preview Card -->
                 <div class="card">
@@ -728,9 +776,67 @@ function showToast(type, message) {
     setTimeout(() => { toast.style.animation = 'toast-out 0.3s ease forwards'; setTimeout(() => toast.remove(), 300); }, 3500);
 }
 
+// Verification Checklist
+function toggleChecklist(item) {
+    item.classList.toggle('checked');
+    const box = item.querySelector('.check-box');
+    box.innerHTML = item.classList.contains('checked') ? '✓' : '';
+    updateChecklistProgress();
+}
+
+function updateChecklistProgress() {
+    const items = document.querySelectorAll('#checklistItems .checklist-item');
+    const checked = document.querySelectorAll('#checklistItems .checklist-item.checked');
+    const total = items.length;
+    const done = checked.length;
+    document.getElementById('checklistCount').textContent = done + '/' + total + ' เสร็จแล้ว';
+    document.getElementById('checklistBar').style.width = (total > 0 ? (done / total * 100) : 0) + '%';
+}
+
+// Document Type Grouping
+function renderDocGroups() {
+    const groups = {};
+    VERIFICATION_DOCS.forEach(function(doc) {
+        let groupKey, groupIcon, groupLabel;
+        if (doc.type === 'invoice') { groupKey = 'invoice'; groupIcon = '📄'; groupLabel = 'ใบแจ้งหนี้ (Invoice)'; }
+        else if (doc.type === 'guarantee' || doc.typeLabel.includes('Receipt')) { groupKey = 'receipt'; groupIcon = '🧾'; groupLabel = 'ใบเสร็จรับเงิน (Receipt)'; }
+        else if (doc.type === 'contract') { groupKey = 'contract'; groupIcon = '📋'; groupLabel = 'สัญญา (Contract)'; }
+        else if (doc.type === 'id') { groupKey = 'id'; groupIcon = '🪪'; groupLabel = 'เอกสารยืนยันตัวตน (ID)'; }
+        else if (doc.type === 'bank') { groupKey = 'bank'; groupIcon = '🏦'; groupLabel = 'เอกสารธนาคาร (Bank)'; }
+        else { groupKey = 'other'; groupIcon = '📎'; groupLabel = 'อื่นๆ'; }
+        if (!groups[groupKey]) groups[groupKey] = { icon: groupIcon, label: groupLabel, docs: [] };
+        groups[groupKey].docs.push(doc);
+    });
+    var container = document.getElementById('docGroupContainer');
+    container.innerHTML = '';
+    Object.keys(groups).forEach(function(key) {
+        var g = groups[key];
+        var groupDiv = document.createElement('div');
+        groupDiv.className = 'doc-group';
+        groupDiv.innerHTML = '<div class="doc-group-header" onclick="toggleDocGroup(this)">' +
+            '<span class="dg-left">' + g.icon + ' ' + g.label + '</span>' +
+            '<span style="display:flex;align-items:center;gap:8px;">' +
+            '<span class="dg-count">' + g.docs.length + ' ไฟล์</span>' +
+            '<span class="dg-chevron">▼</span></span></div>' +
+            '<div class="doc-group-items" style="max-height:' + (g.docs.length * 40 + 8) + 'px;">' +
+            g.docs.map(function(d) {
+                return '<div style="padding:6px 14px;font-size:0.75rem;color:var(--text2);display:flex;align-items:center;gap:6px;cursor:pointer;" onclick="selectDoc(null,' + d.id + ')">' +
+                    '<span class="status-pill status-' + d.status + '" style="font-size:0.6rem;padding:1px 6px;">' + getStatusLabel(d.status) + '</span> ' + d.docName + '</div>';
+            }).join('') + '</div>';
+        container.appendChild(groupDiv);
+    });
+}
+
+function toggleDocGroup(header) {
+    header.classList.toggle('collapsed');
+    var items = header.nextElementSibling;
+    items.classList.toggle('collapsed');
+}
+
 // Init
 updateCounts();
 renderQueue();
+renderDocGroups();
 </script>
 </body>
 </html>

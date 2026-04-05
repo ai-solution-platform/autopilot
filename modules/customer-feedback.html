@@ -212,6 +212,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:v
     <button class="tab-btn" onclick="switchTab('modules')">📦 Module Insights</button>
     <button class="tab-btn" onclick="switchTab('issues')">🐛 Issue Tracker</button>
     <button class="tab-btn" onclick="switchTab('recommendations')">📈 Recommendations</button>
+    <button class="tab-btn" onclick="switchTab('demographics')">📊 Demographics</button>
     <button class="tab-btn" onclick="switchTab('submit')">✉️ Submit Feedback</button>
   </div>
 
@@ -255,29 +256,44 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:v
 
     <!-- Executive Summary -->
     <div class="card anim-in">
-      <div class="card-title">📝 Executive Summary — ข้อค้นพบหลัก 9 ประการ</div>
+      <div class="card-title">📝 Executive Summary — ข้อค้นพบหลัก 7 ประการ</div>
       <ul class="findings-list">
-        <li><strong>Navigation complexity</strong> — 285,600 users (71.4%) ต้องการมากกว่า 4 คลิกเพื่อเข้าถึงฟีเจอร์ที่ใช้บ่อย</li>
-        <li><strong>Thai language & localization</strong> — 234,800 users (58.7%) พบปัญหาภาษาไทย/อังกฤษปะปน</li>
-        <li><strong>Integration gaps</strong> — 267,200 users (66.8%) ต้องการเชื่อมต่อระบบภายนอกที่ใช้อยู่</li>
-        <li><strong>Mobile experience</strong> — 178,400 users (44.6%) ไม่สามารถทำงานบนมือถือได้อย่างมีประสิทธิภาพ</li>
-        <li><strong>Change resistance</strong> — 312,000 users (78.0%) แสดงความต่อต้านการเปลี่ยนแปลงจาก Excel/manual</li>
-        <li><strong>Performance degradation</strong> — 198,000 users (49.5%) พบปัญหาระบบช้าเมื่อข้อมูลมาก</li>
-        <li><strong>Missing Thai business workflows</strong> — 287,600 users (71.9%) ต้องการ workflows ที่ตรงกับธุรกิจไทย (e-Tax, PromptPay, สำรองจ่าย, per diem)</li>
-        <li><strong>No offline capability</strong> — 156,000 users (39.0%) ไม่สามารถใช้งานเมื่อไม่มี internet</li>
-        <li><strong>Undo/Redo missing</strong> — 172,400 users (43.1%) สูญเสียข้อมูลจากการกดผิด</li>
+        <li><strong>Navigation ซับซ้อนเกินไป</strong> — 284,700 คน (71.2%) ต้องคลิกมากกว่า 4 ครั้งเพื่อเข้าถึงฟีเจอร์ที่ใช้บ่อย เฉลี่ย 4.7 คลิก เทียบกับมาตรฐาน 2.3 คลิก</li>
+        <li><strong>ไม่มีระบบค้นหาภาษาไทยแบบ Global Search</strong> — 246,800 คน (61.7%) ไม่สามารถค้นหาข้อมูลข้ามโมดูลด้วยภาษาไทยได้ กลุ่ม D ได้รับผลกระทบมากที่สุด 84.3%</li>
+        <li><strong>ไม่มี Template สำหรับงานซ้ำในระบบ Procurement</strong> — 231,200 คน (57.8%) ต้องกรอกข้อมูล PR/PO ใหม่ทุกครั้ง เสียเวลาเฉลี่ย 18.7 นาทีต่อ PR</li>
+        <li><strong>ระบบ Expense OCR อ่านใบเสร็จภาษาไทยไม่แม่นยำ</strong> — 216,800 คน (54.2%) OCR มีความแม่นยำเพียง 62.3% สำหรับใบเสร็จภาษาไทย</li>
+        <li><strong>ไม่มีระบบ Undo/Redo ในทุกโมดูล</strong> — 198,400 คน (49.6%) ไม่สามารถย้อนกลับการกระทำได้ มีรายงาน 31,200 กรณีข้อมูลสูญหาย</li>
+        <li><strong>Performance ช้าเมื่อข้อมูลมากกว่า 500 แถว</strong> — 189,200 คน (47.3%) เวลา Load เพิ่มขึ้นเฉลี่ย 340% ใน Vendor Management และ Logistics FX</li>
+        <li><strong>Mobile Responsiveness ไม่เพียงพอ</strong> — 163,600 คน (40.9%) กลุ่ม A รายงานความไม่พอใจสูงสุดที่ 67.3% สำหรับหน้าจอ < 390px</li>
       </ul>
 
       <table class="severity-table" style="margin-top:16px;">
-        <thead><tr><th>ระดับความรุนแรง</th><th>จำนวน</th><th>% ของปัญหาทั้งหมด</th></tr></thead>
+        <thead><tr><th>ระดับความรุนแรง</th><th>จำนวน</th><th>% ของปัญหาทั้งหมด</th><th>ผู้ใช้ที่ได้รับผลกระทบ</th></tr></thead>
         <tbody>
-          <tr><td><span class="badge badge-critical">Critical</span></td><td>89</td><td>10.5%</td></tr>
-          <tr><td><span class="badge badge-high">High</span></td><td>213</td><td>25.1%</td></tr>
-          <tr><td><span class="badge badge-medium">Medium</span></td><td>298</td><td>35.2%</td></tr>
-          <tr><td><span class="badge badge-low">Low</span></td><td>247</td><td>29.2%</td></tr>
-          <tr style="font-weight:700;"><td>รวม</td><td>847</td><td>100%</td></tr>
+          <tr><td><span class="badge badge-critical">Critical</span></td><td>89</td><td>10.5%</td><td>268,400 คน (67.1%)</td></tr>
+          <tr><td><span class="badge badge-high">High</span></td><td>234</td><td>27.6%</td><td>189,200 คน (47.3%)</td></tr>
+          <tr><td><span class="badge badge-medium">Medium</span></td><td>312</td><td>36.8%</td><td>124,800 คน (31.2%)</td></tr>
+          <tr><td><span class="badge badge-low">Low</span></td><td>212</td><td>25.0%</td><td>56,400 คน (14.1%)</td></tr>
+          <tr style="font-weight:700;"><td>รวม</td><td>847</td><td>100%</td><td>--</td></tr>
         </tbody>
       </table>
+    </div>
+
+    <!-- V1 vs V2 Comparison -->
+    <div class="card anim-in">
+      <div class="card-title">📊 เปรียบเทียบ Report V1 (4,000 คน) กับ V2 (400,000 คน)</div>
+      <table class="severity-table">
+        <thead><tr><th>ตัวชี้วัด</th><th>V1 (4,000 คน)</th><th>V2 (400,000 คน)</th><th>การเปลี่ยนแปลง</th></tr></thead>
+        <tbody>
+          <tr><td>คะแนนเฉลี่ย</td><td>3.18</td><td>2.87</td><td style="color:var(--red);font-weight:700;">-0.31 (-9.7%)</td></tr>
+          <tr><td>จำนวนปัญหา</td><td>171</td><td>847</td><td style="color:var(--red);font-weight:700;">+676 (+395%)</td></tr>
+          <tr><td>Critical Issues</td><td>14</td><td>89</td><td style="color:var(--red);font-weight:700;">+75 (+536%)</td></tr>
+          <tr><td>ผู้ใช้ที่พบปัญหา Navigation</td><td>71.2%</td><td>71.2%</td><td>คงที่</td></tr>
+          <tr><td>ผู้ใช้ที่พบปัญหา Thai Search</td><td>54.8%</td><td>61.7%</td><td style="color:var(--red);font-weight:700;">+6.9%</td></tr>
+          <tr><td>ผู้ใช้ที่พบปัญหา Mobile</td><td>40.9%</td><td>40.9%</td><td>คงที่</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:12px;font-size:0.82rem;color:var(--text2);">หมายเหตุ: คะแนนเฉลี่ยที่ลดลง 0.31 คะแนน เกิดจากการขยายกลุ่มตัวอย่างครอบคลุมอุตสาหกรรมและภูมิภาคที่หลากหลายมากขึ้น ทำให้พบปัญหาเฉพาะกลุ่มที่ไม่ปรากฏในการทดสอบฐาน 4,000 คน</p>
     </div>
 
     <!-- Satisfaction by Group - SVG Bar Chart -->
@@ -291,18 +307,18 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:v
             <linearGradient id="barBlue" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#3B82F6"/><stop offset="100%" stop-color="#2563EB"/></linearGradient>
             <linearGradient id="barRed" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#F87171"/><stop offset="100%" stop-color="#DC2626"/></linearGradient>
           </defs>
-          <!-- Group A (21-26): 2.94 -->
+          <!-- Group A (21-26): 3.12 -->
           <text x="8" y="32" fill="var(--text2)" font-size="12" font-weight="600">Group A (21-26)</text>
-          <rect x="150" y="18" width="0" height="24" rx="4" fill="url(#barOrange)" class="bar-anim" data-width="294"/>
-          <text x="450" y="35" fill="var(--orange)" font-size="13" font-weight="700">2.94</text>
-          <!-- Group B (26-35): 3.21 -->
+          <rect x="150" y="18" width="0" height="24" rx="4" fill="url(#barOrange)" class="bar-anim" data-width="312"/>
+          <text x="468" y="35" fill="var(--orange)" font-size="13" font-weight="700">3.12</text>
+          <!-- Group B (26-35): 2.95 -->
           <text x="8" y="78" fill="var(--text2)" font-size="12" font-weight="600">Group B (26-35)</text>
-          <rect x="150" y="64" width="0" height="24" rx="4" fill="url(#barGreen)" class="bar-anim" data-width="321"/>
-          <text x="477" y="81" fill="var(--green)" font-size="13" font-weight="700">3.21</text>
-          <!-- Group C (35-45): 2.98 -->
+          <rect x="150" y="64" width="0" height="24" rx="4" fill="url(#barGreen)" class="bar-anim" data-width="295"/>
+          <text x="451" y="81" fill="var(--green)" font-size="13" font-weight="700">2.95</text>
+          <!-- Group C (35-45): 2.67 -->
           <text x="8" y="124" fill="var(--text2)" font-size="12" font-weight="600">Group C (35-45)</text>
-          <rect x="150" y="110" width="0" height="24" rx="4" fill="url(#barBlue)" class="bar-anim" data-width="298"/>
-          <text x="454" y="127" fill="var(--blue)" font-size="13" font-weight="700">2.98</text>
+          <rect x="150" y="110" width="0" height="24" rx="4" fill="url(#barBlue)" class="bar-anim" data-width="267"/>
+          <text x="423" y="127" fill="var(--blue)" font-size="13" font-weight="700">2.67</text>
           <!-- Group D (45+): 2.34 -->
           <text x="8" y="170" fill="var(--text2)" font-size="12" font-weight="600">Group D (45+)</text>
           <rect x="150" y="156" width="0" height="24" rx="4" fill="url(#barRed)" class="bar-anim" data-width="234"/>
@@ -324,131 +340,126 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:v
     <div class="cross-grid anim-in">
       <div class="cross-card">
         <div class="cross-icon">🧭</div>
-        <div class="cross-pct" style="color:var(--red);">71.4%</div>
-        <div class="cross-label">Navigation<br>285,600 คน</div>
+        <div class="cross-pct" style="color:var(--red);">71.2%</div>
+        <div class="cross-label">Navigation ลึกเกิน 4+ คลิก<br>284,700 คน</div>
       </div>
       <div class="cross-card">
-        <div class="cross-icon">🌐</div>
-        <div class="cross-pct" style="color:var(--orange);">58.7%</div>
-        <div class="cross-label">Thai Localization<br>234,800 คน</div>
+        <div class="cross-icon">🔍</div>
+        <div class="cross-pct" style="color:var(--red);">61.7%</div>
+        <div class="cross-label">ไม่มี Global Search ไทย<br>246,800 คน</div>
       </div>
       <div class="cross-card">
-        <div class="cross-icon">📱</div>
-        <div class="cross-pct" style="color:var(--orange);">44.6%</div>
-        <div class="cross-label">Mobile<br>178,400 คน</div>
+        <div class="cross-icon">📋</div>
+        <div class="cross-pct" style="color:var(--orange);">57.8%</div>
+        <div class="cross-label">ไม่มี Template PR/PO<br>231,200 คน</div>
+      </div>
+      <div class="cross-card">
+        <div class="cross-icon">📄</div>
+        <div class="cross-pct" style="color:var(--orange);">54.2%</div>
+        <div class="cross-label">OCR ใบเสร็จไทยไม่แม่นยำ<br>216,800 คน</div>
+      </div>
+      <div class="cross-card">
+        <div class="cross-icon">↩️</div>
+        <div class="cross-pct" style="color:var(--orange);">49.6%</div>
+        <div class="cross-label">ไม่มี Undo/Redo<br>198,400 คน</div>
       </div>
       <div class="cross-card">
         <div class="cross-icon">⚡</div>
-        <div class="cross-pct" style="color:var(--orange);">49.5%</div>
-        <div class="cross-label">Performance<br>198,000 คน</div>
+        <div class="cross-pct" style="color:var(--orange);">47.3%</div>
+        <div class="cross-label">Performance ช้า >500 แถว<br>189,200 คน</div>
       </div>
       <div class="cross-card">
-        <div class="cross-icon">♿</div>
-        <div class="cross-pct" style="color:var(--blue);">23.7%</div>
-        <div class="cross-label">Accessibility<br>94,800 คน</div>
+        <div class="cross-icon">📱</div>
+        <div class="cross-pct" style="color:var(--orange);">40.9%</div>
+        <div class="cross-label">Mobile Responsiveness<br>163,600 คน</div>
       </div>
       <div class="cross-card">
-        <div class="cross-icon">🔗</div>
-        <div class="cross-pct" style="color:var(--red);">66.8%</div>
-        <div class="cross-label">Integration Gaps<br>267,200 คน</div>
-      </div>
-      <div class="cross-card">
-        <div class="cross-icon">📴</div>
-        <div class="cross-pct" style="color:var(--orange);">39.0%</div>
-        <div class="cross-label">Offline<br>156,000 คน</div>
-      </div>
-      <div class="cross-card">
-        <div class="cross-icon">🔒</div>
-        <div class="cross-pct" style="color:var(--blue);">33.6%</div>
-        <div class="cross-label">Data Security<br>134,400 คน</div>
+        <div class="cross-icon">🔄</div>
+        <div class="cross-pct" style="color:var(--red);">78.0%</div>
+        <div class="cross-label">แรงต้านการเปลี่ยนแปลง<br>194,800 คน</div>
       </div>
     </div>
 
     <!-- Department Feedback Distribution -->
-    <h3 class="section-title anim-in">🏢 Department Feedback Distribution</h3>
+    <h3 class="section-title anim-in">🏢 Department Feedback Distribution (8 แผนก)</h3>
     <div class="grid-2 anim-in" style="margin-bottom:24px;">
       <div class="dept-card">
         <div class="dept-info">
-          <div class="dept-name">Sales</div>
-          <div class="dept-meta">62,400 feedbacks (15.6%)</div>
+          <div class="dept-name">Sales (ฝ่ายขาย)</div>
+          <div class="dept-meta">64,000 คน (16.0%)</div>
         </div>
-        <div class="dept-score" style="color:var(--blue);">2.91</div>
+        <div class="dept-score" style="color:var(--blue);">3.01</div>
       </div>
       <div class="dept-card">
         <div class="dept-info">
-          <div class="dept-name">Marketing & Event</div>
-          <div class="dept-meta">48,800 feedbacks (12.2%)</div>
+          <div class="dept-name">Marketing (การตลาด)</div>
+          <div class="dept-meta">44,000 คน (11.0%)</div>
+        </div>
+        <div class="dept-score" style="color:var(--orange);">2.97</div>
+      </div>
+      <div class="dept-card">
+        <div class="dept-info">
+          <div class="dept-name">Event (อีเวนต์)</div>
+          <div class="dept-meta">28,000 คน (7.0%)</div>
         </div>
         <div class="dept-score" style="color:var(--orange);">2.84</div>
       </div>
       <div class="dept-card">
         <div class="dept-info">
-          <div class="dept-name">Procurement</div>
-          <div class="dept-meta">71,200 feedbacks (17.8%)</div>
+          <div class="dept-name">Procurement (จัดซื้อ)</div>
+          <div class="dept-meta">68,000 คน (17.0%)</div>
+        </div>
+        <div class="dept-score" style="color:var(--red);">2.58</div>
+      </div>
+      <div class="dept-card">
+        <div class="dept-info">
+          <div class="dept-name">Logistics (โลจิสติกส์)</div>
+          <div class="dept-meta">48,000 คน (12.0%)</div>
         </div>
         <div class="dept-score" style="color:var(--orange);">2.73</div>
       </div>
       <div class="dept-card">
         <div class="dept-info">
-          <div class="dept-name">Logistics</div>
-          <div class="dept-meta">44,000 feedbacks (11.0%)</div>
-        </div>
-        <div class="dept-score" style="color:var(--orange);">2.69</div>
-      </div>
-      <div class="dept-card">
-        <div class="dept-info">
-          <div class="dept-name">Admin & HR</div>
-          <div class="dept-meta">36,400 feedbacks (9.1%)</div>
+          <div class="dept-name">Admin (ธุรการ)</div>
+          <div class="dept-meta">52,000 คน (13.0%)</div>
         </div>
         <div class="dept-score" style="color:var(--orange);">2.81</div>
       </div>
       <div class="dept-card">
         <div class="dept-info">
-          <div class="dept-name">Accounting</div>
-          <div class="dept-meta">56,800 feedbacks (14.2%)</div>
+          <div class="dept-name">Accounting (บัญชี)</div>
+          <div class="dept-meta">48,000 คน (12.0%)</div>
         </div>
-        <div class="dept-score" style="color:var(--orange);">2.67</div>
+        <div class="dept-score" style="color:var(--orange);">2.64</div>
       </div>
       <div class="dept-card">
         <div class="dept-info">
-          <div class="dept-name">Finance</div>
-          <div class="dept-meta">52,400 feedbacks (13.1%)</div>
+          <div class="dept-name">Finance (การเงิน)</div>
+          <div class="dept-meta">48,000 คน (12.0%)</div>
         </div>
-        <div class="dept-score" style="color:var(--orange);">2.72</div>
-      </div>
-      <div class="dept-card">
-        <div class="dept-info">
-          <div class="dept-name">IT & Others</div>
-          <div class="dept-meta">28,000 feedbacks (7.0%)</div>
-        </div>
-        <div class="dept-score" style="color:var(--blue);">3.12</div>
+        <div class="dept-score" style="color:var(--orange);">2.69</div>
       </div>
     </div>
 
-    <!-- Top 15 Critical Issues Table -->
+    <!-- Top 10 Critical Issues (V2 Report) -->
     <div class="card anim-in">
-      <div class="card-title">🚨 Top 15 ปัญหาวิกฤตที่กระทบมากที่สุด</div>
+      <div class="card-title">🚨 Top 10 ปัญหาวิกฤต (จาก V2 Report)</div>
       <div style="overflow-x:auto;">
         <table class="severity-table">
           <thead>
-            <tr><th>Issue ID</th><th>โมดูล</th><th>รายละเอียด</th><th>ผู้ใช้ที่ได้รับผลกระทบ</th><th>ระดับ</th></tr>
+            <tr><th>#</th><th>Issue ID</th><th>รายละเอียด</th><th>ผู้ใช้ที่ได้รับผลกระทบ</th><th>สถานะ</th><th>ระดับ</th></tr>
           </thead>
           <tbody>
-            <tr><td>CROSS-001</td><td>Cross-Module</td><td>Navigation ลึกเกิน 4+ คลิก</td><td>285,600 (71.4%)</td><td><span class="badge badge-critical">Critical</span></td></tr>
-            <tr><td>EX-001</td><td>Expense & Receipt</td><td>OCR อ่านใบเสร็จภาษาไทยผิดพลาดสูง (~67%)</td><td>246,800 (61.7%)</td><td><span class="badge badge-critical">Critical</span></td></tr>
-            <tr><td>CN-001</td><td>Connectors</td><td>Connector setup ซับซ้อนเกินไปสำหรับ non-technical users</td><td>257,400 (64.4%)</td><td><span class="badge badge-critical">Critical</span></td></tr>
-            <tr><td>CROSS-002</td><td>Cross-Module</td><td>ไม่มี global search ข้ามโมดูล</td><td>245,600 (61.4%)</td><td><span class="badge badge-critical">Critical</span></td></tr>
-            <tr><td>PR-001</td><td>Procurement</td><td>สร้าง PR ต้องกรอกหลายหน้า ไม่มี draft save</td><td>213,400 (53.4%)</td><td><span class="badge badge-critical">Critical</span></td></tr>
-            <tr><td>SY-004</td><td>System</td><td>ไม่รองรับ LINE Official Account</td><td>213,400 (53.4%)</td><td><span class="badge badge-critical">Critical</span></td></tr>
-            <tr><td>CN-002</td><td>Connectors</td><td>ไม่มี pre-built connectors สำหรับระบบไทย</td><td>189,100 (47.3%)</td><td><span class="badge badge-critical">Critical</span></td></tr>
-            <tr><td>VM-001</td><td>Vendor Mgmt</td><td>เปรียบเทียบ Vendor โหลดนาน 8-12 วินาที</td><td>189,100 (47.3%)</td><td><span class="badge badge-critical">Critical</span></td></tr>
-            <tr><td>SY-001</td><td>System</td><td>Permission system ซับซ้อน ไม่มี role template</td><td>189,100 (47.3%)</td><td><span class="badge badge-critical">Critical</span></td></tr>
-            <tr><td>CROSS-007</td><td>Cross-Module</td><td>ไม่มี Undo/Redo ทุกโมดูล</td><td>172,300 (43.1%)</td><td><span class="badge badge-critical">Critical</span></td></tr>
-            <tr><td>CROSS-030</td><td>Cross-Module</td><td>ไม่มีระบบสำรองจ่ายล่วงหน้า (Advance Payment)</td><td>198,400 (49.6%)</td><td><span class="badge badge-critical">Critical</span></td></tr>
-            <tr><td>CROSS-031</td><td>Cross-Module</td><td>ไม่รองรับ e-Tax Invoice ตามมาตรฐานกรมสรรพากร</td><td>187,200 (46.8%)</td><td><span class="badge badge-critical">Critical</span></td></tr>
-            <tr><td>EX-010</td><td>Expense & Receipt</td><td>ไม่รองรับ PromptPay QR Code สำหรับการเบิกจ่าย</td><td>176,800 (44.2%)</td><td><span class="badge badge-critical">Critical</span></td></tr>
-            <tr><td>PR-010</td><td>Procurement</td><td>ไม่มี Goods Receipt (GR) module เชื่อมกับ PO</td><td>165,400 (41.4%)</td><td><span class="badge badge-critical">Critical</span></td></tr>
-            <tr><td>EX-011</td><td>Expense & Receipt</td><td>ไม่มี per diem อัตโนมัติตามอัตราราชการไทย</td><td>154,200 (38.6%)</td><td><span class="badge badge-high">High</span></td></tr>
+            <tr><td>1</td><td>CROSS-001</td><td>Navigation ลึกเกิน 4+ คลิก เสียเวลาเฉลี่ย 12.3 นาที/Session</td><td>284,700 (71.2%)</td><td><span class="badge badge-orange">Open</span></td><td><span class="badge badge-critical">Critical</span></td></tr>
+            <tr><td>2</td><td>CROSS-002</td><td>ไม่มี Global Search ภาษาไทย ค้นหาข้ามโมดูลไม่ได้</td><td>246,800 (61.7%)</td><td><span class="badge badge-orange">Open</span></td><td><span class="badge badge-critical">Critical</span></td></tr>
+            <tr><td>3</td><td>PROC-001</td><td>ไม่มี Template PR สำหรับงานซ้ำ ต้องกรอกใหม่ทุกครั้ง</td><td>231,200 (57.8%)</td><td><span class="badge badge-blue">In Progress</span></td><td><span class="badge badge-critical">Critical</span></td></tr>
+            <tr><td>4</td><td>EXP-001</td><td>OCR อ่านใบเสร็จภาษาไทยไม่แม่นยำ (62.3%)</td><td>216,800 (54.2%)</td><td><span class="badge badge-blue">In Progress</span></td><td><span class="badge badge-critical">Critical</span></td></tr>
+            <tr><td>5</td><td>CROSS-003</td><td>ไม่มีระบบ Undo/Redo ในทุกโมดูล 31,200 กรณีข้อมูลหาย</td><td>198,400 (49.6%)</td><td><span class="badge badge-orange">Open</span></td><td><span class="badge badge-critical">Critical</span></td></tr>
+            <tr><td>6</td><td>CROSS-004</td><td>Performance ช้าเมื่อข้อมูลเกิน 500 แถว Load เพิ่ม 340%</td><td>189,200 (47.3%)</td><td><span class="badge badge-blue">In Progress</span></td><td><span class="badge badge-critical">Critical</span></td></tr>
+            <tr><td>7</td><td>EXP-002</td><td>Expense Claims ไม่รองรับ Multi-level Approval</td><td>178,400 (44.6%)</td><td><span class="badge badge-orange">Planned</span></td><td><span class="badge badge-critical">Critical</span></td></tr>
+            <tr><td>8</td><td>FIN-001</td><td>Finance Verification ไม่รองรับ Multi-currency (THB เท่านั้น)</td><td>167,600 (41.9%)</td><td><span class="badge badge-orange">Open</span></td><td><span class="badge badge-critical">Critical</span></td></tr>
+            <tr><td>9</td><td>CROSS-005</td><td>Mobile Responsiveness ไม่เพียงพอ (<390px)</td><td>163,600 (40.9%)</td><td><span class="badge badge-blue">In Progress</span></td><td><span class="badge badge-critical">Critical</span></td></tr>
+            <tr><td>10</td><td>PROC-002</td><td>ไม่มี Bulk Operations สำหรับ PO</td><td>156,800 (39.2%)</td><td><span class="badge badge-orange">Planned</span></td><td><span class="badge badge-critical">Critical</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -505,7 +516,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:v
             <div style="font-weight:700;">Group A (21-26 ปี)</div>
             <div class="profile-meta">เพิ่งเริ่มทำงาน ปรับตัวเร็วแต่ไม่มีประสบการณ์ business process | 100,000 คน</div>
           </div>
-          <div class="profile-score" style="color:var(--orange);margin-left:auto;">2.94</div>
+          <div class="profile-score" style="color:var(--orange);margin-left:auto;">3.12</div>
         </div>
         <ul class="profile-list">
           <li>🖥️ <strong>Tech Comfort:</strong> สูงมาก | อุปกรณ์หลัก: Mobile (54%)</li>
@@ -523,7 +534,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:v
             <div style="font-weight:700;">Group B (26-35 ปี)</div>
             <div class="profile-meta">Junior-Mid level มี 3-10 ปีประสบการณ์ ปรับตัวได้ดี | 100,000 คน</div>
           </div>
-          <div class="profile-score" style="color:var(--green);margin-left:auto;">3.21</div>
+          <div class="profile-score" style="color:var(--green);margin-left:auto;">2.95</div>
         </div>
         <ul class="profile-list">
           <li>🖥️ <strong>Tech Comfort:</strong> สูง | อุปกรณ์หลัก: Laptop (47%)</li>
@@ -541,7 +552,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:v
             <div style="font-weight:700;">Group C (35-45 ปี)</div>
             <div class="profile-meta">Senior level มีรูปแบบการทำงานเฉพาะตามขนาดองค์กร | 100,000 คน</div>
           </div>
-          <div class="profile-score" style="color:var(--blue);margin-left:auto;">2.98</div>
+          <div class="profile-score" style="color:var(--blue);margin-left:auto;">2.67</div>
         </div>
         <ul class="profile-list">
           <li>🖥️ <strong>Tech Comfort:</strong> ปานกลาง | อุปกรณ์หลัก: Desktop (62%)</li>
@@ -576,23 +587,23 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:v
     <div class="grid-3 anim-in">
       <div class="profile-card" style="text-align:center;">
         <div style="font-size:2rem;margin-bottom:8px;">🏠</div>
-        <div style="font-weight:700;font-size:1rem;">SME (1-50 คน)</div>
+        <div style="font-weight:700;font-size:1rem;">SME (<50 คน)</div>
         <div style="font-size:0.8rem;color:var(--muted);margin-bottom:8px;">120,000 users</div>
-        <div class="profile-score" style="color:var(--red);">2.64<span style="font-size:0.8rem;font-weight:400;color:var(--muted);">/5</span></div>
+        <div class="profile-score" style="color:var(--orange);">2.98<span style="font-size:0.8rem;font-weight:400;color:var(--muted);">/5</span></div>
         <div style="font-size:0.78rem;color:var(--text2);margin-top:6px;">ต้องการความง่าย ระบบ overkill สำหรับธุรกิจขนาดเล็ก</div>
       </div>
       <div class="profile-card" style="text-align:center;">
         <div style="font-size:2rem;margin-bottom:8px;">🏢</div>
-        <div style="font-weight:700;font-size:1rem;">Medium (51-500 คน)</div>
+        <div style="font-weight:700;font-size:1rem;">Medium (50-500 คน)</div>
         <div style="font-size:0.8rem;color:var(--muted);margin-bottom:8px;">160,000 users</div>
-        <div class="profile-score" style="color:var(--blue);">2.91<span style="font-size:0.8rem;font-weight:400;color:var(--muted);">/5</span></div>
+        <div class="profile-score" style="color:var(--blue);">2.84<span style="font-size:0.8rem;font-weight:400;color:var(--muted);">/5</span></div>
         <div style="font-size:0.78rem;color:var(--text2);margin-top:6px;">ตรง pain point มากที่สุด ต้องการ integration กับระบบเดิม</div>
       </div>
       <div class="profile-card" style="text-align:center;">
         <div style="font-size:2rem;margin-bottom:8px;">🏛️</div>
-        <div style="font-weight:700;font-size:1rem;">Large Enterprise (500+)</div>
+        <div style="font-weight:700;font-size:1rem;">Large (500+ คน)</div>
         <div style="font-size:0.8rem;color:var(--muted);margin-bottom:8px;">120,000 users</div>
-        <div class="profile-score" style="color:var(--blue);">3.01<span style="font-size:0.8rem;font-weight:400;color:var(--muted);">/5</span></div>
+        <div class="profile-score" style="color:var(--orange);">2.79<span style="font-size:0.8rem;font-weight:400;color:var(--muted);">/5</span></div>
         <div style="font-size:0.78rem;color:var(--text2);margin-top:6px;">มี IT support ช่วยปรับตัว ต้องการ compliance & audit trail</div>
       </div>
     </div>
@@ -698,73 +709,76 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:v
 
   <!-- ========== TAB: MODULE INSIGHTS ========== -->
   <div class="tab-content" id="tab-modules">
-    <div class="section-title"><span class="icon">📦</span> Module Satisfaction Heatmap (คะแนนเฉลี่ยแยกตามกลุ่มอายุ)</div>
-    <div class="card" style="overflow-x:auto;">
+    <div class="section-title"><span class="icon">📦</span> Module Satisfaction Heatmap — คะแนนเฉลี่ยแยกตามกลุ่มอายุ</div>
+
+    <!-- Heatmap 1: Module x Age Group -->
+    <div class="card" style="overflow-x:auto;margin-bottom:24px;">
+      <div class="card-title">🗂️ 3.1 คะแนนรายโมดูล x กลุ่มอายุ</div>
       <table class="heatmap-table" id="heatmapTable">
         <thead>
-          <tr><th style="text-align:left;">โมดูล</th><th>Group A</th><th>Group B</th><th>Group C</th><th>Group D</th><th>Overall</th></tr>
+          <tr><th style="text-align:left;">โมดูล</th><th>Group A (21-26)</th><th>Group B (26-35)</th><th>Group C (35-45)</th><th>Group D (45+)</th><th>คะแนนรวม</th></tr>
         </thead>
         <tbody>
-          <tr><td class="module-name">Home Dashboard <button class="expand-btn" onclick="toggleModuleDetail('md-hd')">+ รายละเอียด</button></td><td>2.88</td><td>3.21</td><td>3.04</td><td>2.31</td><td><strong>2.86</strong></td></tr>
-          <tr><td colspan="6"><div class="module-detail" id="md-hd">
-            <table class="severity-table"><thead><tr><th>Metric</th><th>A</th><th>B</th><th>C</th><th>D</th><th>Overall</th></tr></thead>
-            <tbody><tr><td>Usability</td><td>3.0</td><td>3.4</td><td>3.1</td><td>2.4</td><td>2.98</td></tr><tr><td>Visual Design</td><td>2.8</td><td>3.2</td><td>2.9</td><td>2.2</td><td>2.78</td></tr><tr><td>Info Density</td><td>2.6</td><td>3.0</td><td>3.2</td><td>2.1</td><td>2.73</td></tr><tr><td>Load Perf</td><td>3.1</td><td>3.3</td><td>2.9</td><td>2.5</td><td>2.95</td></tr></tbody></table>
-            <p style="margin-top:8px;color:var(--red);font-weight:600;">Top Issues:</p>
-            <ul style="margin:4px 0 0 16px;font-size:0.8rem;"><li>Dashboard ไม่สามารถ customize ได้ (46.2%)</li><li>Widget แสดงตัวเลขไม่มี context (30.9%)</li><li>ไม่มี Quick Action buttons (39.2%)</li></ul>
-          </div></td></tr>
-          <tr><td class="module-name">Procurement <button class="expand-btn" onclick="toggleModuleDetail('md-pr')">+ รายละเอียด</button></td><td>2.62</td><td>3.01</td><td>2.94</td><td>2.18</td><td><strong>2.69</strong></td></tr>
-          <tr><td colspan="6"><div class="module-detail" id="md-pr">
-            <table class="severity-table"><thead><tr><th>Metric</th><th>A</th><th>B</th><th>C</th><th>D</th><th>Overall</th></tr></thead>
-            <tbody><tr><td>PR/PO Creation</td><td>2.6</td><td>3.1</td><td>2.9</td><td>2.2</td><td>2.70</td></tr><tr><td>3-Way Match</td><td>2.4</td><td>2.9</td><td>3.1</td><td>2.0</td><td>2.60</td></tr><tr><td>Approval Workflow</td><td>2.7</td><td>3.0</td><td>2.8</td><td>2.3</td><td>2.70</td></tr><tr><td>Analytics</td><td>2.8</td><td>3.1</td><td>3.0</td><td>2.2</td><td>2.78</td></tr></tbody></table>
-            <p style="margin-top:8px;color:var(--red);font-weight:600;">Top Issues:</p>
-            <ul style="margin:4px 0 0 16px;font-size:0.8rem;"><li>PR creation ต้องกรอก 5 หน้า ไม่มี draft save [Critical]</li><li>ไม่สามารถสร้าง PO จาก PR ได้โดยตรง [Critical]</li><li>ไม่มี Bulk PO Creation (24.7%)</li><li>ไม่มี Goods Receipt (GR) module [Critical]</li></ul>
-          </div></td></tr>
-          <tr><td class="module-name">Vendor Management <button class="expand-btn" onclick="toggleModuleDetail('md-vm')">+ รายละเอียด</button></td><td>2.54</td><td>2.92</td><td>3.01</td><td>2.12</td><td><strong>2.65</strong></td></tr>
-          <tr><td colspan="6"><div class="module-detail" id="md-vm">
-            <p style="color:var(--red);font-weight:600;">Top Issues:</p>
-            <ul style="margin:4px 0 0 16px;font-size:0.8rem;"><li>เปรียบเทียบ Vendor โหลดนาน 8-12 วินาที [Critical]</li><li>Quotation Analysis ไม่รองรับไฟล์ภาษาไทย [Critical]</li><li>ไม่มีระบบให้คะแนน Vendor อัตโนมัติ (28.1%)</li></ul>
-          </div></td></tr>
-          <tr><td class="module-name">Expense & Receipt <button class="expand-btn" onclick="toggleModuleDetail('md-ex')">+ รายละเอียด</button></td><td>2.71</td><td>3.04</td><td>2.82</td><td>2.21</td><td><strong>2.70</strong></td></tr>
-          <tr><td colspan="6"><div class="module-detail" id="md-ex">
-            <p style="color:var(--red);font-weight:600;">Top Issues:</p>
-            <ul style="margin:4px 0 0 16px;font-size:0.8rem;"><li>OCR อ่านใบเสร็จภาษาไทยผิดพลาด ~67% [Critical]</li><li>ไม่สามารถ upload ใบเสร็จหลายใบพร้อมกัน (44.7%)</li><li>ไม่รองรับ PromptPay QR Code [Critical]</li><li>ไม่มี per diem อัตโนมัติตามอัตราราชการไทย [High]</li></ul>
-          </div></td></tr>
-          <tr><td class="module-name">Finance Doc Hub <button class="expand-btn" onclick="toggleModuleDetail('md-fd')">+ รายละเอียด</button></td><td>2.64</td><td>2.98</td><td>2.91</td><td>2.17</td><td><strong>2.68</strong></td></tr>
-          <tr><td colspan="6"><div class="module-detail" id="md-fd">
-            <p style="color:var(--red);font-weight:600;">Top Issues:</p>
-            <ul style="margin:4px 0 0 16px;font-size:0.8rem;"><li>เอกสารแนบไม่จัดกลุ่มตามประเภท (39.2%)</li><li>ไม่มี checklist/template สำหรับ verification (28.1%)</li><li>ไม่สามารถ annotate บน PDF ได้ (33.6%)</li><li>ไม่เชื่อมต่อกับ Express/PEAK/Prosoft accounting [Critical]</li></ul>
-          </div></td></tr>
-          <tr><td class="module-name">Logistics FX <button class="expand-btn" onclick="toggleModuleDetail('md-lg')">+ รายละเอียด</button></td><td>2.68</td><td>3.02</td><td>2.87</td><td>2.14</td><td><strong>2.68</strong></td></tr>
-          <tr><td colspan="6"><div class="module-detail" id="md-lg">
-            <p style="color:var(--red);font-weight:600;">Top Issues:</p>
-            <ul style="margin:4px 0 0 16px;font-size:0.8rem;"><li>Freight OCR ไม่รองรับเอกสารขนส่งไทย [Critical]</li><li>Cost Calculator ไม่รองรับอัตราค่าขนส่งไทย (30.9%)</li><li>ไม่มี real-time shipment tracking (36.4%)</li><li>ไม่เชื่อมต่อ Kerry/Flash/J&T/Thailand Post API [Critical]</li></ul>
-          </div></td></tr>
-          <tr><td class="module-name">Sales Doc Gen <button class="expand-btn" onclick="toggleModuleDetail('md-sd')">+ รายละเอียด</button></td><td>2.94</td><td>3.28</td><td>3.08</td><td>2.41</td><td><strong>2.93</strong></td></tr>
-          <tr><td colspan="6"><div class="module-detail" id="md-sd">
-            <p style="color:var(--red);font-weight:600;">Top Issues:</p>
-            <ul style="margin:4px 0 0 16px;font-size:0.8rem;"><li>Template ไม่รองรับรูปแบบเอกสารไทย [Critical]</li><li>Pipeline ไม่มี drag-and-drop (30.9%)</li><li>ไม่ auto-generate เอกสารจาก Pipeline (27.2%)</li><li>ไม่รองรับ e-Signature สำหรับเอกสาร [High]</li></ul>
-          </div></td></tr>
-          <tr><td class="module-name">Connectors <button class="expand-btn" onclick="toggleModuleDetail('md-cn')">+ รายละเอียด</button></td><td>2.21</td><td>2.78</td><td>2.41</td><td>1.34</td><td><strong>2.19</strong></td></tr>
-          <tr><td colspan="6"><div class="module-detail" id="md-cn">
-            <table class="severity-table"><thead><tr><th>Metric</th><th>A</th><th>B</th><th>C</th><th>D</th><th>Overall</th></tr></thead>
-            <tbody><tr><td>API Dashboard</td><td>2.4</td><td>3.0</td><td>2.6</td><td>1.5</td><td>2.38</td></tr><tr><td>Connector Hub</td><td>2.2</td><td>2.8</td><td>2.4</td><td>1.3</td><td>2.18</td></tr><tr><td>Documentation</td><td>2.1</td><td>2.6</td><td>2.3</td><td>1.2</td><td>2.05</td></tr><tr><td>Setup Ease</td><td>1.9</td><td>2.5</td><td>2.1</td><td>1.1</td><td>1.90</td></tr></tbody></table>
-            <p style="margin-top:8px;color:var(--red);font-weight:600;">Top Issues:</p>
-            <ul style="margin:4px 0 0 16px;font-size:0.8rem;"><li>Setup ซับซ้อนเกินไป สำหรับ non-technical [Critical] (64.2%)</li><li>ไม่มี pre-built connectors สำหรับระบบไทย [Critical] (47.3%)</li><li>API errors ไม่ human-readable (36.4%)</li></ul>
-          </div></td></tr>
-          <tr><td class="module-name">Customer Feedback <button class="expand-btn" onclick="toggleModuleDetail('md-cf')">+ รายละเอียด</button></td><td>2.74</td><td>3.12</td><td>2.96</td><td>2.28</td><td><strong>2.78</strong></td></tr>
-          <tr><td colspan="6"><div class="module-detail" id="md-cf">
-            <p style="color:var(--red);font-weight:600;">Top Issues:</p>
-            <ul style="margin:4px 0 0 16px;font-size:0.8rem;"><li>ไม่มี Thai sentiment analysis [Critical] (39.2%)</li><li>Survey builder ไม่มี conditional logic (28.1%)</li><li>ไม่ integrate กับ CRM/ticket system (23.4%)</li></ul>
-          </div></td></tr>
-          <tr><td class="module-name">System <button class="expand-btn" onclick="toggleModuleDetail('md-sy')">+ รายละเอียด</button></td><td>2.54</td><td>2.88</td><td>2.68</td><td>2.06</td><td><strong>2.54</strong></td></tr>
-          <tr><td colspan="6"><div class="module-detail" id="md-sy">
-            <table class="severity-table"><thead><tr><th>Metric</th><th>A</th><th>B</th><th>C</th><th>D</th><th>Overall</th></tr></thead>
-            <tbody><tr><td>User Mgmt</td><td>2.8</td><td>3.1</td><td>2.9</td><td>2.2</td><td>2.75</td></tr><tr><td>Channel Config</td><td>2.6</td><td>2.9</td><td>2.7</td><td>2.0</td><td>2.55</td></tr><tr><td>Billing</td><td>2.4</td><td>2.8</td><td>2.6</td><td>2.0</td><td>2.45</td></tr><tr><td>Settings</td><td>2.3</td><td>2.7</td><td>2.5</td><td>1.9</td><td>2.35</td></tr></tbody></table>
-            <p style="margin-top:8px;color:var(--red);font-weight:600;">Top Issues:</p>
-            <ul style="margin:4px 0 0 16px;font-size:0.8rem;"><li>Permission system ซับซ้อน ไม่มี role template [Critical] (47.3%)</li><li>ไม่รองรับ LINE Official Account [Critical] (53.4%)</li><li>Settings ไม่มี search function (39.2%)</li></ul>
-          </div></td></tr>
+          <tr><td class="module-name">Procurement PR/PO</td><td>2.67</td><td>2.52</td><td>2.28</td><td>2.17</td><td><strong>2.41</strong></td></tr>
+          <tr><td class="module-name">Procurement Analytics</td><td>2.94</td><td>2.78</td><td>2.54</td><td>2.42</td><td><strong>2.67</strong></td></tr>
+          <tr><td class="module-name">Expense Receipt OCR</td><td>2.81</td><td>2.64</td><td>2.38</td><td>2.29</td><td><strong>2.53</strong></td></tr>
+          <tr><td class="module-name">Expense Tasks/Claims</td><td>2.48</td><td>2.31</td><td>2.04</td><td>1.93</td><td><strong>2.19</strong></td></tr>
+          <tr><td class="module-name">Expense Dashboard</td><td>3.06</td><td>2.89</td><td>2.62</td><td>2.55</td><td><strong>2.78</strong></td></tr>
+          <tr><td class="module-name">Finance Verification</td><td>2.58</td><td>2.43</td><td>2.21</td><td>2.14</td><td><strong>2.34</strong></td></tr>
+          <tr><td class="module-name">Finance Cases</td><td>2.71</td><td>2.56</td><td>2.32</td><td>2.21</td><td><strong>2.45</strong></td></tr>
+          <tr><td class="module-name">Sales Dashboard</td><td>3.24</td><td>3.08</td><td>2.76</td><td>2.64</td><td><strong>2.93</strong></td></tr>
+          <tr><td class="module-name">Connector Hub</td><td>2.89</td><td>2.68</td><td>2.41</td><td>2.26</td><td><strong>2.56</strong></td></tr>
+          <tr><td class="module-name">API Dashboard</td><td>3.12</td><td>2.87</td><td>2.48</td><td>2.37</td><td><strong>2.71</strong></td></tr>
+          <tr><td class="module-name">Home/App Shell</td><td>3.18</td><td>2.99</td><td>2.72</td><td>2.63</td><td><strong>2.88</strong></td></tr>
         </tbody>
       </table>
+    </div>
+
+    <!-- Heatmap 2: Module x Department -->
+    <div class="card" style="overflow-x:auto;margin-bottom:24px;">
+      <div class="card-title">🏢 3.2 คะแนนรายโมดูล x แผนก</div>
+      <table class="heatmap-table" id="heatmapDept">
+        <thead>
+          <tr><th style="text-align:left;">โมดูล</th><th>Sales</th><th>Marketing</th><th>Event</th><th>Procurement</th><th>Logistics</th><th>Admin</th><th>Accounting</th><th>Finance</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="module-name">Procurement PR/PO</td><td>2.54</td><td>2.48</td><td>2.61</td><td>2.18</td><td>2.43</td><td>2.52</td><td>2.38</td><td>2.41</td></tr>
+          <tr><td class="module-name">Procurement Analytics</td><td>2.78</td><td>2.81</td><td>2.72</td><td>2.44</td><td>2.67</td><td>2.73</td><td>2.61</td><td>2.64</td></tr>
+          <tr><td class="module-name">Expense Receipt OCR</td><td>2.64</td><td>2.58</td><td>2.71</td><td>2.47</td><td>2.53</td><td>2.62</td><td>2.31</td><td>2.44</td></tr>
+          <tr><td class="module-name">Expense Tasks/Claims</td><td>2.31</td><td>2.24</td><td>2.42</td><td>2.12</td><td>2.18</td><td>2.27</td><td>2.01</td><td>2.08</td></tr>
+          <tr><td class="module-name">Expense Dashboard</td><td>2.89</td><td>2.84</td><td>2.93</td><td>2.71</td><td>2.76</td><td>2.83</td><td>2.64</td><td>2.68</td></tr>
+          <tr><td class="module-name">Finance Verification</td><td>2.41</td><td>2.38</td><td>2.29</td><td>2.34</td><td>2.31</td><td>2.37</td><td>2.19</td><td>2.12</td></tr>
+          <tr><td class="module-name">Finance Cases</td><td>2.52</td><td>2.49</td><td>2.41</td><td>2.44</td><td>2.42</td><td>2.48</td><td>2.28</td><td>2.24</td></tr>
+          <tr><td class="module-name">Sales Dashboard</td><td>3.18</td><td>3.12</td><td>2.87</td><td>2.76</td><td>2.84</td><td>2.91</td><td>2.82</td><td>2.79</td></tr>
+          <tr><td class="module-name">Connector Hub</td><td>2.74</td><td>2.68</td><td>2.51</td><td>2.48</td><td>2.62</td><td>2.54</td><td>2.43</td><td>2.47</td></tr>
+          <tr><td class="module-name">API Dashboard</td><td>2.82</td><td>2.78</td><td>2.61</td><td>2.64</td><td>2.73</td><td>2.71</td><td>2.67</td><td>2.69</td></tr>
+          <tr><td class="module-name">Home/App Shell</td><td>2.97</td><td>2.94</td><td>2.91</td><td>2.82</td><td>2.86</td><td>2.93</td><td>2.84</td><td>2.81</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Heatmap 3: Module x Company Size -->
+    <div class="card" style="overflow-x:auto;margin-bottom:24px;">
+      <div class="card-title">🏗️ 3.3 คะแนนรายโมดูล x ขนาดบริษัท</div>
+      <table class="heatmap-table" id="heatmapSize">
+        <thead>
+          <tr><th style="text-align:left;">โมดูล</th><th>SME (<50)</th><th>Medium (50-500)</th><th>Large (500+)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="module-name">Procurement PR/PO</td><td>2.58</td><td>2.41</td><td>2.24</td></tr>
+          <tr><td class="module-name">Procurement Analytics</td><td>2.79</td><td>2.67</td><td>2.55</td></tr>
+          <tr><td class="module-name">Expense Receipt OCR</td><td>2.68</td><td>2.53</td><td>2.38</td></tr>
+          <tr><td class="module-name">Expense Tasks/Claims</td><td>2.34</td><td>2.19</td><td>2.04</td></tr>
+          <tr><td class="module-name">Expense Dashboard</td><td>2.91</td><td>2.78</td><td>2.65</td></tr>
+          <tr><td class="module-name">Finance Verification</td><td>2.48</td><td>2.34</td><td>2.20</td></tr>
+          <tr><td class="module-name">Finance Cases</td><td>2.59</td><td>2.45</td><td>2.31</td></tr>
+          <tr><td class="module-name">Sales Dashboard</td><td>3.11</td><td>2.93</td><td>2.75</td></tr>
+          <tr><td class="module-name">Connector Hub</td><td>2.72</td><td>2.56</td><td>2.40</td></tr>
+          <tr><td class="module-name">API Dashboard</td><td>2.84</td><td>2.71</td><td>2.58</td></tr>
+          <tr><td class="module-name">Home/App Shell</td><td>3.02</td><td>2.88</td><td>2.74</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:12px;font-size:0.82rem;color:var(--text2);">วิเคราะห์: บริษัทขนาดใหญ่ (500+) ให้คะแนนต่ำกว่าทุกโมดูล สาเหตุหลักคือ Workflow ซับซ้อน, Approval chain หลายระดับ, ข้อมูลจำนวนมากทำให้ระบบช้า และความต้องการ Integration กับ ERP</p>
     </div>
   </div>
 
@@ -784,16 +798,18 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:v
       <select id="filterModule" onchange="filterIssues()">
         <option value="all">ทุกโมดูล</option>
         <option value="Cross-Module">Cross-Module</option>
-        <option value="Home Dashboard">Home Dashboard</option>
-        <option value="Procurement">Procurement</option>
-        <option value="Vendor Management">Vendor Mgmt</option>
-        <option value="Expense & Receipt">Expense & Receipt</option>
-        <option value="Finance Doc Hub">Finance Doc Hub</option>
-        <option value="Logistics FX">Logistics FX</option>
-        <option value="Sales Doc Gen">Sales Doc Gen</option>
-        <option value="Connectors">Connectors</option>
-        <option value="Customer Feedback">Customer Feedback</option>
-        <option value="System">System</option>
+        <option value="Procurement PR/PO">Procurement PR/PO</option>
+        <option value="Procurement Analytics">Procurement Analytics</option>
+        <option value="Expense Receipt OCR">Expense Receipt OCR</option>
+        <option value="Expense Tasks/Claims">Expense Tasks/Claims</option>
+        <option value="Expense Dashboard">Expense Dashboard</option>
+        <option value="Finance Verification">Finance Verification</option>
+        <option value="Finance Cases">Finance Cases</option>
+        <option value="Sales Dashboard">Sales Dashboard</option>
+        <option value="Connector Hub">Connector Hub</option>
+        <option value="API Dashboard">API Dashboard</option>
+        <option value="Home/App Shell">Home/App Shell</option>
+        <option value="Logistics">Logistics</option>
       </select>
       <input type="text" id="filterSearch" placeholder="ค้นหา Issue ID หรือรายละเอียด..." oninput="filterIssues()"/>
     </div>
@@ -801,9 +817,9 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:v
     <!-- Summary strip -->
     <div class="summary-strip">
       <span class="strip-item badge-critical">89 Critical</span>
-      <span class="strip-item badge-high">213 High</span>
-      <span class="strip-item badge-medium">298 Medium</span>
-      <span class="strip-item badge-low">247 Low</span>
+      <span class="strip-item badge-high">234 High</span>
+      <span class="strip-item badge-medium">312 Medium</span>
+      <span class="strip-item badge-low">212 Low</span>
     </div>
 
     <!-- Issues Table -->
@@ -827,15 +843,23 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:v
     <!-- Quick Wins -->
     <div class="section-title" style="margin-top:28px;"><span class="icon">⚡</span> Quick Wins — ทำได้ใน 1-2 Sprint</div>
     <div class="quick-wins-grid">
-      <div class="qw-card"><div class="qw-num">1</div><div><strong>เพิ่ม progress indicators</strong> สำหรับทุก operation > 2 วินาที <span class="badge badge-s">S</span> — ลดปัญหา "app crashed" 67.8%</div></div>
-      <div class="qw-card"><div class="qw-num">2</div><div><strong>เพิ่ม search bar ในหน้า Settings</strong> <span class="badge badge-s">S</span> — ช่วยผู้ใช้ 156,700 คน</div></div>
-      <div class="qw-card"><div class="qw-num">3</div><div><strong>เพิ่ม breadcrumb navigation</strong> ทุกโมดูล <span class="badge badge-s">S</span> — ช่วยผู้ใช้ 189,100 คน</div></div>
-      <div class="qw-card"><div class="qw-num">4</div><div><strong>เพิ่ม พ.ศ. toggle</strong> สำหรับแสดงวันที่ <span class="badge badge-s">S</span> — ช่วยผู้ใช้ 189,100 คน</div></div>
-      <div class="qw-card"><div class="qw-num">5</div><div><strong>จัดหมวดหมู่ Notifications</strong> / เพิ่ม filter <span class="badge badge-s">S</span> — ช่วยผู้ใช้ 108,900 คน</div></div>
-      <div class="qw-card"><div class="qw-num">6</div><div><strong>เปิด multi-file upload</strong> สำหรับใบเสร็จ <span class="badge badge-s">S</span> — ช่วยผู้ใช้ 178,900 คน</div></div>
-      <div class="qw-card"><div class="qw-num">7</div><div><strong>แก้ Thai Baht symbol</strong> ให้สม่ำเสมอทุกโมดูล <span class="badge badge-s">S</span> — ช่วยผู้ใช้ 98,700 คน</div></div>
-      <div class="qw-card"><div class="qw-num">8</div><div><strong>แก้ Dark mode</strong> สำหรับ 4 โมดูลที่เหลือ <span class="badge badge-m">M</span> — ช่วยผู้ใช้ 123,400 คน</div></div>
+      <div class="qw-card"><div class="qw-num">1</div><div><strong>แปล Error Messages เป็นภาษาไทย</strong> (20 ข้อความหลัก) <span class="badge badge-s">S</span> — 1 วัน | 118,400 คน</div></div>
+      <div class="qw-card"><div class="qw-num">2</div><div><strong>เพิ่ม Confirmation Dialog ก่อนลบข้อมูล</strong> <span class="badge badge-s">S</span> — 0.5 วัน | 85,600 คน</div></div>
+      <div class="qw-card"><div class="qw-num">3</div><div><strong>เพิ่ม Loading Spinner/Progress Bar</strong> <span class="badge badge-s">S</span> — 0.5 วัน | 124,800 คน</div></div>
+      <div class="qw-card"><div class="qw-num">4</div><div><strong>เพิ่ม Breadcrumb Navigation</strong> ทุกโมดูล <span class="badge badge-s">S</span> — 1 วัน | 128,000 คน</div></div>
+      <div class="qw-card"><div class="qw-num">5</div><div><strong>เพิ่มขนาด Font เป็น 16px (base)</strong> <span class="badge badge-s">S</span> — 0.5 วัน | 74,400 คน</div></div>
+      <div class="qw-card"><div class="qw-num">6</div><div><strong>เพิ่ม Tooltips สำหรับ Icon Buttons</strong> <span class="badge badge-s">S</span> — 1 วัน | 110,800 คน</div></div>
+      <div class="qw-card"><div class="qw-num">7</div><div><strong>แก้ไข Date Picker ให้รองรับ พ.ศ.</strong> <span class="badge badge-s">S</span> — 1.5 วัน | 97,600 คน</div></div>
+      <div class="qw-card"><div class="qw-num">8</div><div><strong>เพิ่ม Session Timeout Warning</strong> 5 นาทีก่อนหมดอายุ <span class="badge badge-s">S</span> — 0.5 วัน | 132,400 คน</div></div>
+      <div class="qw-card"><div class="qw-num">9</div><div><strong>เพิ่ม Ctrl+S สำหรับ Save</strong> <span class="badge badge-s">S</span> — 0.5 วัน | 136,800 คน</div></div>
+      <div class="qw-card"><div class="qw-num">10</div><div><strong>แก้ไข Thai Font Rendering ใน Safari</strong> <span class="badge badge-s">S</span> — 1 วัน | 141,200 คน</div></div>
+      <div class="qw-card"><div class="qw-num">11</div><div><strong>เพิ่มปุ่ม "กลับสู่รายการ"</strong> ทุกหน้า <span class="badge badge-s">S</span> — 0.5 วัน | 52,000 คน</div></div>
+      <div class="qw-card"><div class="qw-num">12</div><div><strong>เพิ่ม Empty State Messages ภาษาไทย</strong> <span class="badge badge-s">S</span> — 1 วัน | 114,000 คน</div></div>
+      <div class="qw-card"><div class="qw-num">13</div><div><strong>แก้ Export ภาษาไทย (UTF-8 BOM)</strong> <span class="badge badge-s">S</span> — 0.5 วัน | 107,200 คน</div></div>
+      <div class="qw-card"><div class="qw-num">14</div><div><strong>เพิ่ม OCR Receipt Rotation</strong> 90/180/270 องศา <span class="badge badge-s">S</span> — 1 วัน | 90,400 คน</div></div>
+      <div class="qw-card"><div class="qw-num">15</div><div><strong>เพิ่ม Rejection Reason Field</strong> เมื่อปฏิเสธ <span class="badge badge-s">S</span> — 1 วัน | 76,800 คน</div></div>
     </div>
+    <p style="font-size:0.82rem;color:var(--text2);margin-bottom:24px;">ระยะเวลารวม: ประมาณ 12 วันทำการ (Developer 1 คน) หรือ 3 วัน (ทีม 4 คน) | ผู้ใช้ที่ได้ประโยชน์: ~320,000 คน (80%) | คะแนนคาดว่าเพิ่ม: +0.15 ถึง +0.25</p>
 
     <!-- Effort Definition -->
     <div class="card">
@@ -847,6 +871,171 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:v
           <tr><td><span class="badge badge-m">M (Medium)</span></td><td>2-4 สัปดาห์</td><td>2-3 developers</td></tr>
           <tr><td><span class="badge badge-l">L (Large)</span></td><td>1-2 เดือน</td><td>3-5 developers</td></tr>
           <tr><td><span class="badge badge-xl">XL (Extra Large)</span></td><td>2-4 เดือน</td><td>5+ developers, cross-functional</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <!-- ========== TAB: DEMOGRAPHICS ========== -->
+  <div class="tab-content" id="tab-demographics">
+    <div class="section-title"><span class="icon">📊</span> ข้อมูลประชากรศาสตร์ (Demographics) — 400,000 คน</div>
+
+    <!-- Industry Table -->
+    <div class="card" style="margin-bottom:24px;">
+      <div class="card-title">🏭 2.1 การกระจายตามอุตสาหกรรม (15 อุตสาหกรรม)</div>
+      <div style="overflow-x:auto;">
+        <table class="severity-table">
+          <thead><tr><th>#</th><th>อุตสาหกรรม</th><th>จำนวนผู้ใช้</th><th>%</th><th>คะแนน</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Manufacturing (การผลิต)</td><td>52,000</td><td>13.0%</td><td style="font-weight:700;">2.73</td></tr>
+            <tr><td>2</td><td>Banking/Finance (ธนาคาร/การเงิน)</td><td>48,000</td><td>12.0%</td><td style="font-weight:700;">3.04</td></tr>
+            <tr><td>3</td><td>Insurance (ประกันภัย)</td><td>36,000</td><td>9.0%</td><td style="font-weight:700;">2.89</td></tr>
+            <tr><td>4</td><td>Real Estate (อสังหาริมทรัพย์)</td><td>28,000</td><td>7.0%</td><td style="font-weight:700;">2.91</td></tr>
+            <tr><td>5</td><td>Retail (ค้าปลีก)</td><td>40,000</td><td>10.0%</td><td style="font-weight:700;">2.82</td></tr>
+            <tr><td>6</td><td>Healthcare (สาธารณสุข)</td><td>24,000</td><td>6.0%</td><td style="font-weight:700;">2.95</td></tr>
+            <tr><td>7</td><td>Education (การศึกษา)</td><td>20,000</td><td>5.0%</td><td style="font-weight:700;">3.08</td></tr>
+            <tr><td>8</td><td>Technology (เทคโนโลยี)</td><td>32,000</td><td>8.0%</td><td style="font-weight:700;color:var(--green);">3.21</td></tr>
+            <tr><td>9</td><td>Energy (พลังงาน)</td><td>16,000</td><td>4.0%</td><td style="font-weight:700;">2.78</td></tr>
+            <tr><td>10</td><td>Telecom (โทรคมนาคม)</td><td>20,000</td><td>5.0%</td><td style="font-weight:700;">2.84</td></tr>
+            <tr><td>11</td><td>Agriculture (เกษตรกรรม)</td><td>16,000</td><td>4.0%</td><td style="font-weight:700;color:var(--red);">2.43</td></tr>
+            <tr><td>12</td><td>Automotive (ยานยนต์)</td><td>20,000</td><td>5.0%</td><td style="font-weight:700;">2.79</td></tr>
+            <tr><td>13</td><td>Food & Beverage (อาหารและเครื่องดื่ม)</td><td>20,000</td><td>5.0%</td><td style="font-weight:700;">2.86</td></tr>
+            <tr><td>14</td><td>Hospitality (การโรงแรม)</td><td>12,000</td><td>3.0%</td><td style="font-weight:700;">2.92</td></tr>
+            <tr><td>15</td><td>Government (ภาครัฐ)</td><td>16,000</td><td>4.0%</td><td style="font-weight:700;color:var(--red);">2.38</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Geographic Distribution -->
+    <div class="card" style="margin-bottom:24px;">
+      <div class="card-title">🗺️ 2.2 การกระจายตามภูมิศาสตร์</div>
+      <div class="grid-2">
+        <div>
+          <h4 style="font-size:0.9rem;margin-bottom:12px;">🇹🇭 ผู้ใช้ในประเทศไทย (77 จังหวัด) — 340,000 คน (85%)</h4>
+          <table class="severity-table">
+            <thead><tr><th>ภูมิภาค</th><th>จำนวน</th><th>%</th><th>คะแนน</th></tr></thead>
+            <tbody>
+              <tr><td>กรุงเทพฯ และปริมณฑล (7 จังหวัด)</td><td>142,800</td><td>42.0%</td><td>2.94</td></tr>
+              <tr><td>ภาคกลาง (15 จังหวัด)</td><td>54,400</td><td>16.0%</td><td>2.87</td></tr>
+              <tr><td>ภาคตะวันออก EEC (7 จังหวัด)</td><td>40,800</td><td>12.0%</td><td>2.91</td></tr>
+              <tr><td>ภาคเหนือ (17 จังหวัด)</td><td>34,000</td><td>10.0%</td><td>2.78</td></tr>
+              <tr><td>ภาคตะวันออกเฉียงเหนือ (20)</td><td>37,400</td><td>11.0%</td><td>2.69</td></tr>
+              <tr><td>ภาคใต้ (14 จังหวัด)</td><td>30,600</td><td>9.0%</td><td>2.72</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <h4 style="font-size:0.9rem;margin-bottom:12px;">🌍 ผู้ใช้ต่างประเทศ (12 ประเทศ) — 60,000 คน (15%)</h4>
+          <table class="severity-table">
+            <thead><tr><th>ประเทศ</th><th>จำนวน</th><th>%</th><th>คะแนน</th></tr></thead>
+            <tbody>
+              <tr><td>🇯🇵 Japan</td><td>10,200</td><td>17.0%</td><td>3.02</td></tr>
+              <tr><td>🇨🇳 China</td><td>8,400</td><td>14.0%</td><td>2.78</td></tr>
+              <tr><td>🇸🇬 Singapore</td><td>7,800</td><td>13.0%</td><td style="color:var(--green);font-weight:700;">3.14</td></tr>
+              <tr><td>🇺🇸 USA</td><td>6,600</td><td>11.0%</td><td>3.08</td></tr>
+              <tr><td>🇬🇧 UK</td><td>4,200</td><td>7.0%</td><td>3.06</td></tr>
+              <tr><td>🇩🇪 Germany</td><td>3,600</td><td>6.0%</td><td>2.98</td></tr>
+              <tr><td>🇦🇺 Australia</td><td>3,600</td><td>6.0%</td><td>3.11</td></tr>
+              <tr><td>🇮🇳 India</td><td>4,800</td><td>8.0%</td><td>2.71</td></tr>
+              <tr><td>🇰🇷 Korea</td><td>3,600</td><td>6.0%</td><td>2.96</td></tr>
+              <tr><td>🇻🇳 Vietnam</td><td>3,000</td><td>5.0%</td><td>2.68</td></tr>
+              <tr><td>🇲🇲 Myanmar</td><td>2,400</td><td>4.0%</td><td style="color:var(--red);font-weight:700;">2.47</td></tr>
+              <tr><td>🇲🇾 Malaysia</td><td>1,800</td><td>3.0%</td><td>2.93</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Device & Browser -->
+    <div class="grid-2" style="margin-bottom:24px;">
+      <div class="card">
+        <div class="card-title">📱 2.6 การกระจายตามอุปกรณ์</div>
+        <table class="severity-table">
+          <thead><tr><th>อุปกรณ์</th><th>%</th><th>คะแนน</th></tr></thead>
+          <tbody>
+            <tr><td>Desktop (Windows)</td><td>37.0%</td><td>2.92</td></tr>
+            <tr><td>Desktop (macOS)</td><td>15.5%</td><td>2.97</td></tr>
+            <tr><td>Laptop</td><td>21.0%</td><td>2.89</td></tr>
+            <tr><td>Tablet (iPad)</td><td>7.8%</td><td>2.78</td></tr>
+            <tr><td>Tablet (Android)</td><td>4.7%</td><td>2.71</td></tr>
+            <tr><td>Mobile (iPhone)</td><td>8.7%</td><td>2.64</td></tr>
+            <tr><td>Mobile (Android)</td><td>5.3%</td><td>2.58</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-title">🌐 2.7 การกระจายตาม Browser</div>
+        <table class="severity-table">
+          <thead><tr><th>Browser</th><th>จำนวนผู้ใช้</th><th>%</th></tr></thead>
+          <tbody>
+            <tr><td>Chrome 122+</td><td>214,800</td><td>53.7%</td></tr>
+            <tr><td>Safari 17+</td><td>62,400</td><td>15.6%</td></tr>
+            <tr><td>Edge 122+</td><td>71,200</td><td>17.8%</td></tr>
+            <tr><td>Firefox 123+</td><td>38,400</td><td>9.6%</td></tr>
+            <tr><td>Samsung Internet</td><td>7,600</td><td>1.9%</td></tr>
+            <tr><td>Other</td><td>5,600</td><td>1.4%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Department & Company Size Summary -->
+    <div class="grid-2" style="margin-bottom:24px;">
+      <div class="card">
+        <div class="card-title">🏢 2.3 คะแนนแยกตามแผนก (8 แผนก)</div>
+        <table class="severity-table">
+          <thead><tr><th>แผนก</th><th>จำนวน</th><th>%</th><th>คะแนน</th></tr></thead>
+          <tbody>
+            <tr><td>Sales (ฝ่ายขาย)</td><td>64,000</td><td>16.0%</td><td style="font-weight:700;color:var(--green);">3.01</td></tr>
+            <tr><td>Marketing (การตลาด)</td><td>44,000</td><td>11.0%</td><td style="font-weight:700;">2.97</td></tr>
+            <tr><td>Event (อีเวนต์)</td><td>28,000</td><td>7.0%</td><td style="font-weight:700;">2.84</td></tr>
+            <tr><td>Procurement (จัดซื้อ)</td><td>68,000</td><td>17.0%</td><td style="font-weight:700;color:var(--red);">2.58</td></tr>
+            <tr><td>Logistics (โลจิสติกส์)</td><td>48,000</td><td>12.0%</td><td style="font-weight:700;">2.73</td></tr>
+            <tr><td>Admin (ธุรการ)</td><td>52,000</td><td>13.0%</td><td style="font-weight:700;">2.81</td></tr>
+            <tr><td>Accounting (บัญชี)</td><td>48,000</td><td>12.0%</td><td style="font-weight:700;">2.64</td></tr>
+            <tr><td>Finance (การเงิน)</td><td>48,000</td><td>12.0%</td><td style="font-weight:700;">2.69</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-title">🏗️ 2.4 คะแนนแยกตามขนาดบริษัท</div>
+        <table class="severity-table">
+          <thead><tr><th>ขนาด</th><th>จำนวน</th><th>%</th><th>คะแนน</th></tr></thead>
+          <tbody>
+            <tr><td>SME (<50 คน)</td><td>120,000</td><td>30.0%</td><td style="font-weight:700;">2.98</td></tr>
+            <tr><td>Medium (50-500 คน)</td><td>160,000</td><td>40.0%</td><td style="font-weight:700;">2.84</td></tr>
+            <tr><td>Large (500+ คน)</td><td>120,000</td><td>30.0%</td><td style="font-weight:700;">2.79</td></tr>
+          </tbody>
+        </table>
+
+        <div style="margin-top:16px;">
+          <div class="card-title">📊 V1 vs V2 เปรียบเทียบ</div>
+          <table class="severity-table">
+            <thead><tr><th>ตัวชี้วัด</th><th>V1 (4,000)</th><th>V2 (400,000)</th><th>เปลี่ยนแปลง</th></tr></thead>
+            <tbody>
+              <tr><td>คะแนนเฉลี่ย</td><td>3.18</td><td>2.87</td><td style="color:var(--red);font-weight:700;">-0.31 (-9.7%)</td></tr>
+              <tr><td>จำนวนปัญหา</td><td>171</td><td>847</td><td style="color:var(--red);font-weight:700;">+676 (+395%)</td></tr>
+              <tr><td>Critical Issues</td><td>14</td><td>89</td><td style="color:var(--red);font-weight:700;">+75 (+536%)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Change Resistance Summary -->
+    <div class="card" style="margin-bottom:24px;">
+      <div class="card-title" style="color:var(--red);">🔥 9. การต่อต้านการเปลี่ยนแปลง — 194,800 คน (48.7%) แสดงการต่อต้าน | กลุ่ม D (45+) สูงสุด 78.0%</div>
+      <table class="severity-table">
+        <thead><tr><th>ระดับการต่อต้าน</th><th>จำนวน</th><th>%</th><th>คำอธิบาย</th></tr></thead>
+        <tbody>
+          <tr><td style="color:var(--red);font-weight:700;">ต่อต้านอย่างรุนแรง</td><td>48,000</td><td>12.0%</td><td>ปฏิเสธการใช้งาน กลับไปใช้ Excel/ระบบเดิม</td></tr>
+          <tr><td style="color:var(--orange);font-weight:700;">ต่อต้านปานกลาง</td><td>78,400</td><td>19.6%</td><td>ใช้งานแบบจำใจ บ่นเป็นประจำ ใช้ไม่เต็มที่</td></tr>
+          <tr><td>ต่อต้านเล็กน้อย</td><td>68,400</td><td>17.1%</td><td>ยอมรับแต่ไม่พอใจ ต้องการการปรับปรุง</td></tr>
+          <tr><td style="color:var(--blue);">ยอมรับ</td><td>124,800</td><td>31.2%</td><td>ใช้งานได้ตามปกติ</td></tr>
+          <tr><td style="color:var(--green);font-weight:700;">กระตือรือร้น</td><td>80,400</td><td>20.1%</td><td>ชอบระบบใหม่ อยากให้พัฒนาต่อ</td></tr>
         </tbody>
       </table>
     </div>
@@ -891,7 +1080,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:v
             <label>ขนาดบริษัท (Company Size)</label>
             <select id="fbCompanySize" required>
               <option value="">-- เลือกขนาด --</option>
-              <option>SME (1-50)</option><option>Medium (51-500)</option><option>Large Enterprise (500+)</option>
+              <option>SME (1-50)</option><option>Medium (51-500)</option><option>Large (500+ คน)</option>
             </select>
           </div>
           <div class="form-group">
@@ -957,182 +1146,99 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:v
 <script>
 // ===== Data =====
 const issuesData = [
-  // === Original issues x100 ===
-  {id:'CROSS-001',module:'Cross-Module',desc:'Navigation ลึกเกิน 4+ คลิก (เฉลี่ย 4.7 คลิก)',users:284700,pct:'71.2%',severity:'Critical',groups:'A, D',status:'Open'},
-  {id:'CN-001',module:'Connectors',desc:'Connector setup ซับซ้อนเกินไปสำหรับ non-technical users',users:256700,pct:'64.2%',severity:'Critical',groups:'D, C',status:'Open'},
-  {id:'EX-001',module:'Expense & Receipt',desc:'OCR อ่านใบเสร็จภาษาไทยผิดพลาดสูง (~67% accuracy)',users:245600,pct:'61.4%',severity:'Critical',groups:'D, A',status:'In Progress'},
-  {id:'CROSS-002',module:'Cross-Module',desc:'ไม่มี global search ข้ามโมดูล',users:245600,pct:'61.4%',severity:'Critical',groups:'A, B',status:'Open'},
-  {id:'PR-001',module:'Procurement',desc:'สร้าง PR ต้องกรอกข้อมูลหลายหน้า ไม่มี draft save',users:213400,pct:'53.4%',severity:'Critical',groups:'A, B',status:'In Progress'},
-  {id:'SY-004',module:'System',desc:'ไม่รองรับ LINE Official Account integration',users:213400,pct:'53.4%',severity:'Critical',groups:'A, B',status:'Open'},
-  {id:'CN-002',module:'Connectors',desc:'ไม่มี pre-built connectors สำหรับระบบที่นิยมในไทย',users:189100,pct:'47.3%',severity:'Critical',groups:'C, B',status:'Open'},
-  {id:'VM-001',module:'Vendor Management',desc:'เปรียบเทียบ Vendor ใช้เวลาโหลดนาน 8-12 วินาที',users:189100,pct:'47.3%',severity:'Critical',groups:'D, C',status:'In Progress'},
-  {id:'SY-001',module:'System',desc:'Permission system ซับซ้อนเกินไป ไม่มี role template',users:189100,pct:'47.3%',severity:'Critical',groups:'D, C',status:'Open'},
-  {id:'CROSS-007',module:'Cross-Module',desc:'ไม่มี Undo/Redo ในทุกโมดูล',users:172300,pct:'43.1%',severity:'Critical',groups:'B, A',status:'Open'},
-  {id:'LG-001',module:'Logistics FX',desc:'Freight OCR ไม่รองรับเอกสารขนส่งไทย',users:167800,pct:'42.0%',severity:'Critical',groups:'B, C',status:'Open'},
-  {id:'SD-001',module:'Sales Doc Gen',desc:'Template ไม่รองรับรูปแบบเอกสารธุรกิจไทย',users:156700,pct:'39.2%',severity:'Critical',groups:'C, D',status:'Open'},
-  {id:'CF-001',module:'Customer Feedback',desc:'ไม่มี Thai sentiment analysis',users:156700,pct:'39.2%',severity:'Critical',groups:'C, B',status:'Open'},
-  {id:'CROSS-017',module:'Cross-Module',desc:'34 elements ไม่สามารถเข้าถึงด้วย keyboard',users:123400,pct:'30.9%',severity:'Critical',groups:'D, C',status:'Open'},
-  {id:'PR-002',module:'Procurement',desc:'ไม่สามารถสร้าง PO จาก PR ได้โดยตรง',users:145600,pct:'36.4%',severity:'Critical',groups:'C, B',status:'Open'},
-  {id:'VM-002',module:'Vendor Management',desc:'Quotation Analysis ไม่รองรับไฟล์ภาษาไทย (TIS-620)',users:93400,pct:'23.4%',severity:'Critical',groups:'C, B',status:'Open'},
-  {id:'CROSS-003',module:'Cross-Module',desc:'Help documentation เป็นภาษาอังกฤษเท่านั้น',users:245600,pct:'61.4%',severity:'High',groups:'D, C',status:'Open'},
-  {id:'CROSS-004',module:'Cross-Module',desc:'ป้ายกำกับ Thai/English ปะปนไม่สม่ำเสมอ',users:219300,pct:'54.8%',severity:'High',groups:'D, C',status:'Open'},
-  {id:'CROSS-005',module:'Cross-Module',desc:'Initial page load > 4.8 วินาที',users:213400,pct:'53.4%',severity:'High',groups:'D, C',status:'In Progress'},
-  {id:'CROSS-006',module:'Cross-Module',desc:'ไม่มีตัวเลือกแสดงวันที่แบบ พ.ศ.',users:189100,pct:'47.3%',severity:'High',groups:'D, C',status:'Open'},
-  {id:'HD-001',module:'Home Dashboard',desc:'Dashboard ไม่สามารถ customize ได้ตามความต้องการ',users:184700,pct:'46.2%',severity:'High',groups:'B, C',status:'Open'},
-  {id:'EX-002',module:'Expense & Receipt',desc:'ไม่สามารถ upload ใบเสร็จหลายใบพร้อมกันได้',users:178900,pct:'44.7%',severity:'High',groups:'A, B',status:'Open'},
-  {id:'CROSS-009',module:'Cross-Module',desc:'Error messages เป็นภาษาอังกฤษเท่านั้น',users:167800,pct:'42.0%',severity:'High',groups:'D, C',status:'Open'},
-  {id:'PR-003',module:'Procurement',desc:'3-Way Match แสดงผลเปรียบเทียบซับซ้อนเกินไป',users:167800,pct:'42.0%',severity:'High',groups:'D, C',status:'Open'},
-  {id:'CROSS-011',module:'Cross-Module',desc:'ไม่มี breadcrumb navigation',users:189100,pct:'47.3%',severity:'High',groups:'D, A',status:'Open'},
-  {id:'CROSS-010',module:'Cross-Module',desc:'Charts/graphs อ่านไม่ได้บนหน้าจอ < 768px',users:156700,pct:'39.2%',severity:'High',groups:'A, B',status:'Open'},
-  {id:'HD-004',module:'Home Dashboard',desc:'ไม่มี Quick Action buttons สำหรับงานที่ทำบ่อย',users:156700,pct:'39.2%',severity:'High',groups:'A, B',status:'Open'},
-  {id:'SY-003',module:'System',desc:'Settings page ไม่มี search function',users:156700,pct:'39.2%',severity:'High',groups:'A, B',status:'Open'},
-  {id:'FD-001',module:'Finance Doc Hub',desc:'เอกสารแนบแสดงเป็นรายการยาว ไม่จัดกลุ่มตามประเภท',users:156700,pct:'39.2%',severity:'High',groups:'D, C',status:'Open'},
-  {id:'CROSS-012',module:'Cross-Module',desc:'Tables overflow บนมือถือ ไม่มี scroll indicator',users:163400,pct:'40.9%',severity:'High',groups:'A, B',status:'Open'},
-  {id:'CROSS-013',module:'Cross-Module',desc:'ไม่มี offline capability',users:145600,pct:'36.4%',severity:'High',groups:'A, B',status:'Open'},
-  {id:'CN-003',module:'Connectors',desc:'API error ไม่แสดง human-readable message',users:145600,pct:'36.4%',severity:'High',groups:'A, C',status:'Open'},
-  {id:'LG-003',module:'Logistics FX',desc:'ไม่มี real-time shipment tracking',users:145600,pct:'36.4%',severity:'High',groups:'A, B',status:'Open'},
-  {id:'FD-003',module:'Finance Doc Hub',desc:'ไม่สามารถ annotate หรือ comment บน PDF ได้',users:134500,pct:'33.6%',severity:'High',groups:'C, B',status:'Open'},
-  {id:'SY-002',module:'System',desc:'Billing page ไม่แสดงรายละเอียดค่าใช้จ่ายที่เข้าใจง่าย',users:134500,pct:'33.6%',severity:'High',groups:'D, C',status:'Open'},
-  {id:'PR-005',module:'Procurement',desc:'Analytics export ได้แค่ PDF ไม่มี Excel/CSV',users:131200,pct:'32.8%',severity:'High',groups:'C, B',status:'Open'},
-  {id:'EX-003',module:'Expense & Receipt',desc:'Approval workflow ไม่ยืดหยุ่น ไม่มี delegation',users:123400,pct:'30.9%',severity:'High',groups:'C, D',status:'Open'},
-  {id:'SD-002',module:'Sales Doc Gen',desc:'Pipeline view ไม่มี drag-and-drop สำหรับเปลี่ยนสถานะ',users:123400,pct:'30.9%',severity:'High',groups:'A, B',status:'Open'},
-  {id:'LG-002',module:'Logistics FX',desc:'Cost Calculator ไม่รองรับอัตราค่าขนส่งแบบไทย',users:123400,pct:'30.9%',severity:'High',groups:'C, B',status:'Open'},
-  {id:'HD-002',module:'Home Dashboard',desc:'Widget แสดงตัวเลขโดยไม่มี trend context',users:123400,pct:'30.9%',severity:'High',groups:'D, C',status:'Open'},
-  {id:'VM-003',module:'Vendor Management',desc:'ไม่มีระบบให้คะแนน Vendor อัตโนมัติ',users:112300,pct:'28.1%',severity:'High',groups:'B, C',status:'Open'},
-  {id:'CF-002',module:'Customer Feedback',desc:'Survey builder ไม่มี conditional logic/branching',users:112300,pct:'28.1%',severity:'High',groups:'B, A',status:'Open'},
-  {id:'FD-002',module:'Finance Doc Hub',desc:'Verification workflow ไม่มี checklist/template',users:112300,pct:'28.1%',severity:'High',groups:'B, C',status:'Open'},
-  {id:'SD-003',module:'Sales Doc Gen',desc:'ไม่สามารถ auto-generate เอกสารจาก Pipeline ได้',users:108900,pct:'27.2%',severity:'High',groups:'B, A',status:'Open'},
-  {id:'PR-004',module:'Procurement',desc:'ไม่มีฟังก์ชัน Bulk PO Creation',users:98700,pct:'24.7%',severity:'High',groups:'B, C',status:'Open'},
-  {id:'CN-004',module:'Connectors',desc:'ไม่มี connection health monitoring แบบ real-time',users:98700,pct:'24.7%',severity:'High',groups:'B, C',status:'Open'},
-  {id:'SY-005',module:'System',desc:'ไม่มี audit log สำหรับ admin actions',users:87600,pct:'21.9%',severity:'High',groups:'C, D',status:'Open'},
-  {id:'CF-003',module:'Customer Feedback',desc:'ไม่ integrate กับ CRM/ticket system',users:93400,pct:'23.4%',severity:'High',groups:'B, C',status:'Open'},
-  {id:'EX-004',module:'Expense & Receipt',desc:'ไม่มี Policy Engine ตรวจสอบค่าใช้จ่ายอัตโนมัติ',users:106700,pct:'26.7%',severity:'High',groups:'C, B',status:'Open'},
-  {id:'CROSS-008',module:'Cross-Module',desc:'ไม่มี recently visited items',users:167800,pct:'42.0%',severity:'Medium',groups:'A, B',status:'Open'},
-  {id:'CROSS-014',module:'Cross-Module',desc:'Thai font kerning/rendering issues',users:145600,pct:'36.4%',severity:'Medium',groups:'D, C',status:'Open'},
-  {id:'CROSS-015',module:'Cross-Module',desc:'ไม่มีตัวเลือกเปลี่ยนประเภทกราฟ',users:145600,pct:'36.4%',severity:'Medium',groups:'C, B',status:'Open'},
-  {id:'CROSS-016',module:'Cross-Module',desc:'Dark mode ไม่สม่ำเสมอใน 4 โมดูล',users:123400,pct:'30.9%',severity:'Medium',groups:'A, B',status:'Open'},
-  {id:'CROSS-018',module:'Cross-Module',desc:'Thai word segmentation ใน search ไม่ถูกต้อง',users:123400,pct:'30.9%',severity:'Medium',groups:'A, B',status:'Open'},
-  {id:'CROSS-019',module:'Cross-Module',desc:'ไม่มี interactive tooltips บนกราฟ',users:112300,pct:'28.1%',severity:'Medium',groups:'D, C',status:'Open'},
-  {id:'HD-005',module:'Home Dashboard',desc:'Notifications ปะปน ไม่จัดหมวดหมู่',users:108900,pct:'27.2%',severity:'Medium',groups:'C, D',status:'Open'},
-  {id:'CROSS-020',module:'Cross-Module',desc:'Data grouping ได้แค่ daily/monthly',users:108900,pct:'27.2%',severity:'Medium',groups:'C, B',status:'Open'},
-  {id:'FD-005',module:'Finance Doc Hub',desc:'Thai keyword search ค้นหาไม่แม่นยำ',users:103400,pct:'25.9%',severity:'Medium',groups:'A, B',status:'Open'},
-  {id:'EX-005',module:'Expense & Receipt',desc:'Analytics ไม่แสดง breakdown ตามประเภทค่าใช้จ่าย',users:89200,pct:'22.3%',severity:'Medium',groups:'D, C',status:'Open'},
-  {id:'VM-004',module:'Vendor Management',desc:'Tasks ไม่เชื่อมโยงกับ Timeline โปรเจค',users:87600,pct:'21.9%',severity:'Medium',groups:'C, B',status:'Open'},
-  {id:'CROSS-021',module:'Cross-Module',desc:'Dropdown menus ถูกตัดบนมือถือ',users:87600,pct:'21.9%',severity:'Medium',groups:'A, B',status:'Open'},
-  {id:'CROSS-022',module:'Cross-Module',desc:'Thai sorting order ไม่ถูกต้อง',users:87600,pct:'21.9%',severity:'Medium',groups:'D, C',status:'Open'},
-  {id:'LG-004',module:'Logistics FX',desc:'ไม่มี Cost-per-unit analysis',users:84500,pct:'21.1%',severity:'Medium',groups:'C, B',status:'Open'},
-  {id:'CROSS-023',module:'Cross-Module',desc:'Exported charts สูญเสียคุณภาพใน PDF',users:84500,pct:'21.1%',severity:'Medium',groups:'C, D',status:'Open'},
-  {id:'CF-004',module:'Customer Feedback',desc:'Reporting ไม่มี trend analysis ข้าม period',users:78900,pct:'19.7%',severity:'Medium',groups:'D, C',status:'Open'},
-  {id:'SD-004',module:'Sales Doc Gen',desc:'Analytics ขาด Conversion Rate analysis',users:75600,pct:'18.9%',severity:'Medium',groups:'D, B',status:'Open'},
-  {id:'FD-004',module:'Finance Doc Hub',desc:'Dashboard ไม่ update real-time (batch 1 ชม.)',users:75600,pct:'18.9%',severity:'Medium',groups:'C, B',status:'Open'},
-  {id:'HD-003',module:'Home Dashboard',desc:'กราฟ Dashboard อ่านยากบนมือถือ',users:74300,pct:'18.6%',severity:'Medium',groups:'A, B',status:'Open'},
-  {id:'VM-005',module:'Vendor Management',desc:'Audit Report ไม่สามารถ filter ช่วงเวลาเองได้',users:67800,pct:'17.0%',severity:'Medium',groups:'C, B',status:'Open'},
-  {id:'CROSS-024',module:'Cross-Module',desc:'Pinch-to-zoom ถูกปิดในบางโมดูล',users:67800,pct:'17.0%',severity:'Medium',groups:'D, A',status:'Open'},
-  {id:'CROSS-025',module:'Cross-Module',desc:'ไม่รองรับตัวเลขไทย (๐-๙)',users:56700,pct:'14.2%',severity:'Low',groups:'D, C',status:'Open'},
-  {id:'LG-003b',module:'Logistics FX',desc:'Province names แสดงเป็น romanized แทนภาษาไทย',users:58000,pct:'14.5%',severity:'Low',groups:'D, C',status:'Open'},
-
-  // === NEW Issues (Thai business workflows, departments, expanded scope) ===
-  {id:'CROSS-030',module:'Cross-Module',desc:'ไม่มีระบบสำรองจ่ายล่วงหน้า (Advance Payment)',users:198400,pct:'49.6%',severity:'Critical',groups:'B, C',status:'Open'},
-  {id:'CROSS-031',module:'Cross-Module',desc:'ไม่รองรับ e-Tax Invoice ตามมาตรฐานกรมสรรพากร',users:187200,pct:'46.8%',severity:'Critical',groups:'C, D',status:'Open'},
-  {id:'EX-010',module:'Expense & Receipt',desc:'ไม่รองรับ PromptPay QR Code สำหรับการเบิกจ่าย',users:176800,pct:'44.2%',severity:'Critical',groups:'A, B',status:'Open'},
-  {id:'PR-010',module:'Procurement',desc:'ไม่มี Goods Receipt (GR) module เชื่อมกับ PO',users:165400,pct:'41.4%',severity:'Critical',groups:'C, B',status:'Open'},
-  {id:'EX-011',module:'Expense & Receipt',desc:'ไม่มี per diem อัตโนมัติตามอัตราราชการไทย',users:154200,pct:'38.6%',severity:'High',groups:'B, C',status:'Open'},
-  {id:'EX-012',module:'Expense & Receipt',desc:'ไม่รองรับ e-Slip จากธนาคาร (SCB, KBANK, BBL)',users:148600,pct:'37.2%',severity:'Critical',groups:'A, B',status:'Open'},
-  {id:'PR-011',module:'Procurement',desc:'ไม่รองรับ Blanket PO / Contract PO',users:134800,pct:'33.7%',severity:'High',groups:'C, D',status:'Open'},
-  {id:'EX-013',module:'Expense & Receipt',desc:'ไม่มี corporate card reconciliation',users:128400,pct:'32.1%',severity:'High',groups:'B, C',status:'Open'},
-  {id:'LG-010',module:'Logistics FX',desc:'ไม่เชื่อมต่อ Kerry/Flash/J&T/Thailand Post API',users:142600,pct:'35.7%',severity:'Critical',groups:'B, A',status:'Open'},
-  {id:'SD-010',module:'Sales Doc Gen',desc:'ไม่รองรับ e-Signature สำหรับเอกสาร',users:123800,pct:'30.9%',severity:'High',groups:'C, B',status:'Open'},
-  {id:'CROSS-032',module:'Cross-Module',desc:'ไม่มี multi-currency support ครบวงจร',users:156200,pct:'39.1%',severity:'Critical',groups:'C, D',status:'Open'},
-  {id:'CROSS-033',module:'Cross-Module',desc:'ไม่มี training mode / sandbox สำหรับเรียนรู้',users:234000,pct:'58.5%',severity:'High',groups:'D, C',status:'Open'},
-  {id:'FD-010',module:'Finance Doc Hub',desc:'ไม่รองรับ monthly closing workflow อัตโนมัติ',users:118200,pct:'29.6%',severity:'High',groups:'C, D',status:'Open'},
-  {id:'CROSS-034',module:'Cross-Module',desc:'ไม่มี data migration tool จากระบบเดิม (Excel/SAP/Express)',users:267800,pct:'67.0%',severity:'Critical',groups:'C, D',status:'Open'},
-  {id:'EX-014',module:'Expense & Receipt',desc:'ไม่รองรับ split billing ข้ามแผนก/โปรเจค',users:112400,pct:'28.1%',severity:'High',groups:'B, C',status:'Open'},
-  {id:'PR-012',module:'Procurement',desc:'ไม่มี vendor recommendation จาก AI ตามประวัติจัดซื้อ',users:108600,pct:'27.2%',severity:'Medium',groups:'B, A',status:'Open'},
-  {id:'EV-001',module:'Expense & Receipt',desc:'ไม่มี event budget tracking module แยกต่างหาก',users:98400,pct:'24.6%',severity:'High',groups:'A, B',status:'Open'},
-  {id:'CROSS-035',module:'Cross-Module',desc:'ไม่มี notification ผ่าน LINE / SMS',users:213400,pct:'53.4%',severity:'Critical',groups:'A, D',status:'Open'},
-  {id:'CROSS-036',module:'Cross-Module',desc:'ไม่มี approval delegation เมื่อลาหยุด',users:178600,pct:'44.7%',severity:'Critical',groups:'C, D',status:'Open'},
-  {id:'SD-011',module:'Sales Doc Gen',desc:'ไม่มีระบบ withholding tax คำนวณอัตโนมัติ',users:134200,pct:'33.6%',severity:'High',groups:'C, D',status:'Open'},
-  {id:'CROSS-037',module:'Cross-Module',desc:'ไม่รองรับ 2FA / SSO (Azure AD, Google Workspace)',users:167800,pct:'42.0%',severity:'Critical',groups:'C, D',status:'Open'},
-  {id:'FD-011',module:'Finance Doc Hub',desc:'ไม่เชื่อมต่อกับ Express/PEAK/Prosoft accounting',users:198400,pct:'49.6%',severity:'Critical',groups:'C, D',status:'Open'},
-  {id:'CROSS-038',module:'Cross-Module',desc:'ไม่มี audit trail ที่ export ได้สำหรับ compliance',users:145200,pct:'36.3%',severity:'High',groups:'C, D',status:'Open'},
-  {id:'CROSS-039',module:'Cross-Module',desc:'ไม่มี role-based dashboard (เห็นเฉพาะสิ่งที่เกี่ยวข้อง)',users:184700,pct:'46.2%',severity:'High',groups:'B, C',status:'Open'},
-  {id:'EX-015',module:'Expense & Receipt',desc:'ไม่มี mileage calculator สำหรับเบิกค่าเดินทาง',users:87600,pct:'21.9%',severity:'Medium',groups:'A, B',status:'Open'},
-
-  // === Department-specific & expanded issues ===
-  {id:'MK-001',module:'Cross-Module',desc:'ไม่มี campaign expense tracking แยกตาม campaign',users:92400,pct:'23.1%',severity:'High',groups:'A, B',status:'Open'},
-  {id:'MK-002',module:'Cross-Module',desc:'ไม่มี marketing ROI dashboard',users:78600,pct:'19.7%',severity:'Medium',groups:'B, A',status:'Open'},
-  {id:'EV-002',module:'Cross-Module',desc:'ไม่มี venue booking & event logistics module',users:67800,pct:'17.0%',severity:'Medium',groups:'A, B',status:'Open'},
-  {id:'EV-003',module:'Expense & Receipt',desc:'ไม่สามารถแยกค่าใช้จ่าย event ตาม budget line ได้',users:72400,pct:'18.1%',severity:'Medium',groups:'A, B',status:'Open'},
-  {id:'AD-001',module:'System',desc:'ไม่มี bulk user onboarding / CSV import สำหรับ admin',users:134600,pct:'33.7%',severity:'High',groups:'C, D',status:'Open'},
-  {id:'AD-002',module:'System',desc:'ไม่มี user activity monitoring dashboard สำหรับ admin',users:98200,pct:'24.6%',severity:'Medium',groups:'C, D',status:'Open'},
-  {id:'AD-003',module:'System',desc:'ไม่มี automated user deprovisioning เมื่อพนักงานลาออก',users:87400,pct:'21.9%',severity:'High',groups:'C, D',status:'Open'},
-  {id:'INT-001',module:'Cross-Module',desc:'ไม่รองรับ multi-language UI (EN, TH, ZH, JA)',users:112800,pct:'28.2%',severity:'High',groups:'B, C',status:'Open'},
-  {id:'INT-002',module:'Cross-Module',desc:'ไม่มี GDPR compliance module สำหรับ EU operations',users:67200,pct:'16.8%',severity:'Medium',groups:'C, D',status:'Open'},
-  {id:'INT-003',module:'Connectors',desc:'ไม่มี WeChat integration สำหรับลูกค้าจีน',users:45600,pct:'11.4%',severity:'Medium',groups:'B, C',status:'Open'},
-  {id:'INT-004',module:'Cross-Module',desc:'ไม่รองรับ timezone management สำหรับ multi-country',users:78400,pct:'19.6%',severity:'Medium',groups:'B, C',status:'Open'},
-  {id:'HD-006',module:'Home Dashboard',desc:'ไม่มี KPI alert/threshold notifications',users:134200,pct:'33.6%',severity:'High',groups:'C, D',status:'Open'},
-  {id:'HD-007',module:'Home Dashboard',desc:'Dashboard ไม่มี export to PPT สำหรับ management report',users:98600,pct:'24.7%',severity:'Medium',groups:'C, D',status:'Open'},
-  {id:'PR-013',module:'Procurement',desc:'ไม่มี purchase requisition approval matrix ตามวงเงิน',users:145800,pct:'36.5%',severity:'High',groups:'C, D',status:'Open'},
-  {id:'PR-014',module:'Procurement',desc:'ไม่มี vendor portal สำหรับ supplier self-service',users:112400,pct:'28.1%',severity:'Medium',groups:'B, C',status:'Open'},
-  {id:'EX-016',module:'Expense & Receipt',desc:'ไม่มี automatic exchange rate update สำหรับค่าใช้จ่ายต่างประเทศ',users:89200,pct:'22.3%',severity:'Medium',groups:'B, C',status:'Open'},
-  {id:'EX-017',module:'Expense & Receipt',desc:'ไม่รองรับ receipt จาก e-commerce platforms (Shopee, Lazada)',users:134800,pct:'33.7%',severity:'High',groups:'A, B',status:'Open'},
-  {id:'VM-006',module:'Vendor Management',desc:'ไม่มี vendor risk assessment module',users:78400,pct:'19.6%',severity:'Medium',groups:'C, D',status:'Open'},
-  {id:'VM-007',module:'Vendor Management',desc:'ไม่มี contract expiry notification อัตโนมัติ',users:98700,pct:'24.7%',severity:'High',groups:'C, B',status:'Open'},
-  {id:'FD-012',module:'Finance Doc Hub',desc:'ไม่มี document version control / revision history',users:112400,pct:'28.1%',severity:'High',groups:'C, D',status:'Open'},
-  {id:'FD-013',module:'Finance Doc Hub',desc:'ไม่มี digital stamp/seal สำหรับเอกสารราชการ',users:89600,pct:'22.4%',severity:'Medium',groups:'C, D',status:'Open'},
-  {id:'LG-011',module:'Logistics FX',desc:'ไม่มี warehouse management module',users:98400,pct:'24.6%',severity:'High',groups:'B, C',status:'Open'},
-  {id:'LG-012',module:'Logistics FX',desc:'ไม่รองรับ customs declaration form (ใบขนสินค้า)',users:67800,pct:'17.0%',severity:'Medium',groups:'C, D',status:'Open'},
-  {id:'SD-012',module:'Sales Doc Gen',desc:'ไม่มี CRM integration (Salesforce, HubSpot)',users:112600,pct:'28.2%',severity:'High',groups:'B, A',status:'Open'},
-  {id:'SD-013',module:'Sales Doc Gen',desc:'ไม่มี automated follow-up reminder',users:89200,pct:'22.3%',severity:'Medium',groups:'A, B',status:'Open'},
-  {id:'CF-005',module:'Customer Feedback',desc:'ไม่มี NPS tracking แบบ real-time',users:67400,pct:'16.9%',severity:'Medium',groups:'B, C',status:'Open'},
-  {id:'CF-006',module:'Customer Feedback',desc:'ไม่มี feedback routing ตามประเภทไปยังทีมที่เกี่ยวข้อง',users:78900,pct:'19.7%',severity:'Medium',groups:'B, C',status:'Open'},
-  {id:'SY-006',module:'System',desc:'ไม่มี API rate limiting dashboard',users:56700,pct:'14.2%',severity:'Low',groups:'B, C',status:'Open'},
-  {id:'SY-007',module:'System',desc:'ไม่มี system health monitoring page สำหรับ users',users:89400,pct:'22.4%',severity:'Medium',groups:'A, B',status:'Open'},
-  {id:'SY-008',module:'System',desc:'ไม่มี data backup/restore self-service',users:134200,pct:'33.6%',severity:'High',groups:'C, D',status:'Open'},
-  {id:'CROSS-040',module:'Cross-Module',desc:'ไม่มี keyboard shortcuts สำหรับ power users',users:98400,pct:'24.6%',severity:'Medium',groups:'A, B',status:'Open'},
-  {id:'CROSS-041',module:'Cross-Module',desc:'ไม่มี batch export/import ข้ามโมดูล',users:156200,pct:'39.1%',severity:'High',groups:'B, C',status:'Open'},
-  {id:'CROSS-042',module:'Cross-Module',desc:'ไม่มี contextual help / guided tours',users:198400,pct:'49.6%',severity:'High',groups:'D, A',status:'Open'},
-  {id:'CROSS-043',module:'Cross-Module',desc:'ไม่มี fiscal year configuration ตามปฏิทินไทย',users:145600,pct:'36.4%',severity:'High',groups:'C, D',status:'Open'},
-  {id:'CROSS-044',module:'Cross-Module',desc:'ไม่มี print-friendly layout สำหรับเอกสาร',users:112400,pct:'28.1%',severity:'Medium',groups:'D, C',status:'Open'},
-  {id:'CROSS-045',module:'Cross-Module',desc:'ไม่มี email notification customization',users:89600,pct:'22.4%',severity:'Medium',groups:'B, C',status:'Open'},
-  {id:'CROSS-046',module:'Cross-Module',desc:'ไม่มี data retention policy configuration',users:67800,pct:'17.0%',severity:'Low',groups:'C, D',status:'Open'},
-  {id:'CROSS-047',module:'Cross-Module',desc:'ไม่รองรับ barcode/QR code scanning บนมือถือ',users:134200,pct:'33.6%',severity:'High',groups:'A, B',status:'Open'},
-  {id:'CROSS-048',module:'Cross-Module',desc:'ไม่มี inter-module workflow automation (trigger-based)',users:167800,pct:'42.0%',severity:'Critical',groups:'B, C',status:'Open'},
-  {id:'CROSS-049',module:'Cross-Module',desc:'ไม่มี AI-powered data entry suggestions',users:178400,pct:'44.6%',severity:'High',groups:'A, B',status:'Open'},
-  {id:'CROSS-050',module:'Cross-Module',desc:'ไม่มี scheduled report generation & distribution',users:145200,pct:'36.3%',severity:'High',groups:'C, D',status:'Open'},
+  // === Top 10 Critical Issues from V2 Report ===
+  {id:'CROSS-001',module:'Cross-Module',desc:'Navigation ลึกเกิน 4+ คลิก ทำให้เสียเวลาหาเมนู',users:284700,pct:'71.2%',severity:'Critical',groups:'A,B,C,D',status:'Open'},
+  {id:'CROSS-002',module:'Cross-Module',desc:'ไม่มี Global Search ภาษาไทย ค้นหาข้ามโมดูลไม่ได้',users:246800,pct:'61.7%',severity:'Critical',groups:'C,D',status:'Open'},
+  {id:'PROC-001',module:'Procurement PR/PO',desc:'ไม่มี Template PR สำหรับงานซ้ำ ต้องกรอกใหม่ทุกครั้ง',users:231200,pct:'57.8%',severity:'Critical',groups:'B,C',status:'In Progress'},
+  {id:'EXP-001',module:'Expense Receipt OCR',desc:'OCR อ่านใบเสร็จภาษาไทยไม่แม่นยำ (62.3%)',users:216800,pct:'54.2%',severity:'Critical',groups:'C,D',status:'In Progress'},
+  {id:'CROSS-003',module:'Cross-Module',desc:'ไม่มีระบบ Undo/Redo ในทุกโมดูล 31,200 กรณีข้อมูลหาย',users:198400,pct:'49.6%',severity:'Critical',groups:'A,D',status:'Open'},
+  {id:'CROSS-004',module:'Cross-Module',desc:'Performance ช้าเมื่อข้อมูลเกิน 500 แถว Load เพิ่มขึ้น 340%',users:189200,pct:'47.3%',severity:'Critical',groups:'B,C',status:'In Progress'},
+  {id:'EXP-002',module:'Expense Tasks/Claims',desc:'Expense Claims ไม่รองรับ Multi-level Approval',users:178400,pct:'44.6%',severity:'Critical',groups:'C,D',status:'Planned'},
+  {id:'FIN-001',module:'Finance Verification',desc:'Finance Verification ไม่รองรับ Multi-currency รองรับเฉพาะ THB',users:167600,pct:'41.9%',severity:'Critical',groups:'B,C',status:'Open'},
+  {id:'CROSS-005',module:'Cross-Module',desc:'Mobile Responsiveness ไม่เพียงพอ (<390px)',users:163600,pct:'40.9%',severity:'Critical',groups:'A,B',status:'In Progress'},
+  {id:'PROC-002',module:'Procurement PR/PO',desc:'ไม่มี Bulk Operations สำหรับ PO ต้องทำทีละใบ',users:156800,pct:'39.2%',severity:'Critical',groups:'B,C',status:'Planned'},
+  // === Additional Critical/High from V2 Full Issue List ===
+  {id:'CROSS-006',module:'Cross-Module',desc:'ไม่มี Notification Center รวม แจ้งเตือนกระจัดกระจาย',users:152000,pct:'38.0%',severity:'High',groups:'B,C',status:'Planned'},
+  {id:'CROSS-007',module:'Cross-Module',desc:'ไม่มี Dark Mode ทำให้ปวดตาเมื่อใช้นาน',users:148400,pct:'37.1%',severity:'High',groups:'A',status:'Open'},
+  {id:'PROC-003',module:'Procurement PR/PO',desc:'ไม่รองรับ Approval Workflow หลายระดับ',users:148000,pct:'37.0%',severity:'Critical',groups:'C,D',status:'Planned'},
+  {id:'SALES-001',module:'Sales Dashboard',desc:'ไม่มี Pipeline View แบบ Kanban สำหรับ Sales',users:148000,pct:'37.0%',severity:'Critical',groups:'A,B',status:'Open'},
+  {id:'CONN-001',module:'Connector Hub',desc:'ไม่มี Pre-built Connector สำหรับ SAP, Oracle',users:144000,pct:'36.0%',severity:'Critical',groups:'C',status:'Open'},
+  {id:'CROSS-008',module:'Cross-Module',desc:'Font ภาษาไทย Render ผิดใน Safari และ Firefox',users:141200,pct:'35.3%',severity:'High',groups:'C,D',status:'In Progress'},
+  {id:'PROC-004',module:'Procurement PR/PO',desc:'ไม่มี Vendor Rating System ประเมิน Vendor ไม่ได้',users:141200,pct:'35.3%',severity:'High',groups:'B,C',status:'Open'},
+  {id:'SALES-002',module:'Sales Dashboard',desc:'ไม่รองรับ Quotation Management',users:140400,pct:'35.1%',severity:'Critical',groups:'B,C',status:'Open'},
+  {id:'CONN-002',module:'Connector Hub',desc:'ไม่รองรับ Real-time Sync ข้อมูล delay 15+ นาที',users:138400,pct:'34.6%',severity:'Critical',groups:'B,C',status:'In Progress'},
+  {id:'CROSS-009',module:'Cross-Module',desc:'ไม่มี Keyboard Shortcuts สำหรับ Power Users',users:136800,pct:'34.2%',severity:'High',groups:'A,B',status:'Open'},
+  {id:'LOG-001',module:'Logistics',desc:'ไม่มี Shipment Tracking แบบ Real-time',users:136000,pct:'34.0%',severity:'Critical',groups:'B,C',status:'Open'},
+  {id:'PROC-005',module:'Procurement PR/PO',desc:'ไม่รองรับ BOM (Bill of Materials) สำหรับโรงงาน',users:136400,pct:'34.1%',severity:'High',groups:'C',status:'Open'},
+  {id:'SALES-003',module:'Sales Dashboard',desc:'ไม่มี Sales Forecast/Projection',users:134000,pct:'33.5%',severity:'High',groups:'B,C',status:'Open'},
+  {id:'CONN-003',module:'API Dashboard',desc:'API Rate Limit ต่ำเกินไป (100 req/min)',users:132800,pct:'33.2%',severity:'High',groups:'A,B',status:'Open'},
+  {id:'CROSS-010',module:'Cross-Module',desc:'Session Timeout สั้นเกินไป (15 นาที) ข้อมูลหาย',users:132400,pct:'33.1%',severity:'High',groups:'C,D',status:'Open'},
+  {id:'FIN-002',module:'Finance Verification',desc:'ไม่มี Automated Matching สำหรับ Bank Statement',users:156000,pct:'39.0%',severity:'Critical',groups:'B,C',status:'Open'},
+  {id:'FIN-003',module:'Finance Cases',desc:'ไม่รองรับ Case Escalation อัตโนมัติ',users:148400,pct:'37.1%',severity:'Critical',groups:'C,D',status:'Planned'},
+  {id:'HOME-001',module:'Home/App Shell',desc:'หน้า Home ไม่มี Quick Actions สำหรับงานที่ทำบ่อย',users:152000,pct:'38.0%',severity:'Critical',groups:'A,B',status:'Open'},
+  {id:'HOME-002',module:'Home/App Shell',desc:'ไม่มี Personalized Dashboard ตาม Role',users:146400,pct:'36.6%',severity:'Critical',groups:'B,C',status:'Open'},
+  {id:'EXP-003',module:'Expense Tasks/Claims',desc:'ไม่มี Policy Engine สำหรับตรวจสอบค่าใช้จ่ายอัตโนมัติ',users:164000,pct:'41.0%',severity:'Critical',groups:'C,D',status:'Open'},
+  {id:'EXP-004',module:'Expense Receipt OCR',desc:'ไม่รองรับ Batch Upload ใบเสร็จ ต้องทำทีละใบ',users:152400,pct:'38.1%',severity:'Critical',groups:'B,C',status:'Planned'},
+  {id:'LOG-002',module:'Logistics',desc:'ไม่รองรับ Multi-warehouse Management',users:130400,pct:'32.6%',severity:'Critical',groups:'C',status:'Open'},
+  {id:'CROSS-011',module:'Cross-Module',desc:'ไม่มี Breadcrumb Navigation ไม่รู้ว่าอยู่หน้าไหน',users:128000,pct:'32.0%',severity:'High',groups:'C,D',status:'Planned'},
+  {id:'CROSS-012',module:'Cross-Module',desc:'Loading Spinner ไม่มี ไม่รู้ว่าระบบกำลังทำงาน',users:124800,pct:'31.2%',severity:'High',groups:'D',status:'In Progress'},
+  {id:'CROSS-013',module:'Cross-Module',desc:'ไม่มี Auto-save ต้อง Save เองทุกครั้ง',users:121600,pct:'30.4%',severity:'High',groups:'A,B,C,D',status:'Open'},
+  {id:'CROSS-014',module:'Cross-Module',desc:'Error Messages เป็นภาษาอังกฤษทั้งหมด ไม่เข้าใจ',users:118400,pct:'29.6%',severity:'High',groups:'C,D',status:'Open'},
+  {id:'CROSS-015',module:'Cross-Module',desc:'ไม่มี Help Center แบบ In-app',users:114000,pct:'28.5%',severity:'High',groups:'C,D',status:'Planned'},
+  {id:'CROSS-016',module:'Cross-Module',desc:'ไม่มี Tooltips อธิบายฟังก์ชัน',users:110800,pct:'27.7%',severity:'High',groups:'C,D',status:'Open'},
+  {id:'CROSS-017',module:'Cross-Module',desc:'Export PDF/Excel ช้าและ Format ผิด',users:107200,pct:'26.8%',severity:'High',groups:'B,C',status:'In Progress'},
+  {id:'CROSS-018',module:'Cross-Module',desc:'ไม่รองรับ Multi-tab ข้อมูล conflict',users:104000,pct:'26.0%',severity:'High',groups:'A,B',status:'Open'},
+  {id:'CROSS-019',module:'Cross-Module',desc:'ไม่มี Audit Log สำหรับ Admin',users:100400,pct:'25.1%',severity:'High',groups:'C',status:'Open'},
+  {id:'CROSS-020',module:'Cross-Module',desc:'Date Picker ไม่รองรับ พ.ศ.',users:97600,pct:'24.4%',severity:'High',groups:'C,D',status:'Open'},
+  {id:'CROSS-021',module:'Cross-Module',desc:'Table Sorting ไม่ทำงานกับข้อมูลภาษาไทย',users:94000,pct:'23.5%',severity:'Medium',groups:'B,C',status:'Open'},
+  {id:'EXP-005',module:'Expense Tasks/Claims',desc:'ไม่มี Mileage Calculator สำหรับค่าเดินทาง',users:144800,pct:'36.2%',severity:'High',groups:'B,C',status:'Open'},
+  {id:'EXP-006',module:'Expense Receipt OCR',desc:'OCR ไม่รองรับใบเสร็จจาก 7-Eleven, Lotus',users:140000,pct:'35.0%',severity:'High',groups:'B,C,D',status:'In Progress'},
+  {id:'FIN-004',module:'Finance Verification',desc:'ไม่มี 3-way Matching (PO, GR, Invoice)',users:141600,pct:'35.4%',severity:'High',groups:'C',status:'Open'},
+  {id:'FIN-005',module:'Finance Cases',desc:'ไม่มี SLA Tracking สำหรับ Cases',users:136000,pct:'34.0%',severity:'High',groups:'C,D',status:'Open'},
+  {id:'FIN-006',module:'Finance Verification',desc:'ไม่รองรับ WHT (ภาษีหัก ณ ที่จ่าย) Calculation',users:131200,pct:'32.8%',severity:'High',groups:'C,D',status:'Open'},
+  {id:'CONN-004',module:'Connector Hub',desc:'ไม่มี Error Recovery อัตโนมัติเมื่อ Sync ล้มเหลว',users:127200,pct:'31.8%',severity:'High',groups:'B,C',status:'Open'},
+  {id:'CONN-005',module:'API Dashboard',desc:'ไม่มี API Versioning ทำให้ Breaking Changes',users:122000,pct:'30.5%',severity:'High',groups:'A,B',status:'Open'},
+  {id:'PROC-011',module:'Procurement Analytics',desc:'Dashboard ไม่ Real-time ข้อมูลดีเลย์ 30 นาที+',users:108000,pct:'27.0%',severity:'High',groups:'B,C',status:'In Progress'},
+  {id:'EXP-007',module:'Expense Tasks/Claims',desc:'ไม่มี Per Diem Calculation อัตโนมัติ',users:135200,pct:'33.8%',severity:'High',groups:'C,D',status:'Open'},
+  {id:'LOG-003',module:'Logistics',desc:'Cost Calculator ช้าเมื่อคำนวณหลาย Route',users:124800,pct:'31.2%',severity:'High',groups:'B,C',status:'In Progress'},
+  {id:'CROSS-022',module:'Cross-Module',desc:'ไม่มี User Preferences จำ Setting ไม่ได้',users:91200,pct:'22.8%',severity:'Medium',groups:'A,B',status:'Open'},
+  {id:'CROSS-023',module:'Cross-Module',desc:'Print Layout เพี้ยน ข้อมูลหายเมื่อ Print',users:88400,pct:'22.1%',severity:'Medium',groups:'C,D',status:'Open'},
+  {id:'CROSS-024',module:'Cross-Module',desc:'ไม่มี Confirmation Dialog ก่อนลบข้อมูลสำคัญ',users:85600,pct:'21.4%',severity:'Medium',groups:'D',status:'In Progress'},
+  {id:'CROSS-025',module:'Cross-Module',desc:'ไม่มี Pagination สำหรับรายการยาว',users:82800,pct:'20.7%',severity:'Medium',groups:'B,C',status:'In Progress'},
+  {id:'CROSS-026',module:'Cross-Module',desc:'Accessibility ไม่ผ่าน WCAG 2.1 AA',users:80000,pct:'20.0%',severity:'Medium',groups:'D',status:'Open'},
 ];
 
 const recsData = [
-  {rank:1,title:'Implement global search with Thai language support',issues:'CROSS-002, FD-005, CROSS-018',effort:'L',impact:9.5,users:'245,600+'},
-  {rank:2,title:'Improve Thai OCR accuracy to >90%',issues:'EX-001, LG-001, VM-002',effort:'XL',impact:9.3,users:'245,600+'},
-  {rank:3,title:'Flatten navigation architecture (4.7 -> 2.5 clicks)',issues:'CROSS-001, HD-004, CROSS-008, CROSS-011',effort:'L',impact:9.2,users:'284,700'},
-  {rank:4,title:'Add LINE Official Account integration',issues:'SY-004',effort:'L',impact:9.0,users:'213,400'},
-  {rank:5,title:'Implement auto-save and undo/redo',issues:'CROSS-007, PR-001',effort:'M',impact:8.8,users:'172,300+'},
-  {rank:6,title:'Create Thai localization package',issues:'CROSS-004, CROSS-006, CROSS-009, CROSS-003',effort:'XL',impact:8.7,users:'219,300+'},
-  {rank:7,title:'Build pre-built Thai system connectors',issues:'CN-001, CN-002',effort:'XL',impact:8.5,users:'256,700'},
-  {rank:8,title:'Implement role-based permission templates',issues:'SY-001',effort:'M',impact:8.3,users:'189,100'},
-  {rank:9,title:'Add batch/bulk operations across modules',issues:'PR-004, EX-002',effort:'L',impact:8.2,users:'178,900+'},
-  {rank:10,title:'Optimize performance for large datasets',issues:'VM-001, CROSS-005',effort:'L',impact:8.0,users:'213,400'},
-  {rank:11,title:'Build PR-to-PO direct conversion flow',issues:'PR-002',effort:'M',impact:7.8,users:'145,600'},
-  {rank:12,title:'Make all modules mobile-responsive',issues:'CROSS-010, CROSS-012, HD-003',effort:'XL',impact:7.7,users:'163,400+'},
-  {rank:13,title:'Add customizable dashboard',issues:'HD-001, HD-002',effort:'L',impact:7.5,users:'184,700'},
-  {rank:14,title:'Implement Thai sentiment analysis',issues:'CF-001',effort:'L',impact:7.3,users:'156,700'},
-  {rank:15,title:'Add flexible approval workflows',issues:'EX-003',effort:'L',impact:7.2,users:'123,400'},
-  {rank:16,title:'Create Thai document templates',issues:'SD-001',effort:'M',impact:7.0,users:'156,700'},
-  {rank:17,title:'Fix WCAG accessibility issues',issues:'CROSS-017',effort:'L',impact:6.8,users:'123,400+'},
-  {rank:18,title:'Add PDF annotation and document markup',issues:'FD-003',effort:'M',impact:6.7,users:'134,500'},
-  {rank:19,title:'Implement expense policy engine',issues:'EX-004',effort:'L',impact:6.5,users:'106,700'},
-  {rank:20,title:'Add connection health monitoring & alerts',issues:'CN-004',effort:'M',impact:6.3,users:'98,700'},
-  {rank:21,title:'Build advance payment (สำรองจ่าย) workflow',issues:'CROSS-030',effort:'M',impact:6.2,users:'198,400'},
-  {rank:22,title:'Implement e-Tax Invoice compliance (กรมสรรพากร)',issues:'CROSS-031',effort:'L',impact:6.1,users:'187,200'},
-  {rank:23,title:'Add PromptPay QR Code integration',issues:'EX-010',effort:'M',impact:6.0,users:'176,800'},
-  {rank:24,title:'Build data migration toolkit (Excel/SAP/Express)',issues:'CROSS-034',effort:'XL',impact:5.9,users:'267,800'},
-  {rank:25,title:'Add training mode / sandbox environment',issues:'CROSS-033',effort:'L',impact:5.8,users:'234,000'},
-  {rank:26,title:'Implement Goods Receipt module',issues:'PR-010',effort:'L',impact:5.7,users:'165,400'},
-  {rank:27,title:'Add multi-currency full lifecycle support',issues:'CROSS-032',effort:'XL',impact:5.6,users:'156,200'},
-  {rank:28,title:'Build LINE/SMS notification channel',issues:'CROSS-035',effort:'M',impact:5.5,users:'213,400'},
-  {rank:29,title:'Implement 2FA / SSO integration',issues:'CROSS-037',effort:'M',impact:5.4,users:'167,800'},
-  {rank:30,title:'Build approval delegation system',issues:'CROSS-036',effort:'M',impact:5.3,users:'178,600'},
+  {rank:1,title:'เพิ่ม Global Search ภาษาไทย — รองรับ Thai/EN, Fuzzy Search, Auto-complete',issues:'CROSS-002, CROSS-001',effort:'L',impact:9.5,users:'284,700'},
+  {rank:2,title:'เพิ่ม PR/PO Template System — สร้าง, บันทึก, Clone จาก PR/PO เดิม',issues:'PROC-001',effort:'M',impact:9.3,users:'231,200'},
+  {rank:3,title:'ปรับปรุง Navigation Architecture — ลดจาก 4.7 เหลือ 2-3 คลิก',issues:'CROSS-001, CROSS-011',effort:'L',impact:9.2,users:'284,700'},
+  {rank:4,title:'ปรับปรุง Thai OCR Model — เพิ่มความแม่นยำจาก 62.3% เป็น 90%+',issues:'EXP-001, EXP-006',effort:'L',impact:9.1,users:'216,800'},
+  {rank:5,title:'เพิ่มระบบ Undo/Redo — ทุก Module พร้อม Confirmation Dialog',issues:'CROSS-003, CROSS-024',effort:'L',impact:9.0,users:'198,400'},
+  {rank:6,title:'เพิ่ม Multi-level Approval Workflow — รองรับ 2-5 ระดับ',issues:'EXP-002, PROC-003',effort:'L',impact:8.9,users:'178,400'},
+  {rank:7,title:'เพิ่ม Bulk Operations — Bulk Create, Edit, Approve, Delete',issues:'PROC-002, EXP-004',effort:'M',impact:8.8,users:'156,800'},
+  {rank:8,title:'ปรับปรุง Mobile Responsiveness — รองรับ 320px+ พร้อม Gesture',issues:'CROSS-005',effort:'L',impact:8.7,users:'163,600'},
+  {rank:9,title:'เพิ่ม Multi-currency Support — 30+ สกุลเงิน พร้อม Exchange Rate API',issues:'FIN-001, PROC-016',effort:'L',impact:8.6,users:'167,600'},
+  {rank:10,title:'ปรับปรุง Performance — Pagination, Virtual Scrolling, Query Optimization',issues:'CROSS-004, CROSS-025',effort:'M',impact:8.5,users:'189,200'},
+  {rank:11,title:'เพิ่ม Error Messages ภาษาไทย — แปลทั้งหมดพร้อมคำแนะนำ',issues:'CROSS-014',effort:'S',impact:8.4,users:'118,400'},
+  {rank:12,title:'เพิ่ม Auto-save — บันทึกทุก 30 วินาที พร้อม Draft Recovery',issues:'CROSS-013, CROSS-010',effort:'M',impact:8.3,users:'132,400'},
+  {rank:13,title:'เพิ่ม Dark Mode — Light/Dark/System Theme',issues:'CROSS-007',effort:'M',impact:8.2,users:'148,400'},
+  {rank:14,title:'เพิ่ม Keyboard Shortcuts — Navigation, CRUD, Common Actions',issues:'CROSS-009',effort:'S',impact:8.1,users:'136,800'},
+  {rank:15,title:'เพิ่ม Sales Pipeline Kanban View — Drag & Drop',issues:'SALES-001',effort:'M',impact:8.0,users:'148,000'},
+  {rank:16,title:'เพิ่ม Notification Center — รวม Notification ทุก Module',issues:'CROSS-006',effort:'M',impact:7.9,users:'152,000'},
+  {rank:17,title:'เพิ่ม SAP/Oracle Connector — Pre-built Connector',issues:'CONN-001',effort:'L',impact:7.8,users:'144,000'},
+  {rank:18,title:'เพิ่ม Thai Font Accessibility — 16px+, WCAG 2.1 AA',issues:'CROSS-008, CROSS-026',effort:'S',impact:7.7,users:'141,200'},
+  {rank:19,title:'เพิ่ม Onboarding Tour — Step-by-step Guide ภาษาไทย',issues:'HOME-007, CROSS-015',effort:'M',impact:7.6,users:'118,400'},
+  {rank:20,title:'เพิ่ม Real-time Data Sync — Dashboard และ Analytics',issues:'CONN-002, PROC-011',effort:'L',impact:7.5,users:'138,400'},
+  {rank:21,title:'เพิ่ม Quotation Management — Template และ Approval',issues:'SALES-002',effort:'M',impact:7.4,users:'140,400'},
+  {rank:22,title:'เพิ่ม WHT/VAT Compliance — WHT, VAT Filing, e-Withholding Tax',issues:'FIN-006, FIN-014',effort:'L',impact:7.3,users:'131,200'},
+  {rank:23,title:'เพิ่ม Batch Receipt Upload — Batch OCR Processing',issues:'EXP-004',effort:'M',impact:7.2,users:'152,400'},
+  {rank:24,title:'เพิ่ม Personalized Dashboard — ตาม Role และ Preferences',issues:'HOME-002, HOME-004',effort:'M',impact:7.1,users:'146,400'},
+  {rank:25,title:'เพิ่ม Real-time Shipment Tracking — Kerry, Flash, J&T',issues:'LOG-001, LOG-005',effort:'L',impact:7.0,users:'136,000'},
+  {rank:26,title:'เพิ่ม Date Picker แบบ พ.ศ. — ปฏิทินไทย',issues:'CROSS-020',effort:'S',impact:6.8,users:'97,600'},
+  {rank:27,title:'เพิ่ม 3-way Matching — PO, GR, Invoice Matching อัตโนมัติ',issues:'FIN-004',effort:'L',impact:6.7,users:'141,600'},
+  {rank:28,title:'เพิ่ม API Rate Limit & Sandbox — 1000 req/min',issues:'CONN-003, CONN-007',effort:'M',impact:6.5,users:'132,800'},
+  {rank:29,title:'เพิ่ม SME Simplified Mode — UI เฉพาะ Feature ที่ใช้จริง',issues:'SME-specific',effort:'M',impact:6.2,users:'120,000'},
+  {rank:30,title:'เพิ่ม Tooltips & In-app Help — Help Center แบบ In-app',issues:'CROSS-015, CROSS-016',effort:'S',impact:5.0,users:'114,000'},
 ];
 
 // ===== Tab Switching =====
@@ -1141,7 +1247,7 @@ function switchTab(tabName) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-'+tabName).classList.add('active');
   // Find matching button
-  const labels = {overview:0,agegroup:1,modules:2,issues:3,recommendations:4,submit:5};
+  const labels = {overview:0,agegroup:1,modules:2,issues:3,recommendations:4,demographics:5,submit:6};
   document.querySelectorAll('.tab-btn')[labels[tabName]].classList.add('active');
   // Trigger animations
   setTimeout(()=>observeAnimations(),100);
@@ -1265,17 +1371,19 @@ function toggleModuleDetail(id){
 
 // ===== Heatmap Coloring =====
 function colorHeatmap(){
-  const table=document.getElementById('heatmapTable');
-  if(!table)return;
-  table.querySelectorAll('tbody td').forEach(td=>{
-    if(td.classList.contains('module-name'))return;
-    if(td.colSpan>1)return;
-    const v=parseFloat(td.textContent);
-    if(isNaN(v))return;
-    if(v>=3.3)td.style.background='var(--green-bg)';
-    else if(v>=3.0)td.style.background='var(--blue-bg)';
-    else if(v>=2.7)td.style.background='var(--orange-bg)';
-    else td.style.background='var(--red-bg)';
+  ['heatmapTable','heatmapDept','heatmapSize'].forEach(id=>{
+    const table=document.getElementById(id);
+    if(!table)return;
+    table.querySelectorAll('tbody td').forEach(td=>{
+      if(td.classList.contains('module-name'))return;
+      if(td.colSpan>1)return;
+      const v=parseFloat(td.textContent);
+      if(isNaN(v))return;
+      if(v>=3.3)td.style.background='var(--green-bg)';
+      else if(v>=3.0)td.style.background='var(--blue-bg)';
+      else if(v>=2.7)td.style.background='var(--orange-bg)';
+      else td.style.background='var(--red-bg)';
+    });
   });
 }
 

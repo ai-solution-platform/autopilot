@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Roadmap - ANTS Autopilot v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#2563EB;--blue-l:#EFF6FF;--blue-bg:#DBEAFE;--green:#059669;--green-bg:#D1FAE5;--red:#DC2626;--red-bg:#FEE2E2;--orange:#D97706;--orange-bg:#FEF3C7;--purple:#7C3AED;--purple-bg:#EDE9FE;--cyan:#0891B2;--cyan-bg:#CFFAFE;--text:#1E293B;--muted:#64748B;--light:#94A3B8;--border:#E2E8F0;--bg:#F8FAFC;--bg2:#F1F5F9;--card-bg:#FFFFFF;--white:#FFFFFF;}
+body.dark{--text:#E2E8F0;--muted:#94A3B8;--light:#64748B;--border:#334155;--bg:#0F172A;--bg2:#1E293B;--card-bg:#1E293B;--white:#1E293B;--blue-l:#1E3A5F;--blue-bg:#1E3A5F;--green-bg:#064E3B;--red-bg:#7F1D1D;--orange-bg:#78350F;--purple-bg:#4C1D95;--cyan-bg:#164E63;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:.82rem;}
+.page-header{padding:20px 24px 16px;border-bottom:1px solid var(--border);background:var(--card-bg);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.page-title{font-size:1.15rem;font-weight:700;}
+.page-subtitle{font-size:.72rem;color:var(--muted);margin-top:2px;}
+.page-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.badge-version{background:var(--blue);color:#fff;padding:3px 10px;border-radius:12px;font-size:.65rem;font-weight:600;}
+.badge-status{padding:3px 10px;border-radius:12px;font-size:.65rem;font-weight:600;}
+
+/* Tabs */
+.tabs{display:flex;gap:2px;padding:8px 24px;background:var(--card-bg);border-bottom:1px solid var(--border);overflow-x:auto;}
+.tab{padding:8px 16px;border:none;background:none;font-family:inherit;font-size:.75rem;font-weight:500;color:var(--muted);cursor:pointer;border-radius:8px;transition:all .15s;white-space:nowrap;}
+.tab:hover{background:var(--bg2);color:var(--text);}
+.tab.active{background:var(--blue-l);color:var(--blue);font-weight:600;}
+.tab-content{display:none;padding:20px 24px;animation:fadeIn .3s;}
+.tab-content.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* Cards */
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:16px;}
+.card-title{font-size:.85rem;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.section-title{font-size:.95rem;font-weight:700;margin:20px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--blue);display:flex;align-items:center;gap:8px;}
+
+/* KPI Strip */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:20px;}
+.kpi{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;border-top:3px solid var(--blue);}
+.kpi-value{font-size:1.4rem;font-weight:700;color:var(--blue);}
+.kpi-label{font-size:.68rem;color:var(--muted);margin-top:2px;}
+.kpi.red{border-top-color:var(--red);}
+.kpi.red .kpi-value{color:var(--red);}
+.kpi.green{border-top-color:var(--green);}
+.kpi.green .kpi-value{color:var(--green);}
+.kpi.orange{border-top-color:var(--orange);}
+.kpi.orange .kpi-value{color:var(--orange);}
+.kpi.purple{border-top-color:var(--purple);}
+.kpi.purple .kpi-value{color:var(--purple);}
+
+/* Findings */
+.finding{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px;border-left:4px solid var(--red);cursor:pointer;transition:all .2s;}
+.finding:hover{box-shadow:0 2px 12px rgba(0,0,0,.06);transform:translateY(-1px);}
+.finding-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.finding-title{font-weight:700;font-size:.82rem;}
+.finding-pct{font-size:.78rem;font-weight:700;color:var(--red);background:var(--red-bg);padding:2px 10px;border-radius:12px;}
+.finding-desc{font-size:.73rem;color:var(--muted);line-height:1.6;}
+.finding-detail{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:.73rem;line-height:1.8;}
+.finding-detail.show{display:block;}
+.finding-bullet{padding-left:16px;list-style:none;}
+.finding-bullet li{position:relative;padding-left:14px;margin-bottom:4px;}
+.finding-bullet li::before{content:'';position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;background:var(--red);}
+
+/* Heatmap Table */
+.hm-table{width:100%;border-collapse:collapse;font-size:.73rem;}
+.hm-table th{background:var(--bg2);padding:8px 10px;text-align:left;font-weight:600;border-bottom:2px solid var(--border);white-space:nowrap;}
+.hm-table td{padding:8px 10px;border-bottom:1px solid var(--border);}
+.hm-table tr:hover{background:var(--bg);}
+.score-cell{font-weight:700;text-align:center;border-radius:6px;padding:4px 8px !important;}
+.target-cell{text-align:center;font-weight:600;color:var(--green);}
+.gap-cell{text-align:center;font-weight:700;color:var(--red);}
+.priority-badge{padding:2px 8px;border-radius:10px;font-size:.62rem;font-weight:600;white-space:nowrap;}
+.p0{background:var(--red-bg);color:var(--red);}
+.p1{background:var(--orange-bg);color:var(--orange);}
+.p2{background:var(--blue-bg);color:var(--blue);}
+.progress-bar-wrap{width:100%;height:8px;background:var(--bg2);border-radius:4px;overflow:hidden;}
+.progress-bar-fill{height:100%;border-radius:4px;transition:width 1s ease;}
+
+/* Sprint Timeline */
+.sprint-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:16px;}
+.sprint-card{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.sprint-header{padding:12px 16px;font-weight:700;font-size:.78rem;display:flex;justify-content:space-between;align-items:center;}
+.sprint-header .sprint-badge{font-size:.62rem;padding:2px 8px;border-radius:10px;font-weight:600;}
+.sprint-body{padding:0 16px 14px;}
+.sprint-item{padding:6px 0;border-bottom:1px solid var(--border);font-size:.72rem;display:flex;align-items:center;gap:6px;}
+.sprint-item:last-child{border-bottom:none;}
+.sprint-check{width:14px;height:14px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;}
+.sprint-check.done{background:var(--green);border-color:var(--green);}
+
+/* Recommendation */
+.rec-card{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px;display:grid;grid-template-columns:40px 1fr 80px 60px;align-items:center;gap:12px;}
+.rec-rank{width:36px;height:36px;border-radius:50%;background:var(--blue);color:#fff;font-weight:700;font-size:.82rem;display:flex;align-items:center;justify-content:center;}
+.rec-title{font-weight:600;font-size:.78rem;}
+.rec-sub{font-size:.68rem;color:var(--muted);margin-top:2px;}
+.rec-impact{text-align:center;}
+.rec-impact-val{font-size:1rem;font-weight:700;color:var(--blue);}
+.rec-impact-label{font-size:.6rem;color:var(--muted);}
+.rec-effort{text-align:center;padding:4px 10px;border-radius:8px;font-size:.68rem;font-weight:600;}
+.effort-s{background:var(--green-bg);color:var(--green);}
+.effort-m{background:var(--blue-bg);color:var(--blue);}
+.effort-l{background:var(--orange-bg);color:var(--orange);}
+.effort-xl{background:var(--red-bg);color:var(--red);}
+
+/* Quick Wins */
+.qw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
+.qw-card{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px;transition:all .2s;}
+.qw-card:hover{box-shadow:0 3px 12px rgba(0,0,0,.06);}
+.qw-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.qw-title{font-weight:600;font-size:.76rem;}
+.qw-time{font-size:.62rem;color:var(--green);font-weight:600;background:var(--green-bg);padding:2px 8px;border-radius:10px;}
+.qw-meta{font-size:.68rem;color:var(--muted);display:flex;gap:12px;margin-top:6px;}
+
+/* Engineering Assignment */
+.eng-table{width:100%;border-collapse:collapse;font-size:.72rem;}
+.eng-table th{background:var(--bg2);padding:8px;text-align:left;font-weight:600;border-bottom:2px solid var(--border);position:sticky;top:0;}
+.eng-table td{padding:7px 8px;border-bottom:1px solid var(--border);}
+.eng-table tr:hover{background:var(--bg);}
+.file-tag{background:var(--cyan-bg);color:var(--cyan);padding:2px 8px;border-radius:6px;font-size:.65rem;font-weight:500;font-family:'Inter',monospace;}
+
+/* Filter bar */
+.filter-bar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center;}
+.filter-bar select,.filter-bar input{padding:6px 10px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:.73rem;background:var(--card-bg);color:var(--text);}
+.filter-bar input{flex:1;min-width:180px;}
+
+/* Tooltip */
+.svg-tooltip{position:fixed;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:.72rem;box-shadow:0 4px 16px rgba(0,0,0,.1);pointer-events:none;opacity:0;transition:opacity .15s;}
+.svg-tooltip.visible{opacity:1;}
+
+/* Toast */
+.toast{position:fixed;top:20px;right:20px;background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:12px 20px;box-shadow:0 6px 24px rgba(0,0,0,.12);z-index:9999;display:flex;align-items:center;gap:10px;font-size:.78rem;opacity:0;transform:translateY(-10px);transition:all .3s;}
+.toast.show{opacity:1;transform:translateY(0);}
+
+/* Responsive */
+@media(max-width:768px){.rec-card{grid-template-columns:36px 1fr;}.rec-impact,.rec-effort{display:none;}}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <div class="page-title">&#128506; Product Roadmap & Improvement Plan</div>
+    <div class="page-subtitle">สังเคราะห์จาก Customer Feedback 400,000 Users | 40 CPOs & 400 AI Engineers | 6 เม.ย. พ.ศ. 2569</div>
+  </div>
+  <div class="page-actions">
+    <span class="badge-version">v2.0</span>
+    <span class="badge-status" style="background:var(--orange-bg);color:var(--orange);">12-Week Plan</span>
+    <span class="badge-status" style="background:var(--green-bg);color:var(--green);">120 Issues</span>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('overview')">&#127919; Executive Summary</button>
+  <button class="tab" onclick="switchTab('critical')">&#128680; Top 10 Critical</button>
+  <button class="tab" onclick="switchTab('heatmap')">&#128293; Heatmap & Targets</button>
+  <button class="tab" onclick="switchTab('sprints')">&#128197; Sprint Plan</button>
+  <button class="tab" onclick="switchTab('recs')">&#11088; Top 20 Recommendations</button>
+  <button class="tab" onclick="switchTab('quickwins')">&#9889; Quick Wins</button>
+  <button class="tab" onclick="switchTab('engineering')">&#128736; Engineering Tasks</button>
+</div>
+
+<!-- ===== TAB 1: EXECUTIVE SUMMARY ===== -->
+<div class="tab-content active" id="tab-overview">
+  <div class="kpi-strip">
+    <div class="kpi red"><div class="kpi-value">400K</div><div class="kpi-label">Users Surveyed</div></div>
+    <div class="kpi orange"><div class="kpi-value">120</div><div class="kpi-label">Issues Identified</div></div>
+    <div class="kpi red"><div class="kpi-value">28</div><div class="kpi-label">Critical Issues</div></div>
+    <div class="kpi purple"><div class="kpi-value">2.67</div><div class="kpi-label">Avg Score /5.0</div></div>
+    <div class="kpi green"><div class="kpi-value">4.50</div><div class="kpi-label">Target Score</div></div>
+    <div class="kpi"><div class="kpi-value">12 wk</div><div class="kpi-label">Execution Plan</div></div>
+  </div>
+
+  <div class="section-title">&#128270; 7 ข้อค้นพบหลักจาก 400,000 Users</div>
+  <div id="findingsContainer"></div>
+
+  <div class="section-title" style="margin-top:24px;">&#128200; KPI Targets (12 สัปดาห์)</div>
+  <div class="card">
+    <table class="hm-table">
+      <thead><tr><th>KPI</th><th style="text-align:center;">ปัจจุบัน</th><th style="text-align:center;">เป้าหมาย 12 wk</th><th style="text-align:center;">เป้าหมาย 24 wk</th></tr></thead>
+      <tbody id="kpiTableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===== TAB 2: TOP 10 CRITICAL ===== -->
+<div class="tab-content" id="tab-critical">
+  <div class="section-title">&#128680; Top 10 ปัญหาวิกฤตที่กระทบมากที่สุด</div>
+  <div id="criticalContainer"></div>
+</div>
+
+<!-- ===== TAB 3: HEATMAP ===== -->
+<div class="tab-content" id="tab-heatmap">
+  <div class="section-title">&#128293; Module Satisfaction Heatmap & Target Scores</div>
+  <div class="card" style="overflow-x:auto;">
+    <table class="hm-table" id="heatmapTable">
+      <thead><tr><th>#</th><th>Module</th><th style="text-align:center;">Current</th><th style="text-align:center;">Target</th><th style="text-align:center;">Gap</th><th>Priority</th><th>Progress to Target</th><th>Sprint Focus</th></tr></thead>
+      <tbody id="heatmapBody"></tbody>
+    </table>
+  </div>
+
+  <div class="section-title" style="margin-top:24px;">&#128202; Module Score Progression (After Each Sprint Pair)</div>
+  <div class="card">
+    <table class="hm-table">
+      <thead><tr><th>Module</th><th style="text-align:center;">Before</th><th style="text-align:center;">After S3</th><th style="text-align:center;">After S6</th><th style="text-align:center;">Target</th></tr></thead>
+      <tbody id="progressionBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===== TAB 4: SPRINT PLAN ===== -->
+<div class="tab-content" id="tab-sprints">
+  <div class="section-title">&#128197; Sprint Plan — 6 Sprints, 12 สัปดาห์</div>
+  <div class="sprint-grid" id="sprintGrid"></div>
+</div>
+
+<!-- ===== TAB 5: RECOMMENDATIONS ===== -->
+<div class="tab-content" id="tab-recs">
+  <div class="section-title">&#11088; Top 20 คำแนะนำจัดลำดับตาม Impact</div>
+  <div class="filter-bar">
+    <select id="recEffortFilter" onchange="filterRecs()">
+      <option value="">ทุก Effort</option>
+      <option value="S">Small</option>
+      <option value="M">Medium</option>
+      <option value="L">Large</option>
+      <option value="XL">Extra Large</option>
+    </select>
+    <input type="text" id="recSearch" placeholder="&#128269; ค้นหาคำแนะนำ..." oninput="filterRecs()">
+  </div>
+  <div id="recsContainer"></div>
+</div>
+
+<!-- ===== TAB 6: QUICK WINS ===== -->
+<div class="tab-content" id="tab-quickwins">
+  <div class="section-title">&#9889; Quick Wins — แก้ได้ภายใน 2 วัน</div>
+  <div class="kpi-strip" style="margin-bottom:16px;">
+    <div class="kpi green"><div class="kpi-value">15</div><div class="kpi-label">Quick Win Items</div></div>
+    <div class="kpi"><div class="kpi-value">93 hrs</div><div class="kpi-label">Est. Total Time</div></div>
+    <div class="kpi purple"><div class="kpi-value">2.4M+</div><div class="kpi-label">Users Impacted</div></div>
+  </div>
+  <div class="qw-grid" id="qwGrid"></div>
+</div>
+
+<!-- ===== TAB 7: ENGINEERING ===== -->
+<div class="tab-content" id="tab-engineering">
+  <div class="section-title">&#128736; Engineering Task Assignment — 18 Files</div>
+  <div class="filter-bar">
+    <select id="engPriorityFilter" onchange="filterEng()">
+      <option value="">ทุก Priority</option>
+      <option value="P0">P0 - Critical</option>
+      <option value="P1">P1 - High</option>
+      <option value="P2">P2 - Medium</option>
+      <option value="P3">P3 - Low</option>
+    </select>
+    <select id="engSprintFilter" onchange="filterEng()">
+      <option value="">ทุก Sprint</option>
+      <option value="S1">Sprint 1</option>
+      <option value="S2">Sprint 2</option>
+      <option value="S3">Sprint 3</option>
+      <option value="S4">Sprint 4</option>
+      <option value="S5">Sprint 5</option>
+      <option value="S6">Sprint 6</option>
+    </select>
+    <input type="text" id="engSearch" placeholder="&#128269; ค้นหา task หรือ file..." oninput="filterEng()">
+  </div>
+  <div class="card" style="overflow-x:auto;">
+    <table class="eng-table">
+      <thead><tr><th>Priority</th><th>File</th><th>Task</th><th>Issues</th><th>Sprint</th></tr></thead>
+      <tbody id="engBody"></tbody>
+    </table>
+  </div>
+
+  <div class="section-title" style="margin-top:24px;">&#128101; Team Allocation</div>
+  <div class="sprint-grid">
+    <div class="sprint-card"><div class="sprint-header" style="background:var(--blue-bg);color:var(--blue);">Team A: Core UX <span class="sprint-badge" style="background:var(--blue);color:#fff;">4 engineers</span></div><div class="sprint-body"><div class="sprint-item">Navigation, Search, Breadcrumbs, Dashboard</div><div class="sprint-item"><span class="file-tag">poc-v2.html</span> <span class="file-tag">home.html</span></div></div></div>
+    <div class="sprint-card"><div class="sprint-header" style="background:var(--green-bg);color:var(--green);">Team B: Thai Business <span class="sprint-badge" style="background:var(--green);color:#fff;">4 engineers</span></div><div class="sprint-body"><div class="sprint-item">OCR, e-Tax, PromptPay, Per Diem, Templates</div><div class="sprint-item"><span class="file-tag">expense-*.html</span> <span class="file-tag">sales-*.html</span></div></div></div>
+    <div class="sprint-card"><div class="sprint-header" style="background:var(--purple-bg);color:var(--purple);">Team C: Integration <span class="sprint-badge" style="background:var(--purple);color:#fff;">3 engineers</span></div><div class="sprint-body"><div class="sprint-item">Connectors, LINE, Banking, Logistics APIs</div><div class="sprint-item"><span class="file-tag">connectors/*.html</span> <span class="file-tag">logistics-*.html</span></div></div></div>
+    <div class="sprint-card"><div class="sprint-header" style="background:var(--orange-bg);color:var(--orange);">Team D: Mobile & A11y <span class="sprint-badge" style="background:var(--orange);color:#fff;">2 engineers</span></div><div class="sprint-body"><div class="sprint-item">Responsive Design, Keyboard Access, PWA</div><div class="sprint-item"><span class="file-tag">all modules CSS</span></div></div></div>
+    <div class="sprint-card"><div class="sprint-header" style="background:var(--red-bg);color:var(--red);">Team E: Performance <span class="sprint-badge" style="background:var(--red);color:#fff;">2 engineers</span></div><div class="sprint-body"><div class="sprint-item">Load Time, Caching, DB Optimization</div><div class="sprint-item"><span class="file-tag">infrastructure</span></div></div></div>
+    <div class="sprint-card"><div class="sprint-header" style="background:var(--cyan-bg);color:var(--cyan);">Team F: Localization <span class="sprint-badge" style="background:var(--cyan);color:#fff;">2 engineers</span></div><div class="sprint-body"><div class="sprint-item">Thai Translation, พ.ศ., Thai Sort, i18n</div><div class="sprint-item"><span class="file-tag">all files (strings)</span></div></div></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="svg-tooltip" id="svgTooltip"></div>
+
+<script>
+// ===== DATA =====
+const FINDINGS = [
+  {title:'Thai Business Workflow Gap',pct:'71.9%',users:'287,600',desc:'ระบบไม่มี workflows สำหรับธุรกิจไทยที่จำเป็น — สำรองจ่ายล่วงหน้า, e-Tax Invoice, PromptPay QR, Per Diem, e-Slip ธนาคาร',details:['สำรองจ่ายล่วงหน้า (Advance Payment): 198,400 users (49.6%)','e-Tax Invoice ตามมาตรฐานกรมสรรพากร: 187,200 users (46.8%)','PromptPay QR Code integration: 176,800 users (44.2%)','Per diem อัตโนมัติตามอัตราราชการ: 154,200 users (38.6%)','e-Slip จากธนาคาร (SCB, KBANK, BBL): 148,600 users (37.2%)','Withholding tax คำนวณอัตโนมัติ: 134,200 users (33.6%)'],impact:'ผู้ใช้ต้องทำงานนอกระบบ 60%+ ของ workflow ทางการเงินไทย เสียเวลาเฉลี่ย 2.3 ชม./วัน'},
+  {title:'Navigation & UX Complexity',pct:'71.4%',users:'284,700',desc:'Navigation ลึกเกิน 4.7 คลิก (benchmark: 2.3), ไม่มี global search, breadcrumb, Undo/Redo',details:['Navigation ลึกเกิน 4.7 คลิก: 284,700 users (71.2%)','ไม่มี global search: 245,600 users (61.4%)','ไม่มี breadcrumb navigation: 189,100 users (47.3%)','ไม่มี Undo/Redo: 172,300 users (43.1%)','ไม่มี recently visited items: 167,800 users (42.0%)'],impact:'Task completion rate ต่ำกว่า benchmark 34%, user drop-off rate 23% ต่อ session'},
+  {title:'Integration Desert',pct:'66.8%',users:'256,700',desc:'ไม่เชื่อมต่อระบบที่ธุรกิจไทยใช้ประจำ — Express, PEAK, LINE OA, SCB, Kerry',details:['Connector setup ซับซ้อนเกินไป: 256,700 users (64.2%)','ไม่มี LINE Official Account integration: 213,400 users (53.4%)','ไม่เชื่อมต่อ Express/PEAK/Prosoft: 198,400 users (49.6%)','ไม่มี pre-built connectors สำหรับระบบไทย: 189,100 users (47.3%)','ไม่เชื่อมต่อ Kerry/Flash/J&T/Thailand Post: 142,600 users (35.7%)'],impact:'Connectors module ได้คะแนนต่ำสุด 2.19/5'},
+  {title:'Thai Localization Failure',pct:'58.7%',users:'234,800',desc:'Help เป็นภาษาอังกฤษ, ป้ายกำกับปะปน Thai/English, ไม่มี พ.ศ., Error messages อังกฤษ',details:['Help documentation ภาษาอังกฤษเท่านั้น: 245,600 users (61.4%)','ป้ายกำกับ Thai/English ปะปน: 219,300 users (54.8%)','ไม่มี พ.ศ. date toggle: 189,100 users (47.3%)','Error messages ภาษาอังกฤษเท่านั้น: 167,800 users (42.0%)','Thai font kerning/rendering issues: 145,600 users (36.4%)'],impact:'ผู้ใช้ที่อ่านภาษาอังกฤษไม่คล่อง (ประมาณ 45%) ใช้งานระบบได้ไม่เต็มประสิทธิภาพ'},
+  {title:'Change Resistance',pct:'78.0%',users:'312,000',desc:'78% ของ users ต่อต้านการเปลี่ยนจาก Excel/Express/SAP เพราะไม่มีเครื่องมือช่วย transition',details:['ไม่มี data migration tool จากระบบเดิม: 267,800 users (67.0%)','ไม่มี training mode / sandbox: 234,000 users (58.5%)','ไม่มี contextual help / guided tours: 198,400 users (49.6%)','ไม่มี role-based dashboard: 184,700 users (46.2%)'],impact:'78% ของ users ที่ migrate จาก Express, SAP, Excel ต่อต้านการเปลี่ยนแปลง'},
+  {title:'Mobile Unusable',pct:'44.6%',users:'178,400',desc:'Charts อ่านไม่ได้, Tables overflow, Dropdown ถูกตัด, ไม่รองรับ barcode scanning',details:['Charts อ่านไม่ได้บนหน้าจอ < 768px: 156,700 users (39.2%)','Tables overflow บนมือถือ: 163,400 users (40.9%)','Dropdown menus ถูกตัดบนมือถือ: 87,600 users (21.9%)','ไม่รองรับ barcode/QR scanning บนมือถือ: 134,200 users (33.6%)'],impact:'Field staff, sales reps, managers อนุมัติงานนอกสถานที่ไม่ได้'},
+  {title:'Data Security & Trust',pct:'33.6%',users:'167,800',desc:'ไม่รองรับ 2FA/SSO, ไม่มี audit trail, ไม่มี backup/restore self-service',details:['ไม่รองรับ 2FA / SSO: 167,800 users (42.0%)','ไม่มี audit trail ที่ export ได้: 145,200 users (36.3%)','ไม่มี audit log สำหรับ admin: 87,600 users (21.9%)','ไม่มี data backup/restore self-service: 134,200 users (33.6%)'],impact:'องค์กรขนาดกลาง-ใหญ่ปฏิเสธเพราะไม่ผ่าน security audit ภายใน'}
+];
+
+const HEATMAP = [
+  {module:'Connectors',current:2.19,target:4.5,priority:'P0',sprint:'S1-4'},
+  {module:'System',current:2.54,target:4.5,priority:'P0',sprint:'S1-3'},
+  {module:'Vendor Management',current:2.65,target:4.5,priority:'P1',sprint:'S2-4'},
+  {module:'Finance Doc Hub',current:2.68,target:4.5,priority:'P1',sprint:'S2-5'},
+  {module:'Logistics FX',current:2.68,target:4.5,priority:'P1',sprint:'S3-5'},
+  {module:'Procurement',current:2.69,target:4.5,priority:'P1',sprint:'S1-3'},
+  {module:'Expense & Receipt',current:2.70,target:4.5,priority:'P1',sprint:'S1-4'},
+  {module:'Customer Feedback',current:2.78,target:4.5,priority:'P2',sprint:'S4-6'},
+  {module:'Home Dashboard',current:2.86,target:4.5,priority:'P2',sprint:'S1-2'},
+  {module:'Sales Doc Gen',current:2.93,target:4.5,priority:'P2',sprint:'S3-5'}
+];
+
+const PROGRESSION = [
+  {module:'Connectors',before:2.19,s3:2.80,s6:4.00,target:4.50},
+  {module:'System',before:2.54,s3:3.30,s6:4.10,target:4.50},
+  {module:'Vendor Management',before:2.65,s3:3.40,s6:4.20,target:4.50},
+  {module:'Finance Doc Hub',before:2.68,s3:3.20,s6:4.00,target:4.50},
+  {module:'Logistics FX',before:2.68,s3:3.30,s6:4.10,target:4.50},
+  {module:'Procurement',before:2.69,s3:3.60,s6:4.30,target:4.50},
+  {module:'Expense & Receipt',before:2.70,s3:3.50,s6:4.20,target:4.50},
+  {module:'Customer Feedback',before:2.78,s3:2.90,s6:3.80,target:4.50},
+  {module:'Home Dashboard',before:2.86,s3:3.70,s6:4.30,target:4.50},
+  {module:'Sales Doc Gen',before:2.93,s3:3.40,s6:4.10,target:4.50}
+];
+
+const CRITICAL = [
+  {id:'CROSS-001',title:'Navigation ลึกเกิน 4+ คลิก',module:'Cross-Module',users:'284,700',pct:'71.2%',solution:['Flatten navigation architecture เหลือ max 2 clicks','เพิ่ม command palette (Ctrl+K)','เพิ่ม breadcrumb navigation ทุกหน้า','เพิ่ม Recently Visited section','เพิ่ม Quick Actions bar'],effort:'L',impact:'+0.8 across all modules'},
+  {id:'CN-001',title:'Connector setup ซับซ้อนเกินไป',module:'Connectors',users:'256,700',pct:'64.2%',solution:['สร้าง guided setup wizard 3-step','เพิ่ม pre-built connector templates 15+ ระบบไทย','เปลี่ยน error messages เป็น Thai','เพิ่ม connection health dashboard','เพิ่ม video tutorial'],effort:'XL',impact:'Connectors 2.19 -> 3.5 (+1.31)'},
+  {id:'EX-001',title:'OCR อ่านใบเสร็จภาษาไทยผิดพลาดสูง (~67%)',module:'Expense',users:'245,600',pct:'61.4%',solution:['Retrain OCR model ด้วย 50,000+ Thai receipt samples','เพิ่ม Thai receipt template library','Implement post-OCR validation','เพิ่ม manual correction UI','Target: accuracy >92%'],effort:'XL',impact:'Expense 2.70 -> 3.8 (+1.10)'},
+  {id:'CROSS-002',title:'ไม่มี global search ข้ามโมดูล',module:'Cross-Module',users:'245,600',pct:'61.4%',solution:['Build unified search index + Thai tokenizer','เพิ่ม Ctrl+K command palette','Implement search suggestions + autocomplete','เพิ่ม search filters','เพิ่ม recent/saved searches'],effort:'L',impact:'+0.5 across all modules'},
+  {id:'PR-001',title:'สร้าง PR ต้องกรอกหลายหน้า ไม่มี draft save',module:'Procurement',users:'213,400',pct:'53.4%',solution:['Implement auto-save ทุก 30 วินาที','สร้าง PR templates','เพิ่ม single-page mode','แสดง validation summary','เพิ่ม duplicate from previous PR'],effort:'M',impact:'Procurement 2.69 -> 3.3 (+0.61)'},
+  {id:'SY-004',title:'ไม่รองรับ LINE Official Account integration',module:'System',users:'213,400',pct:'53.4%',solution:['Integrate LINE Messaging API','Build LINE LIFF app สำหรับ quick approvals','เพิ่ม LINE login','สร้าง LINE bot สำหรับ status queries','เพิ่ม LINE notification preferences'],effort:'L',impact:'System 2.54 -> 3.2 (+0.66)'},
+  {id:'CROSS-034',title:'ไม่มี data migration tool จากระบบเดิม',module:'Cross-Module',users:'267,800',pct:'67.0%',solution:['สร้าง Migration Toolkit (Express, SAP, Excel)','Guided field mapping wizard','Data validation + preview ก่อน import','Batch import with progress','Rollback capability 30 วัน'],effort:'XL',impact:'+0.7 adoption rate'},
+  {id:'CN-002',title:'ไม่มี pre-built connectors สำหรับระบบไทย',module:'Connectors',users:'189,100',pct:'47.3%',solution:['Build 10 pre-built Thai connectors','สร้าง connector SDK','เพิ่ม connector marketplace','One-click install + auto-config','Community-contributed support'],effort:'XL',impact:'Connectors 2.19 -> 3.8 (+1.61)'},
+  {id:'VM-001',title:'เปรียบเทียบ Vendor ใช้เวลาโหลดนาน 8-12 วิ',module:'Vendor',users:'189,100',pct:'47.3%',solution:['Implement server-side pagination + indexing','เพิ่ม virtual scrolling','Implement Redis caching','Lazy load images + documents','Target: response < 1.5 วินาที'],effort:'M',impact:'Vendor 2.65 -> 3.2 (+0.55)'},
+  {id:'SY-001',title:'Permission system ซับซ้อน ไม่มี role template',module:'System',users:'189,100',pct:'47.3%',solution:['สร้าง 8 pre-built role templates','เพิ่ม role hierarchy + inheritance','Bulk user-role assignment via CSV','Permission audit view','Department-based auto-permission'],effort:'M',impact:'System 2.54 -> 3.4 (+0.86)'}
+];
+
+const RECS = [
+  {rank:1,title:'Global Search with Thai Language Support',issues:'CROSS-002, FD-005, CROSS-018',effort:'L',impact:9.5,users:'245,600+'},
+  {rank:2,title:'Thai OCR Accuracy to >90%',issues:'EX-001, LG-001, VM-002',effort:'XL',impact:9.3,users:'245,600+'},
+  {rank:3,title:'Flatten Navigation Architecture (4.7 -> 2.5 clicks)',issues:'CROSS-001, HD-004, CROSS-008',effort:'L',impact:9.2,users:'284,700'},
+  {rank:4,title:'LINE Official Account Integration',issues:'SY-004',effort:'L',impact:9.0,users:'213,400'},
+  {rank:5,title:'Auto-save and Undo/Redo',issues:'CROSS-007, PR-001',effort:'M',impact:8.8,users:'172,300+'},
+  {rank:6,title:'Thai Localization Package',issues:'CROSS-004, CROSS-006, CROSS-009',effort:'XL',impact:8.7,users:'219,300+'},
+  {rank:7,title:'Pre-built Thai System Connectors',issues:'CN-001, CN-002',effort:'XL',impact:8.5,users:'256,700'},
+  {rank:8,title:'Role-based Permission Templates',issues:'SY-001',effort:'M',impact:8.3,users:'189,100'},
+  {rank:9,title:'Batch/Bulk Operations',issues:'PR-004, EX-002',effort:'L',impact:8.2,users:'178,900+'},
+  {rank:10,title:'Performance Optimization',issues:'VM-001, CROSS-005',effort:'L',impact:8.0,users:'213,400'},
+  {rank:11,title:'PR-to-PO Direct Conversion',issues:'PR-002',effort:'M',impact:7.8,users:'145,600'},
+  {rank:12,title:'Mobile-responsive All Modules',issues:'CROSS-010, CROSS-012, HD-003',effort:'XL',impact:7.7,users:'163,400+'},
+  {rank:13,title:'Customizable Dashboard',issues:'HD-001, HD-002',effort:'L',impact:7.5,users:'184,700'},
+  {rank:14,title:'Thai Sentiment Analysis',issues:'CF-001',effort:'L',impact:7.3,users:'156,700'},
+  {rank:15,title:'Flexible Approval Workflows',issues:'EX-003',effort:'L',impact:7.2,users:'123,400'},
+  {rank:16,title:'Thai Document Templates',issues:'SD-001',effort:'M',impact:7.0,users:'156,700'},
+  {rank:17,title:'WCAG Accessibility Fixes',issues:'CROSS-017',effort:'L',impact:6.8,users:'123,400+'},
+  {rank:18,title:'PDF Annotation & Document Markup',issues:'FD-003',effort:'M',impact:6.7,users:'134,500'},
+  {rank:19,title:'Expense Policy Engine',issues:'EX-004',effort:'L',impact:6.5,users:'106,700'},
+  {rank:20,title:'Connection Health Monitoring & Alerts',issues:'CN-004',effort:'M',impact:6.3,users:'98,700'}
+];
+
+const QUICKWINS = [
+  {title:'Add Breadcrumb Navigation',issue:'CROSS-011',files:'poc-v2.html + all modules',hours:8,users:'189,100'},
+  {title:'Add พ.ศ. Date Toggle',issue:'CROSS-006',files:'poc-v2.html + date functions',hours:6,users:'189,100'},
+  {title:'Loading Skeleton Progress Indicators',issue:'CROSS-005',files:'all modules with data loading',hours:6,users:'213,400'},
+  {title:'Search in System Settings',issue:'SY-003',files:'poc-v2.html',hours:4,users:'156,700'},
+  {title:'Notification Categorization',issue:'HD-005',files:'poc-v2.html, home.html',hours:6,users:'108,900'},
+  {title:'Multi-file Receipt Upload',issue:'EX-002',files:'expense-receipt-ocr.html',hours:8,users:'178,900'},
+  {title:'Fix Thai Baht Symbol Consistency',issue:'CROSS-004',files:'all modules with currency',hours:3,users:'219,300'},
+  {title:'Fix Dark Mode (4 modules)',issue:'CROSS-016',files:'4 modules',hours:8,users:'123,400'},
+  {title:'Add Keyboard Shortcuts',issue:'CROSS-040',files:'poc-v2.html',hours:6,users:'98,400'},
+  {title:'Recently Visited in Sidebar',issue:'CROSS-008',files:'poc-v2.html',hours:4,users:'167,800'},
+  {title:'Loading Skeletons for Data Tables',issue:'CROSS-005',files:'all modules with tables',hours:6,users:'213,400'},
+  {title:'Fix Thai Text Sorting Order',issue:'CROSS-022',files:'all sortable tables',hours:4,users:'87,600'},
+  {title:'Export Excel/CSV Across Analytics',issue:'PR-005',files:'4 analytics modules',hours:8,users:'131,200'},
+  {title:'Form Auto-save / Draft',issue:'PR-001',files:'3 form modules',hours:8,users:'213,400'},
+  {title:'Tooltips for All Chart Data Points',issue:'CROSS-019',files:'all chart modules',hours:6,users:'112,300'}
+];
+
+const KPIS = [
+  {name:'Avg clicks per task',current:'4.7',t12:'2.5',t24:'2.0'},
+  {name:'Page load time',current:'4.8s',t12:'2.0s',t24:'1.2s'},
+  {name:'Thai OCR accuracy',current:'67%',t12:'85%',t24:'95%'},
+  {name:'Mobile task completion',current:'22%',t12:'65%',t24:'85%'},
+  {name:'User satisfaction (NPS)',current:'-12',t12:'+15',t24:'+40'},
+  {name:'Feature adoption rate',current:'34%',t12:'60%',t24:'80%'},
+  {name:'Support tickets/week',current:'2,400',t12:'1,200',t24:'600'},
+  {name:'Connector setup time',current:'2-3 days',t12:'30 min',t24:'10 min'},
+  {name:'Approval cycle time',current:'2.5 days',t12:'4 hours',t24:'1 hour'},
+  {name:'Data entry time/receipt',current:'5 min',t12:'1 min',t24:'30 sec'}
+];
+
+const SPRINTS = [
+  {name:'Sprint 1',weeks:'Week 1-2',theme:'Quick Wins — ปรับปรุงทันที',color:'var(--green)',items:['Add breadcrumb navigation','Add พ.ศ. date toggle','Settings page search','Notification categorization','PR auto-save + analytics export','Multi-file receipt upload','Quick Actions + trend context','Human-readable API errors'],count:8},
+  {name:'Sprint 2',weeks:'Week 3-4',theme:'Critical Fixes — แก้ปัญหาหลัก',color:'var(--blue)',items:['Flatten navigation (4.7→2.5 clicks)','Global search + Thai support','Undo/Redo across modules','Recently visited items','Vendor comparison performance','Role-based permission templates','PR-to-PO conversion','Customizable Dashboard'],count:15},
+  {name:'Sprint 3',weeks:'Week 5-6',theme:'Thai Business Workflows',color:'var(--orange)',items:['Thai OCR accuracy improvement','Advance payment workflow','e-Tax Invoice compliance','PromptPay QR Code integration','Per diem calculator','Thai document templates','Thai freight document OCR','Pipeline drag-and-drop'],count:12},
+  {name:'Sprint 4',weeks:'Week 7-8',theme:'Integration & Connectors',color:'var(--purple)',items:['Guided connector setup wizard','Pre-built Thai connectors','LINE Official Account integration','Express/PEAK/Prosoft sync','Thai logistics provider APIs','Connection health monitoring','2FA / SSO implementation','e-Slip bank integration'],count:10},
+  {name:'Sprint 5',weeks:'Week 9-10',theme:'Mobile & Accessibility',color:'var(--cyan)',items:['Responsive charts for mobile','Fix table overflow on mobile','Keyboard accessibility (34 elements)','Fix dropdown menus on mobile','Training mode / sandbox','Data migration toolkit','Contextual help / guided tours','Mobile dashboard improvements'],count:10},
+  {name:'Sprint 6',weeks:'Week 11-12',theme:'Performance & Polish',color:'var(--red)',items:['Page load optimization','Thai font kerning fix','Thai help documentation','Offline capability (PWA)','Thai sentiment analysis','Survey conditional logic','Approval delegation system','Batch export/import'],count:10}
+];
+
+const ENG_TASKS = [
+  {priority:'P0',file:'poc-v2.html',task:'Add breadcrumb navigation component',issues:'CROSS-011',sprint:'S1'},
+  {priority:'P0',file:'poc-v2.html',task:'Add global search (Ctrl+K command palette)',issues:'CROSS-002',sprint:'S2'},
+  {priority:'P0',file:'poc-v2.html',task:'Flatten sidebar navigation architecture',issues:'CROSS-001',sprint:'S2'},
+  {priority:'P0',file:'poc-v2.html',task:'Add recently visited items section',issues:'CROSS-008',sprint:'S1'},
+  {priority:'P1',file:'poc-v2.html',task:'Add notification categorization',issues:'HD-005',sprint:'S1'},
+  {priority:'P1',file:'poc-v2.html',task:'Add พ.ศ. date toggle (global)',issues:'CROSS-006',sprint:'S1'},
+  {priority:'P1',file:'poc-v2.html',task:'Add keyboard shortcuts',issues:'CROSS-040',sprint:'S1'},
+  {priority:'P0',file:'procurement-prpo.html',task:'Implement auto-save / draft for PR forms',issues:'PR-001',sprint:'S1'},
+  {priority:'P0',file:'procurement-prpo.html',task:'Add PR templates for common purchases',issues:'PR-001',sprint:'S1'},
+  {priority:'P0',file:'procurement-prpo.html',task:'Build PR-to-PO conversion flow',issues:'PR-002',sprint:'S2'},
+  {priority:'P0',file:'procurement-analytics.html',task:'Add export to Excel/CSV',issues:'PR-005',sprint:'S1'},
+  {priority:'P0',file:'expense-receipt-ocr.html',task:'Enable multi-file upload',issues:'EX-002',sprint:'S1'},
+  {priority:'P0',file:'expense-receipt-ocr.html',task:'Improve Thai OCR accuracy to >92%',issues:'EX-001',sprint:'S3'},
+  {priority:'P1',file:'expense-receipt-ocr.html',task:'Add advance payment form',issues:'CROSS-030',sprint:'S3'},
+  {priority:'P1',file:'expense-receipt-ocr.html',task:'Add PromptPay QR Code generation',issues:'EX-010',sprint:'S3'},
+  {priority:'P1',file:'expense-tasks.html',task:'Add policy engine indicators',issues:'EX-004',sprint:'S3'},
+  {priority:'P1',file:'expense-tasks.html',task:'Add per diem calculator',issues:'EX-011',sprint:'S3'},
+  {priority:'P1',file:'expense-dashboard.html',task:'Add category drill-down analytics',issues:'EX-005',sprint:'S2'},
+  {priority:'P1',file:'finance-verification.html',task:'Add verification checklist templates',issues:'FD-002',sprint:'S2'},
+  {priority:'P1',file:'finance-cases.html',task:'Add document grouping by type',issues:'FD-001',sprint:'S2'},
+  {priority:'P0',file:'connector-hub.html',task:'Build guided setup wizard (3-step)',issues:'CN-001',sprint:'S4'},
+  {priority:'P0',file:'connector-hub.html',task:'Add pre-built Thai system connectors',issues:'CN-002',sprint:'S4'},
+  {priority:'P0',file:'api-dashboard.html',task:'Add human-readable error messages (Thai)',issues:'CN-003',sprint:'S1'},
+  {priority:'P1',file:'api-dashboard.html',task:'Add connection health monitoring dashboard',issues:'CN-004',sprint:'S4'},
+  {priority:'P0',file:'vendor-management.html',task:'Optimize performance (8-12s -> <1.5s)',issues:'VM-001',sprint:'S2'},
+  {priority:'P1',file:'sales-dashboard.html',task:'Add Thai document templates',issues:'SD-001',sprint:'S3'},
+  {priority:'P1',file:'sales-pipeline.html',task:'Add drag-and-drop stage changes',issues:'SD-002',sprint:'S3'},
+  {priority:'P0',file:'logistics-tracking.html',task:'Add Thai provider integration UI',issues:'LG-010',sprint:'S4'},
+  {priority:'P1',file:'logistics-freight-ocr.html',task:'Add Thai freight document OCR support',issues:'LG-001',sprint:'S3'},
+  {priority:'P1',file:'customer-feedback.html',task:'Add Thai sentiment analysis',issues:'CF-001',sprint:'S6'},
+  {priority:'P1',file:'home.html',task:'Add customizable widget dashboard',issues:'HD-001',sprint:'S2'},
+  {priority:'P0',file:'home.html',task:'Add quick action buttons',issues:'HD-004',sprint:'S1'}
+];
+
+// ===== RENDER FUNCTIONS =====
+function switchTab(tabName) {
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.tab-content').forEach(function(t){t.classList.remove('active');});
+  document.getElementById('tab-'+tabName).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function toggleFinding(idx) {
+  var detail = document.getElementById('finding-detail-'+idx);
+  detail.classList.toggle('show');
+}
+
+function scoreColor(score) {
+  if (score >= 4.0) return 'background:var(--green-bg);color:var(--green);';
+  if (score >= 3.0) return 'background:var(--blue-bg);color:var(--blue);';
+  if (score >= 2.5) return 'background:var(--orange-bg);color:var(--orange);';
+  return 'background:var(--red-bg);color:var(--red);';
+}
+
+function renderFindings() {
+  var html = '';
+  FINDINGS.forEach(function(f, i) {
+    html += '<div class="finding" onclick="toggleFinding('+i+')">';
+    html += '<div class="finding-header"><div class="finding-title">'+(i+1)+'. '+f.title+'</div><div class="finding-pct">'+f.pct+' ('+f.users+' users)</div></div>';
+    html += '<div class="finding-desc">'+f.desc+'</div>';
+    html += '<div class="finding-detail" id="finding-detail-'+i+'">';
+    html += '<strong>Impact:</strong> '+f.impact+'<br><br><strong>รายละเอียด:</strong><ul class="finding-bullet">';
+    f.details.forEach(function(d){ html += '<li>'+d+'</li>'; });
+    html += '</ul></div></div>';
+  });
+  document.getElementById('findingsContainer').innerHTML = html;
+}
+
+function renderKPIs() {
+  var html = '';
+  KPIS.forEach(function(k) {
+    html += '<tr><td style="font-weight:600;">'+k.name+'</td><td style="text-align:center;"><span style="padding:3px 10px;border-radius:8px;'+scoreColor(0)+'font-weight:600;">'+k.current+'</span></td><td style="text-align:center;font-weight:600;color:var(--blue);">'+k.t12+'</td><td style="text-align:center;font-weight:600;color:var(--green);">'+k.t24+'</td></tr>';
+  });
+  document.getElementById('kpiTableBody').innerHTML = html;
+}
+
+function renderCritical() {
+  var html = '';
+  CRITICAL.forEach(function(c, i) {
+    var effortClass = c.effort === 'XL' ? 'effort-xl' : c.effort === 'L' ? 'effort-l' : c.effort === 'M' ? 'effort-m' : 'effort-s';
+    html += '<div class="card" style="border-left:4px solid var(--red);">';
+    html += '<div class="card-title" style="justify-content:space-between;"><span>&#128308; #'+(i+1)+' '+c.id+' — '+c.title+'</span><span class="finding-pct">'+c.pct+' ('+c.users+')</span></div>';
+    html += '<div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;"><span style="font-size:.68rem;padding:2px 8px;border-radius:8px;background:var(--bg2);color:var(--muted);">Module: '+c.module+'</span><span class="rec-effort '+effortClass+'">Effort: '+c.effort+'</span><span style="font-size:.68rem;padding:2px 8px;border-radius:8px;background:var(--green-bg);color:var(--green);">'+c.impact+'</span></div>';
+    html += '<div style="font-size:.73rem;"><strong>Proposed Solutions:</strong><ol style="padding-left:18px;margin-top:4px;">';
+    c.solution.forEach(function(s){ html += '<li style="margin-bottom:2px;">'+s+'</li>'; });
+    html += '</ol></div></div>';
+  });
+  document.getElementById('criticalContainer').innerHTML = html;
+}
+
+function renderHeatmap() {
+  var html = '';
+  HEATMAP.forEach(function(h, i) {
+    var gap = (h.target - h.current).toFixed(2);
+    var pctProgress = ((h.current / h.target) * 100).toFixed(0);
+    var pClass = h.priority === 'P0' ? 'p0' : h.priority === 'P1' ? 'p1' : 'p2';
+    var barColor = h.current < 2.5 ? 'var(--red)' : h.current < 3.0 ? 'var(--orange)' : 'var(--blue)';
+    html += '<tr><td style="font-weight:600;">'+(i+1)+'</td><td style="font-weight:600;">'+h.module+'</td>';
+    html += '<td class="score-cell" style="'+scoreColor(h.current)+'">'+h.current.toFixed(2)+'</td>';
+    html += '<td class="target-cell">'+h.target.toFixed(1)+'</td>';
+    html += '<td class="gap-cell">'+gap+'</td>';
+    html += '<td><span class="priority-badge '+pClass+'">'+h.priority+'</span></td>';
+    html += '<td><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:'+pctProgress+'%;background:'+barColor+';"></div></div><div style="font-size:.62rem;color:var(--muted);margin-top:2px;">'+pctProgress+'% to target</div></td>';
+    html += '<td style="font-size:.72rem;">'+h.sprint+'</td></tr>';
+  });
+  document.getElementById('heatmapBody').innerHTML = html;
+}
+
+function renderProgression() {
+  var html = '';
+  PROGRESSION.forEach(function(p) {
+    html += '<tr><td style="font-weight:600;">'+p.module+'</td>';
+    html += '<td class="score-cell" style="'+scoreColor(p.before)+'">'+p.before.toFixed(2)+'</td>';
+    html += '<td class="score-cell" style="'+scoreColor(p.s3)+'">'+p.s3.toFixed(2)+'</td>';
+    html += '<td class="score-cell" style="'+scoreColor(p.s6)+'">'+p.s6.toFixed(2)+'</td>';
+    html += '<td class="target-cell">'+p.target.toFixed(1)+'</td></tr>';
+  });
+  document.getElementById('progressionBody').innerHTML = html;
+}
+
+function renderSprints() {
+  var html = '';
+  SPRINTS.forEach(function(s) {
+    html += '<div class="sprint-card"><div class="sprint-header" style="background:'+s.color+'22;color:'+s.color+';">'+s.name+' ('+s.weeks+') <span class="sprint-badge" style="background:'+s.color+';color:#fff;">'+s.count+' items</span></div>';
+    html += '<div style="padding:4px 16px 2px;font-size:.68rem;color:var(--muted);font-weight:600;">'+s.theme+'</div>';
+    html += '<div class="sprint-body">';
+    s.items.forEach(function(item) {
+      html += '<div class="sprint-item"><div class="sprint-check"></div>'+item+'</div>';
+    });
+    html += '</div></div>';
+  });
+  document.getElementById('sprintGrid').innerHTML = html;
+}
+
+function renderRecs() { filterRecs(); }
+function filterRecs() {
+  var effort = document.getElementById('recEffortFilter').value;
+  var search = document.getElementById('recSearch').value.toLowerCase();
+  var filtered = RECS.filter(function(r) {
+    if (effort && r.effort !== effort) return false;
+    if (search && r.title.toLowerCase().indexOf(search) === -1 && r.issues.toLowerCase().indexOf(search) === -1) return false;
+    return true;
+  });
+  var html = '';
+  filtered.forEach(function(r) {
+    var effortClass = r.effort === 'XL' ? 'effort-xl' : r.effort === 'L' ? 'effort-l' : r.effort === 'M' ? 'effort-m' : 'effort-s';
+    html += '<div class="rec-card">';
+    html += '<div class="rec-rank">'+r.rank+'</div>';
+    html += '<div><div class="rec-title">'+r.title+'</div><div class="rec-sub">Issues: '+r.issues+' | Users: '+r.users+'</div></div>';
+    html += '<div class="rec-impact"><div class="rec-impact-val">'+r.impact+'</div><div class="rec-impact-label">Impact /10</div></div>';
+    html += '<div class="rec-effort '+effortClass+'">'+r.effort+'</div>';
+    html += '</div>';
+  });
+  document.getElementById('recsContainer').innerHTML = html || '<div style="text-align:center;color:var(--muted);padding:24px;">ไม่พบคำแนะนำที่ตรงกับเงื่อนไข</div>';
+}
+
+function renderQuickWins() {
+  var html = '';
+  QUICKWINS.forEach(function(qw, i) {
+    html += '<div class="qw-card">';
+    html += '<div class="qw-header"><div class="qw-title">'+(i+1)+'. '+qw.title+'</div><div class="qw-time">'+qw.hours+' hrs</div></div>';
+    html += '<div style="font-size:.68rem;color:var(--muted);">Issue: <strong>'+qw.issue+'</strong></div>';
+    html += '<div style="font-size:.68rem;color:var(--muted);margin-top:2px;">Files: <span class="file-tag">'+qw.files+'</span></div>';
+    html += '<div class="qw-meta"><span>&#128101; '+qw.users+' users</span></div>';
+    html += '</div>';
+  });
+  document.getElementById('qwGrid').innerHTML = html;
+}
+
+function renderEngineering() { filterEng(); }
+function filterEng() {
+  var priority = document.getElementById('engPriorityFilter').value;
+  var sprint = document.getElementById('engSprintFilter').value;
+  var search = document.getElementById('engSearch').value.toLowerCase();
+  var filtered = ENG_TASKS.filter(function(e) {
+    if (priority && e.priority !== priority) return false;
+    if (sprint && e.sprint !== sprint) return false;
+    if (search && e.task.toLowerCase().indexOf(search) === -1 && e.file.toLowerCase().indexOf(search) === -1 && e.issues.toLowerCase().indexOf(search) === -1) return false;
+    return true;
+  });
+  var html = '';
+  filtered.forEach(function(e) {
+    var pClass = e.priority === 'P0' ? 'p0' : e.priority === 'P1' ? 'p1' : e.priority === 'P2' ? 'p2' : '';
+    html += '<tr><td><span class="priority-badge '+pClass+'">'+e.priority+'</span></td>';
+    html += '<td><span class="file-tag">'+e.file+'</span></td>';
+    html += '<td>'+e.task+'</td>';
+    html += '<td style="font-size:.68rem;color:var(--muted);">'+e.issues+'</td>';
+    html += '<td style="text-align:center;font-weight:600;">'+e.sprint+'</td></tr>';
+  });
+  document.getElementById('engBody').innerHTML = html || '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:20px;">ไม่พบ task ที่ตรงกับเงื่อนไข</td></tr>';
+}
+
+function showToast(icon, title, msg) {
+  var t = document.getElementById('toast');
+  t.innerHTML = icon + ' <strong>' + title + '</strong> ' + msg;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+
+// ===== DARK MODE =====
+(function() {
+  if (localStorage.getItem('autopilot-dark') === '1' || window.parent !== window) {
+    try {
+      var p = window.parent.document.body;
+      if (p && p.classList.contains('dark')) document.body.classList.add('dark');
+    } catch(e) {}
+  }
+  if (localStorage.getItem('autopilot-dark') === '1') document.body.classList.add('dark');
+})();
+
+// ===== INIT =====
+renderFindings();
+renderKPIs();
+renderCritical();
+renderHeatmap();
+renderProgression();
+renderSprints();
+renderRecs();
+renderQuickWins();
+renderEngineering();
+</script>
+</body>
+</html>
