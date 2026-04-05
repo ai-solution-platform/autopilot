@@ -517,23 +517,48 @@ select.form-input{cursor:pointer;}
 
 <!-- ════ COMPARISON ════ -->
 <div id="page-comparison" class="page hidden">
-    <div class="flex-between mb-16"><div><h2>Comparative Quotation Table</h2><p class="text-sm text-muted">44 รายการ · 4 ผู้จำหน่าย</p></div>
-        <div style="display:flex;gap:8px;"><button class="btn btn-outline btn-sm" onclick="sortComp('name')">Sort: Name</button><button class="btn btn-outline btn-sm" onclick="sortComp('price')">Sort: Price</button><button class="btn btn-green btn-sm" onclick="exportCSV()">📥 CSV</button></div></div>
-    <div class="kpi-grid" style="grid-template-columns:repeat(5,1fr);"><div class="kpi card-sm"><div class="kpi-label">Items</div><div class="kpi-value" style="font-size:1.4rem;color:var(--blue);">44</div></div>
-        <div class="kpi card-sm"><div class="kpi-label">Vendors</div><div class="kpi-value" style="font-size:1.4rem;color:var(--purple);">4</div></div>
-        <div class="kpi card-sm"><div class="kpi-label">Best Total</div><div class="kpi-value" style="font-size:1.4rem;color:var(--green);">119,158</div></div>
-        <div class="kpi card-sm"><div class="kpi-label">Highest</div><div class="kpi-value" style="font-size:1.4rem;color:var(--red);">144,163</div></div>
-        <div class="kpi card-sm"><div class="kpi-label">Savings</div><div class="kpi-value" style="font-size:1.4rem;color:var(--orange);">25,005</div></div></div>
-    <div class="card" style="overflow-x:auto;padding:0;" id="compContainer"></div>
+    <div class="flex-between mb-16">
+      <div>
+        <h2>Comparative Quotation Table</h2>
+        <p class="text-sm text-muted">เปรียบเทียบใบเสนอราคาตาม Task</p>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <select class="form-input" id="compTaskSelect" onchange="loadComparisonForTask(this.value)" style="min-width:280px;">
+          <option value="">-- เลือก Task --</option>
+        </select>
+        <button class="btn btn-outline btn-sm" onclick="sortComp('name')">Sort: Name</button>
+        <button class="btn btn-outline btn-sm" onclick="sortComp('price')">Sort: Price</button>
+        <button class="btn btn-green btn-sm" onclick="exportCSV()">📥 CSV</button>
+      </div>
+    </div>
+    <div class="kpi-grid" style="grid-template-columns:repeat(5,1fr);" id="compKPIs">
+        <div class="kpi card-sm"><div class="kpi-label">Items</div><div class="kpi-value" id="compKpiItems" style="font-size:1.4rem;color:var(--blue);">—</div></div>
+        <div class="kpi card-sm"><div class="kpi-label">Vendors</div><div class="kpi-value" id="compKpiVendors" style="font-size:1.4rem;color:var(--purple);">—</div></div>
+        <div class="kpi card-sm"><div class="kpi-label">Best Total</div><div class="kpi-value" id="compKpiBest" style="font-size:1.4rem;color:var(--green);">—</div></div>
+        <div class="kpi card-sm"><div class="kpi-label">Highest</div><div class="kpi-value" id="compKpiHighest" style="font-size:1.4rem;color:var(--red);">—</div></div>
+        <div class="kpi card-sm"><div class="kpi-label">Savings</div><div class="kpi-value" id="compKpiSavings" style="font-size:1.4rem;color:var(--orange);">—</div></div>
+    </div>
+    <div class="card" style="overflow-x:auto;padding:0;" id="compContainer">
+        <div style="text-align:center;padding:40px;color:var(--muted);font-size:.9rem;">กรุณาเลือก Task เพื่อดูตารางเปรียบเทียบ</div>
+    </div>
 </div>
 
 <!-- ════ REPORTS ════ -->
 <div id="page-reports" class="page hidden">
-    <div class="flex-between mb-16"><div><h2>Executive Summary</h2><p class="text-sm text-muted">รายงานสรุปผลการวิเคราะห์</p></div>
-        <div style="display:flex;gap:8px;"><button class="btn btn-outline btn-sm" onclick="mockPrint()">🖨️ Print</button><button class="btn btn-green btn-sm" onclick="mockExportPDF()">📥 Export PDF</button></div></div>
-    <div class="card mb-16"><h3 style="margin-bottom:10px;">📋 สรุปภาพรวม</h3><div id="rptSummary" style="line-height:1.8;font-size:.88rem;color:var(--text2);"></div></div>
-    <div class="card mb-16"><h3 style="margin-bottom:10px;">⚡ ข้อสังเกตสำคัญ</h3><div id="rptNotes" style="font-size:.88rem;color:var(--text2);line-height:1.8;"></div></div>
-    <div class="card"><h3 style="margin-bottom:10px;">📎 เอกสารต้นฉบับ</h3><div id="rptAttach"></div></div>
+    <div class="flex-between mb-16">
+      <div>
+        <h2>Executive Summary</h2>
+        <p class="text-sm text-muted">รายงานสรุปผลการวิเคราะห์ตาม Task</p>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <select class="form-input" id="rptTaskSelect" onchange="loadReportForTask(this.value)" style="min-width:280px;">
+          <option value="">-- เลือก Task --</option>
+        </select>
+      </div>
+    </div>
+    <div id="rptContent">
+      <div style="text-align:center;padding:40px;color:var(--muted);font-size:.9rem;">กรุณาเลือก Task เพื่อดูรายงาน</div>
+    </div>
 </div>
 
 <!-- ════ EXPENSE DASHBOARD ════ -->
@@ -733,7 +758,8 @@ select.form-input{cursor:pointer;}
             <tr><td>Create Tasks</td><td>✅</td><td>✅</td><td>✅</td><td>❌</td></tr><tr><td>View All Tasks</td><td>✅</td><td>✅</td><td>Own only</td><td>Assigned</td></tr>
             <tr><td>Approve / Reject</td><td>✅</td><td>✅</td><td>❌</td><td>❌</td></tr><tr><td>Export Reports</td><td>✅</td><td>✅</td><td>✅</td><td>❌</td></tr>
             <tr><td>Manage Users</td><td>✅</td><td>❌</td><td>❌</td><td>❌</td></tr><tr><td>Configure Channels</td><td>✅</td><td>✅</td><td>❌</td><td>❌</td></tr>
-            <tr><td>API Access</td><td>✅</td><td>✅</td><td>Read only</td><td>❌</td></tr></tbody></table></div>
+            <tr><td>API Access</td><td>✅</td><td>✅</td><td>Read only</td><td>❌</td></tr>
+            <tr><td>Billing Management</td><td>✅</td><td>❌</td><td>❌</td><td>❌</td></tr></tbody></table></div>
 </div>
 
 <!-- ════ CHANNELS ════ -->
@@ -897,11 +923,87 @@ const QUOTATIONS=[{file:'QA-4800192691-signed.pdf',no:'QA-4800192691',vendor:'V1
 {file:'260311-85T-signed.pdf',no:'260311-85T',vendor:'V3',date:'24/02/2569',type:'Digital PDF',pages:1,credit:'30 วัน',subtotal:8500,vat:595,total:9095},
 {file:'FA112ADB42-signed.pdf',no:'FA112ADB42',vendor:'V1',date:'20/02/2569',type:'Scanned PDF',pages:1,credit:'60 วัน',subtotal:37220,vat:2605.40,total:39825.40}];
 
+const TASK_COMPARISONS = {
+  'TK-0012': {
+    title: 'ใบเสนอราคาอุปกรณ์ช่าง Q1/2569',
+    vendors: ['Thai Steel Supply', 'Siam Industrial', 'Bangkok Hardware', 'Metro Tools'],
+    items: 44, bestTotal: 119158, highestTotal: 144163,
+    data: [
+      {name:'ท่อเหล็ก 1"', unit:'เส้น', v:[450,470,440,480]},
+      {name:'ประแจชุด 10 ชิ้น', unit:'ชุด', v:[1200,1350,1180,1400]},
+      {name:'สายไฟ THW 2.5', unit:'ม้วน', v:[850,880,820,900]},
+      {name:'ปั๊มลม 3HP', unit:'ตัว', v:[12500,13200,11800,14000]},
+      {name:'หินเจียร 4"', unit:'กล่อง', v:[320,350,290,380]},
+      {name:'สว่านไฟฟ้า Bosch', unit:'ตัว', v:[3500,3800,3200,4100]},
+      {name:'ถุงมือนิรภัย', unit:'โหล', v:[180,200,165,220]},
+      {name:'แว่นตานิรภัย', unit:'อัน', v:[250,280,230,310]},
+      {name:'หมวกนิรภัย', unit:'ใบ', v:[350,380,320,400]},
+      {name:'รองเท้าเซฟตี้', unit:'คู่', v:[890,950,820,1050]}
+    ]
+  },
+  'TK-0010': {
+    title: 'วัสดุสำนักงาน Q2/2569',
+    vendors: ['Office Mate', 'B2S Corporate', 'Lyreco Thailand'],
+    items: 28, bestTotal: 45200, highestTotal: 52800,
+    data: [
+      {name:'กระดาษ A4 80g', unit:'รีม', v:[99,105,95]},
+      {name:'ปากกา Pilot', unit:'กล่อง', v:[480,520,450]},
+      {name:'แฟ้มเอกสาร', unit:'โหล', v:[360,380,340]},
+      {name:'หมึกพิมพ์ HP', unit:'ตลับ', v:[1200,1350,1150]},
+      {name:'กาว UHU', unit:'หลอด', v:[65,70,58]},
+      {name:'คลิปหนีบ', unit:'กล่อง', v:[25,30,22]},
+      {name:'เทปใส', unit:'ม้วน', v:[35,40,30]},
+      {name:'Post-it 3M', unit:'แพ็ค', v:[89,95,82]}
+    ]
+  },
+  'TK-0008': {
+    title: 'PPE Safety Gear Q2/2026',
+    vendors: ['3M Thailand', 'Honeywell TH', 'DuPont Safety', 'SafetyFirst Co.'],
+    items: 18, bestTotal: 78500, highestTotal: 95200,
+    data: [
+      {name:'หน้ากาก N95 3M', unit:'กล่อง', v:[850,900,820,950]},
+      {name:'ชุดป้องกันสารเคมี', unit:'ชุด', v:[4500,4800,4200,5100]},
+      {name:'ถุงมือยาง', unit:'โหล', v:[280,310,260,340]},
+      {name:'เสื้อสะท้อนแสง', unit:'ตัว', v:[180,200,165,220]},
+      {name:'รองเท้า Steel Toe', unit:'คู่', v:[1200,1350,1100,1500]},
+      {name:'แว่น Safety Goggles', unit:'อัน', v:[350,380,320,420]}
+    ]
+  }
+};
+
+let currentCompTaskId = '';
+let currentCompSortBy = 'name';
+
 const ITEMS=[{no:1,desc:'ชุดประแจแหวนข้างปากตาย 10ชิ้น',qty:3,unit:'ชุด',prices:{V1:2160,V2:2400,V3:1850,V4:null}},{no:2,desc:'ประแจแอลหัวบอล 1.5-10mm (BONDHUS)',qty:3,unit:'ชุด',prices:{V1:900,V2:1100,V3:null,V4:950}},{no:3,desc:'ชุดประแจแอลหัวตัดยาว 17mm',qty:3,unit:'ชุด',prices:{V1:3200,V2:null,V3:3024,V4:2800}},{no:4,desc:'ไขควงด้ามพลาสติกปากแบน 8x150mm',qty:1,unit:'ชิ้น',prices:{V1:200,V2:250,V3:184,V4:null}},{no:5,desc:'ไขควงด้ามพลาสติกปากแฉก 3x150mm',qty:1,unit:'ชิ้น',prices:{V1:200,V2:250,V3:184,V4:null}},{no:6,desc:'ดอกต๊าปเกลียว M3x0.5mm',qty:3,unit:'ชิ้น',prices:{V1:1200,V2:1350,V3:null,V4:1100}},{no:7,desc:'ดอกต๊าปเกลียว M4x0.7mm',qty:3,unit:'ชิ้น',prices:{V1:1550,V2:1680,V3:null,V4:1450}},{no:8,desc:'ไขควงเช็คไฟ',qty:3,unit:'ชิ้น',prices:{V1:150,V2:180,V3:null,V4:160}},{no:9,desc:'ไขควงหุ้มฉนวนกันไฟฟ้า',qty:3,unit:'ชิ้น',prices:{V1:700,V2:null,V3:590,V4:650}},{no:10,desc:'คีมย้ำหางปลาเปลือย',qty:3,unit:'ชิ้น',prices:{V1:320,V2:380,V3:310,V4:350}},{no:11,desc:'ประแจเลื่อนหุ้มยาง 8"',qty:3,unit:'ชิ้น',prices:{V1:560,V2:680,V3:null,V4:620}},{no:12,desc:'ตลับเมตร ABS 5m',qty:3,unit:'ชิ้น',prices:{V1:640,V2:null,V3:800,V4:590}},{no:13,desc:'แคลมป์มิเตอร์ดิจิตอล',qty:3,unit:'ชิ้น',prices:{V1:600,V2:550,V3:null,V4:580}},{no:14,desc:'คีมคอม้า 10"',qty:3,unit:'ชิ้น',prices:{V1:400,V2:450,V3:null,V4:420}},{no:15,desc:'คีมตัดพลาสติก 160mm',qty:3,unit:'ชิ้น',prices:{V1:320,V2:350,V3:290,V4:null}},{no:16,desc:'คีมตัดสายเคเบิ้ล 200mm',qty:3,unit:'ชิ้น',prices:{V1:360,V2:400,V3:370,V4:380}},{no:17,desc:'คีมปากแหลม 160mm',qty:1,unit:'ชิ้น',prices:{V1:550,V2:600,V3:null,V4:520}},{no:18,desc:'ดอกสกัดปากแบน 16mm',qty:3,unit:'ชิ้น',prices:{V1:150,V2:180,V3:null,V4:160}},{no:19,desc:'ด้ามต๊าปตัวผู้ M1-10',qty:3,unit:'ชิ้น',prices:{V1:320,V2:380,V3:null,V4:350}},{no:20,desc:'ดอกสว่าน 2.3mm',qty:5,unit:'ชิ้น',prices:{V1:230,V2:null,V3:210,V4:250}},{no:21,desc:'ดอกสว่าน 2.7mm',qty:5,unit:'ชิ้น',prices:{V1:230,V2:null,V3:198,V4:250}},{no:22,desc:'ดอกสว่าน 3.2mm',qty:5,unit:'ชิ้น',prices:{V1:230,V2:null,V3:198,V4:250}},{no:23,desc:'ดอกสว่าน 4.5mm',qty:5,unit:'ชิ้น',prices:{V1:250,V2:null,V3:210,V4:270}},{no:24,desc:'ด้ามต๊าปตัวผู้ M4-20',qty:2,unit:'ชิ้น',prices:{V1:300,V2:350,V3:290,V4:null}},{no:25,desc:'ประแจปากตาย 27x30mm',qty:2,unit:'ชิ้น',prices:{V1:400,V2:450,V3:395,V4:420}},{no:26,desc:'ดอกสว่าน 5.2mm',qty:12,unit:'ชิ้น',prices:{V1:20,V2:25,V3:20,V4:22}},{no:27,desc:'ดอกสว่าน 6.9mm',qty:12,unit:'ชิ้น',prices:{V1:20,V2:28,V3:20,V4:25}},{no:28,desc:'ดอกสว่าน 8.5mm',qty:12,unit:'ชิ้น',prices:{V1:30,V2:35,V3:30,V4:32}},{no:29,desc:'ดอกต๊าปเกลียว M5x0.8mm',qty:6,unit:'ชิ้น',prices:{V1:40,V2:50,V3:40,V4:45}},{no:30,desc:'ดอกต๊าปเกลียว M6x1.0mm',qty:6,unit:'ชิ้น',prices:{V1:50,V2:65,V3:50,V4:55}},{no:31,desc:'ดอกต๊าปเกลียว M8x1.25mm',qty:6,unit:'ชิ้น',prices:{V1:80,V2:95,V3:80,V4:85}},{no:32,desc:'ดอกต๊าปเกลียว M10x1.5mm',qty:6,unit:'ชิ้น',prices:{V1:120,V2:140,V3:120,V4:130}},{no:33,desc:'ชุดไขควง 6Pcs',qty:1,unit:'ชิ้น',prices:{V1:1300,V2:1550,V3:1114,V4:null}},{no:34,desc:'ตู้เหล็ก CB-12',qty:4,unit:'ชิ้น',prices:{V1:9450,V2:9800,V3:null,V4:9200}},{no:35,desc:'สายลมโรล 6.5x10mm 6m',qty:3,unit:'ชิ้น',prices:{V1:1680,V2:null,V3:null,V4:1550}},{no:36,desc:'กล่องเครื่องมือ 14"',qty:1,unit:'ชิ้น',prices:{V1:2200,V2:2670,V3:null,V4:null}},{no:37,desc:'รถเข็นเครื่องมือ 4ชั้น',qty:3,unit:'คัน',prices:{V1:5600,V2:5800,V3:null,V4:5400}},{no:38,desc:'ปากกาจับชิ้นงาน 5"',qty:2,unit:'ชิ้น',prices:{V1:2550,V2:2400,V3:null,V4:null}},{no:39,desc:'สว่านไฟฟ้า 10mm 550W',qty:2,unit:'EA',prices:{V1:null,V2:2400,V3:null,V4:2350}},{no:40,desc:'หางปลาหัวหมวก CE-1',qty:2,unit:'PACK',prices:{V1:null,V2:155,V3:null,V4:160}},{no:41,desc:'KST FRFNYD0.5-078',qty:3,unit:'EA',prices:{V1:150,V2:180,V3:null,V4:null}},{no:42,desc:'KST MPFNYD0.5-078',qty:3,unit:'EA',prices:{V1:320,V2:370,V3:null,V4:null}},{no:43,desc:'สายรัดไฟฟ้า Retractable 15M',qty:3,unit:'EA',prices:{V1:250,V2:280,V3:null,V4:260}},{no:44,desc:'SUNKEY คีมตัด 6"',qty:3,unit:'EA',prices:{V1:null,V2:80,V3:null,V4:90}}];
 
 const TASKS=[{id:'TK-0012',title:'ใบเสนอราคาอุปกรณ์ช่าง Q1/2569',assignee:'Thanakan P.',docs:9,items:44,status:'processing',created:'4 Apr 2026',ch:'upload'},{id:'TK-0011',title:'อุปกรณ์ IT Server Room',assignee:'Siriporn K.',docs:6,items:28,status:'review',created:'3 Apr 2026',ch:'telegram'},{id:'TK-0010',title:'วัสดุสำนักงาน Q2/2569',assignee:'Patchara W.',docs:4,items:52,status:'complete',created:'2 Apr 2026',ch:'whatsapp'},{id:'TK-0009',title:'อุปกรณ์ Safety Gear',assignee:'Nattapong S.',docs:5,items:31,status:'review',created:'1 Apr 2026',ch:'email'},{id:'TK-0008',title:'Spare Parts Line A',assignee:'Thanakan P.',docs:8,items:67,status:'complete',created:'28 Mar 2026',ch:'upload'},{id:'TK-0007',title:'Chemical & Lubricant',assignee:'Siriporn K.',docs:3,items:18,status:'complete',created:'25 Mar 2026',ch:'email'},{id:'TK-0006',title:'อุปกรณ์ทำความสะอาด',assignee:'Patchara W.',docs:4,items:24,status:'complete',created:'22 Mar 2026',ch:'line'},{id:'TK-0005',title:'PPE Equipment 2026',assignee:'Nattapong S.',docs:7,items:41,status:'complete',created:'20 Mar 2026',ch:'upload'},{id:'TK-0004',title:'Electrical Components',assignee:'Thanakan P.',docs:5,items:33,status:'complete',created:'18 Mar 2026',ch:'email'},{id:'TK-0003',title:'Packaging Materials Q1',assignee:'Siriporn K.',docs:3,items:15,status:'complete',created:'15 Mar 2026',ch:'line'},{id:'TK-0002',title:'MRO Supplies March',assignee:'Patchara W.',docs:6,items:48,status:'complete',created:'10 Mar 2026',ch:'upload'},{id:'TK-0001',title:'ทดสอบระบบ Pilot',assignee:'Thanakan P.',docs:2,items:10,status:'complete',created:'5 Mar 2026',ch:'upload'}];
 
-const USERS=[{name:'Thanakan P.',email:'thanakan@tsc.co.th',role:'admin',dept:'IT',tasks:45,last:'Just now',av:'TP',c:'#2563EB'},{name:'Siriporn K.',email:'siriporn@tsc.co.th',role:'admin',dept:'IT',tasks:38,last:'5m ago',av:'SK',c:'#7C3AED'},{name:'Waraporn L.',email:'waraporn@tsc.co.th',role:'manager',dept:'Procurement',tasks:52,last:'10m ago',av:'WL',c:'#059669'},{name:'Patchara W.',email:'patchara@tsc.co.th',role:'manager',dept:'Procurement',tasks:41,last:'1h ago',av:'PW',c:'#D97706'},{name:'Nattapong S.',email:'nattapong@tsc.co.th',role:'manager',dept:'Operations',tasks:33,last:'2h ago',av:'NS',c:'#0891B2'},{name:'Kittipong R.',email:'kittipong@tsc.co.th',role:'manager',dept:'Finance',tasks:28,last:'3h ago',av:'KR',c:'#DC2626'},{name:'Suwanna T.',email:'suwanna@tsc.co.th',role:'manager',dept:'Admin',tasks:19,last:'Today',av:'ST',c:'#DB2777'},{name:'Artit C.',email:'artit@tsc.co.th',role:'analyst',dept:'Procurement',tasks:67,last:'Now',av:'AC',c:'#2563EB'},{name:'Boonmee P.',email:'boonmee@tsc.co.th',role:'analyst',dept:'Procurement',tasks:54,last:'30m',av:'BP',c:'#7C3AED'},{name:'Chaiya M.',email:'chaiya@tsc.co.th',role:'analyst',dept:'Operations',tasks:42,last:'1h',av:'CM',c:'#059669'},{name:'Duangjai S.',email:'duangjai@tsc.co.th',role:'analyst',dept:'Finance',tasks:31,last:'Today',av:'DS',c:'#D97706'},{name:'Ekkachai W.',email:'ekkachai@tsc.co.th',role:'analyst',dept:'Procurement',tasks:28,last:'Yday',av:'EW',c:'#0891B2'}];
+const USERS=[
+  {name:'Thanakan P.',email:'thanakan@tsc.co.th',role:'Admin',dept:'IT',tasks:247,last:'Just now',av:'TN',c:'#2563EB',
+   phone:'081-234-5678',position:'CTO',joinDate:'1 Jan 2024',
+   modules:{procurement:'full',expense:'full',finance:'full',logistics:'view',sales:'view',vendor:'full'},
+   permissions:{createTask:true,viewAll:true,approve:true,export:true,manageUsers:true,configChannels:true,apiAccess:true,billing:true}},
+  {name:'Artit C.',email:'artit@tsc.co.th',role:'Manager',dept:'Procurement',tasks:89,last:'5 min ago',av:'AC',c:'#7C3AED',
+   phone:'082-345-6789',position:'Procurement Manager',joinDate:'15 Mar 2024',
+   modules:{procurement:'full',expense:'edit',finance:'view',logistics:'none',sales:'none',vendor:'full'},
+   permissions:{createTask:true,viewAll:true,approve:true,export:true,manageUsers:false,configChannels:true,apiAccess:true,billing:false}},
+  {name:'Suwanna T.',email:'suwanna@tsc.co.th',role:'Analyst',dept:'Finance',tasks:156,last:'1 hour ago',av:'ST',c:'#0891B2',
+   phone:'083-456-7890',position:'Senior Analyst',joinDate:'1 Jun 2024',
+   modules:{procurement:'view',expense:'edit',finance:'full',logistics:'none',sales:'none',vendor:'view'},
+   permissions:{createTask:true,viewAll:false,approve:false,export:true,manageUsers:false,configChannels:false,apiAccess:true,billing:false}},
+  {name:'Nattapong S.',email:'nattapong@tsc.co.th',role:'Analyst',dept:'Operations',tasks:78,last:'3 hours ago',av:'NS',c:'#059669',
+   phone:'084-567-8901',position:'Operations Analyst',joinDate:'1 Aug 2024',
+   modules:{procurement:'edit',expense:'edit',finance:'view',logistics:'full',sales:'none',vendor:'edit'},
+   permissions:{createTask:true,viewAll:false,approve:false,export:true,manageUsers:false,configChannels:false,apiAccess:false,billing:false}},
+  {name:'Priya M.',email:'priya@tsc.co.th',role:'Manager',dept:'Finance',tasks:134,last:'30 min ago',av:'PM',c:'#DC2626',
+   phone:'085-678-9012',position:'Finance Manager',joinDate:'1 Feb 2024',
+   modules:{procurement:'view',expense:'full',finance:'full',logistics:'view',sales:'view',vendor:'view'},
+   permissions:{createTask:true,viewAll:true,approve:true,export:true,manageUsers:false,configChannels:true,apiAccess:true,billing:false}},
+  {name:'Viewer Demo',email:'viewer@tsc.co.th',role:'Viewer',dept:'External',tasks:0,last:'Yesterday',av:'VD',c:'#94A3B8',
+   phone:'086-789-0123',position:'External Auditor',joinDate:'1 Jan 2026',
+   modules:{procurement:'view',expense:'view',finance:'view',logistics:'none',sales:'none',vendor:'none'},
+   permissions:{createTask:false,viewAll:false,approve:false,export:false,manageUsers:false,configChannels:false,apiAccess:false,billing:false}}
+];
 
 const CHANNELS=[{name:'Email',icon:'📧',bg:'#DBEAFE',desc:'Auto-forward from procurement@tsc.co.th',status:'active',today:12,month:374,auto:156},
 {name:'LINE',icon:'💬',bg:'#D1FAE5',desc:'LINE OA @autopilot-procurement',status:'active',today:5,month:224,auto:87},
@@ -1034,7 +1136,8 @@ function showPage(page,extra){
     document.getElementById('headerTitle').textContent=labels[page]||page;
     document.querySelectorAll('.nav-item[data-page]').forEach(n=>{if(n.dataset.page===page)n.classList.add('active');});
     currentPage=page;
-    if(page==='comparison')buildComparison();if(page==='reports')buildReport();
+    if(page==='comparison'){populateCompDropdowns();if(currentTaskId&&TASK_COMPARISONS[currentTaskId]){document.getElementById('compTaskSelect').value=currentTaskId;loadComparisonForTask(currentTaskId);}else{loadComparisonForTask('');}}
+    if(page==='reports'){populateCompDropdowns();if(currentTaskId&&TASK_COMPARISONS[currentTaskId]){document.getElementById('rptTaskSelect').value=currentTaskId;loadReportForTask(currentTaskId);}else{loadReportForTask('');}}
     if(page==='taskDetail')loadTaskDetail(extra);
     if(page==='finCases')buildFinCases();
     if(page==='finCaseDetail')loadFinCaseDetail(extra);
@@ -1138,7 +1241,7 @@ function showModal(type,extra){
         profile:`<div class="modal-icon" style="background:var(--grad);">TN</div><h3>My Profile</h3><p>จัดการข้อมูลส่วนตัว</p><div class="form-group"><label class="form-label">Full Name</label><input class="form-input" value="Thanakan Permthong" /></div><div class="form-group"><label class="form-label">Email</label><input class="form-input" value="thanakan@tsc.co.th" /></div><div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="closeModal();showToast('✅','Saved','Profile updated')">Save</button></div>`,
         help:`<div class="modal-icon" style="background:var(--blue-l);">❓</div><h3>Help & Support</h3><p>ต้องการความช่วยเหลือ?</p><div style="text-align:left;font-size:.85rem;line-height:2;"><div>📖 <a class="link">Documentation</a></div><div>🎓 <a class="link">Video Tutorials</a></div><div>💬 <a class="link">Live Chat</a></div><div>📧 <a class="link">support@autopilot.ai</a></div></div><div class="modal-actions mt-12"><button class="btn btn-primary" onclick="closeModal()">Close</button></div>`,
     };
-    m.innerHTML=modals[type]||'';o.classList.add('show');
+    if(type!=='custom') m.innerHTML=modals[type]||'';o.classList.add('show');
 }
 function closeModal(){document.getElementById('modalOverlay').classList.remove('show');}
 function createNewTask(){showModal('newTask');}
@@ -1205,7 +1308,70 @@ function renderTasks(filter){
 }
 function taskPageNav(dir){const rpp=parseInt(document.getElementById('rowsPerPage').value);const filtered=taskFilter==='all'?TASKS:TASKS.filter(t=>t.status===taskFilter);const pages=Math.ceil(filtered.length/rpp);taskPage=Math.max(0,Math.min(taskPage+dir,pages-1));renderTasks();}
 
-function buildUsers(){const tb=document.getElementById('usersBody');tb.innerHTML='';USERS.forEach(u=>{const rc={admin:'role-admin',manager:'role-manager',analyst:'role-analyst',viewer:'role-viewer'}[u.role];tb.innerHTML+=`<tr><td><div style="display:flex;align-items:center;gap:8px;"><div class="user-avatar" style="background:${u.c};width:28px;height:28px;font-size:.62rem;">${u.av}</div><strong style="font-size:.82rem;">${u.name}</strong></div></td><td class="text-muted">${u.email}</td><td><span class="role-tag ${rc}">${u.role}</span></td><td>${u.dept}</td><td class="num">${u.tasks}</td><td class="text-muted">${u.last}</td><td><button class="btn-icon" onclick="showModal('profile')">✏️</button></td></tr>`;});}
+function buildUsers(){const tb=document.getElementById('usersBody');tb.innerHTML='';USERS.forEach((u,idx)=>{const rc={Admin:'role-admin',Manager:'role-manager',Analyst:'role-analyst',Viewer:'role-viewer'}[u.role];tb.innerHTML+=`<tr><td><div style="display:flex;align-items:center;gap:8px;"><div class="user-avatar" style="background:${u.c};width:28px;height:28px;font-size:.62rem;">${u.av}</div><strong style="font-size:.82rem;">${u.name}</strong></div></td><td class="text-muted">${u.email}</td><td><span class="role-tag ${rc}">${u.role}</span></td><td>${u.dept}</td><td class="num">${u.tasks}</td><td class="text-muted">${u.last}</td><td><div style="display:flex;gap:4px;"><button class="btn btn-outline btn-sm" onclick="editUser(${idx})">✏️ Edit</button><button class="btn btn-outline btn-sm" onclick="showToast('❌','Deactivated','User deactivated')">🚫</button></div></td></tr>`;});}
+
+function editUser(idx){
+  const u=USERS[idx];
+  const moduleLabels={procurement:'📋 Procurement',expense:'🧾 Expense & Receipt',finance:'🏦 Finance Doc Hub',logistics:'🚢 Logistics FX',sales:'💰 Sales Doc Gen',vendor:'🏢 Vendor Management'};
+  const accessLevels=['none','view','edit','full'];
+  let moduleRows='';
+  for(const [key,label] of Object.entries(moduleLabels)){
+    const current=u.modules?u.modules[key]:'none';
+    moduleRows+=`<tr><td style="font-weight:600;font-size:.82rem;">${label}</td>${accessLevels.map(l=>`<td style="text-align:center;"><input type="radio" name="mod_${key}" value="${l}" ${current===l?'checked':''}></td>`).join('')}</tr>`;
+  }
+  let permChecks='';
+  const permLabels={createTask:'สร้าง Tasks',viewAll:'ดู Tasks ทั้งหมด',approve:'อนุมัติ/ปฏิเสธ',export:'Export รายงาน',manageUsers:'จัดการผู้ใช้',configChannels:'ตั้งค่า Channels',apiAccess:'API Access',billing:'จัดการ Billing'};
+  for(const [key,label] of Object.entries(permLabels)){
+    permChecks+=`<label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:.82rem;cursor:pointer;"><input type="checkbox" ${u.permissions&&u.permissions[key]?'checked':''}> ${label}</label>`;
+  }
+  const o=document.getElementById('modalOverlay'),m=document.getElementById('modalContent');
+  m.innerHTML=`
+    <div style="max-width:680px;max-height:80vh;overflow-y:auto;">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;">
+        <div style="width:56px;height:56px;border-radius:50%;background:${u.c};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.2rem;">${u.av}</div>
+        <div>
+          <h3 style="margin:0;">แก้ไขผู้ใช้: ${u.name}</h3>
+          <p class="text-sm text-muted" style="margin:4px 0 0;">${u.role} · ${u.dept}</p>
+        </div>
+        <button class="btn btn-outline btn-sm" style="margin-left:auto;" onclick="closeModal()">✕</button>
+      </div>
+      <h4 style="font-size:.82rem;font-weight:700;margin-bottom:12px;color:var(--blue);">👤 ข้อมูลพื้นฐาน</h4>
+      <div class="grid-2" style="gap:12px;margin-bottom:20px;">
+        <div class="form-group"><label class="form-label">ชื่อ</label><input class="form-input" value="${u.name}"></div>
+        <div class="form-group"><label class="form-label">Email</label><input class="form-input" value="${u.email}"></div>
+        <div class="form-group"><label class="form-label">โทรศัพท์</label><input class="form-input" value="${u.phone||''}"></div>
+        <div class="form-group"><label class="form-label">ตำแหน่ง</label><input class="form-input" value="${u.position||''}"></div>
+        <div class="form-group"><label class="form-label">แผนก</label>
+          <select class="form-input"><option ${u.dept==='IT'?'selected':''}>IT</option><option ${u.dept==='Procurement'?'selected':''}>Procurement</option><option ${u.dept==='Finance'?'selected':''}>Finance</option><option ${u.dept==='Operations'?'selected':''}>Operations</option><option ${u.dept==='Admin'?'selected':''}>Admin</option><option ${u.dept==='Sales'?'selected':''}>Sales</option><option ${u.dept==='External'?'selected':''}>External</option></select>
+        </div>
+        <div class="form-group"><label class="form-label">Role</label>
+          <select class="form-input"><option ${u.role==='Admin'?'selected':''}>Admin</option><option ${u.role==='Manager'?'selected':''}>Manager</option><option ${u.role==='Analyst'?'selected':''}>Analyst</option><option ${u.role==='Viewer'?'selected':''}>Viewer</option></select>
+        </div>
+      </div>
+      <h4 style="font-size:.82rem;font-weight:700;margin-bottom:12px;color:var(--purple);">🔐 สิทธิ์การเข้าถึง Module</h4>
+      <div style="margin-bottom:20px;overflow-x:auto;">
+        <table class="data-table" style="font-size:.78rem;">
+          <thead><tr><th>Module</th><th style="text-align:center;">ไม่มีสิทธิ์</th><th style="text-align:center;">ดูอย่างเดียว</th><th style="text-align:center;">แก้ไข</th><th style="text-align:center;">เต็มรูปแบบ</th></tr></thead>
+          <tbody>${moduleRows}</tbody>
+        </table>
+      </div>
+      <h4 style="font-size:.82rem;font-weight:700;margin-bottom:12px;color:var(--green);">⚙️ Permissions</h4>
+      <div class="grid-2" style="gap:0;margin-bottom:20px;">${permChecks}</div>
+      <h4 style="font-size:.82rem;font-weight:700;margin-bottom:12px;color:var(--orange);">📊 สถิติ</h4>
+      <div class="grid-2" style="gap:12px;margin-bottom:20px;">
+        <div style="font-size:.82rem;color:var(--text2);">Tasks ทั้งหมด: <strong>${u.tasks}</strong></div>
+        <div style="font-size:.82rem;color:var(--text2);">เข้าร่วมเมื่อ: <strong>${u.joinDate||'N/A'}</strong></div>
+        <div style="font-size:.82rem;color:var(--text2);">เข้าใช้ล่าสุด: <strong>${u.last}</strong></div>
+        <div style="font-size:.82rem;color:var(--text2);">สถานะ: <strong style="color:var(--green);">Active</strong></div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;border-top:1px solid var(--border);padding-top:16px;">
+        <button class="btn btn-danger btn-sm" onclick="showToast('🚫','','User deactivated');closeModal()">ระงับผู้ใช้</button>
+        <button class="btn btn-outline btn-sm" onclick="closeModal()">ยกเลิก</button>
+        <button class="btn btn-primary btn-sm" onclick="showToast('✅','Saved','User updated successfully');closeModal()">💾 บันทึก</button>
+      </div>
+    </div>`;
+  o.classList.add('show');
+}
 
 function buildChannels(){const cl=document.getElementById('channelList');cl.innerHTML='';CHANNELS.forEach(ch=>{cl.innerHTML+=`<div class="connector"><div class="connector-icon" style="background:${ch.bg};">${ch.icon}</div><div class="connector-info"><div class="connector-name">${ch.name}</div><div class="connector-desc">${ch.desc}</div><div class="connector-stats"><span>Today: <strong>${ch.today}</strong></span><span>Month: <strong>${ch.month}</strong></span></div></div><div style="text-align:right;"><span class="status status-${ch.status}">${ch.status==='active'?'🟢 Active':'⚪ Off'}</span><div style="margin-top:6px;"><button class="btn btn-outline btn-sm" onclick="showModal('configChannel',${JSON.stringify(ch).replace(/"/g,'&quot;')})">Configure</button></div></div></div>`;});
     const ml=document.getElementById('mcpList');ml.innerHTML='';MCP_CONNECTORS.forEach(ch=>{ml.innerHTML+=`<div class="connector"><div class="connector-icon" style="background:${ch.bg};">${ch.icon}</div><div class="connector-info"><div class="connector-name">${ch.name}</div><div class="connector-desc">${ch.desc}</div><div class="connector-stats"><span>Today: <strong>${ch.today}</strong></span><span>Month: <strong>${ch.month}</strong></span></div></div><div style="text-align:right;"><span class="status status-${ch.status}">${ch.status==='active'?'🟢 Active':'⚪ Off'}</span><div style="margin-top:6px;"><button class="btn btn-outline btn-sm" onclick="showModal('configChannel',${JSON.stringify(ch).replace(/"/g,'&quot;')})">Configure</button></div></div></div>`;});}
@@ -1216,18 +1382,165 @@ function buildAudit(){const tb=document.getElementById('auditBody');tb.innerHTML
 
 function buildTaskFiles(){const fl=document.getElementById('tdFileList');fl.innerHTML='';QUOTATIONS.forEach((q,i)=>{const v=VENDORS.find(x=>x.id===q.vendor);fl.innerHTML+=`<div class="file-item"><div class="file-icon">📄</div><div class="file-info"><div class="file-name">${q.file}</div><div class="file-meta">${v?v.short:''} · ${q.type}</div></div><span class="status status-draft" id="fs-${i}">Pending</span></div>`;});}
 
-function buildComparison(){const ct=document.getElementById('compContainer');let html=`<table class="data-table"><thead><tr><th style="min-width:40px;">No.</th><th style="min-width:180px;">รายการ</th><th>จำนวน</th><th class="num" style="min-width:85px;">เจเจพี(V1)</th><th class="num" style="min-width:85px;">ไทยเอ็กซ์(V2)</th><th class="num" style="min-width:85px;">ศรีรุ่งเรือง(V3)</th><th class="num" style="min-width:85px;">ชลบุรี(V4)</th><th class="num" style="min-width:85px;">Best</th></tr></thead><tbody>`;
-    let gt=0;ITEMS.forEach(it=>{const ps=[it.prices.V1,it.prices.V2,it.prices.V3,it.prices.V4];const vp=ps.filter(p=>p!=null);const mn=vp.length?Math.min(...vp):null;if(mn)gt+=mn*it.qty;
-    html+=`<tr><td>${it.no}</td><td style="font-size:.72rem;">${it.desc}</td><td class="num">${it.qty} ${it.unit}</td>${ps.map(p=>`<td class="num ${p!=null&&p===mn?'best-price':''}">${p!=null?fmtI(p):'—'}</td>`).join('')}<td class="num fw-700">${mn!=null?fmtI(mn):'—'}</td></tr>`;});
-    html+=`<tr style="background:var(--bg);"><td colspan="3" style="font-weight:700;">Total (Best x Qty)</td><td colspan="4"></td><td class="num" style="font-weight:800;color:var(--green);">${fmtI(Math.round(gt))}</td></tr></tbody></table>`;ct.innerHTML=html;}
+function populateCompDropdowns(){
+    const opts=Object.keys(TASK_COMPARISONS).map(k=>{const t=TASKS.find(x=>x.id===k);const tc=TASK_COMPARISONS[k];return `<option value="${k}">${k} — ${tc.title}</option>`;}).join('');
+    const cs=document.getElementById('compTaskSelect');if(cs){cs.innerHTML='<option value="">-- เลือก Task --</option>'+opts;}
+    const rs=document.getElementById('rptTaskSelect');if(rs){rs.innerHTML='<option value="">-- เลือก Task --</option>'+opts;}
+}
 
-function buildReport(){document.getElementById('rptSummary').innerHTML=`<p>ระบบ AI Autopilot วิเคราะห์ <strong>9 ฉบับ</strong> จาก <strong>4 ผู้จำหน่าย</strong> รวม <strong>44 รายการ</strong></p><p class="mt-8">Best Price รวม: <strong style="color:var(--green);">119,157.80 THB</strong> (ประหยัด ~25,000 THB)</p><p class="mt-8">⏱️ ประมวลผล: <strong>35 นาที</strong> vs Manual 4.5 ชม. — <strong style="color:var(--green);">เร็วขึ้น 7.7x</strong></p>`;
-    document.getElementById('rptNotes').innerHTML=`<ul style="list-style:none;padding:0;"><li style="padding:6px 0;border-bottom:1px solid var(--border);">⚡ <strong>เจ เจ พี</strong> ครอบคลุม 42/44 รายการ</li><li style="padding:6px 0;border-bottom:1px solid var(--border);">💰 <strong>ชลบุรี HW</strong> ราคาต่ำสุดในเครื่องมือหนัก</li><li style="padding:6px 0;border-bottom:1px solid var(--border);">📋 เครดิต: เจเจพี 60 วัน, อื่นๆ 30 วัน</li><li style="padding:6px 0;">⚠️ ไม่มีรายใดเสนอครบ 44 รายการ</li></ul>`;
-    const att=document.getElementById('rptAttach');att.innerHTML='';QUOTATIONS.forEach(q=>{const v=VENDORS.find(x=>x.id===q.vendor);att.innerHTML+=`<div class="file-item"><div class="file-icon">📄</div><div class="file-info"><div class="file-name">${q.file}</div><div class="file-meta">${v?v.short:''} · ${q.no}</div></div><span class="status status-complete">✓</span></div>`;});}
+function loadComparisonForTask(taskId){
+    currentCompTaskId=taskId;
+    const ct=document.getElementById('compContainer');
+    if(!taskId||!TASK_COMPARISONS[taskId]){
+        document.getElementById('compKpiItems').textContent='—';
+        document.getElementById('compKpiVendors').textContent='—';
+        document.getElementById('compKpiBest').textContent='—';
+        document.getElementById('compKpiHighest').textContent='—';
+        document.getElementById('compKpiSavings').textContent='—';
+        ct.innerHTML='<div style="text-align:center;padding:40px;color:var(--muted);font-size:.9rem;">กรุณาเลือก Task เพื่อดูตารางเปรียบเทียบ</div>';
+        return;
+    }
+    const tc=TASK_COMPARISONS[taskId];
+    const savings=tc.highestTotal-tc.bestTotal;
+    document.getElementById('compKpiItems').textContent=fmtI(tc.items);
+    document.getElementById('compKpiVendors').textContent=tc.vendors.length;
+    document.getElementById('compKpiBest').textContent=fmtI(tc.bestTotal);
+    document.getElementById('compKpiHighest').textContent=fmtI(tc.highestTotal);
+    document.getElementById('compKpiSavings').textContent=fmtI(savings);
+    renderCompTable(tc);
+}
 
-function sortComp(by){if(by==='price')ITEMS.sort((a,b)=>{const ap=Math.min(...Object.values(a.prices).filter(p=>p!=null));const bp=Math.min(...Object.values(b.prices).filter(p=>p!=null));return bp-ap;});else ITEMS.sort((a,b)=>a.no-b.no);buildComparison();}
+function renderCompTable(tc){
+    const ct=document.getElementById('compContainer');
+    let data=[...tc.data];
+    if(currentCompSortBy==='price'){data.sort((a,b)=>Math.min(...a.v)-Math.min(...b.v));}
+    let html='<table class="data-table"><thead><tr><th style="min-width:40px;">No.</th><th style="min-width:180px;">รายการ</th><th>หน่วย</th>';
+    tc.vendors.forEach(v=>{html+=`<th class="num" style="min-width:90px;">${v}</th>`;});
+    html+='<th class="num" style="min-width:85px;">Best</th></tr></thead><tbody>';
+    let grandTotal=0;
+    data.forEach((it,i)=>{
+        const mn=Math.min(...it.v);
+        grandTotal+=mn;
+        html+=`<tr><td>${i+1}</td><td style="font-size:.78rem;">${it.name}</td><td class="num">${it.unit}</td>`;
+        it.v.forEach(p=>{html+=`<td class="num ${p===mn?'best-price':''}">${fmtI(p)}</td>`;});
+        html+=`<td class="num fw-700">${fmtI(mn)}</td></tr>`;
+    });
+    html+=`<tr style="background:var(--bg);"><td colspan="3" style="font-weight:700;">Total (Best)</td>`;
+    tc.vendors.forEach(()=>{html+='<td></td>';});
+    html+=`<td class="num" style="font-weight:800;color:var(--green);">${fmtI(grandTotal)}</td></tr></tbody></table>`;
+    ct.innerHTML=html;
+}
 
-function exportCSV(){let csv='No.,Description,Qty,Unit,V1,V2,V3,V4,Best\n';ITEMS.forEach(it=>{const ps=[it.prices.V1,it.prices.V2,it.prices.V3,it.prices.V4];const mn=Math.min(...ps.filter(p=>p!=null));csv+=`${it.no},"${it.desc}",${it.qty},${it.unit},${ps.map(p=>p??'').join(',')},${mn}\n`;});const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv'}));a.download='comparison.csv';a.click();showToast('📥','Exported','comparison.csv downloaded');}
+function buildComparison(){loadComparisonForTask(currentCompTaskId);}
+
+function loadReportForTask(taskId){
+    const container=document.getElementById('rptContent');
+    if(!taskId||!TASK_COMPARISONS[taskId]){
+        container.innerHTML='<div style="text-align:center;padding:40px;color:var(--muted);font-size:.9rem;">กรุณาเลือก Task เพื่อดูรายงาน</div>';
+        return;
+    }
+    const tc=TASK_COMPARISONS[taskId];
+    const savings=tc.highestTotal-tc.bestTotal;
+    const savingsPct=((savings/tc.highestTotal)*100).toFixed(1);
+
+    // Compute vendor totals
+    const vendorTotals=tc.vendors.map((vn,vi)=>{let total=0;tc.data.forEach(it=>{total+=it.v[vi];});return {name:vn,total};});
+    vendorTotals.sort((a,b)=>a.total-b.total);
+    const maxVendorTotal=vendorTotals[vendorTotals.length-1].total;
+
+    // Compute per-item savings
+    const itemSavings=tc.data.map(it=>{
+        const mn=Math.min(...it.v),mx=Math.max(...it.v);
+        const sv=mx-mn;const svPct=mx>0?((sv/mx)*100).toFixed(1):0;
+        return {name:it.name,min:mn,max:mx,saving:sv,savingPct:svPct};
+    }).sort((a,b)=>b.saving-a.saving).slice(0,10);
+
+    // Find best vendor per item
+    const bestVendorCounts={};
+    tc.data.forEach(it=>{
+        const mn=Math.min(...it.v);
+        it.v.forEach((p,vi)=>{if(p===mn){const vn=tc.vendors[vi];bestVendorCounts[vn]=(bestVendorCounts[vn]||0)+1;}});
+    });
+    const topVendor=Object.entries(bestVendorCounts).sort((a,b)=>b[1]-a[1])[0];
+
+    // Rank badges
+    const badges=['#FFD700','#C0C0C0','#CD7F32','#94A3B8'];
+    const badgeLabels=['1st','2nd','3rd'];
+
+    let html='';
+    // Report Header
+    html+=`<div class="card mb-16" style="border-top:3px solid var(--blue);"><div class="flex-between"><div><h3>รายงานวิเคราะห์ใบเสนอราคา</h3><p class="text-sm text-muted">Task: ${taskId} — ${tc.title}</p></div><div style="display:flex;gap:8px;"><button class="btn btn-outline btn-sm" onclick="mockPrint()">Print</button><button class="btn btn-green btn-sm" onclick="mockExportPDF()">Export PDF</button></div></div></div>`;
+
+    // KPI Summary Row
+    html+=`<div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:20px;">
+        <div class="kpi card-sm"><div class="kpi-label">Total Items</div><div class="kpi-value" style="font-size:1.4rem;color:var(--blue);">${tc.items}</div></div>
+        <div class="kpi card-sm"><div class="kpi-label">Vendors</div><div class="kpi-value" style="font-size:1.4rem;color:var(--purple);">${tc.vendors.length}</div></div>
+        <div class="kpi card-sm"><div class="kpi-label">Savings Amount</div><div class="kpi-value" style="font-size:1.4rem;color:var(--green);">${fmtI(savings)} THB</div></div>
+        <div class="kpi card-sm"><div class="kpi-label">Savings %</div><div class="kpi-value" style="font-size:1.4rem;color:var(--orange);">${savingsPct}%</div></div>
+    </div>`;
+
+    // 2-column layout
+    html+=`<div class="grid-2 mb-16">`;
+    // Left: Vendor Ranking
+    html+=`<div class="card"><div class="card-title">Vendor Ranking</div>`;
+    vendorTotals.forEach((vt,i)=>{
+        const pct=maxVendorTotal>0?((vt.total/maxVendorTotal)*100).toFixed(0):0;
+        const badgeColor=badges[i]||badges[3];
+        const label=i<3?badgeLabels[i]:(i+1)+'th';
+        html+=`<div style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;"><div style="display:flex;align-items:center;gap:8px;"><span style="display:inline-block;width:32px;height:20px;border-radius:10px;background:${badgeColor};color:#fff;font-size:.65rem;text-align:center;line-height:20px;font-weight:700;">${label}</span><strong style="font-size:.82rem;">${vt.name}</strong></div><span style="font-size:.82rem;font-weight:600;">${fmtI(vt.total)} THB</span></div><div class="progress-bar" style="height:8px;"><div class="progress-fill" style="width:${pct}%;background:${i===0?'var(--green)':i===1?'var(--blue)':i===2?'var(--orange)':'var(--muted)'};"></div></div></div>`;
+    });
+    html+=`</div>`;
+
+    // Right: Price Distribution Chart (bar chart)
+    html+=`<div class="card"><div class="card-title">สรุปราคาตามผู้จำหน่าย</div>`;
+    const chartColors=['var(--blue)','var(--green)','var(--orange)','var(--purple)','var(--red)'];
+    vendorTotals.forEach((vt,i)=>{
+        const pct=maxVendorTotal>0?((vt.total/maxVendorTotal)*100).toFixed(0):0;
+        html+=`<div class="chart-bar-h"><div class="label" style="min-width:100px;font-size:.75rem;">${vt.name}</div><div class="bar"><div class="fill" style="width:${pct}%;background:${chartColors[i%chartColors.length]};"></div></div><div class="val">${fmtI(vt.total)}</div></div>`;
+    });
+    html+=`</div></div>`;
+
+    // AI Insights
+    html+=`<div class="card mb-16"><div class="card-title">AI Analysis & Insights</div><div style="line-height:1.8;font-size:.85rem;color:var(--text2);">`;
+    const insights=[];
+    if(topVendor) insights.push(`<strong>${topVendor[0]}</strong> เสนอราคาดีที่สุดใน ${topVendor[1]} จาก ${tc.data.length} รายการ`);
+    insights.push(`ประหยัดได้ <strong>${savingsPct}%</strong> เมื่อเทียบกับราคาสูงสุด (${fmtI(savings)} THB)`);
+    insights.push(`Best Total: <strong>${fmtI(tc.bestTotal)} THB</strong> vs Highest: <strong>${fmtI(tc.highestTotal)} THB</strong>`);
+    if(itemSavings.length>0) insights.push(`รายการที่ประหยัดมากที่สุด: <strong>${itemSavings[0].name}</strong> (ส่วนต่าง ${fmtI(itemSavings[0].saving)} THB / ${itemSavings[0].savingPct}%)`);
+    insights.push(`จำนวนผู้จำหน่าย: <strong>${tc.vendors.length} ราย</strong> · รายการทั้งหมด: <strong>${tc.items} รายการ</strong>`);
+    html+=`<ul style="list-style:none;padding:0;">${insights.map(ins=>`<li style="padding:6px 0;border-bottom:1px solid var(--border);">&#8226; ${ins}</li>`).join('')}</ul>`;
+    html+=`</div></div>`;
+
+    // Top Savings Items Table
+    html+=`<div class="card mb-16"><div class="card-title">Top ${itemSavings.length} รายการที่ประหยัดมากที่สุด</div><table class="data-table"><thead><tr><th>#</th><th>รายการ</th><th class="num">ราคาต่ำสุด</th><th class="num">ราคาสูงสุด</th><th class="num">ประหยัด</th><th class="num">ประหยัด %</th></tr></thead><tbody>`;
+    itemSavings.forEach((it,i)=>{
+        html+=`<tr><td>${i+1}</td><td>${it.name}</td><td class="num">${fmtI(it.min)}</td><td class="num">${fmtI(it.max)}</td><td class="num" style="color:var(--green);font-weight:600;">${fmtI(it.saving)}</td><td class="num" style="color:var(--green);">${it.savingPct}%</td></tr>`;
+    });
+    html+=`</tbody></table></div>`;
+
+    // Documents
+    html+=`<div class="card"><div class="card-title">เอกสารอ้างอิง</div>`;
+    QUOTATIONS.forEach(q=>{const v=VENDORS.find(x=>x.id===q.vendor);html+=`<div class="file-item"><div class="file-icon">📄</div><div class="file-info"><div class="file-name">${q.file}</div><div class="file-meta">${v?v.short:''} · ${q.no}</div></div><span class="status status-complete">✓</span></div>`;});
+    html+=`</div>`;
+
+    container.innerHTML=html;
+}
+
+function buildReport(){loadReportForTask(document.getElementById('rptTaskSelect')?document.getElementById('rptTaskSelect').value:'');}
+
+function sortComp(by){currentCompSortBy=by;if(currentCompTaskId&&TASK_COMPARISONS[currentCompTaskId]){renderCompTable(TASK_COMPARISONS[currentCompTaskId]);}}
+
+function exportCSV(){
+    if(!currentCompTaskId||!TASK_COMPARISONS[currentCompTaskId]){showToast('⚠️','No Task','Please select a task first');return;}
+    const tc=TASK_COMPARISONS[currentCompTaskId];
+    let csv='No.,Description,Unit,'+tc.vendors.join(',')+',Best\n';
+    tc.data.forEach((it,i)=>{
+        const mn=Math.min(...it.v);
+        csv+=`${i+1},"${it.name}",${it.unit},${it.v.join(',')},${mn}\n`;
+    });
+    const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv'}));a.download=`comparison_${currentCompTaskId}.csv`;a.click();
+    showToast('📥','Exported',`comparison_${currentCompTaskId}.csv downloaded`);
+}
 
 // ═══ EXPENSE MODULE ═══
 function buildExpenseDash(){

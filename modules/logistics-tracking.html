@@ -87,27 +87,13 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .btn-icon{width:36px;height:36px;padding:0;justify-content:center;border-radius:9px;border:1px solid var(--border);background:var(--card-bg);cursor:pointer;font-size:1rem;transition:all .15s;display:inline-flex;align-items:center;}
 .btn-icon:hover{border-color:var(--blue);}
 
-/* KPI Grid */
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
-.kpi{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--sh);position:relative;overflow:hidden;transition:all .2s;}
-.kpi:hover{box-shadow:var(--sh2);transform:translateY(-2px);}
-.kpi::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
-.kpi:nth-child(1)::after{background:var(--blue);}
-.kpi:nth-child(2)::after{background:var(--orange);}
-.kpi:nth-child(3)::after{background:var(--green);}
-.kpi:nth-child(4)::after{background:var(--red);}
-.kpi-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:10px;}
-.kpi:nth-child(1) .kpi-icon{background:var(--blue-l);color:var(--blue);}
-.kpi:nth-child(2) .kpi-icon{background:var(--orange-l);color:var(--orange);}
-.kpi:nth-child(3) .kpi-icon{background:var(--green-l);color:var(--green);}
-.kpi:nth-child(4) .kpi-icon{background:var(--red-l);color:var(--red);}
-.kpi-label{font-size:.72rem;color:var(--muted);font-weight:500;margin-bottom:4px;}
-.kpi-value{font-size:1.7rem;font-weight:800;line-height:1;}
-.kpi-change{display:inline-flex;align-items:center;gap:3px;font-size:.68rem;font-weight:600;padding:2px 8px;border-radius:4px;margin-top:8px;}
-.kpi-change.up{background:var(--green-l);color:var(--green);}
-.kpi-change.warn{background:var(--orange-l);color:var(--orange);}
-.kpi-change.good{background:var(--blue-l);color:var(--blue);}
-.kpi-change.danger{background:var(--red-l);color:var(--red);}
+/* KPI Strip */
+.kpi-strip{display:flex;gap:0;background:var(--card-bg);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px;box-shadow:var(--sh);}
+.kpi-strip-item{flex:1;display:flex;align-items:center;gap:10px;padding:10px 16px;border-right:1px solid var(--border);}
+.kpi-strip-item:last-child{border-right:none;}
+.kpi-strip-icon{font-size:1.3rem;}
+.kpi-strip-value{font-size:1.2rem;font-weight:800;color:var(--text);line-height:1;}
+.kpi-strip-label{font-size:.65rem;color:var(--muted);font-weight:500;}
 
 /* View toggle toolbar */
 .view-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap;}
@@ -300,9 +286,9 @@ tr:last-child td{border-bottom:none;}
 .toast.error{border-left:4px solid var(--red);}
 
 /* Responsive */
-@media(max-width:1100px){.board-grid{grid-template-columns:repeat(2,1fr);}  .kpi-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:1100px){.board-grid{grid-template-columns:repeat(2,1fr);}  .kpi-strip{flex-wrap:wrap;} .kpi-strip-item{flex:1 1 45%;border-bottom:1px solid var(--border);}}
 @media(max-width:780px){.board-grid{grid-template-columns:1fr;} .info-grid{grid-template-columns:1fr 1fr;} .doc-grid{grid-template-columns:1fr 1fr;} .cost-grid{grid-template-columns:1fr 1fr;} .carrier-section{grid-template-columns:1fr;} .form-grid{grid-template-columns:1fr;} .form-grid-3{grid-template-columns:1fr 1fr;}}
-@media(max-width:600px){.kpi-grid{grid-template-columns:1fr;} .page-title{font-size:1.2rem;} .route-steps{flex-wrap:wrap;} .modal-box{border-radius:12px;} .form-grid-3{grid-template-columns:1fr;}}
+@media(max-width:600px){.kpi-strip{flex-direction:column;} .kpi-strip-item{border-right:none;border-bottom:1px solid var(--border);} .kpi-strip-item:last-child{border-bottom:none;} .page-title{font-size:1.2rem;} .route-steps{flex-wrap:wrap;} .modal-box{border-radius:12px;} .form-grid-3{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -353,31 +339,35 @@ tr:last-child td{border-bottom:none;}
   </div>
 </div>
 
-<!-- KPI Row -->
-<div class="kpi-grid" id="kpiGrid">
-  <div class="kpi">
-    <div class="kpi-icon">&#128674;</div>
-    <div class="kpi-label">Shipments ทั้งหมด</div>
-    <div class="kpi-value" id="kpiTotal">12</div>
-    <div class="kpi-change good">&#128200; Active</div>
+<!-- KPI Strip -->
+<div class="kpi-strip" id="kpiStrip">
+  <div class="kpi-strip-item">
+    <div class="kpi-strip-icon">&#128230;</div>
+    <div>
+      <div class="kpi-strip-value" id="kpiTotal">12</div>
+      <div class="kpi-strip-label">Shipments ทั้งหมด</div>
+    </div>
   </div>
-  <div class="kpi">
-    <div class="kpi-icon">&#9992;&#65039;</div>
-    <div class="kpi-label">กำลังขนส่ง</div>
-    <div class="kpi-value" id="kpiTransit">0</div>
-    <div class="kpi-change warn">&#9992; In Transit</div>
+  <div class="kpi-strip-item">
+    <div class="kpi-strip-icon">&#128674;</div>
+    <div>
+      <div class="kpi-strip-value" style="color:var(--blue);" id="kpiTransit">6</div>
+      <div class="kpi-strip-label">กำลังขนส่ง</div>
+    </div>
   </div>
-  <div class="kpi">
-    <div class="kpi-icon">&#9989;</div>
-    <div class="kpi-label">ถึงแล้ว</div>
-    <div class="kpi-value" id="kpiArrived">0</div>
-    <div class="kpi-change up">&#9989; Delivered</div>
+  <div class="kpi-strip-item">
+    <div class="kpi-strip-icon">&#9989;</div>
+    <div>
+      <div class="kpi-strip-value" style="color:var(--green);" id="kpiArrived">4</div>
+      <div class="kpi-strip-label">ถึงแล้ว</div>
+    </div>
   </div>
-  <div class="kpi">
-    <div class="kpi-icon">&#9888;&#65039;</div>
-    <div class="kpi-label">ล่าช้า</div>
-    <div class="kpi-value" id="kpiDelayed">0</div>
-    <div class="kpi-change danger">&#9888; Delayed</div>
+  <div class="kpi-strip-item">
+    <div class="kpi-strip-icon">&#9888;&#65039;</div>
+    <div>
+      <div class="kpi-strip-value" style="color:var(--red);" id="kpiDelayed">2</div>
+      <div class="kpi-strip-label">ล่าช้า</div>
+    </div>
   </div>
 </div>
 

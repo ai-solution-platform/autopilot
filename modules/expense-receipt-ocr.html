@@ -86,6 +86,21 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 /* Action Row */
 .action-row{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:16px;}
 
+/* OCR Complete CTA */
+.ocr-complete-cta{background:var(--green-bg);border:1px solid var(--green);border-radius:12px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.ocr-complete-cta .cta-text{font-size:.88rem;font-weight:600;color:var(--green);}
+.ocr-complete-cta .cta-buttons{display:flex;gap:8px;}
+
+/* Claim Form */
+.claim-form{display:none;margin-bottom:20px;}
+.claim-form.visible{display:block;}
+.claim-form .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+.claim-form .form-group{display:flex;flex-direction:column;gap:4px;}
+.claim-form .form-group label{font-size:.75rem;font-weight:600;color:var(--text2);}
+.claim-form .form-input{width:100%;padding:9px 14px;border:1px solid var(--border);border-radius:8px;font-size:.82rem;font-family:inherit;background:var(--card-bg);color:var(--text);transition:all .2s;}
+.claim-form .form-input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+.claim-form textarea.form-input{min-height:70px;resize:vertical;}
+
 /* Recent Scans History */
 .history-table{width:100%;border-collapse:collapse;}
 .history-table th{font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;padding:8px 12px;text-align:left;border-bottom:2px solid var(--border);background:var(--bg2);}
@@ -244,11 +259,85 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
       </div>
     </div>
 
+    <!-- OCR Complete CTA -->
+    <div class="ocr-complete-cta">
+      <div class="cta-text">&#9989; OCR Complete — ข้อมูลพร้อมสร้าง Claim</div>
+      <div class="cta-buttons">
+        <button class="btn btn-green" onclick="showClaimForm()">&#128203; สร้าง Claim ทันที</button>
+        <button class="btn btn-secondary" onclick="saveDraft()">&#128190; บันทึกร่าง</button>
+      </div>
+    </div>
+
     <!-- Action Row -->
     <div class="action-row">
       <button class="btn btn-secondary" onclick="resetScan()">&#128247; สแกนใบเสร็จเพิ่ม</button>
-      <button class="btn btn-secondary">&#128190; บันทึกร่าง</button>
-      <button class="btn btn-green" onclick="alert('ส่ง Claim EX-0026 เข้าสู่ขั้นตอนอนุมัติ')">&#9989; ส่งอนุมัติ (EX-0026)</button>
+      <button class="btn btn-secondary" onclick="saveDraft()">&#128190; บันทึกร่าง</button>
+      <button class="btn btn-green" onclick="showClaimForm()">&#9989; สร้าง Claim ใหม่</button>
+    </div>
+
+    <!-- Claim Creation Form -->
+    <div class="claim-form card" id="claimForm">
+      <h3 style="font-size:.95rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;">&#128203; สร้าง Claim ใหม่จากใบเสร็จ</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>ชื่อ Claim</label>
+          <input id="cf-name" class="form-input" placeholder="เช่น ค่าอาหารประชุมลูกค้า">
+        </div>
+        <div class="form-group">
+          <label>หมวดหมู่</label>
+          <select id="cf-category" class="form-input">
+            <option>ค่าอาหาร</option>
+            <option>ค่าเดินทาง</option>
+            <option>ค่าน้ำมัน</option>
+            <option>ค่าที่พัก</option>
+            <option>ค่าจิปาถะ</option>
+            <option>ค่าอุปกรณ์</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>จำนวนเงิน (&#3647;)</label>
+          <input id="cf-amount" class="form-input" type="number">
+        </div>
+        <div class="form-group">
+          <label>วันที่ใบเสร็จ</label>
+          <input id="cf-date" class="form-input" type="date">
+        </div>
+        <div class="form-group" style="grid-column:span 2;">
+          <label>ร้านค้า / ผู้รับเงิน</label>
+          <input id="cf-vendor" class="form-input">
+        </div>
+        <div class="form-group" style="grid-column:span 2;">
+          <label>รายละเอียด</label>
+          <textarea id="cf-detail" class="form-input" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label>ผู้อนุมัติ</label>
+          <select id="cf-approver" class="form-input">
+            <option value="">เลือกผู้อนุมัติ</option>
+            <option value="นริศรา พงษ์พันธ์">นริศรา พงษ์พันธ์ (ผจก.)</option>
+            <option value="สุรชัย มั่นคง">สุรชัย มั่นคง (ผอ.)</option>
+            <option value="อรพิน ดำรงค์">อรพิน ดำรงค์ (CFO)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>&#128247; ใบเสร็จที่แนบ</label>
+        <div class="attached-receipt">
+          <div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px;display:flex;align-items:center;gap:12px;">
+            <div style="font-size:2rem;">&#129534;</div>
+            <div>
+              <div style="font-weight:600;font-size:.82rem;" id="cf-receipt-name">receipt_scan.jpg</div>
+              <div style="font-size:.7rem;color:var(--muted);">AI OCR extracted &bull; Confidence 97%</div>
+            </div>
+            <span style="margin-left:auto;color:var(--green);font-weight:700;font-size:.78rem;">&#10003; แนบแล้ว</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:16px;">
+        <button class="btn btn-primary" onclick="submitClaim()">&#128203; สร้าง Claim</button>
+        <button class="btn btn-secondary" onclick="saveDraft()">&#128190; บันทึกร่าง</button>
+        <button class="btn btn-secondary" onclick="hideClaimForm()">ยกเลิก</button>
+      </div>
     </div>
   </div>
 
@@ -377,11 +466,81 @@ function handleFile(file) {
 
 function resetScan() {
   document.getElementById('ocrResult').classList.remove('visible');
+  document.getElementById('claimForm').classList.remove('visible');
   document.getElementById('uploadZone').style.display = '';
   document.getElementById('scanProgress').style.display = '';
   document.getElementById('scanProgress').classList.remove('visible');
   document.getElementById('progressFill').style.width = '0%';
 }
+
+// OCR extracted data (simulated)
+let ocrData = {
+  vendor: 'บริษัท สยามฟู้ด จำกัด',
+  amount: 2850,
+  date: '2026-04-03',
+  vat: 186.45,
+  invoiceNo: 'INV-2026-04-00312',
+  description: 'ค่าอาหารเลี้ยงรับรองลูกค้า บริษัท สยามฟู้ด — ประชุมแผนงาน Q2'
+};
+
+function prefillClaimForm() {
+  document.getElementById('cf-name').value = 'ค่าอาหาร — ' + ocrData.vendor;
+  document.getElementById('cf-amount').value = ocrData.amount;
+  document.getElementById('cf-date').value = ocrData.date;
+  document.getElementById('cf-vendor').value = ocrData.vendor;
+  document.getElementById('cf-detail').value = ocrData.description;
+}
+
+function showClaimForm() {
+  prefillClaimForm();
+  document.getElementById('claimForm').classList.add('visible');
+  document.getElementById('claimForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function hideClaimForm() {
+  document.getElementById('claimForm').classList.remove('visible');
+}
+
+function submitClaim() {
+  const name = document.getElementById('cf-name').value;
+  const amount = document.getElementById('cf-amount').value;
+  const approver = document.getElementById('cf-approver').value;
+  if (!name) { alert('กรุณากรอกชื่อ Claim'); return; }
+  if (!amount) { alert('กรุณากรอกจำนวนเงิน'); return; }
+
+  const claimNum = 'CLM-2026-' + String(Math.floor(Math.random() * 900) + 100);
+  showToast('\u2705 สร้าง Claim สำเร็จ — ' + claimNum);
+
+  // Navigate back to Claim Tasks via parent postMessage
+  setTimeout(function() {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({type:'navigate', url:'modules/expense-tasks.html', title:'Claim Tasks'}, '*');
+    } else {
+      window.location.href = 'expense-tasks.html';
+    }
+  }, 1500);
+}
+
+function saveDraft() {
+  showToast('\uD83D\uDCBE บันทึกร่างเรียบร้อยแล้ว');
+}
+
+function showToast(msg) {
+  const toast = document.createElement('div');
+  toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:12px 24px;border-radius:10px;font-size:14px;font-weight:500;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.2);font-family:inherit;';
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  setTimeout(function() { toast.style.opacity='0'; toast.style.transition='opacity .3s'; setTimeout(function(){toast.remove();},300); }, 2500);
+}
+
+// Listen for messages from parent
+window.addEventListener('message', function(e) {
+  if (e.data && e.data.type === 'navigate') {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage(e.data, '*');
+    }
+  }
+});
 </script>
 </body>
 </html>

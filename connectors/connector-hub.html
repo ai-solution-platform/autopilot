@@ -191,9 +191,9 @@ body {
 /* KPI Row */
 .kpi-row {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
-  margin-bottom: 28px;
+  margin-bottom: 20px;
 }
 
 .kpi-card {
@@ -253,7 +253,43 @@ body {
 .kpi-sub .up { color: var(--green); }
 .kpi-sub .down { color: var(--red); }
 
-/* Tabs */
+/* Hub Tab Bar */
+.tab-bar {
+  display: flex;
+  gap: 0;
+  background: var(--bg2);
+  border-radius: 10px;
+  padding: 3px;
+  border: 1px solid var(--border);
+  margin-bottom: 20px;
+  width: fit-content;
+}
+
+.tab-btn {
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: .78rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-family: inherit;
+  transition: all .2s;
+}
+
+.tab-btn.active {
+  background: var(--blue);
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(37,99,235,.25);
+}
+
+.tab-btn:not(.active):hover {
+  color: var(--text);
+  background: var(--bg3);
+}
+
+/* Category Tabs */
 .tabs {
   display: flex;
   gap: 4px;
@@ -530,19 +566,19 @@ body {
 .chart-container {
   background: var(--bg2);
   border-radius: var(--radius-sm);
-  padding: 20px;
+  padding: 16px;
   border: 1px solid var(--border);
 }
 
 .chart-title {
   font-size: 13px;
   font-weight: 600;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   color: var(--text-dim);
 }
 
 .chart-area {
-  height: 180px;
+  height: 160px;
   position: relative;
   overflow: hidden;
 }
@@ -555,12 +591,12 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .h-bar-label {
-  width: 100px;
-  font-size: 12px;
+  width: 80px;
+  font-size: 11px;
   color: var(--text-dim);
   text-align: right;
   flex-shrink: 0;
@@ -568,7 +604,7 @@ body {
 
 .h-bar-track {
   flex: 1;
-  height: 22px;
+  height: 20px;
   background: var(--bg3);
   border-radius: 4px;
   overflow: hidden;
@@ -582,7 +618,7 @@ body {
   display: flex;
   align-items: center;
   padding-left: 8px;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   color: white;
 }
@@ -591,10 +627,10 @@ body {
 .donut-container {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 16px;
 }
 
-.donut-svg { width: 140px; height: 140px; }
+.donut-svg { width: 120px; height: 120px; }
 
 .donut-legend {
   flex: 1;
@@ -604,8 +640,8 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 8px;
-  font-size: 12px;
+  margin-bottom: 6px;
+  font-size: 11px;
 }
 
 .legend-dot {
@@ -863,16 +899,17 @@ body {
   display: block;
 }
 
-/* Chart Grid */
+/* Chart Grid — 2x2 compact */
 .chart-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
+  margin-bottom: 20px;
 }
 
 /* Responsive */
 @media (max-width: 1200px) {
-  .kpi-row { grid-template-columns: repeat(5, 1fr); }
+  .kpi-row { grid-template-columns: repeat(4, 1fr); }
   .two-col, .chart-grid { grid-template-columns: 1fr; }
   .three-col { grid-template-columns: 1fr 1fr; }
 }
@@ -884,6 +921,7 @@ body {
   .connector-grid { grid-template-columns: 1fr; }
   .tabs { flex-wrap: wrap; }
   .three-col { grid-template-columns: 1fr; }
+  .tab-bar { width: 100%; }
 }
 
 /* Link styling */
@@ -980,10 +1018,22 @@ a.connector-link {
 .breadcrumb a { color: var(--blue); text-decoration: none; font-weight: 500; }
 .breadcrumb a:hover { text-decoration: underline; }
 .breadcrumb span.sep { margin: 0 6px; }
+
+/* API Log table compact */
+.api-log-table { font-size: 12px; }
+.api-log-table td { padding: 6px 10px; }
+.api-log-table th { padding: 6px 10px; font-size: 10px; }
+.method-badge { padding:1px 6px; border-radius:4px; font-size:10px; font-weight:700; }
+.method-get { background:rgba(5,150,105,0.15); color:var(--green); }
+.method-post { background:rgba(37,99,235,0.15); color:var(--blue); }
+.method-put { background:rgba(217,119,6,0.15); color:var(--orange); }
+.status-2xx { color:var(--green); font-weight:600; }
+.status-4xx { color:var(--orange); font-weight:600; }
+.status-5xx { color:var(--red); font-weight:600; }
 </style>
 </head>
 <body>
-<button class="dark-toggle" onclick="toggleDark()">&#127769;</button>
+<button class="dark-toggle" onclick="toggleDark()">🌙</button>
 
 <!-- Header -->
 <div class="header">
@@ -996,11 +1046,11 @@ a.connector-link {
   </div>
   <div class="header-actions">
     <div class="search-bar">
-      <span>&#128269;</span>
+      <span>🔍</span>
       <input type="text" id="searchInput" placeholder="ค้นหา connector..." oninput="filterConnectors()">
     </div>
-    <button class="btn btn-secondary" onclick="location.href='../modules/expense-dashboard.html'">&#127968; Dashboard</button>
-    <button class="btn btn-primary" onclick="openWizard()">&#10133; เพิ่ม Connector ใหม่</button>
+    <button class="btn btn-secondary" onclick="location.href='../modules/expense-dashboard.html'">🏠 Dashboard</button>
+    <button class="btn btn-primary" onclick="openWizard()">➕ เพิ่ม Connector ใหม่</button>
   </div>
 </div>
 
@@ -1010,486 +1060,578 @@ a.connector-link {
 
   <!-- Page Title -->
   <div class="page-title fade-up">
-    <h2>&#128279; Connector Hub</h2>
+    <h2>🔗 Connector Hub</h2>
     <p>ศูนย์กลางจัดการ Connectors ทั้งหมด &mdash; OCR, eKYC, Banking, Documents, Communication, Cloud Storage</p>
   </div>
 
-  <!-- KPI Row -->
-  <div class="kpi-row fade-up">
-    <div class="kpi-card">
-      <div class="kpi-label">&#128268; Connectors ทั้งหมด</div>
-      <div class="kpi-value">24</div>
-      <div class="kpi-sub">6 หมวดหมู่ | 4 providers ใหม่เดือนนี้</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">&#9989; Active Connectors</div>
-      <div class="kpi-value">18</div>
-      <div class="kpi-sub"><span class="up">+3</span> จากเดือนที่แล้ว | 2 degraded</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">&#128225; API Calls วันนี้</div>
-      <div class="kpi-value">12,847</div>
-      <div class="kpi-sub"><span class="up">+18.2%</span> เทียบวันก่อน</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">&#9202; Avg Response Time</div>
-      <div class="kpi-value">1.8s</div>
-      <div class="kpi-sub"><span class="down">-0.3s</span> ปรับปรุงจากสัปดาห์ก่อน</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">&#128994; Uptime</div>
-      <div class="kpi-value">99.7%</div>
-      <div class="kpi-sub">30 วันย้อนหลัง | SLA target 99.5%</div>
-    </div>
+  <!-- Hub Tab Navigation -->
+  <div class="tab-bar" style="display:flex;gap:0;background:var(--bg2);border-radius:10px;padding:3px;border:1px solid var(--border);margin-bottom:20px;width:fit-content;">
+    <button class="tab-btn active" onclick="switchHubTab('dashboard')">📊 API Usage Dashboard</button>
+    <button class="tab-btn" onclick="switchHubTab('config')">⚙️ Connector Configuration</button>
   </div>
 
-  <!-- Category Tabs -->
-  <div class="tabs fade-up" id="categoryTabs">
-    <button class="tab active" onclick="switchTab('all', this)">&#128218; ทั้งหมด <span class="tab-count">24</span></button>
-    <button class="tab" onclick="switchTab('ocr', this)">&#128270; OCR Providers <span class="tab-count">6</span></button>
-    <button class="tab" onclick="switchTab('ekyc', this)">&#129682; eKYC & Identity <span class="tab-count">4</span></button>
-    <button class="tab" onclick="switchTab('bank', this)">&#127974; Banking & Finance <span class="tab-count">5</span></button>
-    <button class="tab" onclick="switchTab('doc', this)">&#128196; Document Types <span class="tab-count">6</span></button>
-    <button class="tab" onclick="switchTab('comm', this)">&#128279; Communication <span class="tab-count">4</span></button>
-    <button class="tab" onclick="switchTab('cloud', this)">&#9729;&#65039; Cloud Storage <span class="tab-count">4</span></button>
-  </div>
+  <!-- ============================================ -->
+  <!-- DASHBOARD TAB -->
+  <!-- ============================================ -->
+  <div id="hub-dashboard">
 
-  <!-- Connector Grid Section -->
-  <div class="section fade-up" id="connectorSection">
-    <div class="section-header">
-      <div class="section-title">&#128268; Connector Directory</div>
-      <div style="display:flex;gap:8px;align-items:center;">
-        <span style="font-size:12px;color:var(--text-dim);">แสดง <strong id="visibleCount">24</strong> connectors</span>
+    <!-- Dashboard KPI Strip -->
+    <div class="kpi-row fade-up">
+      <div class="kpi-card">
+        <div class="kpi-label">📡 Total API Calls</div>
+        <div class="kpi-value">247,830</div>
+        <div class="kpi-sub"><span class="up">+12.4%</span> จากเดือนที่แล้ว</div>
       </div>
-    </div>
-    <div class="connector-grid" id="connectorGrid">
-      <!-- Populated by JS -->
-    </div>
-  </div>
-
-  <!-- Smart Routing Engine -->
-  <div class="section fade-up">
-    <div class="section-header">
-      <div class="section-title">&#129504; Smart Routing Engine</div>
-      <button class="btn btn-primary btn-sm" onclick="addRule()">&#10133; เพิ่ม Rule</button>
-    </div>
-
-    <div class="routing-flow">
-      <div class="routing-node">&#128196; เอกสาร Input</div>
-      <div class="routing-arrow">&#10140;</div>
-      <div class="routing-node highlight">&#129302; AI Classifier</div>
-      <div class="routing-arrow">&#10140;</div>
-      <div class="routing-node">&#128270; ตรวจจับประเภท</div>
-      <div class="routing-arrow">&#10140;</div>
-      <div class="routing-node highlight">&#9889; Route to Best Provider</div>
-      <div class="routing-arrow">&#10140;</div>
-      <div class="routing-node">&#9989; ผลลัพธ์</div>
-    </div>
-
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>ประเภทเอกสาร</th>
-          <th>Primary Provider</th>
-          <th>Fallback Provider</th>
-          <th>Priority</th>
-          <th>Success Rate</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>ใบเสร็จรับเงิน</strong></td>
-          <td>Google Document AI</td>
-          <td>ANTS OCR Thai</td>
-          <td><span class="priority-badge priority-high">สูง</span></td>
-          <td style="color:#22C55E;">98.5%</td>
-          <td><button class="btn btn-secondary btn-sm">แก้ไข</button></td>
-        </tr>
-        <tr>
-          <td><strong>บัตรประชาชน</strong></td>
-          <td>ANTS Thai ID OCR</td>
-          <td>iApp Thai OCR</td>
-          <td><span class="priority-badge priority-high">สูง</span></td>
-          <td style="color:#22C55E;">99.2%</td>
-          <td><button class="btn btn-secondary btn-sm">แก้ไข</button></td>
-        </tr>
-        <tr>
-          <td><strong>ใบกำกับภาษี</strong></td>
-          <td>ANTS OCR Thai</td>
-          <td>Azure Form Recognizer</td>
-          <td><span class="priority-badge priority-high">สูง</span></td>
-          <td style="color:#22C55E;">97.8%</td>
-          <td><button class="btn btn-secondary btn-sm">แก้ไข</button></td>
-        </tr>
-        <tr>
-          <td><strong>หนังสือเดินทาง</strong></td>
-          <td>AWS Textract</td>
-          <td>Google Document AI</td>
-          <td><span class="priority-badge priority-medium">กลาง</span></td>
-          <td style="color:var(--orange);">96.1%</td>
-          <td><button class="btn btn-secondary btn-sm">แก้ไข</button></td>
-        </tr>
-        <tr>
-          <td><strong>ใบสั่งซื้อ (PO)</strong></td>
-          <td>Azure Form Recognizer</td>
-          <td>Google Document AI</td>
-          <td><span class="priority-badge priority-medium">กลาง</span></td>
-          <td style="color:#22C55E;">97.3%</td>
-          <td><button class="btn btn-secondary btn-sm">แก้ไข</button></td>
-        </tr>
-        <tr>
-          <td><strong>สัญญา / Contract</strong></td>
-          <td>Google Document AI</td>
-          <td>AWS Textract</td>
-          <td><span class="priority-badge priority-low">ต่ำ</span></td>
-          <td style="color:#22C55E;">95.4%</td>
-          <td><button class="btn btn-secondary btn-sm">แก้ไข</button></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- API Usage Dashboard -->
-  <div class="section fade-up">
-    <div class="section-header">
-      <div class="section-title">&#128202; API Usage Dashboard</div>
-      <div style="display:flex;gap:6px;">
-        <button class="btn btn-secondary btn-sm active-filter" onclick="setTimeRange(this, '24h')">24 ชม.</button>
-        <button class="btn btn-secondary btn-sm" onclick="setTimeRange(this, '7d')">7 วัน</button>
-        <button class="btn btn-secondary btn-sm" onclick="setTimeRange(this, '30d')">30 วัน</button>
+      <div class="kpi-card">
+        <div class="kpi-label">✅ Success Rate</div>
+        <div class="kpi-value">99.2%</div>
+        <div class="kpi-sub"><span class="up">+0.3%</span> เทียบสัปดาห์ก่อน</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">⏱ Avg Latency</div>
+        <div class="kpi-value">145ms</div>
+        <div class="kpi-sub"><span class="down">-22ms</span> ปรับปรุงจากสัปดาห์ก่อน</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">🔌 Active Connectors</div>
+        <div class="kpi-value">8/10</div>
+        <div class="kpi-sub">2 degraded | 0 down</div>
       </div>
     </div>
 
-    <div class="chart-grid">
-      <!-- API Calls Over Time -->
+    <!-- Charts 2x2 Grid -->
+    <div class="chart-grid fade-up">
+      <!-- API Calls (7 Days) bar chart -->
       <div class="chart-container">
-        <div class="chart-title">API Calls ต่อชั่วโมง (24 ชม.)</div>
-        <div class="chart-area">
-          <svg class="area-chart" viewBox="0 0 400 160" preserveAspectRatio="none">
+        <div class="chart-title">API Calls (7 วัน)</div>
+        <div class="chart-area" style="height:180px;">
+          <svg class="area-chart" viewBox="0 0 400 140" preserveAspectRatio="none">
             <defs>
               <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stop-color="#2563EB" stop-opacity="0.4"/>
                 <stop offset="100%" stop-color="#2563EB" stop-opacity="0.02"/>
               </linearGradient>
             </defs>
-            <path d="M0,140 L17,130 L33,120 L50,125 L67,110 L83,100 L100,95 L117,85 L133,70 L150,55 L167,40 L183,35 L200,30 L217,25 L233,20 L250,28 L267,35 L283,45 L300,55 L317,50 L333,40 L350,35 L367,30 L383,25 L400,20 L400,160 L0,160Z" fill="url(#areaGrad)"/>
-            <path d="M0,140 L17,130 L33,120 L50,125 L67,110 L83,100 L100,95 L117,85 L133,70 L150,55 L167,40 L183,35 L200,30 L217,25 L233,20 L250,28 L267,35 L283,45 L300,55 L317,50 L333,40 L350,35 L367,30 L383,25 L400,20" fill="none" stroke="#2563EB" stroke-width="2"/>
-            <!-- Grid lines -->
-            <line x1="0" y1="40" x2="400" y2="40" stroke="rgba(71,85,105,0.2)" stroke-dasharray="4"/>
-            <line x1="0" y1="80" x2="400" y2="80" stroke="rgba(71,85,105,0.2)" stroke-dasharray="4"/>
-            <line x1="0" y1="120" x2="400" y2="120" stroke="rgba(71,85,105,0.2)" stroke-dasharray="4"/>
+            <!-- bars for 7 days -->
+            <rect x="15" y="60" width="40" height="80" rx="4" fill="rgba(37,99,235,0.2)"/>
+            <rect x="15" y="60" width="40" height="80" rx="4" fill="url(#areaGrad)"/>
+            <rect x="70" y="45" width="40" height="95" rx="4" fill="rgba(37,99,235,0.3)"/>
+            <rect x="125" y="50" width="40" height="90" rx="4" fill="rgba(37,99,235,0.3)"/>
+            <rect x="180" y="35" width="40" height="105" rx="4" fill="rgba(37,99,235,0.4)"/>
+            <rect x="235" y="25" width="40" height="115" rx="4" fill="rgba(37,99,235,0.5)"/>
+            <rect x="290" y="20" width="40" height="120" rx="4" fill="rgba(37,99,235,0.6)"/>
+            <rect x="345" y="10" width="40" height="130" rx="4" fill="#2563EB"/>
+            <!-- values on top -->
+            <text x="35" y="55" text-anchor="middle" fill="var(--muted)" font-size="9" font-weight="600">31K</text>
+            <text x="90" y="40" text-anchor="middle" fill="var(--muted)" font-size="9" font-weight="600">34K</text>
+            <text x="145" y="45" text-anchor="middle" fill="var(--muted)" font-size="9" font-weight="600">33K</text>
+            <text x="200" y="30" text-anchor="middle" fill="var(--muted)" font-size="9" font-weight="600">36K</text>
+            <text x="255" y="20" text-anchor="middle" fill="var(--muted)" font-size="9" font-weight="600">38K</text>
+            <text x="310" y="15" text-anchor="middle" fill="var(--muted)" font-size="9" font-weight="600">39K</text>
+            <text x="365" y="6" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="700">42K</text>
           </svg>
         </div>
         <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-dim);margin-top:4px;">
-          <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>ปัจจุบัน</span>
+          <span>จ.</span><span>อ.</span><span>พ.</span><span>พฤ.</span><span>ศ.</span><span>ส.</span><span>อา.</span>
         </div>
       </div>
 
-      <!-- Calls by Provider -->
+      <!-- Connector Usage Distribution donut -->
       <div class="chart-container">
-        <div class="chart-title">API Calls ตาม Provider</div>
+        <div class="chart-title">Connector Usage Distribution</div>
+        <div class="donut-container">
+          <svg class="donut-svg" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="46" fill="none" stroke="rgba(71,85,105,0.2)" stroke-width="14"/>
+            <circle cx="60" cy="60" r="46" fill="none" stroke="#2563EB" stroke-width="14" stroke-dasharray="100 189" stroke-dashoffset="0" transform="rotate(-90 60 60)"/>
+            <circle cx="60" cy="60" r="46" fill="none" stroke="#059669" stroke-width="14" stroke-dasharray="72 217" stroke-dashoffset="-100" transform="rotate(-90 60 60)"/>
+            <circle cx="60" cy="60" r="46" fill="none" stroke="#EA580C" stroke-width="14" stroke-dasharray="58 231" stroke-dashoffset="-172" transform="rotate(-90 60 60)"/>
+            <circle cx="60" cy="60" r="46" fill="none" stroke="#7C3AED" stroke-width="14" stroke-dasharray="34 255" stroke-dashoffset="-230" transform="rotate(-90 60 60)"/>
+            <circle cx="60" cy="60" r="46" fill="none" stroke="#0891B2" stroke-width="14" stroke-dasharray="25 264" stroke-dashoffset="-264" transform="rotate(-90 60 60)"/>
+            <text x="60" y="57" text-anchor="middle" fill="var(--text)" font-size="13" font-weight="800">247K</text>
+            <text x="60" y="70" text-anchor="middle" fill="var(--muted)" font-size="8">total calls</text>
+          </svg>
+          <div class="donut-legend">
+            <div class="donut-legend-item"><div class="legend-dot" style="background:#2563EB;"></div><span>Google AI</span><span class="legend-value">34.6%</span></div>
+            <div class="donut-legend-item"><div class="legend-dot" style="background:#059669;"></div><span>ANTS OCR</span><span class="legend-value">24.9%</span></div>
+            <div class="donut-legend-item"><div class="legend-dot" style="background:#EA580C;"></div><span>AWS Textract</span><span class="legend-value">20.1%</span></div>
+            <div class="donut-legend-item"><div class="legend-dot" style="background:#7C3AED;"></div><span>Azure Form</span><span class="legend-value">11.8%</span></div>
+            <div class="donut-legend-item"><div class="legend-dot" style="background:#0891B2;"></div><span>อื่นๆ</span><span class="legend-value">8.6%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Response Time Trend line chart -->
+      <div class="chart-container">
+        <div class="chart-title">Response Time Trend (ms)</div>
+        <div class="chart-area" style="height:180px;">
+          <svg class="area-chart" viewBox="0 0 400 140" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="respGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#059669" stop-opacity="0.3"/>
+                <stop offset="100%" stop-color="#059669" stop-opacity="0.02"/>
+              </linearGradient>
+            </defs>
+            <line x1="0" y1="35" x2="400" y2="35" stroke="rgba(239,68,68,0.2)" stroke-dasharray="4"/>
+            <text x="395" y="30" text-anchor="end" fill="var(--red)" font-size="8" opacity="0.6">SLA 200ms</text>
+            <line x1="0" y1="70" x2="400" y2="70" stroke="rgba(71,85,105,0.15)" stroke-dasharray="4"/>
+            <line x1="0" y1="105" x2="400" y2="105" stroke="rgba(71,85,105,0.15)" stroke-dasharray="4"/>
+            <path d="M0,75 L20,72 L40,78 L60,70 L80,65 L100,68 L120,60 L140,55 L160,58 L180,52 L200,48 L220,50 L240,45 L260,48 L280,42 L300,44 L320,40 L340,38 L360,42 L380,36 L400,35 L400,140 L0,140Z" fill="url(#respGrad)"/>
+            <path d="M0,75 L20,72 L40,78 L60,70 L80,65 L100,68 L120,60 L140,55 L160,58 L180,52 L200,48 L220,50 L240,45 L260,48 L280,42 L300,44 L320,40 L340,38 L360,42 L380,36 L400,35" fill="none" stroke="#059669" stroke-width="2"/>
+            <circle cx="400" cy="35" r="3" fill="#059669"/>
+            <text x="385" y="28" fill="#059669" font-size="10" font-weight="bold">145ms</text>
+          </svg>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-dim);margin-top:4px;">
+          <span>7 วันก่อน</span><span>5 วัน</span><span>3 วัน</span><span>วาน</span><span>วันนี้</span>
+        </div>
+      </div>
+
+      <!-- Error Rate by Connector bars -->
+      <div class="chart-container">
+        <div class="chart-title">Error Rate by Connector</div>
         <div style="padding-top:8px;">
           <div class="h-bar">
-            <div class="h-bar-label">Google AI</div>
-            <div class="h-bar-track"><div class="h-bar-fill" style="width:85%;background:var(--grad);">3,842</div></div>
-          </div>
-          <div class="h-bar">
-            <div class="h-bar-label">ANTS OCR</div>
-            <div class="h-bar-track"><div class="h-bar-fill" style="width:72%;background:var(--green);">3,256</div></div>
-          </div>
-          <div class="h-bar">
-            <div class="h-bar-label">AWS Textract</div>
-            <div class="h-bar-track"><div class="h-bar-fill" style="width:55%;background:var(--orange);">2,487</div></div>
-          </div>
-          <div class="h-bar">
             <div class="h-bar-label">Azure Form</div>
-            <div class="h-bar-track"><div class="h-bar-fill" style="width:40%;background:var(--cyan);">1,810</div></div>
+            <div class="h-bar-track"><div class="h-bar-fill" style="width:72%;background:var(--red);">1.8%</div></div>
+          </div>
+          <div class="h-bar">
+            <div class="h-bar-label">Dropbox</div>
+            <div class="h-bar-track"><div class="h-bar-fill" style="width:100%;background:var(--red);">100%</div></div>
           </div>
           <div class="h-bar">
             <div class="h-bar-label">iApp Thai</div>
-            <div class="h-bar-track"><div class="h-bar-fill" style="width:22%;background:var(--purple);">998</div></div>
+            <div class="h-bar-track"><div class="h-bar-fill" style="width:12%;background:var(--orange);">0.3%</div></div>
           </div>
           <div class="h-bar">
-            <div class="h-bar-label">อื่นๆ</div>
-            <div class="h-bar-track"><div class="h-bar-fill" style="width:10%;background:var(--text-dim);">454</div></div>
+            <div class="h-bar-label">AWS Textract</div>
+            <div class="h-bar-track"><div class="h-bar-fill" style="width:8%;background:var(--yellow);">0.2%</div></div>
           </div>
-        </div>
-      </div>
-
-      <!-- Error Rate -->
-      <div class="chart-container">
-        <div class="chart-title">Error Rate (%)</div>
-        <div class="chart-area">
-          <svg class="mini-line-chart" viewBox="0 0 400 160" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="errGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#EF4444" stop-opacity="0.2"/>
-                <stop offset="100%" stop-color="#EF4444" stop-opacity="0.01"/>
-              </linearGradient>
-            </defs>
-            <line x1="0" y1="80" x2="400" y2="80" stroke="rgba(71,85,105,0.2)" stroke-dasharray="4"/>
-            <line x1="0" y1="40" x2="400" y2="40" stroke="rgba(239,68,68,0.15)" stroke-dasharray="4"/>
-            <path d="M0,140 L25,138 L50,135 L75,130 L100,132 L125,128 L150,135 L175,120 L200,125 L225,118 L250,122 L275,115 L300,120 L325,110 L350,115 L375,108 L400,112 L400,160 L0,160Z" fill="url(#errGrad)"/>
-            <path d="M0,140 L25,138 L50,135 L75,130 L100,132 L125,128 L150,135 L175,120 L200,125 L225,118 L250,122 L275,115 L300,120 L325,110 L350,115 L375,108 L400,112" fill="none" stroke="#EF4444" stroke-width="2"/>
-            <text x="380" y="105" fill="#EF4444" font-size="12" font-weight="bold">0.3%</text>
-          </svg>
-        </div>
-        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-dim);margin-top:4px;">
-          <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>ปัจจุบัน</span>
-        </div>
-      </div>
-
-      <!-- Cost Breakdown -->
-      <div class="chart-container">
-        <div class="chart-title">ค่าใช้จ่าย API เดือนนี้</div>
-        <div class="donut-container">
-          <svg class="donut-svg" viewBox="0 0 140 140">
-            <circle cx="70" cy="70" r="54" fill="none" stroke="rgba(71,85,105,0.2)" stroke-width="16"/>
-            <circle cx="70" cy="70" r="54" fill="none" stroke="#2563EB" stroke-width="16" stroke-dasharray="118 221" stroke-dashoffset="0" transform="rotate(-90 70 70)"/>
-            <circle cx="70" cy="70" r="54" fill="none" stroke="#059669" stroke-width="16" stroke-dasharray="85 254" stroke-dashoffset="-118" transform="rotate(-90 70 70)"/>
-            <circle cx="70" cy="70" r="54" fill="none" stroke="#EA580C" stroke-width="16" stroke-dasharray="68 271" stroke-dashoffset="-203" transform="rotate(-90 70 70)"/>
-            <circle cx="70" cy="70" r="54" fill="none" stroke="#7C3AED" stroke-width="16" stroke-dasharray="40 299" stroke-dashoffset="-271" transform="rotate(-90 70 70)"/>
-            <circle cx="70" cy="70" r="54" fill="none" stroke="#0891B2" stroke-width="16" stroke-dasharray="28 311" stroke-dashoffset="-311" transform="rotate(-90 70 70)"/>
-            <text x="70" y="66" text-anchor="middle" fill="white" font-size="16" font-weight="800">฿18.5K</text>
-            <text x="70" y="82" text-anchor="middle" fill="#94A3B8" font-size="9">รวมเดือนนี้</text>
-          </svg>
-          <div class="donut-legend">
-            <div class="donut-legend-item"><div class="legend-dot" style="background:#2563EB;"></div><span>Google AI</span><span class="legend-value">฿6,420</span></div>
-            <div class="donut-legend-item"><div class="legend-dot" style="background:#059669;"></div><span>ANTS OCR</span><span class="legend-value">฿4,630</span></div>
-            <div class="donut-legend-item"><div class="legend-dot" style="background:#EA580C;"></div><span>AWS Textract</span><span class="legend-value">฿3,700</span></div>
-            <div class="donut-legend-item"><div class="legend-dot" style="background:#7C3AED;"></div><span>Azure Form</span><span class="legend-value">฿2,180</span></div>
-            <div class="donut-legend-item"><div class="legend-dot" style="background:#0891B2;"></div><span>อื่นๆ</span><span class="legend-value">฿1,570</span></div>
+          <div class="h-bar">
+            <div class="h-bar-label">Google AI</div>
+            <div class="h-bar-track"><div class="h-bar-fill" style="width:4%;background:var(--green);">0.1%</div></div>
+          </div>
+          <div class="h-bar">
+            <div class="h-bar-label">ANTS OCR</div>
+            <div class="h-bar-track"><div class="h-bar-fill" style="width:2%;background:var(--green);">0.05%</div></div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Health Monitor + Webhook Config -->
-  <div class="two-col">
-    <!-- Health Monitor -->
+    <!-- Recent API Calls Log -->
     <div class="section fade-up">
       <div class="section-header">
-        <div class="section-title"><span class="live-dot"></span> Health Monitor (Real-time)</div>
-        <span style="font-size:11px;color:var(--text-dim);">อัปเดตล่าสุด: <span id="lastUpdate">--</span></span>
+        <div class="section-title">📋 Recent API Calls Log</div>
+        <span style="font-size:11px;color:var(--text-dim);">แสดง 20 รายการล่าสุด</span>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="data-table api-log-table">
+          <thead>
+            <tr>
+              <th>เวลา</th>
+              <th>Method</th>
+              <th>Connector</th>
+              <th>Endpoint</th>
+              <th>Status</th>
+              <th>Latency</th>
+              <th>ขนาด</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>14:32:18</td><td><span class="method-badge method-post">POST</span></td><td>Google Document AI</td><td>/v1/documents:process</td><td><span class="status-2xx">200</span></td><td>1.2s</td><td>245 KB</td></tr>
+            <tr><td>14:32:15</td><td><span class="method-badge method-post">POST</span></td><td>ANTS OCR Thai</td><td>/api/v2/ocr/receipt</td><td><span class="status-2xx">200</span></td><td>0.9s</td><td>182 KB</td></tr>
+            <tr><td>14:32:10</td><td><span class="method-badge method-get">GET</span></td><td>LINE Official</td><td>/v2/bot/message/content</td><td><span class="status-2xx">200</span></td><td>0.3s</td><td>1.2 MB</td></tr>
+            <tr><td>14:31:58</td><td><span class="method-badge method-post">POST</span></td><td>AWS Textract</td><td>/textract/analyze</td><td><span class="status-2xx">200</span></td><td>2.1s</td><td>310 KB</td></tr>
+            <tr><td>14:31:45</td><td><span class="method-badge method-post">POST</span></td><td>PromptPay Gateway</td><td>/api/v1/verify</td><td><span class="status-2xx">200</span></td><td>0.6s</td><td>12 KB</td></tr>
+            <tr><td>14:31:30</td><td><span class="method-badge method-post">POST</span></td><td>Azure Form Recognizer</td><td>/formrecognizer/v2.1/layout</td><td><span class="status-4xx">408</span></td><td>3.4s</td><td>0 B</td></tr>
+            <tr><td>14:31:22</td><td><span class="method-badge method-get">GET</span></td><td>Google Drive</td><td>/drive/v3/files</td><td><span class="status-2xx">200</span></td><td>0.4s</td><td>8 KB</td></tr>
+            <tr><td>14:31:10</td><td><span class="method-badge method-post">POST</span></td><td>ANTS Thai ID Verify</td><td>/api/v2/ekyc/verify</td><td><span class="status-2xx">200</span></td><td>1.5s</td><td>56 KB</td></tr>
+            <tr><td>14:30:55</td><td><span class="method-badge method-post">POST</span></td><td>SendGrid Email</td><td>/v3/mail/send</td><td><span class="status-2xx">202</span></td><td>0.8s</td><td>4 KB</td></tr>
+            <tr><td>14:30:42</td><td><span class="method-badge method-post">POST</span></td><td>Dropbox</td><td>/2/files/upload</td><td><span class="status-5xx">503</span></td><td>30.0s</td><td>0 B</td></tr>
+            <tr><td>14:30:30</td><td><span class="method-badge method-post">POST</span></td><td>Google Document AI</td><td>/v1/documents:process</td><td><span class="status-2xx">200</span></td><td>1.1s</td><td>198 KB</td></tr>
+            <tr><td>14:30:18</td><td><span class="method-badge method-get">GET</span></td><td>BOT API (ธปท.)</td><td>/api/exchangerate</td><td><span class="status-2xx">200</span></td><td>0.5s</td><td>3 KB</td></tr>
+            <tr><td>14:30:05</td><td><span class="method-badge method-post">POST</span></td><td>ANTS OCR Thai</td><td>/api/v2/ocr/tax-invoice</td><td><span class="status-2xx">200</span></td><td>1.0s</td><td>210 KB</td></tr>
+            <tr><td>14:29:50</td><td><span class="method-badge method-post">POST</span></td><td>iApp Thai OCR</td><td>/api/ocr/id-card</td><td><span class="status-2xx">200</span></td><td>1.4s</td><td>88 KB</td></tr>
+            <tr><td>14:29:38</td><td><span class="method-badge method-put">PUT</span></td><td>Amazon S3</td><td>/autopilot-docs/receipts/</td><td><span class="status-2xx">200</span></td><td>0.3s</td><td>1.5 MB</td></tr>
+            <tr><td>14:29:22</td><td><span class="method-badge method-post">POST</span></td><td>SCB Open Banking</td><td>/v1/payment/confirm</td><td><span class="status-2xx">200</span></td><td>0.7s</td><td>6 KB</td></tr>
+            <tr><td>14:29:10</td><td><span class="method-badge method-post">POST</span></td><td>Telegram Bot</td><td>/bot/sendMessage</td><td><span class="status-2xx">200</span></td><td>0.5s</td><td>2 KB</td></tr>
+            <tr><td>14:28:55</td><td><span class="method-badge method-post">POST</span></td><td>NDID Gateway</td><td>/api/v1/identity/request</td><td><span class="status-2xx">200</span></td><td>2.0s</td><td>24 KB</td></tr>
+            <tr><td>14:28:40</td><td><span class="method-badge method-get">GET</span></td><td>OneDrive</td><td>/v1.0/me/drive/items</td><td><span class="status-2xx">200</span></td><td>0.6s</td><td>14 KB</td></tr>
+            <tr><td>14:28:25</td><td><span class="method-badge method-post">POST</span></td><td>KBank API</td><td>/v1/transfer/verify</td><td><span class="status-2xx">200</span></td><td>0.8s</td><td>8 KB</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- end hub-dashboard -->
+
+  <!-- ============================================ -->
+  <!-- CONFIGURATION TAB -->
+  <!-- ============================================ -->
+  <div id="hub-config" style="display:none;">
+
+    <!-- Config KPI Row -->
+    <div class="kpi-row fade-up" style="grid-template-columns:repeat(5,1fr);">
+      <div class="kpi-card">
+        <div class="kpi-label">🔌 Connectors ทั้งหมด</div>
+        <div class="kpi-value">24</div>
+        <div class="kpi-sub">6 หมวดหมู่ | 4 providers ใหม่เดือนนี้</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">✅ Active Connectors</div>
+        <div class="kpi-value">18</div>
+        <div class="kpi-sub"><span class="up">+3</span> จากเดือนที่แล้ว | 2 degraded</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">📡 API Calls วันนี้</div>
+        <div class="kpi-value">12,847</div>
+        <div class="kpi-sub"><span class="up">+18.2%</span> เทียบวันก่อน</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">⏲ Avg Response Time</div>
+        <div class="kpi-value">1.8s</div>
+        <div class="kpi-sub"><span class="down">-0.3s</span> ปรับปรุงจากสัปดาห์ก่อน</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">🟢 Uptime</div>
+        <div class="kpi-value">99.7%</div>
+        <div class="kpi-sub">30 วันย้อนหลัง | SLA target 99.5%</div>
+      </div>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="tabs fade-up" id="categoryTabs">
+      <button class="tab active" onclick="switchTab('all', this)">📚 ทั้งหมด <span class="tab-count">24</span></button>
+      <button class="tab" onclick="switchTab('ocr', this)">🔎 OCR Providers <span class="tab-count">6</span></button>
+      <button class="tab" onclick="switchTab('ekyc', this)">🪪 eKYC & Identity <span class="tab-count">4</span></button>
+      <button class="tab" onclick="switchTab('bank', this)">🏦 Banking & Finance <span class="tab-count">5</span></button>
+      <button class="tab" onclick="switchTab('doc', this)">📄 Document Types <span class="tab-count">6</span></button>
+      <button class="tab" onclick="switchTab('comm', this)">🔗 Communication <span class="tab-count">4</span></button>
+      <button class="tab" onclick="switchTab('cloud', this)">☁️ Cloud Storage <span class="tab-count">4</span></button>
+    </div>
+
+    <!-- Connector Grid Section -->
+    <div class="section fade-up" id="connectorSection">
+      <div class="section-header">
+        <div class="section-title">🔌 Connector Directory</div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <span style="font-size:12px;color:var(--text-dim);">แสดง <strong id="visibleCount">24</strong> connectors</span>
+        </div>
+      </div>
+      <div class="connector-grid" id="connectorGrid">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- Smart Routing Engine -->
+    <div class="section fade-up">
+      <div class="section-header">
+        <div class="section-title">🧠 Smart Routing Engine</div>
+        <button class="btn btn-primary btn-sm" onclick="addRule()">➕ เพิ่ม Rule</button>
       </div>
 
-      <table class="data-table" id="healthTable">
+      <div class="routing-flow">
+        <div class="routing-node">📄 เอกสาร Input</div>
+        <div class="routing-arrow">➜</div>
+        <div class="routing-node highlight">🤖 AI Classifier</div>
+        <div class="routing-arrow">➜</div>
+        <div class="routing-node">🔎 ตรวจจับประเภท</div>
+        <div class="routing-arrow">➜</div>
+        <div class="routing-node highlight">⚡ Route to Best Provider</div>
+        <div class="routing-arrow">➜</div>
+        <div class="routing-node">✅ ผลลัพธ์</div>
+      </div>
+
+      <table class="data-table">
         <thead>
           <tr>
-            <th>Provider</th>
-            <th>Status</th>
-            <th>Latency</th>
-            <th>Error Rate</th>
-            <th>Last Check</th>
+            <th>ประเภทเอกสาร</th>
+            <th>Primary Provider</th>
+            <th>Fallback Provider</th>
+            <th>Priority</th>
+            <th>Success Rate</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><strong>Google Document AI</strong></td>
-            <td><span class="health-status status-active"><span class="status-dot"></span> Active</span></td>
-            <td>
-              <div style="display:flex;align-items:center;gap:6px;">
-                <div class="latency-bar"><div class="latency-fill" style="width:35%;background:#22C55E;"></div></div>
-                <span style="font-size:12px;">1.2s</span>
-              </div>
-            </td>
-            <td style="color:#22C55E;">0.1%</td>
-            <td style="font-size:11px;color:var(--text-dim);">12 วิ ที่แล้ว</td>
+            <td><strong>ใบเสร็จรับเงิน</strong></td>
+            <td>Google Document AI</td>
+            <td>ANTS OCR Thai</td>
+            <td><span class="priority-badge priority-high">สูง</span></td>
+            <td style="color:#22C55E;">98.5%</td>
+            <td><button class="btn btn-secondary btn-sm">แก้ไข</button></td>
           </tr>
           <tr>
-            <td><strong>ANTS OCR Thai</strong></td>
-            <td><span class="health-status status-active"><span class="status-dot"></span> Active</span></td>
-            <td>
-              <div style="display:flex;align-items:center;gap:6px;">
-                <div class="latency-bar"><div class="latency-fill" style="width:28%;background:#22C55E;"></div></div>
-                <span style="font-size:12px;">0.9s</span>
-              </div>
-            </td>
-            <td style="color:#22C55E;">0.05%</td>
-            <td style="font-size:11px;color:var(--text-dim);">8 วิ ที่แล้ว</td>
+            <td><strong>บัตรประชาชน</strong></td>
+            <td>ANTS Thai ID OCR</td>
+            <td>iApp Thai OCR</td>
+            <td><span class="priority-badge priority-high">สูง</span></td>
+            <td style="color:#22C55E;">99.2%</td>
+            <td><button class="btn btn-secondary btn-sm">แก้ไข</button></td>
           </tr>
           <tr>
-            <td><strong>AWS Textract</strong></td>
-            <td><span class="health-status status-active"><span class="status-dot"></span> Active</span></td>
-            <td>
-              <div style="display:flex;align-items:center;gap:6px;">
-                <div class="latency-bar"><div class="latency-fill" style="width:50%;background:#FBBF24;"></div></div>
-                <span style="font-size:12px;">2.1s</span>
-              </div>
-            </td>
-            <td style="color:#22C55E;">0.2%</td>
-            <td style="font-size:11px;color:var(--text-dim);">15 วิ ที่แล้ว</td>
+            <td><strong>ใบกำกับภาษี</strong></td>
+            <td>ANTS OCR Thai</td>
+            <td>Azure Form Recognizer</td>
+            <td><span class="priority-badge priority-high">สูง</span></td>
+            <td style="color:#22C55E;">97.8%</td>
+            <td><button class="btn btn-secondary btn-sm">แก้ไข</button></td>
           </tr>
           <tr>
-            <td><strong>Azure Form Recognizer</strong></td>
-            <td><span class="health-status status-degraded"><span class="status-dot"></span> Degraded</span></td>
-            <td>
-              <div style="display:flex;align-items:center;gap:6px;">
-                <div class="latency-bar"><div class="latency-fill" style="width:75%;background:#F59E0B;"></div></div>
-                <span style="font-size:12px;">3.4s</span>
-              </div>
-            </td>
-            <td style="color:#F59E0B;">1.8%</td>
-            <td style="font-size:11px;color:var(--text-dim);">5 วิ ที่แล้ว</td>
+            <td><strong>หนังสือเดินทาง</strong></td>
+            <td>AWS Textract</td>
+            <td>Google Document AI</td>
+            <td><span class="priority-badge priority-medium">กลาง</span></td>
+            <td style="color:var(--orange);">96.1%</td>
+            <td><button class="btn btn-secondary btn-sm">แก้ไข</button></td>
           </tr>
           <tr>
-            <td><strong>iApp Thai OCR</strong></td>
-            <td><span class="health-status status-active"><span class="status-dot"></span> Active</span></td>
-            <td>
-              <div style="display:flex;align-items:center;gap:6px;">
-                <div class="latency-bar"><div class="latency-fill" style="width:40%;background:#22C55E;"></div></div>
-                <span style="font-size:12px;">1.5s</span>
-              </div>
-            </td>
-            <td style="color:#22C55E;">0.3%</td>
-            <td style="font-size:11px;color:var(--text-dim);">10 วิ ที่แล้ว</td>
+            <td><strong>ใบสั่งซื้อ (PO)</strong></td>
+            <td>Azure Form Recognizer</td>
+            <td>Google Document AI</td>
+            <td><span class="priority-badge priority-medium">กลาง</span></td>
+            <td style="color:#22C55E;">97.3%</td>
+            <td><button class="btn btn-secondary btn-sm">แก้ไข</button></td>
           </tr>
           <tr>
-            <td><strong>LINE Messaging</strong></td>
-            <td><span class="health-status status-active"><span class="status-dot"></span> Active</span></td>
-            <td>
-              <div style="display:flex;align-items:center;gap:6px;">
-                <div class="latency-bar"><div class="latency-fill" style="width:15%;background:#22C55E;"></div></div>
-                <span style="font-size:12px;">0.4s</span>
-              </div>
-            </td>
-            <td style="color:#22C55E;">0.0%</td>
-            <td style="font-size:11px;color:var(--text-dim);">3 วิ ที่แล้ว</td>
-          </tr>
-          <tr>
-            <td><strong>PromptPay Gateway</strong></td>
-            <td><span class="health-status status-active"><span class="status-dot"></span> Active</span></td>
-            <td>
-              <div style="display:flex;align-items:center;gap:6px;">
-                <div class="latency-bar"><div class="latency-fill" style="width:20%;background:#22C55E;"></div></div>
-                <span style="font-size:12px;">0.6s</span>
-              </div>
-            </td>
-            <td style="color:#22C55E;">0.0%</td>
-            <td style="font-size:11px;color:var(--text-dim);">7 วิ ที่แล้ว</td>
-          </tr>
-          <tr>
-            <td><strong>Dropbox API</strong></td>
-            <td><span class="health-status status-down"><span class="status-dot"></span> Down</span></td>
-            <td>
-              <div style="display:flex;align-items:center;gap:6px;">
-                <div class="latency-bar"><div class="latency-fill" style="width:100%;background:#EF4444;"></div></div>
-                <span style="font-size:12px;">Timeout</span>
-              </div>
-            </td>
-            <td style="color:#EF4444;">100%</td>
-            <td style="font-size:11px;color:var(--text-dim);">2 นาที ที่แล้ว</td>
+            <td><strong>สัญญา / Contract</strong></td>
+            <td>Google Document AI</td>
+            <td>AWS Textract</td>
+            <td><span class="priority-badge priority-low">ต่ำ</span></td>
+            <td style="color:#22C55E;">95.4%</td>
+            <td><button class="btn btn-secondary btn-sm">แก้ไข</button></td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <!-- Webhook Configuration -->
-    <div class="section fade-up">
-      <div class="section-header">
-        <div class="section-title">&#128268; Webhook Configuration</div>
-        <button class="btn btn-secondary btn-sm">&#10133; เพิ่ม Webhook</button>
+    <!-- Health Monitor + Webhook Config -->
+    <div class="two-col">
+      <!-- Health Monitor -->
+      <div class="section fade-up">
+        <div class="section-header">
+          <div class="section-title"><span class="live-dot"></span> Health Monitor (Real-time)</div>
+          <span style="font-size:11px;color:var(--text-dim);">อัปเดตล่าสุด: <span id="lastUpdate">--</span></span>
+        </div>
+
+        <table class="data-table" id="healthTable">
+          <thead>
+            <tr>
+              <th>Provider</th>
+              <th>Status</th>
+              <th>Latency</th>
+              <th>Error Rate</th>
+              <th>Last Check</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Google Document AI</strong></td>
+              <td><span class="health-status status-active"><span class="status-dot"></span> Active</span></td>
+              <td>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <div class="latency-bar"><div class="latency-fill" style="width:35%;background:#22C55E;"></div></div>
+                  <span style="font-size:12px;">1.2s</span>
+                </div>
+              </td>
+              <td style="color:#22C55E;">0.1%</td>
+              <td style="font-size:11px;color:var(--text-dim);">12 วิ ที่แล้ว</td>
+            </tr>
+            <tr>
+              <td><strong>ANTS OCR Thai</strong></td>
+              <td><span class="health-status status-active"><span class="status-dot"></span> Active</span></td>
+              <td>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <div class="latency-bar"><div class="latency-fill" style="width:28%;background:#22C55E;"></div></div>
+                  <span style="font-size:12px;">0.9s</span>
+                </div>
+              </td>
+              <td style="color:#22C55E;">0.05%</td>
+              <td style="font-size:11px;color:var(--text-dim);">8 วิ ที่แล้ว</td>
+            </tr>
+            <tr>
+              <td><strong>AWS Textract</strong></td>
+              <td><span class="health-status status-active"><span class="status-dot"></span> Active</span></td>
+              <td>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <div class="latency-bar"><div class="latency-fill" style="width:50%;background:#FBBF24;"></div></div>
+                  <span style="font-size:12px;">2.1s</span>
+                </div>
+              </td>
+              <td style="color:#22C55E;">0.2%</td>
+              <td style="font-size:11px;color:var(--text-dim);">15 วิ ที่แล้ว</td>
+            </tr>
+            <tr>
+              <td><strong>Azure Form Recognizer</strong></td>
+              <td><span class="health-status status-degraded"><span class="status-dot"></span> Degraded</span></td>
+              <td>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <div class="latency-bar"><div class="latency-fill" style="width:75%;background:#F59E0B;"></div></div>
+                  <span style="font-size:12px;">3.4s</span>
+                </div>
+              </td>
+              <td style="color:#F59E0B;">1.8%</td>
+              <td style="font-size:11px;color:var(--text-dim);">5 วิ ที่แล้ว</td>
+            </tr>
+            <tr>
+              <td><strong>iApp Thai OCR</strong></td>
+              <td><span class="health-status status-active"><span class="status-dot"></span> Active</span></td>
+              <td>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <div class="latency-bar"><div class="latency-fill" style="width:40%;background:#22C55E;"></div></div>
+                  <span style="font-size:12px;">1.5s</span>
+                </div>
+              </td>
+              <td style="color:#22C55E;">0.3%</td>
+              <td style="font-size:11px;color:var(--text-dim);">10 วิ ที่แล้ว</td>
+            </tr>
+            <tr>
+              <td><strong>LINE Messaging</strong></td>
+              <td><span class="health-status status-active"><span class="status-dot"></span> Active</span></td>
+              <td>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <div class="latency-bar"><div class="latency-fill" style="width:15%;background:#22C55E;"></div></div>
+                  <span style="font-size:12px;">0.4s</span>
+                </div>
+              </td>
+              <td style="color:#22C55E;">0.0%</td>
+              <td style="font-size:11px;color:var(--text-dim);">3 วิ ที่แล้ว</td>
+            </tr>
+            <tr>
+              <td><strong>PromptPay Gateway</strong></td>
+              <td><span class="health-status status-active"><span class="status-dot"></span> Active</span></td>
+              <td>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <div class="latency-bar"><div class="latency-fill" style="width:20%;background:#22C55E;"></div></div>
+                  <span style="font-size:12px;">0.6s</span>
+                </div>
+              </td>
+              <td style="color:#22C55E;">0.0%</td>
+              <td style="font-size:11px;color:var(--text-dim);">7 วิ ที่แล้ว</td>
+            </tr>
+            <tr>
+              <td><strong>Dropbox API</strong></td>
+              <td><span class="health-status status-down"><span class="status-dot"></span> Down</span></td>
+              <td>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <div class="latency-bar"><div class="latency-fill" style="width:100%;background:#EF4444;"></div></div>
+                  <span style="font-size:12px;">Timeout</span>
+                </div>
+              </td>
+              <td style="color:#EF4444;">100%</td>
+              <td style="font-size:11px;color:var(--text-dim);">2 นาที ที่แล้ว</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      <div class="webhook-group">
-        <h4>&#11015;&#65039; Incoming Webhooks</h4>
-        <div class="webhook-item">
-          <div>
-            <strong style="font-size:13px;">LINE Official Account</strong>
-            <div class="webhook-url">/api/webhooks/line-oa</div>
-          </div>
-          <span class="health-status status-active" style="font-size:11px;"><span class="status-dot"></span> Active</span>
+      <!-- Webhook Configuration -->
+      <div class="section fade-up">
+        <div class="section-header">
+          <div class="section-title">🔌 Webhook Configuration</div>
+          <button class="btn btn-secondary btn-sm">➕ เพิ่ม Webhook</button>
         </div>
-        <div class="webhook-item">
-          <div>
-            <strong style="font-size:13px;">Email Inbound (SendGrid)</strong>
-            <div class="webhook-url">/api/webhooks/email-inbound</div>
-          </div>
-          <span class="health-status status-active" style="font-size:11px;"><span class="status-dot"></span> Active</span>
-        </div>
-        <div class="webhook-item">
-          <div>
-            <strong style="font-size:13px;">Telegram Bot</strong>
-            <div class="webhook-url">/api/webhooks/telegram</div>
-          </div>
-          <span class="health-status status-active" style="font-size:11px;"><span class="status-dot"></span> Active</span>
-        </div>
-      </div>
 
-      <div class="webhook-group">
-        <h4>&#11014;&#65039; Outgoing Webhooks</h4>
-        <div class="webhook-item">
-          <div>
-            <strong style="font-size:13px;">ERP System (SAP)</strong>
-            <div class="webhook-url">https://erp.company.com/api/v2/hook</div>
+        <div class="webhook-group">
+          <h4>⬇️ Incoming Webhooks</h4>
+          <div class="webhook-item">
+            <div>
+              <strong style="font-size:13px;">LINE Official Account</strong>
+              <div class="webhook-url">/api/webhooks/line-oa</div>
+            </div>
+            <span class="health-status status-active" style="font-size:11px;"><span class="status-dot"></span> Active</span>
           </div>
-          <span class="health-status status-active" style="font-size:11px;"><span class="status-dot"></span> Active</span>
-        </div>
-        <div class="webhook-item">
-          <div>
-            <strong style="font-size:13px;">Accounting (PEAK)</strong>
-            <div class="webhook-url">https://api.peakaccount.com/webhook</div>
+          <div class="webhook-item">
+            <div>
+              <strong style="font-size:13px;">Email Inbound (SendGrid)</strong>
+              <div class="webhook-url">/api/webhooks/email-inbound</div>
+            </div>
+            <span class="health-status status-active" style="font-size:11px;"><span class="status-dot"></span> Active</span>
           </div>
-          <span class="health-status status-degraded" style="font-size:11px;"><span class="status-dot"></span> Retry</span>
-        </div>
-        <div class="webhook-item">
-          <div>
-            <strong style="font-size:13px;">Data Warehouse</strong>
-            <div class="webhook-url">https://dwh.company.com/ingest</div>
+          <div class="webhook-item">
+            <div>
+              <strong style="font-size:13px;">Telegram Bot</strong>
+              <div class="webhook-url">/api/webhooks/telegram</div>
+            </div>
+            <span class="health-status status-active" style="font-size:11px;"><span class="status-dot"></span> Active</span>
           </div>
-          <span class="health-status status-active" style="font-size:11px;"><span class="status-dot"></span> Active</span>
         </div>
-      </div>
 
-      <div class="webhook-group">
-        <h4>&#128220; Event Log (ล่าสุด)</h4>
-        <div class="event-log" id="eventLog">
-          <div class="event-item">
-            <span class="event-time">14:32:18</span>
-            <span class="event-badge event-in">IN</span>
-            <span>LINE: รับใบเสร็จจากผู้ใช้ #4821</span>
+        <div class="webhook-group">
+          <h4>⬆️ Outgoing Webhooks</h4>
+          <div class="webhook-item">
+            <div>
+              <strong style="font-size:13px;">ERP System (SAP)</strong>
+              <div class="webhook-url">https://erp.company.com/api/v2/hook</div>
+            </div>
+            <span class="health-status status-active" style="font-size:11px;"><span class="status-dot"></span> Active</span>
           </div>
-          <div class="event-item">
-            <span class="event-time">14:31:45</span>
-            <span class="event-badge event-out">OUT</span>
-            <span>ERP: ส่งข้อมูลใบเสร็จ #INV-2847</span>
+          <div class="webhook-item">
+            <div>
+              <strong style="font-size:13px;">Accounting (PEAK)</strong>
+              <div class="webhook-url">https://api.peakaccount.com/webhook</div>
+            </div>
+            <span class="health-status status-degraded" style="font-size:11px;"><span class="status-dot"></span> Retry</span>
           </div>
-          <div class="event-item">
-            <span class="event-time">14:30:22</span>
-            <span class="event-badge event-in">IN</span>
-            <span>Email: รับเอกสารแนบ 3 ไฟล์</span>
+          <div class="webhook-item">
+            <div>
+              <strong style="font-size:13px;">Data Warehouse</strong>
+              <div class="webhook-url">https://dwh.company.com/ingest</div>
+            </div>
+            <span class="health-status status-active" style="font-size:11px;"><span class="status-dot"></span> Active</span>
           </div>
-          <div class="event-item">
-            <span class="event-time">14:29:58</span>
-            <span class="event-badge event-err">ERR</span>
-            <span>PEAK: Connection timeout (retry 2/3)</span>
-          </div>
-          <div class="event-item">
-            <span class="event-time">14:28:11</span>
-            <span class="event-badge event-out">OUT</span>
-            <span>Accounting: อัปเดตบัญชีลูกหนี้</span>
-          </div>
-          <div class="event-item">
-            <span class="event-time">14:27:33</span>
-            <span class="event-badge event-in">IN</span>
-            <span>Telegram: รับคำสั่งตรวจสอบสถานะ</span>
-          </div>
-          <div class="event-item">
-            <span class="event-time">14:25:07</span>
-            <span class="event-badge event-out">OUT</span>
-            <span>DWH: sync batch 847 records</span>
-          </div>
-          <div class="event-item">
-            <span class="event-time">14:24:19</span>
-            <span class="event-badge event-in">IN</span>
-            <span>LINE: สแกน QR ใบกำกับภาษี</span>
+        </div>
+
+        <div class="webhook-group">
+          <h4>📜 Event Log (ล่าสุด)</h4>
+          <div class="event-log" id="eventLog">
+            <div class="event-item">
+              <span class="event-time">14:32:18</span>
+              <span class="event-badge event-in">IN</span>
+              <span>LINE: รับใบเสร็จจากผู้ใช้ #4821</span>
+            </div>
+            <div class="event-item">
+              <span class="event-time">14:31:45</span>
+              <span class="event-badge event-out">OUT</span>
+              <span>ERP: ส่งข้อมูลใบเสร็จ #INV-2847</span>
+            </div>
+            <div class="event-item">
+              <span class="event-time">14:30:22</span>
+              <span class="event-badge event-in">IN</span>
+              <span>Email: รับเอกสารแนบ 3 ไฟล์</span>
+            </div>
+            <div class="event-item">
+              <span class="event-time">14:29:58</span>
+              <span class="event-badge event-err">ERR</span>
+              <span>PEAK: Connection timeout (retry 2/3)</span>
+            </div>
+            <div class="event-item">
+              <span class="event-time">14:28:11</span>
+              <span class="event-badge event-out">OUT</span>
+              <span>Accounting: อัปเดตบัญชีลูกหนี้</span>
+            </div>
+            <div class="event-item">
+              <span class="event-time">14:27:33</span>
+              <span class="event-badge event-in">IN</span>
+              <span>Telegram: รับคำสั่งตรวจสอบสถานะ</span>
+            </div>
+            <div class="event-item">
+              <span class="event-time">14:25:07</span>
+              <span class="event-badge event-out">OUT</span>
+              <span>DWH: sync batch 847 records</span>
+            </div>
+            <div class="event-item">
+              <span class="event-time">14:24:19</span>
+              <span class="event-badge event-in">IN</span>
+              <span>LINE: สแกน QR ใบกำกับภาษี</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+
+  </div><!-- end hub-config -->
 
 </div>
 
@@ -1497,7 +1639,7 @@ a.connector-link {
 <div class="modal-overlay" id="wizardModal">
   <div class="modal">
     <div class="modal-title">
-      <span>&#9889; เพิ่ม Connector ใหม่</span>
+      <span>⚡ เพิ่ม Connector ใหม่</span>
       <button class="modal-close" onclick="closeWizard()">&times;</button>
     </div>
 
@@ -1514,15 +1656,15 @@ a.connector-link {
       <div class="form-group">
         <label class="form-label">เลือกหมวดหมู่ Connector</label>
         <div class="provider-grid" style="grid-template-columns: repeat(2,1fr);">
-          <div class="provider-option" onclick="selectCategory(this, 'ocr')"><div class="picon">&#128270;</div>OCR Providers</div>
-          <div class="provider-option" onclick="selectCategory(this, 'ekyc')"><div class="picon">&#129682;</div>eKYC & Identity</div>
-          <div class="provider-option" onclick="selectCategory(this, 'bank')"><div class="picon">&#127974;</div>Banking & Finance</div>
-          <div class="provider-option" onclick="selectCategory(this, 'doc')"><div class="picon">&#128196;</div>Document Types</div>
-          <div class="provider-option" onclick="selectCategory(this, 'comm')"><div class="picon">&#128279;</div>Communication</div>
-          <div class="provider-option" onclick="selectCategory(this, 'cloud')"><div class="picon">&#9729;&#65039;</div>Cloud Storage</div>
+          <div class="provider-option" onclick="selectCategory(this, 'ocr')"><div class="picon">🔎</div>OCR Providers</div>
+          <div class="provider-option" onclick="selectCategory(this, 'ekyc')"><div class="picon">🪪</div>eKYC & Identity</div>
+          <div class="provider-option" onclick="selectCategory(this, 'bank')"><div class="picon">🏦</div>Banking & Finance</div>
+          <div class="provider-option" onclick="selectCategory(this, 'doc')"><div class="picon">📄</div>Document Types</div>
+          <div class="provider-option" onclick="selectCategory(this, 'comm')"><div class="picon">🔗</div>Communication</div>
+          <div class="provider-option" onclick="selectCategory(this, 'cloud')"><div class="picon">☁️</div>Cloud Storage</div>
         </div>
       </div>
-      <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="nextStep(2)">ถัดไป &#10140;</button>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="nextStep(2)">ถัดไป ➜</button>
     </div>
 
     <!-- Step 2: Provider -->
@@ -1534,8 +1676,8 @@ a.connector-link {
         </div>
       </div>
       <div style="display:flex;gap:8px;">
-        <button class="btn btn-secondary" style="flex:1;justify-content:center;" onclick="nextStep(1)">&#10094; กลับ</button>
-        <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="nextStep(3)">ถัดไป &#10140;</button>
+        <button class="btn btn-secondary" style="flex:1;justify-content:center;" onclick="nextStep(1)">❮ กลับ</button>
+        <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="nextStep(3)">ถัดไป ➜</button>
       </div>
     </div>
 
@@ -1560,29 +1702,29 @@ a.connector-link {
         </select>
       </div>
       <div style="display:flex;gap:8px;">
-        <button class="btn btn-secondary" style="flex:1;justify-content:center;" onclick="nextStep(2)">&#10094; กลับ</button>
-        <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="nextStep(4)">ถัดไป &#10140;</button>
+        <button class="btn btn-secondary" style="flex:1;justify-content:center;" onclick="nextStep(2)">❮ กลับ</button>
+        <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="nextStep(4)">ถัดไป ➜</button>
       </div>
     </div>
 
     <!-- Step 4: Test -->
     <div class="wizard-content" id="wizStep4" style="display:none;">
       <div style="text-align:center;padding:20px 0;">
-        <div style="font-size:48px;margin-bottom:12px;">&#128268;</div>
+        <div style="font-size:48px;margin-bottom:12px;">🔌</div>
         <p style="color:var(--text-dim);margin-bottom:20px;">คลิกเพื่อทดสอบการเชื่อมต่อ</p>
-        <button class="btn btn-primary" style="padding:12px 32px;font-size:14px;" onclick="testConnection()">&#9889; ทดสอบการเชื่อมต่อ</button>
+        <button class="btn btn-primary" style="padding:12px 32px;font-size:14px;" onclick="testConnection()">⚡ ทดสอบการเชื่อมต่อ</button>
       </div>
       <div class="test-result" id="testResult"></div>
       <div style="display:flex;gap:8px;margin-top:16px;">
-        <button class="btn btn-secondary" style="flex:1;justify-content:center;" onclick="nextStep(3)">&#10094; กลับ</button>
-        <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="nextStep(5)" id="btnToStep5" disabled>ถัดไป &#10140;</button>
+        <button class="btn btn-secondary" style="flex:1;justify-content:center;" onclick="nextStep(3)">❮ กลับ</button>
+        <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="nextStep(5)" id="btnToStep5" disabled>ถัดไป ➜</button>
       </div>
     </div>
 
     <!-- Step 5: Activate -->
     <div class="wizard-content" id="wizStep5" style="display:none;">
       <div style="text-align:center;padding:20px 0;">
-        <div style="font-size:48px;margin-bottom:12px;">&#9989;</div>
+        <div style="font-size:48px;margin-bottom:12px;">✅</div>
         <h3 style="margin-bottom:8px;">เชื่อมต่อสำเร็จ!</h3>
         <p style="color:var(--text-dim);margin-bottom:20px;">Connector พร้อมใช้งาน กรุณายืนยันการเปิดใช้งาน</p>
       </div>
@@ -1603,56 +1745,66 @@ a.connector-link {
           </label>
         </div>
       </div>
-      <button class="btn btn-success" style="width:100%;justify-content:center;padding:12px;font-size:14px;" onclick="activateConnector()">&#9989; เปิดใช้งาน Connector</button>
+      <button class="btn btn-success" style="width:100%;justify-content:center;padding:12px;font-size:14px;" onclick="activateConnector()">✅ เปิดใช้งาน Connector</button>
     </div>
   </div>
 </div>
 
 <script>
 // =======================
+// Hub Tab Switching
+// =======================
+function switchHubTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('hub-dashboard').style.display = tab === 'dashboard' ? 'block' : 'none';
+  document.getElementById('hub-config').style.display = tab === 'config' ? 'block' : 'none';
+}
+
+// =======================
 // Connector Data
 // =======================
 const connectors = [
   // OCR Providers (6)
-  { name:'Google Document AI', cat:'ocr', icon:'&#127468;', iconBg:'linear-gradient(135deg,#4285F4,#34A853)', status:'active', lastActivity:'2 นาทีที่แล้ว', apiCalls:'3,842', link:'global-ocr-providers.html' },
-  { name:'ANTS OCR Thai', cat:'ocr', icon:'&#129716;', iconBg:'linear-gradient(135deg,#2563EB,#7C3AED)', status:'active', lastActivity:'30 วินาทีที่แล้ว', apiCalls:'3,256', link:'thai-ocr-providers.html' },
-  { name:'AWS Textract', cat:'ocr', icon:'&#9729;&#65039;', iconBg:'linear-gradient(135deg,#FF9900,#EC7211)', status:'active', lastActivity:'5 นาทีที่แล้ว', apiCalls:'2,487', link:'global-ocr-providers.html' },
-  { name:'Azure Form Recognizer', cat:'ocr', icon:'&#9883;', iconBg:'linear-gradient(135deg,#0078D4,#00BCF2)', status:'degraded', lastActivity:'1 นาทีที่แล้ว', apiCalls:'1,810', link:'global-ocr-providers.html' },
-  { name:'iApp Thai OCR', cat:'ocr', icon:'&#127481;&#127469;', iconBg:'linear-gradient(135deg,#059669,#10B981)', status:'active', lastActivity:'8 นาทีที่แล้ว', apiCalls:'998', link:'thai-ocr-providers.html' },
-  { name:'Tesseract Thai', cat:'ocr', icon:'&#128300;', iconBg:'linear-gradient(135deg,#6366F1,#8B5CF6)', status:'active', lastActivity:'15 นาทีที่แล้ว', apiCalls:'454', link:'thai-ocr-providers.html' },
+  { name:'Google Document AI', cat:'ocr', icon:'🇬', iconBg:'linear-gradient(135deg,#4285F4,#34A853)', status:'active', lastActivity:'2 นาทีที่แล้ว', apiCalls:'3,842', link:'global-ocr-providers.html' },
+  { name:'ANTS OCR Thai', cat:'ocr', icon:'🔬', iconBg:'linear-gradient(135deg,#2563EB,#7C3AED)', status:'active', lastActivity:'30 วินาทีที่แล้ว', apiCalls:'3,256', link:'thai-ocr-providers.html' },
+  { name:'AWS Textract', cat:'ocr', icon:'☁️', iconBg:'linear-gradient(135deg,#FF9900,#EC7211)', status:'active', lastActivity:'5 นาทีที่แล้ว', apiCalls:'2,487', link:'global-ocr-providers.html' },
+  { name:'Azure Form Recognizer', cat:'ocr', icon:'⚛', iconBg:'linear-gradient(135deg,#0078D4,#00BCF2)', status:'degraded', lastActivity:'1 นาทีที่แล้ว', apiCalls:'1,810', link:'global-ocr-providers.html' },
+  { name:'iApp Thai OCR', cat:'ocr', icon:'🇹🇭', iconBg:'linear-gradient(135deg,#059669,#10B981)', status:'active', lastActivity:'8 นาทีที่แล้ว', apiCalls:'998', link:'thai-ocr-providers.html' },
+  { name:'Tesseract Thai', cat:'ocr', icon:'🔬', iconBg:'linear-gradient(135deg,#6366F1,#8B5CF6)', status:'active', lastActivity:'15 นาทีที่แล้ว', apiCalls:'454', link:'thai-ocr-providers.html' },
 
   // eKYC & Identity (4)
-  { name:'ANTS Thai ID Verify', cat:'ekyc', icon:'&#129682;', iconBg:'linear-gradient(135deg,#7C3AED,#A855F7)', status:'active', lastActivity:'1 นาทีที่แล้ว', apiCalls:'1,245', link:'thai-ocr-providers.html' },
-  { name:'NDID Gateway', cat:'ekyc', icon:'&#128273;', iconBg:'linear-gradient(135deg,#0E7490,#06B6D4)', status:'active', lastActivity:'3 นาทีที่แล้ว', apiCalls:'876', link:'thai-ocr-providers.html' },
-  { name:'Jumio Identity', cat:'ekyc', icon:'&#128274;', iconBg:'linear-gradient(135deg,#DC2626,#EF4444)', status:'inactive', lastActivity:'ไม่เคยเชื่อมต่อ', apiCalls:'0', link:'#' },
-  { name:'Onfido KYC', cat:'ekyc', icon:'&#127757;', iconBg:'linear-gradient(135deg,#2563EB,#3B82F6)', status:'inactive', lastActivity:'ไม่เคยเชื่อมต่อ', apiCalls:'0', link:'#' },
+  { name:'ANTS Thai ID Verify', cat:'ekyc', icon:'🪪', iconBg:'linear-gradient(135deg,#7C3AED,#A855F7)', status:'active', lastActivity:'1 นาทีที่แล้ว', apiCalls:'1,245', link:'thai-ocr-providers.html' },
+  { name:'NDID Gateway', cat:'ekyc', icon:'🔑', iconBg:'linear-gradient(135deg,#0E7490,#06B6D4)', status:'active', lastActivity:'3 นาทีที่แล้ว', apiCalls:'876', link:'thai-ocr-providers.html' },
+  { name:'Jumio Identity', cat:'ekyc', icon:'🔒', iconBg:'linear-gradient(135deg,#DC2626,#EF4444)', status:'inactive', lastActivity:'ไม่เคยเชื่อมต่อ', apiCalls:'0', link:'#' },
+  { name:'Onfido KYC', cat:'ekyc', icon:'🌍', iconBg:'linear-gradient(135deg,#2563EB,#3B82F6)', status:'inactive', lastActivity:'ไม่เคยเชื่อมต่อ', apiCalls:'0', link:'#' },
 
   // Banking & Finance (5)
-  { name:'PromptPay Gateway', cat:'bank', icon:'&#128179;', iconBg:'linear-gradient(135deg,#059669,#34D399)', status:'active', lastActivity:'45 วินาทีที่แล้ว', apiCalls:'2,134', link:'#' },
-  { name:'BOT API (ธปท.)', cat:'bank', icon:'&#127974;', iconBg:'linear-gradient(135deg,#1D4ED8,#2563EB)', status:'active', lastActivity:'1 ชม. ที่แล้ว', apiCalls:'156', link:'#' },
-  { name:'SCB Open Banking', cat:'bank', icon:'&#128156;', iconBg:'linear-gradient(135deg,#7C3AED,#6D28D9)', status:'active', lastActivity:'12 นาทีที่แล้ว', apiCalls:'543', link:'#' },
-  { name:'KBank API', cat:'bank', icon:'&#128154;', iconBg:'linear-gradient(135deg,#059669,#047857)', status:'active', lastActivity:'20 นาทีที่แล้ว', apiCalls:'421', link:'#' },
-  { name:'BBL Corporate', cat:'bank', icon:'&#128309;', iconBg:'linear-gradient(135deg,#1E40AF,#1D4ED8)', status:'degraded', lastActivity:'5 นาทีที่แล้ว', apiCalls:'287', link:'#' },
+  { name:'PromptPay Gateway', cat:'bank', icon:'💳', iconBg:'linear-gradient(135deg,#059669,#34D399)', status:'active', lastActivity:'45 วินาทีที่แล้ว', apiCalls:'2,134', link:'#' },
+  { name:'BOT API (ธปท.)', cat:'bank', icon:'🏦', iconBg:'linear-gradient(135deg,#1D4ED8,#2563EB)', status:'active', lastActivity:'1 ชม. ที่แล้ว', apiCalls:'156', link:'#' },
+  { name:'SCB Open Banking', cat:'bank', icon:'💜', iconBg:'linear-gradient(135deg,#7C3AED,#6D28D9)', status:'active', lastActivity:'12 นาทีที่แล้ว', apiCalls:'543', link:'#' },
+  { name:'KBank API', cat:'bank', icon:'💚', iconBg:'linear-gradient(135deg,#059669,#047857)', status:'active', lastActivity:'20 นาทีที่แล้ว', apiCalls:'421', link:'#' },
+  { name:'BBL Corporate', cat:'bank', icon:'🔵', iconBg:'linear-gradient(135deg,#1E40AF,#1D4ED8)', status:'degraded', lastActivity:'5 นาทีที่แล้ว', apiCalls:'287', link:'#' },
 
   // Document Types (6)
-  { name:'ใบเสร็จรับเงิน OCR', cat:'doc', icon:'&#129534;', iconBg:'linear-gradient(135deg,#EA580C,#F97316)', status:'active', lastActivity:'1 นาทีที่แล้ว', apiCalls:'4,521', link:'../modules/expense-receipt-ocr.html' },
-  { name:'ใบกำกับภาษี Parser', cat:'doc', icon:'&#128196;', iconBg:'linear-gradient(135deg,#059669,#10B981)', status:'active', lastActivity:'3 นาทีที่แล้ว', apiCalls:'2,187', link:'#' },
-  { name:'บัตรประชาชน Reader', cat:'doc', icon:'&#129682;', iconBg:'linear-gradient(135deg,#2563EB,#3B82F6)', status:'active', lastActivity:'10 นาทีที่แล้ว', apiCalls:'1,034', link:'#' },
-  { name:'หนังสือเดินทาง OCR', cat:'doc', icon:'&#128218;', iconBg:'linear-gradient(135deg,#DC2626,#EF4444)', status:'active', lastActivity:'25 นาทีที่แล้ว', apiCalls:'312', link:'#' },
-  { name:'ใบสั่งซื้อ (PO) Reader', cat:'doc', icon:'&#128230;', iconBg:'linear-gradient(135deg,#D97706,#F59E0B)', status:'active', lastActivity:'8 นาทีที่แล้ว', apiCalls:'678', link:'#' },
-  { name:'สัญญา / Contract AI', cat:'doc', icon:'&#128221;', iconBg:'linear-gradient(135deg,#7C3AED,#A855F7)', status:'inactive', lastActivity:'ไม่เคยเปิดใช้', apiCalls:'0', link:'#' },
+  { name:'ใบเสร็จรับเงิน OCR', cat:'doc', icon:'🧾', iconBg:'linear-gradient(135deg,#EA580C,#F97316)', status:'active', lastActivity:'1 นาทีที่แล้ว', apiCalls:'4,521', link:'../modules/expense-receipt-ocr.html' },
+  { name:'ใบกำกับภาษี Parser', cat:'doc', icon:'📄', iconBg:'linear-gradient(135deg,#059669,#10B981)', status:'active', lastActivity:'3 นาทีที่แล้ว', apiCalls:'2,187', link:'#' },
+  { name:'บัตรประชาชน Reader', cat:'doc', icon:'🪪', iconBg:'linear-gradient(135deg,#2563EB,#3B82F6)', status:'active', lastActivity:'10 นาทีที่แล้ว', apiCalls:'1,034', link:'#' },
+  { name:'หนังสือเดินทาง OCR', cat:'doc', icon:'📚', iconBg:'linear-gradient(135deg,#DC2626,#EF4444)', status:'active', lastActivity:'25 นาทีที่แล้ว', apiCalls:'312', link:'#' },
+  { name:'ใบสั่งซื้อ (PO) Reader', cat:'doc', icon:'📦', iconBg:'linear-gradient(135deg,#D97706,#F59E0B)', status:'active', lastActivity:'8 นาทีที่แล้ว', apiCalls:'678', link:'#' },
+  { name:'สัญญา / Contract AI', cat:'doc', icon:'📝', iconBg:'linear-gradient(135deg,#7C3AED,#A855F7)', status:'inactive', lastActivity:'ไม่เคยเปิดใช้', apiCalls:'0', link:'#' },
 
   // Communication (4)
-  { name:'LINE Official Account', cat:'comm', icon:'&#128172;', iconBg:'linear-gradient(135deg,#06C755,#00B900)', status:'active', lastActivity:'10 วินาทีที่แล้ว', apiCalls:'5,432', link:'#' },
-  { name:'Email (SendGrid)', cat:'comm', icon:'&#128231;', iconBg:'linear-gradient(135deg,#2563EB,#1D4ED8)', status:'active', lastActivity:'2 นาทีที่แล้ว', apiCalls:'1,876', link:'#' },
-  { name:'Telegram Bot', cat:'comm', icon:'&#9992;&#65039;', iconBg:'linear-gradient(135deg,#0088CC,#229ED9)', status:'active', lastActivity:'5 นาทีที่แล้ว', apiCalls:'543', link:'#' },
-  { name:'MS Teams', cat:'comm', icon:'&#128225;', iconBg:'linear-gradient(135deg,#5B5FC7,#7B83EB)', status:'inactive', lastActivity:'ไม่เคยเชื่อมต่อ', apiCalls:'0', link:'#' },
+  { name:'LINE Official Account', cat:'comm', icon:'💬', iconBg:'linear-gradient(135deg,#06C755,#00B900)', status:'active', lastActivity:'10 วินาทีที่แล้ว', apiCalls:'5,432', link:'#' },
+  { name:'Email (SendGrid)', cat:'comm', icon:'📧', iconBg:'linear-gradient(135deg,#2563EB,#1D4ED8)', status:'active', lastActivity:'2 นาทีที่แล้ว', apiCalls:'1,876', link:'#' },
+  { name:'Telegram Bot', cat:'comm', icon:'✈️', iconBg:'linear-gradient(135deg,#0088CC,#229ED9)', status:'active', lastActivity:'5 นาทีที่แล้ว', apiCalls:'543', link:'#' },
+  { name:'MS Teams', cat:'comm', icon:'📡', iconBg:'linear-gradient(135deg,#5B5FC7,#7B83EB)', status:'inactive', lastActivity:'ไม่เคยเชื่อมต่อ', apiCalls:'0', link:'#' },
 
   // Cloud Storage (4)
-  { name:'Google Drive', cat:'cloud', icon:'&#128194;', iconBg:'linear-gradient(135deg,#4285F4,#34A853)', status:'active', lastActivity:'1 นาทีที่แล้ว', apiCalls:'2,341', link:'#' },
-  { name:'OneDrive', cat:'cloud', icon:'&#9729;&#65039;', iconBg:'linear-gradient(135deg,#0078D4,#00A4EF)', status:'active', lastActivity:'15 นาทีที่แล้ว', apiCalls:'876', link:'#' },
-  { name:'Dropbox', cat:'cloud', icon:'&#128230;', iconBg:'linear-gradient(135deg,#0061FE,#0070FF)', status:'down', lastActivity:'ขัดข้อง 15 นาที', apiCalls:'0', link:'#' },
-  { name:'Amazon S3', cat:'cloud', icon:'&#128463;&#65039;', iconBg:'linear-gradient(135deg,#FF9900,#EC7211)', status:'active', lastActivity:'30 วินาทีที่แล้ว', apiCalls:'3,456', link:'#' },
+  { name:'Google Drive', cat:'cloud', icon:'📂', iconBg:'linear-gradient(135deg,#4285F4,#34A853)', status:'active', lastActivity:'1 นาทีที่แล้ว', apiCalls:'2,341', link:'#' },
+  { name:'OneDrive', cat:'cloud', icon:'☁️', iconBg:'linear-gradient(135deg,#0078D4,#00A4EF)', status:'active', lastActivity:'15 นาทีที่แล้ว', apiCalls:'876', link:'#' },
+  { name:'Dropbox', cat:'cloud', icon:'📦', iconBg:'linear-gradient(135deg,#0061FE,#0070FF)', status:'down', lastActivity:'ขัดข้อง 15 นาที', apiCalls:'0', link:'#' },
+  { name:'Amazon S3', cat:'cloud', icon:'🗃️', iconBg:'linear-gradient(135deg,#FF9900,#EC7211)', status:'active', lastActivity:'30 วินาทีที่แล้ว', apiCalls:'3,456', link:'#' },
 ];
 
 const catLabels = {
@@ -1702,9 +1854,9 @@ function renderConnectors() {
         <div class="connector-stat"><strong>${c.lastActivity}</strong>กิจกรรมล่าสุด</div>
       </div>
       <div class="connector-actions">
-        <a href="${c.link}" class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;text-decoration:none;">&#9881; ตั้งค่า</a>
-        <button class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;" onclick="testSingle('${c.name}')">&#9889; ทดสอบ</button>
-        <button class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;" onclick="toggleConnector('${c.name}', '${c.status}')">${c.status === 'active' || c.status === 'degraded' ? '&#9940; ปิด' : '&#9989; เปิด'}</button>
+        <a href="${c.link}" class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;text-decoration:none;">⚙ ตั้งค่า</a>
+        <button class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;" onclick="testSingle('${c.name}')">⚡ ทดสอบ</button>
+        <button class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;" onclick="toggleConnector('${c.name}', '${c.status}')">${c.status === 'active' || c.status === 'degraded' ? '⛔ ปิด' : '✅ เปิด'}</button>
       </div>
     </div>`;
   }).join('');
@@ -1797,7 +1949,7 @@ function renderProviderOptions() {
   const el = document.getElementById('providerOptions');
   const providers = providersByCat[selectedCategory] || [];
   el.innerHTML = providers.map(p =>
-    `<div class="provider-option" onclick="selectProvider(this, '${p}')"><div class="picon">&#128268;</div>${p}</div>`
+    `<div class="provider-option" onclick="selectProvider(this, '${p}')"><div class="picon">🔌</div>${p}</div>`
   ).join('');
 }
 
@@ -1811,14 +1963,14 @@ function testConnection() {
   const result = document.getElementById('testResult');
   result.className = 'test-result';
   result.style.display = 'block';
-  result.innerHTML = '&#9203; กำลังทดสอบการเชื่อมต่อ...';
+  result.innerHTML = '⏳ กำลังทดสอบการเชื่อมต่อ...';
   result.style.background = 'rgba(37,99,235,0.15)';
   result.style.borderColor = 'rgba(37,99,235,0.3)';
   result.style.color = '#60A5FA';
 
   setTimeout(() => {
     result.className = 'test-result success';
-    result.innerHTML = '&#9989; เชื่อมต่อสำเร็จ! Response time: 1.2s | API version: v2.1';
+    result.innerHTML = '✅ เชื่อมต่อสำเร็จ! Response time: 1.2s | API version: v2.1';
     document.getElementById('btnToStep5').disabled = false;
   }, 2000);
 }

@@ -399,7 +399,11 @@ th:first-child,td:first-child{padding-left:16px;}
           <input type="date" id="formDate">
         </div>
         <div class="form-group full">
-          <label>แนบใบเสร็จ</label>
+          <label>&#128247; แนบใบเสร็จ</label>
+          <div style="display:flex;gap:8px;margin-bottom:8px;">
+            <button class="action-btn scan" style="font-size:12px;padding:6px 12px;" onclick="goToReceiptOCR()">&#128247; สแกนด้วย AI OCR</button>
+            <button class="action-btn" style="font-size:12px;padding:6px 12px;" onclick="document.getElementById('fileInput').click()">&#128206; อัพโหลดไฟล์</button>
+          </div>
           <div class="file-upload" onclick="document.getElementById('fileInput').click()">
             <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:block;margin:0 auto 8px;"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
             คลิกเพื่ออัปโหลด หรือลากไฟล์มาวาง<br><small>รองรับ JPG, PNG, PDF (ไม่เกิน 10MB)</small>
@@ -827,10 +831,16 @@ function bulkAction(action) {
   renderTable();
 }
 
-// Scan receipt link
+// Scan receipt link — navigate to Receipt OCR Scanner
 function openScanReceipt() {
-  showToast('กำลังเปิดหน้า Receipt OCR...');
-  // In production: window.location.href = 'receipt-ocr.html';
+  goToReceiptOCR();
+}
+function goToReceiptOCR() {
+  if (window.parent && window.parent !== window) {
+    window.parent.postMessage({type:'navigate', url:'modules/expense-receipt-ocr.html', title:'Receipt OCR Scanner'}, '*');
+  } else {
+    window.location.href = 'expense-receipt-ocr.html';
+  }
 }
 
 // Toast
@@ -1034,6 +1044,15 @@ document.getElementById('fileInput').addEventListener('change', function() {
 function getItemsTotal(items) {
   return items.reduce((s, i) => s + i.amt, 0);
 }
+
+// Listen for postMessage from Receipt OCR to auto-navigate
+window.addEventListener('message', function(e) {
+  if (e.data && e.data.type === 'navigate') {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage(e.data, '*');
+    }
+  }
+});
 
 // Responsive table scroll hint
 (function addScrollHint() {

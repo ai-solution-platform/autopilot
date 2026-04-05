@@ -971,6 +971,8 @@ function reuseHistoryCalc() {
   if (!currentDrawerRecord) return;
   const d = currentDrawerRecord.reuseData;
   document.getElementById('itemName').value = d.name;
+  document.getElementById('shipmentId').value = '';
+  document.getElementById('qty').value = 1;
   document.getElementById('fob').value = d.fob;
   document.getElementById('currency').value = d.currency;
   document.getElementById('freight').value = d.freight;

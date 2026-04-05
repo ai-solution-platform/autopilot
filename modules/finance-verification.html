@@ -80,7 +80,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .badge-invoice{background:var(--blue-bg);color:var(--blue);}
 .badge-contract{background:var(--purple-bg);color:var(--purple);}
 .badge-id{background:var(--green-bg);color:var(--green);}
-.badge-bank{background:var(--cyan);color:#fff;background:rgba(8,145,178,0.12);color:var(--cyan);}
+.badge-bank{background:rgba(8,145,178,0.12);color:var(--cyan);}
 .badge-guarantee{background:var(--orange-bg);color:var(--orange);}
 
 .verifier-cell{display:flex;align-items:center;gap:8px;}
@@ -126,9 +126,54 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .ocr-row .value{color:var(--text);font-weight:600;}
 .verify-result{margin-top:16px;padding:14px;border-radius:10px;display:flex;align-items:center;gap:10px;}
 .verify-result.pass{background:var(--green-bg);border:1px solid rgba(5,150,105,0.2);}
+.verify-result.fail{background:var(--red-bg);border:1px solid rgba(220,38,38,0.2);}
+.verify-result.warning{background:var(--orange-bg);border:1px solid rgba(217,119,6,0.2);}
+.verify-result.pending-result{background:var(--bg2);border:1px solid var(--border);}
 .verify-result .vr-icon{font-size:1.2rem;}
-.verify-result .vr-text .vr-label{font-size:0.82rem;font-weight:700;color:var(--green);}
+.verify-result .vr-text .vr-label{font-size:0.82rem;font-weight:700;}
+.verify-result.pass .vr-text .vr-label{color:var(--green);}
+.verify-result.fail .vr-text .vr-label{color:var(--red);}
+.verify-result.warning .vr-text .vr-label{color:var(--orange);}
+.verify-result.pending-result .vr-text .vr-label{color:var(--muted);}
 .verify-result .vr-text .vr-sub{font-size:0.7rem;color:var(--muted);}
+
+/* Checklist */
+.check-list{margin-top:12px;}
+.check-item{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:0.75rem;}
+.check-item:last-child{border-bottom:none;}
+.check-item .check-label{display:flex;align-items:center;gap:6px;color:var(--text2);}
+.check-item .check-conf{font-weight:600;font-size:0.7rem;}
+
+/* Timeline */
+.timeline-section{margin-top:14px;}
+.timeline-list{overflow:hidden;transition:max-height 0.35s ease;}
+.timeline-list.collapsed{max-height:120px;}
+.timeline-list.expanded{max-height:600px;}
+.timeline-entry{display:flex;gap:10px;padding:6px 0;font-size:0.72rem;border-left:2px solid var(--border);margin-left:6px;padding-left:12px;position:relative;}
+.timeline-entry::before{content:'';position:absolute;left:-5px;top:10px;width:8px;height:8px;border-radius:50%;background:var(--border);}
+.timeline-entry.tl-success::before{background:var(--green);}
+.timeline-entry.tl-warning::before{background:var(--orange);}
+.timeline-entry.tl-error::before{background:var(--red);}
+.timeline-entry.tl-info::before{background:var(--blue);}
+.timeline-time{color:var(--muted);font-weight:600;white-space:nowrap;min-width:36px;}
+.timeline-body{flex:1;}
+.timeline-action{color:var(--text2);}
+.timeline-user{color:var(--muted);font-size:0.65rem;}
+
+.timeline-toggle{display:block;width:100%;text-align:center;padding:6px 0;font-size:0.7rem;font-weight:600;color:var(--blue);cursor:pointer;border:none;background:transparent;font-family:inherit;margin-top:4px;}
+.timeline-toggle:hover{text-decoration:underline;}
+
+/* Compact action buttons in sidebar */
+.compact-actions{display:flex;gap:4px;flex-wrap:wrap;margin-top:14px;}
+.compact-actions button{padding:5px 12px;font-size:0.72rem;font-weight:600;border-radius:6px;border:1px solid var(--border);cursor:pointer;transition:all 0.2s;font-family:inherit;display:inline-flex;align-items:center;gap:4px;}
+.compact-actions .ca-approve{background:var(--green-bg);color:var(--green);border-color:rgba(5,150,105,0.25);}
+.compact-actions .ca-approve:hover{background:var(--green);color:#fff;}
+.compact-actions .ca-reject{background:var(--red-bg);color:var(--red);border-color:rgba(220,38,38,0.25);}
+.compact-actions .ca-reject:hover{background:var(--red);color:#fff;}
+.compact-actions .ca-escalate{background:var(--purple-bg);color:var(--purple);border-color:rgba(124,58,237,0.25);}
+.compact-actions .ca-escalate:hover{background:var(--purple);color:#fff;}
+.compact-actions .ca-note{background:var(--bg2);color:var(--text2);border-color:var(--border);}
+.compact-actions .ca-note:hover{background:var(--blue-bg);color:var(--blue);border-color:var(--blue);}
 
 /* Toast */
 .toast-container{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;flex-direction:column;gap:8px;}
@@ -141,7 +186,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 </style>
 </head>
 <body>
-<button class="dark-toggle" onclick="document.body.classList.toggle('dark');this.textContent=document.body.classList.contains('dark')?'&#9728;':'&#9790;'">&#9790;</button>
+<button class="dark-toggle" onclick="document.body.classList.toggle('dark');this.textContent=document.body.classList.contains('dark')?'☀':'☾'">☾</button>
 
 <!-- Header -->
 <nav class="header">
@@ -153,8 +198,8 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
         <a href="#">Autopilot v2</a> / <a href="finance-cases.html">Finance Doc Hub</a> / <span style="color:var(--text);font-weight:500;">Verification Queue</span>
     </div>
     <div class="header-user">
-        <span style="font-size:0.78rem;color:var(--text2);">&#3611;&#3619;&#3637;&#3594;&#3634; &#3617;. | Senior Officer</span>
-        <div class="avatar">&#3611;&#3617;</div>
+        <span style="font-size:0.78rem;color:var(--text2);">ปรีชา ม. | Senior Officer</span>
+        <div class="avatar">ปม</div>
     </div>
 </nav>
 
@@ -162,38 +207,38 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
     <!-- Stats -->
     <div class="stats-grid">
         <div class="stat-card">
-            <div class="stat-icon">&#128203;</div>
-            <div class="stat-value">34</div>
-            <div class="stat-label">&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;&#3619;&#3629;&#3605;&#3619;&#3623;&#3592;&#3626;&#3629;&#3610;</div>
-            <div class="stat-sub">&#3592;&#3634;&#3585; 18 &#3648;&#3588;&#3626;</div>
+            <div class="stat-icon">📋</div>
+            <div class="stat-value" id="statTotal">8</div>
+            <div class="stat-label">เอกสารรอตรวจสอบ</div>
+            <div class="stat-sub">จาก 6 เคส</div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon">&#9203;</div>
-            <div class="stat-value">12</div>
-            <div class="stat-label">&#3585;&#3635;&#3621;&#3633;&#3591;&#3605;&#3619;&#3623;&#3592;&#3626;&#3629;&#3610;</div>
-            <div class="stat-sub">&#3650;&#3604;&#3618; 5 &#3648;&#3592;&#3657;&#3634;&#3627;&#3609;&#3657;&#3634;&#3607;&#3637;&#3656;</div>
+            <div class="stat-icon">⏳</div>
+            <div class="stat-value" id="statVerifying">2</div>
+            <div class="stat-label">กำลังตรวจสอบ</div>
+            <div class="stat-sub">โดย 2 เจ้าหน้าที่</div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon">&#9989;</div>
-            <div class="stat-value">156</div>
-            <div class="stat-label">&#3612;&#3656;&#3634;&#3609;&#3649;&#3621;&#3657;&#3623;&#3623;&#3633;&#3609;&#3609;&#3637;&#3657;</div>
-            <div class="stat-sub">&#3588;&#3623;&#3634;&#3617;&#3606;&#3641;&#3585;&#3605;&#3657;&#3629;&#3591; 98.7%</div>
+            <div class="stat-icon">✅</div>
+            <div class="stat-value" id="statVerified">2</div>
+            <div class="stat-label">ผ่านแล้ววันนี้</div>
+            <div class="stat-sub">ความถูกต้อง 98.7%</div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon">&#128680;</div>
-            <div class="stat-value">5</div>
-            <div class="stat-label">&#3605;&#3619;&#3623;&#3592;&#3652;&#3617;&#3656;&#3612;&#3656;&#3634;&#3609; / Escalated</div>
-            <div class="stat-sub">&#3605;&#3657;&#3629;&#3591; Senior &#3605;&#3619;&#3623;&#3592;</div>
+            <div class="stat-icon">🚨</div>
+            <div class="stat-value" id="statFailed">2</div>
+            <div class="stat-label">ตรวจไม่ผ่าน / Escalated</div>
+            <div class="stat-sub">ต้อง Senior ตรวจ</div>
         </div>
     </div>
 
     <!-- Filter -->
     <div class="filter-row">
-        <div class="filter-tabs">
-            <button class="filter-tab active" onclick="filterQueue(this,'all')">&#3607;&#3633;&#3657;&#3591;&#3627;&#3617;&#3604; <span class="count">34</span></button>
-            <button class="filter-tab" onclick="filterQueue(this,'my')">&#3586;&#3629;&#3591;&#3593;&#3633;&#3609; <span class="count">8</span></button>
-            <button class="filter-tab" onclick="filterQueue(this,'unassigned')">&#3618;&#3633;&#3591;&#3652;&#3617;&#3656;&#3617;&#3637;&#3588;&#3609;&#3619;&#3633;&#3610; <span class="count">6</span></button>
-            <button class="filter-tab" onclick="filterQueue(this,'escalated')">Escalated <span class="count" style="background:var(--red);color:#fff;">5</span></button>
+        <div class="filter-tabs" id="filterTabs">
+            <button class="filter-tab active" onclick="filterQueue(this,'all')">ทั้งหมด <span class="count" id="countAll">8</span></button>
+            <button class="filter-tab" onclick="filterQueue(this,'my')">ของฉัน <span class="count" id="countMy">3</span></button>
+            <button class="filter-tab" onclick="filterQueue(this,'unassigned')">ยังไม่มีคนรับ <span class="count" id="countUnassigned">1</span></button>
+            <button class="filter-tab" onclick="filterQueue(this,'escalated')">Escalated <span class="count" id="countEscalated" style="background:var(--red);color:#fff;">1</span></button>
         </div>
     </div>
 
@@ -202,208 +247,21 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
         <div>
             <div class="queue-card">
                 <div class="queue-header">
-                    <h3>&#128203; Verification Queue &#3607;&#3633;&#3657;&#3591;&#3627;&#3617;&#3604;</h3>
+                    <h3>📋 Verification Queue ทั้งหมด</h3>
                 </div>
                 <table class="queue-table">
                     <thead>
                         <tr>
-                            <th>&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;</th>
-                            <th>&#3648;&#3588;&#3626;</th>
-                            <th>&#3611;&#3619;&#3632;&#3648;&#3616;&#3607;</th>
-                            <th>&#3612;&#3641;&#3657;&#3605;&#3619;&#3623;&#3592;</th>
-                            <th>&#3626;&#3606;&#3634;&#3609;&#3632;</th>
+                            <th>เอกสาร</th>
+                            <th>เคส</th>
+                            <th>ประเภท</th>
+                            <th>ผู้ตรวจ</th>
+                            <th>สถานะ</th>
                             <th>AI Conf.</th>
-                            <th>&#3604;&#3635;&#3648;&#3609;&#3636;&#3609;&#3585;&#3634;&#3619;</th>
+                            <th>ดำเนินการ</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr onclick="selectDoc(this, 1)" style="cursor:pointer;">
-                            <td style="font-weight:600;color:var(--text);">Invoice #INV-4521</td>
-                            <td><a href="finance-case-detail.html" style="color:var(--blue);font-weight:600;text-decoration:none;">#0847</a></td>
-                            <td><span class="doc-type-badge badge-invoice">&#128196; Invoice</span></td>
-                            <td>
-                                <div class="verifier-cell">
-                                    <div class="v-avatar" style="background:#2563EB;">&#3611;&#3617;</div>
-                                    &#3611;&#3619;&#3637;&#3594;&#3634; &#3617;.
-                                </div>
-                            </td>
-                            <td><span class="status-pill status-verifying">&#9679; &#3605;&#3619;&#3623;&#3592;&#3626;&#3629;&#3610;</span></td>
-                            <td>
-                                <div class="confidence-mini">
-                                    <div class="conf-bar"><div class="fill" style="width:97%;background:var(--green);"></div></div>
-                                    <span style="font-size:0.72rem;font-weight:600;color:var(--green);">97%</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="action-btns">
-                                    <button class="btn-approve" onclick="event.stopPropagation();doAction('approve','Invoice #INV-4521')">&#10003; &#3612;&#3656;&#3634;&#3609;</button>
-                                    <button class="btn-reject" onclick="event.stopPropagation();doAction('reject','Invoice #INV-4521')">&#10007;</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr onclick="selectDoc(this, 2)" style="cursor:pointer;">
-                            <td style="font-weight:600;color:var(--text);">Bill of Lading #BL-882</td>
-                            <td><a href="#" style="color:var(--blue);font-weight:600;text-decoration:none;">#0851</a></td>
-                            <td><span class="doc-type-badge badge-contract">&#128220; B/L</span></td>
-                            <td>
-                                <div class="verifier-cell">
-                                    <div class="v-avatar" style="background:#7C3AED;">&#3626;&#3585;</div>
-                                    &#3626;&#3617;&#3624;&#3633;&#3585;&#3604;&#3636;&#3660; &#3585;.
-                                </div>
-                            </td>
-                            <td><span class="status-pill status-verifying">&#9679; &#3605;&#3619;&#3623;&#3592;&#3626;&#3629;&#3610;</span></td>
-                            <td>
-                                <div class="confidence-mini">
-                                    <div class="conf-bar"><div class="fill" style="width:94%;background:var(--green);"></div></div>
-                                    <span style="font-size:0.72rem;font-weight:600;color:var(--green);">94%</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="action-btns">
-                                    <button class="btn-approve" onclick="event.stopPropagation();doAction('approve','B/L #BL-882')">&#10003; &#3612;&#3656;&#3634;&#3609;</button>
-                                    <button class="btn-reject" onclick="event.stopPropagation();doAction('reject','B/L #BL-882')">&#10007;</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr onclick="selectDoc(this, 3)" style="cursor:pointer;">
-                            <td style="font-weight:600;color:var(--text);">&#3627;&#3609;&#3633;&#3591;&#3626;&#3639;&#3629;&#3588;&#3657;&#3635;&#3611;&#3619;&#3632;&#3585;&#3633;&#3609; #GR-091</td>
-                            <td><a href="#" style="color:var(--blue);font-weight:600;text-decoration:none;">#0843</a></td>
-                            <td><span class="doc-type-badge badge-guarantee">&#128176; &#3588;&#3657;&#3635;&#3611;&#3619;&#3632;&#3585;&#3633;&#3609;</span></td>
-                            <td>
-                                <div class="verifier-cell">
-                                    <span class="unassigned">&#3618;&#3633;&#3591;&#3652;&#3617;&#3656;&#3617;&#3637;&#3588;&#3609;&#3619;&#3633;&#3610;</span>
-                                </div>
-                            </td>
-                            <td><span class="status-pill status-pending">&#9679; &#3619;&#3629;&#3588;&#3636;&#3623;</span></td>
-                            <td>
-                                <div class="confidence-mini">
-                                    <div class="conf-bar"><div class="fill" style="width:88%;background:var(--orange);"></div></div>
-                                    <span style="font-size:0.72rem;font-weight:600;color:var(--orange);">88%</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="action-btns">
-                                    <button class="btn-claim" onclick="event.stopPropagation();doAction('claim','&#3627;&#3609;&#3633;&#3591;&#3626;&#3639;&#3629;&#3588;&#3657;&#3635;&#3611;&#3619;&#3632;&#3585;&#3633;&#3609;')">&#128100; &#3619;&#3633;&#3610;&#3648;&#3619;&#3639;&#3656;&#3629;&#3591;</button>
-                                    <button class="btn-senior" onclick="event.stopPropagation();doAction('senior','&#3627;&#3609;&#3633;&#3591;&#3626;&#3639;&#3629;&#3588;&#3657;&#3635;&#3611;&#3619;&#3632;&#3585;&#3633;&#3609;')">&#9650; Senior</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr onclick="selectDoc(this, 4)" style="cursor:pointer;">
-                            <td style="font-weight:600;color:var(--text);">Credit Report - Thai Global</td>
-                            <td><a href="#" style="color:var(--blue);font-weight:600;text-decoration:none;">#0855</a></td>
-                            <td><span class="doc-type-badge badge-bank">&#127974; &#3648;&#3588;&#3619;&#3604;&#3636;&#3605;</span></td>
-                            <td>
-                                <div class="verifier-cell">
-                                    <div class="v-avatar" style="background:#D97706;">&#3609;&#3626;</div>
-                                    &#3609;&#3636;&#3605;&#3618;&#3634; &#3626;.
-                                </div>
-                            </td>
-                            <td><span class="status-pill status-verifying">&#9679; &#3605;&#3619;&#3623;&#3592;&#3626;&#3629;&#3610;</span></td>
-                            <td>
-                                <div class="confidence-mini">
-                                    <div class="conf-bar"><div class="fill" style="width:92%;background:var(--green);"></div></div>
-                                    <span style="font-size:0.72rem;font-weight:600;color:var(--green);">92%</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="action-btns">
-                                    <button class="btn-approve" onclick="event.stopPropagation();doAction('approve','Credit Report')">&#10003; &#3612;&#3656;&#3634;&#3609;</button>
-                                    <button class="btn-reject" onclick="event.stopPropagation();doAction('reject','Credit Report')">&#10007;</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr onclick="selectDoc(this, 5)" style="cursor:pointer;">
-                            <td style="font-weight:600;color:var(--text);">Trust Receipt App. #TR-445</td>
-                            <td><a href="#" style="color:var(--blue);font-weight:600;text-decoration:none;">#0862</a></td>
-                            <td><span class="doc-type-badge badge-contract">&#128220; T/R</span></td>
-                            <td>
-                                <div class="verifier-cell">
-                                    <span class="unassigned">&#3618;&#3633;&#3591;&#3652;&#3617;&#3656;&#3617;&#3637;&#3588;&#3609;&#3619;&#3633;&#3610;</span>
-                                </div>
-                            </td>
-                            <td><span class="status-pill status-escalated">&#9679; Escalated</span></td>
-                            <td>
-                                <div class="confidence-mini">
-                                    <div class="conf-bar"><div class="fill" style="width:72%;background:var(--red);"></div></div>
-                                    <span style="font-size:0.72rem;font-weight:600;color:var(--red);">72%</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="action-btns">
-                                    <button class="btn-claim" onclick="event.stopPropagation();doAction('claim','T/R #TR-445')">&#128100; &#3619;&#3633;&#3610;&#3648;&#3619;&#3639;&#3656;&#3629;&#3591;</button>
-                                    <button class="btn-senior" onclick="event.stopPropagation();doAction('senior','T/R #TR-445')">&#9650; Senior</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr onclick="selectDoc(this, 6)" style="cursor:pointer;">
-                            <td style="font-weight:600;color:var(--text);">Bank Guarantee Draft #BG-220</td>
-                            <td><a href="#" style="color:var(--blue);font-weight:600;text-decoration:none;">#0865</a></td>
-                            <td><span class="doc-type-badge badge-guarantee">&#128176; B/G</span></td>
-                            <td>
-                                <div class="verifier-cell">
-                                    <div class="v-avatar" style="background:#0891B2;">&#3629;&#3623;</div>
-                                    &#3629;&#3619;&#3640;&#3603; &#3623;.
-                                </div>
-                            </td>
-                            <td><span class="status-pill status-verified">&#9679; &#3612;&#3656;&#3634;&#3609;&#3649;&#3621;&#3657;&#3623;</span></td>
-                            <td>
-                                <div class="confidence-mini">
-                                    <div class="conf-bar"><div class="fill" style="width:99%;background:var(--green);"></div></div>
-                                    <span style="font-size:0.72rem;font-weight:600;color:var(--green);">99%</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="action-btns">
-                                    <button style="border-color:var(--green);color:var(--green);" disabled>&#10003; &#3648;&#3626;&#3619;&#3655;&#3592;</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr onclick="selectDoc(this, 7)" style="cursor:pointer;">
-                            <td style="font-weight:600;color:var(--text);">&#3610;&#3633;&#3605;&#3619;&#3611;&#3619;&#3632;&#3594;&#3634;&#3594;&#3609; - &#3626;&#3617;&#3594;&#3634;&#3618;</td>
-                            <td><a href="#" style="color:var(--blue);font-weight:600;text-decoration:none;">#0847</a></td>
-                            <td><span class="doc-type-badge badge-id">&#128179; &#3610;&#3633;&#3605;&#3619; ID</span></td>
-                            <td>
-                                <div class="verifier-cell">
-                                    <div class="v-avatar" style="background:#2563EB;">&#3611;&#3617;</div>
-                                    &#3611;&#3619;&#3637;&#3594;&#3634; &#3617;.
-                                </div>
-                            </td>
-                            <td><span class="status-pill status-verified">&#9679; &#3612;&#3656;&#3634;&#3609;&#3649;&#3621;&#3657;&#3623;</span></td>
-                            <td>
-                                <div class="confidence-mini">
-                                    <div class="conf-bar"><div class="fill" style="width:99.7%;background:var(--green);"></div></div>
-                                    <span style="font-size:0.72rem;font-weight:600;color:var(--green);">99.7%</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="action-btns">
-                                    <button style="border-color:var(--green);color:var(--green);" disabled>&#10003; &#3648;&#3626;&#3619;&#3655;&#3592;</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr onclick="selectDoc(this, 8)" style="cursor:pointer;">
-                            <td style="font-weight:600;color:var(--text);">&#3626;&#3633;&#3597;&#3597;&#3634;&#3595;&#3639;&#3657;&#3629;&#3586;&#3634;&#3618; #PO-1892</td>
-                            <td><a href="#" style="color:var(--blue);font-weight:600;text-decoration:none;">#0870</a></td>
-                            <td><span class="doc-type-badge badge-contract">&#128220; &#3626;&#3633;&#3597;&#3597;&#3634;</span></td>
-                            <td>
-                                <div class="verifier-cell">
-                                    <span class="unassigned">&#3618;&#3633;&#3591;&#3652;&#3617;&#3656;&#3617;&#3637;&#3588;&#3609;&#3619;&#3633;&#3610;</span>
-                                </div>
-                            </td>
-                            <td><span class="status-pill status-pending">&#9679; &#3619;&#3629;&#3588;&#3636;&#3623;</span></td>
-                            <td>
-                                <div class="confidence-mini">
-                                    <div class="conf-bar"><div class="fill" style="width:91%;background:var(--green);"></div></div>
-                                    <span style="font-size:0.72rem;font-weight:600;color:var(--green);">91%</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="action-btns">
-                                    <button class="btn-claim" onclick="event.stopPropagation();doAction('claim','&#3626;&#3633;&#3597;&#3597;&#3634;&#3595;&#3639;&#3657;&#3629;&#3586;&#3634;&#3618;')">&#128100; &#3619;&#3633;&#3610;&#3648;&#3619;&#3639;&#3656;&#3629;&#3591;</button>
-                                    <button class="btn-senior" onclick="event.stopPropagation();doAction('senior','&#3626;&#3633;&#3597;&#3597;&#3634;&#3595;&#3639;&#3657;&#3629;&#3586;&#3634;&#3618;')">&#9650; Senior</button>
-                                </div>
-                            </td>
-                        </tr>
+                    <tbody id="queueBody">
                     </tbody>
                 </table>
             </div>
@@ -412,31 +270,43 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
         <!-- Sidebar: Detail -->
         <div class="sidebar">
             <div class="card" id="sidebarDefault">
-                <div class="card-title">&#128196; &#3619;&#3634;&#3618;&#3621;&#3632;&#3648;&#3629;&#3637;&#3618;&#3604;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;</div>
+                <div class="card-title">📄 รายละเอียดเอกสาร</div>
                 <div class="doc-preview">
-                    <div class="preview-icon">&#128196;</div>
-                    <div class="preview-text">&#3648;&#3621;&#3639;&#3629;&#3585;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;&#3592;&#3634;&#3585;&#3605;&#3634;&#3619;&#3634;&#3591;&#3648;&#3614;&#3639;&#3656;&#3629;&#3604;&#3641;&#3619;&#3634;&#3618;&#3621;&#3632;&#3648;&#3629;&#3637;&#3618;&#3604;</div>
+                    <div class="preview-icon">📄</div>
+                    <div class="preview-text">เลือกเอกสารจากตารางเพื่อดูรายละเอียด</div>
                 </div>
             </div>
-            <div class="card" id="sidebarDetail" style="display:none;">
-                <div class="card-title">&#128196; <span id="detailDocName">Invoice #INV-4521</span></div>
-                <div class="doc-preview">
-                    <div class="preview-icon">&#128196;</div>
-                    <div class="preview-text" id="detailPreviewText">AI OCR &#3626;&#3649;&#3585;&#3609;&#3648;&#3619;&#3637;&#3618;&#3610;&#3619;&#3657;&#3629;&#3618;&#3649;&#3621;&#3657;&#3623;</div>
-                </div>
-                <div class="ocr-data" id="ocrData">
-                    <div class="ocr-row"><span class="label">&#3648;&#3621;&#3586;&#3607;&#3637;&#3656;</span><span class="value" id="ocrField1">INV-4521</span></div>
-                    <div class="ocr-row"><span class="label">&#3612;&#3641;&#3657;&#3629;&#3629;&#3585;</span><span class="value" id="ocrField2">&#3610;&#3619;&#3636;&#3625;&#3633;&#3607; ABC &#3592;&#3635;&#3585;&#3633;&#3604;</span></div>
-                    <div class="ocr-row"><span class="label">&#3592;&#3635;&#3609;&#3623;&#3609;&#3648;&#3591;&#3636;&#3609;</span><span class="value" id="ocrField3">1,250,000 &#3610;&#3634;&#3607;</span></div>
-                    <div class="ocr-row"><span class="label">&#3623;&#3633;&#3609;&#3607;&#3637;&#3656;</span><span class="value" id="ocrField4">3 &#3648;&#3617;.&#3618;. 2026</span></div>
-                    <div class="ocr-row"><span class="label">&#3626;&#3606;&#3634;&#3609;&#3632;</span><span class="value" id="ocrField5" style="color:var(--green);font-weight:700;">&#10003; &#3586;&#3657;&#3629;&#3617;&#3641;&#3621;&#3605;&#3619;&#3591;&#3585;&#3633;&#3609;</span></div>
-                </div>
-                <div class="verify-result pass" style="margin-top:16px;">
-                    <div class="vr-icon">&#10003;</div>
-                    <div class="vr-text">
-                        <div class="vr-label">AI Verification: &#3612;&#3656;&#3634;&#3609;</div>
-                        <div class="vr-sub">Confidence: <span id="detailConf">97%</span></div>
+            <div id="sidebarDetail" style="display:none;">
+                <!-- Document Preview Card -->
+                <div class="card">
+                    <div class="card-title">📄 <span id="detailDocName"></span></div>
+                    <div class="doc-preview">
+                        <div class="preview-icon">📄</div>
+                        <div class="preview-text" id="detailPreviewText"></div>
                     </div>
+                    <div class="ocr-data" id="ocrData"></div>
+                    <div id="verifyResultArea"></div>
+                </div>
+
+                <!-- Checklist Card -->
+                <div class="card">
+                    <div class="card-title">🔍 ผลตรวจสอบ AI</div>
+                    <div class="check-list" id="checkList"></div>
+                </div>
+
+                <!-- Timeline Card -->
+                <div class="card">
+                    <div class="card-title">📝 Activity Timeline</div>
+                    <div class="timeline-section">
+                        <div class="timeline-list collapsed" id="timelineList"></div>
+                        <button class="timeline-toggle" id="timelineToggle" onclick="toggleTimeline()" style="display:none;">▼ แสดงทั้งหมด</button>
+                    </div>
+                </div>
+
+                <!-- Compact Actions Card -->
+                <div class="card">
+                    <div class="card-title">⚡ ดำเนินการ</div>
+                    <div class="compact-actions" id="compactActions"></div>
                 </div>
             </div>
         </div>
@@ -446,26 +316,407 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-function filterQueue(btn, view) {
-    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-    btn.classList.add('active');
+const CURRENT_USER = 'ปรีชา ม.';
+
+const VERIFICATION_DOCS = [
+  {
+    id: 1,
+    docName: 'Invoice #INV-4521',
+    caseId: '#0847',
+    caseRef: 'FN-2026-0847',
+    type: 'invoice',
+    typeBadge: 'badge-invoice',
+    typeLabel: '📄 Invoice',
+    verifier: {name: 'ปรีชา ม.', initials: 'ปม', color: '#2563EB'},
+    status: 'verifying',
+    confidence: 97,
+    preview: {
+      docType: 'ใบแจ้งหนี้/Invoice',
+      docNo: 'INV-4521',
+      issueDate: '28 มี.ค. 2569',
+      vendor: 'ABC Auto Dealer Co., Ltd.',
+      amount: '฿485,000',
+      taxId: '0105558123456',
+      vat: '฿33,950'
+    },
+    checks: [
+      {label: 'Document authenticity', status: 'pass', confidence: 99},
+      {label: 'Tax ID validation', status: 'pass', confidence: 98},
+      {label: 'Amount cross-reference', status: 'pass', confidence: 96},
+      {label: 'Date consistency', status: 'pass', confidence: 95},
+      {label: 'Vendor match', status: 'pass', confidence: 97}
+    ],
+    timeline: [
+      {time: '10:45', action: 'เริ่มตรวจสอบเอกสาร', user: 'ปรีชา ม.', type: 'info'},
+      {time: '10:46', action: 'AI OCR สแกนเสร็จ — Confidence 97%', user: 'AI Engine', type: 'success'},
+      {time: '10:47', action: 'ตรวจสอบ Tax ID — PASS', user: 'AI Engine', type: 'success'},
+      {time: '10:48', action: 'Cross-reference กับ Case #0847', user: 'AI Engine', type: 'info'},
+      {time: '10:49', action: 'รอ Senior Officer ยืนยัน', user: 'System', type: 'warning'}
+    ]
+  },
+  {
+    id: 2,
+    docName: 'Bill of Lading #BL-882',
+    caseId: '#0851',
+    caseRef: 'FN-2026-0851',
+    type: 'contract',
+    typeBadge: 'badge-contract',
+    typeLabel: '📜 B/L',
+    verifier: {name: 'สมศักดิ์ ก.', initials: 'สก', color: '#7C3AED'},
+    status: 'verifying',
+    confidence: 94,
+    preview: {
+      docType: 'Bill of Lading',
+      docNo: 'BL-882',
+      issueDate: '25 มี.ค. 2569',
+      vendor: 'COSCO Shipping Lines',
+      amount: '฿125,000',
+      taxId: 'N/A',
+      vat: 'N/A'
+    },
+    checks: [
+      {label: 'Document format validation', status: 'pass', confidence: 96},
+      {label: 'Shipping details match', status: 'pass', confidence: 93},
+      {label: 'Weight/quantity check', status: 'warning', confidence: 78},
+      {label: 'Carrier verification', status: 'pass', confidence: 95}
+    ],
+    timeline: [
+      {time: '09:30', action: 'รับเอกสารจาก Email', user: 'System', type: 'info'},
+      {time: '09:32', action: 'AI OCR สแกนเสร็จ — Confidence 94%', user: 'AI Engine', type: 'success'},
+      {time: '09:35', action: 'น้ำหนัก/ปริมาณ ต้องตรวจสอบเพิ่ม', user: 'AI Engine', type: 'warning'},
+      {time: '09:40', action: 'Assign ให้ สมศักดิ์ ก.', user: 'System', type: 'info'}
+    ]
+  },
+  {
+    id: 3,
+    docName: 'บัตรประชาชน นายสมชาย',
+    caseId: '#0847',
+    caseRef: 'FN-2026-0847',
+    type: 'id',
+    typeBadge: 'badge-id',
+    typeLabel: '🪪 ID Card',
+    verifier: {name: 'วิภา พ.', initials: 'วพ', color: '#0891B2'},
+    status: 'verified',
+    confidence: 99,
+    preview: {docType: 'บัตรประชาชน', docNo: '1-1234-56789-01-2', issueDate: '15 ม.ค. 2565', vendor: 'กรมการปกครอง', amount: 'N/A', taxId: 'N/A', vat: 'N/A'},
+    checks: [{label: 'Face detection', status: 'pass', confidence: 99},{label: 'Laser ID check', status: 'pass', confidence: 98},{label: 'Expiry validation', status: 'pass', confidence: 100},{label: 'Checksum validation', status: 'pass', confidence: 99}],
+    timeline: [{time: '08:15', action: 'รับเอกสารจาก LINE', user: 'System', type: 'info'},{time: '08:16', action: 'eKYC scan — PASS', user: 'AI Engine', type: 'success'},{time: '08:17', action: 'ตรวจสอบเสร็จสิ้น ✓', user: 'วิภา พ.', type: 'success'}]
+  },
+  {
+    id: 4,
+    docName: 'สลิปเงินเดือน มี.ค. 2569',
+    caseId: '#0848',
+    caseRef: 'FN-2026-0848',
+    type: 'bank',
+    typeBadge: 'badge-bank',
+    typeLabel: '🏦 Bank Slip',
+    verifier: {name: 'นิตยา ส.', initials: 'นส', color: '#059669'},
+    status: 'pending',
+    confidence: 0,
+    preview: {docType: 'สลิปเงินเดือน', docNo: 'SAL-2569-03', issueDate: '31 มี.ค. 2569', vendor: 'บริษัท XYZ จำกัด', amount: '฿45,000', taxId: '0105551234567', vat: 'N/A'},
+    checks: [{label: 'Document format', status: 'pending', confidence: 0},{label: 'Amount validation', status: 'pending', confidence: 0}],
+    timeline: [{time: '11:00', action: 'อัพโหลดเอกสาร', user: 'ลูกค้า', type: 'info'},{time: '11:01', action: 'รอคิวตรวจสอบ', user: 'System', type: 'warning'}]
+  },
+  {
+    id: 5,
+    docName: 'สัญญาซื้อขาย #CT-2569-041',
+    caseId: '#0852',
+    caseRef: 'FN-2026-0852',
+    type: 'contract',
+    typeBadge: 'badge-contract',
+    typeLabel: '📝 Contract',
+    verifier: {name: 'ปรีชา ม.', initials: 'ปม', color: '#2563EB'},
+    status: 'failed',
+    confidence: 62,
+    preview: {docType: 'สัญญาซื้อขาย', docNo: 'CT-2569-041', issueDate: '20 มี.ค. 2569', vendor: 'นายทดสอบ ทดลอง', amount: '฿1,250,000', taxId: '3-1234-00000-00-0', vat: '฿87,500'},
+    checks: [{label: 'Document authenticity', status: 'fail', confidence: 55},{label: 'Signature match', status: 'fail', confidence: 48},{label: 'Date consistency', status: 'pass', confidence: 92},{label: 'Stamp verification', status: 'warning', confidence: 71}],
+    timeline: [{time: '14:00', action: 'รับเอกสาร', user: 'System', type: 'info'},{time: '14:02', action: 'AI ตรวจพบความผิดปกติ!', user: 'AI Engine', type: 'error'},{time: '14:03', action: 'Escalate ส่ง Senior', user: 'System', type: 'warning'},{time: '14:15', action: 'Senior กำลังตรวจสอบ', user: 'ปรีชา ม.', type: 'info'}]
+  },
+  {
+    id: 6,
+    docName: 'หนังสือรับรองเงินเดือน',
+    caseId: '#0849',
+    caseRef: 'FN-2026-0849',
+    type: 'bank',
+    typeBadge: 'badge-bank',
+    typeLabel: '📄 Certificate',
+    verifier: {name: 'ธนากร ป.', initials: 'ธป', color: '#DC2626'},
+    status: 'verified',
+    confidence: 96,
+    preview: {docType: 'หนังสือรับรองเงินเดือน', docNo: 'CER-2569-032', issueDate: '1 เม.ย. 2569', vendor: 'บริษัท ABC จำกัด', amount: '฿55,000/เดือน', taxId: '0105559876543', vat: 'N/A'},
+    checks: [{label: 'Company stamp', status: 'pass', confidence: 97},{label: 'Signature verification', status: 'pass', confidence: 94},{label: 'Income amount match', status: 'pass', confidence: 96}],
+    timeline: [{time: '09:00', action: 'รับเอกสาร Email', user: 'System', type: 'info'},{time: '09:02', action: 'OCR scan เสร็จ', user: 'AI Engine', type: 'success'},{time: '09:10', action: 'ตรวจผ่าน ✓', user: 'ธนากร ป.', type: 'success'}]
+  },
+  {
+    id: 7,
+    docName: 'ทะเบียนบ้าน สมชาย',
+    caseId: '#0847',
+    caseRef: 'FN-2026-0847',
+    type: 'id',
+    typeBadge: 'badge-id',
+    typeLabel: '🏠 ทะเบียนบ้าน',
+    verifier: null,
+    status: 'pending',
+    confidence: 0,
+    preview: {docType: 'สำเนาทะเบียนบ้าน', docNo: 'TRB-1234', issueDate: 'N/A', vendor: 'กรมการปกครอง', amount: 'N/A', taxId: 'N/A', vat: 'N/A'},
+    checks: [{label: 'Document scan quality', status: 'pending', confidence: 0}],
+    timeline: [{time: '11:30', action: 'รับเอกสารจาก Upload', user: 'System', type: 'info'}]
+  },
+  {
+    id: 8,
+    docName: 'ใบเสร็จค่าจดทะเบียน',
+    caseId: '#0853',
+    caseRef: 'FN-2026-0853',
+    type: 'guarantee',
+    typeBadge: 'badge-guarantee',
+    typeLabel: '🧾 Receipt',
+    verifier: {name: 'สมศักดิ์ ก.', initials: 'สก', color: '#7C3AED'},
+    status: 'escalated',
+    confidence: 71,
+    preview: {docType: 'ใบเสร็จรับเงิน', docNo: 'RCP-8890', issueDate: '3 เม.ย. 2569', vendor: 'กรมการขนส่งทางบก', amount: '฿8,500', taxId: 'N/A', vat: 'N/A'},
+    checks: [{label: 'Receipt authenticity', status: 'warning', confidence: 72},{label: 'Amount validation', status: 'pass', confidence: 88},{label: 'Date check', status: 'pass', confidence: 95}],
+    timeline: [{time: '15:00', action: 'รับเอกสาร', user: 'System', type: 'info'},{time: '15:02', action: 'AI confidence ต่ำ', user: 'AI Engine', type: 'warning'},{time: '15:05', action: 'Escalated to Senior', user: 'System', type: 'warning'}]
+  }
+];
+
+let currentFilter = 'all';
+let timelineExpanded = false;
+let selectedDocId = null;
+
+function getStatusLabel(status) {
+    const map = {
+        'pending': '● รอคิว',
+        'verifying': '● ตรวจสอบ',
+        'verified': '● ผ่านแล้ว',
+        'failed': '● ไม่ผ่าน',
+        'escalated': '● Escalated'
+    };
+    return map[status] || status;
+}
+
+function getConfColor(conf) {
+    if (conf === 0) return 'var(--muted)';
+    if (conf >= 90) return 'var(--green)';
+    if (conf >= 75) return 'var(--orange)';
+    return 'var(--red)';
+}
+
+function getFilteredDocs(filter) {
+    switch(filter) {
+        case 'my': return VERIFICATION_DOCS.filter(d => d.verifier && d.verifier.name === CURRENT_USER);
+        case 'unassigned': return VERIFICATION_DOCS.filter(d => d.verifier === null);
+        case 'escalated': return VERIFICATION_DOCS.filter(d => d.status === 'escalated');
+        default: return VERIFICATION_DOCS;
+    }
+}
+
+function updateCounts() {
+    document.getElementById('countAll').textContent = VERIFICATION_DOCS.length;
+    document.getElementById('countMy').textContent = VERIFICATION_DOCS.filter(d => d.verifier && d.verifier.name === CURRENT_USER).length;
+    document.getElementById('countUnassigned').textContent = VERIFICATION_DOCS.filter(d => d.verifier === null).length;
+    document.getElementById('countEscalated').textContent = VERIFICATION_DOCS.filter(d => d.status === 'escalated').length;
+
+    // Stats
+    document.getElementById('statTotal').textContent = VERIFICATION_DOCS.length;
+    document.getElementById('statVerifying').textContent = VERIFICATION_DOCS.filter(d => d.status === 'verifying').length;
+    document.getElementById('statVerified').textContent = VERIFICATION_DOCS.filter(d => d.status === 'verified').length;
+    document.getElementById('statFailed').textContent = VERIFICATION_DOCS.filter(d => d.status === 'failed' || d.status === 'escalated').length;
+}
+
+function renderQueue() {
+    const docs = getFilteredDocs(currentFilter);
+    const tbody = document.getElementById('queueBody');
+    tbody.innerHTML = '';
+
+    docs.forEach(doc => {
+        const tr = document.createElement('tr');
+        tr.style.cursor = 'pointer';
+        if (doc.id === selectedDocId) tr.style.background = 'var(--blue-bg)';
+        tr.onclick = function() { selectDoc(this, doc.id); };
+
+        // Verifier cell
+        let verifierHTML;
+        if (doc.verifier) {
+            verifierHTML = `<div class="verifier-cell">
+                <div class="v-avatar" style="background:${doc.verifier.color};">${doc.verifier.initials}</div>
+                ${doc.verifier.name}
+            </div>`;
+        } else {
+            verifierHTML = `<div class="verifier-cell"><span class="unassigned">ยังไม่มีคนรับ</span></div>`;
+        }
+
+        // Action buttons
+        let actionsHTML;
+        if (doc.status === 'verified') {
+            actionsHTML = `<div class="action-btns"><button style="border-color:var(--green);color:var(--green);" disabled>✓ เสร็จ</button></div>`;
+        } else if (doc.status === 'failed') {
+            actionsHTML = `<div class="action-btns">
+                <button class="btn-senior" onclick="event.stopPropagation();doAction('senior','${doc.docName}')">▲ Senior</button>
+            </div>`;
+        } else if (!doc.verifier) {
+            actionsHTML = `<div class="action-btns">
+                <button class="btn-claim" onclick="event.stopPropagation();doAction('claim','${doc.docName}')">👤 รับเรื่อง</button>
+                <button class="btn-senior" onclick="event.stopPropagation();doAction('senior','${doc.docName}')">▲ Senior</button>
+            </div>`;
+        } else {
+            actionsHTML = `<div class="action-btns">
+                <button class="btn-approve" onclick="event.stopPropagation();doAction('approve','${doc.docName}')">✓ ผ่าน</button>
+                <button class="btn-reject" onclick="event.stopPropagation();doAction('reject','${doc.docName}')">✗</button>
+            </div>`;
+        }
+
+        tr.innerHTML = `
+            <td style="font-weight:600;color:var(--text);">${doc.docName}</td>
+            <td><a href="finance-case-detail.html" style="color:var(--blue);font-weight:600;text-decoration:none;">${doc.caseId}</a></td>
+            <td><span class="doc-type-badge ${doc.typeBadge}">${doc.typeLabel}</span></td>
+            <td>${verifierHTML}</td>
+            <td><span class="status-pill status-${doc.status}">${getStatusLabel(doc.status)}</span></td>
+            <td>
+                <div class="confidence-mini">
+                    <div class="conf-bar"><div class="fill" style="width:${doc.confidence}%;background:${getConfColor(doc.confidence)};"></div></div>
+                    <span style="font-size:0.72rem;font-weight:600;color:${getConfColor(doc.confidence)};">${doc.confidence > 0 ? doc.confidence + '%' : '—'}</span>
+                </div>
+            </td>
+            <td>${actionsHTML}</td>
+        `;
+        tbody.appendChild(tr);
+    });
 }
 
 function selectDoc(row, id) {
+    selectedDocId = id;
     document.querySelectorAll('.queue-table tbody tr').forEach(r => r.style.background = '');
-    row.style.background = 'var(--blue-bg)';
+    if (row) row.style.background = 'var(--blue-bg)';
+
+    const doc = VERIFICATION_DOCS.find(d => d.id === id);
+    if (!doc) return;
+
     document.getElementById('sidebarDefault').style.display = 'none';
     document.getElementById('sidebarDetail').style.display = 'block';
+
+    // Doc name
+    document.getElementById('detailDocName').textContent = doc.docName;
+    document.getElementById('detailPreviewText').textContent = doc.confidence > 0 ? 'AI OCR สแกนเรียบร้อยแล้ว' : 'รอ AI OCR สแกน...';
+
+    // OCR data
+    const ocrData = document.getElementById('ocrData');
+    const p = doc.preview;
+    ocrData.innerHTML = `
+        <div class="ocr-row"><span class="label">ประเภท</span><span class="value">${p.docType}</span></div>
+        <div class="ocr-row"><span class="label">เลขที่</span><span class="value">${p.docNo}</span></div>
+        <div class="ocr-row"><span class="label">วันที่</span><span class="value">${p.issueDate}</span></div>
+        <div class="ocr-row"><span class="label">ผู้ออก</span><span class="value">${p.vendor}</span></div>
+        <div class="ocr-row"><span class="label">จำนวนเงิน</span><span class="value">${p.amount}</span></div>
+        ${p.taxId !== 'N/A' ? `<div class="ocr-row"><span class="label">Tax ID</span><span class="value">${p.taxId}</span></div>` : ''}
+        ${p.vat !== 'N/A' ? `<div class="ocr-row"><span class="label">VAT</span><span class="value">${p.vat}</span></div>` : ''}
+    `;
+
+    // Verify result
+    const vrArea = document.getElementById('verifyResultArea');
+    let vrClass, vrIcon, vrLabel;
+    if (doc.status === 'verified') { vrClass = 'pass'; vrIcon = '✓'; vrLabel = 'AI Verification: ผ่าน'; }
+    else if (doc.status === 'failed') { vrClass = 'fail'; vrIcon = '✗'; vrLabel = 'AI Verification: ไม่ผ่าน'; }
+    else if (doc.status === 'escalated') { vrClass = 'warning'; vrIcon = '⚠'; vrLabel = 'AI Verification: ต้องตรวจเพิ่ม'; }
+    else if (doc.status === 'verifying') { vrClass = 'pass'; vrIcon = '⏳'; vrLabel = 'AI Verification: กำลังตรวจ'; }
+    else { vrClass = 'pending-result'; vrIcon = '⏸'; vrLabel = 'รอเข้าคิวตรวจสอบ'; }
+
+    vrArea.innerHTML = `
+        <div class="verify-result ${vrClass}" style="margin-top:16px;">
+            <div class="vr-icon">${vrIcon}</div>
+            <div class="vr-text">
+                <div class="vr-label">${vrLabel}</div>
+                <div class="vr-sub">Confidence: ${doc.confidence > 0 ? doc.confidence + '%' : '—'}</div>
+            </div>
+        </div>
+    `;
+
+    // Checklist
+    const checkList = document.getElementById('checkList');
+    checkList.innerHTML = doc.checks.map(c => {
+        let icon, color;
+        if (c.status === 'pass') { icon = '✅'; color = 'var(--green)'; }
+        else if (c.status === 'fail') { icon = '❌'; color = 'var(--red)'; }
+        else if (c.status === 'warning') { icon = '⚠️'; color = 'var(--orange)'; }
+        else { icon = '⏳'; color = 'var(--muted)'; }
+        return `<div class="check-item">
+            <span class="check-label">${icon} ${c.label}</span>
+            <span class="check-conf" style="color:${color}">${c.confidence > 0 ? c.confidence + '%' : '—'}</span>
+        </div>`;
+    }).join('');
+
+    // Timeline
+    timelineExpanded = false;
+    const timelineList = document.getElementById('timelineList');
+    const timelineToggle = document.getElementById('timelineToggle');
+    timelineList.className = 'timeline-list collapsed';
+
+    timelineList.innerHTML = doc.timeline.map(t =>
+        `<div class="timeline-entry tl-${t.type}">
+            <span class="timeline-time">${t.time}</span>
+            <div class="timeline-body">
+                <div class="timeline-action">${t.action}</div>
+                <div class="timeline-user">${t.user}</div>
+            </div>
+        </div>`
+    ).join('');
+
+    if (doc.timeline.length > 3) {
+        timelineToggle.style.display = 'block';
+        timelineToggle.textContent = `▼ แสดงทั้งหมด (${doc.timeline.length} รายการ)`;
+    } else {
+        timelineToggle.style.display = 'none';
+        timelineList.className = 'timeline-list expanded';
+    }
+
+    // Compact actions
+    const ca = document.getElementById('compactActions');
+    if (doc.status === 'verified') {
+        ca.innerHTML = `<button class="ca-approve" disabled>✓ ผ่านแล้ว</button>`;
+    } else if (doc.status === 'failed') {
+        ca.innerHTML = `
+            <button class="ca-escalate" onclick="doAction('senior','${doc.docName}')">⬆ Escalate</button>
+            <button class="ca-note" onclick="doAction('note','${doc.docName}')">💬 Note</button>
+        `;
+    } else {
+        ca.innerHTML = `
+            <button class="ca-approve" onclick="doAction('approve','${doc.docName}')">✓ ผ่าน</button>
+            <button class="ca-reject" onclick="doAction('reject','${doc.docName}')">✗ ไม่ผ่าน</button>
+            <button class="ca-escalate" onclick="doAction('senior','${doc.docName}')">⬆ Escalate</button>
+            <button class="ca-note" onclick="doAction('note','${doc.docName}')">💬 Note</button>
+        `;
+    }
+}
+
+function toggleTimeline() {
+    const list = document.getElementById('timelineList');
+    const toggle = document.getElementById('timelineToggle');
+    timelineExpanded = !timelineExpanded;
+    if (timelineExpanded) {
+        list.className = 'timeline-list expanded';
+        toggle.textContent = '▲ ย่อ';
+    } else {
+        list.className = 'timeline-list collapsed';
+        const doc = VERIFICATION_DOCS.find(d => d.id === selectedDocId);
+        toggle.textContent = `▼ แสดงทั้งหมด (${doc ? doc.timeline.length : 0} รายการ)`;
+    }
+}
+
+function filterQueue(btn, view) {
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = view;
+    renderQueue();
 }
 
 function doAction(action, docName) {
     const msgs = {
-        'approve': '&#10003; &#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619; ' + docName + ' &#3626;&#3635;&#3648;&#3619;&#3655;&#3592;',
-        'reject': '&#10007; &#3611;&#3599;&#3636;&#3648;&#3626;&#3608;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619; ' + docName,
-        'claim': '&#128100; &#3619;&#3633;&#3610;&#3648;&#3619;&#3639;&#3656;&#3629;&#3591; ' + docName + ' &#3649;&#3621;&#3657;&#3623;',
-        'senior': '&#9650; &#3626;&#3656;&#3591;&#3605;&#3656;&#3629; Senior &#3649;&#3621;&#3657;&#3623;: ' + docName
+        'approve': '✓ อนุมัติเอกสาร ' + docName + ' สำเร็จ',
+        'reject': '✗ ปฏิเสธเอกสาร ' + docName,
+        'claim': '👤 รับเรื่อง ' + docName + ' แล้ว',
+        'senior': '▲ ส่งต่อ Senior แล้ว: ' + docName,
+        'note': '💬 เปิด Note สำหรับ ' + docName
     };
-    showToast(action === 'reject' ? 'warning' : 'success', msgs[action]);
+    showToast(action === 'reject' ? 'warning' : 'success', msgs[action] || action);
 }
 
 function showToast(type, message) {
@@ -476,6 +727,10 @@ function showToast(type, message) {
     container.appendChild(toast);
     setTimeout(() => { toast.style.animation = 'toast-out 0.3s ease forwards'; setTimeout(() => toast.remove(), 300); }, 3500);
 }
+
+// Init
+updateCounts();
+renderQueue();
 </script>
 </body>
 </html>
