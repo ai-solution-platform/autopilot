@@ -42,7 +42,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
 /* FX Rate Cards */
 .fx-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-bottom:24px;}
-.fx-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:18px 16px;box-shadow:var(--shadow);transition:all .2s;position:relative;overflow:hidden;cursor:pointer;}
+.fx-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px 16px 10px;box-shadow:var(--shadow);transition:all .2s;position:relative;overflow:hidden;cursor:pointer;}
 .fx-card:hover{box-shadow:var(--shadow2);transform:translateY(-2px);}
 .fx-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
 .fx-card:nth-child(1)::before{background:var(--blue);}
@@ -56,12 +56,18 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .fx-change{display:inline-flex;align-items:center;gap:3px;font-size:.68rem;font-weight:600;padding:2px 8px;border-radius:5px;}
 .fx-change.up{background:var(--green-bg);color:var(--green);}
 .fx-change.down{background:var(--red-bg);color:var(--red);}
-.sparkline-wrap{margin-top:10px;height:60px;position:relative;}
-.sparkline-wrap svg{width:100%;height:60px;min-width:200px;}
+.sparkline-wrap{margin-top:8px;height:45px;position:relative;margin-left:-16px;margin-right:-16px;}
+.sparkline-wrap svg{display:block;width:100%;height:45px;}
+.spark-crosshair{stroke:var(--muted);stroke-width:1;stroke-dasharray:2,2;opacity:0;transition:opacity .1s;}
+.spark-crosshair.show{opacity:.5;}
 
 /* Sparkline Tooltip */
-.spark-tooltip{position:fixed;background:var(--card-bg);color:var(--text);border:1px solid var(--border);padding:8px 12px;border-radius:8px;font-size:.78rem;font-weight:600;pointer-events:none;z-index:50;white-space:nowrap;opacity:0;transition:opacity .15s;box-shadow:var(--shadow);line-height:1.5;}
+.spark-tooltip{position:fixed;background:var(--card-bg);color:var(--text);border:1px solid var(--border);padding:10px 14px;border-radius:8px;font-size:.75rem;font-weight:500;pointer-events:none;z-index:50;white-space:nowrap;opacity:0;transition:opacity .12s;box-shadow:var(--shadow2);line-height:1.6;}
 .spark-tooltip.show{opacity:1;}
+.spark-tooltip .stt-pair{font-weight:700;font-size:.8rem;margin-bottom:2px;}
+.spark-tooltip .stt-rate{font-size:.9rem;font-weight:800;}
+.spark-tooltip .stt-date{font-size:.68rem;color:var(--muted);}
+.spark-tooltip .stt-chg{font-size:.72rem;font-weight:600;}
 
 /* Rate Change Indicator */
 .rate-indicator{display:flex;align-items:center;gap:4px;margin-top:6px;font-size:.68rem;color:var(--muted);}
@@ -507,6 +513,9 @@ for (let i = 29; i >= 0; i--) {
 });
 
 // ===================== RENDER FX CARDS WITH INTERACTIVE SPARKLINES =====================
+// Store sparkline point data for each card for mousemove lookup
+window._sparkData = {};
+
 function renderFXCards() {
     const container = document.getElementById('fxCards');
     container.innerHTML = fxData.map((fx, fi) => {
@@ -521,29 +530,22 @@ function renderFXCards() {
         const pts = fx.sparkline;
         const minV = Math.min(...pts), maxV = Math.max(...pts);
         const range = maxV - minV || 1;
-        const w = 220, h = 55, pad = 6;
+        const w = 300, h = 45, padY = 6, padX = 0;
         const pathPts = pts.map((v, i) => {
-            const x = pad + (i / (pts.length - 1)) * (w - 2 * pad);
-            const y = pad + (1 - (v - minV) / range) * (h - 2 * pad);
+            const x = padX + (i / (pts.length - 1)) * (w - 2 * padX);
+            const y = padY + (1 - (v - minV) / range) * (h - 2 * padY);
             return {x, y, v};
         });
-        const pathD = 'M' + pathPts.map(p => `${p.x},${p.y}`).join(' L');
+
+        // Store for mousemove lookup
+        window._sparkData[fi] = { pathPts, pts, dates: fx.dates, pair: fx.pair, color: fx.color, dec, w, h };
+
+        const pathD = 'M' + pathPts.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' L');
         const areaD = pathD + ` L${pathPts[pathPts.length-1].x},${h} L${pathPts[0].x},${h} Z`;
 
-        // Create interactive dots and invisible hit areas for sparkline
+        // Dots (hidden by default, shown on hover via JS)
         let dotsHtml = pathPts.map((p, di) => {
-            const prevVal = di > 0 ? pts[di-1] : pts[di];
-            const chg = pts[di] - prevVal;
-            const chgPct = prevVal !== 0 ? ((chg / prevVal) * 100).toFixed(3) : '0.000';
-            return `<circle cx="${p.x}" cy="${p.y}" r="10" fill="transparent" stroke="transparent" stroke-width="0"
-                class="spark-hit"
-                data-val="${pts[di].toFixed(dec)}" data-date="${fx.dates[di]}" data-pair="${fx.pair}" data-chg="${chgPct}"
-                style="cursor:pointer;"
-                onmouseenter="showSparkTooltip(event,this,${fi})" onmouseleave="hideSparkTooltip(this,${fi})"
-                onclick="onSparkClick(event,this)"/>
-            <circle cx="${p.x}" cy="${p.y}" r="3" fill="${fx.color}" opacity="0" class="spark-dot"
-                data-idx="${di}"
-                style="pointer-events:none;transition:opacity .2s,r .2s;"/>`;
+            return `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4" fill="${fx.color}" opacity="0" class="spark-dot" data-idx="${di}" style="pointer-events:none;transition:opacity .12s,r .12s;"/>`;
         }).join('');
 
         const prevRate = pts[pts.length - 2];
@@ -561,22 +563,25 @@ function renderFXCards() {
                 <span>24h: ${rateChangeStr} (${isUp?'\u0E40\u0E1E\u0E34\u0E48\u0E21':'\u0E25\u0E14'})</span>
             </div>
             <div class="sparkline-wrap" id="spark-${fi}">
-                <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet">
+                <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
                     <defs><linearGradient id="sg${fi}" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="${fx.color}" stop-opacity=".2"/>
+                        <stop offset="0%" stop-color="${fx.color}" stop-opacity=".18"/>
                         <stop offset="100%" stop-color="${fx.color}" stop-opacity="0"/>
                     </linearGradient></defs>
                     <path d="${areaD}" fill="url(#sg${fi})">
                         <animate attributeName="opacity" from="0" to="1" dur="0.6s" fill="freeze"/>
                     </path>
                     <path d="${pathD}" fill="none" stroke="${fx.color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <animate attributeName="stroke-dashoffset" from="500" to="0" dur="1s" fill="freeze"/>
-                        <animate attributeName="stroke-dasharray" from="500" to="500" dur="0.01s" fill="freeze"/>
+                        <animate attributeName="stroke-dashoffset" from="800" to="0" dur="1s" fill="freeze"/>
+                        <animate attributeName="stroke-dasharray" from="800" to="800" dur="0.01s" fill="freeze"/>
                     </path>
+                    <line class="spark-crosshair" id="spark-xhair-${fi}" x1="0" y1="0" x2="0" y2="${h}"/>
                     ${dotsHtml}
-                    <circle cx="${pathPts[pathPts.length-1].x}" cy="${pathPts[pathPts.length-1].y}" r="3.5" fill="${fx.color}" style="pointer-events:none;">
-                        <animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite"/>
+                    <circle cx="${pathPts[pathPts.length-1].x.toFixed(1)}" cy="${pathPts[pathPts.length-1].y.toFixed(1)}" r="3" fill="${fx.color}" style="pointer-events:none;">
+                        <animate attributeName="r" values="3;4.5;3" dur="2s" repeatCount="indefinite"/>
                     </circle>
+                    <rect x="0" y="0" width="${w}" height="${h}" fill="transparent" style="cursor:crosshair;"
+                        onmousemove="onSparkHover(event,${fi})" onmouseleave="onSparkLeave(${fi})"/>
                 </svg>
                 <div class="spark-tooltip" id="sparktt-${fi}"></div>
             </div>
@@ -584,47 +589,80 @@ function renderFXCards() {
     }).join('');
 }
 
-function showSparkTooltip(e, el, fi) {
-    // Show the visible dot
-    const wrap = el.closest('.sparkline-wrap');
-    const idx = Array.from(wrap.querySelectorAll('.spark-hit')).indexOf(el);
-    const dots = wrap.querySelectorAll('.spark-dot');
-    if (dots[idx]) {
-        dots[idx].setAttribute('opacity', '1');
-        dots[idx].setAttribute('r', '5');
-    }
-    const tt = wrap.querySelector('.spark-tooltip');
-    const val = el.getAttribute('data-val');
-    const date = el.getAttribute('data-date');
-    const pair = el.getAttribute('data-pair');
-    const chg = el.getAttribute('data-chg');
-    const chgNum = parseFloat(chg);
+function onSparkHover(e, fi) {
+    const sd = window._sparkData[fi];
+    if (!sd) return;
+    const wrap = document.getElementById('spark-' + fi);
+    const svg = wrap.querySelector('svg');
+    const rect = svg.getBoundingClientRect();
+    // Map mouse X to SVG coordinate space
+    const svgX = ((e.clientX - rect.left) / rect.width) * sd.w;
+
+    // Find nearest point
+    let nearestIdx = 0;
+    let nearestDist = Infinity;
+    sd.pathPts.forEach((p, i) => {
+        const dist = Math.abs(p.x - svgX);
+        if (dist < nearestDist) { nearestDist = dist; nearestIdx = i; }
+    });
+
+    const pt = sd.pathPts[nearestIdx];
+    const val = sd.pts[nearestIdx];
+    const prevVal = nearestIdx > 0 ? sd.pts[nearestIdx - 1] : sd.pts[nearestIdx];
+    const chg = val - prevVal;
+    const chgPct = prevVal !== 0 ? ((chg / prevVal) * 100).toFixed(3) : '0.000';
+    const chgNum = parseFloat(chgPct);
     const chgColor = chgNum >= 0 ? 'var(--green)' : 'var(--red)';
     const chgSign = chgNum >= 0 ? '+' : '';
-    tt.innerHTML = `<strong>${pair}</strong><br>\u0E2D\u0E31\u0E15\u0E23\u0E32: ${val}<br>\u0E40\u0E1B\u0E25\u0E35\u0E48\u0E22\u0E19\u0E41\u0E1B\u0E25\u0E07: <span style="color:${chgColor}">${chgSign}${chg}%</span><br><small>${date}</small>`;
-    // Position tooltip near mouse using fixed positioning
-    tt.style.left = (e.clientX + 15) + 'px';
-    tt.style.top = (e.clientY - 10) + 'px';
+
+    // Show crosshair
+    const xhair = document.getElementById('spark-xhair-' + fi);
+    if (xhair) {
+        xhair.setAttribute('x1', pt.x.toFixed(1));
+        xhair.setAttribute('x2', pt.x.toFixed(1));
+        xhair.classList.add('show');
+    }
+
+    // Show the nearest dot, hide others
+    const dots = wrap.querySelectorAll('.spark-dot');
+    dots.forEach((d, i) => {
+        if (i === nearestIdx) {
+            d.setAttribute('opacity', '1');
+            d.setAttribute('r', '5.5');
+        } else {
+            d.setAttribute('opacity', '0');
+            d.setAttribute('r', '4');
+        }
+    });
+
+    // Build and show tooltip
+    const tt = document.getElementById('sparktt-' + fi);
+    tt.innerHTML = `<div class="stt-pair">${sd.pair}</div>
+        <div class="stt-rate">${val.toFixed(sd.dec)} THB</div>
+        <div class="stt-chg" style="color:${chgColor}">${chgSign}${chgPct}%</div>
+        <div class="stt-date">${sd.dates[nearestIdx]}</div>`;
+    // Position near mouse
+    let left = e.clientX + 14;
+    let top = e.clientY - 60;
+    // Keep tooltip on screen
+    if (left + 160 > window.innerWidth) left = e.clientX - 170;
+    if (top < 4) top = e.clientY + 14;
+    tt.style.left = left + 'px';
+    tt.style.top = top + 'px';
     tt.classList.add('show');
 }
 
-function hideSparkTooltip(el, fi) {
-    const wrap = el.closest('.sparkline-wrap');
+function onSparkLeave(fi) {
+    const wrap = document.getElementById('spark-' + fi);
+    if (!wrap) return;
     wrap.querySelectorAll('.spark-dot').forEach(d => {
         d.setAttribute('opacity', '0');
-        d.setAttribute('r', '3');
+        d.setAttribute('r', '4');
     });
-    wrap.querySelector('.spark-tooltip').classList.remove('show');
-}
-
-function onSparkClick(e, el) {
-    e.stopPropagation();
-    const val = el.getAttribute('data-val');
-    const date = el.getAttribute('data-date');
-    const pair = el.getAttribute('data-pair');
-    // Brief visual feedback
-    el.setAttribute('fill', '#059669');
-    setTimeout(() => { el.setAttribute('fill', el.closest('.fx-card').querySelector('.fx-change').classList.contains('up') ? '#7C3AED' : '#2563EB'); }, 300);
+    const xhair = document.getElementById('spark-xhair-' + fi);
+    if (xhair) xhair.classList.remove('show');
+    const tt = document.getElementById('sparktt-' + fi);
+    if (tt) tt.classList.remove('show');
 }
 
 function onFxCardClick(pair) {

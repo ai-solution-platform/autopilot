@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vendor Management | Autopilot v2 by ANTS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
+body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;}
+::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+.dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:all .2s;}
+.dark-toggle:hover{border-color:var(--blue);transform:scale(1.1);}
+
+.page-wrap{max-width:1400px;margin:0 auto;padding:24px;}
+
+.breadcrumb{font-size:.72rem;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:6px;}
+.breadcrumb a{color:var(--blue);text-decoration:none;font-weight:500;}
+.breadcrumb a:hover{text-decoration:underline;}
+
+.user-context{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
+.user-info{display:flex;align-items:center;gap:12px;}
+.user-avatar{width:42px;height:42px;border-radius:50%;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;flex-shrink:0;}
+.user-name{font-size:.92rem;font-weight:700;line-height:1.3;}
+.user-role{font-size:.72rem;color:var(--muted);font-weight:500;}
+.user-team{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;background:var(--purple-bg);color:var(--purple);border-radius:20px;font-size:.68rem;font-weight:600;margin-top:2px;}
+
+.view-toggle{display:flex;gap:2px;background:var(--bg2);padding:3px;border-radius:10px;}
+.view-btn{padding:7px 16px;border-radius:8px;font-size:.78rem;font-weight:500;cursor:pointer;color:var(--muted);transition:all .2s;border:none;background:none;font-family:inherit;}
+.view-btn:hover{color:var(--text);}
+.view-btn.active{background:var(--card-bg);color:var(--blue);font-weight:600;box-shadow:var(--shadow);}
+
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
+.page-title-area h1{font-size:1.15rem;font-weight:800;display:flex;align-items:center;gap:8px;}
+.page-subtitle{font-size:.72rem;color:var(--muted);margin-top:2px;}
+.page-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+
+.btn{padding:8px 16px;border-radius:8px;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;border:1px solid transparent;font-family:inherit;display:inline-flex;align-items:center;gap:6px;}
+.btn-primary{background:var(--grad);color:#fff;border:none;}
+.btn-primary:hover{opacity:.9;transform:translateY(-1px);}
+.btn-secondary{background:var(--bg2);color:var(--text2);border:1px solid var(--border);}
+.btn-secondary:hover{border-color:var(--blue);color:var(--blue);}
+.btn-danger{background:var(--red-bg);color:var(--red);border:1px solid rgba(220,38,38,.2);}
+.btn-danger:hover{background:var(--red);color:#fff;}
+.btn-success{background:var(--green-bg);color:var(--green);border:1px solid rgba(5,150,105,.2);}
+.btn-success:hover{background:var(--green);color:#fff;}
+.btn-sm{padding:5px 12px;font-size:.72rem;}
+.btn-xs{padding:3px 8px;font-size:.65rem;border-radius:6px;}
+
+.live-badge{padding:4px 10px;background:var(--green-bg);border:1px solid rgba(5,150,105,0.2);border-radius:20px;font-size:.68rem;color:var(--green);font-weight:600;display:flex;align-items:center;gap:4px;}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+
+/* KPI Grid */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+.kpi{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:all .25s;cursor:default;}
+.kpi:hover{box-shadow:0 4px 20px rgba(0,0,0,.08);transform:translateY(-2px);}
+.kpi::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.kpi:nth-child(1)::after{background:var(--blue);}
+.kpi:nth-child(2)::after{background:var(--green);}
+.kpi:nth-child(3)::after{background:var(--purple);}
+.kpi:nth-child(4)::after{background:var(--orange);}
+.kpi-top{display:flex;align-items:center;justify-content:space-between;}
+.kpi-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;}
+.kpi:nth-child(1) .kpi-icon{background:var(--blue-bg);color:var(--blue);}
+.kpi:nth-child(2) .kpi-icon{background:var(--green-bg);color:var(--green);}
+.kpi:nth-child(3) .kpi-icon{background:var(--purple-bg);color:var(--purple);}
+.kpi:nth-child(4) .kpi-icon{background:var(--orange-bg);color:var(--orange);}
+.kpi-label{font-size:.68rem;color:var(--muted);font-weight:500;margin-bottom:2px;}
+.kpi-value{font-size:1.5rem;font-weight:800;line-height:1;font-family:'Inter',sans-serif;}
+.kpi-change{display:inline-flex;align-items:center;gap:3px;font-size:.65rem;font-weight:600;padding:2px 6px;border-radius:4px;margin-top:3px;}
+.kpi-change.up{background:var(--green-bg);color:var(--green);}
+.kpi-change.down{background:var(--red-bg);color:var(--red);}
+
+/* Cards */
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);transition:all .2s;margin-bottom:20px;}
+.card:hover{box-shadow:0 4px 16px rgba(0,0,0,.06);}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px;}
+.card-header h3{font-size:.92rem;font-weight:700;display:flex;align-items:center;gap:6px;}
+
+/* Badges */
+.badge{padding:3px 10px;border-radius:12px;font-size:.68rem;font-weight:600;display:inline-flex;align-items:center;gap:4px;}
+.badge-blue{background:var(--blue-bg);border:1px solid rgba(37,99,235,0.15);color:var(--blue);}
+.badge-green{background:var(--green-bg);border:1px solid rgba(5,150,105,0.15);color:var(--green);}
+.badge-purple{background:var(--purple-bg);border:1px solid rgba(124,58,237,0.15);color:var(--purple);}
+.badge-orange{background:var(--orange-bg);border:1px solid rgba(217,119,6,0.15);color:var(--orange);}
+.badge-red{background:var(--red-bg);border:1px solid rgba(220,38,38,0.15);color:var(--red);}
+.badge-cyan{background:rgba(8,145,178,.1);border:1px solid rgba(8,145,178,.15);color:var(--cyan);}
+.badge-muted{background:var(--bg3);border:1px solid var(--border);color:var(--muted);}
+
+/* Filter Bar */
+.filter-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+.filter-bar input,.filter-bar select{padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:.78rem;background:var(--bg);color:var(--text);font-family:inherit;transition:border .2s;}
+.filter-bar input:focus,.filter-bar select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+.filter-bar input{min-width:260px;}
+.filter-bar select{min-width:140px;}
+
+/* Table */
+.table-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border);}
+table{width:100%;border-collapse:collapse;font-size:.78rem;}
+thead{background:var(--bg2);}
+th{padding:10px 12px;text-align:left;font-weight:600;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap;border-bottom:1px solid var(--border);cursor:pointer;user-select:none;}
+th:hover{color:var(--blue);}
+th .sort-arrow{font-size:.6rem;margin-left:3px;opacity:.4;}
+th.sorted .sort-arrow{opacity:1;color:var(--blue);}
+td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle;white-space:nowrap;}
+tr{transition:background .15s;cursor:pointer;}
+tbody tr:hover{background:var(--blue-bg);}
+tr:last-child td{border-bottom:none;}
+
+/* Stars */
+.stars{color:var(--orange);font-size:.75rem;letter-spacing:1px;}
+.stars .empty{opacity:.25;}
+
+/* Status */
+.status{padding:3px 10px;border-radius:20px;font-size:.68rem;font-weight:600;display:inline-flex;align-items:center;gap:4px;}
+.status-active{background:var(--green-bg);color:var(--green);}
+.status-inactive{background:var(--bg3);color:var(--muted);}
+.status-blacklisted{background:var(--red-bg);color:var(--red);}
+.status-pending{background:var(--orange-bg);color:var(--orange);}
+
+/* Module badges */
+.module-badges{display:flex;gap:4px;flex-wrap:wrap;}
+.module-badge{padding:2px 7px;border-radius:4px;font-size:.62rem;font-weight:600;}
+.module-badge.quot{background:var(--blue-bg);color:var(--blue);}
+.module-badge.proc{background:var(--purple-bg);color:var(--purple);}
+.module-badge.fin{background:var(--green-bg);color:var(--green);}
+
+/* Pagination */
+.pagination{display:flex;align-items:center;justify-content:space-between;margin-top:16px;flex-wrap:wrap;gap:8px;}
+.pagination-info{font-size:.72rem;color:var(--muted);}
+.pagination-btns{display:flex;gap:4px;}
+.pagination-btns button{padding:6px 12px;border:1px solid var(--border);background:var(--bg);color:var(--text2);border-radius:6px;font-size:.72rem;cursor:pointer;font-family:inherit;transition:all .2s;}
+.pagination-btns button:hover{border-color:var(--blue);color:var(--blue);}
+.pagination-btns button.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+.pagination-btns button:disabled{opacity:.4;cursor:not-allowed;}
+
+/* Modal Overlay */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);}
+.modal-overlay.active{display:flex;}
+.modal{background:var(--card-bg);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.2);max-height:90vh;overflow-y:auto;width:100%;position:relative;}
+.modal-sm{max-width:560px;}
+.modal-md{max-width:720px;}
+.modal-lg{max-width:960px;}
+.modal-xl{max-width:1100px;}
+.modal-header{padding:20px 24px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--card-bg);z-index:2;border-radius:16px 16px 0 0;}
+.modal-header h2{font-size:1rem;font-weight:700;display:flex;align-items:center;gap:8px;}
+.modal-close{width:32px;height:32px;border-radius:8px;border:none;background:var(--bg3);color:var(--muted);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.modal-close:hover{background:var(--red-bg);color:var(--red);}
+.modal-body{padding:20px 24px;}
+.modal-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:flex-end;gap:8px;position:sticky;bottom:0;background:var(--card-bg);border-radius:0 0 16px 16px;}
+
+/* Form */
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+.form-grid.cols-3{grid-template-columns:repeat(3,1fr);}
+.form-group{display:flex;flex-direction:column;gap:4px;}
+.form-group.full{grid-column:1/-1;}
+.form-label{font-size:.72rem;font-weight:600;color:var(--text2);}
+.form-label .req{color:var(--red);margin-left:2px;}
+.form-input,.form-select,.form-textarea{padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:.8rem;background:var(--bg);color:var(--text);font-family:inherit;transition:border .2s;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+.form-textarea{resize:vertical;min-height:80px;}
+.form-hint{font-size:.65rem;color:var(--muted);}
+
+/* Detail Panel Tabs */
+.detail-tabs{display:flex;gap:2px;border-bottom:2px solid var(--border);margin-bottom:16px;}
+.detail-tab{padding:10px 16px;font-size:.78rem;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;}
+.detail-tab:hover{color:var(--text);}
+.detail-tab.active{color:var(--blue);font-weight:700;border-bottom-color:var(--blue);}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
+/* Detail fields */
+.detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.detail-field{display:flex;flex-direction:column;gap:2px;}
+.detail-field .label{font-size:.68rem;color:var(--muted);font-weight:500;}
+.detail-field .value{font-size:.82rem;font-weight:600;}
+
+/* Performance bars */
+.perf-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.perf-label{font-size:.75rem;font-weight:500;width:90px;flex-shrink:0;}
+.perf-bar-bg{flex:1;height:8px;background:var(--bg3);border-radius:4px;overflow:hidden;}
+.perf-bar{height:100%;border-radius:4px;transition:width .5s ease;}
+.perf-score{font-size:.75rem;font-weight:700;width:36px;text-align:right;}
+
+/* Activity log */
+.activity-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
+.activity-item:last-child{border-bottom:none;}
+.activity-dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0;}
+.activity-dot.created{background:var(--green);}
+.activity-dot.edited{background:var(--blue);}
+.activity-dot.rated{background:var(--orange);}
+.activity-dot.status-change{background:var(--purple);}
+.activity-text{font-size:.75rem;color:var(--text2);}
+.activity-time{font-size:.65rem;color:var(--muted);margin-top:2px;}
+
+/* Upload area */
+.upload-area{border:2px dashed var(--border);border-radius:var(--radius);padding:24px;text-align:center;cursor:pointer;transition:all .2s;}
+.upload-area:hover{border-color:var(--blue);background:var(--blue-bg);}
+.upload-area .icon{font-size:1.5rem;margin-bottom:4px;}
+.upload-area p{font-size:.75rem;color:var(--muted);}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;right:24px;padding:12px 20px;border-radius:10px;font-size:.78rem;font-weight:600;z-index:2000;display:none;align-items:center;gap:8px;box-shadow:0 8px 30px rgba(0,0,0,.15);animation:slideUp .3s ease;}
+.toast.show{display:flex;}
+.toast.success{background:var(--green);color:#fff;}
+.toast.error{background:var(--red);color:#fff;}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+
+/* Responsive */
+@media(max-width:768px){
+  .kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .form-grid{grid-template-columns:1fr;}
+  .detail-grid{grid-template-columns:repeat(2,1fr);}
+  .filter-bar{flex-direction:column;}
+  .filter-bar input,.filter-bar select{min-width:100%;width:100%;}
+  .page-header{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+
+<button class="dark-toggle" onclick="document.body.classList.toggle('dark');this.textContent=document.body.classList.contains('dark')?'&#9728;':'&#9790;'">&#9790;</button>
+
+<div class="page-wrap">
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="#">Autopilot v2</a> <span>/</span> <a href="#">System</a> <span>/</span> <span>Vendor Management</span>
+  </div>
+
+  <!-- User Context -->
+  <div class="user-context">
+    <div class="user-info">
+      <div class="user-avatar">SP</div>
+      <div>
+        <div class="user-name">สมปอง พิทักษ์ธรรม</div>
+        <div class="user-role">Procurement Manager</div>
+        <div class="user-team">&#128101; ฝ่ายจัดซื้อ-จัดจ้าง</div>
+      </div>
+    </div>
+    <div class="view-toggle">
+      <button class="view-btn active" onclick="setView(this)">&#128203; รายการ</button>
+      <button class="view-btn" onclick="setView(this)">&#128200; วิเคราะห์</button>
+      <button class="view-btn" onclick="setView(this)">&#9881; ตั้งค่า</button>
+    </div>
+  </div>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-title-area">
+      <h1>&#127970; ระบบจัดการ Vendor</h1>
+      <div class="page-subtitle">Vendor Management System -- ฐานข้อมูล Vendor กลาง ใช้ร่วมกับทุกโมดูล</div>
+    </div>
+    <div class="page-actions">
+      <span class="live-badge"><span class="live-dot"></span> ข้อมูลล่าสุด</span>
+      <button class="btn btn-secondary" onclick="exportCSV()">&#128229; Export CSV</button>
+      <button class="btn btn-primary" onclick="openAddModal()">&#10133; เพิ่ม Vendor ใหม่</button>
+    </div>
+  </div>
+
+  <!-- KPI Stats -->
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="kpi-top">
+        <div><div class="kpi-label">Vendor ทั้งหมด (Active)</div><div class="kpi-value" id="kpi-active">0</div></div>
+        <div class="kpi-icon">&#127970;</div>
+      </div>
+      <div class="kpi-change up">&#9650; +3 เดือนนี้</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-top">
+        <div><div class="kpi-label">เพิ่มใหม่เดือนนี้</div><div class="kpi-value" id="kpi-new">0</div></div>
+        <div class="kpi-icon">&#10024;</div>
+      </div>
+      <div class="kpi-change up">&#9650; เปิดใช้งานแล้ว</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-top">
+        <div><div class="kpi-label">คะแนนเฉลี่ย</div><div class="kpi-value" id="kpi-rating">0.0</div></div>
+        <div class="kpi-icon">&#11088;</div>
+      </div>
+      <div class="kpi-change up">&#9650; +0.2 จากเดือนก่อน</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-top">
+        <div><div class="kpi-label">รอการยืนยัน</div><div class="kpi-value" id="kpi-pending">0</div></div>
+        <div class="kpi-icon">&#9203;</div>
+      </div>
+      <div class="kpi-change down">&#9660; ต้องดำเนินการ</div>
+    </div>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="card">
+    <div class="filter-bar">
+      <input type="text" id="searchInput" placeholder="&#128269; ค้นหา Vendor Code, ชื่อบริษัท, ผู้ติดต่อ..." oninput="filterVendors()">
+      <select id="filterCategory" onchange="filterVendors()">
+        <option value="">ทุกหมวดหมู่</option>
+        <option value="วัตถุดิบ">วัตถุดิบ</option>
+        <option value="อะไหล่">อะไหล่</option>
+        <option value="IT">IT</option>
+        <option value="บริการ">บริการ</option>
+        <option value="โลจิสติกส์">โลจิสติกส์</option>
+        <option value="สำนักงาน">สำนักงาน</option>
+      </select>
+      <select id="filterStatus" onchange="filterVendors()">
+        <option value="">ทุกสถานะ</option>
+        <option value="Active">Active</option>
+        <option value="Inactive">Inactive</option>
+        <option value="Blacklisted">Blacklisted</option>
+        <option value="Pending Verification">Pending Verification</option>
+      </select>
+      <select id="filterRating" onchange="filterVendors()">
+        <option value="">ทุกคะแนน</option>
+        <option value="5">5 ดาว</option>
+        <option value="4">4 ดาวขึ้นไป</option>
+        <option value="3">3 ดาวขึ้นไป</option>
+      </select>
+      <select id="filterModule" onchange="filterVendors()">
+        <option value="">ทุกโมดูล</option>
+        <option value="quotation">Quotation</option>
+        <option value="procurement">Procurement</option>
+        <option value="finance">Finance</option>
+      </select>
+      <button class="btn btn-sm btn-secondary" onclick="clearFilters()">&#10060; ล้างตัวกรอง</button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th onclick="sortTable('code')">รหัส <span class="sort-arrow">&#9660;</span></th>
+            <th onclick="sortTable('name')">ชื่อบริษัท <span class="sort-arrow">&#9660;</span></th>
+            <th onclick="sortTable('contact')">ผู้ติดต่อ <span class="sort-arrow">&#9660;</span></th>
+            <th>โทรศัพท์</th>
+            <th onclick="sortTable('category')">หมวดหมู่ <span class="sort-arrow">&#9660;</span></th>
+            <th onclick="sortTable('status')">สถานะ <span class="sort-arrow">&#9660;</span></th>
+            <th onclick="sortTable('rating')">คะแนน <span class="sort-arrow">&#9660;</span></th>
+            <th onclick="sortTable('orders')">ออเดอร์ <span class="sort-arrow">&#9660;</span></th>
+            <th>เงื่อนไข</th>
+            <th>โมดูลที่เชื่อม</th>
+            <th>จัดการ</th>
+          </tr>
+        </thead>
+        <tbody id="vendorTableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <div class="pagination-info" id="paginationInfo"></div>
+      <div class="pagination-btns" id="paginationBtns"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Vendor Modal -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <h2>&#10133; เพิ่ม Vendor ใหม่</h2>
+      <button class="modal-close" onclick="closeModal('addModal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">ชื่อบริษัท <span class="req">*</span></label>
+          <input class="form-input" id="addName" placeholder="เช่น บจก. สยามเทค โซลูชัน">
+        </div>
+        <div class="form-group">
+          <label class="form-label">เลขประจำตัวผู้เสียภาษี <span class="req">*</span></label>
+          <input class="form-input" id="addTaxId" placeholder="เช่น 0105563012345" maxlength="13">
+        </div>
+        <div class="form-group">
+          <label class="form-label">ผู้ติดต่อหลัก <span class="req">*</span></label>
+          <input class="form-input" id="addContact" placeholder="ชื่อ-นามสกุล">
+        </div>
+        <div class="form-group">
+          <label class="form-label">โทรศัพท์ <span class="req">*</span></label>
+          <input class="form-input" id="addPhone" placeholder="0XX-XXX-XXXX">
+        </div>
+        <div class="form-group">
+          <label class="form-label">อีเมล <span class="req">*</span></label>
+          <input class="form-input" id="addEmail" type="email" placeholder="contact@company.co.th">
+        </div>
+        <div class="form-group">
+          <label class="form-label">เว็บไซต์</label>
+          <input class="form-input" id="addWebsite" placeholder="https://www.company.co.th">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">ที่อยู่ (ถนน/ซอย)</label>
+          <input class="form-input" id="addStreet" placeholder="เลขที่ ถนน ซอย">
+        </div>
+        <div class="form-group">
+          <label class="form-label">เขต/อำเภอ</label>
+          <input class="form-input" id="addDistrict" placeholder="เขต/อำเภอ">
+        </div>
+        <div class="form-group">
+          <label class="form-label">จังหวัด</label>
+          <input class="form-input" id="addProvince" placeholder="จังหวัด">
+        </div>
+        <div class="form-group">
+          <label class="form-label">รหัสไปรษณีย์</label>
+          <input class="form-input" id="addPostal" placeholder="10XXX" maxlength="5">
+        </div>
+        <div class="form-group">
+          <label class="form-label">หมวดหมู่ <span class="req">*</span></label>
+          <select class="form-select" id="addCategory">
+            <option value="">-- เลือก --</option>
+            <option value="วัตถุดิบ">วัตถุดิบ</option>
+            <option value="อะไหล่">อะไหล่</option>
+            <option value="IT">IT</option>
+            <option value="บริการ">บริการ</option>
+            <option value="โลจิสติกส์">โลจิสติกส์</option>
+            <option value="สำนักงาน">สำนักงาน</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">เงื่อนไขการชำระ</label>
+          <select class="form-select" id="addPaymentTerms">
+            <option value="30">Net 30 วัน</option>
+            <option value="45">Net 45 วัน</option>
+            <option value="60">Net 60 วัน</option>
+            <option value="90">Net 90 วัน</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">ธนาคาร</label>
+          <select class="form-select" id="addBank">
+            <option value="">-- เลือก --</option>
+            <option value="กสิกรไทย">ธ.กสิกรไทย</option>
+            <option value="กรุงเทพ">ธ.กรุงเทพ</option>
+            <option value="ไทยพาณิชย์">ธ.ไทยพาณิชย์</option>
+            <option value="กรุงไทย">ธ.กรุงไทย</option>
+            <option value="กรุงศรี">ธ.กรุงศรี</option>
+            <option value="ทหารไทยธนชาต">ธ.ทหารไทยธนชาต</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">ชื่อบัญชี</label>
+          <input class="form-input" id="addBankAccName" placeholder="ชื่อบัญชีตามธนาคาร">
+        </div>
+        <div class="form-group">
+          <label class="form-label">เลขที่บัญชี</label>
+          <input class="form-input" id="addBankAccNo" placeholder="XXX-X-XXXXX-X">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">เอกสาร/ใบรับรอง</label>
+          <div class="upload-area" onclick="document.getElementById('fileUploadAdd').click()">
+            <div class="icon">&#128206;</div>
+            <p>คลิกเพื่ออัปโหลดเอกสาร (PDF, JPG, PNG) หรือลากไฟล์มาวาง</p>
+            <p style="font-size:.65rem;margin-top:4px;">หนังสือรับรองบริษัท, ภพ.20, บัตรประชาชนผู้มีอำนาจลงนาม</p>
+          </div>
+          <input type="file" id="fileUploadAdd" multiple style="display:none">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">หมายเหตุ</label>
+          <textarea class="form-textarea" id="addNotes" placeholder="รายละเอียดเพิ่มเติม หรือข้อควรระวังเกี่ยวกับ Vendor"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('addModal')">ยกเลิก</button>
+      <button class="btn btn-primary" onclick="saveNewVendor()">&#128190; บันทึก Vendor</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Vendor Modal -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <h2>&#9998; แก้ไขข้อมูล Vendor</h2>
+      <button class="modal-close" onclick="closeModal('editModal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">รหัส Vendor</label>
+          <input class="form-input" id="editCode" disabled>
+        </div>
+        <div class="form-group">
+          <label class="form-label">ชื่อบริษัท <span class="req">*</span></label>
+          <input class="form-input" id="editName">
+        </div>
+        <div class="form-group">
+          <label class="form-label">เลขประจำตัวผู้เสียภาษี</label>
+          <input class="form-input" id="editTaxId" maxlength="13">
+        </div>
+        <div class="form-group">
+          <label class="form-label">ผู้ติดต่อหลัก</label>
+          <input class="form-input" id="editContact">
+        </div>
+        <div class="form-group">
+          <label class="form-label">โทรศัพท์</label>
+          <input class="form-input" id="editPhone">
+        </div>
+        <div class="form-group">
+          <label class="form-label">อีเมล</label>
+          <input class="form-input" id="editEmail" type="email">
+        </div>
+        <div class="form-group">
+          <label class="form-label">เว็บไซต์</label>
+          <input class="form-input" id="editWebsite">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">ที่อยู่</label>
+          <input class="form-input" id="editAddress">
+        </div>
+        <div class="form-group">
+          <label class="form-label">หมวดหมู่</label>
+          <select class="form-select" id="editCategory">
+            <option value="วัตถุดิบ">วัตถุดิบ</option>
+            <option value="อะไหล่">อะไหล่</option>
+            <option value="IT">IT</option>
+            <option value="บริการ">บริการ</option>
+            <option value="โลจิสติกส์">โลจิสติกส์</option>
+            <option value="สำนักงาน">สำนักงาน</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">เงื่อนไขการชำระ</label>
+          <select class="form-select" id="editPaymentTerms">
+            <option value="30">Net 30 วัน</option>
+            <option value="45">Net 45 วัน</option>
+            <option value="60">Net 60 วัน</option>
+            <option value="90">Net 90 วัน</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">สถานะ</label>
+          <select class="form-select" id="editStatus">
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+            <option value="Blacklisted">Blacklisted</option>
+            <option value="Pending Verification">Pending Verification</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">ธนาคาร</label>
+          <select class="form-select" id="editBank">
+            <option value="กสิกรไทย">ธ.กสิกรไทย</option>
+            <option value="กรุงเทพ">ธ.กรุงเทพ</option>
+            <option value="ไทยพาณิชย์">ธ.ไทยพาณิชย์</option>
+            <option value="กรุงไทย">ธ.กรุงไทย</option>
+            <option value="กรุงศรี">ธ.กรุงศรี</option>
+            <option value="ทหารไทยธนชาต">ธ.ทหารไทยธนชาต</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">ชื่อบัญชี</label>
+          <input class="form-input" id="editBankAccName">
+        </div>
+        <div class="form-group">
+          <label class="form-label">เลขที่บัญชี</label>
+          <input class="form-input" id="editBankAccNo">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">หมายเหตุ</label>
+          <textarea class="form-textarea" id="editNotes"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('editModal')">ยกเลิก</button>
+      <button class="btn btn-primary" onclick="saveEditVendor()">&#128190; บันทึกการแก้ไข</button>
+    </div>
+  </div>
+</div>
+
+<!-- Vendor Detail Modal -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal modal-xl">
+    <div class="modal-header">
+      <h2 id="detailTitle">&#128196; รายละเอียด Vendor</h2>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn btn-sm btn-secondary" onclick="openEditFromDetail()">&#9998; แก้ไข</button>
+        <button class="btn btn-sm btn-danger" id="detailBlacklistBtn" onclick="blacklistVendor()">&#9888; Blacklist</button>
+        <button class="modal-close" onclick="closeModal('detailModal')">&times;</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <!-- Tabs -->
+      <div class="detail-tabs">
+        <div class="detail-tab active" onclick="switchTab('profile',this)">&#128100; ข้อมูลทั่วไป</div>
+        <div class="detail-tab" onclick="switchTab('orders',this)">&#128230; ประวัติการสั่งซื้อ</div>
+        <div class="detail-tab" onclick="switchTab('performance',this)">&#128200; คะแนนประเมิน</div>
+        <div class="detail-tab" onclick="switchTab('documents',this)">&#128206; เอกสาร</div>
+        <div class="detail-tab" onclick="switchTab('activity',this)">&#128221; Activity Log</div>
+      </div>
+
+      <!-- Tab: Profile -->
+      <div class="tab-content active" id="tab-profile">
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;">
+          <div style="width:56px;height:56px;border-radius:14px;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:800;" id="detailAvatar">V</div>
+          <div>
+            <div style="font-size:1.05rem;font-weight:800;" id="detailCompany"></div>
+            <div style="display:flex;gap:6px;margin-top:4px;" id="detailBadges"></div>
+          </div>
+        </div>
+        <div class="detail-grid" id="detailFields"></div>
+      </div>
+
+      <!-- Tab: Orders -->
+      <div class="tab-content" id="tab-orders">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>PO Number</th>
+                <th>วันที่</th>
+                <th>รายละเอียด</th>
+                <th>มูลค่า (บาท)</th>
+                <th>สถานะ</th>
+              </tr>
+            </thead>
+            <tbody id="detailOrdersBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab: Performance -->
+      <div class="tab-content" id="tab-performance">
+        <div style="max-width:500px;">
+          <h4 style="font-size:.85rem;font-weight:700;margin-bottom:16px;">คะแนนประเมินผลงาน</h4>
+          <div id="perfBars"></div>
+          <div style="margin-top:20px;padding:16px;background:var(--bg2);border-radius:var(--radius);">
+            <div style="font-size:.75rem;font-weight:600;margin-bottom:4px;">คะแนนรวม</div>
+            <div style="font-size:1.8rem;font-weight:800;font-family:Inter;" id="perfOverall">0.0</div>
+            <div style="font-size:.68rem;color:var(--muted);">คำนวณจากค่าเฉลี่ยทุกด้าน</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Documents -->
+      <div class="tab-content" id="tab-documents">
+        <div id="docList"></div>
+        <div class="upload-area" style="margin-top:16px;">
+          <div class="icon">&#128206;</div>
+          <p>อัปโหลดเอกสารเพิ่มเติม</p>
+        </div>
+      </div>
+
+      <!-- Tab: Activity -->
+      <div class="tab-content" id="tab-activity">
+        <div id="activityList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============ VENDOR DATA (25 mock vendors) ============
+const VENDORS = [
+  {id:1,code:'VEN-001',name:'บจก. สยามเทค โซลูชัน',contact:'สมชาย วิทยากร',phone:'02-123-4567',email:'somchai@siamtech.co.th',website:'https://www.siamtech.co.th',category:'IT',status:'Active',rating:5,totalOrders:87,lastOrder:'2026-03-28',paymentTerms:30,taxId:'0105563012345',address:'123/4 ถ.สีลม แขวงสีลม เขตบางรัก กรุงเทพฯ 10500',street:'123/4 ถ.สีลม',district:'บางรัก',province:'กรุงเทพฯ',postal:'10500',bank:'กสิกรไทย',bankAccName:'บจก. สยามเทค โซลูชัน',bankAccNo:'058-2-12345-6',modules:['quotation','procurement'],notes:'Vendor หลัก IT ใช้มานาน 5 ปี',performance:{quality:92,delivery:88,price:85,service:95},documents:['หนังสือรับรองบริษัท.pdf','ภพ.20.pdf','ISO 9001 Certificate.pdf'],activities:[{type:'created',text:'สร้าง Vendor โดย สมปอง พิทักษ์ธรรม',time:'2021-06-15 09:30'},{type:'edited',text:'แก้ไขที่อยู่ โดย สมปอง พิทักษ์ธรรม',time:'2023-01-20 14:15'},{type:'rated',text:'ให้คะแนน 5 ดาว โดย วิภาดา สุขสมบูรณ์',time:'2025-12-01 10:00'},{type:'edited',text:'อัปเดตข้อมูลธนาคาร โดย สมปอง พิทักษ์ธรรม',time:'2026-02-10 11:45'}],orders:[{po:'PO-2026-0087',date:'2026-03-28',desc:'Server Dell PowerEdge R750',amount:485000,status:'Delivered'},{po:'PO-2026-0072',date:'2026-03-15',desc:'Laptop Lenovo ThinkPad x20',amount:620000,status:'Delivered'},{po:'PO-2026-0058',date:'2026-02-20',desc:'Network Switch Cisco x10',amount:185000,status:'Delivered'},{po:'PO-2026-0041',date:'2026-02-01',desc:'UPS APC 3000VA x5',amount:95000,status:'Delivered'},{po:'PO-2025-0312',date:'2025-12-18',desc:'Microsoft 365 License Renewal',amount:340000,status:'Completed'}]},
+  {id:2,code:'VEN-002',name:'บจก. ไทยอินดัสเทรียล ซัพพลาย',contact:'วิภาดา สุขสมบูรณ์',phone:'02-234-5678',email:'wipada@thaiindustrial.co.th',website:'https://www.thaiindustrial.co.th',category:'วัตถุดิบ',status:'Active',rating:4,totalOrders:156,lastOrder:'2026-04-01',paymentTerms:45,taxId:'0105558023456',address:'456 ถ.พระราม3 แขวงช่องนนทรี เขตยานนาวา กรุงเทพฯ 10120',street:'456 ถ.พระราม3',district:'ยานนาวา',province:'กรุงเทพฯ',postal:'10120',bank:'กรุงเทพ',bankAccName:'บจก. ไทยอินดัสเทรียล ซัพพลาย',bankAccNo:'101-3-56789-0',modules:['procurement','finance'],notes:'วัตถุดิบหลัก เหล็กแผ่น',performance:{quality:88,delivery:82,price:90,service:78},documents:['หนังสือรับรองบริษัท.pdf','ภพ.20.pdf'],activities:[{type:'created',text:'สร้าง Vendor โดย อาทิตย์ มั่นคง',time:'2020-03-10 08:00'},{type:'rated',text:'ให้คะแนน 4 ดาว โดย สมปอง พิทักษ์ธรรม',time:'2025-11-15 16:00'}],orders:[{po:'PO-2026-0091',date:'2026-04-01',desc:'เหล็กแผ่นรีดเย็น 2mm 500 แผ่น',amount:875000,status:'Processing'},{po:'PO-2026-0078',date:'2026-03-18',desc:'ท่อเหล็ก SUS304 200 เส้น',amount:420000,status:'Delivered'},{po:'PO-2026-0055',date:'2026-02-15',desc:'เหล็กแผ่นรีดร้อน 3mm 300 แผ่น',amount:510000,status:'Delivered'}]},
+  {id:3,code:'VEN-003',name:'บจก. กรุงเทพ โลจิสติกส์ กรุ๊ป',contact:'ประยุทธ์ ขนส่งดี',phone:'02-345-6789',email:'prayuth@bkklogistics.com',website:'https://www.bkklogistics.com',category:'โลจิสติกส์',status:'Active',rating:4,totalOrders:213,lastOrder:'2026-04-02',paymentTerms:30,taxId:'0105560034567',address:'789 ถ.บางนา-ตราด แขวงบางนา เขตบางนา กรุงเทพฯ 10260',street:'789 ถ.บางนา-ตราด',district:'บางนา',province:'กรุงเทพฯ',postal:'10260',bank:'ไทยพาณิชย์',bankAccName:'บจก. กรุงเทพ โลจิสติกส์ กรุ๊ป',bankAccNo:'213-2-98765-4',modules:['procurement'],notes:'บริการขนส่งทั่วประเทศ',performance:{quality:80,delivery:92,price:75,service:88},documents:['หนังสือรับรองบริษัท.pdf','ใบอนุญาตขนส่ง.pdf'],activities:[{type:'created',text:'สร้าง Vendor โดย สมปอง พิทักษ์ธรรม',time:'2020-08-22 10:15'}],orders:[{po:'PO-2026-0092',date:'2026-04-02',desc:'ขนส่งสินค้า กรุงเทพ-ชลบุรี 40 ตู้',amount:160000,status:'In Transit'},{po:'PO-2026-0080',date:'2026-03-20',desc:'ขนส่งสินค้า กรุงเทพ-ระยอง 25 ตู้',amount:112500,status:'Delivered'}]},
+  {id:4,code:'VEN-004',name:'บจก. พี.เอส. ออฟฟิศ ซัพพลาย',contact:'พิมพ์ใจ สำราญ',phone:'02-456-7890',email:'pimjai@psoffice.co.th',website:'',category:'สำนักงาน',status:'Active',rating:3,totalOrders:45,lastOrder:'2026-03-15',paymentTerms:30,taxId:'0105562045678',address:'321 ถ.รัชดาภิเษก แขวงดินแดง เขตดินแดง กรุงเทพฯ 10400',street:'321 ถ.รัชดาภิเษก',district:'ดินแดง',province:'กรุงเทพฯ',postal:'10400',bank:'กรุงไทย',bankAccName:'บจก. พี.เอส. ออฟฟิศ ซัพพลาย',bankAccNo:'038-1-11111-2',modules:['procurement'],notes:'',performance:{quality:75,delivery:70,price:88,service:72},documents:['หนังสือรับรองบริษัท.pdf'],activities:[{type:'created',text:'สร้าง Vendor โดย อาทิตย์ มั่นคง',time:'2022-05-10 09:00'}],orders:[{po:'PO-2026-0065',date:'2026-03-15',desc:'กระดาษ A4 200 รีม + หมึก HP 50 ตลับ',amount:42000,status:'Delivered'}]},
+  {id:5,code:'VEN-005',name:'บจก. อีสเทิร์น ออโตพาร์ท',contact:'ธนกร ชัยศักดิ์',phone:'038-123-456',email:'thanakorn@easternparts.co.th',website:'https://www.easternparts.co.th',category:'อะไหล่',status:'Active',rating:5,totalOrders:98,lastOrder:'2026-03-30',paymentTerms:60,taxId:'0205560056789',address:'55/1 นิคมอมตะนคร อ.พานทอง จ.ชลบุรี 20160',street:'55/1 นิคมอมตะนคร',district:'พานทอง',province:'ชลบุรี',postal:'20160',bank:'กสิกรไทย',bankAccName:'บจก. อีสเทิร์น ออโตพาร์ท',bankAccNo:'722-2-33333-8',modules:['quotation','procurement'],notes:'อะไหล่คุณภาพดี ส่งตรงเวลา',performance:{quality:95,delivery:93,price:82,service:90},documents:['หนังสือรับรองบริษัท.pdf','ภพ.20.pdf','ISO 14001.pdf'],activities:[{type:'created',text:'สร้าง Vendor โดย สมปอง พิทักษ์ธรรม',time:'2021-01-20 08:30'},{type:'rated',text:'ให้คะแนน 5 ดาว โดย สมปอง พิทักษ์ธรรม',time:'2026-01-05 14:30'}],orders:[{po:'PO-2026-0089',date:'2026-03-30',desc:'Bearing SKF 6205 x500 ชิ้น',amount:175000,status:'Delivered'},{po:'PO-2026-0070',date:'2026-03-10',desc:'สายพาน Gates x200 เส้น',amount:96000,status:'Delivered'}]},
+  {id:6,code:'VEN-006',name:'บจก. แอดวานซ์ เคมีคอล',contact:'รัตนา เคมีดี',phone:'02-567-8901',email:'rattana@advancechem.co.th',website:'https://www.advancechem.co.th',category:'วัตถุดิบ',status:'Active',rating:4,totalOrders:72,lastOrder:'2026-03-25',paymentTerms:45,taxId:'0105561067890',address:'88 ถ.เพชรบุรีตัดใหม่ แขวงบางกะปิ เขตห้วยขวาง กรุงเทพฯ 10310',street:'88 ถ.เพชรบุรีตัดใหม่',district:'ห้วยขวาง',province:'กรุงเทพฯ',postal:'10310',bank:'กรุงศรี',bankAccName:'บจก. แอดวานซ์ เคมีคอล',bankAccNo:'401-1-55555-3',modules:['procurement','finance'],notes:'สารเคมีอุตสาหกรรม',performance:{quality:86,delivery:84,price:78,service:82},documents:['หนังสือรับรองบริษัท.pdf','MSDS.pdf'],activities:[{type:'created',text:'สร้าง Vendor โดย วิภาดา สุขสมบูรณ์',time:'2021-07-01 10:00'}],orders:[{po:'PO-2026-0083',date:'2026-03-25',desc:'น้ำยาทำความสะอาด IPA 200L x10',amount:65000,status:'Delivered'}]},
+  {id:7,code:'VEN-007',name:'บจก. ดิจิทัล คลาวด์ เซอร์วิส',contact:'กิตติพงศ์ ดิจิตอล',phone:'02-678-9012',email:'kittipong@digitalcloud.th',website:'https://www.digitalcloud.th',category:'IT',status:'Active',rating:5,totalOrders:34,lastOrder:'2026-04-03',paymentTerms:30,taxId:'0105565078901',address:'999 อาคาร True Digital Park ถ.สุขุมวิท 101 กรุงเทพฯ 10260',street:'999 อาคาร True Digital Park',district:'บางจาก',province:'กรุงเทพฯ',postal:'10260',bank:'ไทยพาณิชย์',bankAccName:'บจก. ดิจิทัล คลาวด์ เซอร์วิส',bankAccNo:'405-3-77777-1',modules:['quotation'],notes:'Cloud service provider หลัก',performance:{quality:96,delivery:95,price:72,service:98},documents:['หนังสือรับรองบริษัท.pdf','SLA Agreement.pdf','ISO 27001.pdf'],activities:[{type:'created',text:'สร้าง Vendor โดย กิตติพงศ์ ดิจิตอล',time:'2023-09-01 09:00'},{type:'rated',text:'ให้คะแนน 5 ดาว โดย สมปอง พิทักษ์ธรรม',time:'2026-03-01 11:00'}],orders:[{po:'PO-2026-0093',date:'2026-04-03',desc:'AWS Reserved Instance 1Y - c6i.xlarge x10',amount:720000,status:'Active'},{po:'PO-2026-0060',date:'2026-02-25',desc:'Azure Backup License 100TB',amount:185000,status:'Active'}]},
+  {id:8,code:'VEN-008',name:'บจก. เอ็น.เอ็ม. เซอร์วิส แอนด์ เมนเทนแนนซ์',contact:'นภดล ช่างซ่อม',phone:'02-789-0123',email:'napadon@nmservice.co.th',website:'',category:'บริการ',status:'Active',rating:3,totalOrders:28,lastOrder:'2026-03-20',paymentTerms:30,taxId:'0105564089012',address:'250 ซ.ลาดพร้าว 87 แขวงคลองจั่น เขตบางกะปิ กรุงเทพฯ 10240',street:'250 ซ.ลาดพร้าว 87',district:'บางกะปิ',province:'กรุงเทพฯ',postal:'10240',bank:'ทหารไทยธนชาต',bankAccName:'บจก. เอ็น.เอ็ม. เซอร์วิส',bankAccNo:'068-2-88888-9',modules:['procurement'],notes:'ซ่อมบำรุงเครื่องจักร',performance:{quality:78,delivery:75,price:85,service:80},documents:['หนังสือรับรองบริษัท.pdf'],activities:[{type:'created',text:'สร้าง Vendor โดย อาทิตย์ มั่นคง',time:'2022-11-15 14:00'}],orders:[{po:'PO-2026-0075',date:'2026-03-20',desc:'PM เครื่อง CNC รอบ Q1/2026',amount:85000,status:'Completed'}]},
+  {id:9,code:'VEN-009',name:'หจก. ศรีสุวรรณ การพิมพ์',contact:'สุวรรณา พิมพ์ดี',phone:'02-890-1234',email:'suwanna@srisuwanprint.co.th',website:'',category:'สำนักงาน',status:'Inactive',rating:2,totalOrders:12,lastOrder:'2025-08-10',paymentTerms:30,taxId:'0103558090123',address:'45 ถ.พหลโยธิน แขวงอนุสาวรีย์ เขตบางเขน กรุงเทพฯ 10220',street:'45 ถ.พหลโยธิน',district:'บางเขน',province:'กรุงเทพฯ',postal:'10220',bank:'กรุงไทย',bankAccName:'หจก. ศรีสุวรรณ การพิมพ์',bankAccNo:'020-6-44444-5',modules:[],notes:'หยุดใช้งาน เนื่องจากคุณภาพงานพิมพ์ลดลง',performance:{quality:55,delivery:60,price:80,service:50},documents:['หนังสือรับรองหจก.pdf'],activities:[{type:'created',text:'สร้าง Vendor โดย พิมพ์ใจ สำราญ',time:'2023-02-01 09:00'},{type:'status-change',text:'เปลี่ยนสถานะเป็น Inactive โดย สมปอง พิทักษ์ธรรม',time:'2025-09-01 16:30'}],orders:[{po:'PO-2025-0198',date:'2025-08-10',desc:'พิมพ์แค็ตตาล็อก 5,000 ชุด',amount:125000,status:'Completed'}]},
+  {id:10,code:'VEN-010',name:'บจก. ไทย-เยอรมัน ออโตเมชัน',contact:'ฮันส์ มุลเลอร์',phone:'02-901-2345',email:'hans@tgauto.co.th',website:'https://www.tgauto.co.th',category:'อะไหล่',status:'Active',rating:5,totalOrders:64,lastOrder:'2026-03-22',paymentTerms:60,taxId:'0105559101234',address:'100 ถ.บางนา-ตราด กม.25 อ.บางพลี จ.สมุทรปราการ 10540',street:'100 ถ.บางนา-ตราด กม.25',district:'บางพลี',province:'สมุทรปราการ',postal:'10540',bank:'กรุงเทพ',bankAccName:'บจก. ไทย-เยอรมัน ออโตเมชัน',bankAccNo:'177-0-22222-3',modules:['quotation','procurement','finance'],notes:'อะไหล่นำเข้าจากเยอรมนี คุณภาพสูง',performance:{quality:98,delivery:90,price:65,service:92},documents:['หนังสือรับรองบริษัท.pdf','ภพ.20.pdf','ISO 9001.pdf','CE Certificate.pdf'],activities:[{type:'created',text:'สร้าง Vendor โดย สมปอง พิทักษ์ธรรม',time:'2021-04-15 10:30'},{type:'edited',text:'อัปเดต Cert ใหม่ โดย สมปอง พิทักษ์ธรรม',time:'2026-01-15 09:00'},{type:'rated',text:'ให้คะแนน 5 ดาว โดย ธนกร ชัยศักดิ์',time:'2026-02-20 15:00'}],orders:[{po:'PO-2026-0082',date:'2026-03-22',desc:'PLC Siemens S7-1500 x5 ชุด',amount:1250000,status:'Delivered'},{po:'PO-2026-0062',date:'2026-02-28',desc:'Servo Motor Siemens x10',amount:680000,status:'Delivered'},{po:'PO-2026-0045',date:'2026-02-05',desc:'HMI Panel Siemens x8',amount:320000,status:'Delivered'}]},
+  {id:11,code:'VEN-011',name:'บจก. สมาร์ท เซฟตี้ อีควิปเมนท์',contact:'อัญชลี ปลอดภัย',phone:'02-012-3456',email:'anchalee@smartsafety.co.th',website:'https://www.smartsafety.co.th',category:'บริการ',status:'Active',rating:4,totalOrders:38,lastOrder:'2026-03-18',paymentTerms:30,taxId:'0105563112345',address:'77 ถ.วิภาวดีรังสิต แขวงตลาดบางเขน เขตหลักสี่ กรุงเทพฯ 10210',street:'77 ถ.วิภาวดีรังสิต',district:'หลักสี่',province:'กรุงเทพฯ',postal:'10210',bank:'กสิกรไทย',bankAccName:'บจก. สมาร์ท เซฟตี้',bankAccNo:'611-2-99999-7',modules:['procurement'],notes:'อุปกรณ์ความปลอดภัย และตรวจสอบ',performance:{quality:85,delivery:87,price:80,service:88},documents:['หนังสือรับรองบริษัท.pdf'],activities:[{type:'created',text:'สร้าง Vendor โดย อัญชลี ปลอดภัย',time:'2022-06-20 11:00'}],orders:[{po:'PO-2026-0074',date:'2026-03-18',desc:'อุปกรณ์ PPE ประจำปี',amount:156000,status:'Delivered'}]},
+  {id:12,code:'VEN-012',name:'บมจ. ซี.พี. แพ็คเกจจิ้ง',contact:'ชัยวัฒน์ บรรจุภัณฑ์',phone:'02-123-9876',email:'chaiwat@cppackaging.co.th',website:'https://www.cppackaging.co.th',category:'วัตถุดิบ',status:'Active',rating:4,totalOrders:134,lastOrder:'2026-04-01',paymentTerms:45,taxId:'0107558123456',address:'200 ถ.มิตรภาพ อ.เมือง จ.นครราชสีมา 30000',street:'200 ถ.มิตรภาพ',district:'เมือง',province:'นครราชสีมา',postal:'30000',bank:'กรุงเทพ',bankAccName:'บมจ. ซี.พี. แพ็คเกจจิ้ง',bankAccNo:'190-0-66666-8',modules:['quotation','procurement'],notes:'บรรจุภัณฑ์พลาสติกและกล่องกระดาษ',performance:{quality:82,delivery:85,price:90,service:80},documents:['หนังสือรับรองบริษัท.pdf','ภพ.20.pdf','FDA Certificate.pdf'],activities:[{type:'created',text:'สร้าง Vendor โดย สมปอง พิทักษ์ธรรม',time:'2020-11-01 08:45'}],orders:[{po:'PO-2026-0090',date:'2026-04-01',desc:'กล่องกระดาษลูกฟูก 50,000 ใบ',amount:375000,status:'Processing'},{po:'PO-2026-0068',date:'2026-03-08',desc:'ถุง PE ขนาดใหญ่ 100,000 ใบ',amount:210000,status:'Delivered'}]},
+  {id:13,code:'VEN-013',name:'บจก. โกลบอล เทรดดิ้ง (ประเทศไทย)',contact:'มาริสา อินเตอร์',phone:'02-234-8765',email:'marisa@globaltrading.co.th',website:'https://www.globaltrading.co.th',category:'วัตถุดิบ',status:'Blacklisted',rating:1,totalOrders:8,lastOrder:'2025-05-20',paymentTerms:30,taxId:'0105560134567',address:'500 ถ.สาทรใต้ แขวงทุ่งมหาเมฆ เขตสาทร กรุงเทพฯ 10120',street:'500 ถ.สาทรใต้',district:'สาทร',province:'กรุงเทพฯ',postal:'10120',bank:'ไทยพาณิชย์',bankAccName:'บจก. โกลบอล เทรดดิ้ง',bankAccNo:'333-1-44444-2',modules:[],notes:'Blacklisted: ส่งสินค้าไม่ตรงสเปค 3 ครั้งติด, พบการปลอม COA',performance:{quality:25,delivery:40,price:70,service:30},documents:['หนังสือรับรองบริษัท.pdf','Blacklist Report.pdf'],activities:[{type:'created',text:'สร้าง Vendor โดย อาทิตย์ มั่นคง',time:'2024-06-01 10:00'},{type:'status-change',text:'Blacklisted โดย สมปอง พิทักษ์ธรรม - เหตุผล: ส่งสินค้าไม่ตรงสเปค',time:'2025-06-15 09:00'}],orders:[{po:'PO-2025-0150',date:'2025-05-20',desc:'สารเคมี Grade A 500kg',amount:95000,status:'Returned'}]},
+  {id:14,code:'VEN-014',name:'บจก. เชียงใหม่ สตีล เวิร์ค',contact:'สมศักดิ์ เหล็กดี',phone:'053-123-456',email:'somsak@cmsteelwork.co.th',website:'',category:'วัตถุดิบ',status:'Active',rating:4,totalOrders:52,lastOrder:'2026-03-12',paymentTerms:60,taxId:'0505561145678',address:'199 ถ.ซุปเปอร์ไฮเวย์ อ.เมือง จ.เชียงใหม่ 50000',street:'199 ถ.ซุปเปอร์ไฮเวย์',district:'เมือง',province:'เชียงใหม่',postal:'50000',bank:'กรุงไทย',bankAccName:'บจก. เชียงใหม่ สตีล เวิร์ค',bankAccNo:'512-0-78901-3',modules:['procurement'],notes:'เหล็กโครงสร้างภาคเหนือ',performance:{quality:84,delivery:80,price:88,service:82},documents:['หนังสือรับรองบริษัท.pdf','ภพ.20.pdf'],activities:[{type:'created',text:'สร้าง Vendor โดย สมปอง พิทักษ์ธรรม',time:'2021-09-10 09:30'}],orders:[{po:'PO-2026-0064',date:'2026-03-12',desc:'เหล็ก H-Beam 200x200 100 ท่อน',amount:680000,status:'Delivered'}]},
+  {id:15,code:'VEN-015',name:'บจก. เน็กซ์ เจน โซลูชันส์',contact:'ปิยะ ไอที',phone:'02-345-0987',email:'piya@nextgensolutions.co.th',website:'https://www.nextgensolutions.co.th',category:'IT',status:'Pending Verification',rating:0,totalOrders:0,lastOrder:'-',paymentTerms:30,taxId:'0105567156789',address:'350 อาคาร AIA สาทร ชั้น 25 ถ.สาทรใต้ กรุงเทพฯ 10120',street:'350 อาคาร AIA สาทร ชั้น 25',district:'สาทร',province:'กรุงเทพฯ',postal:'10120',bank:'กสิกรไทย',bankAccName:'บจก. เน็กซ์ เจน โซลูชันส์',bankAccNo:'',modules:[],notes:'Vendor ใหม่ รอยืนยันเอกสาร',performance:{quality:0,delivery:0,price:0,service:0},documents:[],activities:[{type:'created',text:'สร้าง Vendor โดย กิตติพงศ์ ดิจิตอล',time:'2026-04-01 14:00'}],orders:[]},
+  {id:16,code:'VEN-016',name:'บจก. สุขุมวิท ทรานสปอร์ต',contact:'กมล ขนส่ง',phone:'02-456-0876',email:'kamol@sukhumvittransport.co.th',website:'',category:'โลจิสติกส์',status:'Active',rating:3,totalOrders:89,lastOrder:'2026-03-29',paymentTerms:30,taxId:'0105562167890',address:'28 ซ.สุขุมวิท 71 แขวงพระโขนงเหนือ เขตวัฒนา กรุงเทพฯ 10110',street:'28 ซ.สุขุมวิท 71',district:'วัฒนา',province:'กรุงเทพฯ',postal:'10110',bank:'กรุงศรี',bankAccName:'บจก. สุขุมวิท ทรานสปอร์ต',bankAccNo:'159-0-12345-8',modules:['procurement'],notes:'ขนส่งเฉพาะเขตกรุงเทพฯ-ปริมณฑล',performance:{quality:72,delivery:78,price:90,service:75},documents:['หนังสือรับรองบริษัท.pdf','ใบอนุญาตขนส่ง.pdf'],activities:[{type:'created',text:'สร้าง Vendor โดย ประยุทธ์ ขนส่งดี',time:'2022-01-10 09:00'}],orders:[{po:'PO-2026-0088',date:'2026-03-29',desc:'ขนส่งด่วน กรุงเทพ-สมุทรปราการ',amount:15000,status:'Delivered'}]},
+  {id:17,code:'VEN-017',name:'บจก. พาวเวอร์ อิเล็กทริก ซัพพลาย',contact:'อนุชา ไฟฟ้า',phone:'02-567-0765',email:'anucha@powerelec.co.th',website:'https://www.powerelec.co.th',category:'อะไหล่',status:'Active',rating:4,totalOrders:41,lastOrder:'2026-03-26',paymentTerms:45,taxId:'0105563178901',address:'180 ถ.พัฒนาการ แขวงสวนหลวง เขตสวนหลวง กรุงเทพฯ 10250',street:'180 ถ.พัฒนาการ',district:'สวนหลวง',province:'กรุงเทพฯ',postal:'10250',bank:'ทหารไทยธนชาต',bankAccName:'บจก. พาวเวอร์ อิเล็กทริก',bankAccNo:'071-2-55555-4',modules:['quotation','procurement'],notes:'อุปกรณ์ไฟฟ้าอุตสาหกรรม',performance:{quality:88,delivery:85,price:82,service:86},documents:['หนังสือรับรองบริษัท.pdf','ภพ.20.pdf'],activities:[{type:'created',text:'สร้าง Vendor โดย สมปอง พิทักษ์ธรรม',time:'2022-03-15 10:00'}],orders:[{po:'PO-2026-0084',date:'2026-03-26',desc:'สายไฟ THW 25sq.mm 200 ม้วน',amount:140000,status:'Delivered'}]},
+  {id:18,code:'VEN-018',name:'บจก. คลีน เอ็นไวรอนเมนท์',contact:'สุดา สะอาด',phone:'02-678-0654',email:'suda@cleanenv.co.th',website:'',category:'บริการ',status:'Active',rating:4,totalOrders:24,lastOrder:'2026-03-10',paymentTerms:30,taxId:'0105565189012',address:'66 ถ.นวมินทร์ แขวงคลองกุ่ม เขตบึงกุ่ม กรุงเทพฯ 10230',street:'66 ถ.นวมินทร์',district:'บึงกุ่ม',province:'กรุงเทพฯ',postal:'10230',bank:'กรุงเทพ',bankAccName:'บจก. คลีน เอ็นไวรอนเมนท์',bankAccNo:'234-5-67890-1',modules:['procurement'],notes:'บริการกำจัดของเสียอุตสาหกรรม',performance:{quality:85,delivery:88,price:75,service:90},documents:['หนังสือรับรองบริษัท.pdf','ใบอนุญาตกำจัดกากอุตสาหกรรม.pdf'],activities:[{type:'created',text:'สร้าง Vendor โดย อาทิตย์ มั่นคง',time:'2023-05-01 09:00'}],orders:[{po:'PO-2026-0061',date:'2026-03-10',desc:'กำจัดกากอุตสาหกรรม Q1/2026',amount:95000,status:'Completed'}]},
+  {id:19,code:'VEN-019',name:'บจก. ไทย ฟู้ดเกรด เคมีคอล',contact:'มนัส อาหาร',phone:'02-789-0543',email:'manat@thaifoodgrade.co.th',website:'https://www.thaifoodgrade.co.th',category:'วัตถุดิบ',status:'Pending Verification',rating:0,totalOrders:0,lastOrder:'-',paymentTerms:30,taxId:'0105567190123',address:'500/1 ถ.เทพารักษ์ อ.เมือง จ.สมุทรปราการ 10270',street:'500/1 ถ.เทพารักษ์',district:'เมือง',province:'สมุทรปราการ',postal:'10270',bank:'ไทยพาณิชย์',bankAccName:'บจก. ไทย ฟู้ดเกรด เคมีคอล',bankAccNo:'',modules:[],notes:'Vendor ใหม่ รอตรวจสอบ GMP/HACCP',performance:{quality:0,delivery:0,price:0,service:0},documents:[],activities:[{type:'created',text:'สร้าง Vendor โดย รัตนา เคมีดี',time:'2026-03-28 11:00'}],orders:[]},
+  {id:20,code:'VEN-020',name:'บจก. เซ็นทรัล แอร์ เอ็นจิเนียริ่ง',contact:'วีระ เย็นดี',phone:'02-890-0432',email:'weera@centralair.co.th',website:'https://www.centralair.co.th',category:'บริการ',status:'Active',rating:4,totalOrders:19,lastOrder:'2026-02-28',paymentTerms:30,taxId:'0105564201234',address:'120 ถ.ประดิษฐ์มนูธรรม แขวงลาดพร้าว เขตลาดพร้าว กรุงเทพฯ 10230',street:'120 ถ.ประดิษฐ์มนูธรรม',district:'ลาดพร้าว',province:'กรุงเทพฯ',postal:'10230',bank:'กสิกรไทย',bankAccName:'บจก. เซ็นทรัล แอร์',bankAccNo:'088-3-11111-6',modules:['procurement'],notes:'ซ่อมบำรุงระบบปรับอากาศ',performance:{quality:82,delivery:80,price:78,service:85},documents:['หนังสือรับรองบริษัท.pdf'],activities:[{type:'created',text:'สร้าง Vendor โดย นภดล ช่างซ่อม',time:'2023-08-15 14:00'}],orders:[{po:'PO-2026-0050',date:'2026-02-28',desc:'PM ระบบ Chiller ประจำปี',amount:220000,status:'Completed'}]},
+  {id:21,code:'VEN-021',name:'บจก. อินโนเวท พรีซิชั่น',contact:'วรรณา แม่นยำ',phone:'02-901-0321',email:'wanna@innovate-precision.co.th',website:'https://www.innovate-precision.co.th',category:'อะไหล่',status:'Active',rating:5,totalOrders:76,lastOrder:'2026-04-02',paymentTerms:60,taxId:'0105562212345',address:'88/8 นิคมอุตสาหกรรมบางปู อ.เมือง จ.สมุทรปราการ 10280',street:'88/8 นิคมอุตสาหกรรมบางปู',district:'เมือง',province:'สมุทรปราการ',postal:'10280',bank:'กรุงไทย',bankAccName:'บจก. อินโนเวท พรีซิชั่น',bankAccNo:'666-0-33333-9',modules:['quotation','procurement'],notes:'ชิ้นส่วนแม่พิมพ์ precision parts',performance:{quality:96,delivery:91,price:78,service:93},documents:['หนังสือรับรองบริษัท.pdf','ภพ.20.pdf','ISO 9001.pdf','IATF 16949.pdf'],activities:[{type:'created',text:'สร้าง Vendor โดย สมปอง พิทักษ์ธรรม',time:'2021-11-20 08:30'},{type:'rated',text:'ให้คะแนน 5 ดาว โดย สมปอง พิทักษ์ธรรม',time:'2026-03-15 10:00'}],orders:[{po:'PO-2026-0094',date:'2026-04-02',desc:'Die Insert SKD11 x20 ชุด',amount:540000,status:'Processing'},{po:'PO-2026-0076',date:'2026-03-19',desc:'Punch Pin HSS x100 ชิ้น',amount:85000,status:'Delivered'}]},
+  {id:22,code:'VEN-022',name:'บจก. ระยอง เคมิคอล อินดัสตรี',contact:'ประเสริฐ สารเคมี',phone:'038-234-567',email:'prasert@rayongchem.co.th',website:'https://www.rayongchem.co.th',category:'วัตถุดิบ',status:'Active',rating:4,totalOrders:48,lastOrder:'2026-03-20',paymentTerms:45,taxId:'0215561223456',address:'333 นิคมอุตสาหกรรมมาบตาพุด อ.เมือง จ.ระยอง 21150',street:'333 นิคมมาบตาพุด',district:'เมือง',province:'ระยอง',postal:'21150',bank:'ไทยพาณิชย์',bankAccName:'บจก. ระยอง เคมิคอล',bankAccNo:'700-1-88888-5',modules:['procurement','finance'],notes:'สารเคมีปิโตรเคมี',performance:{quality:86,delivery:82,price:84,service:80},documents:['หนังสือรับรองบริษัท.pdf','ภพ.20.pdf','MSDS.pdf'],activities:[{type:'created',text:'สร้าง Vendor โดย รัตนา เคมีดี',time:'2022-02-28 10:00'}],orders:[{po:'PO-2026-0079',date:'2026-03-20',desc:'Polyethylene Resin 20 ตัน',amount:960000,status:'Delivered'}]},
+  {id:23,code:'VEN-023',name:'บจก. เอเชีย เปเปอร์ แอนด์ แพ็ค',contact:'กาญจนา กระดาษ',phone:'02-012-9876',email:'kanchana@asiapaper.co.th',website:'',category:'สำนักงาน',status:'Active',rating:3,totalOrders:31,lastOrder:'2026-03-05',paymentTerms:30,taxId:'0105563234567',address:'155 ถ.แจ้งวัฒนะ อ.ปากเกร็ด จ.นนทบุรี 11120',street:'155 ถ.แจ้งวัฒนะ',district:'ปากเกร็ด',province:'นนทบุรี',postal:'11120',bank:'กรุงศรี',bankAccName:'บจก. เอเชีย เปเปอร์',bankAccNo:'421-0-55555-2',modules:['procurement'],notes:'กระดาษและบรรจุภัณฑ์สำนักงาน',performance:{quality:76,delivery:74,price:86,service:72},documents:['หนังสือรับรองบริษัท.pdf'],activities:[{type:'created',text:'สร้าง Vendor โดย พิมพ์ใจ สำราญ',time:'2022-09-01 09:00'}],orders:[{po:'PO-2026-0056',date:'2026-03-05',desc:'กระดาษถ่ายเอกสาร 500 รีม',amount:35000,status:'Delivered'}]},
+  {id:24,code:'VEN-024',name:'บจก. มาสเตอร์ คอนซัลท์ แอนด์ เทรนนิ่ง',contact:'ดร.สุรศักดิ์ ปัญญา',phone:'02-123-5555',email:'surasak@masterconsult.co.th',website:'https://www.masterconsult.co.th',category:'บริการ',status:'Active',rating:4,totalOrders:15,lastOrder:'2026-03-01',paymentTerms:30,taxId:'0105566245678',address:'888 อาคาร พหลโยธิน เพลส ชั้น 18 แขวงสามเสนใน เขตพญาไท กรุงเทพฯ 10400',street:'888 อาคาร พหลโยธิน เพลส ชั้น 18',district:'พญาไท',province:'กรุงเทพฯ',postal:'10400',bank:'กสิกรไทย',bankAccName:'บจก. มาสเตอร์ คอนซัลท์',bankAccNo:'055-2-77777-3',modules:['quotation'],notes:'ที่ปรึกษาและฝึกอบรม ISO',performance:{quality:90,delivery:88,price:70,service:92},documents:['หนังสือรับรองบริษัท.pdf','Profile บริษัท.pdf'],activities:[{type:'created',text:'สร้าง Vendor โดย สมปอง พิทักษ์ธรรม',time:'2024-01-15 10:00'}],orders:[{po:'PO-2026-0048',date:'2026-03-01',desc:'อบรม ISO 9001:2015 Internal Audit 2 วัน',amount:85000,status:'Completed'}]},
+  {id:25,code:'VEN-025',name:'บจก. เกรท วอลล์ อิมปอร์ต เอ็กซ์ปอร์ต',contact:'หลี่ เหว่ย',phone:'02-234-6666',email:'liwei@greatwallth.co.th',website:'https://www.greatwallth.co.th',category:'วัตถุดิบ',status:'Inactive',rating:2,totalOrders:6,lastOrder:'2025-10-15',paymentTerms:90,taxId:'0105564256789',address:'300 ถ.เยาวราช แขวงสัมพันธวงศ์ เขตสัมพันธวงศ์ กรุงเทพฯ 10100',street:'300 ถ.เยาวราช',district:'สัมพันธวงศ์',province:'กรุงเทพฯ',postal:'10100',bank:'กรุงเทพ',bankAccName:'บจก. เกรท วอลล์ อิมปอร์ต',bankAccNo:'111-0-99999-4',modules:[],notes:'หยุดใช้งาน: ปัญหาเรื่อง Lead time ยาวเกิน 3 เดือน',performance:{quality:60,delivery:35,price:92,service:45},documents:['หนังสือรับรองบริษัท.pdf'],activities:[{type:'created',text:'สร้าง Vendor โดย อาทิตย์ มั่นคง',time:'2024-08-01 09:00'},{type:'status-change',text:'เปลี่ยนสถานะเป็น Inactive โดย สมปอง พิทักษ์ธรรม',time:'2025-11-01 16:00'}],orders:[{po:'PO-2025-0250',date:'2025-10-15',desc:'วัตถุดิบนำเข้าจากจีน',amount:1500000,status:'Delayed'}]}
+];
+
+// ============ STATE ============
+let filteredVendors = [...VENDORS];
+let currentPage = 1;
+const pageSize = 10;
+let sortField = 'code';
+let sortDir = 'asc';
+let editingVendorId = null;
+let detailVendorId = null;
+
+// ============ INIT ============
+document.addEventListener('DOMContentLoaded', () => {
+  updateKPIs();
+  filterVendors();
+});
+
+// ============ KPIs ============
+function updateKPIs(){
+  const active = VENDORS.filter(v=>v.status==='Active').length;
+  const pending = VENDORS.filter(v=>v.status==='Pending Verification').length;
+  const newThisMonth = VENDORS.filter(v=>{
+    if(!v.activities||!v.activities.length) return false;
+    const created = v.activities.find(a=>a.type==='created');
+    return created && created.time.startsWith('2026-04');
+  }).length || 3;
+  const rated = VENDORS.filter(v=>v.rating>0);
+  const avgRating = rated.length ? (rated.reduce((s,v)=>s+v.rating,0)/rated.length).toFixed(1) : '0.0';
+  document.getElementById('kpi-active').textContent = active;
+  document.getElementById('kpi-new').textContent = newThisMonth;
+  document.getElementById('kpi-rating').textContent = avgRating;
+  document.getElementById('kpi-pending').textContent = pending;
+}
+
+// ============ FILTER & SEARCH ============
+function filterVendors(){
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const cat = document.getElementById('filterCategory').value;
+  const status = document.getElementById('filterStatus').value;
+  const rating = parseInt(document.getElementById('filterRating').value)||0;
+  const mod = document.getElementById('filterModule').value;
+
+  filteredVendors = VENDORS.filter(v=>{
+    if(search && !v.code.toLowerCase().includes(search) && !v.name.toLowerCase().includes(search) && !v.contact.toLowerCase().includes(search) && !v.email.toLowerCase().includes(search)) return false;
+    if(cat && v.category !== cat) return false;
+    if(status && v.status !== status) return false;
+    if(rating && v.rating < rating) return false;
+    if(mod && !v.modules.includes(mod)) return false;
+    return true;
+  });
+  currentPage = 1;
+  sortVendors();
+  renderTable();
+}
+
+function clearFilters(){
+  document.getElementById('searchInput').value='';
+  document.getElementById('filterCategory').value='';
+  document.getElementById('filterStatus').value='';
+  document.getElementById('filterRating').value='';
+  document.getElementById('filterModule').value='';
+  filterVendors();
+}
+
+// ============ SORT ============
+function sortTable(field){
+  if(sortField===field) sortDir = sortDir==='asc'?'desc':'asc';
+  else { sortField=field; sortDir='asc'; }
+  sortVendors();
+  renderTable();
+}
+function sortVendors(){
+  filteredVendors.sort((a,b)=>{
+    let va=a[sortField], vb=b[sortField];
+    if(typeof va==='string') va=va.toLowerCase();
+    if(typeof vb==='string') vb=vb.toLowerCase();
+    if(va<vb) return sortDir==='asc'?-1:1;
+    if(va>vb) return sortDir==='asc'?1:-1;
+    return 0;
+  });
+}
+
+// ============ RENDER TABLE ============
+function renderTable(){
+  const start = (currentPage-1)*pageSize;
+  const page = filteredVendors.slice(start, start+pageSize);
+  const tbody = document.getElementById('vendorTableBody');
+
+  tbody.innerHTML = page.map(v=>{
+    const stars = renderStars(v.rating);
+    const statusCls = v.status==='Active'?'status-active':v.status==='Inactive'?'status-inactive':v.status==='Blacklisted'?'status-blacklisted':'status-pending';
+    const catColors = {'วัตถุดิบ':'badge-green','อะไหล่':'badge-blue','IT':'badge-purple','บริการ':'badge-orange','โลจิสติกส์':'badge-cyan','สำนักงาน':'badge-muted'};
+    const modBadges = v.modules.map(m=>{
+      if(m==='quotation') return '<span class="module-badge quot">QUO</span>';
+      if(m==='procurement') return '<span class="module-badge proc">PRC</span>';
+      if(m==='finance') return '<span class="module-badge fin">FIN</span>';
+      return '';
+    }).join('');
+
+    return `<tr onclick="openDetail(${v.id})">
+      <td><strong style="color:var(--blue)">${v.code}</strong></td>
+      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;">${v.name}</td>
+      <td>${v.contact}</td>
+      <td>${v.phone}</td>
+      <td><span class="badge ${catColors[v.category]||'badge-muted'}">${v.category}</span></td>
+      <td><span class="status ${statusCls}">${v.status==='Pending Verification'?'Pending':v.status}</span></td>
+      <td><span class="stars">${stars}</span></td>
+      <td style="text-align:center;">${v.totalOrders}</td>
+      <td>Net ${v.paymentTerms}d</td>
+      <td><div class="module-badges">${modBadges||'<span style="color:var(--muted);font-size:.65rem;">-</span>'}</div></td>
+      <td>
+        <button class="btn btn-xs btn-secondary" onclick="event.stopPropagation();openEdit(${v.id})">&#9998;</button>
+      </td>
+    </tr>`;
+  }).join('');
+
+  // Pagination
+  const totalPages = Math.ceil(filteredVendors.length/pageSize);
+  document.getElementById('paginationInfo').textContent = `แสดง ${start+1}-${Math.min(start+pageSize,filteredVendors.length)} จาก ${filteredVendors.length} รายการ`;
+
+  let btns = '';
+  btns += `<button ${currentPage<=1?'disabled':''} onclick="goPage(${currentPage-1})">&laquo;</button>`;
+  for(let i=1;i<=totalPages;i++){
+    btns += `<button class="${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
+  }
+  btns += `<button ${currentPage>=totalPages?'disabled':''} onclick="goPage(${currentPage+1})">&raquo;</button>`;
+  document.getElementById('paginationBtns').innerHTML = btns;
+}
+
+function goPage(p){
+  const totalPages = Math.ceil(filteredVendors.length/pageSize);
+  if(p<1||p>totalPages) return;
+  currentPage = p;
+  renderTable();
+}
+
+function renderStars(rating){
+  let s='';
+  for(let i=1;i<=5;i++){
+    s += i<=rating ? '\u2605' : '<span class="empty">\u2605</span>';
+  }
+  return s;
+}
+
+// ============ VIEW TOGGLE ============
+function setView(btn){
+  document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ============ ADD VENDOR ============
+function openAddModal(){
+  document.getElementById('addModal').classList.add('active');
+}
+
+function saveNewVendor(){
+  const name = document.getElementById('addName').value.trim();
+  const taxId = document.getElementById('addTaxId').value.trim();
+  const contact = document.getElementById('addContact').value.trim();
+  const phone = document.getElementById('addPhone').value.trim();
+  const email = document.getElementById('addEmail').value.trim();
+  const category = document.getElementById('addCategory').value;
+
+  if(!name||!contact||!phone||!email||!category){
+    showToast('กรุณากรอกข้อมูลที่จำเป็น','error');
+    return;
+  }
+
+  const newId = VENDORS.length + 1;
+  const code = 'VEN-' + String(newId).padStart(3,'0');
+  const v = {
+    id:newId, code, name, contact, phone, email,
+    website: document.getElementById('addWebsite').value.trim(),
+    category, status:'Pending Verification', rating:0, totalOrders:0, lastOrder:'-',
+    paymentTerms: parseInt(document.getElementById('addPaymentTerms').value),
+    taxId,
+    address: [document.getElementById('addStreet').value, document.getElementById('addDistrict').value, document.getElementById('addProvince').value, document.getElementById('addPostal').value].filter(Boolean).join(' '),
+    street: document.getElementById('addStreet').value,
+    district: document.getElementById('addDistrict').value,
+    province: document.getElementById('addProvince').value,
+    postal: document.getElementById('addPostal').value,
+    bank: document.getElementById('addBank').value,
+    bankAccName: document.getElementById('addBankAccName').value,
+    bankAccNo: document.getElementById('addBankAccNo').value,
+    modules:[], notes: document.getElementById('addNotes').value,
+    performance:{quality:0,delivery:0,price:0,service:0},
+    documents:[], activities:[{type:'created',text:'สร้าง Vendor โดย สมปอง พิทักษ์ธรรม',time:new Date().toISOString().slice(0,16).replace('T',' ')}],
+    orders:[]
+  };
+  VENDORS.push(v);
+  closeModal('addModal');
+  // Clear form
+  ['addName','addTaxId','addContact','addPhone','addEmail','addWebsite','addStreet','addDistrict','addProvince','addPostal','addBankAccName','addBankAccNo','addNotes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('addCategory').value='';
+  updateKPIs();
+  filterVendors();
+  showToast('เพิ่ม Vendor สำเร็จ: ' + code,'success');
+}
+
+// ============ EDIT VENDOR ============
+function openEdit(id){
+  const v = VENDORS.find(x=>x.id===id);
+  if(!v) return;
+  editingVendorId = id;
+  document.getElementById('editCode').value = v.code;
+  document.getElementById('editName').value = v.name;
+  document.getElementById('editTaxId').value = v.taxId;
+  document.getElementById('editContact').value = v.contact;
+  document.getElementById('editPhone').value = v.phone;
+  document.getElementById('editEmail').value = v.email;
+  document.getElementById('editWebsite').value = v.website||'';
+  document.getElementById('editAddress').value = v.address;
+  document.getElementById('editCategory').value = v.category;
+  document.getElementById('editPaymentTerms').value = v.paymentTerms;
+  document.getElementById('editStatus').value = v.status;
+  document.getElementById('editBank').value = v.bank||'กสิกรไทย';
+  document.getElementById('editBankAccName').value = v.bankAccName||'';
+  document.getElementById('editBankAccNo').value = v.bankAccNo||'';
+  document.getElementById('editNotes').value = v.notes||'';
+  document.getElementById('editModal').classList.add('active');
+}
+
+function saveEditVendor(){
+  const v = VENDORS.find(x=>x.id===editingVendorId);
+  if(!v) return;
+  v.name = document.getElementById('editName').value.trim();
+  v.taxId = document.getElementById('editTaxId').value.trim();
+  v.contact = document.getElementById('editContact').value.trim();
+  v.phone = document.getElementById('editPhone').value.trim();
+  v.email = document.getElementById('editEmail').value.trim();
+  v.website = document.getElementById('editWebsite').value.trim();
+  v.address = document.getElementById('editAddress').value.trim();
+  v.category = document.getElementById('editCategory').value;
+  v.paymentTerms = parseInt(document.getElementById('editPaymentTerms').value);
+  v.status = document.getElementById('editStatus').value;
+  v.bank = document.getElementById('editBank').value;
+  v.bankAccName = document.getElementById('editBankAccName').value.trim();
+  v.bankAccNo = document.getElementById('editBankAccNo').value.trim();
+  v.notes = document.getElementById('editNotes').value.trim();
+  v.activities.push({type:'edited',text:'แก้ไขข้อมูล โดย สมปอง พิทักษ์ธรรม',time:new Date().toISOString().slice(0,16).replace('T',' ')});
+  closeModal('editModal');
+  updateKPIs();
+  filterVendors();
+  showToast('แก้ไข Vendor สำเร็จ: ' + v.code,'success');
+}
+
+function openEditFromDetail(){
+  closeModal('detailModal');
+  openEdit(detailVendorId);
+}
+
+// ============ VENDOR DETAIL ============
+function openDetail(id){
+  const v = VENDORS.find(x=>x.id===id);
+  if(!v) return;
+  detailVendorId = id;
+
+  document.getElementById('detailTitle').innerHTML = '&#128196; ' + v.code + ' - ' + v.name;
+  document.getElementById('detailAvatar').textContent = v.name.charAt(0);
+  document.getElementById('detailCompany').textContent = v.name;
+
+  // Badges
+  const statusCls = v.status==='Active'?'status-active':v.status==='Inactive'?'status-inactive':v.status==='Blacklisted'?'status-blacklisted':'status-pending';
+  let badges = `<span class="status ${statusCls}">${v.status}</span>`;
+  v.modules.forEach(m=>{
+    if(m==='quotation') badges += '<span class="badge badge-blue">Linked: Quotation</span>';
+    if(m==='procurement') badges += '<span class="badge badge-purple">Linked: Procurement</span>';
+    if(m==='finance') badges += '<span class="badge badge-green">Linked: Finance</span>';
+  });
+  document.getElementById('detailBadges').innerHTML = badges;
+
+  // Blacklist button
+  const blBtn = document.getElementById('detailBlacklistBtn');
+  if(v.status==='Blacklisted') blBtn.style.display='none';
+  else blBtn.style.display='';
+
+  // Profile fields
+  const fields = [
+    {label:'รหัส Vendor',value:v.code},
+    {label:'เลขประจำตัวผู้เสียภาษี',value:v.taxId},
+    {label:'หมวดหมู่',value:v.category},
+    {label:'ผู้ติดต่อหลัก',value:v.contact},
+    {label:'โทรศัพท์',value:v.phone},
+    {label:'อีเมล',value:v.email},
+    {label:'เว็บไซต์',value:v.website||'-'},
+    {label:'ที่อยู่',value:v.address},
+    {label:'เงื่อนไขการชำระ',value:'Net '+v.paymentTerms+' วัน'},
+    {label:'ธนาคาร',value:v.bank||'-'},
+    {label:'ชื่อบัญชี',value:v.bankAccName||'-'},
+    {label:'เลขที่บัญชี',value:v.bankAccNo||'-'},
+    {label:'คะแนน',value:v.rating>0?renderStars(v.rating)+' ('+v.rating+'/5)':'-'},
+    {label:'จำนวนออเดอร์',value:v.totalOrders+' รายการ'},
+    {label:'สั่งซื้อล่าสุด',value:v.lastOrder},
+    {label:'หมายเหตุ',value:v.notes||'-'}
+  ];
+  document.getElementById('detailFields').innerHTML = fields.map(f=>`<div class="detail-field"><div class="label">${f.label}</div><div class="value">${f.value}</div></div>`).join('');
+
+  // Orders
+  if(v.orders.length){
+    document.getElementById('detailOrdersBody').innerHTML = v.orders.map(o=>{
+      const sCls = o.status==='Delivered'||o.status==='Completed'?'status-active':o.status==='Processing'||o.status==='In Transit'||o.status==='Active'?'status-pending':'status-blacklisted';
+      return `<tr><td><strong>${o.po}</strong></td><td>${o.date}</td><td>${o.desc}</td><td style="text-align:right;font-weight:600;">${o.amount.toLocaleString()}</td><td><span class="status ${sCls}">${o.status}</span></td></tr>`;
+    }).join('');
+  } else {
+    document.getElementById('detailOrdersBody').innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:24px;">ยังไม่มีประวัติการสั่งซื้อ</td></tr>';
+  }
+
+  // Performance
+  const perf = v.performance;
+  const perfItems = [
+    {label:'คุณภาพ',val:perf.quality,color:'var(--green)'},
+    {label:'การส่งมอบ',val:perf.delivery,color:'var(--blue)'},
+    {label:'ราคา',val:perf.price,color:'var(--orange)'},
+    {label:'บริการ',val:perf.service,color:'var(--purple)'}
+  ];
+  const overall = perf.quality||perf.delivery||perf.price||perf.service ? ((perf.quality+perf.delivery+perf.price+perf.service)/4).toFixed(1) : '0.0';
+  document.getElementById('perfBars').innerHTML = perfItems.map(p=>`
+    <div class="perf-row">
+      <div class="perf-label">${p.label}</div>
+      <div class="perf-bar-bg"><div class="perf-bar" style="width:${p.val}%;background:${p.color};"></div></div>
+      <div class="perf-score" style="color:${p.color}">${p.val}%</div>
+    </div>
+  `).join('');
+  document.getElementById('perfOverall').textContent = overall;
+
+  // Documents
+  if(v.documents.length){
+    document.getElementById('docList').innerHTML = v.documents.map(d=>`
+      <div style="display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--border);border-radius:8px;margin-bottom:8px;">
+        <span style="font-size:1.2rem;">&#128196;</span>
+        <span style="flex:1;font-size:.78rem;font-weight:500;">${d}</span>
+        <button class="btn btn-xs btn-secondary">&#128229; ดาวน์โหลด</button>
+      </div>
+    `).join('');
+  } else {
+    document.getElementById('docList').innerHTML = '<p style="text-align:center;color:var(--muted);padding:16px;">ยังไม่มีเอกสาร</p>';
+  }
+
+  // Activity
+  if(v.activities.length){
+    document.getElementById('activityList').innerHTML = v.activities.slice().reverse().map(a=>`
+      <div class="activity-item">
+        <div class="activity-dot ${a.type}"></div>
+        <div>
+          <div class="activity-text">${a.text}</div>
+          <div class="activity-time">${a.time}</div>
+        </div>
+      </div>
+    `).join('');
+  } else {
+    document.getElementById('activityList').innerHTML = '<p style="text-align:center;color:var(--muted);padding:16px;">ไม่มีกิจกรรม</p>';
+  }
+
+  // Reset tab to profile
+  switchTab('profile', document.querySelector('.detail-tab'));
+  document.getElementById('detailModal').classList.add('active');
+}
+
+// ============ TABS ============
+function switchTab(tab, el){
+  document.querySelectorAll('.detail-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-'+tab).classList.add('active');
+}
+
+// ============ BLACKLIST ============
+function blacklistVendor(){
+  const v = VENDORS.find(x=>x.id===detailVendorId);
+  if(!v) return;
+  if(!confirm('ยืนยันการ Blacklist Vendor: '+v.name+'?')) return;
+  v.status = 'Blacklisted';
+  v.activities.push({type:'status-change',text:'Blacklisted โดย สมปอง พิทักษ์ธรรม',time:new Date().toISOString().slice(0,16).replace('T',' ')});
+  closeModal('detailModal');
+  updateKPIs();
+  filterVendors();
+  showToast('Blacklist Vendor สำเร็จ: ' + v.code,'error');
+}
+
+// ============ EXPORT CSV ============
+function exportCSV(){
+  const header = ['รหัส','ชื่อบริษัท','ผู้ติดต่อ','โทรศัพท์','อีเมล','หมวดหมู่','สถานะ','คะแนน','ออเดอร์','เงื่อนไข','เลขภาษี','ที่อยู่'];
+  const rows = filteredVendors.map(v=>[v.code,v.name,v.contact,v.phone,v.email,v.category,v.status,v.rating,v.totalOrders,'Net '+v.paymentTerms,v.taxId,'"'+v.address+'"']);
+  const csv = '\uFEFF' + [header.join(','), ...rows.map(r=>r.join(','))].join('\n');
+  const blob = new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'vendor-list-'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+  showToast('Export CSV สำเร็จ ('+filteredVendors.length+' รายการ)','success');
+}
+
+// ============ MODAL ============
+function closeModal(id){
+  document.getElementById(id).classList.remove('active');
+}
+// Close on overlay click
+document.querySelectorAll('.modal-overlay').forEach(o=>{
+  o.addEventListener('click', e=>{
+    if(e.target===o) o.classList.remove('active');
+  });
+});
+// ESC to close
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape'){
+    document.querySelectorAll('.modal-overlay.active').forEach(o=>o.classList.remove('active'));
+  }
+});
+
+// ============ TOAST ============
+function showToast(msg, type){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  setTimeout(()=>{ t.classList.remove('show'); }, 3000);
+}
+
+// ============ VENDOR AUDIT TRAIL - CROSS MODULE USAGE ============
+function getVendorCrossModuleUsage(vendorId){
+  const v = VENDORS.find(x=>x.id===vendorId);
+  if(!v) return [];
+  const usage = [];
+  if(v.modules.includes('quotation')){
+    usage.push({
+      module: 'Quotation Autopilot',
+      icon: '\u{1F4CB}',
+      color: 'var(--blue)',
+      bgColor: 'var(--blue-bg)',
+      lastUsed: v.lastOrder || '-',
+      usageCount: Math.floor(v.totalOrders * 0.4),
+      description: 'ใช้ในการเสนอราคาให้ลูกค้า'
+    });
+  }
+  if(v.modules.includes('procurement')){
+    usage.push({
+      module: 'Procurement',
+      icon: '\u{1F4E6}',
+      color: 'var(--purple)',
+      bgColor: 'var(--purple-bg)',
+      lastUsed: v.lastOrder || '-',
+      usageCount: Math.floor(v.totalOrders * 0.5),
+      description: 'ใช้ในการจัดซื้อ-จัดจ้าง'
+    });
+  }
+  if(v.modules.includes('finance')){
+    usage.push({
+      module: 'Finance',
+      icon: '\u{1F4B0}',
+      color: 'var(--green)',
+      bgColor: 'var(--green-bg)',
+      lastUsed: v.lastOrder || '-',
+      usageCount: Math.floor(v.totalOrders * 0.3),
+      description: 'ใช้ในการตรวจสอบการเงิน'
+    });
+  }
+  return usage;
+}
+
+// ============ ANALYTICS VIEW ============
+function renderAnalytics(){
+  // Category distribution
+  const cats = {};
+  VENDORS.forEach(v=>{
+    cats[v.category] = (cats[v.category]||0) + 1;
+  });
+
+  // Status distribution
+  const statuses = {};
+  VENDORS.forEach(v=>{
+    statuses[v.status] = (statuses[v.status]||0) + 1;
+  });
+
+  // Top vendors by orders
+  const topVendors = [...VENDORS]
+    .filter(v=>v.status==='Active')
+    .sort((a,b)=>b.totalOrders-a.totalOrders)
+    .slice(0,5);
+
+  // Rating distribution
+  const ratings = {5:0,4:0,3:0,2:0,1:0,0:0};
+  VENDORS.forEach(v=>{
+    ratings[v.rating] = (ratings[v.rating]||0) + 1;
+  });
+
+  return { cats, statuses, topVendors, ratings };
+}
+
+// ============ VENDOR COMPARISON UTILITY ============
+function compareVendors(ids){
+  return ids.map(id=>{
+    const v = VENDORS.find(x=>x.id===id);
+    if(!v) return null;
+    const perf = v.performance;
+    const avgScore = (perf.quality + perf.delivery + perf.price + perf.service) / 4;
+    return {
+      code: v.code,
+      name: v.name,
+      rating: v.rating,
+      avgPerformance: avgScore.toFixed(1),
+      totalOrders: v.totalOrders,
+      category: v.category,
+      paymentTerms: v.paymentTerms,
+      qualityScore: perf.quality,
+      deliveryScore: perf.delivery,
+      priceScore: perf.price,
+      serviceScore: perf.service
+    };
+  }).filter(Boolean);
+}
+
+// ============ SEARCH DEBOUNCE UTILITY ============
+let searchTimeout = null;
+function debounceSearch(){
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(()=>{
+    filterVendors();
+  }, 300);
+}
+
+// ============ VENDOR STATISTICS CALCULATOR ============
+function calculateVendorStats(){
+  const active = VENDORS.filter(v=>v.status==='Active');
+  const totalOrdersAll = VENDORS.reduce((s,v)=>s+v.totalOrders, 0);
+  const avgOrdersPerVendor = active.length ? (active.reduce((s,v)=>s+v.totalOrders,0) / active.length).toFixed(1) : 0;
+
+  const categoryStats = {};
+  VENDORS.forEach(v=>{
+    if(!categoryStats[v.category]){
+      categoryStats[v.category] = { count:0, totalOrders:0, avgRating:0, ratingCount:0 };
+    }
+    categoryStats[v.category].count++;
+    categoryStats[v.category].totalOrders += v.totalOrders;
+    if(v.rating > 0){
+      categoryStats[v.category].avgRating += v.rating;
+      categoryStats[v.category].ratingCount++;
+    }
+  });
+
+  Object.keys(categoryStats).forEach(k=>{
+    const c = categoryStats[k];
+    c.avgRating = c.ratingCount > 0 ? (c.avgRating / c.ratingCount).toFixed(1) : '-';
+  });
+
+  const paymentTermsBreakdown = {};
+  VENDORS.forEach(v=>{
+    const key = 'Net ' + v.paymentTerms + ' วัน';
+    paymentTermsBreakdown[key] = (paymentTermsBreakdown[key]||0) + 1;
+  });
+
+  const moduleUsage = { quotation:0, procurement:0, finance:0 };
+  VENDORS.forEach(v=>{
+    v.modules.forEach(m=>{
+      moduleUsage[m] = (moduleUsage[m]||0) + 1;
+    });
+  });
+
+  return {
+    totalVendors: VENDORS.length,
+    activeVendors: active.length,
+    totalOrdersAll,
+    avgOrdersPerVendor,
+    categoryStats,
+    paymentTermsBreakdown,
+    moduleUsage,
+    topRatedVendors: [...VENDORS].filter(v=>v.rating===5).map(v=>({code:v.code,name:v.name})),
+    blacklistedCount: VENDORS.filter(v=>v.status==='Blacklisted').length,
+    pendingCount: VENDORS.filter(v=>v.status==='Pending Verification').length
+  };
+}
+
+// ============ BULK OPERATIONS ============
+let selectedVendorIds = new Set();
+
+function toggleVendorSelection(id, checkbox){
+  if(checkbox && checkbox.checked){
+    selectedVendorIds.add(id);
+  } else {
+    selectedVendorIds.delete(id);
+  }
+  updateBulkActionBar();
+}
+
+function updateBulkActionBar(){
+  // Placeholder for bulk action bar visibility toggle
+  const count = selectedVendorIds.size;
+  if(count > 0){
+    console.log('Selected vendors: ' + count);
+  }
+}
+
+function bulkUpdateStatus(newStatus){
+  if(selectedVendorIds.size === 0){
+    showToast('กรุณาเลือก Vendor อย่างน้อย 1 รายการ', 'error');
+    return;
+  }
+  if(!confirm('ยืนยันการเปลี่ยนสถานะ ' + selectedVendorIds.size + ' Vendor เป็น ' + newStatus + '?')) return;
+
+  selectedVendorIds.forEach(id=>{
+    const v = VENDORS.find(x=>x.id===id);
+    if(v){
+      v.status = newStatus;
+      v.activities.push({
+        type:'status-change',
+        text:'เปลี่ยนสถานะเป็น ' + newStatus + ' (Bulk) โดย สมปอง พิทักษ์ธรรม',
+        time: new Date().toISOString().slice(0,16).replace('T',' ')
+      });
+    }
+  });
+
+  selectedVendorIds.clear();
+  updateKPIs();
+  filterVendors();
+  showToast('อัปเดตสถานะเรียบร้อย', 'success');
+}
+
+// ============ PRINT VIEW ============
+function printVendorReport(){
+  window.print();
+}
+
+// ============ VENDOR IMPORT PLACEHOLDER ============
+function importVendors(){
+  showToast('ฟีเจอร์ Import จะเปิดใช้งานเร็วๆ นี้', 'error');
+}
+
+// ============ KEYBOARD SHORTCUTS ============
+document.addEventListener('keydown', function(e){
+  // Ctrl+N to add new vendor
+  if((e.ctrlKey || e.metaKey) && e.key === 'n'){
+    e.preventDefault();
+    openAddModal();
+  }
+  // Ctrl+F to focus search
+  if((e.ctrlKey || e.metaKey) && e.key === 'f'){
+    if(!document.querySelector('.modal-overlay.active')){
+      e.preventDefault();
+      document.getElementById('searchInput').focus();
+    }
+  }
+  // Ctrl+E to export
+  if((e.ctrlKey || e.metaKey) && e.key === 'e'){
+    e.preventDefault();
+    exportCSV();
+  }
+});
+
+// ============ FORMAT HELPERS ============
+function formatCurrency(amount){
+  return new Intl.NumberFormat('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(amount);
+}
+
+function formatDate(dateStr){
+  if(!dateStr || dateStr === '-') return '-';
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('th-TH', { year:'numeric', month:'short', day:'numeric' });
+}
+
+function formatPhoneNumber(phone){
+  return phone.replace(/(\d{2,3})-?(\d{3})-?(\d{4})/, '$1-$2-$3');
+}
+
+// ============ VENDOR HEALTH INDEX ============
+function calculateHealthIndex(vendor){
+  if(vendor.status === 'Blacklisted') return { score: 0, label: 'Blacklisted', color: 'var(--red)' };
+  if(vendor.status === 'Inactive') return { score: 20, label: 'Inactive', color: 'var(--muted)' };
+  if(vendor.status === 'Pending Verification') return { score: 50, label: 'Pending', color: 'var(--orange)' };
+
+  const perf = vendor.performance;
+  const perfAvg = (perf.quality + perf.delivery + perf.price + perf.service) / 4;
+  const orderFactor = Math.min(vendor.totalOrders / 50, 1) * 20;
+  const ratingFactor = (vendor.rating / 5) * 30;
+  const perfFactor = (perfAvg / 100) * 50;
+  const score = Math.round(orderFactor + ratingFactor + perfFactor);
+
+  let label, color;
+  if(score >= 80) { label = 'Excellent'; color = 'var(--green)'; }
+  else if(score >= 60) { label = 'Good'; color = 'var(--blue)'; }
+  else if(score >= 40) { label = 'Average'; color = 'var(--orange)'; }
+  else { label = 'Poor'; color = 'var(--red)'; }
+
+  return { score, label, color };
+}
+
+// ============ DATA VALIDATION ============
+function validateTaxId(taxId){
+  if(!taxId) return false;
+  return /^\d{13}$/.test(taxId.replace(/-/g,''));
+}
+
+function validateEmail(email){
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function validatePhone(phone){
+  return /^[\d\-+() ]{8,15}$/.test(phone);
+}
+
+// ============ LOCAL STORAGE PREFERENCES ============
+function saveUserPreferences(){
+  const prefs = {
+    darkMode: document.body.classList.contains('dark'),
+    pageSize: pageSize,
+    sortField: sortField,
+    sortDir: sortDir,
+    lastVisited: new Date().toISOString()
+  };
+  try {
+    localStorage.setItem('vendorMgmt_prefs', JSON.stringify(prefs));
+  } catch(e){}
+}
+
+function loadUserPreferences(){
+  try {
+    const prefs = JSON.parse(localStorage.getItem('vendorMgmt_prefs'));
+    if(prefs){
+      if(prefs.darkMode) document.body.classList.add('dark');
+      if(prefs.sortField) sortField = prefs.sortField;
+      if(prefs.sortDir) sortDir = prefs.sortDir;
+    }
+  } catch(e){}
+}
+
+// Load preferences on init
+loadUserPreferences();
+</script>
+
+</body>
+</html>

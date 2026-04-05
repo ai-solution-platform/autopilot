@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autopilot v2 - ANTS AI Solution Hub | Expense Tasks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
+body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s;}
+.dark-toggle{position:fixed;top:16px;right:16px;z-index:9999;width:42px;height:42px;border-radius:50%;border:1px solid var(--border);background:var(--card-bg);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:all .2s;}
+.dark-toggle:hover{transform:scale(1.1);}
+
+/* Layout */
+.app-header{background:var(--card-bg);border-bottom:1px solid var(--border);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.app-logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.app-logo svg{width:28px;height:28px;}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);}
+.breadcrumb a{color:var(--blue);text-decoration:none;}
+.breadcrumb a:hover{text-decoration:underline;}
+.breadcrumb span.sep{color:var(--border);}
+.breadcrumb .current{color:var(--text);font-weight:600;}
+.user-bar{display:flex;align-items:center;gap:12px;}
+.user-avatar{width:32px;height:32px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600;}
+.user-name{font-size:13px;font-weight:500;}
+
+.main-content{max-width:1400px;margin:0 auto;padding:20px 24px 40px;}
+
+/* Toolbar */
+.toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;}
+.toolbar-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.toolbar-right{display:flex;align-items:center;gap:10px;}
+.view-toggle{display:flex;background:var(--bg3);border-radius:8px;overflow:hidden;border:1px solid var(--border);}
+.view-toggle button{padding:7px 16px;border:none;background:transparent;color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .2s;}
+.view-toggle button.active{background:var(--card-bg);color:var(--blue);box-shadow:var(--shadow);}
+
+.search-box{display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:7px 12px;min-width:240px;}
+.search-box input{border:none;background:transparent;outline:none;font-size:13px;color:var(--text);font-family:inherit;width:100%;}
+.search-box svg{color:var(--muted);flex-shrink:0;}
+
+.filter-btn,.action-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:var(--card-bg);color:var(--text2);font-family:inherit;transition:all .2s;}
+.filter-btn:hover,.action-btn:hover{border-color:var(--blue);color:var(--blue);}
+.action-btn.primary{background:var(--blue);color:#fff;border-color:var(--blue);}
+.action-btn.primary:hover{opacity:.9;}
+.action-btn.scan{background:var(--purple);color:#fff;border-color:var(--purple);}
+.action-btn.scan:hover{opacity:.9;}
+.action-btn.danger{color:var(--red);border-color:var(--red);}
+
+/* Stats strip */
+.stats-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;}
+.stat-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;align-items:center;gap:12px;}
+.stat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.stat-icon.blue{background:var(--blue-bg);color:var(--blue);}
+.stat-icon.orange{background:var(--orange-bg);color:var(--orange);}
+.stat-icon.green{background:var(--green-bg);color:var(--green);}
+.stat-icon.red{background:var(--red-bg);color:var(--red);}
+.stat-icon.purple{background:var(--purple-bg);color:var(--purple);}
+.stat-info .stat-val{font-size:20px;font-weight:700;}
+.stat-info .stat-label{font-size:12px;color:var(--muted);}
+
+/* Filters bar */
+.filters-bar{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:16px;display:none;gap:12px;flex-wrap:wrap;align-items:center;}
+.filters-bar.show{display:flex;}
+.filter-group{display:flex;flex-direction:column;gap:4px;}
+.filter-group label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;}
+.filter-group select,.filter-group input{padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--bg2);color:var(--text);font-size:13px;font-family:inherit;outline:none;}
+.filter-group select:focus,.filter-group input:focus{border-color:var(--blue);}
+
+/* Bulk actions bar */
+.bulk-bar{background:var(--blue-bg);border:1px solid var(--blue);border-radius:var(--radius);padding:10px 16px;margin-bottom:12px;display:none;align-items:center;justify-content:space-between;}
+.bulk-bar.show{display:flex;}
+.bulk-bar .bulk-info{font-size:13px;font-weight:500;color:var(--blue);}
+.bulk-bar .bulk-actions{display:flex;gap:8px;}
+
+/* Table */
+.table-wrap{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+table{width:100%;border-collapse:collapse;}
+thead{background:var(--bg2);}
+th{padding:10px 14px;text-align:left;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.3px;border-bottom:1px solid var(--border);white-space:nowrap;}
+td{padding:12px 14px;font-size:13px;border-bottom:1px solid var(--border);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tbody tr{cursor:pointer;transition:background .15s;}
+tbody tr:hover{background:var(--bg2);}
+tbody tr.selected{background:var(--blue-bg);}
+th:first-child,td:first-child{padding-left:16px;}
+.cb-cell{width:36px;}
+.cb-cell input[type="checkbox"]{width:16px;height:16px;accent-color:var(--blue);cursor:pointer;}
+
+/* Badges */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap;}
+.badge.draft{background:var(--bg3);color:var(--muted);}
+.badge.pending{background:var(--orange-bg);color:var(--orange);}
+.badge.approved{background:var(--green-bg);color:var(--green);}
+.badge.rejected{background:var(--red-bg);color:var(--red);}
+.badge.completed{background:var(--blue-bg);color:var(--blue);}
+.badge.resubmit{background:var(--purple-bg);color:var(--purple);}
+.badge-dot{width:6px;height:6px;border-radius:50%;display:inline-block;}
+.badge.draft .badge-dot{background:var(--muted);}
+.badge.pending .badge-dot{background:var(--orange);}
+.badge.approved .badge-dot{background:var(--green);}
+.badge.rejected .badge-dot{background:var(--red);}
+.badge.completed .badge-dot{background:var(--blue);}
+.badge.resubmit .badge-dot{background:var(--purple);}
+
+.cat-badge{padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;}
+.cat-travel{background:var(--blue-bg);color:var(--blue);}
+.cat-fuel{background:var(--orange-bg);color:var(--orange);}
+.cat-food{background:var(--green-bg);color:var(--green);}
+.cat-other{background:var(--purple-bg);color:var(--purple);}
+
+.ocr-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600;background:var(--purple-bg);color:var(--purple);cursor:pointer;}
+
+.task-id{font-weight:600;color:var(--blue);font-size:13px;}
+.receipt-count{display:inline-flex;align-items:center;gap:3px;font-size:12px;color:var(--muted);}
+.approver{display:flex;align-items:center;gap:6px;}
+.approver-avatar{width:22px;height:22px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--muted);}
+.amount{font-weight:600;font-variant-numeric:tabular-nums;}
+
+/* Pagination */
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-top:1px solid var(--border);background:var(--card-bg);}
+.page-info{font-size:13px;color:var(--muted);}
+.page-btns{display:flex;gap:4px;}
+.page-btns button{width:32px;height:32px;border-radius:6px;border:1px solid var(--border);background:var(--card-bg);color:var(--text2);font-size:13px;cursor:pointer;font-family:inherit;transition:all .15s;display:flex;align-items:center;justify-content:center;}
+.page-btns button:hover{border-color:var(--blue);color:var(--blue);}
+.page-btns button.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+.page-btns button:disabled{opacity:.4;cursor:default;}
+
+/* Modals */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:1000;display:none;align-items:center;justify-content:center;}
+.modal-overlay.show{display:flex;}
+.modal{background:var(--card-bg);border-radius:16px;width:90%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2);}
+.modal-sm{max-width:560px;}
+.modal-lg{max-width:860px;}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--card-bg);z-index:1;border-radius:16px 16px 0 0;}
+.modal-header h2{font-size:18px;font-weight:700;}
+.modal-close{width:32px;height:32px;border-radius:8px;border:none;background:var(--bg3);color:var(--muted);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.modal-close:hover{background:var(--red-bg);color:var(--red);}
+.modal-body{padding:24px;}
+.modal-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px;}
+
+/* Form */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-group.full{grid-column:1/-1;}
+.form-group label{font-size:13px;font-weight:600;color:var(--text2);}
+.form-group input,.form-group select,.form-group textarea{padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--bg2);color:var(--text);font-size:14px;font-family:inherit;outline:none;transition:border .2s;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+.form-group textarea{resize:vertical;min-height:80px;}
+.file-upload{border:2px dashed var(--border);border-radius:8px;padding:20px;text-align:center;color:var(--muted);font-size:13px;cursor:pointer;transition:all .2s;}
+.file-upload:hover{border-color:var(--blue);background:var(--blue-bg);}
+
+/* Detail panel */
+.detail-section{margin-bottom:24px;}
+.detail-section h3{font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.detail-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.detail-row .label{color:var(--muted);font-weight:500;}
+.detail-row .value{font-weight:600;text-align:right;}
+
+.items-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}
+.items-table th{background:var(--bg2);padding:8px 10px;text-align:left;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border);}
+.items-table td{padding:8px 10px;border-bottom:1px solid var(--border);}
+
+/* Timeline */
+.timeline{position:relative;padding-left:24px;}
+.timeline::before{content:'';position:absolute;left:7px;top:4px;bottom:4px;width:2px;background:var(--border);}
+.timeline-item{position:relative;padding-bottom:16px;}
+.timeline-item:last-child{padding-bottom:0;}
+.timeline-dot{position:absolute;left:-24px;top:2px;width:16px;height:16px;border-radius:50%;border:2px solid var(--border);background:var(--card-bg);}
+.timeline-dot.blue{border-color:var(--blue);background:var(--blue-bg);}
+.timeline-dot.green{border-color:var(--green);background:var(--green-bg);}
+.timeline-dot.orange{border-color:var(--orange);background:var(--orange-bg);}
+.timeline-dot.red{border-color:var(--red);background:var(--red-bg);}
+.timeline-dot.purple{border-color:var(--purple);background:var(--purple-bg);}
+.timeline-content{font-size:13px;}
+.timeline-content .time{font-size:11px;color:var(--muted);margin-top:2px;}
+
+/* Comments */
+.comment{display:flex;gap:10px;margin-bottom:12px;}
+.comment-avatar{width:28px;height:28px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--muted);flex-shrink:0;margin-top:2px;}
+.comment-body{flex:1;}
+.comment-body .author{font-size:12px;font-weight:600;}
+.comment-body .text{font-size:13px;color:var(--text2);margin-top:2px;}
+.comment-body .time{font-size:11px;color:var(--muted);margin-top:2px;}
+.comment-input{display:flex;gap:8px;margin-top:12px;}
+.comment-input input{flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:8px;background:var(--bg2);color:var(--text);font-size:13px;font-family:inherit;outline:none;}
+.comment-input button{padding:8px 16px;border-radius:8px;border:none;background:var(--blue);color:#fff;font-size:13px;cursor:pointer;font-family:inherit;}
+
+/* Responsive */
+@media(max-width:1024px){.stats-strip{grid-template-columns:repeat(3,1fr);}.form-grid{grid-template-columns:1fr;}}
+@media(max-width:768px){.stats-strip{grid-template-columns:repeat(2,1fr);}.toolbar{flex-direction:column;align-items:stretch;}.toolbar-left,.toolbar-right{justify-content:flex-start;}}
+</style>
+</head>
+<body>
+
+<button class="dark-toggle" onclick="toggleDark()">🌙</button>
+
+<!-- Header -->
+<header class="app-header">
+  <div style="display:flex;align-items:center;gap:20px;">
+    <div class="app-logo">
+      <svg viewBox="0 0 28 28" fill="none"><defs><linearGradient id="lg" x1="0" y1="0" x2="28" y2="28"><stop stop-color="#2563EB"/><stop offset="1" stop-color="#7C3AED"/></linearGradient></defs><rect width="28" height="28" rx="6" fill="url(#lg)"/><path d="M8 18l4-10 4 10M9.5 15h5M19 8v10" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Autopilot v2
+    </div>
+    <nav class="breadcrumb">
+      <a href="#">Autopilot v2</a><span class="sep">/</span>
+      <a href="#">Expense & Receipt</a><span class="sep">/</span>
+      <span class="current">Tasks</span>
+    </nav>
+  </div>
+  <div class="user-bar">
+    <span class="user-name">สมชาย วิริยะกุล</span>
+    <div class="user-avatar">สว</div>
+  </div>
+</header>
+
+<!-- Main -->
+<main class="main-content">
+
+  <!-- Stats Strip -->
+  <div class="stats-strip">
+    <div class="stat-card"><div class="stat-icon blue"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg></div><div class="stat-info"><div class="stat-val" id="stat-total">18</div><div class="stat-label">งานทั้งหมด</div></div></div>
+    <div class="stat-card"><div class="stat-icon orange"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><div class="stat-info"><div class="stat-val" id="stat-pending">6</div><div class="stat-label">รอดำเนินการ</div></div></div>
+    <div class="stat-card"><div class="stat-icon green"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div><div class="stat-info"><div class="stat-val" id="stat-approved">5</div><div class="stat-label">อนุมัติแล้ว</div></div></div>
+    <div class="stat-card"><div class="stat-icon red"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg></div><div class="stat-info"><div class="stat-val" id="stat-rejected">3</div><div class="stat-label">ถูกปฏิเสธ</div></div></div>
+    <div class="stat-card"><div class="stat-icon purple"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg></div><div class="stat-info"><div class="stat-val" id="stat-amount">฿ 287,450</div><div class="stat-label">ยอดรวมเบิก</div></div></div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <div class="view-toggle">
+        <button class="active" onclick="switchView(this,'my')">งานของฉัน</button>
+        <button onclick="switchView(this,'team')">งานทีม</button>
+        <button onclick="switchView(this,'all')">ทั้งหมด</button>
+      </div>
+      <div class="search-box">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" placeholder="ค้นหา Task ID, ชื่อ, หมวดหมู่..." id="searchInput" oninput="filterTasks()">
+      </div>
+      <button class="filter-btn" onclick="toggleFilters()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>
+        ตัวกรอง
+      </button>
+    </div>
+    <div class="toolbar-right">
+      <button class="action-btn scan" onclick="openScanReceipt()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        สแกนใบเสร็จ
+      </button>
+      <button class="action-btn primary" onclick="openCreateModal()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        สร้างงานใหม่
+      </button>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-bar" id="filtersBar">
+    <div class="filter-group">
+      <label>สถานะ</label>
+      <select id="filterStatus" onchange="filterTasks()">
+        <option value="">ทั้งหมด</option>
+        <option value="draft">แบบร่าง</option>
+        <option value="pending">รอดำเนินการ</option>
+        <option value="approved">อนุมัติแล้ว</option>
+        <option value="rejected">ถูกปฏิเสธ</option>
+        <option value="completed">เสร็จสิ้น</option>
+        <option value="resubmit">ส่งใหม่</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>หมวดหมู่</label>
+      <select id="filterCategory" onchange="filterTasks()">
+        <option value="">ทั้งหมด</option>
+        <option value="ค่าเดินทาง">ค่าเดินทาง</option>
+        <option value="น้ำมัน">น้ำมัน</option>
+        <option value="อาหาร">อาหาร</option>
+        <option value="อื่นๆ">อื่นๆ</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>วันที่เริ่ม</label>
+      <input type="date" id="filterDateFrom" onchange="filterTasks()">
+    </div>
+    <div class="filter-group">
+      <label>วันที่สิ้นสุด</label>
+      <input type="date" id="filterDateTo" onchange="filterTasks()">
+    </div>
+    <div class="filter-group">
+      <label>ผู้สร้าง</label>
+      <select id="filterUser" onchange="filterTasks()">
+        <option value="">ทุกคน</option>
+        <option value="สมชาย วิริยะกุล">สมชาย วิริยะกุล</option>
+        <option value="วรรณา สุขใจ">วรรณา สุขใจ</option>
+        <option value="พิชัย แสงทอง">พิชัย แสงทอง</option>
+        <option value="กมลา รุ่งเรือง">กมลา รุ่งเรือง</option>
+        <option value="ธนา ศรีวิชัย">ธนา ศรีวิชัย</option>
+      </select>
+    </div>
+    <div class="filter-group" style="justify-content:flex-end;">
+      <label>&nbsp;</label>
+      <button class="filter-btn" onclick="clearFilters()">ล้างตัวกรอง</button>
+    </div>
+  </div>
+
+  <!-- Bulk Actions -->
+  <div class="bulk-bar" id="bulkBar">
+    <span class="bulk-info">เลือกแล้ว <strong id="bulkCount">0</strong> รายการ</span>
+    <div class="bulk-actions">
+      <button class="action-btn" onclick="bulkAction('approve')" style="background:var(--green);color:#fff;border-color:var(--green);">อนุมัติ</button>
+      <button class="action-btn danger" onclick="bulkAction('reject')">ปฏิเสธ</button>
+      <button class="action-btn" onclick="bulkAction('export')">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        ส่งออก
+      </button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th class="cb-cell"><input type="checkbox" id="selectAll" onchange="toggleSelectAll()"></th>
+          <th>Task ID</th>
+          <th>ผู้สร้าง</th>
+          <th>วันที่</th>
+          <th>หมวดหมู่</th>
+          <th>รายการ</th>
+          <th style="text-align:right;">จำนวนเงิน</th>
+          <th>ใบเสร็จ</th>
+          <th>สถานะ</th>
+          <th>ผู้อนุมัติ</th>
+        </tr>
+      </thead>
+      <tbody id="taskTableBody">
+      </tbody>
+    </table>
+    <div class="pagination">
+      <span class="page-info" id="pageInfo">แสดง 1-10 จาก 18 รายการ</span>
+      <div class="page-btns" id="pageBtns"></div>
+    </div>
+  </div>
+
+</main>
+
+<!-- Create Task Modal -->
+<div class="modal-overlay" id="createModal">
+  <div class="modal modal-sm">
+    <div class="modal-header">
+      <h2>สร้างงานเบิกค่าใช้จ่ายใหม่</h2>
+      <button class="modal-close" onclick="closeModal('createModal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>ชื่อรายการเบิก *</label>
+          <input type="text" placeholder="เช่น ค่าเดินทางไปประชุมลูกค้า" id="formTitle">
+        </div>
+        <div class="form-group">
+          <label>หมวดหมู่ *</label>
+          <select id="formCategory">
+            <option value="">เลือกหมวดหมู่</option>
+            <option value="ค่าเดินทาง">ค่าเดินทาง</option>
+            <option value="น้ำมัน">น้ำมัน</option>
+            <option value="อาหาร">อาหาร</option>
+            <option value="อื่นๆ">อื่นๆ</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>จำนวนเงิน (บาท) *</label>
+          <input type="number" placeholder="0.00" id="formAmount">
+        </div>
+        <div class="form-group full">
+          <label>รายละเอียด</label>
+          <textarea placeholder="อธิบายรายละเอียดการเบิก..." id="formDesc"></textarea>
+        </div>
+        <div class="form-group">
+          <label>ผู้อนุมัติ *</label>
+          <select id="formApprover">
+            <option value="">เลือกผู้อนุมัติ</option>
+            <option value="นริศรา พงษ์พันธ์">นริศรา พงษ์พันธ์ (ผจก.)</option>
+            <option value="สุรชัย มั่นคง">สุรชัย มั่นคง (ผอ.)</option>
+            <option value="อรพิน ดำรงค์">อรพิน ดำรงค์ (CFO)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>วันที่</label>
+          <input type="date" id="formDate">
+        </div>
+        <div class="form-group full">
+          <label>แนบใบเสร็จ</label>
+          <div class="file-upload" onclick="document.getElementById('fileInput').click()">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:block;margin:0 auto 8px;"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            คลิกเพื่ออัปโหลด หรือลากไฟล์มาวาง<br><small>รองรับ JPG, PNG, PDF (ไม่เกิน 10MB)</small>
+          </div>
+          <input type="file" id="fileInput" style="display:none" multiple accept=".jpg,.jpeg,.png,.pdf">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="action-btn" onclick="closeModal('createModal')">ยกเลิก</button>
+      <button class="action-btn" onclick="saveAsDraft()" style="background:var(--bg3);color:var(--text);">บันทึกเป็นแบบร่าง</button>
+      <button class="action-btn primary" onclick="submitTask()">ส่งเบิก</button>
+    </div>
+  </div>
+</div>
+
+<!-- Task Detail Modal -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <h2 id="detailTitle">รายละเอียดงาน</h2>
+      <button class="modal-close" onclick="closeModal('detailModal')">&times;</button>
+    </div>
+    <div class="modal-body" id="detailBody">
+    </div>
+    <div class="modal-footer" id="detailFooter">
+    </div>
+  </div>
+</div>
+
+<script>
+// Dark mode
+function toggleDark(){document.body.classList.toggle('dark');const d=document.body.classList.contains('dark');localStorage.setItem('darkMode',d);document.querySelector('.dark-toggle').textContent=d?'☀️':'🌙';}
+if(localStorage.getItem('darkMode')==='true'){document.body.classList.add('dark');document.querySelector('.dark-toggle').textContent='☀️';}
+
+// Mock Data
+const approvers = ['นริศรา พงษ์พันธ์','สุรชัย มั่นคง','อรพิน ดำรงค์'];
+const users = ['สมชาย วิริยะกุล','วรรณา สุขใจ','พิชัย แสงทอง','กมลา รุ่งเรือง','ธนา ศรีวิชัย'];
+const catMap = {'ค่าเดินทาง':'travel','น้ำมัน':'fuel','อาหาร':'food','อื่นๆ':'other'};
+const catClass = {'ค่าเดินทาง':'cat-travel','น้ำมัน':'cat-fuel','อาหาร':'cat-food','อื่นๆ':'cat-other'};
+const statusTH = {draft:'แบบร่าง',pending:'รอดำเนินการ',approved:'อนุมัติแล้ว',rejected:'ถูกปฏิเสธ',completed:'เสร็จสิ้น',resubmit:'ส่งใหม่'};
+
+let tasks = [
+  {id:'EXP-2026-0001',user:'สมชาย วิริยะกุล',date:'2026-03-28',category:'ค่าเดินทาง',title:'ค่าแท็กซี่ไปประชุมลูกค้า บจ.สยามเทค',amount:1850,receipts:2,status:'approved',approver:'นริศรา พงษ์พันธ์',items:[{desc:'ค่าแท็กซี่ขาไป',amt:850,ocr:'RCT-0412'},{desc:'ค่าแท็กซี่ขากลับ',amt:1000,ocr:'RCT-0413'}],timeline:[{status:'สร้างงาน',time:'28 มี.ค. 09:15',color:'blue'},{status:'ส่งเบิก',time:'28 มี.ค. 09:20',color:'blue'},{status:'อนุมัติโดย นริศรา',time:'28 มี.ค. 14:30',color:'green'}],comments:[{user:'นริศรา พงษ์พันธ์',text:'อนุมัติแล้วค่ะ',time:'28 มี.ค. 14:30'}]},
+  {id:'EXP-2026-0002',user:'วรรณา สุขใจ',date:'2026-03-27',category:'อาหาร',title:'ค่าอาหารเลี้ยงรับรองลูกค้าญี่ปุ่น',amount:8500,receipts:3,status:'pending',approver:'สุรชัย มั่นคง',items:[{desc:'อาหารกลางวัน ร้าน Fuji',amt:5200,ocr:'RCT-0408'},{desc:'เครื่องดื่ม',amt:1800,ocr:'RCT-0409'},{desc:'ค่าบริการ',amt:1500,ocr:null}],timeline:[{status:'สร้างงาน',time:'27 มี.ค. 16:00',color:'blue'},{status:'ส่งเบิก',time:'27 มี.ค. 16:05',color:'orange'}],comments:[]},
+  {id:'EXP-2026-0003',user:'พิชัย แสงทอง',date:'2026-03-26',category:'น้ำมัน',title:'ค่าน้ำมันรถ - เดินทางไปสาขาชลบุรี',amount:2300,receipts:1,status:'approved',approver:'นริศรา พงษ์พันธ์',items:[{desc:'น้ำมันดีเซล ปตท.',amt:2300,ocr:'RCT-0401'}],timeline:[{status:'สร้างงาน',time:'26 มี.ค. 08:00',color:'blue'},{status:'ส่งเบิก',time:'26 มี.ค. 08:05',color:'blue'},{status:'อนุมัติโดย นริศรา',time:'26 มี.ค. 11:00',color:'green'}],comments:[{user:'นริศรา พงษ์พันธ์',text:'OK ค่ะ ใบเสร็จครบถ้วน',time:'26 มี.ค. 11:00'}]},
+  {id:'EXP-2026-0004',user:'สมชาย วิริยะกุล',date:'2026-03-25',category:'อื่นๆ',title:'ค่าที่จอดรถ Central World - ประชุมพันธมิตร',amount:450,receipts:1,status:'completed',approver:'นริศรา พงษ์พันธ์',items:[{desc:'ค่าที่จอดรถ 6 ชม.',amt:450,ocr:'RCT-0399'}],timeline:[{status:'สร้างงาน',time:'25 มี.ค. 10:00',color:'blue'},{status:'ส่งเบิก',time:'25 มี.ค. 10:05',color:'blue'},{status:'อนุมัติโดย นริศรา',time:'25 มี.ค. 12:00',color:'green'},{status:'จ่ายเงินแล้ว',time:'30 มี.ค. 09:00',color:'blue'}],comments:[]},
+  {id:'EXP-2026-0005',user:'กมลา รุ่งเรือง',date:'2026-03-24',category:'ค่าเดินทาง',title:'ค่าตั๋วเครื่องบิน กรุงเทพ-เชียงใหม่ สัมมนา',amount:4200,receipts:2,status:'rejected',approver:'อรพิน ดำรงค์',items:[{desc:'ตั๋วเครื่องบินขาไป',amt:2100,ocr:'RCT-0390'},{desc:'ตั๋วเครื่องบินขากลับ',amt:2100,ocr:'RCT-0391'}],timeline:[{status:'สร้างงาน',time:'24 มี.ค. 14:00',color:'blue'},{status:'ส่งเบิก',time:'24 มี.ค. 14:10',color:'blue'},{status:'ปฏิเสธโดย อรพิน — ต้องใช้ Economy class เท่านั้น',time:'25 มี.ค. 09:00',color:'red'}],comments:[{user:'อรพิน ดำรงค์',text:'กรุณาเบิกเฉพาะตั๋ว Economy class ตามนโยบายบริษัท',time:'25 มี.ค. 09:00'},{user:'กมลา รุ่งเรือง',text:'รับทราบค่ะ จะส่งใหม่',time:'25 มี.ค. 10:15'}]},
+  {id:'EXP-2026-0006',user:'ธนา ศรีวิชัย',date:'2026-03-23',category:'อาหาร',title:'ค่าอาหารทำงานล่วงเวลา OT',amount:650,receipts:1,status:'pending',approver:'นริศรา พงษ์พันธ์',items:[{desc:'ข้าวกล่อง + น้ำ',amt:650,ocr:'RCT-0385'}],timeline:[{status:'สร้างงาน',time:'23 มี.ค. 21:30',color:'blue'},{status:'ส่งเบิก',time:'23 มี.ค. 21:35',color:'orange'}],comments:[]},
+  {id:'EXP-2026-0007',user:'วรรณา สุขใจ',date:'2026-03-22',category:'น้ำมัน',title:'ค่าน้ำมันรถ - ส่งเอกสารลูกค้า 3 แห่ง',amount:1200,receipts:2,status:'approved',approver:'นริศรา พงษ์พันธ์',items:[{desc:'น้ำมันเบนซิน Shell',amt:800,ocr:'RCT-0380'},{desc:'น้ำมันเบนซิน ปตท.',amt:400,ocr:'RCT-0381'}],timeline:[{status:'สร้างงาน',time:'22 มี.ค. 08:45',color:'blue'},{status:'ส่งเบิก',time:'22 มี.ค. 08:50',color:'blue'},{status:'อนุมัติโดย นริศรา',time:'22 มี.ค. 10:30',color:'green'}],comments:[]},
+  {id:'EXP-2026-0008',user:'สมชาย วิริยะกุล',date:'2026-03-21',category:'ค่าเดินทาง',title:'ค่า BTS/MRT ไปประชุมที่ สำนักงาน BOI',amount:320,receipts:1,status:'draft',approver:'',items:[{desc:'ค่า BTS + MRT',amt:320,ocr:null}],timeline:[{status:'สร้างแบบร่าง',time:'21 มี.ค. 18:00',color:'blue'}],comments:[]},
+  {id:'EXP-2026-0009',user:'พิชัย แสงทอง',date:'2026-03-20',category:'อื่นๆ',title:'ค่าพิมพ์เอกสารและถ่ายเอกสาร',amount:890,receipts:1,status:'pending',approver:'สุรชัย มั่นคง',items:[{desc:'ค่าพิมพ์สี A3 x 20 แผ่น',amt:600,ocr:'RCT-0370'},{desc:'ค่าถ่ายเอกสาร',amt:290,ocr:'RCT-0371'}],timeline:[{status:'สร้างงาน',time:'20 มี.ค. 15:00',color:'blue'},{status:'ส่งเบิก',time:'20 มี.ค. 15:05',color:'orange'}],comments:[]},
+  {id:'EXP-2026-0010',user:'กมลา รุ่งเรือง',date:'2026-03-19',category:'อาหาร',title:'ค่าเลี้ยงอาหารกลางวันทีม Sprint Review',amount:3200,receipts:2,status:'approved',approver:'สุรชัย มั่นคง',items:[{desc:'พิซซ่า 4 ถาด',amt:2400,ocr:'RCT-0365'},{desc:'เครื่องดื่ม',amt:800,ocr:'RCT-0366'}],timeline:[{status:'สร้างงาน',time:'19 มี.ค. 12:00',color:'blue'},{status:'ส่งเบิก',time:'19 มี.ค. 12:05',color:'blue'},{status:'อนุมัติโดย สุรชัย',time:'19 มี.ค. 14:00',color:'green'}],comments:[]},
+  {id:'EXP-2026-0011',user:'ธนา ศรีวิชัย',date:'2026-03-18',category:'ค่าเดินทาง',title:'ค่ารถไฟฟ้า BTS - ไปอบรมหลักสูตร AI',amount:180,receipts:1,status:'completed',approver:'นริศรา พงษ์พันธ์',items:[{desc:'ค่า BTS สยาม-อโศก',amt:180,ocr:null}],timeline:[{status:'สร้างงาน',time:'18 มี.ค. 07:30',color:'blue'},{status:'ส่งเบิก',time:'18 มี.ค. 07:35',color:'blue'},{status:'อนุมัติโดย นริศรา',time:'18 มี.ค. 09:00',color:'green'},{status:'จ่ายเงินแล้ว',time:'25 มี.ค. 09:00',color:'blue'}],comments:[]},
+  {id:'EXP-2026-0012',user:'วรรณา สุขใจ',date:'2026-03-17',category:'อื่นๆ',title:'ค่าส่งพัสดุ Kerry Express - เอกสารสัญญา',amount:250,receipts:1,status:'rejected',approver:'สุรชัย มั่นคง',items:[{desc:'ค่าส่ง Kerry Express',amt:250,ocr:'RCT-0355'}],timeline:[{status:'สร้างงาน',time:'17 มี.ค. 11:00',color:'blue'},{status:'ส่งเบิก',time:'17 มี.ค. 11:05',color:'blue'},{status:'ปฏิเสธ — ใช้บริการของบริษัทแทน',time:'17 มี.ค. 15:00',color:'red'}],comments:[{user:'สุรชัย มั่นคง',text:'กรุณาใช้บริการส่งของบริษัทที่มีสัญญาครับ',time:'17 มี.ค. 15:00'}]},
+  {id:'EXP-2026-0013',user:'พิชัย แสงทอง',date:'2026-03-16',category:'น้ำมัน',title:'ค่าน้ำมัน - เดินทางไปโรงงาน นครปฐม',amount:1800,receipts:1,status:'pending',approver:'อรพิน ดำรงค์',items:[{desc:'น้ำมันดีเซล Bangchak',amt:1800,ocr:'RCT-0348'}],timeline:[{status:'สร้างงาน',time:'16 มี.ค. 07:00',color:'blue'},{status:'ส่งเบิก',time:'16 มี.ค. 07:05',color:'orange'}],comments:[]},
+  {id:'EXP-2026-0014',user:'สมชาย วิริยะกุล',date:'2026-03-15',category:'อาหาร',title:'ค่ากาแฟ Meeting กับ Vendor',amount:780,receipts:1,status:'approved',approver:'นริศรา พงษ์พันธ์',items:[{desc:'กาแฟ 4 แก้ว + ขนม Starbucks',amt:780,ocr:'RCT-0340'}],timeline:[{status:'สร้างงาน',time:'15 มี.ค. 10:00',color:'blue'},{status:'ส่งเบิก',time:'15 มี.ค. 10:05',color:'blue'},{status:'อนุมัติโดย นริศรา',time:'15 มี.ค. 11:30',color:'green'}],comments:[]},
+  {id:'EXP-2026-0015',user:'กมลา รุ่งเรือง',date:'2026-03-14',category:'ค่าเดินทาง',title:'ค่า Grab ไป-กลับ สนามบินดอนเมือง',amount:1400,receipts:2,status:'resubmit',approver:'อรพิน ดำรงค์',items:[{desc:'Grab ขาไป',amt:650,ocr:'RCT-0335'},{desc:'Grab ขากลับ',amt:750,ocr:'RCT-0336'}],timeline:[{status:'สร้างงาน',time:'14 มี.ค. 05:30',color:'blue'},{status:'ส่งเบิก',time:'14 มี.ค. 05:35',color:'blue'},{status:'ปฏิเสธ — แนบใบเสร็จไม่ครบ',time:'14 มี.ค. 10:00',color:'red'},{status:'ส่งใหม่พร้อมใบเสร็จ',time:'15 มี.ค. 08:00',color:'purple'}],comments:[{user:'อรพิน ดำรงค์',text:'ใบเสร็จขากลับไม่ชัด กรุณาแนบใหม่',time:'14 มี.ค. 10:00'},{user:'กมลา รุ่งเรือง',text:'แนบใหม่แล้วค่ะ',time:'15 มี.ค. 08:00'}]},
+  {id:'EXP-2026-0016',user:'ธนา ศรีวิชัย',date:'2026-03-13',category:'อื่นๆ',title:'ค่าอุปกรณ์สำนักงาน - ปากกา/กระดาษ',amount:1250,receipts:1,status:'pending',approver:'นริศรา พงษ์พันธ์',items:[{desc:'ปากกา 20 ด้าม',amt:500,ocr:'RCT-0330'},{desc:'กระดาษ A4 5 รีม',amt:750,ocr:'RCT-0331'}],timeline:[{status:'สร้างงาน',time:'13 มี.ค. 14:00',color:'blue'},{status:'ส่งเบิก',time:'13 มี.ค. 14:05',color:'orange'}],comments:[]},
+  {id:'EXP-2026-0017',user:'วรรณา สุขใจ',date:'2026-03-12',category:'ค่าเดินทาง',title:'ค่าทางด่วน กรุงเทพ-ชลบุรี ไปเยี่ยมลูกค้า',amount:230,receipts:1,status:'rejected',approver:'สุรชัย มั่นคง',items:[{desc:'ค่าทางด่วน M7',amt:230,ocr:'RCT-0325'}],timeline:[{status:'สร้างงาน',time:'12 มี.ค. 06:00',color:'blue'},{status:'ส่งเบิก',time:'12 มี.ค. 06:05',color:'blue'},{status:'ปฏิเสธ — ซ้ำกับรายการ EXP-2026-0007',time:'12 มี.ค. 10:00',color:'red'}],comments:[{user:'สุรชัย มั่นคง',text:'รายการนี้ซ้ำกับ EXP-2026-0007 กรุณาตรวจสอบ',time:'12 มี.ค. 10:00'}]},
+  {id:'EXP-2026-0018',user:'สมชาย วิริยะกุล',date:'2026-03-11',category:'น้ำมัน',title:'ค่าน้ำมัน - ไปส่งสินค้าตัวอย่างลูกค้า',amount:950,receipts:1,status:'pending',approver:'นริศรา พงษ์พันธ์',items:[{desc:'น้ำมัน Gasohol 95 ปตท.',amt:950,ocr:'RCT-0318'}],timeline:[{status:'สร้างงาน',time:'11 มี.ค. 17:00',color:'blue'},{status:'ส่งเบิก',time:'11 มี.ค. 17:10',color:'orange'}],comments:[]}
+];
+
+// State
+let currentPage = 1;
+const perPage = 10;
+let filteredTasks = [...tasks];
+let selectedIds = new Set();
+
+// Render
+function renderTable() {
+  const start = (currentPage - 1) * perPage;
+  const end = start + perPage;
+  const pageTasks = filteredTasks.slice(start, end);
+  const tbody = document.getElementById('taskTableBody');
+  tbody.innerHTML = '';
+
+  pageTasks.forEach(t => {
+    const catCls = catClass[t.category] || 'cat-other';
+    const checked = selectedIds.has(t.id) ? 'checked' : '';
+    const selCls = selectedIds.has(t.id) ? 'selected' : '';
+    const initials = t.approver ? t.approver.split(' ').map(w=>w[0]).join('') : '-';
+    const tr = document.createElement('tr');
+    tr.className = selCls;
+    tr.innerHTML = `
+      <td class="cb-cell"><input type="checkbox" ${checked} onchange="toggleSelect('${t.id}',this)" onclick="event.stopPropagation()"></td>
+      <td><span class="task-id">${t.id}</span></td>
+      <td>${t.user}</td>
+      <td>${formatDate(t.date)}</td>
+      <td><span class="cat-badge ${catCls}">${t.category}</span></td>
+      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${t.title}">${t.title}</td>
+      <td style="text-align:right;" class="amount">฿ ${t.amount.toLocaleString()}</td>
+      <td><span class="receipt-count"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg> ${t.receipts}</span></td>
+      <td><span class="badge ${t.status}"><span class="badge-dot"></span>${statusTH[t.status]}</span></td>
+      <td>${t.approver ? `<div class="approver"><span class="approver-avatar">${initials}</span>${t.approver}</div>` : '<span style="color:var(--muted)">—</span>'}</td>
+    `;
+    tr.addEventListener('click', () => openDetail(t.id));
+    tbody.appendChild(tr);
+  });
+
+  // Pagination
+  const total = filteredTasks.length;
+  const totalPages = Math.ceil(total / perPage);
+  document.getElementById('pageInfo').textContent = `แสดง ${start+1}-${Math.min(end,total)} จาก ${total} รายการ`;
+  const pageBtns = document.getElementById('pageBtns');
+  pageBtns.innerHTML = '';
+  const prevBtn = document.createElement('button');
+  prevBtn.textContent = '<';
+  prevBtn.disabled = currentPage === 1;
+  prevBtn.onclick = () => { currentPage--; renderTable(); };
+  pageBtns.appendChild(prevBtn);
+  for (let i = 1; i <= totalPages; i++) {
+    const b = document.createElement('button');
+    b.textContent = i;
+    if (i === currentPage) b.className = 'active';
+    b.onclick = () => { currentPage = i; renderTable(); };
+    pageBtns.appendChild(b);
+  }
+  const nextBtn = document.createElement('button');
+  nextBtn.textContent = '>';
+  nextBtn.disabled = currentPage === totalPages;
+  nextBtn.onclick = () => { currentPage++; renderTable(); };
+  pageBtns.appendChild(nextBtn);
+}
+
+function formatDate(d) {
+  const months = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+  const [y,m,day] = d.split('-');
+  return `${parseInt(day)} ${months[parseInt(m)-1]} ${y}`;
+}
+
+// Selection
+function toggleSelect(id, cb) {
+  if (cb.checked) selectedIds.add(id); else selectedIds.delete(id);
+  updateBulkBar();
+  renderTable();
+}
+function toggleSelectAll() {
+  const all = document.getElementById('selectAll').checked;
+  const start = (currentPage - 1) * perPage;
+  const end = start + perPage;
+  const pageTasks = filteredTasks.slice(start, end);
+  pageTasks.forEach(t => { if (all) selectedIds.add(t.id); else selectedIds.delete(t.id); });
+  updateBulkBar();
+  renderTable();
+}
+function updateBulkBar() {
+  const bar = document.getElementById('bulkBar');
+  const count = selectedIds.size;
+  document.getElementById('bulkCount').textContent = count;
+  bar.classList.toggle('show', count > 0);
+}
+
+// Filters
+function toggleFilters() { document.getElementById('filtersBar').classList.toggle('show'); }
+function clearFilters() {
+  document.getElementById('filterStatus').value = '';
+  document.getElementById('filterCategory').value = '';
+  document.getElementById('filterDateFrom').value = '';
+  document.getElementById('filterDateTo').value = '';
+  document.getElementById('filterUser').value = '';
+  document.getElementById('searchInput').value = '';
+  filterTasks();
+}
+function filterTasks() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const st = document.getElementById('filterStatus').value;
+  const cat = document.getElementById('filterCategory').value;
+  const df = document.getElementById('filterDateFrom').value;
+  const dt = document.getElementById('filterDateTo').value;
+  const usr = document.getElementById('filterUser').value;
+
+  filteredTasks = tasks.filter(t => {
+    if (q && !(t.id.toLowerCase().includes(q) || t.title.toLowerCase().includes(q) || t.user.toLowerCase().includes(q) || t.category.includes(q))) return false;
+    if (st && t.status !== st) return false;
+    if (cat && t.category !== cat) return false;
+    if (df && t.date < df) return false;
+    if (dt && t.date > dt) return false;
+    if (usr && t.user !== usr) return false;
+    return true;
+  });
+  currentPage = 1;
+  selectedIds.clear();
+  updateBulkBar();
+  renderTable();
+}
+
+// View toggle
+function switchView(btn, view) {
+  document.querySelectorAll('.view-toggle button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (view === 'my') {
+    filteredTasks = tasks.filter(t => t.user === 'สมชาย วิริยะกุล');
+  } else if (view === 'team') {
+    filteredTasks = tasks.filter(t => ['สมชาย วิริยะกุล','วรรณา สุขใจ','พิชัย แสงทอง'].includes(t.user));
+  } else {
+    filteredTasks = [...tasks];
+  }
+  currentPage = 1;
+  selectedIds.clear();
+  updateBulkBar();
+  renderTable();
+}
+
+// Modals
+function openModal(id) { document.getElementById(id).classList.add('show'); document.body.style.overflow='hidden'; }
+function closeModal(id) { document.getElementById(id).classList.remove('show'); document.body.style.overflow=''; }
+function openCreateModal() {
+  document.getElementById('formTitle').value='';
+  document.getElementById('formCategory').value='';
+  document.getElementById('formAmount').value='';
+  document.getElementById('formDesc').value='';
+  document.getElementById('formApprover').value='';
+  document.getElementById('formDate').value=new Date().toISOString().split('T')[0];
+  openModal('createModal');
+}
+
+// Create / Save
+function saveAsDraft() {
+  const title = document.getElementById('formTitle').value;
+  if (!title) { alert('กรุณากรอกชื่อรายการเบิก'); return; }
+  const cat = document.getElementById('formCategory').value || 'อื่นๆ';
+  const amt = parseFloat(document.getElementById('formAmount').value) || 0;
+  const dt = document.getElementById('formDate').value || new Date().toISOString().split('T')[0];
+  const num = String(tasks.length + 1).padStart(4, '0');
+  const newTask = {
+    id: `EXP-2026-${num}`, user: 'สมชาย วิริยะกุล', date: dt, category: cat,
+    title, amount: amt, receipts: 0, status: 'draft', approver: '',
+    items: [{desc: title, amt, ocr: null}],
+    timeline: [{status: 'สร้างแบบร่าง', time: 'เมื่อสักครู่', color: 'blue'}],
+    comments: []
+  };
+  tasks.unshift(newTask);
+  filteredTasks = [...tasks];
+  currentPage = 1;
+  renderTable();
+  closeModal('createModal');
+  showToast('บันทึกแบบร่างเรียบร้อย');
+}
+function submitTask() {
+  const title = document.getElementById('formTitle').value;
+  const cat = document.getElementById('formCategory').value;
+  const amt = parseFloat(document.getElementById('formAmount').value);
+  const approver = document.getElementById('formApprover').value;
+  if (!title || !cat || !amt || !approver) { alert('กรุณากรอกข้อมูลให้ครบถ้วน'); return; }
+  const dt = document.getElementById('formDate').value || new Date().toISOString().split('T')[0];
+  const num = String(tasks.length + 1).padStart(4, '0');
+  const newTask = {
+    id: `EXP-2026-${num}`, user: 'สมชาย วิริยะกุล', date: dt, category: cat,
+    title, amount: amt, receipts: 0, status: 'pending', approver,
+    items: [{desc: title, amt, ocr: null}],
+    timeline: [{status: 'สร้างงาน', time: 'เมื่อสักครู่', color: 'blue'},{status: 'ส่งเบิก', time: 'เมื่อสักครู่', color: 'orange'}],
+    comments: []
+  };
+  tasks.unshift(newTask);
+  filteredTasks = [...tasks];
+  currentPage = 1;
+  renderTable();
+  closeModal('createModal');
+  showToast('ส่งเบิกค่าใช้จ่ายเรียบร้อย');
+}
+
+// Detail
+function openDetail(id) {
+  const t = tasks.find(x => x.id === id);
+  if (!t) return;
+  document.getElementById('detailTitle').textContent = t.id + ' — ' + t.title;
+
+  let itemsHTML = '';
+  t.items.forEach((item, i) => {
+    itemsHTML += `<tr>
+      <td>${i+1}</td>
+      <td>${item.desc}</td>
+      <td style="text-align:right;font-weight:600;">฿ ${item.amt.toLocaleString()}</td>
+      <td>${item.ocr ? `<span class="ocr-badge" title="ดูใบเสร็จ OCR"><svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> OCR #${item.ocr}</span>` : '<span style="color:var(--muted);font-size:11px;">ไม่มี</span>'}</td>
+    </tr>`;
+  });
+
+  let timelineHTML = '';
+  t.timeline.forEach(tl => {
+    timelineHTML += `<div class="timeline-item"><div class="timeline-dot ${tl.color}"></div><div class="timeline-content"><strong>${tl.status}</strong><div class="time">${tl.time}</div></div></div>`;
+  });
+
+  let commentsHTML = '';
+  t.comments.forEach(c => {
+    const ci = c.user.split(' ').map(w=>w[0]).join('');
+    commentsHTML += `<div class="comment"><div class="comment-avatar">${ci}</div><div class="comment-body"><div class="author">${c.user}</div><div class="text">${c.text}</div><div class="time">${c.time}</div></div></div>`;
+  });
+
+  document.getElementById('detailBody').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div>
+        <div class="detail-section">
+          <h3><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg> ข้อมูลทั่วไป</h3>
+          <div class="detail-row"><span class="label">Task ID</span><span class="value">${t.id}</span></div>
+          <div class="detail-row"><span class="label">ผู้สร้าง</span><span class="value">${t.user}</span></div>
+          <div class="detail-row"><span class="label">วันที่</span><span class="value">${formatDate(t.date)}</span></div>
+          <div class="detail-row"><span class="label">หมวดหมู่</span><span class="value"><span class="cat-badge ${catClass[t.category]}">${t.category}</span></span></div>
+          <div class="detail-row"><span class="label">สถานะ</span><span class="value"><span class="badge ${t.status}"><span class="badge-dot"></span>${statusTH[t.status]}</span></span></div>
+          <div class="detail-row"><span class="label">ผู้อนุมัติ</span><span class="value">${t.approver || '—'}</span></div>
+          <div class="detail-row"><span class="label">จำนวนเงินรวม</span><span class="value" style="font-size:16px;color:var(--blue);">฿ ${t.amount.toLocaleString()}</span></div>
+        </div>
+        <div class="detail-section">
+          <h3><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg> รายการเบิก</h3>
+          <table class="items-table">
+            <thead><tr><th>#</th><th>รายละเอียด</th><th style="text-align:right;">จำนวนเงิน</th><th>ใบเสร็จ OCR</th></tr></thead>
+            <tbody>${itemsHTML}</tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <div class="detail-section">
+          <h3><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> ไทม์ไลน์</h3>
+          <div class="timeline">${timelineHTML}</div>
+        </div>
+        <div class="detail-section">
+          <h3><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> ความคิดเห็น (${t.comments.length})</h3>
+          ${commentsHTML || '<p style="color:var(--muted);font-size:13px;">ยังไม่มีความคิดเห็น</p>'}
+          <div class="comment-input">
+            <input type="text" placeholder="พิมพ์ความคิดเห็น..." id="commentInput">
+            <button onclick="addComment('${t.id}')">ส่ง</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Footer actions based on status
+  let footerHTML = '<button class="action-btn" onclick="closeModal(\'detailModal\')">ปิด</button>';
+  if (t.status === 'draft') {
+    footerHTML += '<button class="action-btn primary" onclick="changeStatus(\''+t.id+'\',\'pending\')">ส่งเบิก</button>';
+  } else if (t.status === 'pending') {
+    footerHTML += '<button class="action-btn danger" onclick="changeStatus(\''+t.id+'\',\'rejected\')">ปฏิเสธ</button>';
+    footerHTML += '<button class="action-btn" style="background:var(--green);color:#fff;border-color:var(--green);" onclick="changeStatus(\''+t.id+'\',\'approved\')">อนุมัติ</button>';
+  } else if (t.status === 'rejected') {
+    footerHTML += '<button class="action-btn" style="background:var(--purple);color:#fff;border-color:var(--purple);" onclick="changeStatus(\''+t.id+'\',\'resubmit\')">ส่งใหม่</button>';
+  }
+  document.getElementById('detailFooter').innerHTML = footerHTML;
+  openModal('detailModal');
+}
+
+function addComment(id) {
+  const input = document.getElementById('commentInput');
+  const text = input.value.trim();
+  if (!text) return;
+  const t = tasks.find(x => x.id === id);
+  t.comments.push({user: 'สมชาย วิริยะกุล', text, time: 'เมื่อสักครู่'});
+  input.value = '';
+  openDetail(id);
+}
+
+function changeStatus(id, newStatus) {
+  const t = tasks.find(x => x.id === id);
+  t.status = newStatus;
+  const statusMsg = {pending:'ส่งเบิก',approved:'อนุมัติโดย สมชาย',rejected:'ปฏิเสธ',resubmit:'ส่งใหม่'};
+  const colorMap = {pending:'orange',approved:'green',rejected:'red',resubmit:'purple'};
+  t.timeline.push({status: statusMsg[newStatus], time: 'เมื่อสักครู่', color: colorMap[newStatus]});
+  closeModal('detailModal');
+  renderTable();
+  showToast(`เปลี่ยนสถานะเป็น "${statusTH[newStatus]}" เรียบร้อย`);
+}
+
+// Bulk actions
+function bulkAction(action) {
+  if (selectedIds.size === 0) return;
+  if (action === 'approve') {
+    selectedIds.forEach(id => { const t = tasks.find(x=>x.id===id); if(t && t.status==='pending'){t.status='approved';t.timeline.push({status:'อนุมัติแบบกลุ่ม',time:'เมื่อสักครู่',color:'green'});} });
+    showToast(`อนุมัติ ${selectedIds.size} รายการเรียบร้อย`);
+  } else if (action === 'reject') {
+    selectedIds.forEach(id => { const t = tasks.find(x=>x.id===id); if(t && t.status==='pending'){t.status='rejected';t.timeline.push({status:'ปฏิเสธแบบกลุ่ม',time:'เมื่อสักครู่',color:'red'});} });
+    showToast(`ปฏิเสธ ${selectedIds.size} รายการเรียบร้อย`);
+  } else if (action === 'export') {
+    showToast(`ส่งออก ${selectedIds.size} รายการเป็น CSV เรียบร้อย`);
+  }
+  selectedIds.clear();
+  updateBulkBar();
+  renderTable();
+}
+
+// Scan receipt link
+function openScanReceipt() {
+  showToast('กำลังเปิดหน้า Receipt OCR...');
+  // In production: window.location.href = 'receipt-ocr.html';
+}
+
+// Toast
+function showToast(msg) {
+  const toast = document.createElement('div');
+  toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:12px 24px;border-radius:10px;font-size:14px;font-weight:500;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.2);animation:fadeInUp .3s;font-family:inherit;';
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  setTimeout(() => { toast.style.opacity='0'; toast.style.transition='opacity .3s'; setTimeout(()=>toast.remove(),300); }, 2500);
+}
+
+// Click outside modal to close
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) closeModal(overlay.id);
+  });
+});
+
+// Keyboard shortcut
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.show').forEach(m => closeModal(m.id));
+  }
+});
+
+// Init
+document.getElementById('formDate').value = new Date().toISOString().split('T')[0];
+// Default to "All" view on load
+filteredTasks = [...tasks];
+renderTable();
+
+// Add fadeInUp animation
+const style = document.createElement('style');
+style.textContent = '@keyframes fadeInUp{from{opacity:0;transform:translateX(-50%) translateY(20px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}';
+document.head.appendChild(style);
+
+// Update stats based on current tasks
+function updateStats() {
+  const total = tasks.length;
+  const pending = tasks.filter(t => t.status === 'pending').length;
+  const approved = tasks.filter(t => t.status === 'approved').length;
+  const rejected = tasks.filter(t => t.status === 'rejected').length;
+  const totalAmt = tasks.reduce((sum, t) => sum + t.amount, 0);
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-pending').textContent = pending;
+  document.getElementById('stat-approved').textContent = approved;
+  document.getElementById('stat-rejected').textContent = rejected;
+  document.getElementById('stat-amount').textContent = '฿ ' + totalAmt.toLocaleString();
+}
+updateStats();
+
+// Sort functionality
+let sortCol = null;
+let sortAsc = true;
+
+function sortTasks(column) {
+  if (sortCol === column) {
+    sortAsc = !sortAsc;
+  } else {
+    sortCol = column;
+    sortAsc = true;
+  }
+  filteredTasks.sort((a, b) => {
+    let va, vb;
+    switch(column) {
+      case 'id': va = a.id; vb = b.id; break;
+      case 'user': va = a.user; vb = b.user; break;
+      case 'date': va = a.date; vb = b.date; break;
+      case 'category': va = a.category; vb = b.category; break;
+      case 'amount': va = a.amount; vb = b.amount; break;
+      case 'status': va = a.status; vb = b.status; break;
+      default: return 0;
+    }
+    if (typeof va === 'number') return sortAsc ? va - vb : vb - va;
+    return sortAsc ? String(va).localeCompare(String(vb)) : String(vb).localeCompare(String(va));
+  });
+  currentPage = 1;
+  renderTable();
+}
+
+// Make table headers clickable for sorting
+document.querySelectorAll('thead th').forEach((th, i) => {
+  const colMap = [null, 'id', 'user', 'date', 'category', null, 'amount', null, 'status', null];
+  if (colMap[i]) {
+    th.style.cursor = 'pointer';
+    th.title = 'คลิกเพื่อเรียงลำดับ';
+    th.addEventListener('click', () => sortTasks(colMap[i]));
+  }
+});
+
+// Export single task as text summary
+function exportTaskSummary(id) {
+  const t = tasks.find(x => x.id === id);
+  if (!t) return;
+  const lines = [
+    `=== รายงานการเบิกค่าใช้จ่าย ===`,
+    `Task ID: ${t.id}`,
+    `ชื่อรายการ: ${t.title}`,
+    `ผู้สร้าง: ${t.user}`,
+    `วันที่: ${formatDate(t.date)}`,
+    `หมวดหมู่: ${t.category}`,
+    `จำนวนเงินรวม: ฿ ${t.amount.toLocaleString()}`,
+    `สถานะ: ${statusTH[t.status]}`,
+    `ผู้อนุมัติ: ${t.approver || '-'}`,
+    ``,
+    `รายการ:`,
+    ...t.items.map((item, i) => `  ${i+1}. ${item.desc} — ฿ ${item.amt.toLocaleString()}${item.ocr ? ' (OCR: '+item.ocr+')' : ''}`),
+    ``,
+    `ไทม์ไลน์:`,
+    ...t.timeline.map(tl => `  - ${tl.status} (${tl.time})`),
+  ];
+  const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${t.id}-summary.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast(`ดาวน์โหลดสรุป ${t.id} เรียบร้อย`);
+}
+
+// CSV export for bulk
+function exportCSV(taskIds) {
+  const header = 'Task ID,ผู้สร้าง,วันที่,หมวดหมู่,รายการ,จำนวนเงิน,ใบเสร็จ,สถานะ,ผู้อนุมัติ';
+  const rows = taskIds.map(id => {
+    const t = tasks.find(x => x.id === id);
+    if (!t) return '';
+    return `${t.id},${t.user},${t.date},${t.category},"${t.title}",${t.amount},${t.receipts},${statusTH[t.status]},${t.approver}`;
+  }).filter(Boolean);
+  const csv = [header, ...rows].join('\n');
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'expense-tasks-export.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Keyboard shortcuts help
+function showKeyboardShortcuts() {
+  showToast('Esc = ปิดหน้าต่าง | Ctrl+N = สร้างงานใหม่ | Ctrl+F = ค้นหา');
+}
+
+document.addEventListener('keydown', e => {
+  // Ctrl+N = Create new task
+  if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+    e.preventDefault();
+    openCreateModal();
+  }
+  // Ctrl+F = Focus search
+  if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+    e.preventDefault();
+    document.getElementById('searchInput').focus();
+  }
+});
+
+// Drag and drop on file upload area
+const fileUpload = document.querySelector('.file-upload');
+if (fileUpload) {
+  fileUpload.addEventListener('dragover', e => {
+    e.preventDefault();
+    fileUpload.style.borderColor = 'var(--blue)';
+    fileUpload.style.background = 'var(--blue-bg)';
+  });
+  fileUpload.addEventListener('dragleave', e => {
+    fileUpload.style.borderColor = 'var(--border)';
+    fileUpload.style.background = '';
+  });
+  fileUpload.addEventListener('drop', e => {
+    e.preventDefault();
+    fileUpload.style.borderColor = 'var(--border)';
+    fileUpload.style.background = '';
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+      const names = Array.from(files).map(f => f.name).join(', ');
+      showToast(`อัปโหลด ${files.length} ไฟล์: ${names}`);
+      fileUpload.innerHTML = `<strong>${files.length} ไฟล์เลือกแล้ว</strong><br><small>${names}</small>`;
+    }
+  });
+}
+
+// File input change handler
+document.getElementById('fileInput').addEventListener('change', function() {
+  if (this.files.length > 0) {
+    const names = Array.from(this.files).map(f => f.name).join(', ');
+    const fu = document.querySelector('.file-upload');
+    fu.innerHTML = `<strong>${this.files.length} ไฟล์เลือกแล้ว</strong><br><small>${names}</small>`;
+  }
+});
+
+// Auto-refresh simulation badge
+(function addRefreshIndicator() {
+  const badge = document.createElement('div');
+  badge.style.cssText = 'position:fixed;bottom:16px;right:16px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:11px;color:var(--muted);z-index:50;display:flex;align-items:center;gap:6px;box-shadow:var(--shadow);';
+  badge.innerHTML = '<span style="width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;"></span> ระบบออนไลน์ — อัปเดตอัตโนมัติ';
+  document.body.appendChild(badge);
+})();
+
+// Summary row at bottom of detail items table
+function getItemsTotal(items) {
+  return items.reduce((s, i) => s + i.amt, 0);
+}
+
+// Responsive table scroll hint
+(function addScrollHint() {
+  const wrap = document.querySelector('.table-wrap');
+  if (wrap && wrap.scrollWidth > wrap.clientWidth) {
+    const hint = document.createElement('div');
+    hint.style.cssText = 'text-align:center;padding:6px;font-size:11px;color:var(--muted);';
+    hint.textContent = '← เลื่อนตารางเพื่อดูข้อมูลเพิ่มเติม →';
+    wrap.parentNode.insertBefore(hint, wrap.nextSibling);
+  }
+})();
+</script>
+
+</body>
+</html>
+
+</body>
+</html>

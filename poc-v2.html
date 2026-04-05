@@ -296,6 +296,7 @@ select.form-input{cursor:pointer;}
         <div class="module-header" onclick="toggleModule('mod2')"><span class="mod-icon">🧾</span>Expense & Receipt<span class="mod-check">✓</span></div>
         <div class="module-children" id="mod2">
             <button class="nav-item" onclick="loadModule('modules/expense-dashboard.html','Expense Dashboard')"><span class="icon">📈</span>Dashboard</button>
+            <button class="nav-item" onclick="loadModule('modules/expense-tasks.html','Expense Tasks')"><span class="icon">📋</span>Tasks<span class="badge">24</span></button>
             <button class="nav-item" onclick="loadModule('modules/expense-receipt-ocr.html','Receipt OCR')"><span class="icon">📷</span>Receipt OCR</button>
             <button class="nav-item" onclick="loadModule('modules/expense-approval.html','Expense Approval')"><span class="icon">✅</span>Approval</button>
             <button class="nav-item" onclick="loadModule('modules/expense-analytics.html','Expense Analytics')"><span class="icon">📊</span>Analytics</button>
@@ -305,6 +306,7 @@ select.form-input{cursor:pointer;}
         <div class="module-header" onclick="toggleModule('mod6')"><span class="mod-icon">🏦</span>Finance Doc Hub<span class="mod-check">✓</span></div>
         <div class="module-children" id="mod6">
             <button class="nav-item" onclick="loadModule('modules/finance-cases.html','Finance Dashboard')"><span class="icon">📈</span>Dashboard<span class="badge">47</span></button>
+            <button class="nav-item" onclick="loadModule('modules/finance-case-operations.html','Finance Cases')"><span class="icon">📋</span>Cases<span class="badge">47</span></button>
             <button class="nav-item" onclick="loadModule('modules/finance-case-detail.html','Case Detail')"><span class="icon">📋</span>Case Detail</button>
             <button class="nav-item" onclick="loadModule('modules/finance-verification.html','Verification')"><span class="icon">🔍</span>Verification</button>
             <button class="nav-item" onclick="loadModule('modules/finance-analytics.html','Finance Analytics')"><span class="icon">📊</span>Analytics</button>
@@ -352,7 +354,7 @@ select.form-input{cursor:pointer;}
             <button class="nav-item" data-page="users"><span class="icon">👥</span>Users & Roles</button>
             <button class="nav-item" data-page="channels"><span class="icon">🔗</span>Channels</button>
             <button class="nav-item" data-page="billing"><span class="icon">💳</span>Billing & Packages</button>
-            <button class="nav-item" data-page="vendors"><span class="icon">🏢</span>Vendors</button>
+            <button class="nav-item" onclick="loadModule('modules/vendor-management.html','Vendor Management')"><span class="icon">🏢</span>Vendors</button>
             <button class="nav-item" data-page="audit"><span class="icon">📜</span>Audit Log</button>
             <button class="nav-item" data-page="settings"><span class="icon">⚙️</span>Settings</button>
         </div>

@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finance Doc Hub | Case Operations | Autopilot v2 by ANTS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
+body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh;line-height:1.5;transition:background 0.3s,color 0.3s;}
+
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:var(--muted);}
+
+.dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:all 0.2s;}
+.dark-toggle:hover{transform:scale(1.1);}
+
+/* Top Nav */
+.top-nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:12px 32px;background:var(--card-bg);border-bottom:1px solid var(--border);box-shadow:var(--shadow);}
+.top-nav .logo{display:flex;align-items:center;gap:12px;font-weight:700;font-size:18px;}
+.top-nav .logo-icon{width:36px;height:36px;border-radius:10px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;}
+.top-nav .breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);}
+.top-nav .breadcrumb a{color:var(--text2);text-decoration:none;}
+.top-nav .breadcrumb a:hover{color:var(--blue);}
+.top-nav .breadcrumb .sep{opacity:0.4;}
+.top-nav .user-area{display:flex;align-items:center;gap:16px;}
+.top-nav .notif-btn{position:relative;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:8px;cursor:pointer;color:var(--text2);font-size:16px;transition:all 0.2s;}
+.top-nav .notif-btn:hover{border-color:var(--blue);color:var(--text);}
+.top-nav .notif-badge{position:absolute;top:-4px;right:-4px;width:16px;height:16px;border-radius:50%;background:var(--red);font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;color:#fff;}
+.top-nav .avatar{width:34px;height:34px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff;cursor:pointer;}
+
+/* Layout */
+.main-content{max-width:1400px;margin:0 auto;padding:24px;}
+
+/* User Context */
+.user-context{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,rgba(37,99,235,0.06),rgba(124,58,237,0.06));border:1px solid rgba(37,99,235,0.15);border-radius:var(--radius);padding:16px 24px;margin-bottom:20px;}
+.user-context .greeting{display:flex;align-items:center;gap:14px;}
+.user-context .greeting .avatar-lg{width:44px;height:44px;border-radius:12px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;}
+.user-context .greeting .info h2{font-size:1.1rem;font-weight:700;}
+.user-context .greeting .info p{font-size:0.78rem;color:var(--muted);display:flex;align-items:center;gap:8px;}
+.user-context .team-info{display:flex;align-items:center;gap:20px;font-size:0.78rem;color:var(--text2);}
+.user-context .team-info .team-stat{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.user-context .team-info .team-stat strong{font-size:1rem;font-weight:800;color:var(--text);}
+.user-context .team-member-avatars{display:flex;margin-left:12px;}
+.user-context .team-member-avatars .mini-avatar{width:28px;height:28px;border-radius:50%;border:2px solid var(--card-bg);margin-left:-8px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#fff;cursor:pointer;transition:transform 0.2s;}
+.user-context .team-member-avatars .mini-avatar:hover{transform:scale(1.15);z-index:2;}
+.user-context .team-member-avatars .mini-avatar:first-child{margin-left:0;}
+
+/* View Toggle */
+.view-toggle-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
+.view-tabs{display:flex;background:var(--bg2);border-radius:10px;padding:3px;border:1px solid var(--border);}
+.view-tab{padding:8px 18px;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all 0.2s;border:none;background:transparent;color:var(--muted);font-family:inherit;display:flex;align-items:center;gap:6px;}
+.view-tab.active{background:var(--blue);color:#fff;box-shadow:0 2px 6px rgba(37,99,235,0.25);}
+.view-tab:not(.active):hover{color:var(--text);background:var(--bg3);}
+.view-tab .count{background:rgba(255,255,255,0.25);padding:1px 7px;border-radius:100px;font-size:0.65rem;}
+.view-tab:not(.active) .count{background:var(--bg3);color:var(--muted);}
+.view-actions{display:flex;gap:8px;}
+
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;border:none;font-family:inherit;}
+.btn-primary{background:var(--blue);color:#fff;box-shadow:0 2px 8px rgba(37,99,235,0.2);}
+.btn-primary:hover{opacity:0.9;transform:translateY(-1px);}
+.btn-outline{background:var(--card-bg);color:var(--text2);border:1px solid var(--border);}
+.btn-outline:hover{border-color:var(--blue);color:var(--text);}
+.btn-sm{padding:6px 12px;font-size:12px;border-radius:6px;}
+.btn-green{background:var(--green);color:#fff;}
+.btn-green:hover{opacity:0.9;}
+.btn-red{background:var(--red);color:#fff;}
+.btn-red:hover{opacity:0.9;}
+.btn-purple{background:var(--purple);color:#fff;}
+.btn-purple:hover{opacity:0.9;}
+.btn-orange{background:var(--orange);color:#fff;}
+
+/* Filter Bar */
+.filter-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;padding:14px 18px;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);}
+.filter-bar .search-input{flex:1;min-width:200px;padding:8px 14px 8px 36px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--bg2);color:var(--text);font-family:inherit;transition:border 0.2s;position:relative;}
+.filter-bar .search-input:focus{outline:none;border-color:var(--blue);}
+.search-wrap{position:relative;flex:1;min-width:200px;}
+.search-wrap::before{content:'\1F50D';position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:13px;z-index:1;}
+.filter-bar select{padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:12px;background:var(--bg2);color:var(--text);font-family:inherit;cursor:pointer;}
+.filter-bar select:focus{outline:none;border-color:var(--blue);}
+
+/* Bulk Actions */
+.bulk-bar{display:none;align-items:center;gap:12px;padding:10px 18px;background:var(--blue-bg);border:1px solid rgba(37,99,235,0.2);border-radius:var(--radius);margin-bottom:12px;font-size:13px;}
+.bulk-bar.visible{display:flex;}
+.bulk-bar .sel-count{font-weight:700;color:var(--blue);}
+
+/* Table */
+.table-wrap{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px;}
+table{width:100%;border-collapse:collapse;}
+thead{background:var(--bg2);}
+th{padding:10px 14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);text-align:left;white-space:nowrap;border-bottom:1px solid var(--border);user-select:none;cursor:pointer;}
+th:hover{color:var(--text);}
+td{padding:10px 14px;font-size:13px;border-bottom:1px solid var(--border);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover{background:var(--bg2);}
+tr.selected{background:var(--blue-bg);}
+
+/* Checkbox */
+.chk{width:16px;height:16px;accent-color:var(--blue);cursor:pointer;}
+
+/* Status Badges */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:600;white-space:nowrap;}
+.badge-new{background:var(--blue-bg);color:var(--blue);}
+.badge-progress{background:var(--purple-bg);color:var(--purple);}
+.badge-pending{background:var(--orange-bg);color:var(--orange);}
+.badge-review{background:rgba(8,145,178,0.1);color:var(--cyan);}
+.badge-approved{background:var(--green-bg);color:var(--green);}
+.badge-rejected{background:var(--red-bg);color:var(--red);}
+.badge-completed{background:var(--green-bg);color:var(--green);}
+
+/* Priority */
+.priority{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;}
+.priority-high{color:var(--red);}
+.priority-medium{color:var(--orange);}
+.priority-low{color:var(--green);}
+
+/* SLA */
+.sla-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:700;white-space:nowrap;}
+.sla-green{background:var(--green-bg);color:var(--green);}
+.sla-orange{background:var(--orange-bg);color:var(--orange);}
+.sla-red{background:var(--red-bg);color:var(--red);}
+
+/* Progress Bar */
+.progress-cell{display:flex;align-items:center;gap:8px;}
+.progress-bar{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;min-width:60px;}
+.progress-bar .fill{height:100%;border-radius:3px;transition:width 0.3s;}
+.progress-pct{font-size:11px;font-weight:700;min-width:32px;text-align:right;}
+
+/* Case Action Buttons */
+.case-actions{display:flex;gap:4px;}
+.case-actions .act-btn{width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:var(--card-bg);cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;color:var(--text2);}
+.case-actions .act-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-bg);}
+
+/* Pagination */
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:12px 0;}
+.pagination .page-info{font-size:12px;color:var(--muted);}
+.pagination .page-btns{display:flex;gap:4px;}
+.pagination .page-btn{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--card-bg);cursor:pointer;font-size:12px;font-weight:600;color:var(--text2);display:flex;align-items:center;justify-content:center;transition:all 0.15s;font-family:inherit;}
+.pagination .page-btn.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+.pagination .page-btn:hover:not(.active){background:var(--bg2);}
+
+/* Modal Overlay */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:500;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.visible{display:flex;}
+.modal{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.15);animation:modalIn 0.25s ease;}
+@keyframes modalIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.modal-sm{max-width:560px;}
+.modal-md{max-width:800px;}
+.modal-lg{max-width:1100px;}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--border);}
+.modal-header h3{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;}
+.modal-close{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--card-bg);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.2s;}
+.modal-close:hover{background:var(--red-bg);color:var(--red);border-color:var(--red);}
+.modal-body{padding:24px;}
+.modal-footer{display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:16px 24px;border-top:1px solid var(--border);}
+
+/* Form */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-group{display:flex;flex-direction:column;gap:4px;}
+.form-group.full{grid-column:1/-1;}
+.form-group label{font-size:12px;font-weight:600;color:var(--text2);}
+.form-group input,.form-group select,.form-group textarea{padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--bg2);color:var(--text);font-family:inherit;transition:border 0.2s;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--blue);}
+.form-group textarea{resize:vertical;min-height:80px;}
+
+/* Case Detail Panel */
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.detail-section{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;}
+.detail-section h4{font-size:13px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px;color:var(--text);}
+.detail-section.full-width{grid-column:1/-1;}
+
+/* Document Tree */
+.doc-tree{font-size:13px;}
+.doc-folder{margin-bottom:10px;}
+.doc-folder-name{font-weight:700;padding:6px 0;cursor:pointer;display:flex;align-items:center;gap:6px;color:var(--text);}
+.doc-folder-name:hover{color:var(--blue);}
+.doc-items{padding-left:24px;}
+.doc-item{display:flex;align-items:center;justify-content:space-between;padding:4px 0;color:var(--text2);font-size:12px;}
+.doc-item .doc-status{font-size:14px;}
+
+/* Timeline */
+.timeline{position:relative;padding-left:20px;}
+.timeline::before{content:'';position:absolute;left:6px;top:4px;bottom:4px;width:2px;background:var(--border);}
+.timeline-item{position:relative;padding-bottom:14px;}
+.timeline-item::before{content:'';position:absolute;left:-17px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--blue);border:2px solid var(--card-bg);}
+.timeline-item.green::before{background:var(--green);}
+.timeline-item.orange::before{background:var(--orange);}
+.timeline-item.red::before{background:var(--red);}
+.timeline-item.purple::before{background:var(--purple);}
+.timeline-item .tl-time{font-size:10px;color:var(--muted);margin-bottom:2px;}
+.timeline-item .tl-text{font-size:12px;color:var(--text2);}
+.timeline-item .tl-text strong{color:var(--text);}
+
+/* Routing */
+.routing-flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.routing-node{padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;border:1px solid var(--border);background:var(--card-bg);display:flex;align-items:center;gap:4px;}
+.routing-node.active{border-color:var(--blue);background:var(--blue-bg);color:var(--blue);}
+.routing-node.done{border-color:var(--green);background:var(--green-bg);color:var(--green);}
+.routing-arrow{color:var(--muted);font-size:16px;}
+
+/* SLA Timer */
+.sla-timer-box{text-align:center;padding:16px;background:var(--card-bg);border-radius:10px;border:1px solid var(--border);}
+.sla-timer-box .timer-value{font-size:2rem;font-weight:800;letter-spacing:1px;}
+.sla-timer-box .timer-label{font-size:11px;color:var(--muted);margin-top:4px;}
+.sla-timer-box.green .timer-value{color:var(--green);}
+.sla-timer-box.orange .timer-value{color:var(--orange);}
+.sla-timer-box.red .timer-value{color:var(--red);}
+
+/* Collab Notes */
+.notes-list{max-height:200px;overflow-y:auto;margin-bottom:12px;}
+.note-item{padding:8px 12px;border-radius:8px;background:var(--card-bg);border:1px solid var(--border);margin-bottom:6px;font-size:12px;}
+.note-item .note-author{font-weight:700;color:var(--blue);font-size:11px;}
+.note-item .note-time{font-size:10px;color:var(--muted);margin-left:8px;}
+.note-item .note-body{margin-top:4px;color:var(--text2);}
+.note-item .note-body .tag{color:var(--purple);font-weight:600;}
+.note-input-wrap{display:flex;gap:8px;}
+.note-input-wrap input{flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:12px;background:var(--bg2);color:var(--text);font-family:inherit;}
+.note-input-wrap input:focus{outline:none;border-color:var(--blue);}
+
+/* Doc Checklist in Create */
+.checklist{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.checklist label{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2);cursor:pointer;padding:4px 0;}
+.checklist input{accent-color:var(--blue);}
+
+/* KPI strip */
+.kpi-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;}
+.kpi-mini{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;text-align:center;border-top:3px solid var(--blue);}
+.kpi-mini:nth-child(2){border-top-color:var(--purple);}
+.kpi-mini:nth-child(3){border-top-color:var(--orange);}
+.kpi-mini:nth-child(4){border-top-color:var(--green);}
+.kpi-mini:nth-child(5){border-top-color:var(--red);}
+.kpi-mini .kpi-val{font-size:1.5rem;font-weight:800;}
+.kpi-mini .kpi-label{font-size:11px;color:var(--muted);margin-top:2px;}
+
+/* Responsive */
+@media(max-width:1024px){.kpi-strip{grid-template-columns:repeat(3,1fr);}.detail-grid{grid-template-columns:1fr;}.form-grid{grid-template-columns:1fr;}}
+@media(max-width:768px){.top-nav{padding:10px 16px;}.main-content{padding:16px;}.kpi-strip{grid-template-columns:repeat(2,1fr);}.filter-bar{flex-direction:column;}.user-context{flex-direction:column;gap:12px;align-items:flex-start;}}
+</style>
+</head>
+<body>
+<!-- Dark Mode Toggle -->
+<button class="dark-toggle" onclick="document.body.classList.toggle('dark');this.textContent=document.body.classList.contains('dark')?'\u2600\uFE0F':'\uD83C\uDF19';" title="Dark Mode">\uD83C\uDF19</button>
+
+<!-- Top Nav -->
+<nav class="top-nav">
+  <div style="display:flex;align-items:center;gap:24px;">
+    <div class="logo">
+      <div class="logo-icon">A2</div>
+      <span>Autopilot v2</span>
+    </div>
+    <div class="breadcrumb">
+      <a href="finance-cases.html">Autopilot v2</a><span class="sep">/</span>
+      <a href="finance-cases.html">Finance Doc Hub</a><span class="sep">/</span>
+      <span style="color:var(--text);font-weight:600;">Cases</span>
+    </div>
+  </div>
+  <div class="user-area">
+    <button class="notif-btn" title="Notifications">
+      \uD83D\uDD14
+      <span class="notif-badge">5</span>
+    </button>
+    <div class="avatar" title="Somchai P.">SP</div>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<div class="main-content">
+
+  <!-- User Context -->
+  <div class="user-context">
+    <div class="greeting">
+      <div class="avatar-lg">SP</div>
+      <div class="info">
+        <h2>\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E\u0E34\u0E17\u0E31\u0E01\u0E29\u0E4C\u0E2A\u0E34\u0E19</h2>
+        <p>\u0E2B\u0E31\u0E27\u0E2B\u0E19\u0E49\u0E32\u0E17\u0E35\u0E21\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D &bull; \u0E1D\u0E48\u0E32\u0E22 Finance Operations &bull; \u0E2D\u0E2D\u0E19\u0E44\u0E25\u0E19\u0E4C</p>
+      </div>
+    </div>
+    <div class="team-info">
+      <div class="team-stat"><strong>18</strong>\u0E40\u0E04\u0E2A\u0E17\u0E35\u0E48\u0E23\u0E31\u0E1A\u0E1C\u0E34\u0E14\u0E0A\u0E2D\u0E1A</div>
+      <div class="team-stat"><strong>5</strong>\u0E43\u0E01\u0E25\u0E49\u0E04\u0E23\u0E1A SLA</div>
+      <div class="team-stat"><strong>3</strong>\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E04\u0E49\u0E32\u0E07</div>
+      <div class="team-member-avatars">
+        <div class="mini-avatar" style="background:var(--blue);" title="\u0E2A\u0E21\u0E0A\u0E32\u0E22">SP</div>
+        <div class="mini-avatar" style="background:var(--purple);" title="\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32">SN</div>
+        <div class="mini-avatar" style="background:var(--green);" title="\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C">PW</div>
+        <div class="mini-avatar" style="background:var(--orange);" title="\u0E01\u0E32\u0E19\u0E14\u0E32">KD</div>
+        <div class="mini-avatar" style="background:var(--cyan);" title="\u0E19\u0E20\u0E32">NP</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- View Toggle -->
+  <div class="view-toggle-row">
+    <div class="view-tabs">
+      <button class="view-tab active" onclick="switchView(this,'my')">\uD83D\uDCC1 \u0E40\u0E04\u0E2A\u0E02\u0E2D\u0E07\u0E09\u0E31\u0E19 <span class="count">8</span></button>
+      <button class="view-tab" onclick="switchView(this,'team')">\uD83D\uDC65 \u0E40\u0E04\u0E2A\u0E17\u0E35\u0E21 <span class="count">18</span></button>
+      <button class="view-tab" onclick="switchView(this,'all')">\uD83C\uDF10 \u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14 <span class="count">47</span></button>
+    </div>
+    <div class="view-actions">
+      <button class="btn btn-outline btn-sm" onclick="exportCases()">\uD83D\uDCE4 Export CSV</button>
+      <button class="btn btn-primary" onclick="openCreateModal()">\u2795 \u0E2A\u0E23\u0E49\u0E32\u0E07\u0E40\u0E04\u0E2A\u0E43\u0E2B\u0E21\u0E48</button>
+    </div>
+  </div>
+
+  <!-- KPI Strip -->
+  <div class="kpi-strip">
+    <div class="kpi-mini"><div class="kpi-val">47</div><div class="kpi-label">\u0E40\u0E04\u0E2A\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14</div></div>
+    <div class="kpi-mini"><div class="kpi-val">12</div><div class="kpi-label">\u0E23\u0E2D\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23</div></div>
+    <div class="kpi-mini"><div class="kpi-val">5</div><div class="kpi-label">\u0E43\u0E01\u0E25\u0E49\u0E04\u0E23\u0E1A SLA</div></div>
+    <div class="kpi-mini"><div class="kpi-val">8</div><div class="kpi-label">\u0E2D\u0E19\u0E38\u0E21\u0E31\u0E15\u0E34\u0E41\u0E25\u0E49\u0E27</div></div>
+    <div class="kpi-mini"><div class="kpi-val">3</div><div class="kpi-label">\u0E1B\u0E0F\u0E34\u0E40\u0E2A\u0E18</div></div>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar">
+    <div class="search-wrap">
+      <input type="text" class="search-input" id="searchInput" placeholder="\u0E04\u0E49\u0E19\u0E2B\u0E32 Case ID, \u0E0A\u0E37\u0E48\u0E2D\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32..." oninput="filterCases()">
+    </div>
+    <select id="filterStatus" onchange="filterCases()">
+      <option value="">\u0E2A\u0E16\u0E32\u0E19\u0E30\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14</option>
+      <option value="New">\u0E43\u0E2B\u0E21\u0E48</option>
+      <option value="In Progress">\u0E01\u0E33\u0E25\u0E31\u0E07\u0E14\u0E33\u0E40\u0E19\u0E34\u0E19\u0E01\u0E32\u0E23</option>
+      <option value="Pending Docs">\u0E23\u0E2D\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23</option>
+      <option value="Under Review">\u0E01\u0E33\u0E25\u0E31\u0E07\u0E15\u0E23\u0E27\u0E08\u0E2A\u0E2D\u0E1A</option>
+      <option value="Approved">\u0E2D\u0E19\u0E38\u0E21\u0E31\u0E15\u0E34</option>
+      <option value="Rejected">\u0E1B\u0E0F\u0E34\u0E40\u0E2A\u0E18</option>
+    </select>
+    <select id="filterType" onchange="filterCases()">
+      <option value="">\u0E1B\u0E23\u0E30\u0E40\u0E20\u0E17\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14</option>
+      <option value="\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16">\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16</option>
+      <option value="\u0E01\u0E39\u0E49\u0E1A\u0E49\u0E32\u0E19">\u0E01\u0E39\u0E49\u0E1A\u0E49\u0E32\u0E19</option>
+      <option value="\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E2A\u0E48\u0E27\u0E19\u0E1A\u0E38\u0E04\u0E04\u0E25">\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E2A\u0E48\u0E27\u0E19\u0E1A\u0E38\u0E04\u0E04\u0E25</option>
+      <option value="Refinance">Refinance</option>
+    </select>
+    <select id="filterSLA" onchange="filterCases()">
+      <option value="">SLA \u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14</option>
+      <option value="green">\u0E1B\u0E01\u0E15\u0E34</option>
+      <option value="orange">\u0E43\u0E01\u0E25\u0E49\u0E04\u0E23\u0E1A</option>
+      <option value="red">\u0E40\u0E01\u0E34\u0E19\u0E01\u0E33\u0E2B\u0E19\u0E14</option>
+    </select>
+    <select id="filterOfficer" onchange="filterCases()">
+      <option value="">\u0E40\u0E08\u0E49\u0E32\u0E2B\u0E19\u0E49\u0E32\u0E17\u0E35\u0E48\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14</option>
+      <option value="\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.">\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.</option>
+      <option value="\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32 \u0E01.">\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32 \u0E01.</option>
+      <option value="\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C \u0E2A.">\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C \u0E2A.</option>
+      <option value="\u0E01\u0E32\u0E19\u0E14\u0E32 \u0E27.">\u0E01\u0E32\u0E19\u0E14\u0E32 \u0E27.</option>
+      <option value="\u0E19\u0E20\u0E32 \u0E23.">\u0E19\u0E20\u0E32 \u0E23.</option>
+    </select>
+    <input type="date" id="filterDate" onchange="filterCases()" style="padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:12px;background:var(--bg2);color:var(--text);font-family:inherit;">
+  </div>
+
+  <!-- Bulk Actions Bar -->
+  <div class="bulk-bar" id="bulkBar">
+    <span class="sel-count" id="selCount">0</span> \u0E40\u0E04\u0E2A\u0E17\u0E35\u0E48\u0E40\u0E25\u0E37\u0E2D\u0E01
+    <button class="btn btn-sm btn-outline" onclick="bulkAssign()">\uD83D\uDC64 \u0E21\u0E2D\u0E1A\u0E2B\u0E21\u0E32\u0E22\u0E40\u0E08\u0E49\u0E32\u0E2B\u0E19\u0E49\u0E32\u0E17\u0E35\u0E48</button>
+    <button class="btn btn-sm btn-outline" onclick="bulkPriority()">\u26A1 \u0E40\u0E1B\u0E25\u0E35\u0E48\u0E22\u0E19\u0E25\u0E33\u0E14\u0E31\u0E1A\u0E04\u0E27\u0E32\u0E21\u0E2A\u0E33\u0E04\u0E31\u0E0D</button>
+    <button class="btn btn-sm btn-outline" onclick="exportCases()">\uD83D\uDCE4 Export</button>
+    <div style="flex:1;"></div>
+    <button class="btn btn-sm btn-outline" onclick="clearSelection()">\u2716 \u0E22\u0E01\u0E40\u0E25\u0E34\u0E01</button>
+  </div>
+
+  <!-- Case Table -->
+  <div class="table-wrap">
+    <table id="caseTable">
+      <thead>
+        <tr>
+          <th style="width:36px;"><input type="checkbox" class="chk" id="selectAll" onchange="toggleSelectAll()"></th>
+          <th onclick="sortTable(1)">Case ID \u2195</th>
+          <th onclick="sortTable(2)">\u0E0A\u0E37\u0E48\u0E2D\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32 \u2195</th>
+          <th onclick="sortTable(3)">\u0E1B\u0E23\u0E30\u0E40\u0E20\u0E17\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D \u2195</th>
+          <th>\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E04\u0E23\u0E1A\u0E16\u0E49\u0E27\u0E19</th>
+          <th>SLA</th>
+          <th onclick="sortTable(6)">\u0E40\u0E08\u0E49\u0E32\u0E2B\u0E19\u0E49\u0E32\u0E17\u0E35\u0E48 \u2195</th>
+          <th>\u0E25\u0E33\u0E14\u0E31\u0E1A</th>
+          <th onclick="sortTable(8)">\u0E2A\u0E16\u0E32\u0E19\u0E30 \u2195</th>
+          <th>\u0E01\u0E32\u0E23\u0E14\u0E33\u0E40\u0E19\u0E34\u0E19\u0E01\u0E32\u0E23</th>
+        </tr>
+      </thead>
+      <tbody id="caseTableBody"></tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <div class="page-info" id="pageInfo">\u0E41\u0E2A\u0E14\u0E07 1-10 \u0E08\u0E32\u0E01 18 \u0E40\u0E04\u0E2A</div>
+    <div class="page-btns" id="pageBtns"></div>
+  </div>
+
+</div>
+
+<!-- Create Case Modal -->
+<div class="modal-overlay" id="createModal">
+  <div class="modal modal-md">
+    <div class="modal-header">
+      <h3>\u2795 \u0E2A\u0E23\u0E49\u0E32\u0E07\u0E40\u0E04\u0E2A\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E43\u0E2B\u0E21\u0E48</h3>
+      <button class="modal-close" onclick="closeModal('createModal')">\u2716</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>\u0E0A\u0E37\u0E48\u0E2D\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32</label>
+          <input type="text" id="newCustName" placeholder="\u0E01\u0E23\u0E38\u0E13\u0E32\u0E01\u0E23\u0E2D\u0E01\u0E0A\u0E37\u0E48\u0E2D-\u0E19\u0E32\u0E21\u0E2A\u0E01\u0E38\u0E25">
+        </div>
+        <div class="form-group">
+          <label>\u0E40\u0E25\u0E02\u0E1A\u0E31\u0E15\u0E23\u0E1B\u0E23\u0E30\u0E0A\u0E32\u0E0A\u0E19</label>
+          <input type="text" id="newCustId" placeholder="X-XXXX-XXXXX-XX-X">
+        </div>
+        <div class="form-group">
+          <label>\u0E1B\u0E23\u0E30\u0E40\u0E20\u0E17\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D</label>
+          <select id="newCaseType">
+            <option value="\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16">\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16</option>
+            <option value="\u0E01\u0E39\u0E49\u0E1A\u0E49\u0E32\u0E19">\u0E01\u0E39\u0E49\u0E1A\u0E49\u0E32\u0E19</option>
+            <option value="\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E2A\u0E48\u0E27\u0E19\u0E1A\u0E38\u0E04\u0E04\u0E25">\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E2A\u0E48\u0E27\u0E19\u0E1A\u0E38\u0E04\u0E04\u0E25</option>
+            <option value="Refinance">Refinance</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>\u0E25\u0E33\u0E14\u0E31\u0E1A\u0E04\u0E27\u0E32\u0E21\u0E2A\u0E33\u0E04\u0E31\u0E0D</label>
+          <select id="newPriority">
+            <option value="High">\u0E2A\u0E39\u0E07 (High)</option>
+            <option value="Medium" selected>\u0E01\u0E25\u0E32\u0E07 (Medium)</option>
+            <option value="Low">\u0E15\u0E48\u0E33 (Low)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>\u0E40\u0E08\u0E49\u0E32\u0E2B\u0E19\u0E49\u0E32\u0E17\u0E35\u0E48\u0E23\u0E31\u0E1A\u0E1C\u0E34\u0E14\u0E0A\u0E2D\u0E1A</label>
+          <select id="newOfficer">
+            <option value="\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.">\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.</option>
+            <option value="\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32 \u0E01.">\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32 \u0E01.</option>
+            <option value="\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C \u0E2A.">\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C \u0E2A.</option>
+            <option value="\u0E01\u0E32\u0E19\u0E14\u0E32 \u0E27.">\u0E01\u0E32\u0E19\u0E14\u0E32 \u0E27.</option>
+            <option value="\u0E19\u0E20\u0E32 \u0E23.">\u0E19\u0E20\u0E32 \u0E23.</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>\u0E27\u0E07\u0E40\u0E07\u0E34\u0E19\u0E02\u0E2D\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D (\u0E1A\u0E32\u0E17)</label>
+          <input type="number" id="newAmount" placeholder="0.00">
+        </div>
+        <div class="form-group full">
+          <label>\u0E2B\u0E21\u0E32\u0E22\u0E40\u0E2B\u0E15\u0E38</label>
+          <textarea id="newNote" placeholder="\u0E23\u0E32\u0E22\u0E25\u0E30\u0E40\u0E2D\u0E35\u0E22\u0E14\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E15\u0E34\u0E21..."></textarea>
+        </div>
+        <div class="form-group full">
+          <label>\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E40\u0E1A\u0E37\u0E49\u0E2D\u0E07\u0E15\u0E49\u0E19\u0E17\u0E35\u0E48\u0E15\u0E49\u0E2D\u0E07\u0E01\u0E32\u0E23</label>
+          <div class="checklist">
+            <label><input type="checkbox" checked> \u0E2A\u0E33\u0E40\u0E19\u0E32\u0E1A\u0E31\u0E15\u0E23\u0E1B\u0E23\u0E30\u0E0A\u0E32\u0E0A\u0E19</label>
+            <label><input type="checkbox" checked> \u0E17\u0E30\u0E40\u0E1A\u0E35\u0E22\u0E19\u0E1A\u0E49\u0E32\u0E19</label>
+            <label><input type="checkbox" checked> \u0E2A\u0E25\u0E34\u0E1B\u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19 3 \u0E40\u0E14\u0E37\u0E2D\u0E19</label>
+            <label><input type="checkbox"> \u0E2B\u0E19\u0E31\u0E07\u0E2A\u0E37\u0E2D\u0E23\u0E31\u0E1A\u0E23\u0E2D\u0E07\u0E01\u0E32\u0E23\u0E17\u0E33\u0E07\u0E32\u0E19</label>
+            <label><input type="checkbox"> \u0E2A\u0E33\u0E40\u0E19\u0E32\u0E42\u0E09\u0E19\u0E14\u0E17\u0E35\u0E48\u0E14\u0E34\u0E19</label>
+            <label><input type="checkbox"> \u0E23\u0E39\u0E1B\u0E16\u0E48\u0E32\u0E22\u0E2B\u0E19\u0E49\u0E32\u0E23\u0E16 / \u0E2B\u0E25\u0E31\u0E01\u0E1B\u0E23\u0E30\u0E01\u0E31\u0E19</label>
+            <label><input type="checkbox"> \u0E43\u0E1A\u0E40\u0E2A\u0E19\u0E2D\u0E23\u0E32\u0E04\u0E32\u0E08\u0E32\u0E01 Dealer</label>
+            <label><input type="checkbox"> \u0E2A\u0E31\u0E0D\u0E0D\u0E32\u0E0B\u0E37\u0E49\u0E2D\u0E02\u0E32\u0E22</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('createModal')">\u0E22\u0E01\u0E40\u0E25\u0E34\u0E01</button>
+      <button class="btn btn-primary" onclick="createCase()">\u0E2A\u0E23\u0E49\u0E32\u0E07\u0E40\u0E04\u0E2A</button>
+    </div>
+  </div>
+</div>
+
+<!-- Case Detail Modal -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <h3 id="detailTitle">\uD83D\uDCC4 \u0E23\u0E32\u0E22\u0E25\u0E30\u0E40\u0E2D\u0E35\u0E22\u0E14\u0E40\u0E04\u0E2A</h3>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <a id="detailDeepLink" href="finance-case-detail.html" class="btn btn-sm btn-outline" target="_blank">\u0E14\u0E39\u0E23\u0E32\u0E22\u0E25\u0E30\u0E40\u0E2D\u0E35\u0E22\u0E14\u0E40\u0E15\u0E47\u0E21 \u2197</a>
+        <a id="detailVerifyLink" href="finance-verification.html" class="btn btn-sm btn-green" target="_blank">\u0E15\u0E23\u0E27\u0E08\u0E2A\u0E2D\u0E1A\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23</a>
+        <button class="modal-close" onclick="closeModal('detailModal')">\u2716</button>
+      </div>
+    </div>
+    <div class="modal-body" id="detailBody">
+      <!-- Dynamic content -->
+    </div>
+  </div>
+</div>
+
+<!-- Bulk Assign Modal -->
+<div class="modal-overlay" id="assignModal">
+  <div class="modal modal-sm">
+    <div class="modal-header">
+      <h3>\uD83D\uDC64 \u0E21\u0E2D\u0E1A\u0E2B\u0E21\u0E32\u0E22\u0E40\u0E08\u0E49\u0E32\u0E2B\u0E19\u0E49\u0E32\u0E17\u0E35\u0E48</h3>
+      <button class="modal-close" onclick="closeModal('assignModal')">\u2716</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>\u0E40\u0E25\u0E37\u0E2D\u0E01\u0E40\u0E08\u0E49\u0E32\u0E2B\u0E19\u0E49\u0E32\u0E17\u0E35\u0E48</label>
+        <select id="bulkAssignOfficer">
+          <option value="\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.">\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.</option>
+          <option value="\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32 \u0E01.">\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32 \u0E01.</option>
+          <option value="\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C \u0E2A.">\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C \u0E2A.</option>
+          <option value="\u0E01\u0E32\u0E19\u0E14\u0E32 \u0E27.">\u0E01\u0E32\u0E19\u0E14\u0E32 \u0E27.</option>
+          <option value="\u0E19\u0E20\u0E32 \u0E23.">\u0E19\u0E20\u0E32 \u0E23.</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('assignModal')">\u0E22\u0E01\u0E40\u0E25\u0E34\u0E01</button>
+      <button class="btn btn-primary" onclick="confirmBulkAssign()">\u0E22\u0E37\u0E19\u0E22\u0E31\u0E19</button>
+    </div>
+  </div>
+</div>
+
+<!-- Bulk Priority Modal -->
+<div class="modal-overlay" id="priorityModal">
+  <div class="modal modal-sm">
+    <div class="modal-header">
+      <h3>\u26A1 \u0E40\u0E1B\u0E25\u0E35\u0E48\u0E22\u0E19\u0E25\u0E33\u0E14\u0E31\u0E1A\u0E04\u0E27\u0E32\u0E21\u0E2A\u0E33\u0E04\u0E31\u0E0D</h3>
+      <button class="modal-close" onclick="closeModal('priorityModal')">\u2716</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>\u0E40\u0E25\u0E37\u0E2D\u0E01\u0E25\u0E33\u0E14\u0E31\u0E1A</label>
+        <select id="bulkPriorityLevel">
+          <option value="High">\u0E2A\u0E39\u0E07 (High)</option>
+          <option value="Medium">\u0E01\u0E25\u0E32\u0E07 (Medium)</option>
+          <option value="Low">\u0E15\u0E48\u0E33 (Low)</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('priorityModal')">\u0E22\u0E01\u0E40\u0E25\u0E34\u0E01</button>
+      <button class="btn btn-primary" onclick="confirmBulkPriority()">\u0E22\u0E37\u0E19\u0E22\u0E31\u0E19</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==================== MOCK DATA ====================
+const officers = ['\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.','\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32 \u0E01.','\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C \u0E2A.','\u0E01\u0E32\u0E19\u0E14\u0E32 \u0E27.','\u0E19\u0E20\u0E32 \u0E23.'];
+const caseTypes = ['\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16','\u0E01\u0E39\u0E49\u0E1A\u0E49\u0E32\u0E19','\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E2A\u0E48\u0E27\u0E19\u0E1A\u0E38\u0E04\u0E04\u0E25','Refinance'];
+const statuses = ['New','In Progress','Pending Docs','Under Review','Approved','Rejected'];
+const statusTH = {'New':'\u0E43\u0E2B\u0E21\u0E48','In Progress':'\u0E01\u0E33\u0E25\u0E31\u0E07\u0E14\u0E33\u0E40\u0E19\u0E34\u0E19\u0E01\u0E32\u0E23','Pending Docs':'\u0E23\u0E2D\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23','Under Review':'\u0E01\u0E33\u0E25\u0E31\u0E07\u0E15\u0E23\u0E27\u0E08\u0E2A\u0E2D\u0E1A','Approved':'\u0E2D\u0E19\u0E38\u0E21\u0E31\u0E15\u0E34','Rejected':'\u0E1B\u0E0F\u0E34\u0E40\u0E2A\u0E18'};
+const statusClass = {'New':'badge-new','In Progress':'badge-progress','Pending Docs':'badge-pending','Under Review':'badge-review','Approved':'badge-approved','Rejected':'badge-rejected'};
+const priorities = ['High','Medium','Low'];
+
+const mockCases = [
+  {id:'FN-2026-0001',name:'\u0E2A\u0E21\u0E28\u0E31\u0E01\u0E14\u0E34\u0E4C \u0E23\u0E38\u0E48\u0E07\u0E40\u0E23\u0E37\u0E2D\u0E07',type:'\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16',docPct:85,sla:'green',slaHours:48,officer:'\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.',priority:'High',status:'Under Review',date:'2026-04-03'},
+  {id:'FN-2026-0002',name:'\u0E27\u0E34\u0E20\u0E32\u0E27\u0E14\u0E35 \u0E2A\u0E38\u0E02\u0E2A\u0E21\u0E1A\u0E39\u0E23\u0E13\u0E4C',type:'\u0E01\u0E39\u0E49\u0E1A\u0E49\u0E32\u0E19',docPct:60,sla:'orange',slaHours:12,officer:'\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32 \u0E01.',priority:'High',status:'Pending Docs',date:'2026-04-02'},
+  {id:'FN-2026-0003',name:'\u0E1B\u0E23\u0E30\u0E22\u0E38\u0E17\u0E18 \u0E08\u0E34\u0E15\u0E23\u0E07\u0E32\u0E21',type:'\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E2A\u0E48\u0E27\u0E19\u0E1A\u0E38\u0E04\u0E04\u0E25',docPct:100,sla:'green',slaHours:72,officer:'\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C \u0E2A.',priority:'Medium',status:'Approved',date:'2026-03-28'},
+  {id:'FN-2026-0004',name:'\u0E01\u0E31\u0E19\u0E22\u0E32 \u0E41\u0E01\u0E49\u0E27\u0E21\u0E13\u0E35',type:'Refinance',docPct:40,sla:'red',slaHours:-5,officer:'\u0E01\u0E32\u0E19\u0E14\u0E32 \u0E27.',priority:'High',status:'Pending Docs',date:'2026-03-30'},
+  {id:'FN-2026-0005',name:'\u0E19\u0E23\u0E32\u0E18\u0E34\u0E1B \u0E40\u0E08\u0E23\u0E34\u0E0D\u0E1C\u0E25',type:'\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16',docPct:90,sla:'green',slaHours:96,officer:'\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.',priority:'Low',status:'Approved',date:'2026-03-25'},
+  {id:'FN-2026-0006',name:'\u0E2D\u0E23\u0E38\u0E13 \u0E28\u0E23\u0E35\u0E2A\u0E21\u0E1A\u0E31\u0E15\u0E34',type:'\u0E01\u0E39\u0E49\u0E1A\u0E49\u0E32\u0E19',docPct:30,sla:'red',slaHours:-18,officer:'\u0E19\u0E20\u0E32 \u0E23.',priority:'High',status:'In Progress',date:'2026-04-01'},
+  {id:'FN-2026-0007',name:'\u0E1E\u0E34\u0E21\u0E25\u0E1E\u0E23\u0E23\u0E13 \u0E17\u0E2D\u0E07\u0E14\u0E35',type:'\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E2A\u0E48\u0E27\u0E19\u0E1A\u0E38\u0E04\u0E04\u0E25',docPct:70,sla:'orange',slaHours:8,officer:'\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32 \u0E01.',priority:'Medium',status:'In Progress',date:'2026-04-04'},
+  {id:'FN-2026-0008',name:'\u0E28\u0E38\u0E20\u0E0A\u0E31\u0E22 \u0E1E\u0E07\u0E29\u0E4C\u0E17\u0E2D\u0E07',type:'\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16',docPct:20,sla:'green',slaHours:120,officer:'\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C \u0E2A.',priority:'Low',status:'New',date:'2026-04-05'},
+  {id:'FN-2026-0009',name:'\u0E18\u0E19\u0E32\u0E20\u0E23\u0E13\u0E4C \u0E40\u0E25\u0E34\u0E28\u0E0A\u0E31\u0E22',type:'Refinance',docPct:55,sla:'orange',slaHours:16,officer:'\u0E01\u0E32\u0E19\u0E14\u0E32 \u0E27.',priority:'Medium',status:'Pending Docs',date:'2026-04-03'},
+  {id:'FN-2026-0010',name:'\u0E2D\u0E23\u0E34\u0E22\u0E32 \u0E27\u0E31\u0E12\u0E19\u0E28\u0E34\u0E23\u0E34',type:'\u0E01\u0E39\u0E49\u0E1A\u0E49\u0E32\u0E19',docPct:95,sla:'green',slaHours:36,officer:'\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.',priority:'Medium',status:'Under Review',date:'2026-04-02'},
+  {id:'FN-2026-0011',name:'\u0E1B\u0E34\u0E22\u0E30\u0E19\u0E31\u0E19\u0E17\u0E4C \u0E08\u0E31\u0E19\u0E17\u0E23\u0E4C\u0E2A\u0E38\u0E27\u0E23\u0E23\u0E13',type:'\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16',docPct:50,sla:'orange',slaHours:6,officer:'\u0E19\u0E20\u0E32 \u0E23.',priority:'High',status:'In Progress',date:'2026-04-04'},
+  {id:'FN-2026-0012',name:'\u0E2A\u0E34\u0E23\u0E34\u0E25\u0E31\u0E01\u0E29\u0E13\u0E4C \u0E1B\u0E23\u0E30\u0E40\u0E2A\u0E23\u0E34\u0E10\u0E28\u0E34\u0E25\u0E1B\u0E4C',type:'\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E2A\u0E48\u0E27\u0E19\u0E1A\u0E38\u0E04\u0E04\u0E25',docPct:100,sla:'green',slaHours:200,officer:'\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32 \u0E01.',priority:'Low',status:'Approved',date:'2026-03-20'},
+  {id:'FN-2026-0013',name:'\u0E13\u0E31\u0E10\u0E0A\u0E32 \u0E28\u0E23\u0E35\u0E2A\u0E38\u0E27\u0E23\u0E23\u0E13',type:'\u0E01\u0E39\u0E49\u0E1A\u0E49\u0E32\u0E19',docPct:15,sla:'green',slaHours:144,officer:'\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C \u0E2A.',priority:'Low',status:'New',date:'2026-04-05'},
+  {id:'FN-2026-0014',name:'\u0E27\u0E23\u0E40\u0E0A\u0E29\u0E10\u0E4C \u0E40\u0E01\u0E37\u0E49\u0E2D\u0E01\u0E39\u0E25',type:'Refinance',docPct:80,sla:'green',slaHours:60,officer:'\u0E01\u0E32\u0E19\u0E14\u0E32 \u0E27.',priority:'Medium',status:'Under Review',date:'2026-04-01'},
+  {id:'FN-2026-0015',name:'\u0E2A\u0E38\u0E20\u0E32\u0E20\u0E23\u0E13\u0E4C \u0E08\u0E31\u0E19\u0E17\u0E23\u0E4C\u0E17\u0E2D\u0E07',type:'\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16',docPct:45,sla:'red',slaHours:-2,officer:'\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.',priority:'High',status:'Pending Docs',date:'2026-04-03'},
+  {id:'FN-2026-0016',name:'\u0E01\u0E34\u0E15\u0E15\u0E34\u0E20\u0E31\u0E17\u0E23 \u0E04\u0E33\u0E21\u0E39\u0E25',type:'\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E2A\u0E48\u0E27\u0E19\u0E1A\u0E38\u0E04\u0E04\u0E25',docPct:65,sla:'orange',slaHours:10,officer:'\u0E19\u0E20\u0E32 \u0E23.',priority:'Medium',status:'In Progress',date:'2026-04-04'},
+  {id:'FN-2026-0017',name:'\u0E0A\u0E19\u0E32\u0E01\u0E32\u0E19\u0E15\u0E4C \u0E1E\u0E34\u0E1E\u0E31\u0E12\u0E19\u0E4C\u0E01\u0E38\u0E25',type:'\u0E01\u0E39\u0E49\u0E1A\u0E49\u0E32\u0E19',docPct:100,sla:'green',slaHours:180,officer:'\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32 \u0E01.',priority:'Low',status:'Rejected',date:'2026-03-15'},
+  {id:'FN-2026-0018',name:'\u0E1E\u0E23\u0E0A\u0E31\u0E22 \u0E2A\u0E38\u0E02\u0E40\u0E01\u0E29\u0E21',type:'\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16',docPct:10,sla:'green',slaHours:168,officer:'\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C \u0E2A.',priority:'Low',status:'New',date:'2026-04-05'},
+];
+
+// Document templates per case type
+const docTemplates = {
+  '\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16': {
+    '\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32': ['\u0E2A\u0E33\u0E40\u0E19\u0E32\u0E1A\u0E31\u0E15\u0E23\u0E1B\u0E23\u0E30\u0E0A\u0E32\u0E0A\u0E19','\u0E17\u0E30\u0E40\u0E1A\u0E35\u0E22\u0E19\u0E1A\u0E49\u0E32\u0E19','\u0E2A\u0E25\u0E34\u0E1B\u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19 3 \u0E40\u0E14\u0E37\u0E2D\u0E19','\u0E2B\u0E19\u0E31\u0E07\u0E2A\u0E37\u0E2D\u0E23\u0E31\u0E1A\u0E23\u0E2D\u0E07\u0E01\u0E32\u0E23\u0E17\u0E33\u0E07\u0E32\u0E19'],
+    'Dealer': ['\u0E43\u0E1A\u0E40\u0E2A\u0E19\u0E2D\u0E23\u0E32\u0E04\u0E32','\u0E23\u0E39\u0E1B\u0E16\u0E48\u0E32\u0E22\u0E23\u0E16','\u0E2A\u0E31\u0E0D\u0E0D\u0E32\u0E0B\u0E37\u0E49\u0E2D\u0E02\u0E32\u0E22','\u0E2A\u0E33\u0E40\u0E19\u0E32\u0E17\u0E30\u0E40\u0E1A\u0E35\u0E22\u0E19\u0E23\u0E16'],
+    '\u0E18\u0E19\u0E32\u0E04\u0E32\u0E23': ['\u0E1C\u0E25\u0E15\u0E23\u0E27\u0E08\u0E40\u0E04\u0E23\u0E14\u0E34\u0E15','\u0E23\u0E32\u0E22\u0E07\u0E32\u0E19\u0E1B\u0E23\u0E30\u0E40\u0E21\u0E34\u0E19\u0E23\u0E32\u0E04\u0E32','\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E2D\u0E19\u0E38\u0E21\u0E31\u0E15\u0E34\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D']
+  },
+  '\u0E01\u0E39\u0E49\u0E1A\u0E49\u0E32\u0E19': {
+    '\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32': ['\u0E2A\u0E33\u0E40\u0E19\u0E32\u0E1A\u0E31\u0E15\u0E23\u0E1B\u0E23\u0E30\u0E0A\u0E32\u0E0A\u0E19','\u0E17\u0E30\u0E40\u0E1A\u0E35\u0E22\u0E19\u0E1A\u0E49\u0E32\u0E19','\u0E2A\u0E25\u0E34\u0E1B\u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19 6 \u0E40\u0E14\u0E37\u0E2D\u0E19','\u0E2B\u0E19\u0E31\u0E07\u0E2A\u0E37\u0E2D\u0E23\u0E31\u0E1A\u0E23\u0E2D\u0E07\u0E01\u0E32\u0E23\u0E17\u0E33\u0E07\u0E32\u0E19','\u0E2A\u0E33\u0E40\u0E19\u0E32\u0E42\u0E09\u0E19\u0E14\u0E17\u0E35\u0E48\u0E14\u0E34\u0E19'],
+    'Dealer': ['\u0E2A\u0E31\u0E0D\u0E0D\u0E32\u0E08\u0E30\u0E0B\u0E37\u0E49\u0E2D','\u0E43\u0E1A\u0E1B\u0E23\u0E30\u0E40\u0E21\u0E34\u0E19\u0E23\u0E32\u0E04\u0E32\u0E17\u0E35\u0E48\u0E14\u0E34\u0E19','\u0E41\u0E1C\u0E19\u0E1C\u0E31\u0E07\u0E1A\u0E49\u0E32\u0E19'],
+    '\u0E18\u0E19\u0E32\u0E04\u0E32\u0E23': ['\u0E1C\u0E25\u0E15\u0E23\u0E27\u0E08\u0E40\u0E04\u0E23\u0E14\u0E34\u0E15','\u0E23\u0E32\u0E22\u0E07\u0E32\u0E19\u0E1B\u0E23\u0E30\u0E40\u0E21\u0E34\u0E19\u0E23\u0E32\u0E04\u0E32\u0E17\u0E35\u0E48\u0E14\u0E34\u0E19','\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E2D\u0E19\u0E38\u0E21\u0E31\u0E15\u0E34\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D','\u0E2B\u0E19\u0E31\u0E07\u0E2A\u0E37\u0E2D\u0E04\u0E49\u0E33\u0E1B\u0E23\u0E30\u0E01\u0E31\u0E19']
+  },
+  '\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E2A\u0E48\u0E27\u0E19\u0E1A\u0E38\u0E04\u0E04\u0E25': {
+    '\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32': ['\u0E2A\u0E33\u0E40\u0E19\u0E32\u0E1A\u0E31\u0E15\u0E23\u0E1B\u0E23\u0E30\u0E0A\u0E32\u0E0A\u0E19','\u0E17\u0E30\u0E40\u0E1A\u0E35\u0E22\u0E19\u0E1A\u0E49\u0E32\u0E19','\u0E2A\u0E25\u0E34\u0E1B\u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19 3 \u0E40\u0E14\u0E37\u0E2D\u0E19'],
+    'Dealer': [],
+    '\u0E18\u0E19\u0E32\u0E04\u0E32\u0E23': ['\u0E1C\u0E25\u0E15\u0E23\u0E27\u0E08\u0E40\u0E04\u0E23\u0E14\u0E34\u0E15','\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E2D\u0E19\u0E38\u0E21\u0E31\u0E15\u0E34\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D']
+  },
+  'Refinance': {
+    '\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32': ['\u0E2A\u0E33\u0E40\u0E19\u0E32\u0E1A\u0E31\u0E15\u0E23\u0E1B\u0E23\u0E30\u0E0A\u0E32\u0E0A\u0E19','\u0E17\u0E30\u0E40\u0E1A\u0E35\u0E22\u0E19\u0E1A\u0E49\u0E32\u0E19','\u0E2A\u0E25\u0E34\u0E1B\u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19 6 \u0E40\u0E14\u0E37\u0E2D\u0E19','\u0E2A\u0E31\u0E0D\u0E0D\u0E32\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E40\u0E14\u0E34\u0E21'],
+    'Dealer': ['\u0E43\u0E1A\u0E1B\u0E34\u0E14\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E40\u0E14\u0E34\u0E21','\u0E43\u0E1A\u0E40\u0E2A\u0E19\u0E2D\u0E23\u0E32\u0E04\u0E32\u0E43\u0E2B\u0E21\u0E48'],
+    '\u0E18\u0E19\u0E32\u0E04\u0E32\u0E23': ['\u0E1C\u0E25\u0E15\u0E23\u0E27\u0E08\u0E40\u0E04\u0E23\u0E14\u0E34\u0E15','\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E2D\u0E19\u0E38\u0E21\u0E31\u0E15\u0E34 Refinance']
+  }
+};
+
+// Activity log templates
+const activityTemplates = [
+  {time:'05 \u0E40\u0E21.\u0E22. 09:30',text:'<strong>\u0E2A\u0E21\u0E0A\u0E32\u0E22</strong> \u0E2A\u0E23\u0E49\u0E32\u0E07\u0E40\u0E04\u0E2A\u0E43\u0E2B\u0E21\u0E48',cls:''},
+  {time:'05 \u0E40\u0E21.\u0E22. 10:15',text:'<strong>\u0E23\u0E30\u0E1A\u0E1A</strong> \u0E2A\u0E48\u0E07\u0E41\u0E08\u0E49\u0E07\u0E40\u0E15\u0E37\u0E2D\u0E19\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32\u0E43\u0E2B\u0E49\u0E2A\u0E48\u0E07\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23',cls:'purple'},
+  {time:'04 \u0E40\u0E21.\u0E22. 14:00',text:'\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32\u0E2A\u0E48\u0E07\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23 <strong>\u0E2A\u0E33\u0E40\u0E19\u0E32\u0E1A\u0E31\u0E15\u0E23\u0E1B\u0E23\u0E30\u0E0A\u0E32\u0E0A\u0E19</strong>',cls:'green'},
+  {time:'04 \u0E40\u0E21.\u0E22. 15:30',text:'<strong>\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32</strong> \u0E15\u0E23\u0E27\u0E08\u0E2A\u0E2D\u0E1A\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E40\u0E23\u0E35\u0E22\u0E1A\u0E23\u0E49\u0E2D\u0E22',cls:'green'},
+  {time:'03 \u0E40\u0E21.\u0E22. 11:00',text:'\u0E2A\u0E16\u0E32\u0E19\u0E30\u0E40\u0E1B\u0E25\u0E35\u0E48\u0E22\u0E19\u0E40\u0E1B\u0E47\u0E19 <strong>\u0E01\u0E33\u0E25\u0E31\u0E07\u0E15\u0E23\u0E27\u0E08\u0E2A\u0E2D\u0E1A</strong>',cls:'orange'},
+  {time:'02 \u0E40\u0E21.\u0E22. 09:00',text:'Dealer \u0E2A\u0E48\u0E07\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23 <strong>\u0E43\u0E1A\u0E40\u0E2A\u0E19\u0E2D\u0E23\u0E32\u0E04\u0E32</strong>',cls:'green'},
+];
+
+// Collaboration notes templates
+const noteTemplates = [
+  {author:'\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.',time:'10:30',body:'\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32\u0E22\u0E31\u0E07\u0E02\u0E32\u0E14\u0E2A\u0E25\u0E34\u0E1B\u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E17\u0E35\u0E48 3 <span class="tag">@\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32</span> \u0E0A\u0E48\u0E27\u0E22\u0E15\u0E34\u0E14\u0E15\u0E32\u0E21\u0E14\u0E49\u0E27\u0E22'},
+  {author:'\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32 \u0E01.',time:'11:15',body:'\u0E15\u0E34\u0E14\u0E15\u0E48\u0E2D\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32\u0E41\u0E25\u0E49\u0E27 \u0E08\u0E30\u0E2A\u0E48\u0E07\u0E20\u0E32\u0E22\u0E43\u0E19\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49'},
+  {author:'\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C \u0E2A.',time:'14:00',body:'\u0E15\u0E23\u0E27\u0E08\u0E2A\u0E2D\u0E1A\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E40\u0E23\u0E35\u0E22\u0E1A\u0E23\u0E49\u0E2D\u0E22\u0E41\u0E25\u0E49\u0E27 <span class="tag">@\u0E01\u0E32\u0E19\u0E14\u0E32</span> \u0E2A\u0E48\u0E07\u0E15\u0E48\u0E2D\u0E18\u0E19\u0E32\u0E04\u0E32\u0E23\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22'},
+];
+
+// ==================== STATE ====================
+let filteredCases = [...mockCases];
+let currentPage = 1;
+const pageSize = 10;
+let selectedIds = new Set();
+let sortCol = -1;
+let sortDir = 1;
+
+// ==================== RENDER ====================
+function renderTable() {
+  const start = (currentPage - 1) * pageSize;
+  const end = start + pageSize;
+  const page = filteredCases.slice(start, end);
+  const tbody = document.getElementById('caseTableBody');
+
+  tbody.innerHTML = page.map(c => {
+    const pctColor = c.docPct >= 80 ? 'var(--green)' : c.docPct >= 50 ? 'var(--orange)' : 'var(--red)';
+    const slaText = c.slaHours >= 0 ? c.slaHours + ' \u0E0A\u0E21.' : Math.abs(c.slaHours) + ' \u0E0A\u0E21. \u0E40\u0E01\u0E34\u0E19';
+    const priClass = c.priority === 'High' ? 'priority-high' : c.priority === 'Medium' ? 'priority-medium' : 'priority-low';
+    const priIcon = c.priority === 'High' ? '\u25B2' : c.priority === 'Medium' ? '\u25CF' : '\u25BC';
+    const checked = selectedIds.has(c.id) ? 'checked' : '';
+    const selClass = selectedIds.has(c.id) ? 'selected' : '';
+
+    return `<tr class="${selClass}" data-id="${c.id}">
+      <td><input type="checkbox" class="chk row-chk" ${checked} onchange="toggleRow('${c.id}',this)"></td>
+      <td><strong style="color:var(--blue);cursor:pointer;" onclick="openDetail('${c.id}')">${c.id}</strong></td>
+      <td>${c.name}</td>
+      <td><span style="font-size:12px;">${c.type}</span></td>
+      <td><div class="progress-cell"><div class="progress-bar"><div class="fill" style="width:${c.docPct}%;background:${pctColor};"></div></div><span class="progress-pct" style="color:${pctColor};">${c.docPct}%</span></div></td>
+      <td><span class="sla-badge sla-${c.sla}">${c.sla === 'green' ? '\u2705' : c.sla === 'orange' ? '\u26A0\uFE0F' : '\uD83D\uDD34'} ${slaText}</span></td>
+      <td style="font-size:12px;">${c.officer}</td>
+      <td><span class="priority ${priClass}">${priIcon} ${c.priority}</span></td>
+      <td><span class="badge ${statusClass[c.status]}">${statusTH[c.status]}</span></td>
+      <td><div class="case-actions">
+        <button class="act-btn" title="\u0E14\u0E39\u0E23\u0E32\u0E22\u0E25\u0E30\u0E40\u0E2D\u0E35\u0E22\u0E14" onclick="openDetail('${c.id}')">\uD83D\uDC41</button>
+        <button class="act-btn" title="\u0E15\u0E23\u0E27\u0E08\u0E2A\u0E2D\u0E1A\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23" onclick="window.open('finance-verification.html','_blank')">\u2705</button>
+        <button class="act-btn" title="\u0E14\u0E39\u0E40\u0E04\u0E2A\u0E40\u0E15\u0E47\u0E21" onclick="window.open('finance-case-detail.html?id=${c.id}','_blank')">\u2197</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+
+  // Page info
+  const total = filteredCases.length;
+  const showing = Math.min(end, total);
+  document.getElementById('pageInfo').textContent = `\u0E41\u0E2A\u0E14\u0E07 ${start+1}-${showing} \u0E08\u0E32\u0E01 ${total} \u0E40\u0E04\u0E2A`;
+
+  // Pagination buttons
+  const totalPages = Math.ceil(total / pageSize);
+  const pageBtns = document.getElementById('pageBtns');
+  let btns = '';
+  btns += `<button class="page-btn" onclick="goPage(${Math.max(1,currentPage-1)})" ${currentPage===1?'disabled':''}>\u25C0</button>`;
+  for (let i = 1; i <= totalPages; i++) {
+    btns += `<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
+  }
+  btns += `<button class="page-btn" onclick="goPage(${Math.min(totalPages,currentPage+1)})" ${currentPage===totalPages?'disabled':''}>\u25B6</button>`;
+  pageBtns.innerHTML = btns;
+
+  // Select all checkbox
+  const allChk = document.getElementById('selectAll');
+  const pageIds = page.map(c => c.id);
+  allChk.checked = pageIds.length > 0 && pageIds.every(id => selectedIds.has(id));
+
+  updateBulkBar();
+}
+
+function goPage(p) {
+  currentPage = p;
+  renderTable();
+}
+
+// ==================== FILTER ====================
+function filterCases() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const status = document.getElementById('filterStatus').value;
+  const type = document.getElementById('filterType').value;
+  const sla = document.getElementById('filterSLA').value;
+  const officer = document.getElementById('filterOfficer').value;
+  const date = document.getElementById('filterDate').value;
+
+  filteredCases = mockCases.filter(c => {
+    if (search && !c.id.toLowerCase().includes(search) && !c.name.toLowerCase().includes(search)) return false;
+    if (status && c.status !== status) return false;
+    if (type && c.type !== type) return false;
+    if (sla && c.sla !== sla) return false;
+    if (officer && c.officer !== officer) return false;
+    if (date && c.date !== date) return false;
+    return true;
+  });
+
+  currentPage = 1;
+  renderTable();
+}
+
+// ==================== SORT ====================
+function sortTable(col) {
+  if (sortCol === col) { sortDir *= -1; } else { sortCol = col; sortDir = 1; }
+
+  filteredCases.sort((a, b) => {
+    let va, vb;
+    switch(col) {
+      case 1: va = a.id; vb = b.id; break;
+      case 2: va = a.name; vb = b.name; break;
+      case 3: va = a.type; vb = b.type; break;
+      case 6: va = a.officer; vb = b.officer; break;
+      case 8: va = a.status; vb = b.status; break;
+      default: return 0;
+    }
+    return va < vb ? -1 * sortDir : va > vb ? 1 * sortDir : 0;
+  });
+
+  renderTable();
+}
+
+// ==================== SELECTION ====================
+function toggleRow(id, chk) {
+  if (chk.checked) { selectedIds.add(id); } else { selectedIds.delete(id); }
+  renderTable();
+}
+
+function toggleSelectAll() {
+  const allChk = document.getElementById('selectAll');
+  const start = (currentPage - 1) * pageSize;
+  const end = start + pageSize;
+  const page = filteredCases.slice(start, end);
+
+  page.forEach(c => {
+    if (allChk.checked) { selectedIds.add(c.id); } else { selectedIds.delete(c.id); }
+  });
+  renderTable();
+}
+
+function clearSelection() {
+  selectedIds.clear();
+  renderTable();
+}
+
+function updateBulkBar() {
+  const bar = document.getElementById('bulkBar');
+  const count = selectedIds.size;
+  document.getElementById('selCount').textContent = count;
+  bar.classList.toggle('visible', count > 0);
+}
+
+// ==================== VIEW TABS ====================
+function switchView(btn, view) {
+  document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  // In production this would filter by user/team/all
+  // For demo, show all
+  filterCases();
+}
+
+// ==================== MODALS ====================
+function openModal(id) {
+  document.getElementById(id).classList.add('visible');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('visible');
+  document.body.style.overflow = '';
+}
+
+function openCreateModal() { openModal('createModal'); }
+
+// ==================== CREATE CASE ====================
+function createCase() {
+  const name = document.getElementById('newCustName').value.trim();
+  if (!name) { alert('\u0E01\u0E23\u0E38\u0E13\u0E32\u0E01\u0E23\u0E2D\u0E01\u0E0A\u0E37\u0E48\u0E2D\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32'); return; }
+
+  const newId = 'FN-2026-' + String(mockCases.length + 1).padStart(4, '0');
+  const newCase = {
+    id: newId,
+    name: name,
+    type: document.getElementById('newCaseType').value,
+    docPct: 0,
+    sla: 'green',
+    slaHours: 168,
+    officer: document.getElementById('newOfficer').value,
+    priority: document.getElementById('newPriority').value,
+    status: 'New',
+    date: new Date().toISOString().slice(0, 10)
+  };
+
+  mockCases.unshift(newCase);
+  filterCases();
+  closeModal('createModal');
+
+  // Reset form
+  document.getElementById('newCustName').value = '';
+  document.getElementById('newCustId').value = '';
+  document.getElementById('newAmount').value = '';
+  document.getElementById('newNote').value = '';
+
+  showToast(`\u0E2A\u0E23\u0E49\u0E32\u0E07\u0E40\u0E04\u0E2A ${newId} \u0E2A\u0E33\u0E40\u0E23\u0E47\u0E08`);
+}
+
+// ==================== CASE DETAIL ====================
+function openDetail(id) {
+  const c = mockCases.find(x => x.id === id);
+  if (!c) return;
+
+  document.getElementById('detailTitle').innerHTML = `\uD83D\uDCC4 ${c.id} — ${c.name}`;
+  document.getElementById('detailDeepLink').href = `finance-case-detail.html?id=${c.id}`;
+
+  const template = docTemplates[c.type] || docTemplates['\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16'];
+
+  // Generate doc tree with random statuses based on docPct
+  function genDocTree(folders) {
+    let html = '<div class="doc-tree">';
+    for (const [folder, docs] of Object.entries(folders)) {
+      if (docs.length === 0) continue;
+      html += `<div class="doc-folder">
+        <div class="doc-folder-name">\uD83D\uDCC1 ${folder} (${docs.length})</div>
+        <div class="doc-items">`;
+      docs.forEach((doc, i) => {
+        const rand = Math.random() * 100;
+        let icon, statusText;
+        if (rand < c.docPct) { icon = '\u2705'; statusText = '\u0E44\u0E14\u0E49\u0E23\u0E31\u0E1A\u0E41\u0E25\u0E49\u0E27'; }
+        else if (rand < c.docPct + 15) { icon = '\u23F3'; statusText = '\u0E23\u0E2D\u0E14\u0E33\u0E40\u0E19\u0E34\u0E19\u0E01\u0E32\u0E23'; }
+        else { icon = '\u274C'; statusText = '\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E44\u0E14\u0E49\u0E23\u0E31\u0E1A'; }
+        html += `<div class="doc-item"><span>${doc}</span><span class="doc-status" title="${statusText}">${icon}</span></div>`;
+      });
+      html += '</div></div>';
+    }
+    html += '</div>';
+    return html;
+  }
+
+  // SLA Timer
+  const slaClass = c.sla;
+  const slaDisplay = c.slaHours >= 0
+    ? `${Math.floor(c.slaHours/24)} \u0E27\u0E31\u0E19 ${c.slaHours%24} \u0E0A\u0E31\u0E48\u0E27\u0E42\u0E21\u0E07`
+    : `\u0E40\u0E01\u0E34\u0E19\u0E01\u0E33\u0E2B\u0E19\u0E14 ${Math.abs(Math.floor(c.slaHours/24))} \u0E27\u0E31\u0E19 ${Math.abs(c.slaHours)%24} \u0E0A\u0E31\u0E48\u0E27\u0E42\u0E21\u0E07`;
+
+  // Routing flow
+  const stages = [
+    {label:'\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32',icon:'\uD83D\uDC64'},
+    {label:'Dealer',icon:'\uD83C\uDFE2'},
+    {label:'\u0E18\u0E19\u0E32\u0E04\u0E32\u0E23',icon:'\uD83C\uDFE6'}
+  ];
+  const statusIdx = {'New':0,'In Progress':0,'Pending Docs':1,'Under Review':2,'Approved':2,'Rejected':2};
+  const activeIdx = statusIdx[c.status] || 0;
+
+  const routingHTML = stages.map((s, i) => {
+    let cls = i < activeIdx ? 'done' : i === activeIdx ? 'active' : '';
+    let arrow = i < stages.length - 1 ? '<span class="routing-arrow">\u2192</span>' : '';
+    return `<div class="routing-node ${cls}">${s.icon} ${s.label}</div>${arrow}`;
+  }).join('');
+
+  // Priority badge color
+  const pColor = c.priority === 'High' ? 'var(--red)' : c.priority === 'Medium' ? 'var(--orange)' : 'var(--green)';
+
+  const body = `
+    <!-- Case Info Bar -->
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px;">
+      <div style="flex:1;min-width:200px;">
+        <div style="font-size:11px;color:var(--muted);">\u0E1B\u0E23\u0E30\u0E40\u0E20\u0E17</div>
+        <div style="font-size:14px;font-weight:600;">${c.type}</div>
+      </div>
+      <div style="flex:1;min-width:120px;">
+        <div style="font-size:11px;color:var(--muted);">\u0E2A\u0E16\u0E32\u0E19\u0E30</div>
+        <span class="badge ${statusClass[c.status]}">${statusTH[c.status]}</span>
+      </div>
+      <div style="flex:1;min-width:120px;">
+        <div style="font-size:11px;color:var(--muted);">\u0E25\u0E33\u0E14\u0E31\u0E1A</div>
+        <span class="priority" style="color:${pColor};font-weight:700;">${c.priority}</span>
+      </div>
+      <div style="flex:1;min-width:120px;">
+        <div style="font-size:11px;color:var(--muted);">\u0E40\u0E08\u0E49\u0E32\u0E2B\u0E19\u0E49\u0E32\u0E17\u0E35\u0E48</div>
+        <div style="font-size:14px;font-weight:600;">${c.officer}</div>
+      </div>
+      <div style="flex:1;min-width:120px;">
+        <div style="font-size:11px;color:var(--muted);">\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E04\u0E23\u0E1A</div>
+        <div class="progress-cell" style="margin-top:4px;">
+          <div class="progress-bar" style="height:8px;"><div class="fill" style="width:${c.docPct}%;background:${c.docPct>=80?'var(--green)':c.docPct>=50?'var(--orange)':'var(--red)'};"></div></div>
+          <span class="progress-pct" style="color:${c.docPct>=80?'var(--green)':c.docPct>=50?'var(--orange)':'var(--red)'};">${c.docPct}%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Multi-party Routing -->
+    <div class="detail-section full-width" style="margin-bottom:20px;">
+      <h4>\uD83D\uDD04 \u0E01\u0E32\u0E23\u0E2A\u0E48\u0E07\u0E15\u0E48\u0E2D\u0E23\u0E30\u0E2B\u0E27\u0E48\u0E32\u0E07\u0E1D\u0E48\u0E32\u0E22 (Multi-party Routing)</h4>
+      <div class="routing-flow">${routingHTML}</div>
+    </div>
+
+    <div class="detail-grid">
+      <!-- Document Tree -->
+      <div class="detail-section">
+        <h4>\uD83D\uDCC2 \u0E04\u0E25\u0E31\u0E07\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23 (Document Inventory)</h4>
+        ${genDocTree(template)}
+      </div>
+
+      <!-- SLA Timer + Activity -->
+      <div class="detail-section">
+        <h4>\u23F0 SLA Countdown</h4>
+        <div class="sla-timer-box ${slaClass}" style="margin-bottom:16px;">
+          <div class="timer-value" id="slaTimer_${c.id}">${slaDisplay}</div>
+          <div class="timer-label">\u0E40\u0E27\u0E25\u0E32\u0E04\u0E07\u0E40\u0E2B\u0E25\u0E37\u0E2D SLA</div>
+        </div>
+
+        <h4 style="margin-top:16px;">\uD83D\uDCCB \u0E1B\u0E23\u0E30\u0E27\u0E31\u0E15\u0E34\u0E01\u0E34\u0E08\u0E01\u0E23\u0E23\u0E21 (Activity Log)</h4>
+        <div class="timeline" style="margin-top:10px;">
+          ${activityTemplates.map(a => `<div class="timeline-item ${a.cls}"><div class="tl-time">${a.time}</div><div class="tl-text">${a.text}</div></div>`).join('')}
+        </div>
+      </div>
+
+      <!-- Collaboration Notes -->
+      <div class="detail-section full-width">
+        <h4>\uD83D\uDCAC \u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E04\u0E27\u0E32\u0E21\u0E23\u0E48\u0E27\u0E21\u0E21\u0E37\u0E2D (Collaboration Notes)</h4>
+        <div class="notes-list" id="notesList_${c.id}">
+          ${noteTemplates.map(n => `<div class="note-item"><span class="note-author">${n.author}</span><span class="note-time">${n.time}</span><div class="note-body">${n.body}</div></div>`).join('')}
+        </div>
+        <div class="note-input-wrap">
+          <input type="text" id="noteInput_${c.id}" placeholder="\u0E1E\u0E34\u0E21\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01... \u0E43\u0E0A\u0E49 @ \u0E40\u0E1E\u0E37\u0E48\u0E2D tag \u0E1C\u0E39\u0E49\u0E43\u0E0A\u0E49" onkeypress="if(event.key==='Enter')addNote('${c.id}')">
+          <button class="btn btn-sm btn-primary" onclick="addNote('${c.id}')">\u0E2A\u0E48\u0E07</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div style="display:flex;gap:8px;margin-top:20px;justify-content:flex-end;flex-wrap:wrap;">
+      <button class="btn btn-sm btn-outline" onclick="changeStatus('${c.id}','In Progress')">\u25B6 \u0E40\u0E23\u0E34\u0E48\u0E21\u0E14\u0E33\u0E40\u0E19\u0E34\u0E19\u0E01\u0E32\u0E23</button>
+      <button class="btn btn-sm btn-green" onclick="window.open('finance-verification.html','_blank')">\u2705 \u0E15\u0E23\u0E27\u0E08\u0E2A\u0E2D\u0E1A\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23</button>
+      <button class="btn btn-sm btn-purple" onclick="changeStatus('${c.id}','Under Review')">\uD83D\uDD0D \u0E2A\u0E48\u0E07\u0E15\u0E23\u0E27\u0E08\u0E2A\u0E2D\u0E1A</button>
+      <button class="btn btn-sm btn-primary" onclick="changeStatus('${c.id}','Approved')">\u2714 \u0E2D\u0E19\u0E38\u0E21\u0E31\u0E15\u0E34</button>
+      <button class="btn btn-sm btn-red" onclick="changeStatus('${c.id}','Rejected')">\u2716 \u0E1B\u0E0F\u0E34\u0E40\u0E2A\u0E18</button>
+    </div>
+  `;
+
+  document.getElementById('detailBody').innerHTML = body;
+  openModal('detailModal');
+}
+
+function addNote(caseId) {
+  const input = document.getElementById('noteInput_' + caseId);
+  const text = input.value.trim();
+  if (!text) return;
+
+  // Replace @mentions with styled tags
+  const formatted = text.replace(/@(\S+)/g, '<span class="tag">@$1</span>');
+
+  const notesList = document.getElementById('notesList_' + caseId);
+  const now = new Date();
+  const timeStr = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+
+  const noteHTML = `<div class="note-item"><span class="note-author">\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.</span><span class="note-time">${timeStr}</span><div class="note-body">${formatted}</div></div>`;
+  notesList.insertAdjacentHTML('beforeend', noteHTML);
+  notesList.scrollTop = notesList.scrollHeight;
+  input.value = '';
+}
+
+function changeStatus(caseId, newStatus) {
+  const c = mockCases.find(x => x.id === caseId);
+  if (c) {
+    c.status = newStatus;
+    // Update SLA if approved/rejected
+    if (newStatus === 'Approved') { c.sla = 'green'; c.docPct = 100; }
+    if (newStatus === 'Rejected') { c.sla = 'red'; }
+    renderTable();
+    closeModal('detailModal');
+    showToast(`${caseId} \u0E40\u0E1B\u0E25\u0E35\u0E48\u0E22\u0E19\u0E2A\u0E16\u0E32\u0E19\u0E30\u0E40\u0E1B\u0E47\u0E19 ${statusTH[newStatus]}`);
+  }
+}
+
+// ==================== BULK ACTIONS ====================
+function bulkAssign() { openModal('assignModal'); }
+function bulkPriority() { openModal('priorityModal'); }
+
+function confirmBulkAssign() {
+  const officer = document.getElementById('bulkAssignOfficer').value;
+  selectedIds.forEach(id => {
+    const c = mockCases.find(x => x.id === id);
+    if (c) c.officer = officer;
+  });
+  selectedIds.clear();
+  renderTable();
+  closeModal('assignModal');
+  showToast(`\u0E21\u0E2D\u0E1A\u0E2B\u0E21\u0E32\u0E22\u0E40\u0E08\u0E49\u0E32\u0E2B\u0E19\u0E49\u0E32\u0E17\u0E35\u0E48\u0E40\u0E1B\u0E47\u0E19 ${officer} \u0E2A\u0E33\u0E40\u0E23\u0E47\u0E08`);
+}
+
+function confirmBulkPriority() {
+  const priority = document.getElementById('bulkPriorityLevel').value;
+  selectedIds.forEach(id => {
+    const c = mockCases.find(x => x.id === id);
+    if (c) c.priority = priority;
+  });
+  selectedIds.clear();
+  renderTable();
+  closeModal('priorityModal');
+  showToast(`\u0E40\u0E1B\u0E25\u0E35\u0E48\u0E22\u0E19\u0E25\u0E33\u0E14\u0E31\u0E1A\u0E40\u0E1B\u0E47\u0E19 ${priority} \u0E2A\u0E33\u0E40\u0E23\u0E47\u0E08`);
+}
+
+// ==================== EXPORT ====================
+function exportCases() {
+  const data = filteredCases.map(c => [c.id, c.name, c.type, c.docPct + '%', c.sla, c.officer, c.priority, c.status].join(','));
+  const csv = 'Case ID,Customer,Type,Doc%,SLA,Officer,Priority,Status\n' + data.join('\n');
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'finance-cases-export.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('\u0E2A\u0E48\u0E07\u0E2D\u0E2D\u0E01 CSV \u0E2A\u0E33\u0E40\u0E23\u0E47\u0E08');
+}
+
+// ==================== TOAST ====================
+function showToast(msg) {
+  const toast = document.createElement('div');
+  toast.style.cssText = 'position:fixed;bottom:24px;right:24px;background:var(--text);color:var(--bg);padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;animation:modalIn 0.25s ease;box-shadow:0 8px 24px rgba(0,0,0,0.15);';
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; setTimeout(() => toast.remove(), 300); }, 2500);
+}
+
+// ==================== CLOSE MODAL ON OVERLAY CLICK ====================
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) {
+      overlay.classList.remove('visible');
+      document.body.style.overflow = '';
+    }
+  });
+});
+
+// ==================== KEYBOARD SHORTCUTS ====================
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.visible').forEach(m => {
+      m.classList.remove('visible');
+      document.body.style.overflow = '';
+    });
+  }
+  // Ctrl+N to create new case
+  if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+    e.preventDefault();
+    openCreateModal();
+  }
+});
+
+// ==================== INIT ====================
+renderTable();
+</script>
+</body>
+</html>
