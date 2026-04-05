@@ -120,7 +120,13 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .progress-text{font-size:.82rem;color:var(--muted);font-weight:500;}
 .progress-icon{font-size:2.5rem;margin-bottom:8px;}
 
-@media(max-width:768px){.fields-grid{grid-template-columns:1fr;}.claim-banner{flex-direction:column;text-align:center;}.action-row{flex-direction:column;}.action-row .btn{width:100%;justify-content:center;}}
+/* History Drawer */
+.history-drawer{position:fixed;top:0;right:-440px;width:440px;height:100vh;background:var(--card-bg);border-left:1px solid var(--border);box-shadow:-4px 0 24px rgba(0,0,0,.12);z-index:1001;transition:right .3s ease;overflow-y:auto;padding:24px;}
+.history-drawer.open{right:0;}
+.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.25);z-index:1000;display:none;}
+.drawer-overlay.show{display:block;}
+
+@media(max-width:768px){.fields-grid{grid-template-columns:1fr;}.claim-banner{flex-direction:column;text-align:center;}.action-row{flex-direction:column;}.action-row .btn{width:100%;justify-content:center;}.history-drawer{width:100%;right:-100%;}}
 </style>
 </head>
 <body>
@@ -161,6 +167,78 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
     <div class="upload-title">ลากวางใบเสร็จ หรือ คลิกเพื่ออัปโหลด</div>
     <div class="upload-subtitle">รองรับ JPG, PNG, PDF — สูงสุด 10MB | AI OCR จะอ่านข้อมูลอัตโนมัติ</div>
     <input type="file" id="fileInput" accept="image/*,.pdf" onchange="handleFile(this.files[0])">
+  </div>
+
+  <!-- Manual Create Section -->
+  <div class="card" id="manualCreateSection">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+      <span style="font-size:1.2rem;">&#9997;&#65039;</span>
+      <div>
+        <div style="font-weight:700;font-size:.92rem;">หรือ สร้าง Claim ด้วยตนเอง</div>
+        <div style="font-size:.72rem;color:var(--muted);">กรอกข้อมูลเองโดยไม่ต้องสแกนใบเสร็จ</div>
+      </div>
+      <button class="btn btn-primary btn-sm" style="margin-left:auto;" onclick="showManualForm()">&#128221; กรอกข้อมูลเอง</button>
+    </div>
+
+    <div id="manualForm" style="display:none;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div class="form-group">
+          <label class="form-label">ชื่อ Claim *</label>
+          <input id="mf-name" class="form-input" placeholder="เช่น ค่าอาหารประชุมทีม">
+        </div>
+        <div class="form-group">
+          <label class="form-label">หมวดหมู่</label>
+          <select id="mf-category" class="form-select">
+            <option>รับรอง — ค่าอาหาร</option>
+            <option>เดินทาง — ค่าขนส่ง</option>
+            <option>เดินทาง — ค่าน้ำมัน</option>
+            <option>ที่พัก</option>
+            <option>สำนักงาน</option>
+            <option>ซอฟต์แวร์</option>
+            <option>ฝึกอบรม</option>
+            <option>สื่อสาร</option>
+            <option>อื่นๆ</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">จำนวนเงิน (&#3647;) *</label>
+          <input id="mf-amount" class="form-input" type="number" placeholder="0.00">
+        </div>
+        <div class="form-group">
+          <label class="form-label">วันที่ใบเสร็จ</label>
+          <input id="mf-date" class="form-input" type="date" value="2026-04-05">
+        </div>
+        <div class="form-group" style="grid-column:span 2;">
+          <label class="form-label">ร้านค้า / ผู้รับเงิน</label>
+          <input id="mf-vendor" class="form-input" placeholder="ชื่อร้านค้าหรือบริษัท">
+        </div>
+        <div class="form-group" style="grid-column:span 2;">
+          <label class="form-label">รายละเอียด</label>
+          <textarea id="mf-detail" class="form-textarea" placeholder="วัตถุประสงค์การใช้จ่าย..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">ผู้อนุมัติ</label>
+          <select id="mf-approver" class="form-select">
+            <option value="">เลือกผู้อนุมัติ</option>
+            <option>นริศรา พงษ์พันธ์ (ผจก.)</option>
+            <option>สุรชัย มั่นคง (ผอ.)</option>
+            <option>อรพิน ดำรงค์ (CFO)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">&#128247; แนบใบเสร็จ</label>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-secondary btn-sm" onclick="scrollToUpload()">&#128247; สแกนด้วย OCR</button>
+            <label class="btn btn-secondary btn-sm" style="cursor:pointer;">&#128206; อัพโหลด<input type="file" style="display:none;" onchange="attachManualFile(this)"></label>
+          </div>
+          <div id="mf-attached" style="display:none;margin-top:8px;font-size:.75rem;color:var(--green);font-weight:600;">&#10003; แนบไฟล์แล้ว: <span id="mf-filename"></span></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:16px;">
+        <button class="btn btn-primary" onclick="submitManualClaim()">&#128203; สร้าง Claim</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('manualForm').style.display='none'">ยกเลิก</button>
+      </div>
+    </div>
   </div>
 
   <!-- Scanning Progress -->
@@ -357,71 +435,129 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td style="font-weight:700;color:var(--blue);font-family:Inter;">EX-0025</td>
-            <td>4 เม.ย. 2569</td>
-            <td>การบินไทย</td>
-            <td style="font-weight:700;">&#3647;12,500</td>
-            <td>เดินทาง</td>
-            <td><span class="status status-pending">&#9203; รอดำเนินการ</span></td>
-          </tr>
-          <tr>
-            <td style="font-weight:700;color:var(--blue);font-family:Inter;">EX-0022</td>
-            <td>2 เม.ย. 2569</td>
-            <td>Grab Thailand</td>
-            <td style="font-weight:700;">&#3647;2,350</td>
-            <td>เดินทาง</td>
-            <td><span class="status status-processing">&#9881; กำลังดำเนินการ</span></td>
-          </tr>
-          <tr>
-            <td style="font-weight:700;color:var(--blue);font-family:Inter;">EX-0021</td>
-            <td>1 เม.ย. 2569</td>
-            <td>OfficeMate</td>
-            <td style="font-weight:700;">&#3647;3,200</td>
-            <td>สำนักงาน</td>
-            <td><span class="status status-approved">&#9989; อนุมัติแล้ว</span></td>
-          </tr>
-          <tr>
-            <td style="font-weight:700;color:var(--blue);font-family:Inter;">EX-0019</td>
-            <td>31 มี.ค. 2569</td>
-            <td>Adobe Inc.</td>
-            <td style="font-weight:700;">&#3647;15,900</td>
-            <td>ซอฟต์แวร์</td>
-            <td><span class="status status-approved">&#9989; อนุมัติแล้ว</span></td>
-          </tr>
-          <tr>
-            <td style="font-weight:700;color:var(--blue);font-family:Inter;">EX-0017</td>
-            <td>29 มี.ค. 2569</td>
-            <td>True Corp.</td>
-            <td style="font-weight:700;">&#3647;1,850</td>
-            <td>สื่อสาร</td>
-            <td><span class="status status-approved">&#9989; อนุมัติแล้ว</span></td>
-          </tr>
-          <tr>
-            <td style="font-weight:700;color:var(--blue);font-family:Inter;">EX-0011</td>
-            <td>23 มี.ค. 2569</td>
-            <td>IT City</td>
-            <td style="font-weight:700;">&#3647;8,900</td>
-            <td>อุปกรณ์</td>
-            <td><span class="status status-draft">&#128221; ร่าง</span></td>
-          </tr>
         </tbody>
       </table>
     </div>
   </div>
 </div>
 
+<!-- History Detail Drawer -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeHistoryDetail()"></div>
+<div class="history-drawer" id="historyDrawer">
+  <div id="drawerContent"></div>
+</div>
+
 <script>
 let nextClaimId = 26;
 
+const SCAN_HISTORY = [
+  {id:'EX-0025', date:'4 เม.ย. 2569', vendor:'การบินไทย', amount:12500, category:'เดินทาง', status:'pending', statusLabel:'&#9203; รอดำเนินการ', statusClass:'status-pending',
+   detail: {invoiceNo:'INV-TG-2026-0412', taxId:'0107536000072', vat:816.82, confidence:96, items:['ตั๋วเครื่องบิน กรุงเทพ-เชียงใหม่ x1 ฿5,200','ตั๋วเครื่องบิน เชียงใหม่-กรุงเทพ x1 ฿5,200','ค่าธรรมเนียม ฿2,100'], project:'PROJ-002 — Sales Team', approver:'นริศรา พงษ์พันธ์', note:'เดินทางไปพบลูกค้า เชียงใหม่'}},
+  {id:'EX-0022', date:'2 เม.ย. 2569', vendor:'Grab Thailand', amount:2350, category:'เดินทาง', status:'processing', statusLabel:'&#9881; กำลังดำเนินการ', statusClass:'status-processing',
+   detail: {invoiceNo:'GRB-2026-88341', taxId:'0105558032089', vat:153.74, confidence:94, items:['Grab Car x4 trips','GrabFood x1'], project:'PROJ-001 — Marketing Q2', approver:'สุรชัย มั่นคง', note:'ค่าเดินทางไปงาน Event'}},
+  {id:'EX-0021', date:'1 เม.ย. 2569', vendor:'OfficeMate', amount:3200, category:'สำนักงาน', status:'approved', statusLabel:'&#9989; อนุมัติแล้ว', statusClass:'status-approved',
+   detail: {invoiceNo:'OM-2026-11204', taxId:'0105537103547', vat:209.35, confidence:98, items:['กระดาษ A4 x10 รีม ฿990','หมึกพิมพ์ HP x2 ฿1,600','อุปกรณ์สำนักงาน ฿610'], project:'GENERAL', approver:'นริศรา พงษ์พันธ์', note:'วัสดุสำนักงานประจำเดือน'}},
+  {id:'EX-0019', date:'31 มี.ค. 2569', vendor:'Adobe Inc.', amount:15900, category:'ซอฟต์แวร์', status:'approved', statusLabel:'&#9989; อนุมัติแล้ว', statusClass:'status-approved',
+   detail: {invoiceNo:'ADO-2026-CC-TH-512', taxId:'N/A (Foreign)', vat:0, confidence:92, items:['Adobe Creative Cloud Team x1 Year'], project:'PROJ-003 — IT Infrastructure', approver:'อรพิน ดำรงค์ (CFO)', note:'ต่ออายุ License ประจำปี'}},
+  {id:'EX-0017', date:'29 มี.ค. 2569', vendor:'True Corp.', amount:1850, category:'สื่อสาร', status:'approved', statusLabel:'&#9989; อนุมัติแล้ว', statusClass:'status-approved',
+   detail: {invoiceNo:'TRUE-2026-03-9981', taxId:'0107546000040', vat:121.03, confidence:97, items:['ค่าอินเทอร์เน็ตสำนักงาน ฿1,200','ค่าโทรศัพท์ ฿650'], project:'GENERAL', approver:'นริศรา พงษ์พันธ์', note:'ค่าสื่อสารประจำเดือน'}},
+  {id:'EX-0011', date:'23 มี.ค. 2569', vendor:'IT City', amount:8900, category:'อุปกรณ์', status:'draft', statusLabel:'&#128221; ร่าง', statusClass:'status-draft',
+   detail: {invoiceNo:'ITC-2026-03-4412', taxId:'0105551067878', vat:582.24, confidence:89, items:['Logitech MX Keys ฿3,200','Logitech MX Master 3S ฿3,500','USB-C Hub ฿2,200'], project:'PROJ-003 — IT Infrastructure', approver:'', note:'อุปกรณ์ทดแทนเครื่องเก่า'}}
+];
+
+function renderHistory() {
+  var tbody = document.querySelector('.history-table tbody');
+  tbody.innerHTML = SCAN_HISTORY.map(function(h) {
+    return '<tr onclick="openHistoryDetail(\'' + h.id + '\')" style="cursor:pointer;">' +
+      '<td style="font-weight:700;color:var(--blue);font-family:Inter;">' + h.id + '</td>' +
+      '<td>' + h.date + '</td>' +
+      '<td>' + h.vendor + '</td>' +
+      '<td style="font-weight:700;">&#3647;' + h.amount.toLocaleString() + '</td>' +
+      '<td>' + h.category + '</td>' +
+      '<td><span class="status ' + h.statusClass + '">' + h.statusLabel + '</span></td>' +
+      '</tr>';
+  }).join('');
+}
+
+function openHistoryDetail(id) {
+  var rec = SCAN_HISTORY.find(function(h) { return h.id === id; });
+  if (!rec) return;
+  var d = rec.detail;
+  var confClass = d.confidence >= 95 ? 'conf-high' : (d.confidence >= 85 ? 'conf-med' : 'conf-low');
+  var confIcon = d.confidence >= 95 ? '&#9989;' : (d.confidence >= 85 ? '&#9888;' : '&#10060;');
+
+  var itemsHtml = d.items.map(function(item) {
+    return '<div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:.78rem;">' + item + '</div>';
+  }).join('');
+
+  var actionsHtml = '';
+  if (rec.status === 'draft') {
+    actionsHtml += '<button class="btn btn-secondary btn-sm" onclick="showToast(\'&#128221; เปิดแก้ไข ' + rec.id + '\')">&#9998; แก้ไข</button>';
+    actionsHtml += '<button class="btn btn-primary btn-sm" onclick="showToast(\'&#128228; ส่งอนุมัติ ' + rec.id + ' แล้ว\');closeHistoryDetail();">&#128228; ส่งอนุมัติ</button>';
+  }
+  if (rec.status === 'pending') {
+    actionsHtml += '<button class="btn btn-primary btn-sm" onclick="showToast(\'&#128228; ส่งอนุมัติ ' + rec.id + ' แล้ว\');closeHistoryDetail();">&#128228; ส่งอนุมัติ</button>';
+  }
+  actionsHtml += '<button class="btn btn-secondary btn-sm" onclick="navigateToTasks()">&#128269; ดูรายละเอียดเพิ่มเติม</button>';
+  actionsHtml += '<button class="btn btn-secondary btn-sm" onclick="closeHistoryDetail()">&#10005; ปิด</button>';
+
+  var html = '' +
+    '<div class="claim-banner" style="border-radius:10px;padding:16px 20px;margin-bottom:20px;">' +
+      '<div>' +
+        '<div style="font-size:.65rem;opacity:.7;margin-bottom:2px;">CLAIM ID</div>' +
+        '<div style="font-size:1.4rem;font-weight:800;font-family:Inter;letter-spacing:1px;">' + rec.id + '</div>' +
+        '<div style="font-size:.75rem;opacity:.85;margin-top:2px;">' + rec.date + ' | ' + rec.vendor + '</div>' +
+      '</div>' +
+      '<div><span class="status ' + rec.statusClass + '" style="background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.3);color:#fff;">' + rec.statusLabel + '</span></div>' +
+    '</div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">' +
+      '<div class="field"><div class="field-label">ร้านค้า</div><div class="field-value">' + rec.vendor + '</div></div>' +
+      '<div class="field"><div class="field-label">เลขที่ใบเสร็จ</div><div class="field-value" style="font-family:Inter;font-size:.82rem;">' + d.invoiceNo + '</div></div>' +
+      '<div class="field"><div class="field-label">Tax ID</div><div class="field-value" style="font-family:Inter;font-size:.82rem;">' + d.taxId + '</div></div>' +
+      '<div class="field"><div class="field-label">จำนวนเงิน</div><div class="field-value amount">&#3647;' + rec.amount.toLocaleString() + '</div></div>' +
+      '<div class="field"><div class="field-label">VAT</div><div class="field-value">&#3647;' + d.vat.toLocaleString() + '</div></div>' +
+      '<div class="field"><div class="field-label">วันที่</div><div class="field-value">' + rec.date + '</div></div>' +
+      '<div class="field" style="grid-column:span 2;"><div class="field-label">OCR Confidence</div><div class="field-confidence ' + confClass + '">' + confIcon + ' ' + d.confidence + '%</div></div>' +
+    '</div>' +
+    '<div style="margin-bottom:16px;">' +
+      '<div style="font-size:.75rem;font-weight:700;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;">รายการ</div>' +
+      itemsHtml +
+    '</div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">' +
+      '<div class="field"><div class="field-label">โปรเจกต์</div><div class="field-value" style="font-size:.82rem;">' + d.project + '</div></div>' +
+      '<div class="field"><div class="field-label">ผู้อนุมัติ</div><div class="field-value" style="font-size:.82rem;">' + (d.approver || '— ยังไม่ระบุ —') + '</div></div>' +
+    '</div>' +
+    (d.note ? '<div class="field" style="margin-bottom:16px;"><div class="field-label">หมายเหตุ</div><div class="field-value" style="font-size:.82rem;">' + d.note + '</div></div>' : '') +
+    '<div style="display:flex;gap:8px;flex-wrap:wrap;">' + actionsHtml + '</div>';
+
+  document.getElementById('drawerContent').innerHTML = html;
+  document.getElementById('historyDrawer').classList.add('open');
+  document.getElementById('drawerOverlay').classList.add('show');
+}
+
+function closeHistoryDetail() {
+  document.getElementById('historyDrawer').classList.remove('open');
+  document.getElementById('drawerOverlay').classList.remove('show');
+}
+
+function navigateToTasks() {
+  closeHistoryDetail();
+  if (window.parent && window.parent !== window) {
+    window.parent.postMessage({type:'navigate', url:'modules/expense-tasks.html', title:'Claim Tasks'}, '*');
+  } else {
+    window.location.href = 'expense-tasks.html';
+  }
+}
+
 function setMode(el, mode) {
-  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.mode-btn').forEach(function(b) { b.classList.remove('active'); });
   el.classList.add('active');
   document.getElementById('attachSection').style.display = mode === 'attach' ? 'block' : 'none';
+  document.getElementById('manualCreateSection').style.display = mode === 'new' ? '' : 'none';
 }
 
 function selectAttach(el, id) {
-  document.querySelectorAll('.attach-chip').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.attach-chip').forEach(function(c) { c.classList.remove('selected'); });
   el.classList.add('selected');
 }
 
@@ -429,12 +565,12 @@ function handleFile(file) {
   if (!file) return;
   // Show progress
   document.getElementById('uploadZone').style.display = 'none';
-  const prog = document.getElementById('scanProgress');
+  var prog = document.getElementById('scanProgress');
   prog.classList.add('visible');
-  const fill = document.getElementById('progressFill');
-  const text = document.getElementById('progressText');
+  var fill = document.getElementById('progressFill');
+  var text = document.getElementById('progressText');
 
-  const steps = [
+  var steps = [
     {pct:15,msg:'&#128196; กำลังอ่านไฟล์...'},
     {pct:35,msg:'&#129302; AI กำลังวิเคราะห์ข้อความ...'},
     {pct:55,msg:'&#128270; ตรวจจับจำนวนเงินและวันที่...'},
@@ -443,19 +579,19 @@ function handleFile(file) {
     {pct:100,msg:'&#127881; สแกนเสร็จสิ้น! กำลังสร้าง Claim...'}
   ];
 
-  let i = 0;
-  const interval = setInterval(() => {
+  var i = 0;
+  var interval = setInterval(function() {
     if (i < steps.length) {
       fill.style.width = steps[i].pct + '%';
       text.innerHTML = steps[i].msg;
       i++;
     } else {
       clearInterval(interval);
-      setTimeout(() => {
+      setTimeout(function() {
         prog.classList.remove('visible');
         prog.style.display = 'none';
         // Generate claim ID
-        const claimId = 'EX-' + String(nextClaimId).padStart(4, '0');
+        var claimId = 'EX-' + String(nextClaimId).padStart(4, '0');
         nextClaimId++;
         document.getElementById('claimIdDisplay').textContent = claimId;
         document.getElementById('ocrResult').classList.add('visible');
@@ -474,7 +610,7 @@ function resetScan() {
 }
 
 // OCR extracted data (simulated)
-let ocrData = {
+var ocrData = {
   vendor: 'บริษัท สยามฟู้ด จำกัด',
   amount: 2850,
   date: '2026-04-03',
@@ -502,13 +638,13 @@ function hideClaimForm() {
 }
 
 function submitClaim() {
-  const name = document.getElementById('cf-name').value;
-  const amount = document.getElementById('cf-amount').value;
-  const approver = document.getElementById('cf-approver').value;
+  var name = document.getElementById('cf-name').value;
+  var amount = document.getElementById('cf-amount').value;
+  var approver = document.getElementById('cf-approver').value;
   if (!name) { alert('กรุณากรอกชื่อ Claim'); return; }
   if (!amount) { alert('กรุณากรอกจำนวนเงิน'); return; }
 
-  const claimNum = 'CLM-2026-' + String(Math.floor(Math.random() * 900) + 100);
+  var claimNum = 'CLM-2026-' + String(Math.floor(Math.random() * 900) + 100);
   showToast('\u2705 สร้าง Claim สำเร็จ — ' + claimNum);
 
   // Navigate back to Claim Tasks via parent postMessage
@@ -526,11 +662,43 @@ function saveDraft() {
 }
 
 function showToast(msg) {
-  const toast = document.createElement('div');
+  var toast = document.createElement('div');
   toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:12px 24px;border-radius:10px;font-size:14px;font-weight:500;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.2);font-family:inherit;';
-  toast.textContent = msg;
+  toast.innerHTML = msg;
   document.body.appendChild(toast);
   setTimeout(function() { toast.style.opacity='0'; toast.style.transition='opacity .3s'; setTimeout(function(){toast.remove();},300); }, 2500);
+}
+
+// Manual create form functions
+function showManualForm() {
+  document.getElementById('manualForm').style.display = 'block';
+  document.getElementById('manualForm').scrollIntoView({behavior:'smooth'});
+}
+
+function scrollToUpload() {
+  document.getElementById('uploadZone').scrollIntoView({behavior:'smooth'});
+  document.getElementById('uploadZone').style.borderColor = 'var(--blue)';
+  setTimeout(function() { document.getElementById('uploadZone').style.borderColor = ''; }, 2000);
+}
+
+function attachManualFile(input) {
+  if (input.files[0]) {
+    document.getElementById('mf-attached').style.display = 'block';
+    document.getElementById('mf-filename').textContent = input.files[0].name;
+  }
+}
+
+function submitManualClaim() {
+  var name = document.getElementById('mf-name').value;
+  var amount = document.getElementById('mf-amount').value;
+  if (!name || !amount) { alert('กรุณากรอกชื่อ Claim และจำนวนเงิน'); return; }
+  var id = 'CLM-2026-' + String(Math.floor(Math.random()*900)+100);
+  showToast('&#9989; สร้าง Claim สำเร็จ — ' + id);
+  setTimeout(function() {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({type:'navigate', url:'modules/expense-tasks.html', title:'Claim Tasks'}, '*');
+    } else { window.location.href = 'expense-tasks.html'; }
+  }, 1500);
 }
 
 // Listen for messages from parent
@@ -541,6 +709,9 @@ window.addEventListener('message', function(e) {
     }
   }
 });
+
+// Initialize history table on page load
+renderHistory();
 </script>
 </body>
 </html>

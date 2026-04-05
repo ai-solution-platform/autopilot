@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API Usage Dashboard | Autopilot v2 by ANTS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FFFFFF;
+  --bg2: #F8FAFC;
+  --bg3: #F1F5F9;
+  --card-bg: #FFFFFF;
+  --surface: #FFFFFF;
+  --surface2: #F1F5F9;
+  --surface3: #F8FAFC;
+  --border: #E2E8F0;
+  --text: #0F172A;
+  --text2: #475569;
+  --text-dim: #64748B;
+  --muted: #64748B;
+  --blue: #2563EB;
+  --blue-bg: #EFF6FF;
+  --purple: #7C3AED;
+  --purple-bg: #F5F3FF;
+  --green: #059669;
+  --green-bg: #ECFDF5;
+  --yellow: #D97706;
+  --orange: #EA580C;
+  --orange-bg: #FFFBEB;
+  --red: #DC2626;
+  --red-bg: #FEF2F2;
+  --cyan: #0891B2;
+  --pink: #DB2777;
+  --grad: linear-gradient(135deg, #2563EB, #7C3AED);
+  --grad-green: linear-gradient(135deg, #059669, #0D9488);
+  --grad-orange: linear-gradient(135deg, #EA580C, #D97706);
+  --grad-pink: linear-gradient(135deg, #DB2777, #7C3AED);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+body.dark {
+  --bg: #0F172A;
+  --bg2: #1E293B;
+  --bg3: #334155;
+  --card-bg: #1E293B;
+  --surface: #1E293B;
+  --surface2: #334155;
+  --surface3: #1a2332;
+  --border: #334155;
+  --text: #F8FAFC;
+  --text2: #CBD5E1;
+  --text-dim: #94A3B8;
+  --muted: #94A3B8;
+  --blue-bg: rgba(37,99,235,0.15);
+  --purple-bg: rgba(124,58,237,0.15);
+  --green-bg: rgba(5,150,105,0.15);
+  --orange-bg: rgba(217,119,6,0.15);
+  --red-bg: rgba(220,38,38,0.15);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Noto Sans Thai', 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-size: 14px;
+  transition: background 0.3s, color 0.3s;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 3px; }
+
+.dark-toggle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .2s;
+  box-shadow: var(--shadow);
+}
+.dark-toggle:hover { transform: scale(1.1); }
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .75rem;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.breadcrumb a {
+  color: var(--blue);
+  text-decoration: none;
+}
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb .sep { color: var(--border); }
+
+/* User context bar */
+.user-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 20px;
+  font-size: .75rem;
+  color: var(--text2);
+}
+.user-bar .user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.user-bar .user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--grad);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: .7rem;
+  font-weight: 700;
+}
+.user-bar .update-time {
+  color: var(--muted);
+  font-size: .7rem;
+}
+
+/* Page Title */
+.page-title {
+  margin-bottom: 24px;
+}
+.page-title h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.page-title p {
+  font-size: .8rem;
+  color: var(--text2);
+}
+
+/* KPI Strip */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.kpi-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  transition: all .2s;
+}
+.kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,.08);
+}
+.kpi-label {
+  font-size: .72rem;
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.kpi-value {
+  font-size: 1.6rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+.kpi-sub {
+  font-size: .68rem;
+  color: var(--text-dim);
+}
+.kpi-sub .up { color: var(--green); font-weight: 600; }
+.kpi-sub .down { color: var(--blue); font-weight: 600; }
+
+/* Chart Grid */
+.chart-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.chart-container {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+.chart-title {
+  font-size: .82rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: var(--text);
+}
+.chart-area {
+  position: relative;
+  width: 100%;
+}
+
+/* Tooltip */
+#chartTooltip {
+  position: fixed;
+  display: none;
+  background: var(--text);
+  color: var(--bg);
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: .75rem;
+  font-weight: 500;
+  z-index: 9999;
+  pointer-events: none;
+  box-shadow: 0 4px 20px rgba(0,0,0,.3);
+  max-width: 250px;
+  line-height: 1.5;
+}
+
+/* Donut */
+.donut-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.donut-svg {
+  width: 160px;
+  height: 160px;
+  flex-shrink: 0;
+}
+.donut-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+.donut-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .72rem;
+  color: var(--text2);
+}
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.legend-value {
+  margin-left: auto;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* Tables */
+.section-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 16px;
+}
+.section-title {
+  font-size: .82rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: var(--text);
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .72rem;
+}
+.data-table th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--muted);
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+.data-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text2);
+}
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+.data-table tr:hover td {
+  background: var(--bg2);
+}
+
+/* Status badges */
+.status-2xx { color: var(--green); font-weight: 700; }
+.status-4xx { color: var(--orange); font-weight: 700; }
+.status-5xx { color: var(--red); font-weight: 700; }
+
+.method-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: .65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.method-get { background: var(--blue-bg); color: var(--blue); }
+.method-post { background: var(--green-bg); color: var(--green); }
+.method-put { background: var(--orange-bg); color: var(--orange); }
+.method-delete { background: var(--red-bg); color: var(--red); }
+
+/* Two column layout */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+/* Error log item */
+.error-item {
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  margin-bottom: 8px;
+  font-size: .72rem;
+}
+.error-item:last-child { margin-bottom: 0; }
+.error-item .error-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+.error-item .error-time {
+  color: var(--muted);
+  font-size: .65rem;
+}
+.error-item .error-status {
+  font-weight: 700;
+}
+.error-item .error-connector {
+  font-weight: 600;
+  color: var(--text);
+}
+.error-item .error-msg {
+  color: var(--red);
+  font-size: .7rem;
+  margin-top: 2px;
+}
+
+/* Animation */
+.fade-up {
+  animation: fadeUp .4s ease-out both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* SVG bar hover animation */
+.bar-hover:hover {
+  filter: brightness(1.15);
+  transform-origin: bottom;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .chart-grid { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .donut-container { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<button class="dark-toggle" onclick="toggleDark()">🌙</button>
+
+<div id="chartTooltip"></div>
+
+<div class="container">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb fade-up">
+    <a href="../poc-v2.html">Autopilot v2</a>
+    <span class="sep">/</span>
+    <a href="connector-hub.html">Connectors</a>
+    <span class="sep">/</span>
+    <span>API Usage Dashboard</span>
+  </div>
+
+  <!-- User Context Bar -->
+  <div class="user-bar fade-up">
+    <div class="user-info">
+      <div class="user-avatar">AP</div>
+      <div>
+        <div style="font-weight:600;color:var(--text);">Admin Panel</div>
+        <div style="font-size:.65rem;color:var(--muted);">Autopilot v2 &mdash; Connector Monitoring</div>
+      </div>
+    </div>
+    <div class="update-time">อัปเดตล่าสุด: <span id="lastUpdate">--:--:--</span></div>
+  </div>
+
+  <!-- Page Title -->
+  <div class="page-title fade-up">
+    <h2>📊 API Usage Dashboard</h2>
+    <p>แดชบอร์ดวิเคราะห์การใช้งาน API ทั้งหมด &mdash; ปริมาณเรียก, Response Time, Error Rate, Connector Usage</p>
+  </div>
+
+  <!-- KPI Strip -->
+  <div class="kpi-row fade-up">
+    <div class="kpi-card">
+      <div class="kpi-label">📡 Total API Calls</div>
+      <div class="kpi-value">247,830</div>
+      <div class="kpi-sub"><span class="up">↑18%</span> จากเดือนที่แล้ว</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">✅ Success Rate</div>
+      <div class="kpi-value">99.2%</div>
+      <div class="kpi-sub"><span class="up">+0.3%</span> เทียบสัปดาห์ก่อน</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">⏱ Avg Latency</div>
+      <div class="kpi-value">145ms</div>
+      <div class="kpi-sub"><span class="down">↓12%</span> ปรับปรุงจากสัปดาห์ก่อน</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">🔌 Active Connectors</div>
+      <div class="kpi-value">8/10</div>
+      <div class="kpi-sub">2 degraded | 0 down</div>
+    </div>
+  </div>
+
+  <!-- Charts 2x2 Grid -->
+  <div class="chart-grid fade-up">
+
+    <!-- Chart 1: API Calls Volume (7 Days) - Bar Chart -->
+    <div class="chart-container">
+      <div class="chart-title">📶 API Calls Volume (7 วัน)</div>
+      <div class="chart-area" style="height:200px;">
+        <svg id="barChart" viewBox="0 0 460 180" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="barGrad1" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#3B82F6"/>
+              <stop offset="100%" stop-color="#2563EB"/>
+            </linearGradient>
+            <linearGradient id="barGrad2" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#60A5FA"/>
+              <stop offset="100%" stop-color="#3B82F6"/>
+            </linearGradient>
+          </defs>
+          <!-- Grid lines -->
+          <line x1="40" y1="20" x2="440" y2="20" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3"/>
+          <line x1="40" y1="55" x2="440" y2="55" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3"/>
+          <line x1="40" y1="90" x2="440" y2="90" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3"/>
+          <line x1="40" y1="125" x2="440" y2="125" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3"/>
+          <line x1="40" y1="160" x2="440" y2="160" stroke="var(--border)" stroke-width="0.5"/>
+          <!-- Y-axis labels -->
+          <text x="35" y="23" text-anchor="end" fill="var(--muted)" font-size="8">45K</text>
+          <text x="35" y="58" text-anchor="end" fill="var(--muted)" font-size="8">35K</text>
+          <text x="35" y="93" text-anchor="end" fill="var(--muted)" font-size="8">25K</text>
+          <text x="35" y="128" text-anchor="end" fill="var(--muted)" font-size="8">15K</text>
+          <text x="35" y="163" text-anchor="end" fill="var(--muted)" font-size="8">0</text>
+          <!-- Bars -->
+          <rect x="55" y="49" width="42" height="111" rx="4" fill="url(#barGrad1)" class="bar-hover" style="transition:all .2s;cursor:pointer;"/>
+          <rect x="112" y="39" width="42" height="121" rx="4" fill="url(#barGrad1)" class="bar-hover" style="transition:all .2s;cursor:pointer;"/>
+          <rect x="169" y="23" width="42" height="137" rx="4" fill="url(#barGrad2)" class="bar-hover" style="transition:all .2s;cursor:pointer;"/>
+          <rect x="226" y="45" width="42" height="115" rx="4" fill="url(#barGrad1)" class="bar-hover" style="transition:all .2s;cursor:pointer;"/>
+          <rect x="283" y="28" width="42" height="132" rx="4" fill="url(#barGrad2)" class="bar-hover" style="transition:all .2s;cursor:pointer;"/>
+          <rect x="340" y="80" width="42" height="80" rx="4" fill="url(#barGrad1)" class="bar-hover" style="transition:all .2s;cursor:pointer;opacity:.7"/>
+          <rect x="397" y="92" width="42" height="68" rx="4" fill="url(#barGrad1)" class="bar-hover" style="transition:all .2s;cursor:pointer;opacity:.6"/>
+          <!-- Bar value labels -->
+          <text x="76" y="44" text-anchor="middle" fill="var(--muted)" font-size="8" font-weight="600">35.4K</text>
+          <text x="133" y="34" text-anchor="middle" fill="var(--muted)" font-size="8" font-weight="600">38.1K</text>
+          <text x="190" y="18" text-anchor="middle" fill="var(--blue)" font-size="8" font-weight="700">42.4K</text>
+          <text x="247" y="40" text-anchor="middle" fill="var(--muted)" font-size="8" font-weight="600">36.9K</text>
+          <text x="304" y="23" text-anchor="middle" fill="var(--blue)" font-size="8" font-weight="700">41.2K</text>
+          <text x="361" y="75" text-anchor="middle" fill="var(--muted)" font-size="8" font-weight="600">28.6K</text>
+          <text x="418" y="87" text-anchor="middle" fill="var(--muted)" font-size="8" font-weight="600">25.3K</text>
+          <!-- X-axis labels -->
+          <text x="76" y="175" text-anchor="middle" fill="var(--muted)" font-size="9">จันทร์</text>
+          <text x="133" y="175" text-anchor="middle" fill="var(--muted)" font-size="9">อังคาร</text>
+          <text x="190" y="175" text-anchor="middle" fill="var(--muted)" font-size="9">พุธ</text>
+          <text x="247" y="175" text-anchor="middle" fill="var(--muted)" font-size="9">พฤหัส</text>
+          <text x="304" y="175" text-anchor="middle" fill="var(--muted)" font-size="9">ศุกร์</text>
+          <text x="361" y="175" text-anchor="middle" fill="var(--muted)" font-size="9">เสาร์</text>
+          <text x="418" y="175" text-anchor="middle" fill="var(--muted)" font-size="9">อาทิตย์</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Chart 2: Connector Usage Distribution - Donut Chart -->
+    <div class="chart-container">
+      <div class="chart-title">🍩 Connector Usage Distribution</div>
+      <div class="donut-container">
+        <svg id="donutChart" class="donut-svg" viewBox="0 0 160 160">
+          <defs>
+            <filter id="donutShadow"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-opacity="0.1"/></filter>
+          </defs>
+          <!-- Background circle -->
+          <circle cx="80" cy="80" r="56" fill="none" stroke="var(--border)" stroke-width="20" opacity="0.3"/>
+          <!-- Segments: total circumference = 2*PI*56 = 351.86 -->
+          <!-- Thai OCR 28% = 98.52 -->
+          <circle cx="80" cy="80" r="56" fill="none" stroke="#2563EB" stroke-width="20" stroke-dasharray="98.52 253.34" stroke-dashoffset="0" transform="rotate(-90 80 80)" filter="url(#donutShadow)"/>
+          <!-- Google Vision 22% = 77.41 -->
+          <circle cx="80" cy="80" r="56" fill="none" stroke="#059669" stroke-width="20" stroke-dasharray="77.41 274.45" stroke-dashoffset="-98.52" transform="rotate(-90 80 80)"/>
+          <!-- eKYC 18% = 63.33 -->
+          <circle cx="80" cy="80" r="56" fill="none" stroke="#EA580C" stroke-width="20" stroke-dasharray="63.33 288.53" stroke-dashoffset="-175.93" transform="rotate(-90 80 80)"/>
+          <!-- Bank Parser 15% = 52.78 -->
+          <circle cx="80" cy="80" r="56" fill="none" stroke="#7C3AED" stroke-width="20" stroke-dasharray="52.78 299.08" stroke-dashoffset="-239.26" transform="rotate(-90 80 80)"/>
+          <!-- Receipt Parser 10% = 35.19 -->
+          <circle cx="80" cy="80" r="56" fill="none" stroke="#0891B2" stroke-width="20" stroke-dasharray="35.19 316.67" stroke-dashoffset="-292.04" transform="rotate(-90 80 80)"/>
+          <!-- Others 7% = 24.63 -->
+          <circle cx="80" cy="80" r="56" fill="none" stroke="#94A3B8" stroke-width="20" stroke-dasharray="24.63 327.23" stroke-dashoffset="-327.23" transform="rotate(-90 80 80)"/>
+          <!-- Center text -->
+          <text x="80" y="76" text-anchor="middle" fill="var(--text)" font-size="16" font-weight="800">247K</text>
+          <text x="80" y="92" text-anchor="middle" fill="var(--muted)" font-size="9">total calls</text>
+        </svg>
+        <div class="donut-legend">
+          <div class="donut-legend-item"><div class="legend-dot" style="background:#2563EB;"></div><span>Thai OCR</span><span class="legend-value">28%</span></div>
+          <div class="donut-legend-item"><div class="legend-dot" style="background:#059669;"></div><span>Google Vision</span><span class="legend-value">22%</span></div>
+          <div class="donut-legend-item"><div class="legend-dot" style="background:#EA580C;"></div><span>eKYC</span><span class="legend-value">18%</span></div>
+          <div class="donut-legend-item"><div class="legend-dot" style="background:#7C3AED;"></div><span>Bank Parser</span><span class="legend-value">15%</span></div>
+          <div class="donut-legend-item"><div class="legend-dot" style="background:#0891B2;"></div><span>Receipt Parser</span><span class="legend-value">10%</span></div>
+          <div class="donut-legend-item"><div class="legend-dot" style="background:#94A3B8;"></div><span>Others</span><span class="legend-value">7%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart 3: Response Time Trend (30 days) - Line Chart -->
+    <div class="chart-container">
+      <div class="chart-title">📈 Response Time Trend (30 วัน)</div>
+      <div class="chart-area" style="height:200px;">
+        <svg id="lineChart" viewBox="0 0 460 180" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#2563EB" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#2563EB" stop-opacity="0.02"/>
+            </linearGradient>
+          </defs>
+          <!-- Grid -->
+          <line x1="40" y1="20" x2="440" y2="20" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3"/>
+          <line x1="40" y1="55" x2="440" y2="55" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3"/>
+          <line x1="40" y1="90" x2="440" y2="90" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3"/>
+          <line x1="40" y1="125" x2="440" y2="125" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3"/>
+          <line x1="40" y1="160" x2="440" y2="160" stroke="var(--border)" stroke-width="0.5"/>
+          <!-- Y-axis -->
+          <text x="35" y="23" text-anchor="end" fill="var(--muted)" font-size="8">180ms</text>
+          <text x="35" y="58" text-anchor="end" fill="var(--muted)" font-size="8">165ms</text>
+          <text x="35" y="93" text-anchor="end" fill="var(--muted)" font-size="8">150ms</text>
+          <text x="35" y="128" text-anchor="end" fill="var(--muted)" font-size="8">135ms</text>
+          <text x="35" y="163" text-anchor="end" fill="var(--muted)" font-size="8">120ms</text>
+          <!-- Area fill path -->
+          <path id="areaPath" fill="url(#areaFill)" stroke="none"/>
+          <!-- Line path -->
+          <path id="linePath" fill="none" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Data points rendered by JS -->
+          <!-- X-axis labels -->
+          <text x="53" y="175" text-anchor="middle" fill="var(--muted)" font-size="7">1</text>
+          <text x="108" y="175" text-anchor="middle" fill="var(--muted)" font-size="7">5</text>
+          <text x="177" y="175" text-anchor="middle" fill="var(--muted)" font-size="7">10</text>
+          <text x="246" y="175" text-anchor="middle" fill="var(--muted)" font-size="7">15</text>
+          <text x="315" y="175" text-anchor="middle" fill="var(--muted)" font-size="7">20</text>
+          <text x="384" y="175" text-anchor="middle" fill="var(--muted)" font-size="7">25</text>
+          <text x="432" y="175" text-anchor="middle" fill="var(--muted)" font-size="7">30</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Chart 4: Error Rate by Connector - Horizontal Bar Chart -->
+    <div class="chart-container">
+      <div class="chart-title">⚠️ Error Rate by Connector</div>
+      <div class="chart-area" style="height:200px;">
+        <svg id="errorChart" viewBox="0 0 460 180" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="errGrad1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#DC2626"/><stop offset="100%" stop-color="#EF4444"/></linearGradient>
+            <linearGradient id="errGrad2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#EA580C"/><stop offset="100%" stop-color="#F97316"/></linearGradient>
+            <linearGradient id="errGrad3" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#D97706"/><stop offset="100%" stop-color="#F59E0B"/></linearGradient>
+            <linearGradient id="errGrad4" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#059669"/><stop offset="100%" stop-color="#34D399"/></linearGradient>
+            <linearGradient id="errGrad5" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#10B981"/><stop offset="100%" stop-color="#6EE7B7"/></linearGradient>
+            <linearGradient id="errGrad6" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#34D399"/><stop offset="100%" stop-color="#A7F3D0"/></linearGradient>
+          </defs>
+          <!-- Background bars -->
+          <rect x="140" y="8" width="280" height="20" rx="4" fill="var(--bg2)" opacity="0.6"/>
+          <rect x="140" y="36" width="280" height="20" rx="4" fill="var(--bg2)" opacity="0.6"/>
+          <rect x="140" y="64" width="280" height="20" rx="4" fill="var(--bg2)" opacity="0.6"/>
+          <rect x="140" y="92" width="280" height="20" rx="4" fill="var(--bg2)" opacity="0.6"/>
+          <rect x="140" y="120" width="280" height="20" rx="4" fill="var(--bg2)" opacity="0.6"/>
+          <rect x="140" y="148" width="280" height="20" rx="4" fill="var(--bg2)" opacity="0.6"/>
+          <!-- Data bars (max 2.1% -> full width 280) -->
+          <!-- Passport OCR 2.1% -->
+          <rect x="140" y="8" width="280" height="20" rx="4" fill="url(#errGrad1)" class="bar-hover" style="cursor:pointer;transition:all .2s;"/>
+          <!-- Gov Doc Parser 1.8% -->
+          <rect x="140" y="36" width="240" height="20" rx="4" fill="url(#errGrad2)" class="bar-hover" style="cursor:pointer;transition:all .2s;"/>
+          <!-- eKYC 0.9% -->
+          <rect x="140" y="64" width="120" height="20" rx="4" fill="url(#errGrad3)" class="bar-hover" style="cursor:pointer;transition:all .2s;"/>
+          <!-- Thai OCR 0.5% -->
+          <rect x="140" y="92" width="67" height="20" rx="4" fill="url(#errGrad4)" class="bar-hover" style="cursor:pointer;transition:all .2s;"/>
+          <!-- Bank Parser 0.3% -->
+          <rect x="140" y="120" width="40" height="20" rx="4" fill="url(#errGrad5)" class="bar-hover" style="cursor:pointer;transition:all .2s;"/>
+          <!-- Google Vision 0.2% -->
+          <rect x="140" y="148" width="27" height="20" rx="4" fill="url(#errGrad6)" class="bar-hover" style="cursor:pointer;transition:all .2s;"/>
+          <!-- Labels -->
+          <text x="135" y="22" text-anchor="end" fill="var(--text2)" font-size="9" font-weight="500">Passport OCR</text>
+          <text x="135" y="50" text-anchor="end" fill="var(--text2)" font-size="9" font-weight="500">Gov Doc Parser</text>
+          <text x="135" y="78" text-anchor="end" fill="var(--text2)" font-size="9" font-weight="500">eKYC</text>
+          <text x="135" y="106" text-anchor="end" fill="var(--text2)" font-size="9" font-weight="500">Thai OCR</text>
+          <text x="135" y="134" text-anchor="end" fill="var(--text2)" font-size="9" font-weight="500">Bank Parser</text>
+          <text x="135" y="162" text-anchor="end" fill="var(--text2)" font-size="9" font-weight="500">Google Vision</text>
+          <!-- Value labels -->
+          <text x="425" y="22" text-anchor="end" fill="var(--red)" font-size="9" font-weight="700">2.1%</text>
+          <text x="385" y="50" text-anchor="end" fill="var(--orange)" font-size="9" font-weight="700">1.8%</text>
+          <text x="265" y="78" text-anchor="end" fill="var(--yellow)" font-size="9" font-weight="700">0.9%</text>
+          <text x="212" y="106" text-anchor="end" fill="var(--green)" font-size="9" font-weight="700">0.5%</text>
+          <text x="185" y="134" text-anchor="end" fill="var(--green)" font-size="9" font-weight="700">0.3%</text>
+          <text x="172" y="162" text-anchor="end" fill="var(--green)" font-size="9" font-weight="700">0.2%</text>
+        </svg>
+      </div>
+    </div>
+
+  </div><!-- end chart-grid -->
+
+  <!-- Recent API Calls Log -->
+  <div class="section-card fade-up">
+    <div class="section-title">📋 Recent API Calls Log</div>
+    <div style="overflow-x:auto;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>Method</th>
+            <th>Connector</th>
+            <th>Endpoint</th>
+            <th>Status</th>
+            <th>Latency</th>
+            <th>Size</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>05/04/2569 14:32:15</td><td><span class="method-badge method-post">POST</span></td><td>Thai OCR</td><td>/v2/ocr/thai-id</td><td><span class="status-2xx">200</span></td><td>142ms</td><td>12.4 KB</td></tr>
+          <tr><td>05/04/2569 14:32:08</td><td><span class="method-badge method-post">POST</span></td><td>Google Vision</td><td>/v1/images:annotate</td><td><span class="status-2xx">200</span></td><td>238ms</td><td>45.2 KB</td></tr>
+          <tr><td>05/04/2569 14:31:55</td><td><span class="method-badge method-get">GET</span></td><td>eKYC</td><td>/v1/verify/status/TH-8842</td><td><span class="status-2xx">200</span></td><td>89ms</td><td>2.1 KB</td></tr>
+          <tr><td>05/04/2569 14:31:42</td><td><span class="method-badge method-post">POST</span></td><td>Bank Parser</td><td>/v1/statement/parse</td><td><span class="status-2xx">201</span></td><td>345ms</td><td>128.7 KB</td></tr>
+          <tr><td>05/04/2569 14:31:30</td><td><span class="method-badge method-post">POST</span></td><td>Receipt Parser</td><td>/v2/receipt/extract</td><td><span class="status-4xx">400</span></td><td>56ms</td><td>0.8 KB</td></tr>
+          <tr><td>05/04/2569 14:31:18</td><td><span class="method-badge method-get">GET</span></td><td>Thai OCR</td><td>/v2/ocr/result/OCR-12847</td><td><span class="status-2xx">200</span></td><td>34ms</td><td>18.3 KB</td></tr>
+          <tr><td>05/04/2569 14:31:05</td><td><span class="method-badge method-post">POST</span></td><td>Passport OCR</td><td>/v1/passport/scan</td><td><span class="status-5xx">500</span></td><td>3,421ms</td><td>0.3 KB</td></tr>
+          <tr><td>05/04/2569 14:30:52</td><td><span class="method-badge method-post">POST</span></td><td>eKYC</td><td>/v1/verify/face-match</td><td><span class="status-2xx">200</span></td><td>567ms</td><td>4.5 KB</td></tr>
+          <tr><td>05/04/2569 14:30:40</td><td><span class="method-badge method-get">GET</span></td><td>Google Vision</td><td>/v1/operations/OP-9923</td><td><span class="status-2xx">200</span></td><td>78ms</td><td>1.2 KB</td></tr>
+          <tr><td>05/04/2569 14:30:28</td><td><span class="method-badge method-post">POST</span></td><td>Gov Doc Parser</td><td>/v1/gov-doc/extract</td><td><span class="status-4xx">422</span></td><td>189ms</td><td>1.8 KB</td></tr>
+          <tr><td>05/04/2569 14:30:15</td><td><span class="method-badge method-post">POST</span></td><td>Thai OCR</td><td>/v2/ocr/batch</td><td><span class="status-2xx">200</span></td><td>892ms</td><td>245.6 KB</td></tr>
+          <tr><td>05/04/2569 14:30:02</td><td><span class="method-badge method-get">GET</span></td><td>Bank Parser</td><td>/v1/account/balance</td><td><span class="status-2xx">200</span></td><td>123ms</td><td>3.4 KB</td></tr>
+          <tr><td>05/04/2569 14:29:48</td><td><span class="method-badge method-post">POST</span></td><td>Receipt Parser</td><td>/v2/receipt/extract</td><td><span class="status-2xx">201</span></td><td>267ms</td><td>34.8 KB</td></tr>
+          <tr><td>05/04/2569 14:29:35</td><td><span class="method-badge method-post">POST</span></td><td>Passport OCR</td><td>/v1/passport/scan</td><td><span class="status-5xx">503</span></td><td>5,012ms</td><td>0.2 KB</td></tr>
+          <tr><td>05/04/2569 14:29:20</td><td><span class="method-badge method-get">GET</span></td><td>eKYC</td><td>/v1/verify/history</td><td><span class="status-2xx">200</span></td><td>156ms</td><td>8.9 KB</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Two Column: Top Endpoints + Error Log -->
+  <div class="two-col fade-up">
+
+    <!-- Top Endpoints -->
+    <div class="section-card" style="margin-bottom:0;">
+      <div class="section-title">🏆 Top Endpoints</div>
+      <table class="data-table">
+        <thead>
+          <tr><th>Endpoint</th><th>Calls</th><th>Avg Latency</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>/v2/ocr/thai-id</td><td style="font-weight:700;">42,380</td><td>142ms</td></tr>
+          <tr><td>/v1/images:annotate</td><td style="font-weight:700;">38,920</td><td>238ms</td></tr>
+          <tr><td>/v1/verify/face-match</td><td style="font-weight:700;">28,450</td><td>567ms</td></tr>
+          <tr><td>/v1/statement/parse</td><td style="font-weight:700;">24,120</td><td>345ms</td></tr>
+          <tr><td>/v2/receipt/extract</td><td style="font-weight:700;">18,740</td><td>267ms</td></tr>
+          <tr><td>/v1/verify/status/{id}</td><td style="font-weight:700;">16,890</td><td>89ms</td></tr>
+          <tr><td>/v2/ocr/batch</td><td style="font-weight:700;">14,520</td><td>892ms</td></tr>
+          <tr><td>/v1/passport/scan</td><td style="font-weight:700;">12,340</td><td>412ms</td></tr>
+          <tr><td>/v1/gov-doc/extract</td><td style="font-weight:700;">9,870</td><td>534ms</td></tr>
+          <tr><td>/v1/account/balance</td><td style="font-weight:700;">8,450</td><td>123ms</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Error Log -->
+    <div class="section-card" style="margin-bottom:0;">
+      <div class="section-title">🔴 Error Log (ล่าสุด)</div>
+      <div class="error-item">
+        <div class="error-header">
+          <span class="error-connector">Passport OCR</span>
+          <span class="error-status status-5xx">503</span>
+        </div>
+        <div class="error-time">05/04/2569 14:29:35</div>
+        <div class="error-msg">Service Unavailable - upstream server timeout after 5000ms</div>
+      </div>
+      <div class="error-item">
+        <div class="error-header">
+          <span class="error-connector">Passport OCR</span>
+          <span class="error-status status-5xx">500</span>
+        </div>
+        <div class="error-time">05/04/2569 14:31:05</div>
+        <div class="error-msg">Internal Server Error - OCR engine process crashed unexpectedly</div>
+      </div>
+      <div class="error-item">
+        <div class="error-header">
+          <span class="error-connector">Gov Doc Parser</span>
+          <span class="error-status status-4xx">422</span>
+        </div>
+        <div class="error-time">05/04/2569 14:30:28</div>
+        <div class="error-msg">Unprocessable Entity - document format not supported (PDF/A-3)</div>
+      </div>
+      <div class="error-item">
+        <div class="error-header">
+          <span class="error-connector">Receipt Parser</span>
+          <span class="error-status status-4xx">400</span>
+        </div>
+        <div class="error-time">05/04/2569 14:31:30</div>
+        <div class="error-msg">Bad Request - image resolution too low (min 300dpi required)</div>
+      </div>
+      <div class="error-item">
+        <div class="error-header">
+          <span class="error-connector">eKYC</span>
+          <span class="error-status status-5xx">502</span>
+        </div>
+        <div class="error-time">05/04/2569 13:45:12</div>
+        <div class="error-msg">Bad Gateway - NDID upstream service returned invalid response</div>
+      </div>
+    </div>
+
+  </div><!-- end two-col -->
+
+</div><!-- end container -->
+
+<script>
+// =======================
+// Chart Hover System
+// =======================
+function addChartHover(svgId, data, getXY) {
+  const svg = document.getElementById(svgId);
+  const tooltip = document.getElementById('chartTooltip');
+  data.forEach((item, i) => {
+    const {x, y} = getXY(item, i);
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', x);
+    circle.setAttribute('cy', y);
+    circle.setAttribute('r', 20);
+    circle.setAttribute('fill', 'transparent');
+    circle.setAttribute('style', 'cursor:pointer');
+    circle.addEventListener('mouseenter', (e) => {
+      tooltip.style.display = 'block';
+      tooltip.innerHTML = item.tooltip;
+      const rect = svg.getBoundingClientRect();
+      const scaleX = rect.width / svg.viewBox.baseVal.width;
+      const scaleY = rect.height / svg.viewBox.baseVal.height;
+      tooltip.style.left = (rect.left + x * scaleX - tooltip.offsetWidth / 2) + 'px';
+      tooltip.style.top = (rect.top + y * scaleY - tooltip.offsetHeight - 12) + 'px';
+    });
+    circle.addEventListener('mouseleave', () => {
+      tooltip.style.display = 'none';
+    });
+    svg.appendChild(circle);
+  });
+}
+
+// =======================
+// Chart 1: Bar Chart Hover
+// =======================
+const barData = [
+  { day: 'จันทร์', calls: '35,420', success: '35,102', fail: '318', x: 76, y: 49 },
+  { day: 'อังคาร', calls: '38,120', success: '37,810', fail: '310', x: 133, y: 39 },
+  { day: 'พุธ', calls: '42,350', success: '42,015', fail: '335', x: 190, y: 23 },
+  { day: 'พฤหัส', calls: '36,890', success: '36,580', fail: '310', x: 247, y: 45 },
+  { day: 'ศุกร์', calls: '41,200', success: '40,870', fail: '330', x: 304, y: 28 },
+  { day: 'เสาร์', calls: '28,550', success: '28,320', fail: '230', x: 361, y: 80 },
+  { day: 'อาทิตย์', calls: '25,300', success: '25,110', fail: '190', x: 418, y: 92 }
+];
+barData.forEach(d => {
+  d.tooltip = `<strong>${d.day}</strong><br>API Calls: ${d.calls}<br>สำเร็จ: ${d.success}<br>ล้มเหลว: ${d.fail}`;
+});
+addChartHover('barChart', barData, (item) => ({ x: item.x, y: item.y }));
+
+// =======================
+// Chart 2: Donut Chart Hover
+// =======================
+const donutData = [
+  { name: 'Thai OCR', pct: '28%', calls: '69,392', angle: 0, tooltip: '' },
+  { name: 'Google Vision', pct: '22%', calls: '54,523', angle: 100.8, tooltip: '' },
+  { name: 'eKYC', pct: '18%', calls: '44,609', angle: 180, tooltip: '' },
+  { name: 'Bank Parser', pct: '15%', calls: '37,175', angle: 244.8, tooltip: '' },
+  { name: 'Receipt Parser', pct: '10%', calls: '24,783', angle: 298.8, tooltip: '' },
+  { name: 'Others', pct: '7%', calls: '17,348', angle: 334.8, tooltip: '' }
+];
+donutData.forEach(d => {
+  d.tooltip = `<strong>${d.name}</strong><br>Calls: ${d.calls}<br>สัดส่วน: ${d.pct}`;
+});
+// Position hover points around the donut
+addChartHover('donutChart', donutData, (item) => {
+  const angleRad = (item.angle - 90) * Math.PI / 180;
+  return { x: 80 + 56 * Math.cos(angleRad), y: 80 + 56 * Math.sin(angleRad) };
+});
+
+// =======================
+// Chart 3: Line Chart - Build path + hover
+// =======================
+const lineData = [
+  155, 162, 148, 170, 158, 145, 152, 168, 175, 160,
+  142, 138, 155, 163, 170, 152, 148, 140, 135, 145,
+  150, 158, 142, 137, 130, 140, 148, 145, 138, 145
+];
+
+(function buildLineChart() {
+  const svg = document.getElementById('lineChart');
+  const minY = 120, maxY = 180;
+  const chartLeft = 45, chartRight = 440, chartTop = 20, chartBot = 160;
+  const stepX = (chartRight - chartLeft) / (lineData.length - 1);
+
+  function toSvgX(i) { return chartLeft + i * stepX; }
+  function toSvgY(v) { return chartBot - ((v - minY) / (maxY - minY)) * (chartBot - chartTop); }
+
+  // Build paths
+  let linePts = lineData.map((v, i) => `${toSvgX(i)},${toSvgY(v)}`);
+  document.getElementById('linePath').setAttribute('d', 'M' + linePts.join(' L'));
+
+  let areaD = 'M' + linePts.join(' L') + ` L${toSvgX(lineData.length-1)},${chartBot} L${toSvgX(0)},${chartBot} Z`;
+  document.getElementById('areaPath').setAttribute('d', areaD);
+
+  // Draw visible dots
+  lineData.forEach((v, i) => {
+    const cx = toSvgX(i);
+    const cy = toSvgY(v);
+    const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    dot.setAttribute('cx', cx);
+    dot.setAttribute('cy', cy);
+    dot.setAttribute('r', 3);
+    dot.setAttribute('fill', '#2563EB');
+    dot.setAttribute('stroke', '#fff');
+    dot.setAttribute('stroke-width', '1.5');
+    svg.appendChild(dot);
+  });
+
+  // Hover data
+  const lineHoverData = lineData.map((v, i) => {
+    const day = i + 1;
+    const p50 = Math.round(v * 0.85);
+    const p95 = Math.round(v * 1.35);
+    const p99 = Math.round(v * 1.65);
+    return {
+      tooltip: `<strong>วันที่ ${day}</strong><br>Avg Latency: ${v}ms<br>p50: ${p50}ms<br>p95: ${p95}ms<br>p99: ${p99}ms`,
+      svgX: toSvgX(i),
+      svgY: toSvgY(v)
+    };
+  });
+
+  // Add crosshair + hover circles
+  const tooltip = document.getElementById('chartTooltip');
+  lineHoverData.forEach((item) => {
+    const hitArea = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    hitArea.setAttribute('cx', item.svgX);
+    hitArea.setAttribute('cy', item.svgY);
+    hitArea.setAttribute('r', 12);
+    hitArea.setAttribute('fill', 'transparent');
+    hitArea.setAttribute('style', 'cursor:pointer');
+
+    // Crosshair line
+    const crosshair = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    crosshair.setAttribute('x1', item.svgX);
+    crosshair.setAttribute('y1', chartTop);
+    crosshair.setAttribute('x2', item.svgX);
+    crosshair.setAttribute('y2', chartBot);
+    crosshair.setAttribute('stroke', '#2563EB');
+    crosshair.setAttribute('stroke-width', '1');
+    crosshair.setAttribute('stroke-dasharray', '3');
+    crosshair.setAttribute('opacity', '0');
+    svg.appendChild(crosshair);
+
+    hitArea.addEventListener('mouseenter', () => {
+      tooltip.style.display = 'block';
+      tooltip.innerHTML = item.tooltip;
+      crosshair.setAttribute('opacity', '0.5');
+      const rect = svg.getBoundingClientRect();
+      const scaleX = rect.width / svg.viewBox.baseVal.width;
+      const scaleY = rect.height / svg.viewBox.baseVal.height;
+      tooltip.style.left = (rect.left + item.svgX * scaleX - tooltip.offsetWidth / 2) + 'px';
+      tooltip.style.top = (rect.top + item.svgY * scaleY - tooltip.offsetHeight - 12) + 'px';
+    });
+    hitArea.addEventListener('mouseleave', () => {
+      tooltip.style.display = 'none';
+      crosshair.setAttribute('opacity', '0');
+    });
+    svg.appendChild(hitArea);
+  });
+})();
+
+// =======================
+// Chart 4: Error Rate Hover
+// =======================
+const errorData = [
+  { name: 'Passport OCR', rate: '2.1%', count: '259', topError: 'Service Unavailable (503)', x: 280, y: 18 },
+  { name: 'Gov Doc Parser', rate: '1.8%', count: '178', topError: 'Unprocessable Entity (422)', x: 260, y: 46 },
+  { name: 'eKYC', rate: '0.9%', count: '402', topError: 'Bad Gateway (502)', x: 200, y: 74 },
+  { name: 'Thai OCR', rate: '0.5%', count: '347', topError: 'Timeout (504)', x: 173, y: 102 },
+  { name: 'Bank Parser', rate: '0.3%', count: '112', topError: 'Rate Limit (429)', x: 160, y: 130 },
+  { name: 'Google Vision', rate: '0.2%', count: '109', topError: 'Auth Error (401)', x: 153, y: 158 }
+];
+errorData.forEach(d => {
+  d.tooltip = `<strong>${d.name}</strong><br>Error Rate: ${d.rate}<br>Error Count: ${d.count}<br>Top Error: ${d.topError}`;
+});
+addChartHover('errorChart', errorData, (item) => ({ x: item.x, y: item.y }));
+
+// =======================
+// Live Clock
+// =======================
+function updateClock() {
+  const now = new Date();
+  const t = now.toLocaleTimeString('th-TH', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+  const el = document.getElementById('lastUpdate');
+  if (el) el.textContent = t;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+// =======================
+// Dark Mode
+// =======================
+function toggleDark(){
+  document.body.classList.toggle('dark');
+  const d = document.body.classList.contains('dark');
+  localStorage.setItem('darkMode', d);
+  document.querySelector('.dark-toggle').textContent = d ? '\u2600\uFE0F' : '\uD83C\uDF19';
+}
+if(localStorage.getItem('darkMode') === 'true'){
+  document.body.classList.add('dark');
+  document.addEventListener('DOMContentLoaded', function(){
+    var t = document.querySelector('.dark-toggle');
+    if(t) t.textContent = '\u2600\uFE0F';
+  });
+}
+</script>
+
+</body>
+</html>
