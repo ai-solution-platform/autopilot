@@ -39,10 +39,10 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .top-nav .avatar{width:34px;height:34px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff;cursor:pointer;}
 
 /* Layout */
-.main-content{max-width:1400px;margin:0 auto;padding:24px 32px;}
+.main-content{max-width:1400px;margin:0 auto;padding:16px 32px;}
 
 /* User Context Banner */
-.user-context{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,rgba(37,99,235,0.06),rgba(124,58,237,0.06));border:1px solid rgba(37,99,235,0.15);border-radius:var(--radius);padding:16px 24px;margin-bottom:20px;}
+.user-context{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,rgba(37,99,235,0.06),rgba(124,58,237,0.06));border:1px solid rgba(37,99,235,0.15);border-radius:var(--radius);padding:12px 20px;margin-bottom:14px;}
 .user-context .greeting{display:flex;align-items:center;gap:14px;}
 .user-context .greeting .avatar-lg{width:44px;height:44px;border-radius:12px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;}
 .user-context .greeting .info h2{font-size:1.1rem;font-weight:700;}
@@ -56,7 +56,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .user-context .team-member-avatars .mini-avatar:first-child{margin-left:0;}
 
 /* View Toggle */
-.view-toggle-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
+.view-toggle-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;}
 .view-tabs{display:flex;background:var(--bg2);border-radius:10px;padding:3px;border:1px solid var(--border);}
 .view-tab{padding:8px 18px;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all 0.2s;border:none;background:transparent;color:var(--muted);font-family:inherit;display:flex;align-items:center;gap:6px;}
 .view-tab.active{background:var(--blue);color:#fff;box-shadow:0 2px 6px rgba(37,99,235,0.25);}
@@ -73,8 +73,8 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .btn-sm{padding:6px 12px;font-size:12px;border-radius:6px;}
 
 /* KPI Cards */
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
-.kpi-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;position:relative;overflow:hidden;transition:all 0.2s;border-top:3px solid var(--blue);}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
+.kpi-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;position:relative;overflow:hidden;transition:all 0.2s;border-top:3px solid var(--blue);}
 .kpi-card:nth-child(2){border-top-color:var(--purple);}
 .kpi-card:nth-child(3){border-top-color:var(--green);}
 .kpi-card:nth-child(4){border-top-color:var(--orange);}
@@ -89,27 +89,27 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .kpi-card .kpi-sparkline{position:absolute;bottom:0;right:0;opacity:0.15;}
 
 /* Charts Grid */
-.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px;}
-.chart-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:all 0.2s;}
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;}
+.chart-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;transition:all 0.2s;}
 .chart-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.06);}
-.chart-card .chart-title{font-size:0.9rem;font-weight:700;margin-bottom:4px;}
-.chart-card .chart-subtitle{font-size:0.72rem;color:var(--muted);margin-bottom:16px;}
-.chart-card svg{width:100%;overflow:visible;}
+.chart-card .chart-title{font-size:0.85rem;font-weight:700;margin-bottom:2px;}
+.chart-card .chart-subtitle{font-size:0.72rem;color:var(--muted);margin-bottom:10px;}
+.chart-card svg{width:100%;overflow:visible;max-height:200px;}
 
 /* SVG Chart Tooltip */
 .svg-tooltip{position:fixed;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:12px;font-weight:600;pointer-events:none;z-index:1000;box-shadow:0 4px 12px rgba(0,0,0,0.15);opacity:0;transition:opacity 0.15s;}
 .svg-tooltip.visible{opacity:1;}
 
 /* Donut Chart Legend */
-.donut-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;justify-content:center;}
+.donut-legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;justify-content:center;}
 .donut-legend-item{display:flex;align-items:center;gap:5px;font-size:0.72rem;color:var(--text2);}
 .donut-legend-item .dot{width:10px;height:10px;border-radius:3px;}
 
 /* Summary Section - 3 columns */
-.summary-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:24px;}
-.summary-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:all 0.2s;}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:18px;}
+.summary-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;transition:all 0.2s;}
 .summary-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.06);}
-.summary-card .card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.summary-card .card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
 .summary-card .card-header h3{font-size:0.85rem;font-weight:700;display:flex;align-items:center;gap:6px;}
 .summary-card .card-header .badge{font-size:0.65rem;padding:2px 8px;border-radius:100px;font-weight:600;}
 
@@ -143,7 +143,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .sla-risk-count{font-weight:800;font-size:1rem;}
 
 /* Bottom Row - 2 columns */
-.bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px;}
+.bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;}
 
 /* Channel Breakdown */
 .channel-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
@@ -156,7 +156,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .channel-pct{font-size:0.85rem;font-weight:800;min-width:45px;text-align:right;}
 
 /* AI Insights */
-.ai-card{background:linear-gradient(135deg,rgba(37,99,235,0.04),rgba(124,58,237,0.06));border:1px solid rgba(124,58,237,0.2);border-radius:var(--radius);padding:20px;}
+.ai-card{background:linear-gradient(135deg,rgba(37,99,235,0.04),rgba(124,58,237,0.06));border:1px solid rgba(124,58,237,0.2);border-radius:var(--radius);padding:16px;}
 .ai-insight-item{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;background:var(--card-bg);border:1px solid var(--border);border-radius:10px;margin-bottom:8px;font-size:0.78rem;line-height:1.5;transition:all 0.2s;}
 .ai-insight-item:last-child{margin-bottom:0;}
 .ai-insight-item:hover{border-color:var(--purple);box-shadow:0 2px 8px rgba(124,58,237,0.1);}
@@ -196,9 +196,9 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .section-divider{
   display:flex;
   align-items:center;
-  gap:12px;
-  margin:28px 0 18px;
-  font-size:0.82rem;
+  gap:8px;
+  margin:14px 0 10px;
+  font-size:0.78rem;
   font-weight:700;
   color:var(--text);
 }
@@ -209,13 +209,13 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
   background:var(--border);
 }
 .section-divider .section-icon{
-  width:28px;
-  height:28px;
-  border-radius:8px;
+  width:22px;
+  height:22px;
+  border-radius:6px;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:14px;
+  font-size:12px;
 }
 
 /* Print styles */
@@ -383,7 +383,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
       <div class="chart-title">&#128200; การกระจายประเภทเคส (Case Type Distribution)</div>
       <div class="chart-subtitle">สัดส่วนเคสที่ Active ทั้งหมด 156 เคส</div>
       <div style="display:flex;align-items:center;justify-content:center;">
-        <svg id="donutChart" viewBox="0 0 260 200" style="max-width:360px;"></svg>
+        <svg id="donutChart" viewBox="0 0 260 180" style="max-width:300px;"></svg>
       </div>
       <div class="donut-legend" id="donutLegend"></div>
     </div>
@@ -392,8 +392,8 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
     <div class="chart-card fade-up">
       <div class="chart-title">&#128200; ปริมาณเคสรายเดือน (Monthly Case Volume)</div>
       <div class="chart-subtitle">เปรียบเทียบเคสเปิดใหม่ vs ปิดแล้ว (6 เดือนล่าสุด)</div>
-      <svg id="lineChart" viewBox="0 0 500 220" style="max-height:260px;"></svg>
-      <div style="display:flex;justify-content:center;gap:20px;margin-top:8px;font-size:0.72rem;color:var(--text2);">
+      <svg id="lineChart" viewBox="0 0 500 190" style="max-height:200px;"></svg>
+      <div style="display:flex;justify-content:center;gap:16px;margin-top:4px;font-size:0.72rem;color:var(--text2);">
         <span><span style="display:inline-block;width:12px;height:3px;background:#2563EB;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>เปิดใหม่</span>
         <span><span style="display:inline-block;width:12px;height:3px;background:#059669;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>ปิดแล้ว</span>
       </div>
@@ -403,8 +403,8 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
     <div class="chart-card fade-up">
       <div class="chart-title">&#9203; SLA Performance ตามประเภทเคส</div>
       <div class="chart-subtitle">เปรียบเทียบ On-time vs Delayed ต่อประเภท</div>
-      <svg id="slaChart" viewBox="0 0 500 230" style="max-height:270px;"></svg>
-      <div style="display:flex;justify-content:center;gap:20px;margin-top:8px;font-size:0.72rem;color:var(--text2);">
+      <svg id="slaChart" viewBox="0 0 500 190" style="max-height:200px;"></svg>
+      <div style="display:flex;justify-content:center;gap:16px;margin-top:4px;font-size:0.72rem;color:var(--text2);">
         <span><span style="display:inline-block;width:12px;height:10px;background:#059669;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>On-time</span>
         <span><span style="display:inline-block;width:12px;height:10px;background:#DC2626;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>Delayed</span>
       </div>
@@ -414,8 +414,8 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
     <div class="chart-card fade-up">
       <div class="chart-title">&#128196; Document Completeness Distribution</div>
       <div class="chart-subtitle">% เอกสารครบถ้วนของเคสที่ Active ทั้งหมด</div>
-      <svg id="docChart" viewBox="0 0 500 230" style="max-height:270px;"></svg>
-      <div style="display:flex;justify-content:center;gap:20px;margin-top:8px;font-size:0.72rem;color:var(--text2);">
+      <svg id="docChart" viewBox="0 0 500 190" style="max-height:200px;"></svg>
+      <div style="display:flex;justify-content:center;gap:16px;margin-top:4px;font-size:0.72rem;color:var(--text2);">
         <span><span style="display:inline-block;width:12px;height:10px;background:#059669;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>100% ครบ</span>
         <span><span style="display:inline-block;width:12px;height:10px;background:#2563EB;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>75-99%</span>
         <span><span style="display:inline-block;width:12px;height:10px;background:#D97706;border-radius:2px;margin-right:4px;vertical-align:middle;"></span>50-74%</span>
@@ -447,7 +447,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
         <h3>&#128337; Recent Activity</h3>
         <span class="badge" style="background:var(--green-bg);color:var(--green);">Live</span>
       </div>
-      <div id="activityFeed" style="max-height:320px;overflow-y:auto;"></div>
+      <div id="activityFeed" style="max-height:260px;overflow-y:auto;"></div>
     </div>
 
     <!-- SLA Risk Alert -->
@@ -488,7 +488,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
   </div>
 
   <!-- Footer -->
-  <div style="text-align:center;padding:24px 0 12px;border-top:1px solid var(--border);margin-top:8px;">
+  <div style="text-align:center;padding:14px 0 8px;border-top:1px solid var(--border);margin-top:4px;">
     <div style="font-size:0.72rem;color:var(--muted);line-height:1.8;">
       <strong style="color:var(--text);">Autopilot v2 -- ANTS AI Solution Hub</strong><br>
       Finance Document Hub Analytics Dashboard<br>
@@ -591,7 +591,7 @@ function hideTooltip() { tooltip.classList.remove('visible'); }
 (function drawDonut() {
   const svg = document.getElementById('donutChart');
   const total = DONUT_DATA.reduce((s, d) => s + d.value, 0);
-  const cx = 130, cy = 95, R = 72, r = 42;
+  const cx = 130, cy = 86, R = 65, r = 38;
   let angle = -Math.PI / 2;
   let paths = '';
 
@@ -628,7 +628,7 @@ function hideTooltip() { tooltip.classList.remove('visible'); }
 (function drawLine() {
   const svg = document.getElementById('lineChart');
   const { months, newCases, closed } = MONTHLY_DATA;
-  const W = 500, H = 220, padL = 50, padR = 20, padT = 20, padB = 40;
+  const W = 500, H = 190, padL = 50, padR = 20, padT = 15, padB = 35;
   const chartW = W - padL - padR, chartH = H - padT - padB;
   const maxVal = Math.max(...newCases, ...closed) * 1.15;
   const stepX = chartW / (months.length - 1);
@@ -683,9 +683,9 @@ function hideTooltip() { tooltip.classList.remove('visible'); }
 // ====== SLA HORIZONTAL BAR ======
 (function drawSLA() {
   const svg = document.getElementById('slaChart');
-  const W = 500, H = 230, padL = 100, padR = 30, padT = 10, padB = 20;
+  const W = 500, H = 190, padL = 100, padR = 30, padT = 8, padB = 14;
   const chartW = W - padL - padR;
-  const barH = 24, gap = 16;
+  const barH = 22, gap = 12;
   const maxVal = Math.max(...SLA_DATA.map(d => d.ontime + d.delayed)) * 1.1;
 
   let html = '';
@@ -714,9 +714,9 @@ function hideTooltip() { tooltip.classList.remove('visible'); }
 // ====== DOCUMENT COMPLETENESS STACKED BAR ======
 (function drawDocComplete() {
   const svg = document.getElementById('docChart');
-  const W = 500, H = 230, padL = 80, padR = 30, padT = 10, padB = 20;
+  const W = 500, H = 190, padL = 80, padR = 30, padT = 8, padB = 14;
   const chartW = W - padL - padR;
-  const barH = 24, gap = 16;
+  const barH = 22, gap = 12;
   const colors = ['#059669', '#2563EB', '#D97706', '#DC2626'];
   const keys = ['full', 'high', 'mid', 'low'];
 
