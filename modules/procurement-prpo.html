@@ -12,35 +12,49 @@ body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#3
 body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh;}
 ::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 
-/* Dark mode toggle */
 .dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);}
 
-/* Layout */
-.page-wrap{max-width:1200px;margin:0 auto;padding:24px;}
+.page-wrap{max-width:1280px;margin:0 auto;padding:24px;}
 
-/* Breadcrumb */
+/* User Context Bar */
+.user-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding:10px 16px;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);}
+.user-info{display:flex;align-items:center;gap:10px;}
+.user-avatar{width:36px;height:36px;border-radius:50%;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;}
+.user-name{font-size:.88rem;font-weight:700;}
+.user-role{font-size:.7rem;color:var(--muted);}
+.user-bar .view-toggle{display:flex;gap:2px;background:var(--bg2);padding:3px;border-radius:8px;}
+.view-btn{padding:5px 14px;border-radius:6px;font-size:.75rem;font-weight:600;cursor:pointer;color:var(--muted);border:none;background:none;font-family:inherit;transition:all .2s;}
+.view-btn:hover{color:var(--text);}
+.view-btn.active{background:var(--card-bg);color:var(--blue);box-shadow:var(--shadow);}
+
 .breadcrumb{font-size:.72rem;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:6px;}
 .breadcrumb a{color:var(--blue);text-decoration:none;font-weight:500;}
 .breadcrumb a:hover{text-decoration:underline;}
 
-/* KPI */
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
-.kpi{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
+/* KPI — 4 per row compact */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+.kpi{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:all .3s;}
+.kpi:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);transform:translateY(-2px);}
 .kpi::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
 .kpi:nth-child(1)::after{background:var(--blue);}
 .kpi:nth-child(2)::after{background:var(--green);}
 .kpi:nth-child(3)::after{background:var(--purple);}
 .kpi:nth-child(4)::after{background:var(--orange);}
-.kpi-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:10px;}
+.kpi-top{display:flex;align-items:flex-start;justify-content:space-between;}
+.kpi-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;}
 .kpi:nth-child(1) .kpi-icon{background:var(--blue-bg);color:var(--blue);}
 .kpi:nth-child(2) .kpi-icon{background:var(--green-bg);color:var(--green);}
 .kpi:nth-child(3) .kpi-icon{background:var(--purple-bg);color:var(--purple);}
 .kpi:nth-child(4) .kpi-icon{background:var(--orange-bg);color:var(--orange);}
-.kpi-label{font-size:.72rem;color:var(--muted);font-weight:500;display:flex;align-items:center;gap:6px;}
-.kpi-value{font-size:1.8rem;font-weight:800;margin-top:4px;line-height:1;}
-.kpi-change{display:inline-flex;align-items:center;gap:3px;font-size:.68rem;font-weight:600;padding:2px 6px;border-radius:4px;margin-top:6px;}
+.kpi-label{font-size:.7rem;color:var(--muted);font-weight:500;}
+.kpi-value{font-size:1.6rem;font-weight:800;margin-top:2px;line-height:1;}
+.kpi-change{display:inline-flex;align-items:center;gap:3px;font-size:.65rem;font-weight:600;padding:2px 6px;border-radius:4px;margin-top:4px;}
 .kpi-change.up{background:var(--green-bg);color:var(--green);}
 .kpi-change.down{background:var(--red-bg);color:var(--red);}
+.kpi-spark{width:60px;height:28px;}
+
+/* Tooltip for charts */
+.chart-tooltip{position:absolute;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:.72rem;box-shadow:0 4px 12px rgba(0,0,0,.1);pointer-events:none;z-index:100;display:none;}
 
 /* Cards & Buttons */
 .card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);}
@@ -61,23 +75,25 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .btn-icon{width:32px;height:32px;padding:0;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid var(--border);background:var(--card-bg);cursor:pointer;font-size:.85rem;transition:all .15s;}
 .btn-icon:hover{border-color:var(--blue);color:var(--blue);}
 
-/* Tabs — Horizontal pills (no vertical sidebar) */
+/* Tabs */
 .tabs{display:flex;gap:4px;margin-bottom:20px;background:var(--bg2);padding:4px;border-radius:var(--radius);width:fit-content;}
-.tab{padding:8px 20px;border-radius:8px;font-size:.82rem;font-weight:500;cursor:pointer;color:var(--muted);transition:all .2s;border:none;background:none;font-family:inherit;}
+.tab{padding:8px 20px;border-radius:8px;font-size:.82rem;font-weight:500;cursor:pointer;color:var(--muted);transition:all .2s;border:none;background:none;font-family:inherit;position:relative;}
 .tab:hover{color:var(--text);}
 .tab.active{background:var(--card-bg);color:var(--blue);font-weight:600;box-shadow:var(--shadow);}
 .tab-content{display:none;}
 .tab-content.active{display:block;}
+.tab-badge{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:.6rem;font-weight:700;padding:1px 5px;border-radius:10px;min-width:16px;text-align:center;}
 
 /* Table */
 .table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);}
 table{width:100%;border-collapse:collapse;font-size:.82rem;}
 thead{background:var(--bg2);}
-th{padding:10px 14px;text-align:left;font-weight:600;font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);}
+th{padding:10px 14px;text-align:left;font-weight:600;font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);white-space:nowrap;}
 td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text2);}
 tbody tr:last-child td{border-bottom:none;}
 tbody tr:hover{background:var(--blue-bg);}
-.status{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:600;}
+tbody tr{cursor:pointer;transition:background .15s;}
+.status{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:600;white-space:nowrap;}
 .status-draft{background:var(--bg3);color:var(--muted);}
 .status-pending{background:var(--orange-bg);color:var(--orange);}
 .status-approved{background:var(--green-bg);color:var(--green);}
@@ -87,8 +103,12 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
 .status-received{background:var(--purple-bg);color:var(--purple);}
 .status-closed{background:var(--bg3);color:var(--muted);}
 .status-rejected{background:var(--red-bg);color:var(--red);}
+.status-delivered{background:var(--green-bg);color:var(--green);}
 .link-text{color:var(--blue);font-weight:500;cursor:pointer;text-decoration:none;}
 .link-text:hover{text-decoration:underline;}
+
+/* Badge from Quotation */
+.badge-quotation{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:.65rem;font-weight:600;background:var(--purple-bg);color:var(--purple);margin-left:6px;white-space:nowrap;}
 
 /* Search Bar */
 .search-bar{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
@@ -186,18 +206,6 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
 .po-sig .sig-name{font-size:.8rem;font-weight:600;}
 .po-sig .sig-title{font-size:.68rem;color:var(--muted);}
 
-/* 3-Way Match */
-.match-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;}
-.match-card{border:1px solid var(--border);border-radius:var(--radius);padding:16px;background:var(--card-bg);}
-.match-card h4{font-size:.78rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
-.match-card .match-icon{font-size:1rem;}
-.match-item{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:.78rem;color:var(--text2);}
-.match-item:last-child{border-bottom:none;}
-.match-status{display:flex;align-items:center;gap:6px;font-size:.75rem;font-weight:600;padding:8px 14px;border-radius:8px;margin-top:12px;}
-.match-ok{background:var(--green-bg);color:var(--green);}
-.match-warn{background:var(--orange-bg);color:var(--orange);}
-.match-err{background:var(--red-bg);color:var(--red);}
-
 /* Approval List */
 .approval-item{display:flex;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid var(--border);}
 .approval-item:last-child{border-bottom:none;}
@@ -208,66 +216,114 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
 .approval-info .doc-meta{font-size:.7rem;color:var(--muted);margin-top:4px;}
 .approval-actions{display:flex;gap:6px;}
 
+/* Linked section */
+.linked-section{margin-top:24px;padding:16px;background:linear-gradient(135deg,var(--purple-bg),var(--blue-bg));border:1px solid var(--border);border-radius:var(--radius);}
+.linked-section .section-header{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-size:.88rem;font-weight:700;}
+.linked-item{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;}
+.linked-item:last-child{margin-bottom:0;}
+.linked-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;}
+.linked-info{flex:1;}
+.linked-info .linked-title{font-size:.82rem;font-weight:600;}
+.linked-info .linked-meta{font-size:.7rem;color:var(--muted);margin-top:2px;}
+.linked-actions{display:flex;gap:6px;}
+
+/* Vendor score indicator */
+.vendor-score{display:inline-flex;align-items:center;gap:4px;font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:4px;}
+.vendor-score.high{background:var(--green-bg);color:var(--green);}
+.vendor-score.mid{background:var(--orange-bg);color:var(--orange);}
+.vendor-score.low{background:var(--red-bg);color:var(--red);}
+
 /* Responsive */
 @media(max-width:1200px){.kpi-grid{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:768px){
   .kpi-grid{grid-template-columns:1fr;}
   .form-grid{grid-template-columns:1fr;}
-  .match-cards{grid-template-columns:1fr;}
   .po-parties{grid-template-columns:1fr;}
   .po-signatures{grid-template-columns:1fr;}
   .workflow{flex-wrap:wrap;gap:8px;}
   .tabs{flex-wrap:wrap;}
+  .user-bar{flex-direction:column;gap:10px;}
 }
 </style>
 </head>
 <body>
 
-<!-- Dark mode toggle -->
 <button class="dark-toggle" onclick="toggleDark()">&#127769;</button>
 
 <div class="page-wrap">
+  <!-- User Context Bar -->
+  <div class="user-bar">
+    <div class="user-info">
+      <div class="user-avatar">AC</div>
+      <div>
+        <div class="user-name">&#3626;&#3623;&#3633;&#3626;&#3604;&#3637; Artit C. | Procurement Manager</div>
+        <div class="user-role">&#3649;&#3612;&#3609;&#3585;&#3592;&#3633;&#3604;&#3595;&#3639;&#3657;&#3629; &middot; &#3629;&#3629;&#3609;&#3652;&#3621;&#3609;&#3660;</div>
+      </div>
+    </div>
+    <div class="view-toggle">
+      <button class="view-btn active" onclick="setView('my')">PR &#3586;&#3629;&#3591;&#3593;&#3633;&#3609;</button>
+      <button class="view-btn" onclick="setView('team')">Team PRs</button>
+      <button class="view-btn" onclick="setView('all')">&#3607;&#3633;&#3657;&#3591;&#3627;&#3617;&#3604;</button>
+    </div>
+  </div>
+
   <!-- Breadcrumb -->
   <div class="breadcrumb">
-    <a href="#">Autopilot v2</a> <span>/</span>
-    <a href="#">Procurement PO/PR</a> <span>/</span>
+    <a href="../poc-v2.html">Autopilot v2</a> <span>/</span>
+    <a href="#">Procurement</a> <span>/</span>
     <span>PR / PO Management</span>
   </div>
 
-  <!-- KPI Cards -->
-  <div class="kpi-grid">
+  <!-- KPI Cards — 4 per row compact -->
+  <div class="kpi-grid" id="kpiGrid">
     <div class="kpi">
-      <div class="kpi-icon">&#128196;</div>
-      <div class="kpi-label">PR เดือนนี้</div>
-      <div class="kpi-value">87</div>
-      <div class="kpi-change up">&#9650; 12% จากเดือนที่แล้ว</div>
+      <div class="kpi-top">
+        <div>
+          <div class="kpi-label">PR &#3648;&#3604;&#3639;&#3629;&#3609;&#3609;&#3637;&#3657;</div>
+          <div class="kpi-value" id="kpiPR">87</div>
+          <div class="kpi-change up">&#9650; 12% &#3592;&#3634;&#3585;&#3648;&#3604;&#3639;&#3629;&#3609;&#3607;&#3637;&#3656;&#3649;&#3621;&#3657;&#3623;</div>
+        </div>
+        <div class="kpi-icon">&#128196;</div>
+      </div>
     </div>
     <div class="kpi">
-      <div class="kpi-icon">&#128203;</div>
-      <div class="kpi-label">PO ออกแล้ว</div>
-      <div class="kpi-value">62</div>
-      <div class="kpi-change up">&#9650; 8% จากเดือนที่แล้ว</div>
+      <div class="kpi-top">
+        <div>
+          <div class="kpi-label">PO &#3629;&#3629;&#3585;&#3649;&#3621;&#3657;&#3623;</div>
+          <div class="kpi-value" id="kpiPO">62</div>
+          <div class="kpi-change up">&#9650; 8%</div>
+        </div>
+        <div class="kpi-icon">&#128203;</div>
+      </div>
     </div>
     <div class="kpi">
-      <div class="kpi-icon">&#128176;</div>
-      <div class="kpi-label">มูลค่ารวม</div>
-      <div class="kpi-value" style="font-size:1.5rem;">&#3647;12.4M</div>
-      <div class="kpi-change up">&#9650; 15% จากเดือนที่แล้ว</div>
+      <div class="kpi-top">
+        <div>
+          <div class="kpi-label">&#3617;&#3641;&#3621;&#3588;&#3656;&#3634;&#3619;&#3623;&#3617;</div>
+          <div class="kpi-value" style="font-size:1.4rem;">&#3647;12.4M</div>
+          <div class="kpi-change up">&#9650; 15%</div>
+        </div>
+        <div class="kpi-icon">&#128176;</div>
+      </div>
     </div>
     <div class="kpi">
-      <div class="kpi-icon">&#128178;</div>
-      <div class="kpi-label">ประหยัดจากการเปรียบเทียบ</div>
-      <div class="kpi-value" style="font-size:1.5rem;">&#3647;1.8M</div>
-      <div class="kpi-change up">&#9650; ลดต้นทุน 14.5%</div>
+      <div class="kpi-top">
+        <div>
+          <div class="kpi-label">&#3611;&#3619;&#3632;&#3627;&#3618;&#3633;&#3604;&#3592;&#3634;&#3585;&#3585;&#3634;&#3619;&#3648;&#3611;&#3619;&#3637;&#3618;&#3610;&#3648;&#3607;&#3637;&#3618;&#3610;</div>
+          <div class="kpi-value" style="font-size:1.4rem;">&#3647;1.8M</div>
+          <div class="kpi-change up">&#9650; &#3621;&#3604;&#3605;&#3657;&#3609;&#3607;&#3640;&#3609; 14.5%</div>
+        </div>
+        <div class="kpi-icon">&#128178;</div>
+      </div>
     </div>
   </div>
 
-  <!-- Tabs — Horizontal pills -->
+  <!-- Tabs -->
   <div class="tabs">
-    <button class="tab active" onclick="switchTab('pr')">&#128196; ใบขอซื้อ (PR)</button>
-    <button class="tab" onclick="switchTab('po')">&#128203; ใบสั่งซื้อ (PO)</button>
-    <button class="tab" onclick="switchTab('match')">&#128260; 3-Way Match</button>
-    <button class="tab" onclick="switchTab('approval')">&#9989; อนุมัติ</button>
+    <button class="tab active" onclick="switchTab('pr')">&#128196; &#3651;&#3610;&#3586;&#3629;&#3595;&#3639;&#3657;&#3629; (PR)</button>
+    <button class="tab" onclick="switchTab('po')">&#128203; &#3651;&#3610;&#3626;&#3633;&#3656;&#3591;&#3595;&#3639;&#3657;&#3629; (PO)</button>
+    <button class="tab" onclick="switchTab('linked')">&#128279; Quotation Tasks</button>
+    <button class="tab" onclick="switchTab('approval')" style="position:relative;">&#9989; &#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;<span class="tab-badge">4</span></button>
   </div>
 
   <!-- PR Tab -->
@@ -275,161 +331,41 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
     <div class="search-bar">
       <div class="search-input">
         <span>&#128269;</span>
-        <input type="text" placeholder="ค้นหา PR Number, ผู้ขอ, รายการ...">
+        <input type="text" placeholder="&#3588;&#3657;&#3609;&#3627;&#3634; PR Number, &#3612;&#3641;&#3657;&#3586;&#3629;, &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;..." id="prSearch" oninput="filterPR()">
       </div>
-      <select class="filter-select">
-        <option>ทุกสถานะ</option>
-        <option>ร่าง</option>
-        <option>รออนุมัติ</option>
-        <option>อนุมัติแล้ว</option>
-        <option>แปลงเป็น PO แล้ว</option>
+      <select class="filter-select" id="prStatusFilter" onchange="filterPR()">
+        <option value="">&#3607;&#3640;&#3585;&#3626;&#3606;&#3634;&#3609;&#3632;</option>
+        <option value="draft">&#3619;&#3656;&#3634;&#3591;</option>
+        <option value="pending">&#3619;&#3629;&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;</option>
+        <option value="approved">&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;&#3649;&#3621;&#3657;&#3623;</option>
+        <option value="converted">&#3649;&#3611;&#3621;&#3591;&#3648;&#3611;&#3655;&#3609; PO &#3649;&#3621;&#3657;&#3623;</option>
       </select>
-      <select class="filter-select">
-        <option>ทุกแผนก</option>
+      <select class="filter-select" id="prDeptFilter" onchange="filterPR()">
+        <option value="">&#3607;&#3640;&#3585;&#3649;&#3612;&#3609;&#3585;</option>
         <option>IT</option>
         <option>Marketing</option>
         <option>Operations</option>
         <option>HR</option>
+        <option>Finance</option>
       </select>
-      <button class="btn btn-primary" onclick="openModal('prCreateModal')">+ สร้าง PR ใหม่</button>
+      <button class="btn btn-primary" onclick="openModal('prCreateModal')">+ &#3626;&#3619;&#3657;&#3634;&#3591; PR &#3651;&#3627;&#3617;&#3656;</button>
     </div>
 
     <div class="table-wrap">
       <table>
         <thead>
           <tr>
-            <th>PR Number</th>
-            <th>ผู้ขอ</th>
-            <th>แผนก</th>
-            <th>รายการ</th>
-            <th>มูลค่าประมาณ</th>
-            <th>สถานะ</th>
-            <th>วันที่</th>
-            <th>ดำเนินการ</th>
+            <th>PR #</th>
+            <th>&#3627;&#3633;&#3623;&#3586;&#3657;&#3629;</th>
+            <th>&#3612;&#3641;&#3657;&#3586;&#3629;</th>
+            <th>&#3649;&#3612;&#3609;&#3585;</th>
+            <th style="text-align:right;">&#3617;&#3641;&#3621;&#3588;&#3656;&#3634;</th>
+            <th style="text-align:center;">&#3619;&#3634;&#3618;&#3585;&#3634;&#3619;</th>
+            <th>&#3626;&#3606;&#3634;&#3609;&#3632;</th>
+            <th>&#3623;&#3633;&#3609;&#3607;&#3637;&#3656;</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td><span class="link-text">PR-2026-0087</span></td>
-            <td>สมชาย พรหมมา</td>
-            <td>IT</td>
-            <td>5 รายการ</td>
-            <td>&#3647;385,000</td>
-            <td><span class="status status-approved">&#9679; อนุมัติแล้ว</span></td>
-            <td>04/04/2026</td>
-            <td><button class="btn btn-success btn-sm" onclick="openModal('prCreateModal')">&#128196;&#8594;&#128203; สร้าง PO</button></td>
-          </tr>
-          <tr>
-            <td><span class="link-text">PR-2026-0086</span></td>
-            <td>วิภา สุขสมบูรณ์</td>
-            <td>Marketing</td>
-            <td>3 รายการ</td>
-            <td>&#3647;125,000</td>
-            <td><span class="status status-pending">&#9679; รออนุมัติ</span></td>
-            <td>03/04/2026</td>
-            <td><button class="btn btn-outline btn-sm" disabled>รอดำเนินการ</button></td>
-          </tr>
-          <tr>
-            <td><span class="link-text">PR-2026-0085</span></td>
-            <td>ประยุทธ์ แก้วมณี</td>
-            <td>Operations</td>
-            <td>8 รายการ</td>
-            <td>&#3647;1,250,000</td>
-            <td><span class="status status-approved">&#9679; อนุมัติแล้ว</span></td>
-            <td>02/04/2026</td>
-            <td><button class="btn btn-success btn-sm" onclick="openModal('prCreateModal')">&#128196;&#8594;&#128203; สร้าง PO</button></td>
-          </tr>
-          <tr>
-            <td><span class="link-text">PR-2026-0084</span></td>
-            <td>นภา จันทร์ดี</td>
-            <td>HR</td>
-            <td>2 รายการ</td>
-            <td>&#3647;45,000</td>
-            <td><span class="status status-draft">&#9679; ร่าง</span></td>
-            <td>02/04/2026</td>
-            <td><button class="btn btn-outline btn-sm">&#9998; แก้ไข</button></td>
-          </tr>
-          <tr>
-            <td><span class="link-text">PR-2026-0083</span></td>
-            <td>กิตติ วงศ์สวัสดิ์</td>
-            <td>IT</td>
-            <td>4 รายการ</td>
-            <td>&#3647;520,000</td>
-            <td><span class="status status-converted">&#9679; แปลงเป็น PO แล้ว</span></td>
-            <td>01/04/2026</td>
-            <td><span class="link-text" onclick="switchTab('po')">PO-2026-0058 &#8594;</span></td>
-          </tr>
-          <tr>
-            <td><span class="link-text">PR-2026-0082</span></td>
-            <td>ปิยะ รัตนกุล</td>
-            <td>Operations</td>
-            <td>6 รายการ</td>
-            <td>&#3647;890,000</td>
-            <td><span class="status status-pending">&#9679; รออนุมัติ</span></td>
-            <td>31/03/2026</td>
-            <td><button class="btn btn-outline btn-sm" disabled>รอดำเนินการ</button></td>
-          </tr>
-          <tr>
-            <td><span class="link-text">PR-2026-0081</span></td>
-            <td>อรุณ เพ็ญศรี</td>
-            <td>Marketing</td>
-            <td>2 รายการ</td>
-            <td>&#3647;78,500</td>
-            <td><span class="status status-converted">&#9679; แปลงเป็น PO แล้ว</span></td>
-            <td>30/03/2026</td>
-            <td><span class="link-text" onclick="switchTab('po')">PO-2026-0057 &#8594;</span></td>
-          </tr>
-          <tr>
-            <td><span class="link-text">PR-2026-0080</span></td>
-            <td>ธนา ศรีสุข</td>
-            <td>IT</td>
-            <td>10 รายการ</td>
-            <td>&#3647;2,100,000</td>
-            <td><span class="status status-approved">&#9679; อนุมัติแล้ว</span></td>
-            <td>29/03/2026</td>
-            <td><button class="btn btn-success btn-sm" onclick="openModal('prCreateModal')">&#128196;&#8594;&#128203; สร้าง PO</button></td>
-          </tr>
-          <tr>
-            <td><span class="link-text">PR-2026-0079</span></td>
-            <td>สุนิสา ทองคำ</td>
-            <td>HR</td>
-            <td>3 รายการ</td>
-            <td>&#3647;165,000</td>
-            <td><span class="status status-converted">&#9679; แปลงเป็น PO แล้ว</span></td>
-            <td>28/03/2026</td>
-            <td><span class="link-text" onclick="switchTab('po')">PO-2026-0055 &#8594;</span></td>
-          </tr>
-          <tr>
-            <td><span class="link-text">PR-2026-0078</span></td>
-            <td>พงศ์ภัค ดีมาก</td>
-            <td>Operations</td>
-            <td>7 รายการ</td>
-            <td>&#3647;430,000</td>
-            <td><span class="status status-pending">&#9679; รออนุมัติ</span></td>
-            <td>27/03/2026</td>
-            <td><button class="btn btn-outline btn-sm" disabled>รอดำเนินการ</button></td>
-          </tr>
-          <tr>
-            <td><span class="link-text">PR-2026-0077</span></td>
-            <td>รัตนา พลอยงาม</td>
-            <td>Marketing</td>
-            <td>4 รายการ</td>
-            <td>&#3647;210,000</td>
-            <td><span class="status status-converted">&#9679; แปลงเป็น PO แล้ว</span></td>
-            <td>26/03/2026</td>
-            <td><span class="link-text" onclick="switchTab('po')">PO-2026-0053 &#8594;</span></td>
-          </tr>
-          <tr>
-            <td><span class="link-text">PR-2026-0076</span></td>
-            <td>ชัยวัฒน์ สมบูรณ์</td>
-            <td>IT</td>
-            <td>1 รายการ</td>
-            <td>&#3647;35,000</td>
-            <td><span class="status status-draft">&#9679; ร่าง</span></td>
-            <td>25/03/2026</td>
-            <td><button class="btn btn-outline btn-sm">&#9998; แก้ไข</button></td>
-          </tr>
-        </tbody>
+        <tbody id="prTableBody"></tbody>
       </table>
     </div>
   </div>
@@ -439,348 +375,67 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
     <div class="search-bar">
       <div class="search-input">
         <span>&#128269;</span>
-        <input type="text" placeholder="ค้นหา PO Number, Vendor, รายการ...">
+        <input type="text" placeholder="&#3588;&#3657;&#3609;&#3627;&#3634; PO Number, Vendor, &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;...">
       </div>
       <select class="filter-select">
-        <option>ทุกสถานะ</option>
-        <option>ส่งแล้ว</option>
-        <option>รับสินค้าแล้ว</option>
-        <option>ปิด PO</option>
+        <option>&#3607;&#3640;&#3585;&#3626;&#3606;&#3634;&#3609;&#3632;</option>
+        <option>&#3626;&#3656;&#3591;&#3649;&#3621;&#3657;&#3623;</option>
+        <option>&#3619;&#3633;&#3610;&#3626;&#3636;&#3609;&#3588;&#3657;&#3634;&#3649;&#3621;&#3657;&#3623;</option>
+        <option>&#3611;&#3636;&#3604; PO</option>
       </select>
-      <button class="btn btn-primary" onclick="openModal('prCreateModal')">+ สร้าง PO จาก PR</button>
+      <button class="btn btn-primary" onclick="openModal('prCreateModal')">+ &#3626;&#3619;&#3657;&#3634;&#3591; PO &#3592;&#3634;&#3585; PR</button>
     </div>
 
     <div class="table-wrap">
       <table>
         <thead>
           <tr>
-            <th>PO Number</th>
+            <th>PO #</th>
+            <th>PR Ref</th>
             <th>Vendor</th>
-            <th>รายการ</th>
-            <th>มูลค่ารวม</th>
-            <th>จาก PR</th>
-            <th>สถานะ</th>
-            <th>วันที่ออก</th>
-            <th>ดำเนินการ</th>
+            <th style="text-align:right;">&#3617;&#3641;&#3621;&#3588;&#3656;&#3634;</th>
+            <th>&#3626;&#3606;&#3634;&#3609;&#3632;</th>
+            <th>&#3585;&#3635;&#3627;&#3609;&#3604;&#3626;&#3656;&#3591;</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td><span class="link-text" onclick="openModal('poDetailModal')">PO-2026-0062</span></td>
-            <td>บจก. ศรีรุ่งเรือง ซัพพลาย</td>
-            <td>5 รายการ</td>
-            <td>&#3647;375,000</td>
-            <td><span class="link-text">PR-2026-0083</span></td>
-            <td><span class="status status-sent">&#9679; ส่งแล้ว</span></td>
-            <td>03/04/2026</td>
-            <td><button class="btn-icon" onclick="openModal('poDetailModal')">&#128065;</button></td>
-          </tr>
-          <tr>
-            <td><span class="link-text" onclick="openModal('poDetailModal')">PO-2026-0061</span></td>
-            <td>บจก. เอ็นเทค โซลูชั่น</td>
-            <td>3 รายการ</td>
-            <td>&#3647;820,000</td>
-            <td><span class="link-text">PR-2026-0080</span></td>
-            <td><span class="status status-sent">&#9679; ส่งแล้ว</span></td>
-            <td>02/04/2026</td>
-            <td><button class="btn-icon" onclick="openModal('poDetailModal')">&#128065;</button></td>
-          </tr>
-          <tr>
-            <td><span class="link-text" onclick="openModal('poDetailModal')">PO-2026-0060</span></td>
-            <td>บจก. ไทยออฟฟิศ เซ็นเตอร์</td>
-            <td>8 รายการ</td>
-            <td>&#3647;156,400</td>
-            <td><span class="link-text">PR-2026-0081</span></td>
-            <td><span class="status status-received">&#9679; รับสินค้าแล้ว</span></td>
-            <td>01/04/2026</td>
-            <td><button class="btn-icon" onclick="openModal('poDetailModal')">&#128065;</button></td>
-          </tr>
-          <tr>
-            <td><span class="link-text" onclick="openModal('poDetailModal')">PO-2026-0059</span></td>
-            <td>บจก. อินโนเวท เทรดดิ้ง</td>
-            <td>4 รายการ</td>
-            <td>&#3647;290,000</td>
-            <td><span class="link-text">PR-2026-0079</span></td>
-            <td><span class="status status-received">&#9679; รับสินค้าแล้ว</span></td>
-            <td>30/03/2026</td>
-            <td><button class="btn-icon" onclick="openModal('poDetailModal')">&#128065;</button></td>
-          </tr>
-          <tr>
-            <td><span class="link-text" onclick="openModal('poDetailModal')">PO-2026-0058</span></td>
-            <td>บจก. ศรีรุ่งเรือง ซัพพลาย</td>
-            <td>4 รายการ</td>
-            <td>&#3647;510,000</td>
-            <td><span class="link-text">PR-2026-0083</span></td>
-            <td><span class="status status-closed">&#9679; ปิด PO</span></td>
-            <td>28/03/2026</td>
-            <td><button class="btn-icon" onclick="openModal('poDetailModal')">&#128065;</button></td>
-          </tr>
-          <tr>
-            <td><span class="link-text" onclick="openModal('poDetailModal')">PO-2026-0057</span></td>
-            <td>บจก. กรุงเทพ อิเล็กทรอนิกส์</td>
-            <td>2 รายการ</td>
-            <td>&#3647;72,500</td>
-            <td><span class="link-text">PR-2026-0081</span></td>
-            <td><span class="status status-closed">&#9679; ปิด PO</span></td>
-            <td>27/03/2026</td>
-            <td><button class="btn-icon" onclick="openModal('poDetailModal')">&#128065;</button></td>
-          </tr>
-          <tr>
-            <td><span class="link-text" onclick="openModal('poDetailModal')">PO-2026-0056</span></td>
-            <td>บจก. เอเชีย คอมพิวเตอร์</td>
-            <td>6 รายการ</td>
-            <td>&#3647;1,450,000</td>
-            <td><span class="link-text">PR-2026-0078</span></td>
-            <td><span class="status status-sent">&#9679; ส่งแล้ว</span></td>
-            <td>26/03/2026</td>
-            <td><button class="btn-icon" onclick="openModal('poDetailModal')">&#128065;</button></td>
-          </tr>
-          <tr>
-            <td><span class="link-text" onclick="openModal('poDetailModal')">PO-2026-0055</span></td>
-            <td>บจก. ไทยออฟฟิศ เซ็นเตอร์</td>
-            <td>3 รายการ</td>
-            <td>&#3647;158,000</td>
-            <td><span class="link-text">PR-2026-0079</span></td>
-            <td><span class="status status-closed">&#9679; ปิด PO</span></td>
-            <td>25/03/2026</td>
-            <td><button class="btn-icon" onclick="openModal('poDetailModal')">&#128065;</button></td>
-          </tr>
-          <tr>
-            <td><span class="link-text" onclick="openModal('poDetailModal')">PO-2026-0054</span></td>
-            <td>บจก. สมาร์ท เซอร์วิส</td>
-            <td>5 รายการ</td>
-            <td>&#3647;340,000</td>
-            <td><span class="link-text">PR-2026-0077</span></td>
-            <td><span class="status status-received">&#9679; รับสินค้าแล้ว</span></td>
-            <td>24/03/2026</td>
-            <td><button class="btn-icon" onclick="openModal('poDetailModal')">&#128065;</button></td>
-          </tr>
-          <tr>
-            <td><span class="link-text" onclick="openModal('poDetailModal')">PO-2026-0053</span></td>
-            <td>บจก. อินโนเวท เทรดดิ้ง</td>
-            <td>4 รายการ</td>
-            <td>&#3647;205,000</td>
-            <td><span class="link-text">PR-2026-0077</span></td>
-            <td><span class="status status-closed">&#9679; ปิด PO</span></td>
-            <td>23/03/2026</td>
-            <td><button class="btn-icon" onclick="openModal('poDetailModal')">&#128065;</button></td>
-          </tr>
-        </tbody>
+        <tbody id="poTableBody"></tbody>
       </table>
     </div>
   </div>
 
-  <!-- 3-Way Match Tab -->
-  <div id="tab-match" class="tab-content">
-    <div style="margin-bottom:20px;">
-      <h3 style="font-size:.95rem;font-weight:700;margin-bottom:4px;">&#128260; 3-Way Matching</h3>
-      <p style="font-size:.8rem;color:var(--muted);">เปรียบเทียบ PO, ใบรับสินค้า (GR), และใบแจ้งหนี้ (Invoice) โดยอัตโนมัติ</p>
-    </div>
-
-    <!-- Match Example 1 -->
-    <div class="card" style="margin-bottom:16px;">
-      <div class="card-header">
-        <div>
-          <div style="font-weight:700;font-size:.88rem;">PO-2026-0060 &mdash; บจก. ไทยออฟฟิศ เซ็นเตอร์</div>
-          <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">มูลค่า PO: &#3647;156,400</div>
-        </div>
-        <div class="match-status match-ok">&#9989; Match สำเร็จ</div>
-      </div>
-      <div class="match-cards">
-        <div class="match-card">
-          <h4><span class="match-icon">&#128203;</span> Purchase Order</h4>
-          <div class="match-item"><span>กระดาษ A4 (80 แกรม)</span><span>&#3647;45,000</span></div>
-          <div class="match-item"><span>หมึกพิมพ์ HP</span><span>&#3647;68,400</span></div>
-          <div class="match-item"><span>อุปกรณ์สำนักงาน</span><span>&#3647;43,000</span></div>
-          <div class="match-item" style="font-weight:700;"><span>รวม</span><span>&#3647;156,400</span></div>
-        </div>
-        <div class="match-card">
-          <h4><span class="match-icon">&#128230;</span> Goods Receipt</h4>
-          <div class="match-item"><span>กระดาษ A4 (80 แกรม)</span><span>&#3647;45,000</span></div>
-          <div class="match-item"><span>หมึกพิมพ์ HP</span><span>&#3647;68,400</span></div>
-          <div class="match-item"><span>อุปกรณ์สำนักงาน</span><span>&#3647;43,000</span></div>
-          <div class="match-item" style="font-weight:700;"><span>รวม</span><span>&#3647;156,400</span></div>
-        </div>
-        <div class="match-card">
-          <h4><span class="match-icon">&#128179;</span> Invoice</h4>
-          <div class="match-item"><span>กระดาษ A4 (80 แกรม)</span><span>&#3647;45,000</span></div>
-          <div class="match-item"><span>หมึกพิมพ์ HP</span><span>&#3647;68,400</span></div>
-          <div class="match-item"><span>อุปกรณ์สำนักงาน</span><span>&#3647;43,000</span></div>
-          <div class="match-item" style="font-weight:700;"><span>รวม</span><span>&#3647;156,400</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Match Example 2 - Discrepancy -->
-    <div class="card" style="margin-bottom:16px;">
-      <div class="card-header">
-        <div>
-          <div style="font-weight:700;font-size:.88rem;">PO-2026-0059 &mdash; บจก. อินโนเวท เทรดดิ้ง</div>
-          <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">มูลค่า PO: &#3647;290,000</div>
-        </div>
-        <div class="match-status match-warn">&#9888; พบความแตกต่าง</div>
-      </div>
-      <div class="match-cards">
-        <div class="match-card">
-          <h4><span class="match-icon">&#128203;</span> Purchase Order</h4>
-          <div class="match-item"><span>เครื่องพิมพ์ Laser</span><span>&#3647;185,000</span></div>
-          <div class="match-item"><span>สายเคเบิล Cat6</span><span>&#3647;25,000</span></div>
-          <div class="match-item"><span>Switch 24 Port</span><span>&#3647;80,000</span></div>
-          <div class="match-item" style="font-weight:700;"><span>รวม</span><span>&#3647;290,000</span></div>
-        </div>
-        <div class="match-card">
-          <h4><span class="match-icon">&#128230;</span> Goods Receipt</h4>
-          <div class="match-item"><span>เครื่องพิมพ์ Laser</span><span>&#3647;185,000</span></div>
-          <div class="match-item"><span>สายเคเบิล Cat6</span><span>&#3647;25,000</span></div>
-          <div class="match-item"><span>Switch 24 Port</span><span>&#3647;80,000</span></div>
-          <div class="match-item" style="font-weight:700;"><span>รวม</span><span>&#3647;290,000</span></div>
-        </div>
-        <div class="match-card" style="border-color:var(--orange);">
-          <h4><span class="match-icon">&#128179;</span> Invoice <span style="color:var(--orange);font-size:.65rem;margin-left:auto;">&#9888; ไม่ตรงกัน</span></h4>
-          <div class="match-item"><span>เครื่องพิมพ์ Laser</span><span>&#3647;185,000</span></div>
-          <div class="match-item"><span>สายเคเบิล Cat6</span><span style="color:var(--red);font-weight:700;">&#3647;28,500</span></div>
-          <div class="match-item"><span>Switch 24 Port</span><span>&#3647;80,000</span></div>
-          <div class="match-item" style="font-weight:700;"><span>รวม</span><span style="color:var(--red);">&#3647;293,500 (+&#3647;3,500)</span></div>
-        </div>
-      </div>
-      <div class="ai-suggestion">
-        <div class="ai-icon">AI</div>
-        <div class="ai-text"><strong>AI ตรวจพบ:</strong> Invoice สายเคเบิล Cat6 สูงกว่า PO &#3647;3,500 (14%) - ไม่อยู่ในเกณฑ์ยอมรับ (5%) แนะนำให้ติดต่อ vendor เพื่อขอ Credit Note หรือ Invoice ฉบับแก้ไข</div>
-      </div>
-    </div>
-
-    <!-- Match Example 3 - Error -->
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div style="font-weight:700;font-size:.88rem;">PO-2026-0054 &mdash; บจก. สมาร์ท เซอร์วิส</div>
-          <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">มูลค่า PO: &#3647;340,000</div>
-        </div>
-        <div class="match-status match-err">&#10060; รับสินค้าไม่ครบ</div>
-      </div>
-      <div class="match-cards">
-        <div class="match-card">
-          <h4><span class="match-icon">&#128203;</span> Purchase Order</h4>
-          <div class="match-item"><span>จอมอนิเตอร์ 27"</span><span>5 เครื่อง</span></div>
-          <div class="match-item"><span>คีย์บอร์ด Mechanical</span><span>10 ตัว</span></div>
-          <div class="match-item"><span>เมาส์ Wireless</span><span>10 ตัว</span></div>
-        </div>
-        <div class="match-card" style="border-color:var(--red);">
-          <h4><span class="match-icon">&#128230;</span> Goods Receipt <span style="color:var(--red);font-size:.65rem;margin-left:auto;">&#10060; ไม่ครบ</span></h4>
-          <div class="match-item"><span>จอมอนิเตอร์ 27"</span><span>5 เครื่อง</span></div>
-          <div class="match-item"><span>คีย์บอร์ด Mechanical</span><span style="color:var(--red);font-weight:700;">7 ตัว (-3)</span></div>
-          <div class="match-item"><span>เมาส์ Wireless</span><span>10 ตัว</span></div>
-        </div>
-        <div class="match-card">
-          <h4><span class="match-icon">&#128179;</span> Invoice</h4>
-          <div class="match-item" style="color:var(--muted);font-style:italic;"><span>ยังไม่ได้รับ Invoice</span><span></span></div>
-        </div>
-      </div>
+  <!-- Linked Quotation Tasks Tab -->
+  <div id="tab-linked" class="tab-content">
+    <div class="linked-section" style="background:transparent;border:none;padding:0;">
+      <div class="section-header" style="font-size:.95rem;">&#128279; Linked Quotation Tasks &mdash; &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;&#3607;&#3637;&#3656;&#3617;&#3634;&#3592;&#3634;&#3585; Quotation Autopilot</div>
+      <div id="linkedTasksContainer"></div>
     </div>
   </div>
 
   <!-- Approval Tab -->
   <div id="tab-approval" class="tab-content">
-    <!-- Approval Workflow Visual -->
     <div class="card" style="margin-bottom:20px;">
       <div class="card-header">
-        <div class="card-title">&#128260; ขั้นตอนการอนุมัติ (Approval Workflow)</div>
+        <div class="card-title">&#128260; &#3586;&#3633;&#3657;&#3609;&#3605;&#3629;&#3609;&#3585;&#3634;&#3619;&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636; (Approval Workflow)</div>
       </div>
       <div class="workflow">
-        <div class="workflow-step done">
-          <div class="workflow-circle">&#128100;</div>
-          <div class="workflow-name">ผู้ขอ</div>
-          <div class="workflow-role">สร้างเอกสาร</div>
-        </div>
+        <div class="workflow-step done"><div class="workflow-circle">&#128100;</div><div class="workflow-name">&#3612;&#3641;&#3657;&#3586;&#3629;</div><div class="workflow-role">&#3626;&#3619;&#3657;&#3634;&#3591;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;</div></div>
         <div class="workflow-connector done"></div>
-        <div class="workflow-step done">
-          <div class="workflow-circle">&#128101;</div>
-          <div class="workflow-name">หัวหน้าแผนก</div>
-          <div class="workflow-role">ตรวจสอบ & อนุมัติ</div>
-        </div>
+        <div class="workflow-step done"><div class="workflow-circle">&#128101;</div><div class="workflow-name">&#3627;&#3633;&#3623;&#3627;&#3609;&#3657;&#3634;&#3649;&#3612;&#3609;&#3585;</div><div class="workflow-role">&#3605;&#3619;&#3623;&#3592;&#3626;&#3629;&#3610; & &#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;</div></div>
         <div class="workflow-connector active"></div>
-        <div class="workflow-step current">
-          <div class="workflow-circle">&#128188;</div>
-          <div class="workflow-name">แผนกจัดซื้อ</div>
-          <div class="workflow-role">ตรวจสอบราคา & vendor</div>
-        </div>
+        <div class="workflow-step current"><div class="workflow-circle">&#128188;</div><div class="workflow-name">&#3649;&#3612;&#3609;&#3585;&#3592;&#3633;&#3604;&#3595;&#3639;&#3657;&#3629;</div><div class="workflow-role">&#3605;&#3619;&#3623;&#3592;&#3626;&#3629;&#3610;&#3619;&#3634;&#3588;&#3634; & vendor</div></div>
         <div class="workflow-connector"></div>
-        <div class="workflow-step pending">
-          <div class="workflow-circle">&#128188;</div>
-          <div class="workflow-name">ผู้จัดการ</div>
-          <div class="workflow-role">อนุมัติทั่วไป</div>
-        </div>
+        <div class="workflow-step pending"><div class="workflow-circle">&#128188;</div><div class="workflow-name">&#3612;&#3641;&#3657;&#3592;&#3633;&#3604;&#3585;&#3634;&#3619;</div><div class="workflow-role">&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;&#3607;&#3633;&#3656;&#3623;&#3652;&#3611;</div></div>
         <div class="workflow-connector"></div>
-        <div class="workflow-step conditional">
-          <div class="workflow-circle">&#128176;</div>
-          <div class="workflow-name">CFO</div>
-          <div class="workflow-role">> &#3647;500K เท่านั้น</div>
-        </div>
+        <div class="workflow-step conditional"><div class="workflow-circle">&#128176;</div><div class="workflow-name">CFO</div><div class="workflow-role">> &#3647;500K &#3648;&#3607;&#3656;&#3634;&#3609;&#3633;&#3657;&#3609;</div></div>
       </div>
     </div>
 
-    <!-- Pending Approvals -->
     <div class="card">
       <div class="card-header">
-        <div class="card-title">&#128221; รายการรออนุมัติ</div>
-        <span style="font-size:.72rem;color:var(--muted);">4 รายการที่รอดำเนินการ</span>
+        <div class="card-title">&#128221; &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;&#3619;&#3629;&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;</div>
+        <span style="font-size:.72rem;color:var(--muted);">4 &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;&#3607;&#3637;&#3656;&#3619;&#3629;&#3604;&#3635;&#3648;&#3609;&#3636;&#3609;&#3585;&#3634;&#3619;</span>
       </div>
-
-      <div class="approval-item">
-        <div class="approval-avatar" style="background:var(--blue-bg);color:var(--blue);">&#128196;</div>
-        <div class="approval-info">
-          <div class="doc-num">PR-2026-0086 - วัสดุส่งเสริมการขาย</div>
-          <div class="doc-desc">ผู้ขอ: วิภา สุขสมบูรณ์ (Marketing) &bull; 3 รายการ &bull; &#3647;125,000</div>
-          <div class="doc-meta">ส่งเมื่อ 03/04/2026 &bull; รอ: หัวหน้าแผนก Marketing</div>
-        </div>
-        <div class="approval-actions">
-          <button class="btn btn-success btn-sm">&#9989; อนุมัติ</button>
-          <button class="btn btn-danger btn-sm">&#10060; ปฏิเสธ</button>
-          <button class="btn btn-outline btn-sm">&#128172; หมายเหตุ</button>
-        </div>
-      </div>
-
-      <div class="approval-item">
-        <div class="approval-avatar" style="background:var(--purple-bg);color:var(--purple);">&#128196;</div>
-        <div class="approval-info">
-          <div class="doc-num">PR-2026-0082 - อุปกรณ์ซ่อมบำรุงเครื่องจักร</div>
-          <div class="doc-desc">ผู้ขอ: ปิยะ รัตนกุล (Operations) &bull; 6 รายการ &bull; &#3647;890,000</div>
-          <div class="doc-meta">ส่งเมื่อ 31/03/2026 &bull; รอ: ผู้จัดการ (> &#3647;500K ต้องส่ง CFO ด้วย)</div>
-        </div>
-        <div class="approval-actions">
-          <button class="btn btn-success btn-sm">&#9989; อนุมัติ</button>
-          <button class="btn btn-danger btn-sm">&#10060; ปฏิเสธ</button>
-          <button class="btn btn-outline btn-sm">&#128172; หมายเหตุ</button>
-        </div>
-      </div>
-
-      <div class="approval-item">
-        <div class="approval-avatar" style="background:var(--orange-bg);color:var(--orange);">&#128196;</div>
-        <div class="approval-info">
-          <div class="doc-num">PR-2026-0078 - อะไหล่คอมพิวเตอร์</div>
-          <div class="doc-desc">ผู้ขอ: พงศ์ภัค ดีมาก (Operations) &bull; 7 รายการ &bull; &#3647;430,000</div>
-          <div class="doc-meta">ส่งเมื่อ 27/03/2026 &bull; รอ: แผนกจัดซื้อตรวจสอบราคา</div>
-        </div>
-        <div class="approval-actions">
-          <button class="btn btn-success btn-sm">&#9989; อนุมัติ</button>
-          <button class="btn btn-danger btn-sm">&#10060; ปฏิเสธ</button>
-          <button class="btn btn-outline btn-sm">&#128172; หมายเหตุ</button>
-        </div>
-      </div>
-
-      <div class="approval-item">
-        <div class="approval-avatar" style="background:var(--green-bg);color:var(--green);">&#128203;</div>
-        <div class="approval-info">
-          <div class="doc-num">PO-2026-0056 - อุปกรณ์คอมพิวเตอร์ (เร่งด่วน)</div>
-          <div class="doc-desc">Vendor: บจก. เอเชีย คอมพิวเตอร์ &bull; 6 รายการ &bull; &#3647;1,450,000</div>
-          <div class="doc-meta">ส่งเมื่อ 26/03/2026 &bull; รอ: CFO (มูลค่า > &#3647;500K)</div>
-        </div>
-        <div class="approval-actions">
-          <button class="btn btn-success btn-sm">&#9989; อนุมัติ</button>
-          <button class="btn btn-danger btn-sm">&#10060; ปฏิเสธ</button>
-          <button class="btn btn-outline btn-sm">&#128172; หมายเหตุ</button>
-        </div>
-      </div>
+      <div id="approvalList"></div>
     </div>
   </div>
 </div>
@@ -789,117 +444,88 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
 <div id="prCreateModal" class="modal-overlay" onclick="if(event.target===this)closeModal('prCreateModal')">
   <div class="modal modal-lg">
     <div class="modal-header">
-      <h3>&#128196; สร้างใบขอซื้อ (Purchase Request)</h3>
+      <h3>&#128196; &#3626;&#3619;&#3657;&#3634;&#3591;&#3651;&#3610;&#3586;&#3629;&#3595;&#3639;&#3657;&#3629; (Purchase Request)</h3>
       <button class="modal-close" onclick="closeModal('prCreateModal')">&#10005;</button>
     </div>
     <div class="modal-body">
-      <!-- AI Suggestion -->
       <div class="ai-suggestion">
         <div class="ai-icon">AI</div>
-        <div class="ai-text"><strong>ระบบแนะนำ vendor จากประวัติ:</strong> บริษัท ศรีรุ่งเรือง ซัพพลาย (คะแนน 4.5/5.0) - ส่งมอบตรงเวลา 98%, ราคาแข่งขันได้ดี, ประวัติ 3 ปี</div>
+        <div class="ai-text"><strong>&#3619;&#3632;&#3610;&#3610;&#3649;&#3609;&#3632;&#3609;&#3635; vendor &#3592;&#3634;&#3585;&#3611;&#3619;&#3632;&#3623;&#3633;&#3605;&#3636;:</strong> &#3610;&#3619;&#3636;&#3625;&#3633;&#3607; &#3624;&#3619;&#3637;&#3619;&#3640;&#3656;&#3591;&#3648;&#3619;&#3639;&#3629;&#3591; &#3649;&#3617;&#3594;&#3594;&#3637;&#3609;&#3649;&#3629;&#3609;&#3604;&#3660;&#3607;&#3641;&#3621;&#3626;&#3660; (&#3588;&#3632;&#3649;&#3609;&#3609; 4.5/5.0) - &#3626;&#3656;&#3591;&#3617;&#3629;&#3610;&#3605;&#3619;&#3591;&#3648;&#3623;&#3621;&#3634; 98%, &#3619;&#3634;&#3588;&#3634;&#3649;&#3586;&#3656;&#3591;&#3586;&#3633;&#3609;&#3652;&#3604;&#3657;&#3604;&#3637;, &#3611;&#3619;&#3632;&#3623;&#3633;&#3605;&#3636; 3 &#3611;&#3637;</div>
       </div>
-
-      <!-- Budget Indicator -->
       <div class="budget-bar">
         <div class="budget-header">
-          <span>&#128176; งบประมาณแผนก IT ไตรมาส 2/2026</span>
-          <span style="color:var(--green);">เหลือ &#3647;2,850,000 / &#3647;5,000,000</span>
+          <span>&#128176; &#3591;&#3610;&#3611;&#3619;&#3632;&#3617;&#3634;&#3603;&#3649;&#3612;&#3609;&#3585; IT &#3652;&#3605;&#3619;&#3617;&#3634;&#3626; 2/2026</span>
+          <span style="color:var(--green);">&#3648;&#3627;&#3621;&#3639;&#3629; &#3647;2,850,000 / &#3647;5,000,000</span>
         </div>
-        <div class="budget-track">
-          <div class="budget-fill budget-ok" style="width:43%;"></div>
-        </div>
-        <div style="font-size:.68rem;color:var(--muted);margin-top:4px;">ใช้ไป 43% (&#3647;2,150,000) &bull; คงเหลือ 57%</div>
+        <div class="budget-track"><div class="budget-fill budget-ok" style="width:43%;"></div></div>
+        <div style="font-size:.68rem;color:var(--muted);margin-top:4px;">&#3651;&#3594;&#3657;&#3652;&#3611; 43% (&#3647;2,150,000) &bull; &#3588;&#3591;&#3648;&#3627;&#3621;&#3639;&#3629; 57%</div>
       </div>
 
-      <!-- Form Fields -->
+      <!-- Vendor selector with scores from System -->
+      <div style="margin-bottom:16px;">
+        <div style="font-weight:700;font-size:.85rem;margin-bottom:8px;">&#3648;&#3621;&#3639;&#3629;&#3585; Vendor (&#3592;&#3634;&#3585;&#3619;&#3632;&#3610;&#3610; System/Vendors)</div>
+        <div id="vendorSelector" style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;"></div>
+      </div>
+
       <div class="form-grid">
         <div class="form-group">
-          <label class="form-label">ผู้ขอ</label>
-          <input class="form-input" type="text" value="สมชาย พรหมมา" readonly style="background:var(--bg3);">
+          <label class="form-label">&#3612;&#3641;&#3657;&#3586;&#3629;</label>
+          <input class="form-input" type="text" value="Artit C." readonly style="background:var(--bg3);">
         </div>
         <div class="form-group">
-          <label class="form-label">แผนก</label>
+          <label class="form-label">&#3649;&#3612;&#3609;&#3585;</label>
           <select class="form-select">
-            <option>IT</option>
-            <option>Marketing</option>
-            <option>Operations</option>
-            <option>HR</option>
-            <option>Finance</option>
+            <option>IT</option><option>Marketing</option><option>Operations</option><option>HR</option><option>Finance</option>
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">โครงการ</label>
+          <label class="form-label">&#3650;&#3588;&#3619;&#3591;&#3585;&#3634;&#3619;</label>
           <select class="form-select">
-            <option>โครงการ Digital Transformation 2026</option>
-            <option>โครงการ IT Infrastructure Upgrade</option>
-            <option>โครงการ Office Renovation</option>
-            <option>ค่าใช้จ่ายประจำ</option>
+            <option>&#3650;&#3588;&#3619;&#3591;&#3585;&#3634;&#3619; Digital Transformation 2026</option>
+            <option>&#3650;&#3588;&#3619;&#3591;&#3585;&#3634;&#3619; IT Infrastructure Upgrade</option>
+            <option>&#3650;&#3588;&#3619;&#3591;&#3585;&#3634;&#3619; Office Renovation</option>
+            <option>&#3588;&#3656;&#3634;&#3651;&#3594;&#3657;&#3592;&#3656;&#3634;&#3618;&#3611;&#3619;&#3632;&#3592;&#3635;</option>
           </select>
         </div>
       </div>
 
-      <!-- Items Table -->
-      <div style="font-weight:700;font-size:.85rem;margin-bottom:10px;">รายการสินค้า/บริการ</div>
+      <div style="font-weight:700;font-size:.85rem;margin-bottom:10px;">&#3619;&#3634;&#3618;&#3585;&#3634;&#3619;&#3626;&#3636;&#3609;&#3588;&#3657;&#3634;/&#3610;&#3619;&#3636;&#3585;&#3634;&#3619;</div>
       <div style="overflow-x:auto;">
         <table class="items-table" id="prItemsTable">
           <thead>
             <tr>
               <th style="width:5%;">#</th>
-              <th style="width:35%;">รายการ</th>
-              <th style="width:10%;">จำนวน</th>
-              <th style="width:10%;">หน่วย</th>
-              <th style="width:15%;">ราคา/หน่วย (โดยประมาณ)</th>
-              <th style="width:15%;">รวม</th>
+              <th style="width:35%;">&#3619;&#3634;&#3618;&#3585;&#3634;&#3619;</th>
+              <th style="width:10%;">&#3592;&#3635;&#3609;&#3623;&#3609;</th>
+              <th style="width:10%;">&#3627;&#3609;&#3656;&#3623;&#3618;</th>
+              <th style="width:15%;">&#3619;&#3634;&#3588;&#3634;/&#3627;&#3609;&#3656;&#3623;&#3618;</th>
+              <th style="width:15%;">&#3619;&#3623;&#3617;</th>
               <th style="width:10%;"></th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td><input type="text" placeholder="ชื่อรายการ" value="Notebook Dell Latitude 5540"></td>
-              <td><input type="number" value="5" min="1" style="width:70px;"></td>
-              <td><select><option>เครื่อง</option><option>ชิ้น</option><option>ชุด</option><option>กล่อง</option></select></td>
-              <td><input type="text" value="35,000"></td>
-              <td style="font-weight:600;">&#3647;175,000</td>
-              <td><button class="remove-row">&#10005;</button></td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td><input type="text" placeholder="ชื่อรายการ" value="จอมอนิเตอร์ Dell 27 นิ้ว"></td>
-              <td><input type="number" value="5" min="1" style="width:70px;"></td>
-              <td><select><option>เครื่อง</option><option>ชิ้น</option><option>ชุด</option><option>กล่อง</option></select></td>
-              <td><input type="text" value="12,000"></td>
-              <td style="font-weight:600;">&#3647;60,000</td>
-              <td><button class="remove-row">&#10005;</button></td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td><input type="text" placeholder="ชื่อรายการ" value="เมาส์ Logitech MX Master 3"></td>
-              <td><input type="number" value="5" min="1" style="width:70px;"></td>
-              <td><select><option selected>ตัว</option><option>ชิ้น</option><option>ชุด</option></select></td>
-              <td><input type="text" value="3,500"></td>
-              <td style="font-weight:600;">&#3647;17,500</td>
-              <td><button class="remove-row">&#10005;</button></td>
-            </tr>
+            <tr><td>1</td><td><input type="text" value="Notebook Dell Latitude 5540"></td><td><input type="number" value="5" min="1" style="width:70px;"></td><td><select><option>&#3648;&#3588;&#3619;&#3639;&#3656;&#3629;&#3591;</option></select></td><td><input type="text" value="35,000"></td><td style="font-weight:600;">&#3647;175,000</td><td><button class="remove-row">&#10005;</button></td></tr>
+            <tr><td>2</td><td><input type="text" value="&#3592;&#3629;&#3617;&#3629;&#3609;&#3636;&#3648;&#3605;&#3629;&#3619;&#3660; Dell 27 &#3609;&#3636;&#3657;&#3623;"></td><td><input type="number" value="5" min="1" style="width:70px;"></td><td><select><option>&#3648;&#3588;&#3619;&#3639;&#3656;&#3629;&#3591;</option></select></td><td><input type="text" value="12,000"></td><td style="font-weight:600;">&#3647;60,000</td><td><button class="remove-row">&#10005;</button></td></tr>
+            <tr><td>3</td><td><input type="text" value="&#3648;&#3617;&#3634;&#3626;&#3660; Logitech MX Master 3"></td><td><input type="number" value="5" min="1" style="width:70px;"></td><td><select><option>&#3605;&#3633;&#3623;</option></select></td><td><input type="text" value="3,500"></td><td style="font-weight:600;">&#3647;17,500</td><td><button class="remove-row">&#10005;</button></td></tr>
           </tbody>
         </table>
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;">
-        <button class="btn btn-outline btn-sm" onclick="addPrItem()">+ เพิ่มรายการ</button>
-        <div style="font-size:.92rem;font-weight:700;">รวมทั้งสิ้น: <span style="color:var(--blue);">&#3647;252,500</span></div>
+        <button class="btn btn-outline btn-sm" onclick="addPrItem()">+ &#3648;&#3614;&#3636;&#3656;&#3617;&#3619;&#3634;&#3618;&#3585;&#3634;&#3619;</button>
+        <div style="font-size:.92rem;font-weight:700;">&#3619;&#3623;&#3617;&#3607;&#3633;&#3657;&#3591;&#3626;&#3636;&#3657;&#3609;: <span style="color:var(--blue);">&#3647;252,500</span></div>
       </div>
 
       <div style="margin-top:16px;">
         <div class="form-group full">
-          <label class="form-label">หมายเหตุ</label>
-          <textarea class="form-textarea" placeholder="รายละเอียดเพิ่มเติม, เหตุผลในการจัดซื้อ...">สำหรับพนักงานใหม่ 5 คน เริ่มงาน พ.ค. 2026 - จำเป็นต้องมีอุปกรณ์พร้อมก่อนวันเริ่มงาน</textarea>
+          <label class="form-label">&#3627;&#3617;&#3634;&#3618;&#3648;&#3627;&#3605;&#3640;</label>
+          <textarea class="form-textarea" placeholder="&#3619;&#3634;&#3618;&#3621;&#3632;&#3648;&#3629;&#3637;&#3618;&#3604;&#3648;&#3614;&#3636;&#3656;&#3617;&#3648;&#3605;&#3636;&#3617;">&#3626;&#3635;&#3627;&#3619;&#3633;&#3610;&#3614;&#3609;&#3633;&#3585;&#3591;&#3634;&#3609;&#3651;&#3627;&#3617;&#3656; 5 &#3588;&#3609; &#3648;&#3619;&#3636;&#3656;&#3617;&#3591;&#3634;&#3609; &#3614;.&#3588;. 2026</textarea>
         </div>
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-secondary" onclick="closeModal('prCreateModal')">ยกเลิก</button>
-      <button class="btn btn-outline">&#128190; บันทึกร่าง</button>
-      <button class="btn btn-primary">&#128228; ส่งอนุมัติ</button>
+      <button class="btn btn-secondary" onclick="closeModal('prCreateModal')">&#3618;&#3585;&#3648;&#3621;&#3636;&#3585;</button>
+      <button class="btn btn-outline">&#128190; &#3610;&#3633;&#3609;&#3607;&#3638;&#3585;&#3619;&#3656;&#3634;&#3591;</button>
+      <button class="btn btn-primary">&#128228; &#3626;&#3656;&#3591;&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;</button>
     </div>
   </div>
 </div>
@@ -908,10 +534,10 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
 <div id="poDetailModal" class="modal-overlay" onclick="if(event.target===this)closeModal('poDetailModal')">
   <div class="modal modal-lg">
     <div class="modal-header">
-      <h3>&#128203; รายละเอียดใบสั่งซื้อ</h3>
+      <h3>&#128203; &#3619;&#3634;&#3618;&#3621;&#3632;&#3648;&#3629;&#3637;&#3618;&#3604;&#3651;&#3610;&#3626;&#3633;&#3656;&#3591;&#3595;&#3639;&#3657;&#3629;</h3>
       <div style="display:flex;gap:8px;align-items:center;">
-        <button class="btn btn-outline btn-sm">&#128424; พิมพ์</button>
-        <button class="btn btn-outline btn-sm">&#128231; ส่ง Email</button>
+        <button class="btn btn-outline btn-sm">&#128424; &#3614;&#3636;&#3617;&#3614;&#3660;</button>
+        <button class="btn btn-outline btn-sm">&#128231; &#3626;&#3656;&#3591; Email</button>
         <button class="btn btn-primary btn-sm">&#128196; Export PDF</button>
         <button class="modal-close" onclick="closeModal('poDetailModal')">&#10005;</button>
       </div>
@@ -921,84 +547,56 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
         <div class="po-doc-header">
           <div class="po-company">
             <div class="company-name">AUTOPILOT ENTERPRISE CO., LTD.</div>
-            <div class="company-detail">123/45 อาคารออโตไพลอต ชั้น 15 ถนนสุขุมวิท</div>
-            <div class="company-detail">แขวงคลองเตย เขตคลองเตย กรุงเทพฯ 10110</div>
+            <div class="company-detail">123/45 &#3629;&#3634;&#3588;&#3634;&#3619;&#3629;&#3629;&#3650;&#3605;&#3652;&#3614;&#3621;&#3629;&#3605; &#3594;&#3633;&#3657;&#3609; 15 &#3606;&#3609;&#3609;&#3626;&#3640;&#3586;&#3640;&#3617;&#3623;&#3636;&#3607;</div>
+            <div class="company-detail">&#3649;&#3586;&#3623;&#3591;&#3588;&#3621;&#3629;&#3591;&#3648;&#3605;&#3618; &#3648;&#3586;&#3605;&#3588;&#3621;&#3629;&#3591;&#3648;&#3605;&#3618; &#3585;&#3619;&#3640;&#3591;&#3648;&#3607;&#3614;&#3631; 10110</div>
             <div class="company-detail">Tax ID: 0-1234-56789-01-2</div>
-            <div class="company-detail">Tel: 02-123-4567 | Fax: 02-123-4568</div>
           </div>
           <div class="po-number-block">
             <div style="font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Purchase Order</div>
-            <div class="po-num">PO-2026-0062</div>
-            <div class="po-date">วันที่ออก: 03/04/2026</div>
-            <div class="po-date">กำหนดส่ง: 17/04/2026</div>
-            <div style="margin-top:6px;"><span class="status status-sent">&#9679; ส่งแล้ว</span></div>
+            <div class="po-num" id="poDetailNum">PO-2026-0062</div>
+            <div class="po-date">&#3623;&#3633;&#3609;&#3607;&#3637;&#3656;&#3629;&#3629;&#3585;: 03/04/2026</div>
+            <div class="po-date">&#3585;&#3635;&#3627;&#3609;&#3604;&#3626;&#3656;&#3591;: 17/04/2026</div>
+            <div style="margin-top:6px;"><span class="status status-sent">&#9679; &#3626;&#3656;&#3591;&#3649;&#3621;&#3657;&#3623;</span></div>
           </div>
         </div>
         <div class="po-parties">
           <div class="po-party">
-            <h4>ผู้ซื้อ (Buyer)</h4>
-            <p><strong>บริษัท ออโตไพลอต เอ็นเตอร์ไพรส์ จำกัด</strong></p>
-            <p>แผนกจัดซื้อ<br>ผู้ติดต่อ: คุณสมชาย พรหมมา<br>Tel: 02-123-4567 ต่อ 201<br>Email: somchai@autopilot.co.th</p>
+            <h4>&#3612;&#3641;&#3657;&#3595;&#3639;&#3657;&#3629; (Buyer)</h4>
+            <p><strong>&#3610;&#3619;&#3636;&#3625;&#3633;&#3607; &#3629;&#3629;&#3650;&#3605;&#3652;&#3614;&#3621;&#3629;&#3605; &#3648;&#3629;&#3655;&#3609;&#3648;&#3605;&#3629;&#3619;&#3660;&#3652;&#3614;&#3619;&#3626;&#3660; &#3592;&#3635;&#3585;&#3633;&#3604;</strong></p>
+            <p>&#3649;&#3612;&#3609;&#3585;&#3592;&#3633;&#3604;&#3595;&#3639;&#3657;&#3629;<br>&#3612;&#3641;&#3657;&#3605;&#3636;&#3604;&#3605;&#3656;&#3629;: &#3588;&#3640;&#3603; Artit C.<br>Tel: 02-123-4567</p>
           </div>
           <div class="po-party">
-            <h4>ผู้ขาย (Vendor)</h4>
-            <p><strong>บริษัท ศรีรุ่งเรือง ซัพพลาย จำกัด</strong></p>
-            <p>456/78 ถนนพระราม 4<br>เขตคลองเตย กรุงเทพฯ 10110<br>Tax ID: 0-9876-54321-09-8<br>Tel: 02-987-6543<br>Email: sales@srr-supply.co.th</p>
+            <h4>&#3612;&#3641;&#3657;&#3586;&#3634;&#3618; (Vendor)</h4>
+            <p><strong>&#3610;&#3619;&#3636;&#3625;&#3633;&#3607; &#3624;&#3619;&#3637;&#3619;&#3640;&#3656;&#3591;&#3648;&#3619;&#3639;&#3629;&#3591; &#3649;&#3617;&#3594;&#3594;&#3637;&#3609;&#3649;&#3629;&#3609;&#3604;&#3660;&#3607;&#3641;&#3621;&#3626;&#3660; &#3592;&#3635;&#3585;&#3633;&#3604;</strong></p>
+            <p><span class="vendor-score high">&#9733; 4.5</span> &middot; 31 &#3591;&#3634;&#3609; &middot; &#3618;&#3629;&#3604;&#3651;&#3594;&#3657;&#3592;&#3656;&#3634;&#3618; &#3647;3.91M</p>
           </div>
         </div>
         <div class="po-items">
           <table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>รายการ</th>
-                <th>จำนวน</th>
-                <th>หน่วย</th>
-                <th style="text-align:right;">ราคา/หน่วย</th>
-                <th style="text-align:right;">จำนวนเงิน</th>
-              </tr>
-            </thead>
+            <thead><tr><th>#</th><th>&#3619;&#3634;&#3618;&#3585;&#3634;&#3619;</th><th>&#3592;&#3635;&#3609;&#3623;&#3609;</th><th>&#3627;&#3609;&#3656;&#3623;&#3618;</th><th style="text-align:right;">&#3619;&#3634;&#3588;&#3634;/&#3627;&#3609;&#3656;&#3623;&#3618;</th><th style="text-align:right;">&#3592;&#3635;&#3609;&#3623;&#3609;&#3648;&#3591;&#3636;&#3609;</th></tr></thead>
             <tbody>
-              <tr><td>1</td><td>Notebook Dell Latitude 5540 (i7/16GB/512GB)</td><td>3</td><td>เครื่อง</td><td style="text-align:right;">&#3647;34,500.00</td><td style="text-align:right;">&#3647;103,500.00</td></tr>
-              <tr><td>2</td><td>จอมอนิเตอร์ Dell P2723QE 27" 4K USB-C</td><td>3</td><td>เครื่อง</td><td style="text-align:right;">&#3647;15,900.00</td><td style="text-align:right;">&#3647;47,700.00</td></tr>
-              <tr><td>3</td><td>Docking Station Dell WD22TB4</td><td>3</td><td>ตัว</td><td style="text-align:right;">&#3647;8,500.00</td><td style="text-align:right;">&#3647;25,500.00</td></tr>
-              <tr><td>4</td><td>เมาส์ Logitech MX Master 3S</td><td>3</td><td>ตัว</td><td style="text-align:right;">&#3647;3,200.00</td><td style="text-align:right;">&#3647;9,600.00</td></tr>
-              <tr><td>5</td><td>คีย์บอร์ด Logitech MX Keys S</td><td>3</td><td>ตัว</td><td style="text-align:right;">&#3647;3,900.00</td><td style="text-align:right;">&#3647;11,700.00</td></tr>
-              <tr><td></td><td colspan="4" style="text-align:right;font-weight:600;">รวมก่อน VAT</td><td style="text-align:right;font-weight:600;">&#3647;198,000.00</td></tr>
-              <tr><td></td><td colspan="4" style="text-align:right;">VAT 7%</td><td style="text-align:right;">&#3647;13,860.00</td></tr>
-              <tr class="total-row"><td></td><td colspan="4" style="text-align:right;font-size:.95rem;">รวมทั้งสิ้น</td><td style="text-align:right;font-size:.95rem;color:var(--blue);">&#3647;211,860.00</td></tr>
+              <tr><td>1</td><td>Notebook Dell Latitude 5540 (i7/16GB/512GB)</td><td>3</td><td>&#3648;&#3588;&#3619;&#3639;&#3656;&#3629;&#3591;</td><td style="text-align:right;">&#3647;34,500</td><td style="text-align:right;">&#3647;103,500</td></tr>
+              <tr><td>2</td><td>&#3592;&#3629;&#3617;&#3629;&#3609;&#3636;&#3648;&#3605;&#3629;&#3619;&#3660; Dell P2723QE 27" 4K</td><td>3</td><td>&#3648;&#3588;&#3619;&#3639;&#3656;&#3629;&#3591;</td><td style="text-align:right;">&#3647;15,900</td><td style="text-align:right;">&#3647;47,700</td></tr>
+              <tr><td>3</td><td>Docking Station Dell WD22TB4</td><td>3</td><td>&#3605;&#3633;&#3623;</td><td style="text-align:right;">&#3647;8,500</td><td style="text-align:right;">&#3647;25,500</td></tr>
+              <tr><td>4</td><td>&#3648;&#3617;&#3634;&#3626;&#3660; Logitech MX Master 3S</td><td>3</td><td>&#3605;&#3633;&#3623;</td><td style="text-align:right;">&#3647;3,200</td><td style="text-align:right;">&#3647;9,600</td></tr>
+              <tr><td>5</td><td>&#3588;&#3637;&#3618;&#3660;&#3610;&#3629;&#3619;&#3660;&#3604; Logitech MX Keys S</td><td>3</td><td>&#3605;&#3633;&#3623;</td><td style="text-align:right;">&#3647;3,900</td><td style="text-align:right;">&#3647;11,700</td></tr>
+              <tr><td></td><td colspan="4" style="text-align:right;font-weight:600;">&#3619;&#3623;&#3617;&#3585;&#3656;&#3629;&#3609; VAT</td><td style="text-align:right;font-weight:600;">&#3647;198,000</td></tr>
+              <tr><td></td><td colspan="4" style="text-align:right;">VAT 7%</td><td style="text-align:right;">&#3647;13,860</td></tr>
+              <tr class="total-row"><td></td><td colspan="4" style="text-align:right;font-size:.95rem;">&#3619;&#3623;&#3617;&#3607;&#3633;&#3657;&#3591;&#3626;&#3636;&#3657;&#3609;</td><td style="text-align:right;font-size:.95rem;color:var(--blue);">&#3647;211,860</td></tr>
             </tbody>
           </table>
         </div>
         <div class="po-terms">
-          <h4>เงื่อนไขและข้อตกลง</h4>
-          <p>
-            1. กำหนดส่งมอบ: ภายใน 14 วันทำการ นับจากวันที่ออก PO<br>
-            2. สถานที่ส่งมอบ: บริษัท ออโตไพลอต เอ็นเตอร์ไพรส์ จำกัด (สำนักงานใหญ่)<br>
-            3. เงื่อนไขการชำระ: Credit 30 วัน นับจากวันรับสินค้าครบ<br>
-            4. การรับประกัน: อย่างน้อย 3 ปี สำหรับอุปกรณ์คอมพิวเตอร์<br>
-            5. ใบสั่งซื้อนี้มีผลผูกพันเมื่อผู้ขายลงนามยืนยัน
-          </p>
+          <h4>&#3648;&#3591;&#3639;&#3656;&#3629;&#3609;&#3652;&#3586;&#3649;&#3621;&#3632;&#3586;&#3657;&#3629;&#3605;&#3585;&#3621;&#3591;</h4>
+          <p>1. &#3585;&#3635;&#3627;&#3609;&#3604;&#3626;&#3656;&#3591;&#3617;&#3629;&#3610;: &#3616;&#3634;&#3618;&#3651;&#3609; 14 &#3623;&#3633;&#3609;&#3607;&#3635;&#3585;&#3634;&#3619;<br>2. &#3648;&#3591;&#3639;&#3656;&#3629;&#3609;&#3652;&#3586;&#3585;&#3634;&#3619;&#3594;&#3635;&#3619;&#3632;: Credit 30 &#3623;&#3633;&#3609;<br>3. &#3585;&#3634;&#3619;&#3619;&#3633;&#3610;&#3611;&#3619;&#3632;&#3585;&#3633;&#3609;: &#3629;&#3618;&#3656;&#3634;&#3591;&#3609;&#3657;&#3629;&#3618; 3 &#3611;&#3637;</p>
         </div>
         <div class="po-signatures">
-          <div class="po-sig">
-            <div class="sig-img">สมชาย พ.</div>
-            <div class="sig-name">สมชาย พรหมมา</div>
-            <div class="sig-title">เจ้าหน้าที่จัดซื้อ</div>
-            <div style="font-size:.65rem;color:var(--green);margin-top:4px;">&#9989; อนุมัติเมื่อ 03/04/2026</div>
-          </div>
-          <div class="po-sig">
-            <div class="sig-img">วรพจน์ ศ.</div>
-            <div class="sig-name">วรพจน์ ศรีสมบัติ</div>
-            <div class="sig-title">ผู้จัดการแผนกจัดซื้อ</div>
-            <div style="font-size:.65rem;color:var(--green);margin-top:4px;">&#9989; อนุมัติเมื่อ 03/04/2026</div>
-          </div>
-          <div class="po-sig">
-            <div class="sig-img" style="opacity:.3;">รอลงนาม</div>
-            <div class="sig-name">ผู้มีอำนาจ Vendor</div>
-            <div class="sig-title">บจก. ศรีรุ่งเรือง ซัพพลาย</div>
-            <div style="font-size:.65rem;color:var(--orange);margin-top:4px;">&#9888; รอลงนาม</div>
-          </div>
+          <div class="po-sig"><div class="sig-img">Artit C.</div><div class="sig-name">Artit C.</div><div class="sig-title">Procurement Manager</div><div style="font-size:.65rem;color:var(--green);margin-top:4px;">&#9989; 03/04/2026</div></div>
+          <div class="po-sig"><div class="sig-img">&#3623;&#3619;&#3614;&#3592;&#3609;&#3660; &#3624;.</div><div class="sig-name">&#3623;&#3619;&#3614;&#3592;&#3609;&#3660; &#3624;&#3619;&#3637;&#3626;&#3617;&#3610;&#3633;&#3605;&#3636;</div><div class="sig-title">&#3612;&#3641;&#3657;&#3592;&#3633;&#3604;&#3585;&#3634;&#3619;&#3649;&#3612;&#3609;&#3585;&#3592;&#3633;&#3604;&#3595;&#3639;&#3657;&#3629;</div><div style="font-size:.65rem;color:var(--green);margin-top:4px;">&#9989; 03/04/2026</div></div>
+          <div class="po-sig"><div class="sig-img" style="opacity:.3;">&#3619;&#3629;&#3621;&#3591;&#3609;&#3634;&#3617;</div><div class="sig-name">&#3612;&#3641;&#3657;&#3617;&#3637;&#3629;&#3635;&#3609;&#3634;&#3592; Vendor</div><div class="sig-title">&#3610;&#3592;&#3585;. &#3624;&#3619;&#3637;&#3619;&#3640;&#3656;&#3591;&#3648;&#3619;&#3639;&#3629;&#3591;</div><div style="font-size:.65rem;color:var(--orange);margin-top:4px;">&#9888; &#3619;&#3629;&#3621;&#3591;&#3609;&#3634;&#3617;</div></div>
+        </div>
+        <div style="padding:12px 24px;border-top:1px solid var(--border);text-align:right;">
+          <a href="procurement-matching.html" class="link-text" style="font-size:.78rem;">&#128279; View in Audit Log &rarr;</a>
         </div>
       </div>
     </div>
@@ -1006,60 +604,254 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
 </div>
 
 <script>
-// Dark mode
+// ============ SHARED VENDORS (same as System/Vendors in poc-v2.html) ============
+const VENDORS=[
+  {id:'V1',code:'1200248',name:'บริษัท เจ เจ พี ซัพพลาย จำกัด',short:'เจ เจ พี ซัพพลาย',score:4.2,tasks:38,spend:4520000},
+  {id:'V2',code:'1200249',name:'บริษัท ไทยเอ็กซ์เพรส ซัพพลาย จำกัด',short:'ไทยเอ็กซ์เพรส',score:3.8,tasks:24,spend:2870000},
+  {id:'V3',code:'1200179',name:'บริษัท ศรีรุ่งเรือง แมชชีนแอนด์ทูลส์ จำกัด',short:'ศรีรุ่งเรือง',score:4.5,tasks:31,spend:3910000},
+  {id:'V4',code:'1200286',name:'บริษัท ชลบุรี ฮาร์ดแวร์ แอนด์ ทูลส์ จำกัด',short:'ชลบุรี ฮาร์ดแวร์',score:4.0,tasks:19,spend:1680000}
+];
+
+// ============ USERS ============
+const USERS=[
+  {name:'Artit C.',dept:'Procurement',role:'Manager'},
+  {name:'สมชาย พรหมมา',dept:'IT',role:'Staff'},
+  {name:'วิภา สุขสมบูรณ์',dept:'Marketing',role:'Coordinator'},
+  {name:'ประยุทธ์ แก้วมณี',dept:'Operations',role:'Supervisor'},
+  {name:'นภา จันทร์ดี',dept:'HR',role:'Admin'},
+  {name:'กิตติ วงศ์สวัสดิ์',dept:'IT',role:'Lead'},
+  {name:'ปิยะ รัตนกุล',dept:'Operations',role:'Engineer'},
+  {name:'อรุณ เพ็ญศรี',dept:'Marketing',role:'Staff'},
+  {name:'ธนา ศรีสุข',dept:'IT',role:'Manager'},
+  {name:'สุนิสา ทองคำ',dept:'HR',role:'Lead'},
+  {name:'พงศ์ภัค ดีมาก',dept:'Operations',role:'Staff'},
+  {name:'รัตนา พลอยงาม',dept:'Marketing',role:'Designer'},
+  {name:'ชัยวัฒน์ สมบูรณ์',dept:'IT',role:'Junior'}
+];
+
+// ============ PR DATA (multi-user, 14 rows) ============
+const PR_DATA=[
+  {pr:'PR-2026-0087',title:'อุปกรณ์คอมพิวเตอร์สำหรับพนักงานใหม่',requester:'สมชาย พรหมมา',dept:'IT',amount:385000,items:5,status:'approved',date:'04/04/2026',fromQuotation:false,owner:'team'},
+  {pr:'PR-2026-0086',title:'วัสดุส่งเสริมการขาย Q2',requester:'วิภา สุขสมบูรณ์',dept:'Marketing',amount:125000,items:3,status:'pending',date:'03/04/2026',fromQuotation:true,owner:'all'},
+  {pr:'PR-2026-0085',title:'อะไหล่เครื่องจักรสายการผลิต A',requester:'ประยุทธ์ แก้วมณี',dept:'Operations',amount:1250000,items:8,status:'approved',date:'02/04/2026',fromQuotation:true,owner:'all'},
+  {pr:'PR-2026-0084',title:'เครื่องเขียนสำนักงาน',requester:'นภา จันทร์ดี',dept:'HR',amount:45000,items:2,status:'draft',date:'02/04/2026',fromQuotation:false,owner:'all'},
+  {pr:'PR-2026-0083',title:'Network Switch & Cabling',requester:'กิตติ วงศ์สวัสดิ์',dept:'IT',amount:520000,items:4,status:'converted',date:'01/04/2026',poRef:'PO-2026-0058',fromQuotation:false,owner:'team'},
+  {pr:'PR-2026-0082',title:'อุปกรณ์ซ่อมบำรุงเครื่องจักร',requester:'ปิยะ รัตนกุล',dept:'Operations',amount:890000,items:6,status:'pending',date:'31/03/2026',fromQuotation:false,owner:'all'},
+  {pr:'PR-2026-0081',title:'สื่อโฆษณาออนไลน์ & ออฟไลน์',requester:'อรุณ เพ็ญศรี',dept:'Marketing',amount:78500,items:2,status:'converted',date:'30/03/2026',poRef:'PO-2026-0057',fromQuotation:false,owner:'all'},
+  {pr:'PR-2026-0080',title:'Server & Storage Infrastructure',requester:'ธนา ศรีสุข',dept:'IT',amount:2100000,items:10,status:'approved',date:'29/03/2026',fromQuotation:true,owner:'my'},
+  {pr:'PR-2026-0079',title:'อุปกรณ์สวัสดิการพนักงาน',requester:'สุนิสา ทองคำ',dept:'HR',amount:165000,items:3,status:'converted',date:'28/03/2026',poRef:'PO-2026-0055',fromQuotation:false,owner:'all'},
+  {pr:'PR-2026-0078',title:'อะไหล่คอมพิวเตอร์ Batch Mar',requester:'พงศ์ภัค ดีมาก',dept:'Operations',amount:430000,items:7,status:'pending',date:'27/03/2026',fromQuotation:false,owner:'all'},
+  {pr:'PR-2026-0077',title:'วัสดุจัดอีเวนท์ Annual Party',requester:'รัตนา พลอยงาม',dept:'Marketing',amount:210000,items:4,status:'converted',date:'26/03/2026',poRef:'PO-2026-0053',fromQuotation:false,owner:'team'},
+  {pr:'PR-2026-0076',title:'Keyboard Mechanical สำหรับ Dev',requester:'ชัยวัฒน์ สมบูรณ์',dept:'IT',amount:35000,items:1,status:'draft',date:'25/03/2026',fromQuotation:false,owner:'team'},
+  {pr:'PR-2026-0075',title:'วัสดุซ่อมแซมอาคาร',requester:'Artit C.',dept:'Procurement',amount:98000,items:5,status:'approved',date:'24/03/2026',fromQuotation:false,owner:'my'},
+  {pr:'PR-2026-0074',title:'อุปกรณ์ Safety สายผลิต',requester:'ประยุทธ์ แก้วมณี',dept:'Operations',amount:156000,items:6,status:'converted',date:'23/03/2026',poRef:'PO-2026-0051',fromQuotation:true,owner:'all'}
+];
+
+// ============ PO DATA (multi-user, linked to PR + vendor) ============
+const PO_DATA=[
+  {po:'PO-2026-0062',prRef:'PR-2026-0087',vendor:'ศรีรุ่งเรือง',vendorId:'V3',amount:375000,status:'sent',delivery:'17/04/2026'},
+  {po:'PO-2026-0061',prRef:'PR-2026-0085',vendor:'เจ เจ พี ซัพพลาย',vendorId:'V1',amount:1180000,status:'sent',delivery:'20/04/2026'},
+  {po:'PO-2026-0060',prRef:'PR-2026-0080',vendor:'ไทยเอ็กซ์เพรส',vendorId:'V2',amount:2050000,status:'received',delivery:'10/04/2026'},
+  {po:'PO-2026-0059',prRef:'PR-2026-0082',vendor:'ชลบุรี ฮาร์ดแวร์',vendorId:'V4',amount:820000,status:'sent',delivery:'22/04/2026'},
+  {po:'PO-2026-0058',prRef:'PR-2026-0083',vendor:'ศรีรุ่งเรือง',vendorId:'V3',amount:510000,status:'closed',delivery:'28/03/2026'},
+  {po:'PO-2026-0057',prRef:'PR-2026-0081',vendor:'ไทยเอ็กซ์เพรส',vendorId:'V2',amount:72500,status:'closed',delivery:'27/03/2026'},
+  {po:'PO-2026-0056',prRef:'PR-2026-0078',vendor:'เจ เจ พี ซัพพลาย',vendorId:'V1',amount:430000,status:'sent',delivery:'25/04/2026'},
+  {po:'PO-2026-0055',prRef:'PR-2026-0079',vendor:'ชลบุรี ฮาร์ดแวร์',vendorId:'V4',amount:158000,status:'closed',delivery:'25/03/2026'},
+  {po:'PO-2026-0054',prRef:'PR-2026-0077',vendor:'เจ เจ พี ซัพพลาย',vendorId:'V1',amount:205000,status:'received',delivery:'05/04/2026'},
+  {po:'PO-2026-0053',prRef:'PR-2026-0077',vendor:'ศรีรุ่งเรือง',vendorId:'V3',amount:210000,status:'closed',delivery:'24/03/2026'},
+  {po:'PO-2026-0052',prRef:'PR-2026-0075',vendor:'ชลบุรี ฮาร์ดแวร์',vendorId:'V4',amount:95000,status:'delivered',delivery:'02/04/2026'},
+  {po:'PO-2026-0051',prRef:'PR-2026-0074',vendor:'เจ เจ พี ซัพพลาย',vendorId:'V1',amount:148000,status:'closed',delivery:'20/03/2026'}
+];
+
+// ============ LINKED QUOTATION TASKS ============
+const LINKED_TASKS=[
+  {id:'QA-4800192691',title:'ใบเสนอราคา อะไหล่เครื่องจักร',vendor:'เจ เจ พี ซัพพลาย',vendorId:'V1',prRef:'PR-2026-0085',amount:126752,date:'19/02/2026',status:'converted'},
+  {id:'QT2026/060',title:'วัสดุส่งเสริมการขาย',vendor:'ไทยเอ็กซ์เพรส',vendorId:'V2',prRef:'PR-2026-0086',amount:154254,date:'20/02/2026',status:'pending'},
+  {id:'QT2603000013',title:'Server & Storage Quote',vendor:'ศรีรุ่งเรือง',vendorId:'V3',prRef:'PR-2026-0080',amount:125839,date:'18/02/2026',status:'converted'},
+  {id:'QT26020992',title:'อุปกรณ์ Safety',vendor:'ชลบุรี ฮาร์ดแวร์',vendorId:'V4',prRef:'PR-2026-0074',amount:63454,date:'21/02/2026',status:'converted'}
+];
+
+// ============ APPROVAL DATA ============
+const APPROVALS=[
+  {doc:'PR-2026-0086',title:'วัสดุส่งเสริมการขาย',requester:'วิภา สุขสมบูรณ์',dept:'Marketing',items:3,amount:125000,date:'03/04/2026',waiting:'หัวหน้าแผนก Marketing',color:'blue'},
+  {doc:'PR-2026-0082',title:'อุปกรณ์ซ่อมบำรุงเครื่องจักร',requester:'ปิยะ รัตนกุล',dept:'Operations',items:6,amount:890000,date:'31/03/2026',waiting:'ผู้จัดการ (> ฿500K ต้องส่ง CFO)',color:'purple'},
+  {doc:'PR-2026-0078',title:'อะไหล่คอมพิวเตอร์',requester:'พงศ์ภัค ดีมาก',dept:'Operations',items:7,amount:430000,date:'27/03/2026',waiting:'แผนกจัดซื้อตรวจสอบราคา',color:'orange'},
+  {doc:'PO-2026-0056',title:'อุปกรณ์คอมพิวเตอร์ (เร่งด่วน)',requester:'Artit C.',dept:'Procurement',items:6,amount:1450000,date:'26/03/2026',waiting:'CFO (มูลค่า > ฿500K)',color:'green',isPO:true}
+];
+
+// ============ DARK MODE ============
 function toggleDark(){document.body.classList.toggle('dark');const d=document.body.classList.contains('dark');localStorage.setItem('darkMode',d);document.querySelector('.dark-toggle').textContent=d?'\u2600\uFE0F':'\uD83C\uDF19';}
 if(localStorage.getItem('darkMode')==='true'){document.body.classList.add('dark');document.addEventListener('DOMContentLoaded',()=>{document.querySelector('.dark-toggle').textContent='\u2600\uFE0F';});}
 
-// Tab Switching
-function switchTab(tabId) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-  document.getElementById('tab-' + tabId).classList.add('active');
-  document.querySelectorAll('.tab').forEach(t => {
-    if (tabId === 'pr' && t.textContent.includes('PR')) t.classList.add('active');
-    if (tabId === 'po' && t.textContent.includes('PO') && !t.textContent.includes('PR')) t.classList.add('active');
-    if (tabId === 'match' && t.textContent.includes('Match')) t.classList.add('active');
-    if (tabId === 'approval' && t.textContent.includes('อนุมัติ')) t.classList.add('active');
+// ============ VIEW TOGGLE ============
+let currentView='my';
+function setView(v){
+  currentView=v;
+  document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  renderPRTable();
+  updateKPIs();
+}
+
+function updateKPIs(){
+  const filtered=filterPRData();
+  const prCount=filtered.length;
+  const poCount=PO_DATA.length;
+  document.getElementById('kpiPR').textContent=prCount;
+  document.getElementById('kpiPO').textContent=poCount;
+}
+
+// ============ TAB SWITCHING ============
+function switchTab(tabId){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  document.getElementById('tab-'+tabId).classList.add('active');
+  document.querySelectorAll('.tab').forEach(t=>{
+    if(tabId==='pr'&&t.textContent.includes('PR')&&!t.textContent.includes('Quotation'))t.classList.add('active');
+    if(tabId==='po'&&t.textContent.includes('PO')&&!t.textContent.includes('PR'))t.classList.add('active');
+    if(tabId==='linked'&&t.textContent.includes('Quotation'))t.classList.add('active');
+    if(tabId==='approval'&&t.textContent.includes('อนุมัติ'))t.classList.add('active');
   });
 }
 
-// Modal
-function openModal(id) {
-  document.getElementById(id).classList.add('show');
-  document.body.style.overflow = 'hidden';
-}
-function closeModal(id) {
-  document.getElementById(id).classList.remove('show');
-  document.body.style.overflow = '';
+// ============ MODAL ============
+function openModal(id){document.getElementById(id).classList.add('show');document.body.style.overflow='hidden';}
+function closeModal(id){document.getElementById(id).classList.remove('show');document.body.style.overflow='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-overlay.show').forEach(m=>{m.classList.remove('show');document.body.style.overflow='';});});
+
+// ============ FORMAT ============
+function fmt(n){return n.toLocaleString('th-TH');}
+function statusHTML(s){
+  const map={draft:'<span class="status status-draft">&#9679; ร่าง</span>',pending:'<span class="status status-pending">&#9679; รออนุมัติ</span>',approved:'<span class="status status-approved">&#9679; อนุมัติแล้ว</span>',converted:'<span class="status status-converted">&#9679; แปลงเป็น PO</span>',sent:'<span class="status status-sent">&#9679; ส่งแล้ว</span>',received:'<span class="status status-received">&#9679; รับสินค้าแล้ว</span>',closed:'<span class="status status-closed">&#9679; ปิด PO</span>',delivered:'<span class="status status-delivered">&#9679; ส่งมอบแล้ว</span>'};
+  return map[s]||s;
 }
 
-// Add PR Item row
-let itemCount = 3;
-function addPrItem() {
+// ============ RENDER PR TABLE ============
+function filterPRData(){
+  let data=[...PR_DATA];
+  if(currentView==='my')data=data.filter(r=>r.owner==='my'||r.requester==='Artit C.');
+  else if(currentView==='team')data=data.filter(r=>r.owner!=='all'||r.dept==='Procurement'||r.dept==='IT');
+  const search=document.getElementById('prSearch')?.value?.toLowerCase()||'';
+  const statusF=document.getElementById('prStatusFilter')?.value||'';
+  const deptF=document.getElementById('prDeptFilter')?.value||'';
+  if(search)data=data.filter(r=>(r.pr+r.title+r.requester).toLowerCase().includes(search));
+  if(statusF)data=data.filter(r=>r.status===statusF);
+  if(deptF)data=data.filter(r=>r.dept===deptF);
+  return data;
+}
+
+function renderPRTable(){
+  const data=filterPRData();
+  const body=document.getElementById('prTableBody');
+  body.innerHTML=data.map(r=>{
+    let action='';
+    if(r.status==='approved')action=`<button class="btn btn-success btn-sm" onclick="openModal('prCreateModal')">&#128196;&#8594;&#128203; สร้าง PO</button>`;
+    else if(r.status==='pending')action=`<button class="btn btn-outline btn-sm" disabled>รอดำเนินการ</button>`;
+    else if(r.status==='converted')action=`<span class="link-text" onclick="switchTab('po')">${r.poRef} &#8594;</span>`;
+    else if(r.status==='draft')action=`<button class="btn btn-outline btn-sm">&#9998; แก้ไข</button>`;
+    const quotBadge=r.fromQuotation?'<span class="badge-quotation">&#128279; Linked from Quotation</span>':'';
+    return `<tr>
+      <td><span class="link-text">${r.pr}</span></td>
+      <td style="max-width:200px;">${r.title}${quotBadge}</td>
+      <td>${r.requester}</td>
+      <td>${r.dept}</td>
+      <td style="text-align:right;font-weight:600;">&#3647;${fmt(r.amount)}</td>
+      <td style="text-align:center;">${r.items}</td>
+      <td>${statusHTML(r.status)}</td>
+      <td style="white-space:nowrap;">${r.date}</td>
+    </tr>`;
+  }).join('');
+}
+
+function filterPR(){renderPRTable();updateKPIs();}
+
+// ============ RENDER PO TABLE ============
+function renderPOTable(){
+  const body=document.getElementById('poTableBody');
+  body.innerHTML=PO_DATA.map(r=>{
+    const v=VENDORS.find(x=>x.id===r.vendorId);
+    const scoreClass=v?(v.score>=4.3?'high':v.score>=3.9?'mid':'low'):'mid';
+    return `<tr onclick="openModal('poDetailModal')">
+      <td><span class="link-text">${r.po}</span></td>
+      <td><span class="link-text">${r.prRef}</span></td>
+      <td>${r.vendor} ${v?`<span class="vendor-score ${scoreClass}">&#9733; ${v.score}</span>`:''}</td>
+      <td style="text-align:right;font-weight:600;">&#3647;${fmt(r.amount)}</td>
+      <td>${statusHTML(r.status)}</td>
+      <td>${r.delivery}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ============ RENDER LINKED QUOTATION TASKS ============
+function renderLinkedTasks(){
+  const container=document.getElementById('linkedTasksContainer');
+  container.innerHTML=LINKED_TASKS.map(t=>{
+    const v=VENDORS.find(x=>x.id===t.vendorId);
+    const statusBadge=t.status==='converted'?'<span class="status status-converted">&#9679; แปลงเป็น PR แล้ว</span>':'<span class="status status-pending">&#9679; รอดำเนินการ</span>';
+    return `<div class="linked-item">
+      <div class="linked-icon" style="background:var(--purple-bg);color:var(--purple);">&#128196;</div>
+      <div class="linked-info">
+        <div class="linked-title">${t.id} &mdash; ${t.title}</div>
+        <div class="linked-meta">Vendor: ${t.vendor} ${v?`(&#9733; ${v.score})`:''} &middot; &#3647;${fmt(t.amount)} &middot; ${t.date} &middot; PR: <span class="link-text">${t.prRef}</span></div>
+      </div>
+      <div class="linked-actions">
+        ${statusBadge}
+        <a href="procurement-matching.html" class="btn btn-outline btn-sm" style="text-decoration:none;">&#128279; Audit Log</a>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ============ RENDER APPROVALS ============
+function renderApprovals(){
+  const list=document.getElementById('approvalList');
+  list.innerHTML=APPROVALS.map(a=>{
+    const bgMap={blue:'var(--blue-bg)',purple:'var(--purple-bg)',orange:'var(--orange-bg)',green:'var(--green-bg)'};
+    const clrMap={blue:'var(--blue)',purple:'var(--purple)',orange:'var(--orange)',green:'var(--green)'};
+    return `<div class="approval-item">
+      <div class="approval-avatar" style="background:${bgMap[a.color]};color:${clrMap[a.color]};">${a.isPO?'&#128203;':'&#128196;'}</div>
+      <div class="approval-info">
+        <div class="doc-num">${a.doc} - ${a.title}</div>
+        <div class="doc-desc">ผู้ขอ: ${a.requester} (${a.dept}) &bull; ${a.items} รายการ &bull; &#3647;${fmt(a.amount)}</div>
+        <div class="doc-meta">ส่งเมื่อ ${a.date} &bull; รอ: ${a.waiting}</div>
+      </div>
+      <div class="approval-actions">
+        <button class="btn btn-success btn-sm">&#9989; อนุมัติ</button>
+        <button class="btn btn-danger btn-sm">&#10060; ปฏิเสธ</button>
+        <button class="btn btn-outline btn-sm">&#128172; หมายเหตุ</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ============ VENDOR SELECTOR (with scores from System) ============
+function renderVendorSelector(){
+  const container=document.getElementById('vendorSelector');
+  container.innerHTML=VENDORS.map(v=>{
+    const scoreClass=v.score>=4.3?'high':v.score>=3.9?'mid':'low';
+    return `<div style="padding:10px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .2s;background:var(--card-bg);" onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='var(--border)'" onclick="this.style.borderColor='var(--blue)';this.style.background='var(--blue-bg)'">
+      <div style="font-size:.82rem;font-weight:600;">${v.short}</div>
+      <div style="font-size:.7rem;color:var(--muted);margin-top:2px;">${v.code} &middot; <span class="vendor-score ${scoreClass}">&#9733; ${v.score}</span> &middot; ${v.tasks} งาน &middot; &#3647;${fmt(v.spend)}</div>
+    </div>`;
+  }).join('');
+}
+
+// ============ ADD PR ITEM ============
+let itemCount=3;
+function addPrItem(){
   itemCount++;
-  const tbody = document.querySelector('#prItemsTable tbody');
-  const tr = document.createElement('tr');
-  tr.innerHTML = `
-    <td>${itemCount}</td>
-    <td><input type="text" placeholder="ชื่อรายการ"></td>
-    <td><input type="number" value="1" min="1" style="width:70px;"></td>
-    <td><select><option>ชิ้น</option><option>เครื่อง</option><option>ตัว</option><option>ชุด</option><option>กล่อง</option><option>แพ็ค</option></select></td>
-    <td><input type="text" placeholder="0"></td>
-    <td style="font-weight:600;">&#3647;0</td>
-    <td><button class="remove-row" onclick="this.closest('tr').remove()">&#10005;</button></td>
-  `;
+  const tbody=document.querySelector('#prItemsTable tbody');
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td>${itemCount}</td><td><input type="text" placeholder="ชื่อรายการ"></td><td><input type="number" value="1" min="1" style="width:70px;"></td><td><select><option>ชิ้น</option><option>เครื่อง</option><option>ตัว</option><option>ชุด</option></select></td><td><input type="text" placeholder="0"></td><td style="font-weight:600;">&#3647;0</td><td><button class="remove-row" onclick="this.closest('tr').remove()">&#10005;</button></td>`;
   tbody.appendChild(tr);
 }
 
-// Close modal on Escape
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.modal-overlay.show').forEach(m => {
-      m.classList.remove('show');
-      document.body.style.overflow = '';
-    });
-  }
-});
+// ============ INIT ============
+renderPRTable();
+renderPOTable();
+renderLinkedTasks();
+renderApprovals();
+renderVendorSelector();
 </script>
 
 </body>

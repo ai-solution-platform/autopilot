@@ -68,144 +68,44 @@ body {
     font-size: 0.85rem; color: var(--muted); margin-top: 2px;
 }
 
-/* KPI Cards */
-.kpi-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
+/* Recent Quotations Panel */
+.recent-quotes {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
     margin-bottom: 24px;
-}
-.kpi-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px 20px;
-    position: relative; overflow: hidden;
-    transition: border-color 0.3s, transform 0.2s;
-    box-shadow: var(--shadow);
-}
-.kpi-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 3px;
-}
-.kpi-card:nth-child(1)::before { background: var(--blue); }
-.kpi-card:nth-child(2)::before { background: var(--purple); }
-.kpi-card:nth-child(3)::before { background: var(--green); }
-.kpi-card:nth-child(4)::before { background: var(--cyan); }
-.kpi-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-.kpi-card .kpi-icon {
-    width: 36px; height: 36px;
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem;
-    margin-bottom: 10px;
-}
-.kpi-card .kpi-label {
-    font-size: 0.75rem; color: var(--muted);
-    text-transform: uppercase; letter-spacing: 0.5px;
-    margin-bottom: 4px;
-}
-.kpi-card .kpi-value {
-    font-size: 1.5rem; font-weight: 800;
-    color: var(--text);
-}
-.kpi-card .kpi-sub {
-    font-size: 0.75rem; color: var(--green);
-    margin-top: 4px; display: flex; align-items: center; gap: 4px;
-}
-
-/* Tabs */
-.tabs {
-    display: flex; gap: 4px;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 4px;
-    margin-bottom: 20px;
-    width: fit-content;
-}
-.tab-btn {
-    padding: 8px 20px;
-    border: none;
-    border-radius: 8px;
-    background: transparent;
-    color: var(--muted);
-    font-family: inherit;
-    font-size: 0.85rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex; align-items: center; gap: 8px;
-}
-.tab-btn:hover { color: var(--text); background: var(--bg3); }
-.tab-btn.active {
-    background: var(--blue);
-    color: white;
-    box-shadow: 0 2px 8px rgba(37,99,235,0.25);
-}
-
-/* Tab Panels */
-.tab-panel { display: none; }
-.tab-panel.active { display: block; animation: fadeUp 0.3s ease; }
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Table */
-.table-wrap {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
     overflow: hidden;
     box-shadow: var(--shadow);
 }
-.table-toolbar {
+.recent-quotes .rq-header {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 16px;
+    padding: 14px 18px;
+    background: var(--bg2);
     border-bottom: 1px solid var(--border);
 }
-.table-toolbar .search-box {
+.recent-quotes .rq-header h3 {
+    font-size: 0.85rem; font-weight: 700;
     display: flex; align-items: center; gap: 8px;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px 14px;
-    width: 280px;
+    color: var(--text);
 }
-.table-toolbar .search-box input {
-    border: none; background: transparent;
-    color: var(--text); font-family: inherit;
-    font-size: 0.85rem; width: 100%; outline: none;
-}
-.table-toolbar .search-box input::placeholder { color: var(--muted); }
-
-table {
-    width: 100%; border-collapse: collapse;
-}
-table th {
-    padding: 10px 14px;
-    text-align: left;
-    font-size: 0.72rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--muted);
-    background: var(--bg2);
+.rq-table { width: 100%; border-collapse: collapse; }
+.rq-table th {
+    padding: 8px 14px; text-align: left;
+    font-size: 0.7rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.8px;
+    color: var(--muted); background: var(--bg2);
     border-bottom: 1px solid var(--border);
 }
-table td {
-    padding: 10px 14px;
-    font-size: 0.85rem;
+.rq-table td {
+    padding: 10px 14px; font-size: 0.82rem;
     border-bottom: 1px solid var(--border);
     color: var(--text2);
 }
-table tbody tr { transition: background 0.15s; }
-table tbody tr:hover { background: var(--blue-bg); }
-table tbody tr:last-child td { border-bottom: none; }
+.rq-table tbody tr { transition: background 0.15s; cursor: pointer; }
+.rq-table tbody tr:hover { background: var(--blue-bg); }
+.rq-table tbody tr:last-child td { border-bottom: none; }
+.rq-table .qt-link { color: var(--blue); font-weight: 600; text-decoration: none; }
+.rq-table .qt-link:hover { text-decoration: underline; }
 
 /* Status Badge */
 .badge {
@@ -217,9 +117,14 @@ table tbody tr:last-child td { border-bottom: none; }
 }
 .badge-draft { background: var(--bg3); color: var(--muted); }
 .badge-sent { background: var(--blue-bg); color: var(--blue); }
+.badge-review { background: var(--orange-bg); color: var(--orange); }
+.badge-complete { background: var(--green-bg); color: var(--green); }
 .badge-accepted { background: var(--green-bg); color: var(--green); }
 .badge-rejected { background: var(--red-bg); color: var(--red); }
 .badge-expired { background: var(--orange-bg); color: var(--orange); }
+.badge-negotiation { background: var(--purple-bg); color: var(--purple); }
+.badge-won { background: var(--green-bg); color: var(--green); }
+.badge-lost { background: var(--red-bg); color: var(--red); }
 
 /* Buttons */
 .btn {
@@ -526,6 +431,127 @@ table tbody tr:last-child td { border-bottom: none; }
     flex-wrap: wrap;
 }
 
+/* Creator/Assignee Info Bar */
+.meta-info-bar {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    padding: 12px 18px;
+    background: var(--blue-bg);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.82rem;
+}
+.meta-info-bar .meta-item {
+    display: flex; align-items: center; gap: 6px;
+}
+.meta-info-bar .meta-label {
+    font-size: 0.72rem; color: var(--muted); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.3px;
+}
+.meta-info-bar .meta-value {
+    font-weight: 600; color: var(--text);
+}
+.meta-info-bar .meta-avatar {
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.68rem; font-weight: 700; color: white;
+}
+.meta-info-bar .assign-select {
+    padding: 5px 10px; border-radius: 6px;
+    background: var(--bg2); border: 1px solid var(--border);
+    color: var(--text); font-family: inherit; font-size: 0.82rem;
+    cursor: pointer; outline: none;
+}
+.meta-info-bar .assign-select:focus { border-color: var(--blue); }
+
+/* Tabs */
+.tabs {
+    display: flex; gap: 4px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 4px;
+    margin-bottom: 20px;
+    width: fit-content;
+}
+.tab-btn {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 8px;
+}
+.tab-btn:hover { color: var(--text); background: var(--bg3); }
+.tab-btn.active {
+    background: var(--blue);
+    color: white;
+    box-shadow: 0 2px 8px rgba(37,99,235,0.25);
+}
+
+/* Tab Panels */
+.tab-panel { display: none; }
+.tab-panel.active { display: block; animation: fadeUp 0.3s ease; }
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Table */
+.table-wrap {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+.table-toolbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+}
+.table-toolbar .search-box {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    width: 280px;
+}
+.table-toolbar .search-box input {
+    border: none; background: transparent;
+    color: var(--text); font-family: inherit;
+    font-size: 0.85rem; width: 100%; outline: none;
+}
+.table-toolbar .search-box input::placeholder { color: var(--muted); }
+
+table {
+    width: 100%; border-collapse: collapse;
+}
+table th {
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--muted);
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+}
+table td {
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text2);
+}
+table tbody tr { transition: background 0.15s; }
+table tbody tr:hover { background: var(--blue-bg); }
+table tbody tr:last-child td { border-bottom: none; }
+
 /* Toast */
 .toast {
     position: fixed; bottom: 24px; right: 24px;
@@ -551,9 +577,9 @@ table tbody tr:last-child td { border-bottom: none; }
     .preview-panel { position: static; max-height: none; }
 }
 @media (max-width: 768px) {
-    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
     .template-grid { grid-template-columns: 1fr; }
     .container { padding: 16px; }
+    .meta-info-bar { flex-direction: column; align-items: flex-start; }
 }
 </style>
 </head>
@@ -578,41 +604,35 @@ table tbody tr:last-child td { border-bottom: none; }
     <div class="page-title-row">
         <div>
             <h1>Sales Quotation Builder</h1>
-            <div class="subtitle">สร้างใบเสนอราคาอัตโนมัติด้วย AI &#8212; ลดเวลา 95% เพิ่มอัตราปิดดีล</div>
+            <div class="subtitle">สร้างใบเสนอราคาอัตโนมัติด้วย AI &#8212; ระบบ Multi-User Task | ลดเวลา 95% เพิ่มอัตราปิดดีล</div>
         </div>
+        <button class="btn btn-primary" onclick="switchTab('builder')">&#x2795; สร้างใบเสนอราคาใหม่</button>
     </div>
 
-    <!-- KPI Cards -->
-    <div class="kpi-grid">
-        <div class="kpi-card">
-            <div class="kpi-icon" style="background:var(--blue-bg);color:var(--blue);">&#x1f4c4;</div>
-            <div class="kpi-label">ใบเสนอราคาเดือนนี้</div>
-            <div class="kpi-value">156</div>
-            <div class="kpi-sub">&#x2191; 23% จากเดือนก่อน</div>
+    <!-- Recent Quotations Panel -->
+    <div class="recent-quotes" id="recentQuotesPanel">
+        <div class="rq-header">
+            <h3>&#x1f4cb; ใบเสนอราคาล่าสุดของคุณ</h3>
+            <span style="font-size:0.72rem;color:var(--muted);">คลิกเพื่อโหลดเข้า Builder</span>
         </div>
-        <div class="kpi-card">
-            <div class="kpi-icon" style="background:var(--purple-bg);color:var(--purple);">&#x0E3F;</div>
-            <div class="kpi-label">มูลค่ารวม</div>
-            <div class="kpi-value">&#x0E3F;28.5M</div>
-            <div class="kpi-sub">&#x2191; 18% จากเดือนก่อน</div>
-        </div>
-        <div class="kpi-card">
-            <div class="kpi-icon" style="background:var(--green-bg);color:var(--green);">&#x2714;</div>
-            <div class="kpi-label">Conversion Rate</div>
-            <div class="kpi-value">34%</div>
-            <div class="kpi-sub">&#x2191; 8% จากเดือนก่อน</div>
-        </div>
-        <div class="kpi-card">
-            <div class="kpi-icon" style="background:rgba(8,145,178,0.1);color:var(--cyan);">&#x23F1;</div>
-            <div class="kpi-label">เวลาเฉลี่ยสร้าง</div>
-            <div class="kpi-value">2.5 <span style="font-size:0.8rem;font-weight:400;">นาที</span></div>
-            <div class="kpi-sub">จาก 45 นาที &mdash; ลด 94%</div>
-        </div>
+        <table class="rq-table">
+            <thead>
+                <tr>
+                    <th>เลขที่</th>
+                    <th>ลูกค้า</th>
+                    <th style="text-align:right;">มูลค่า</th>
+                    <th>สถานะ</th>
+                    <th>แก้ไขล่าสุด</th>
+                    <th>ผู้รับผิดชอบ</th>
+                </tr>
+            </thead>
+            <tbody id="recentQuotesBody"></tbody>
+        </table>
     </div>
 
     <!-- Tabs -->
     <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('list')">&#x1f4cb; รายการใบเสนอราคา</button>
+        <button class="tab-btn active" onclick="switchTab('list')">&#x1f4cb; รายการใบเสนอราคาทั้งหมด</button>
         <button class="tab-btn" onclick="switchTab('builder')">&#x2795; สร้างใบเสนอราคาใหม่</button>
     </div>
 
@@ -647,6 +667,45 @@ table tbody tr:last-child td { border-bottom: none; }
 
     <!-- Tab 2: Quotation Builder -->
     <div id="tab-builder" class="tab-panel">
+
+        <!-- Creator / Assignee Info Bar -->
+        <div class="section-card" style="margin-bottom:16px;">
+            <div class="meta-info-bar">
+                <div class="meta-item">
+                    <span class="meta-label">สร้างโดย:</span>
+                    <div class="meta-avatar" style="background:#2563EB;">&#xE2A;&#xE0A;</div>
+                    <span class="meta-value" id="createdByName">สมชาย ก.</span>
+                </div>
+                <div style="width:1px;height:24px;background:var(--border);"></div>
+                <div class="meta-item">
+                    <span class="meta-label">มอบหมายให้:</span>
+                    <select class="assign-select" id="assigneeSelect" onchange="onAssigneeChange()">
+                        <option value="somchai">สมชาย ก.</option>
+                        <option value="suwanna">สุวรรณา ท.</option>
+                        <option value="natthapong">ณัฐพงษ์ ส.</option>
+                        <option value="wipa">วิภา ล.</option>
+                        <option value="pichai">พิชัย ส.</option>
+                    </select>
+                </div>
+                <div style="width:1px;height:24px;background:var(--border);"></div>
+                <div class="meta-item">
+                    <span class="meta-label">สถานะ Task:</span>
+                    <select class="assign-select" id="taskStatusSelect" onchange="onTaskStatusChange()">
+                        <option value="draft">Draft (ร่าง)</option>
+                        <option value="sent">Sent (ส่งแล้ว)</option>
+                        <option value="negotiation">Negotiation (เจรจา)</option>
+                        <option value="won">Won (ชนะ)</option>
+                        <option value="lost">Lost (แพ้)</option>
+                    </select>
+                </div>
+                <div style="width:1px;height:24px;background:var(--border);"></div>
+                <div class="meta-item">
+                    <span class="meta-label">เลขที่:</span>
+                    <span class="meta-value" id="currentQTNumber" style="color:var(--blue);">QT-2026-0157</span>
+                </div>
+            </div>
+        </div>
+
         <div class="builder-layout">
 
             <!-- Left: Builder Form -->
@@ -836,6 +895,14 @@ table tbody tr:last-child td { border-bottom: none; }
                             <div class="label">หมดอายุ</div>
                             <div id="previewExpiry">-</div>
                         </div>
+                        <div>
+                            <div class="label">ผู้จัดทำ</div>
+                            <div id="previewCreator" style="font-weight:600;">สมชาย ก.</div>
+                        </div>
+                        <div>
+                            <div class="label">ผู้รับผิดชอบ</div>
+                            <div id="previewAssignee" style="font-weight:600;">สมชาย ก.</div>
+                        </div>
                     </div>
                     <div class="doc-items" id="docItems">
                         <table>
@@ -906,10 +973,24 @@ table tbody tr:last-child td { border-bottom: none; }
 <!-- Toast -->
 <div class="toast" id="toast"></div>
 
+<!-- Footer -->
+<div style="text-align:center;padding:24px;color:var(--muted);font-size:0.75rem;border-top:1px solid var(--border);">
+  Autopilot v2 by ANTS — AI Solution Hub &copy; 2569 | Sales Quotation Builder Module
+</div>
+
 <script>
 // Dark mode
 function toggleDark(){document.body.classList.toggle('dark');const d=document.body.classList.contains('dark');localStorage.setItem('darkMode',d);document.querySelector('.dark-toggle').textContent=d?'\u2600\uFE0F':'\uD83C\uDF19';}
 if(localStorage.getItem('darkMode')==='true'){document.body.classList.add('dark');document.addEventListener('DOMContentLoaded',()=>{document.querySelector('.dark-toggle').textContent='\u2600\uFE0F';});}
+
+// Team members
+const teamMembers = {
+    somchai: { name: 'สมชาย ก.', color: '#2563EB', initials: 'สช' },
+    suwanna: { name: 'สุวรรณา ท.', color: '#7C3AED', initials: 'สว' },
+    natthapong: { name: 'ณัฐพงษ์ ส.', color: '#059669', initials: 'ณฐ' },
+    wipa: { name: 'วิภา ล.', color: '#D97706', initials: 'วภ' },
+    pichai: { name: 'พิชัย ส.', color: '#0891B2', initials: 'พช' },
+};
 
 // Data
 const customers = {
@@ -948,6 +1029,16 @@ const aiPriceHints = {
     c5: { 'AP-002': 800000, 'SV-003': 380000, 'SP-001': 105000 },
 };
 
+// Recent quotations for the current user (multi-user task data)
+const recentMyQuotes = [
+    { no: 'QT-0156', customer: 'ABC Corp', customerTh: 'บจก. สยามเทค โซลูชั่น', amount: 450000, amountLabel: '฿450K', status: 'complete', statusLabel: 'เสร็จสิ้น', lastModified: '4 เม.ย.', assignee: 'somchai', custKey: 'c1', taskStatus: 'won' },
+    { no: 'QT-0155', customer: 'XYZ Ltd', customerTh: 'บมจ. ไทย อินโนเวชั่น กรุ๊ป', amount: 280000, amountLabel: '฿280K', status: 'review', statusLabel: 'รอตรวจสอบ', lastModified: '3 เม.ย.', assignee: 'somchai', custKey: 'c2', taskStatus: 'negotiation' },
+    { no: 'QT-0154', customer: 'DEF Inc', customerTh: 'บจก. กรีน เอ็นเนอร์ยี่ พลัส', amount: 180000, amountLabel: '฿180K', status: 'draft', statusLabel: 'ร่าง', lastModified: '2 เม.ย.', assignee: 'somchai', custKey: 'c3', taskStatus: 'draft' },
+    { no: 'QT-0153', customer: 'GHI Trading', customerTh: 'บจก. แอดวานซ์ ซอฟต์แวร์', amount: 620000, amountLabel: '฿620K', status: 'complete', statusLabel: 'เสร็จสิ้น', lastModified: '1 เม.ย.', assignee: 'suwanna', custKey: 'c4', taskStatus: 'sent' },
+    { no: 'QT-0152', customer: 'JKL Systems', customerTh: 'บมจ. เมโทร รีเทล', amount: 890000, amountLabel: '฿890K', status: 'review', statusLabel: 'รอตรวจสอบ', lastModified: '31 มี.ค.', assignee: 'natthapong', custKey: 'c5', taskStatus: 'negotiation' },
+    { no: 'QT-0151', customer: 'MNO Digital', customerTh: 'หจก. ดิจิทัล เฟิร์ส', amount: 350000, amountLabel: '฿350K', status: 'draft', statusLabel: 'ร่าง', lastModified: '30 มี.ค.', assignee: 'somchai', custKey: 'c6', taskStatus: 'draft' },
+];
+
 const quotations = [
     { no: 'QT-2026-0156', customer: 'บจก. สยามเทค โซลูชั่น', items: 4, total: 1850000, status: 'sent', date: '3 เม.ย. 69', rep: 'สมชาย ก.' },
     { no: 'QT-2026-0155', customer: 'บมจ. ไทย อินโนเวชั่น กรุ๊ป', items: 6, total: 3200000, status: 'accepted', date: '2 เม.ย. 69', rep: 'วิภา ล.' },
@@ -969,15 +1060,23 @@ const statusMap = {
     accepted: { label: 'ตอบรับ', cls: 'badge-accepted' },
     rejected: { label: 'ปฏิเสธ', cls: 'badge-rejected' },
     expired: { label: 'หมดอายุ', cls: 'badge-expired' },
+    complete: { label: 'เสร็จสิ้น', cls: 'badge-complete' },
+    review: { label: 'รอตรวจสอบ', cls: 'badge-review' },
+    negotiation: { label: 'เจรจา', cls: 'badge-negotiation' },
+    won: { label: 'ชนะ', cls: 'badge-won' },
+    lost: { label: 'แพ้', cls: 'badge-lost' },
 };
 
 // State
 let quoteItems = [];
 let selectedTemplate = 'standard';
 let dragIdx = null;
+let currentAssignee = 'somchai';
+let currentCreator = 'somchai';
 
 // Init
 document.addEventListener('DOMContentLoaded', () => {
+    renderRecentQuotes();
     renderQuotationList();
     renderCatalog();
     setDefaultExpiry();
@@ -987,6 +1086,68 @@ function setDefaultExpiry() {
     const d = new Date();
     d.setDate(d.getDate() + 30);
     document.getElementById('expiryDate').value = d.toISOString().split('T')[0];
+}
+
+// Render Recent Quotations
+function renderRecentQuotes() {
+    const body = document.getElementById('recentQuotesBody');
+    body.innerHTML = recentMyQuotes.map(q => {
+        const s = statusMap[q.status] || { label: q.status, cls: 'badge-draft' };
+        const member = teamMembers[q.assignee] || teamMembers.somchai;
+        return `<tr onclick="loadQuoteIntoBuilder('${q.no}')">
+            <td><a class="qt-link" href="javascript:void(0)">${q.no}</a></td>
+            <td><span style="font-weight:600;">${q.customer}</span><br><span style="font-size:0.72rem;color:var(--muted);">${q.customerTh}</span></td>
+            <td style="text-align:right;font-weight:700;font-variant-numeric:tabular-nums;">${q.amountLabel}</td>
+            <td><span class="badge ${s.cls}">${s.label}</span></td>
+            <td style="color:var(--muted);">${q.lastModified}</td>
+            <td>
+                <div style="display:flex;align-items:center;gap:6px;">
+                    <div style="width:22px;height:22px;border-radius:50%;background:${member.color};display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:700;color:white;">${member.initials}</div>
+                    <span style="font-size:0.78rem;">${member.name}</span>
+                </div>
+            </td>
+        </tr>`;
+    }).join('');
+}
+
+// Load quote into builder
+function loadQuoteIntoBuilder(qtNo) {
+    const q = recentMyQuotes.find(x => x.no === qtNo);
+    if (!q) return;
+    switchTab('builder');
+    // Set customer
+    if (q.custKey) {
+        document.getElementById('customerSelect').value = q.custKey;
+        onCustomerChange();
+    }
+    // Set assignee
+    if (q.assignee) {
+        document.getElementById('assigneeSelect').value = q.assignee;
+        onAssigneeChange();
+    }
+    // Set task status
+    if (q.taskStatus) {
+        document.getElementById('taskStatusSelect').value = q.taskStatus;
+    }
+    // Update QT number
+    document.getElementById('currentQTNumber').textContent = q.no;
+    document.getElementById('previewQTNo').textContent = q.no;
+    showToast('โหลดใบเสนอราคา ' + qtNo + ' เข้า Builder แล้ว');
+}
+
+// Assignee change
+function onAssigneeChange() {
+    const val = document.getElementById('assigneeSelect').value;
+    currentAssignee = val;
+    const member = teamMembers[val];
+    if (member) {
+        document.getElementById('previewAssignee').textContent = member.name;
+    }
+    updatePreview();
+}
+
+function onTaskStatusChange() {
+    updatePreview();
 }
 
 // Tabs
@@ -1093,7 +1254,7 @@ function addProduct(code) {
     else { quoteItems.push({ code: p.code, name: p.name, unit: p.unit, qty: 1, price: p.price, discount: 0 }); }
     renderQuoteItems();
     recalc();
-    showToast(`เพิ่ม "${p.name}" แล้ว`);
+    showToast('เพิ่ม "' + p.name + '" แล้ว');
 }
 
 function removeItem(idx) {
@@ -1106,26 +1267,26 @@ function removeItem(idx) {
 function renderQuoteItems() {
     const body = document.getElementById('quoteItemsBody');
     if (quoteItems.length === 0) {
-        body.innerHTML = `<tr id="emptyRow"><td colspan="7" style="text-align:center;padding:40px;color:var(--muted);">ยังไม่มีรายการ &mdash; กดปุ่ม "เพิ่มจากแคตตาล็อก" เพื่อเริ่มต้น</td></tr>`;
+        body.innerHTML = '<tr id="emptyRow"><td colspan="7" style="text-align:center;padding:40px;color:var(--muted);">ยังไม่มีรายการ &mdash; กดปุ่ม "เพิ่มจากแคตตาล็อก" เพื่อเริ่มต้น</td></tr>';
         return;
     }
     const custVal = document.getElementById('customerSelect').value;
     body.innerHTML = quoteItems.map((item, i) => {
         const lineTotal = item.qty * item.price * (1 - item.discount / 100);
         const hint = getAIHint(custVal, item.code);
-        return `<tr draggable="true" ondragstart="dragStart(event,${i})" ondragover="dragOver(event)" ondrop="drop(event,${i})" ondragend="dragEnd(event)">
-            <td><span class="drag-handle">&#x2630;</span></td>
-            <td>
-                <div style="font-weight:600;color:var(--text);">${item.name}</div>
-                <div style="font-size:0.72rem;color:var(--muted);">${item.code} &middot; ${item.unit}</div>
-                ${hint ? `<div class="ai-hint">&#x1f916; AI: ลูกค้านี้เคยซื้อราคา &#x0E3F;${hint.toLocaleString()} ครั้งก่อน</div>` : ''}
-            </td>
-            <td><input class="qi-input" type="number" min="1" value="${item.qty}" onchange="updateItem(${i},'qty',this.value)" style="width:70px;"></td>
-            <td><input class="qi-input" type="number" min="0" value="${item.price}" onchange="updateItem(${i},'price',this.value)" style="width:110px;"></td>
-            <td><input class="qi-input" type="number" min="0" max="100" value="${item.discount}" onchange="updateItem(${i},'discount',this.value)" style="width:70px;"></td>
-            <td class="row-total">&#x0E3F;${lineTotal.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
-            <td><button class="btn btn-danger btn-sm" onclick="removeItem(${i})" style="padding:4px 8px;">&#x2715;</button></td>
-        </tr>`;
+        return '<tr draggable="true" ondragstart="dragStart(event,' + i + ')" ondragover="dragOver(event)" ondrop="drop(event,' + i + ')" ondragend="dragEnd(event)">' +
+            '<td><span class="drag-handle">&#x2630;</span></td>' +
+            '<td>' +
+                '<div style="font-weight:600;color:var(--text);">' + item.name + '</div>' +
+                '<div style="font-size:0.72rem;color:var(--muted);">' + item.code + ' &middot; ' + item.unit + '</div>' +
+                (hint ? '<div class="ai-hint">&#x1f916; AI: ลูกค้านี้เคยซื้อราคา &#x0E3F;' + hint.toLocaleString() + ' ครั้งก่อน</div>' : '') +
+            '</td>' +
+            '<td><input class="qi-input" type="number" min="1" value="' + item.qty + '" onchange="updateItem(' + i + ',\'qty\',this.value)" style="width:70px;"></td>' +
+            '<td><input class="qi-input" type="number" min="0" value="' + item.price + '" onchange="updateItem(' + i + ',\'price\',this.value)" style="width:110px;"></td>' +
+            '<td><input class="qi-input" type="number" min="0" max="100" value="' + item.discount + '" onchange="updateItem(' + i + ',\'discount\',this.value)" style="width:70px;"></td>' +
+            '<td class="row-total">&#x0E3F;' + lineTotal.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
+            '<td><button class="btn btn-danger btn-sm" onclick="removeItem(' + i + ')" style="padding:4px 8px;">&#x2715;</button></td>' +
+        '</tr>';
     }).join('');
 }
 
@@ -1166,11 +1327,11 @@ function recalc() {
     const afterDisc = subtotal - totalDiscount;
     const vat = afterDisc * 0.07;
     const grand = afterDisc + vat;
-    document.getElementById('sumSubtotal').innerHTML = `&#x0E3F;${subtotal.toLocaleString(undefined,{minimumFractionDigits:2})}`;
-    document.getElementById('sumDiscount').innerHTML = `-&#x0E3F;${totalDiscount.toLocaleString(undefined,{minimumFractionDigits:2})}`;
-    document.getElementById('sumAfterDisc').innerHTML = `&#x0E3F;${afterDisc.toLocaleString(undefined,{minimumFractionDigits:2})}`;
-    document.getElementById('sumVat').innerHTML = `&#x0E3F;${vat.toLocaleString(undefined,{minimumFractionDigits:2})}`;
-    document.getElementById('sumGrand').innerHTML = `&#x0E3F;${grand.toLocaleString(undefined,{minimumFractionDigits:2})}`;
+    document.getElementById('sumSubtotal').innerHTML = '&#x0E3F;' + subtotal.toLocaleString(undefined,{minimumFractionDigits:2});
+    document.getElementById('sumDiscount').innerHTML = '-&#x0E3F;' + totalDiscount.toLocaleString(undefined,{minimumFractionDigits:2});
+    document.getElementById('sumAfterDisc').innerHTML = '&#x0E3F;' + afterDisc.toLocaleString(undefined,{minimumFractionDigits:2});
+    document.getElementById('sumVat').innerHTML = '&#x0E3F;' + vat.toLocaleString(undefined,{minimumFractionDigits:2});
+    document.getElementById('sumGrand').innerHTML = '&#x0E3F;' + grand.toLocaleString(undefined,{minimumFractionDigits:2});
     updatePreview();
 }
 
@@ -1188,19 +1349,26 @@ function updatePreview() {
     const exp = document.getElementById('expiryDate').value;
     document.getElementById('previewExpiry').textContent = exp ? new Date(exp).toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' }) : '-';
 
+    // Update creator and assignee in preview
+    const creatorMember = teamMembers[currentCreator];
+    document.getElementById('previewCreator').textContent = creatorMember ? creatorMember.name : 'สมชาย ก.';
+    const assigneeVal = document.getElementById('assigneeSelect').value;
+    const assigneeMember = teamMembers[assigneeVal];
+    document.getElementById('previewAssignee').textContent = assigneeMember ? assigneeMember.name : '-';
+
     const pBody = document.getElementById('previewItemsBody');
     if (quoteItems.length === 0) {
         pBody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#9ca3af;padding:20px;">ยังไม่มีรายการ</td></tr>';
     } else {
         pBody.innerHTML = quoteItems.map((item, i) => {
             const lt = item.qty * item.price * (1 - item.discount / 100);
-            return `<tr>
-                <td>${i + 1}</td>
-                <td>${item.name}</td>
-                <td>${item.qty}</td>
-                <td style="text-align:right;">&#x0E3F;${item.price.toLocaleString()}</td>
-                <td style="text-align:right;font-weight:600;">&#x0E3F;${lt.toLocaleString(undefined,{minimumFractionDigits:2})}</td>
-            </tr>`;
+            return '<tr>' +
+                '<td>' + (i + 1) + '</td>' +
+                '<td>' + item.name + '</td>' +
+                '<td>' + item.qty + '</td>' +
+                '<td style="text-align:right;">&#x0E3F;' + item.price.toLocaleString() + '</td>' +
+                '<td style="text-align:right;font-weight:600;">&#x0E3F;' + lt.toLocaleString(undefined,{minimumFractionDigits:2}) + '</td>' +
+            '</tr>';
         }).join('');
     }
 
@@ -1213,19 +1381,18 @@ function updatePreview() {
     const vat = afterDisc * 0.07;
     const grand = afterDisc + vat;
 
-    document.getElementById('previewSubtotal').innerHTML = `&#x0E3F;${subtotal.toLocaleString(undefined,{minimumFractionDigits:2})}`;
-    document.getElementById('previewDiscount').innerHTML = `-&#x0E3F;${totalDiscount.toLocaleString(undefined,{minimumFractionDigits:2})}`;
-    document.getElementById('previewVat').innerHTML = `&#x0E3F;${vat.toLocaleString(undefined,{minimumFractionDigits:2})}`;
-    document.getElementById('previewGrand').innerHTML = `&#x0E3F;${grand.toLocaleString(undefined,{minimumFractionDigits:2})}`;
+    document.getElementById('previewSubtotal').innerHTML = '&#x0E3F;' + subtotal.toLocaleString(undefined,{minimumFractionDigits:2});
+    document.getElementById('previewDiscount').innerHTML = '-&#x0E3F;' + totalDiscount.toLocaleString(undefined,{minimumFractionDigits:2});
+    document.getElementById('previewVat').innerHTML = '&#x0E3F;' + vat.toLocaleString(undefined,{minimumFractionDigits:2});
+    document.getElementById('previewGrand').innerHTML = '&#x0E3F;' + grand.toLocaleString(undefined,{minimumFractionDigits:2});
 
     const terms = document.getElementById('paymentTerms');
     const termsText = terms.options[terms.selectedIndex].text;
     const notes = document.getElementById('notes').value;
-    document.getElementById('docFooter').innerHTML = `
-        <div>เงื่อนไข: ${termsText}</div>
-        ${notes ? `<div style="margin-top:4px;">หมายเหตุ: ${notes}</div>` : ''}
-        <div style="margin-top:4px;">ใบเสนอราคานี้จัดทำโดย Autopilot v2 &mdash; ANTS AI Solution Hub</div>
-    `;
+    document.getElementById('docFooter').innerHTML =
+        '<div>เงื่อนไข: ' + termsText + '</div>' +
+        (notes ? '<div style="margin-top:4px;">หมายเหตุ: ' + notes + '</div>' : '') +
+        '<div style="margin-top:4px;">ใบเสนอราคานี้จัดทำโดย Autopilot v2 &mdash; ANTS AI Solution Hub</div>';
 }
 
 // Actions
@@ -1233,7 +1400,7 @@ function saveDraft() { showToast('บันทึกร่างเรียบ�
 function sendEmail() {
     const email = document.getElementById('contactEmail').value;
     if (!email) { showToast('กรุณาระบุอีเมลลูกค้า'); return; }
-    showToast(`ส่งใบเสนอราคาไปที่ ${email} เรียบร้อยแล้ว`);
+    showToast('ส่งใบเสนอราคาไปที่ ' + email + ' เรียบร้อยแล้ว');
 }
 function downloadPDF() { showToast('กำลังสร้าง PDF... ดาวน์โหลดจะเริ่มในไม่ช้า'); }
 function printQuote() { window.print(); }
@@ -1241,7 +1408,7 @@ function printQuote() { window.print(); }
 // Toast
 function showToast(msg) {
     const t = document.getElementById('toast');
-    t.innerHTML = `&#x2714; ${msg}`;
+    t.innerHTML = '&#x2714; ' + msg;
     t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 3000);
 }

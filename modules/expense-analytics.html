@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Expense Analytics — Autopilot v2</title>
+<title>Expense Analytics — Autopilot v2 | ANTS AI Solution Hub</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
 :root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--cyan-bg:#ECFEFF;--pink:#DB2777;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
@@ -12,655 +12,444 @@ body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#3
 body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;}
 ::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 
-/* Dark Toggle */
 .dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);}
 
-/* Page Layout */
-.page-header{background:var(--card-bg);border-bottom:1px solid var(--border);padding:20px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:40;box-shadow:var(--shadow);}
-.page-header-left{display:flex;align-items:center;gap:16px;}
-.page-header-left h1{font-size:1.3rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.page-header-left .subtitle{font-size:.75rem;color:var(--muted);font-weight:500;}
-.logo-icon{width:40px;height:40px;background:var(--grad);border-radius:11px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.95rem;font-weight:800;flex-shrink:0;}
-.main{padding:24px 32px;max-width:1200px;margin:0 auto;}
-
-/* Breadcrumb */
-.breadcrumb{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--muted);margin-bottom:16px;}
+.page{max-width:1280px;margin:0 auto;padding:24px;}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--muted);margin-bottom:12px;}
 .breadcrumb a{color:var(--blue);text-decoration:none;font-weight:500;}
 .breadcrumb a:hover{text-decoration:underline;}
 
-/* Date Range Selector */
-.date-range-bar{display:flex;align-items:center;gap:8px;margin-bottom:24px;flex-wrap:wrap;}
-.date-btn{padding:8px 18px;border-radius:8px;font-size:.8rem;font-weight:600;border:1px solid var(--border);background:var(--card-bg);cursor:pointer;transition:all .2s;font-family:inherit;color:var(--text2);}
-.date-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-bg);}
-.date-btn.active{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 4px 12px rgba(37,99,235,.2);}
-.date-custom{display:flex;align-items:center;gap:6px;margin-left:8px;}
-.date-custom input{padding:7px 12px;border:1px solid var(--border);border-radius:8px;font-size:.78rem;font-family:inherit;color:var(--text2);background:var(--card-bg);}
-.date-custom input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
+.page-title{font-size:1.4rem;font-weight:800;display:flex;align-items:center;gap:10px;}
+.page-subtitle{font-size:.82rem;color:var(--muted);margin-top:2px;}
+
+/* Date Range */
+.date-range-bar{display:flex;align-items:center;gap:8px;margin-bottom:20px;flex-wrap:wrap;}
+.date-btn{padding:7px 16px;border-radius:8px;font-size:.78rem;font-weight:600;border:1px solid var(--border);background:var(--card-bg);cursor:pointer;transition:all .2s;font-family:inherit;color:var(--text2);}
+.date-btn:hover{border-color:var(--blue);color:var(--blue);}
+.date-btn.active{background:var(--grad);color:#fff;border-color:transparent;}
 .export-group{margin-left:auto;display:flex;gap:6px;}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:.8rem;font-weight:600;border:none;cursor:pointer;transition:all .2s;font-family:inherit;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:.82rem;font-weight:600;border:none;cursor:pointer;transition:all .2s;font-family:inherit;}
 .btn-primary{background:var(--grad);color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.2);}
 .btn-primary:hover{box-shadow:0 6px 16px rgba(37,99,235,.3);transform:translateY(-1px);}
 .btn-outline{border:1px solid var(--border);background:var(--card-bg);color:var(--text2);}
-.btn-outline:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-bg);}
-.btn-export{padding:7px 14px;border-radius:8px;font-size:.75rem;font-weight:600;border:1px solid var(--border);background:var(--card-bg);cursor:pointer;font-family:inherit;color:var(--text2);transition:all .15s;display:flex;align-items:center;gap:5px;}
-.btn-export:hover{border-color:var(--green);color:var(--green);background:var(--green-bg);}
-.btn-export svg{width:14px;height:14px;}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue);}
+.btn-export{padding:6px 12px;border-radius:8px;font-size:.72rem;font-weight:600;border:1px solid var(--border);background:var(--card-bg);cursor:pointer;font-family:inherit;color:var(--text2);transition:all .15s;display:flex;align-items:center;gap:4px;}
+.btn-export:hover{border-color:var(--green);color:var(--green);}
 
 /* KPI Grid */
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
-.kpi{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);transition:all .2s;position:relative;overflow:hidden;min-height:100px;}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
+.kpi{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow);transition:all .2s;position:relative;overflow:hidden;}
 .kpi:hover{box-shadow:0 4px 20px rgba(0,0,0,.08);transform:translateY(-2px);}
 .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
 .kpi:nth-child(1)::before{background:var(--blue);}
 .kpi:nth-child(2)::before{background:var(--purple);}
 .kpi:nth-child(3)::before{background:var(--cyan);}
 .kpi:nth-child(4)::before{background:var(--green);}
-.kpi:nth-child(5)::before{background:var(--orange);}
-.kpi:nth-child(6)::before{background:var(--pink);}
-.kpi-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;margin-bottom:10px;}
 .kpi-label{font-size:.7rem;color:var(--muted);font-weight:500;margin-bottom:2px;}
-.kpi-value{font-size:1.5rem;font-weight:800;line-height:1.1;}
-.kpi-change{display:inline-flex;align-items:center;gap:3px;font-size:.65rem;font-weight:600;padding:2px 7px;border-radius:5px;margin-top:6px;}
+.kpi-value{font-size:1.4rem;font-weight:800;line-height:1.1;}
+.kpi-change{display:inline-flex;align-items:center;gap:3px;font-size:.65rem;font-weight:600;padding:2px 7px;border-radius:5px;margin-top:4px;}
 .kpi-change.up{background:var(--green-bg);color:var(--green);}
 .kpi-change.down{background:var(--red-bg);color:var(--red);}
 
+/* Card */
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:20px;}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.card-title{font-size:.92rem;font-weight:700;display:flex;align-items:center;gap:8px;}
+
 /* Charts Grid */
-.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;}
-.card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);}
-.card-title{font-size:.92rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
-.card-title .card-icon{font-size:1rem;}
-.chart-container{position:relative;width:100%;overflow:visible;}
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
+.full-width{grid-column:1/-1;}
 
-/* SVG Chart Styles */
-.bar-chart-svg{width:100%;height:320px;}
-.chart-bar{transition:opacity .2s;}
-.chart-bar:hover{opacity:.8;}
-.chart-axis-label{font-size:11px;fill:var(--muted);font-family:'Inter','Noto Sans Thai',sans-serif;}
-.chart-grid-line{stroke:var(--border);stroke-dasharray:3,3;stroke-width:1;}
-.chart-value-label{font-size:10px;fill:var(--text2);font-weight:600;font-family:'Inter',sans-serif;}
+/* Bar Chart */
+.bar-chart{width:100%;overflow-x:auto;}
+.bar-chart svg{width:100%;min-width:500px;}
 
-/* Donut Chart */
-.donut-wrap{display:flex;align-items:center;gap:24px;padding:8px 0;}
-.donut-svg{width:200px;height:200px;flex-shrink:0;}
-.donut-segment{transition:opacity .2s;cursor:pointer;}
-.donut-segment:hover{opacity:.75;}
-.donut-legend{flex:1;}
-.donut-legend-item{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:.78rem;border-bottom:1px solid var(--bg3);}
-.donut-legend-item:last-child{border-bottom:none;}
+/* Donut */
+.donut-wrap{display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+.donut-svg{flex-shrink:0;}
+.donut-legend{flex:1;min-width:160px;}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:.76rem;padding:5px 8px;border-radius:6px;cursor:pointer;transition:background .15s;}
+.legend-item:hover{background:var(--bg2);}
 .legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
 .legend-label{flex:1;color:var(--text2);}
-.legend-value{font-weight:700;color:var(--text);}
-.legend-pct{font-size:.7rem;color:var(--muted);min-width:36px;text-align:right;}
+.legend-value{font-weight:700;font-size:.78rem;}
+.legend-pct{font-size:.66rem;color:var(--muted);font-weight:600;}
 
 /* Line Chart */
-.line-chart-svg{width:100%;height:320px;}
-.chart-line{fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;transition:opacity .2s;}
-.chart-dot{transition:r .15s;cursor:pointer;}
-.chart-dot:hover{r:6;}
-.line-legend{display:flex;gap:16px;margin-top:12px;flex-wrap:wrap;}
-.line-legend-item{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--text2);cursor:pointer;padding:3px 8px;border-radius:6px;transition:background .15s;}
-.line-legend-item:hover{background:var(--bg3);}
-.line-legend-dot{width:8px;height:8px;border-radius:50%;}
+.line-chart-area{position:relative;width:100%;height:260px;}
+.chart-tooltip{position:absolute;background:var(--text);color:var(--bg);padding:6px 12px;border-radius:8px;font-size:.72rem;font-weight:600;pointer-events:none;opacity:0;transition:opacity .15s;z-index:10;white-space:nowrap;}
 
-/* Horizontal Bar */
-.hbar-row{display:flex;align-items:center;gap:12px;margin-bottom:8px;font-size:.78rem;}
-.hbar-label{width:120px;text-align:right;color:var(--text2);flex-shrink:0;font-size:.75rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.hbar-track{flex:1;height:28px;background:var(--bg3);border-radius:6px;overflow:hidden;position:relative;}
-.hbar-fill{height:100%;border-radius:6px;transition:width .6s ease;position:relative;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:.68rem;font-weight:700;color:#fff;min-width:fit-content;}
+/* Employee Table */
+.emp-table{width:100%;border-collapse:collapse;}
+.emp-table th{font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;padding:10px 12px;text-align:left;border-bottom:2px solid var(--border);background:var(--bg2);}
+.emp-table td{padding:10px 12px;border-bottom:1px solid var(--border);font-size:.8rem;}
+.emp-table tr:hover td{background:var(--bg2);}
+.emp-cell{display:flex;align-items:center;gap:8px;}
+.emp-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fff;flex-shrink:0;}
+.emp-name{font-weight:600;}
+.emp-dept{font-size:.65rem;color:var(--muted);}
 
-/* Table */
-.table-wrap{overflow-x:auto;margin-bottom:24px;}
-.dept-table{width:100%;border-collapse:separate;border-spacing:0;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);}
-.dept-table thead{background:var(--bg2);}
-.dept-table th{padding:12px 16px;text-align:left;font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);}
-.dept-table td{padding:14px 16px;font-size:.82rem;border-bottom:1px solid var(--border);vertical-align:middle;}
-.dept-table tbody tr{transition:background .15s;}
-.dept-table tbody tr:hover{background:var(--blue-bg);}
-.dept-table tbody tr:last-child td{border-bottom:none;}
-.dept-name{font-weight:600;display:flex;align-items:center;gap:8px;}
-.dept-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.75rem;}
-.util-bar{width:100px;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;display:inline-block;vertical-align:middle;margin-right:6px;}
-.util-fill{height:100%;border-radius:3px;}
-.sparkline-svg{width:80px;height:28px;vertical-align:middle;}
-.status-badge{font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-flex;align-items:center;gap:4px;}
-.status-badge.on-track{background:var(--green-bg);color:var(--green);}
-.status-badge.warning{background:var(--orange-bg);color:var(--orange);}
-.status-badge.over{background:var(--red-bg);color:var(--red);}
+/* Comparison Bar */
+.comp-bar-wrap{display:flex;align-items:center;gap:8px;}
+.comp-bar-track{flex:1;height:8px;background:var(--bg3);border-radius:4px;overflow:hidden;}
+.comp-bar-fill{height:100%;border-radius:4px;transition:width .6s ease-out;}
+.comp-bar-value{font-size:.72rem;font-weight:700;min-width:60px;text-align:right;font-family:'Inter',sans-serif;}
 
-/* Anomaly Panel */
-.anomaly-panel{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:24px;}
-.anomaly-title{font-size:.92rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
-.anomaly-title .ai-badge{font-size:.6rem;font-weight:700;background:var(--grad);color:#fff;padding:3px 10px;border-radius:6px;letter-spacing:.5px;}
-.anomaly-list{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
-.anomaly-item{border:1px solid var(--border);border-radius:var(--radius);padding:16px;transition:all .2s;cursor:default;position:relative;overflow:hidden;background:var(--card-bg);}
-.anomaly-item:hover{box-shadow:0 4px 20px rgba(0,0,0,.08);transform:translateY(-1px);}
-.anomaly-item::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
-.anomaly-item.high::before{background:var(--red);}
-.anomaly-item.medium::before{background:var(--orange);}
-.anomaly-item.low::before{background:var(--blue);}
-.anomaly-severity{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:2px 8px;border-radius:20px;display:inline-block;margin-bottom:8px;}
-.anomaly-item.high .anomaly-severity{background:var(--red-bg);color:var(--red);}
-.anomaly-item.medium .anomaly-severity{background:var(--orange-bg);color:var(--orange);}
-.anomaly-item.low .anomaly-severity{background:var(--blue-bg);color:var(--blue);}
-.anomaly-text{font-size:.82rem;color:var(--text2);line-height:1.6;}
-.anomaly-meta{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:.68rem;color:var(--muted);}
-
-/* Tooltip */
-.chart-tooltip{position:fixed;background:var(--text);color:var(--bg);padding:8px 14px;border-radius:8px;font-size:.72rem;font-weight:500;pointer-events:none;z-index:999;opacity:0;transition:opacity .15s;box-shadow:0 12px 40px rgba(0,0,0,.12);white-space:nowrap;line-height:1.6;}
-.chart-tooltip.show{opacity:1;}
-.chart-tooltip .tt-label{font-weight:400;color:var(--muted);font-size:.65rem;}
-.chart-tooltip .tt-value{font-weight:700;font-size:.82rem;}
+/* Department Cards */
+.dept-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.dept-card{text-align:center;padding:16px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;transition:all .2s;}
+.dept-card:hover{box-shadow:0 3px 12px rgba(0,0,0,.06);}
+.dept-icon{font-size:1.5rem;margin-bottom:8px;}
+.dept-name{font-size:.78rem;font-weight:600;margin-bottom:4px;}
+.dept-amount{font-size:1.1rem;font-weight:800;color:var(--blue);font-family:'Inter',sans-serif;}
+.dept-claims{font-size:.65rem;color:var(--muted);margin-top:2px;}
+.dept-change{font-size:.62rem;font-weight:600;margin-top:4px;display:inline-block;padding:2px 6px;border-radius:4px;}
 
 /* Responsive */
-@media(max-width:1200px){.kpi-grid{grid-template-columns:repeat(2,1fr);}.charts-grid{grid-template-columns:1fr;}.anomaly-list{grid-template-columns:1fr;}}
-@media(max-width:768px){.kpi-grid{grid-template-columns:repeat(2,1fr);}.main{padding:16px;}.page-header{padding:16px;}.date-range-bar{flex-direction:column;align-items:flex-start;}.export-group{margin-left:0;margin-top:8px;}}
+@media(max-width:768px){.kpi-grid{grid-template-columns:repeat(2,1fr);}.charts-grid{grid-template-columns:1fr;}.dept-grid{grid-template-columns:1fr;}.date-range-bar{flex-direction:column;align-items:stretch;}.export-group{margin-left:0;}}
 </style>
 </head>
 <body>
+<button class="dark-toggle" onclick="document.body.classList.toggle('dark');this.textContent=document.body.classList.contains('dark')?'&#9728;':'&#9790;'">&#9790;</button>
 
-<button class="dark-toggle" onclick="toggleDark()" title="Dark Mode">&#x1F319;</button>
+<div class="page">
+  <div class="breadcrumb">
+    <a href="#">ANTS Autopilot</a> <span>/</span>
+    <a href="expense-dashboard.html">Expense & Receipt</a> <span>/</span>
+    <span>Team Analytics</span>
+  </div>
 
-<!-- Header -->
-<div class="page-header">
-  <div class="page-header-left">
-    <div class="logo-icon">AP</div>
+  <div class="page-header">
     <div>
-      <h1>Expense Analytics</h1>
-      <div class="subtitle">Autopilot v2 by ANTS -- AI Solution Hub</div>
-    </div>
-  </div>
-  <div style="display:flex;align-items:center;gap:12px;">
-    <div style="font-size:.72rem;color:var(--muted);">อัปเดตล่าสุด: 4 เม.ย. 2569, 09:30</div>
-    <div style="width:32px;height:32px;border-radius:50%;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;cursor:pointer;">TH</div>
-  </div>
-</div>
-
-<!-- Main Content -->
-<div class="main">
-
-<!-- Breadcrumb -->
-<div class="breadcrumb">
-  <a href="../poc-app/v2.html">Autopilot v2</a>
-  <span>/</span>
-  <span>Expense & Receipt</span>
-  <span>/</span>
-  <span>Analytics</span>
-</div>
-
-<!-- Date Range Selector -->
-<div class="date-range-bar">
-  <button class="date-btn" onclick="setRange(this,'7d')">7 วัน</button>
-  <button class="date-btn active" onclick="setRange(this,'30d')">30 วัน</button>
-  <button class="date-btn" onclick="setRange(this,'90d')">90 วัน</button>
-  <button class="date-btn" onclick="setRange(this,'year')">ปีนี้</button>
-  <button class="date-btn" onclick="setRange(this,'custom')">กำหนดเอง</button>
-  <div class="date-custom" id="customRange" style="display:none;">
-    <input type="date" id="dateFrom" value="2026-03-05">
-    <span style="color:var(--muted);font-size:.78rem;">ถึง</span>
-    <input type="date" id="dateTo" value="2026-04-04">
-    <button class="btn btn-primary" style="padding:6px 14px;font-size:.75rem;" onclick="applyCustomRange()">ใช้งาน</button>
-  </div>
-  <div class="export-group">
-    <button class="btn-export" onclick="exportData('pdf')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-      PDF
-    </button>
-    <button class="btn-export" onclick="exportData('excel')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M3 9h18M3 15h18"/></svg>
-      Excel
-    </button>
-    <button class="btn-export" onclick="exportData('csv')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 12h18"/><path d="M8 8l-5 4 5 4M16 8l5 4-5 4"/></svg>
-      CSV
-    </button>
-  </div>
-</div>
-
-<!-- KPI Summary Row -->
-<div class="kpi-grid" id="kpiGrid">
-  <div class="kpi">
-    <div class="kpi-icon" style="background:var(--blue-bg);color:var(--blue);">&#3647;</div>
-    <div class="kpi-label">รวมค่าใช้จ่าย</div>
-    <div class="kpi-value">2.84M</div>
-    <div class="kpi-change up">&#9650; 12.5% จากเดือนที่แล้ว</div>
-  </div>
-  <div class="kpi">
-    <div class="kpi-icon" style="background:var(--purple-bg);color:var(--purple);">&#128196;</div>
-    <div class="kpi-label">จำนวนใบเสร็จ</div>
-    <div class="kpi-value">1,247</div>
-    <div class="kpi-change up">&#9650; 8.3% จากเดือนที่แล้ว</div>
-  </div>
-  <div class="kpi">
-    <div class="kpi-icon" style="background:var(--cyan-bg);color:var(--cyan);">&#128200;</div>
-    <div class="kpi-label">เฉลี่ย/รายการ</div>
-    <div class="kpi-value">2,276</div>
-    <div class="kpi-change down">&#9660; 3.1% จากเดือนที่แล้ว</div>
-  </div>
-  <div class="kpi">
-    <div class="kpi-icon" style="background:var(--green-bg);color:var(--green);">&#10003;</div>
-    <div class="kpi-label">อนุมัติ %</div>
-    <div class="kpi-value">94.2%</div>
-    <div class="kpi-change up">&#9650; 2.1% จากเดือนที่แล้ว</div>
-  </div>
-</div>
-
-<!-- Charts 2x2 Grid -->
-<div class="charts-grid">
-
-  <!-- Monthly Expense Bar Chart -->
-  <div class="card">
-    <div class="card-title"><span class="card-icon">&#128202;</span> ค่าใช้จ่ายรายเดือน</div>
-    <div class="chart-container">
-      <svg id="barChart" class="bar-chart-svg" viewBox="0 0 700 320"></svg>
+      <div class="page-title">&#128202; Expense Analytics</div>
+      <div class="page-subtitle">วิเคราะห์ค่าใช้จ่ายระดับทีมและแผนก — เปรียบเทียบพนักงาน, แนวโน้มรายเดือน</div>
     </div>
   </div>
 
-  <!-- Category Donut Chart -->
-  <div class="card">
-    <div class="card-title"><span class="card-icon">&#127912;</span> สัดส่วนหมวดหมู่</div>
-    <div class="donut-wrap">
-      <svg id="donutChart" class="donut-svg" viewBox="0 0 200 200"></svg>
-      <div class="donut-legend" id="donutLegend"></div>
+  <!-- Date Range -->
+  <div class="date-range-bar">
+    <button class="date-btn" onclick="setDateRange(this)">7 วัน</button>
+    <button class="date-btn" onclick="setDateRange(this)">30 วัน</button>
+    <button class="date-btn active" onclick="setDateRange(this)">ไตรมาสนี้</button>
+    <button class="date-btn" onclick="setDateRange(this)">ปีนี้</button>
+    <button class="date-btn" onclick="setDateRange(this)">กำหนดเอง</button>
+    <div class="export-group">
+      <button class="btn-export">&#128196; PDF</button>
+      <button class="btn-export">&#128202; Excel</button>
     </div>
   </div>
 
-  <!-- Department Trend Line Chart -->
-  <div class="card">
-    <div class="card-title"><span class="card-icon">&#128200;</span> แนวโน้มรายแผนก</div>
-    <div class="chart-container">
-      <svg id="lineChart" class="line-chart-svg" viewBox="0 0 700 320"></svg>
+  <!-- KPI -->
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="kpi-label">ค่าใช้จ่ายรวมไตรมาส</div>
+      <div class="kpi-value">&#3647;2.84M</div>
+      <div class="kpi-change up">&#9650; +8.2% vs Q4</div>
     </div>
-    <div class="line-legend" id="lineLegend"></div>
+    <div class="kpi">
+      <div class="kpi-label">Claims ทั้งหมด</div>
+      <div class="kpi-value">342</div>
+      <div class="kpi-change up">&#9650; +15 claims</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">ค่าใช้จ่ายเฉลี่ย/คน</div>
+      <div class="kpi-value">&#3647;236K</div>
+      <div class="kpi-change down">&#9660; -3.1% vs Q4</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Approval Rate</div>
+      <div class="kpi-value">94.2%</div>
+      <div class="kpi-change up">&#9650; +1.8%</div>
+    </div>
   </div>
 
-  <!-- Top 10 Merchants Horizontal Bar -->
-  <div class="card">
-    <div class="card-title"><span class="card-icon">&#127978;</span> Top 10 ร้านค้า</div>
-    <div id="hbarChart"></div>
-  </div>
-
-</div>
-
-<!-- Department Breakdown Table -->
-<div class="table-wrap">
-  <table class="dept-table">
-    <thead>
-      <tr>
-        <th>แผนก</th>
-        <th>Budget (บาท)</th>
-        <th>Actual (บาท)</th>
-        <th>Utilization</th>
-        <th>Trend</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody id="deptTableBody"></tbody>
-  </table>
-</div>
-
-<!-- Anomaly Detection Panel -->
-<div class="anomaly-panel">
-  <div class="anomaly-title">
-    <span>&#129302;</span> AI Anomaly Detection
-    <span class="ai-badge">POWERED BY AI</span>
-  </div>
-  <div class="anomaly-list">
-    <div class="anomaly-item high">
-      <div class="anomaly-severity">ความเสี่ยงสูง</div>
-      <div class="anomaly-text">พนักงาน <strong>A</strong> มีค่าอาหารเฉลี่ยสูงกว่าปกติ <strong>2.3x</strong> เมื่อเปรียบเทียบกับค่าเฉลี่ยของแผนก</div>
-      <div class="anomaly-meta">
-        <span>&#128197; ตรวจพบ: 2 เม.ย. 2569</span>
-        <span>&#128101; แผนก Marketing</span>
-        <span style="margin-left:auto;color:var(--red);font-weight:600;cursor:pointer;">ตรวจสอบ &rarr;</span>
+  <!-- Charts Row 1 -->
+  <div class="charts-grid">
+    <!-- Department Expense -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">&#127970; ค่าใช้จ่ายตามแผนก</div>
+      </div>
+      <div class="dept-grid">
+        <div class="dept-card">
+          <div class="dept-icon">&#128187;</div>
+          <div class="dept-name">IT</div>
+          <div class="dept-amount">&#3647;680K</div>
+          <div class="dept-claims">89 claims</div>
+          <div class="dept-change" style="background:var(--green-bg);color:var(--green);">&#9650; +12%</div>
+        </div>
+        <div class="dept-card">
+          <div class="dept-icon">&#128200;</div>
+          <div class="dept-name">Sales</div>
+          <div class="dept-amount">&#3647;520K</div>
+          <div class="dept-claims">67 claims</div>
+          <div class="dept-change" style="background:var(--red-bg);color:var(--red);">&#9660; -5%</div>
+        </div>
+        <div class="dept-card">
+          <div class="dept-icon">&#127912;</div>
+          <div class="dept-name">Marketing</div>
+          <div class="dept-amount">&#3647;440K</div>
+          <div class="dept-claims">54 claims</div>
+          <div class="dept-change" style="background:var(--green-bg);color:var(--green);">&#9650; +8%</div>
+        </div>
+        <div class="dept-card">
+          <div class="dept-icon">&#128176;</div>
+          <div class="dept-name">Finance</div>
+          <div class="dept-amount">&#3647;380K</div>
+          <div class="dept-claims">48 claims</div>
+          <div class="dept-change" style="background:var(--orange-bg);color:var(--orange);">&#8596; 0%</div>
+        </div>
+        <div class="dept-card">
+          <div class="dept-icon">&#128666;</div>
+          <div class="dept-name">Operations</div>
+          <div class="dept-amount">&#3647;520K</div>
+          <div class="dept-claims">52 claims</div>
+          <div class="dept-change" style="background:var(--green-bg);color:var(--green);">&#9650; +18%</div>
+        </div>
+        <div class="dept-card">
+          <div class="dept-icon">&#128101;</div>
+          <div class="dept-name">HR / Admin</div>
+          <div class="dept-amount">&#3647;300K</div>
+          <div class="dept-claims">32 claims</div>
+          <div class="dept-change" style="background:var(--red-bg);color:var(--red);">&#9660; -2%</div>
+        </div>
       </div>
     </div>
-    <div class="anomaly-item medium">
-      <div class="anomaly-severity">ความเสี่ยงปานกลาง</div>
-      <div class="anomaly-text">แผนก <strong>Sales</strong> มีแนวโน้มค่าเดินทางเพิ่มขึ้น <strong>45%</strong> ในช่วง 3 เดือนที่ผ่านมา</div>
-      <div class="anomaly-meta">
-        <span>&#128197; ตรวจพบ: 1 เม.ย. 2569</span>
-        <span>&#128101; แผนก Sales</span>
-        <span style="margin-left:auto;color:var(--orange);font-weight:600;cursor:pointer;">ตรวจสอบ &rarr;</span>
+
+    <!-- Category Donut -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">&#127856; ค่าใช้จ่ายตามหมวดหมู่</div>
+        <span style="font-size:.7rem;color:var(--muted);">ไตรมาสนี้</span>
       </div>
-    </div>
-    <div class="anomaly-item low">
-      <div class="anomaly-severity">แจ้งเตือน</div>
-      <div class="anomaly-text">ใบเสร็จ <strong>3 รายการซ้ำกัน</strong> (duplicate detection) จากร้าน ABC Restaurant มูลค่ารวม &#3647;4,500</div>
-      <div class="anomaly-meta">
-        <span>&#128197; ตรวจพบ: 3 เม.ย. 2569</span>
-        <span>&#128196; 3 รายการ</span>
-        <span style="margin-left:auto;color:var(--blue);font-weight:600;cursor:pointer;">ตรวจสอบ &rarr;</span>
+      <div class="donut-wrap">
+        <svg class="donut-svg" width="200" height="200" viewBox="0 0 200 200" id="donutChart"></svg>
+        <div class="donut-legend" id="donutLegend"></div>
       </div>
     </div>
   </div>
+
+  <!-- Historical Trend (Full Width) -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">&#128200; แนวโน้มค่าใช้จ่ายรายเดือน — 12 เดือน</div>
+      <div style="display:flex;gap:12px;font-size:.72rem;">
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:12px;height:3px;background:#2563EB;border-radius:2px;display:inline-block;"></span> ค่าใช้จ่ายจริง</span>
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:12px;height:3px;background:#D97706;border-radius:2px;display:inline-block;"></span> งบประมาณ</span>
+      </div>
+    </div>
+    <div class="line-chart-area" id="trendChartArea">
+      <svg width="100%" height="260" id="trendChart" style="overflow:visible;"></svg>
+      <div class="chart-tooltip" id="trendTooltip"></div>
+    </div>
+  </div>
+
+  <!-- Employee Comparison -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">&#128101; เปรียบเทียบค่าใช้จ่ายตามพนักงาน</div>
+      <span style="font-size:.7rem;color:var(--muted);">เรียงตามยอดรวม (สูง-ต่ำ)</span>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="emp-table">
+        <thead>
+          <tr>
+            <th>อันดับ</th>
+            <th>พนักงาน</th>
+            <th>แผนก</th>
+            <th>จำนวน Claims</th>
+            <th>ยอดรวม</th>
+            <th style="min-width:200px;">เปรียบเทียบ</th>
+            <th>เฉลี่ย/Claim</th>
+            <th>Approval Rate</th>
+          </tr>
+        </thead>
+        <tbody id="empTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Employee Comparison Bar Chart -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">&#128202; กราฟเปรียบเทียบยอดค่าใช้จ่ายรายพนักงาน</div>
+    </div>
+    <div class="bar-chart">
+      <svg id="empBarChart" height="320" style="width:100%;min-width:600px;overflow:visible;"></svg>
+    </div>
+  </div>
 </div>
-
-</div><!-- end main -->
-
-<!-- Tooltip -->
-<div class="chart-tooltip" id="tooltip"></div>
 
 <script>
-// Dark mode toggle
-function toggleDark(){document.body.classList.toggle('dark');const d=document.body.classList.contains('dark');localStorage.setItem('darkMode',d);document.querySelector('.dark-toggle').textContent=d?'\u2600\uFE0F':'\uD83C\uDF19';}
-if(localStorage.getItem('darkMode')==='true'){document.body.classList.add('dark');document.addEventListener('DOMContentLoaded',()=>{document.querySelector('.dark-toggle').textContent='\u2600\uFE0F';});}
-
-// ==================== DATA ====================
-const months = ['\u0E21.\u0E04.','\u0E01.\u0E1E.','\u0E21\u0E35.\u0E04.','\u0E40\u0E21.\u0E22.','\u0E1E.\u0E04.','\u0E21\u0E34.\u0E22.','\u0E01.\u0E04.','\u0E2A.\u0E04.','\u0E01.\u0E22.','\u0E15.\u0E04.','\u0E1E.\u0E22.','\u0E18.\u0E04.'];
-const barCategories = [
-  {name:'\u0E04\u0E48\u0E32\u0E40\u0E14\u0E34\u0E19\u0E17\u0E32\u0E07',color:'#2563EB'},
-  {name:'\u0E04\u0E48\u0E32\u0E2D\u0E32\u0E2B\u0E32\u0E23',color:'#7C3AED'},
-  {name:'\u0E2A\u0E33\u0E19\u0E31\u0E01\u0E07\u0E32\u0E19',color:'#0891B2'},
-  {name:'\u0E44\u0E2D\u0E17\u0E35',color:'#059669'},
-  {name:'\u0E2D\u0E37\u0E48\u0E19\u0E46',color:'#D97706'}
-];
-const barData = [
-  [80,40,30,25,15],[90,45,28,30,18],[110,50,35,28,20],[95,42,32,35,22],
-  [120,55,30,32,25],[105,48,34,30,20],[115,52,36,33,18],[100,46,31,28,22],
-  [125,58,38,36,24],[130,60,35,34,26],[140,65,40,38,28],[135,62,37,36,25]
+// === Employee Data ===
+const employees = [
+  {name:'ธนา ป.',dept:'IT',avatar:'#0891B2',claims:28,total:580000,rate:96},
+  {name:'อนุชา บ.',dept:'Operations',avatar:'#DC2626',claims:22,total:420000,rate:91},
+  {name:'วิภา ส.',dept:'Sales',avatar:'#7C3AED',claims:19,total:385000,rate:88},
+  {name:'สมชาย ก.',dept:'Finance',avatar:'#2563EB',claims:18,total:340000,rate:97},
+  {name:'ณัฐ ว.',dept:'Marketing',avatar:'#059669',claims:16,total:310000,rate:94},
+  {name:'สุภาพร ล.',dept:'HR',avatar:'#DB2777',claims:14,total:245000,rate:100},
+  {name:'พรทิพย์ จ.',dept:'Admin',avatar:'#D97706',claims:12,total:198000,rate:92},
+  {name:'กิตติ ช.',dept:'Operations',avatar:'#DC2626',claims:10,total:165000,rate:90},
+  {name:'นภา พ.',dept:'Sales',avatar:'#7C3AED',claims:9,total:142000,rate:89},
+  {name:'วีระ อ.',dept:'IT',avatar:'#0891B2',claims:8,total:120000,rate:100},
 ];
 
-const donutData = [
-  {name:'\u0E04\u0E48\u0E32\u0E40\u0E14\u0E34\u0E19\u0E17\u0E32\u0E07',value:1345000,color:'#2563EB'},
-  {name:'\u0E04\u0E48\u0E32\u0E2D\u0E32\u0E2B\u0E32\u0E23',value:523000,color:'#7C3AED'},
-  {name:'\u0E2A\u0E33\u0E19\u0E31\u0E01\u0E07\u0E32\u0E19',value:366000,color:'#0891B2'},
-  {name:'\u0E44\u0E2D\u0E17\u0E35',value:355000,color:'#059669'},
-  {name:'\u0E2D\u0E37\u0E48\u0E19\u0E46',value:251000,color:'#D97706'}
-];
+const maxTotal = Math.max(...employees.map(e=>e.total));
 
-const lineDepts = [
-  {name:'Sales',color:'#2563EB'},
-  {name:'Marketing',color:'#7C3AED'},
-  {name:'Engineering',color:'#059669'},
-  {name:'Operations',color:'#D97706'}
-];
-const lineData = [
-  [250,280,300,320,310,340],
-  [180,200,220,190,210,240],
-  [150,160,155,170,180,190],
-  [120,130,125,140,135,150]
-];
-const lineMonths = ['\u0E1E.\u0E22.','\u0E18.\u0E04.','\u0E21.\u0E04.','\u0E01.\u0E1E.','\u0E21\u0E35.\u0E04.','\u0E40\u0E21.\u0E22.'];
-
-const top10 = [
-  {name:'Thai Airways',value:420000},
-  {name:'SCB Leasing',value:385000},
-  {name:'LINE MAN',value:312000},
-  {name:'Grab Thailand',value:278000},
-  {name:'Central Office',value:245000},
-  {name:'AWS Thailand',value:210000},
-  {name:'True Corp',value:195000},
-  {name:'AIS',value:168000},
-  {name:'PTT Station',value:142000},
-  {name:'7-Eleven',value:125000}
-];
-
-const deptTable = [
-  {name:'Sales',icon:'&#128188;',iconBg:'var(--blue-bg)',iconColor:'var(--blue)',budget:1200000,actual:1080000,spark:[60,70,65,80,75,85],status:'on-track'},
-  {name:'Marketing',icon:'&#128226;',iconBg:'var(--purple-bg)',iconColor:'var(--purple)',budget:800000,actual:760000,spark:[50,55,60,58,65,72],status:'warning'},
-  {name:'Engineering',icon:'&#128187;',iconBg:'var(--green-bg)',iconColor:'var(--green)',budget:600000,actual:520000,spark:[40,42,44,43,46,48],status:'on-track'},
-  {name:'Operations',icon:'&#9881;',iconBg:'var(--orange-bg)',iconColor:'var(--orange)',budget:500000,actual:490000,spark:[35,38,40,42,44,48],status:'over'},
-  {name:'HR',icon:'&#128101;',iconBg:'var(--cyan-bg)',iconColor:'var(--cyan)',budget:300000,actual:210000,spark:[20,22,18,25,28,24],status:'on-track'},
-  {name:'Finance',icon:'&#128176;',iconBg:'var(--purple-bg)',iconColor:'var(--purple)',budget:400000,actual:345000,spark:[30,28,32,34,30,36],status:'on-track'}
-];
-
-// ==================== TOOLTIP ====================
-const tooltip = document.getElementById('tooltip');
-function showTooltip(e, html){
-  tooltip.innerHTML = html;
-  tooltip.classList.add('show');
-  const x = e.clientX + 12;
-  const y = e.clientY - 10;
-  tooltip.style.left = x + 'px';
-  tooltip.style.top = y + 'px';
-}
-function hideTooltip(){tooltip.classList.remove('show');}
-document.addEventListener('mousemove',function(e){
-  if(tooltip.classList.contains('show')){
-    tooltip.style.left = (e.clientX+12)+'px';
-    tooltip.style.top = (e.clientY-10)+'px';
-  }
-});
-
-// ==================== BAR CHART ====================
-function drawBarChart(){
-  const svg = document.getElementById('barChart');
-  const W=700, H=320, padL=50, padR=20, padT=20, padB=40;
-  const chartW = W-padL-padR;
-  const chartH = H-padT-padB;
-  const maxVal = Math.max(...barData.map(d=>d.reduce((a,b)=>a+b,0)));
-  const barW = chartW/12 * 0.6;
-  const gap = chartW/12;
-  let html = '';
-
-  for(let i=0;i<=5;i++){
-    const y = padT + chartH - (chartH * i/5);
-    const val = Math.round(maxVal * i/5);
-    html += `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" class="chart-grid-line"/>`;
-    html += `<text x="${padL-8}" y="${y+4}" text-anchor="end" class="chart-axis-label">${val}K</text>`;
-  }
-
-  months.forEach((m,mi)=>{
-    const x = padL + mi*gap + (gap-barW)/2;
-    let cumY = 0;
-    barData[mi].forEach((val,ci)=>{
-      const h = (val/maxVal)*chartH;
-      const y = padT + chartH - cumY - h;
-      html += `<rect class="chart-bar" x="${x}" y="${y}" width="${barW}" height="${h}" rx="2" fill="${barCategories[ci].color}"
-        onmouseenter="showTooltip(event,'<div class=\\'tt-label\\'>${m} ${2569}</div><div class=\\'tt-value\\'>${barCategories[ci].name}: ${val}K \u0E1A\u0E32\u0E17</div>')"
-        onmouseleave="hideTooltip()"/>`;
-      cumY += h;
-    });
-    html += `<text x="${x+barW/2}" y="${H-padB+16}" text-anchor="middle" class="chart-axis-label">${m}</text>`;
-  });
-
-  let lx = padL;
-  barCategories.forEach((c,i)=>{
-    html += `<rect x="${lx}" y="${H-10}" width="10" height="10" rx="2" fill="${c.color}"/>`;
-    html += `<text x="${lx+14}" y="${H-1}" class="chart-axis-label" font-size="10">${c.name}</text>`;
-    lx += 14 + c.name.length*12 + 12;
-  });
-
-  svg.innerHTML = html;
-}
-
-// ==================== DONUT CHART ====================
-function drawDonut(){
-  const svg = document.getElementById('donutChart');
-  const total = donutData.reduce((a,b)=>a+b.value,0);
-  const cx=100, cy=100, R=80, r=50;
-  let angle = -Math.PI/2;
-  let html = '';
-
-  donutData.forEach((d,i)=>{
-    const pct = d.value/total;
-    const a1 = angle;
-    const a2 = angle + pct * 2 * Math.PI;
-    const large = pct > 0.5 ? 1 : 0;
-    const x1o = cx + R*Math.cos(a1), y1o = cy + R*Math.sin(a1);
-    const x2o = cx + R*Math.cos(a2), y2o = cy + R*Math.sin(a2);
-    const x1i = cx + r*Math.cos(a2), y1i = cy + r*Math.sin(a2);
-    const x2i = cx + r*Math.cos(a1), y2i = cy + r*Math.sin(a1);
-    const path = `M${x1o},${y1o} A${R},${R} 0 ${large} 1 ${x2o},${y2o} L${x1i},${y1i} A${r},${r} 0 ${large} 0 ${x2i},${y2i} Z`;
-    html += `<path class="donut-segment" d="${path}" fill="${d.color}"
-      onmouseenter="showTooltip(event,'<div class=\\'tt-label\\'>${d.name}</div><div class=\\'tt-value\\'>${(d.value/1000).toLocaleString()}K \u0E1A\u0E32\u0E17 (${(pct*100).toFixed(1)}%)</div>')"
-      onmouseleave="hideTooltip()"/>`;
-    angle = a2;
-  });
-
-  html += `<text x="${cx}" y="${cy-6}" text-anchor="middle" font-size="11" fill="var(--muted)" font-family="Noto Sans Thai">\u0E23\u0E27\u0E21</text>`;
-  html += `<text x="${cx}" y="${cy+14}" text-anchor="middle" font-size="16" font-weight="800" fill="var(--text)" font-family="Inter">${(total/1000000).toFixed(2)}M</text>`;
-
-  svg.innerHTML = html;
-
-  const legend = document.getElementById('donutLegend');
-  legend.innerHTML = donutData.map(d=>{
-    const pct = ((d.value/total)*100).toFixed(1);
-    return `<div class="donut-legend-item">
-      <div class="legend-dot" style="background:${d.color}"></div>
-      <div class="legend-label">${d.name}</div>
-      <div class="legend-value">${(d.value/1000).toLocaleString()}K</div>
-      <div class="legend-pct">${pct}%</div>
-    </div>`;
-  }).join('');
-}
-
-// ==================== LINE CHART ====================
-function drawLineChart(){
-  const svg = document.getElementById('lineChart');
-  const W=700, H=320, padL=50, padR=20, padT=20, padB=40;
-  const chartW = W-padL-padR;
-  const chartH = H-padT-padB;
-  const maxVal = Math.max(...lineData.flat());
-  const minVal = 0;
-  const range = maxVal - minVal;
-  let html = '';
-
-  for(let i=0;i<=5;i++){
-    const y = padT + chartH - (chartH * i/5);
-    const val = Math.round(minVal + range * i/5);
-    html += `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" class="chart-grid-line"/>`;
-    html += `<text x="${padL-8}" y="${y+4}" text-anchor="end" class="chart-axis-label">${val}K</text>`;
-  }
-
-  lineMonths.forEach((m,i)=>{
-    const x = padL + i*(chartW/(lineMonths.length-1));
-    html += `<text x="${x}" y="${H-padB+18}" text-anchor="middle" class="chart-axis-label">${m}</text>`;
-  });
-
-  lineDepts.forEach((dept,di)=>{
-    const points = lineData[di].map((v,i)=>{
-      const x = padL + i*(chartW/(lineMonths.length-1));
-      const y = padT + chartH - ((v-minVal)/range)*chartH;
-      return {x,y,v};
-    });
-    const pathD = points.map((p,i)=>((i===0?'M':'L')+p.x+','+p.y)).join(' ');
-    html += `<path d="${pathD}" class="chart-line" stroke="${dept.color}" data-dept="${di}"/>`;
-    points.forEach(p=>{
-      html += `<circle class="chart-dot" cx="${p.x}" cy="${p.y}" r="4" fill="${dept.color}" stroke="var(--card-bg)" stroke-width="2"
-        onmouseenter="showTooltip(event,'<div class=\\'tt-label\\'>${dept.name}</div><div class=\\'tt-value\\'>${p.v}K \u0E1A\u0E32\u0E17</div>')"
-        onmouseleave="hideTooltip()"/>`;
-    });
-  });
-
-  svg.innerHTML = html;
-
-  const legend = document.getElementById('lineLegend');
-  legend.innerHTML = lineDepts.map((d,i)=>`
-    <div class="line-legend-item" onclick="toggleLine(${i})" data-active="true" data-idx="${i}">
-      <div class="line-legend-dot" style="background:${d.color}"></div>
-      ${d.name}
-    </div>
-  `).join('');
-}
-
-function toggleLine(idx){
-  const item = document.querySelector(`.line-legend-item[data-idx="${idx}"]`);
-  const active = item.dataset.active === 'true';
-  item.dataset.active = !active;
-  item.style.opacity = active ? '.4' : '1';
-  const svg = document.getElementById('lineChart');
-  const paths = svg.querySelectorAll(`[data-dept="${idx}"]`);
-  paths.forEach(p => p.style.opacity = active ? '0' : '1');
-}
-
-// ==================== HORIZONTAL BAR CHART ====================
-function drawHBar(){
-  const container = document.getElementById('hbarChart');
-  const maxVal = Math.max(...top10.map(d=>d.value));
-  const colors = ['#2563EB','#3B82F6','#60A5FA','#7C3AED','#8B5CF6','#A78BFA','#059669','#10B981','#D97706','#F59E0B'];
-  container.innerHTML = top10.map((d,i)=>{
-    const pct = (d.value/maxVal*100).toFixed(1);
-    return `<div class="hbar-row"
-      onmouseenter="showTooltip(event,'<div class=\\'tt-label\\'>${d.name}</div><div class=\\'tt-value\\'>${d.value.toLocaleString()} \u0E1A\u0E32\u0E17</div>')"
-      onmouseleave="hideTooltip()">
-      <div class="hbar-label">${d.name}</div>
-      <div class="hbar-track">
-        <div class="hbar-fill" style="width:${pct}%;background:${colors[i]};">${(d.value/1000).toFixed(0)}K</div>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-// ==================== DEPARTMENT TABLE ====================
-function drawDeptTable(){
-  const tbody = document.getElementById('deptTableBody');
-  tbody.innerHTML = deptTable.map(d=>{
-    const util = ((d.actual/d.budget)*100).toFixed(1);
-    const utilColor = util > 95 ? 'var(--red)' : util > 80 ? 'var(--orange)' : 'var(--green)';
-    const statusLabel = d.status === 'on-track' ? '\u0E1B\u0E01\u0E15\u0E34' : d.status === 'warning' ? '\u0E40\u0E1D\u0E49\u0E32\u0E23\u0E30\u0E27\u0E31\u0E07' : '\u0E40\u0E01\u0E34\u0E19\u0E07\u0E1A';
-
-    const sparkMax = Math.max(...d.spark);
-    const sparkMin = Math.min(...d.spark);
-    const sparkRange = sparkMax - sparkMin || 1;
-    const sparkW = 80, sparkH = 28;
-    const sparkPoints = d.spark.map((v,i)=>{
-      const x = (i/(d.spark.length-1))*sparkW;
-      const y = sparkH - ((v-sparkMin)/sparkRange)*(sparkH-4) - 2;
-      return `${x},${y}`;
-    }).join(' ');
-    const sparkColor = d.status === 'on-track' ? 'var(--green)' : d.status === 'warning' ? 'var(--orange)' : 'var(--red)';
-
+function renderEmpTable(){
+  const body = document.getElementById('empTableBody');
+  body.innerHTML = employees.map((e,i)=>{
+    const pct = (e.total/maxTotal*100).toFixed(0);
+    const avg = Math.round(e.total/e.claims);
     return `<tr>
-      <td><div class="dept-name"><div class="dept-icon" style="background:${d.iconBg};color:${d.iconColor};">${d.icon}</div>${d.name}</div></td>
-      <td style="font-weight:600;">${(d.budget/1000).toLocaleString()}K</td>
-      <td style="font-weight:600;">${(d.actual/1000).toLocaleString()}K</td>
-      <td>
-        <div class="util-bar"><div class="util-fill" style="width:${util}%;background:${utilColor};"></div></div>
-        <span style="font-weight:600;color:${utilColor}">${util}%</span>
-      </td>
-      <td>
-        <svg class="sparkline-svg" viewBox="0 0 ${sparkW} ${sparkH}">
-          <polyline points="${sparkPoints}" fill="none" stroke="${sparkColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </td>
-      <td><span class="status-badge ${d.status}">${statusLabel}</span></td>
+      <td style="font-weight:700;color:var(--muted);text-align:center;">${i+1}</td>
+      <td><div class="emp-cell"><div class="emp-avatar" style="background:${e.avatar};">${e.name.charAt(0)}</div><div class="emp-name">${e.name}</div></div></td>
+      <td><span style="font-size:.72rem;color:var(--muted);">${e.dept}</span></td>
+      <td style="text-align:center;font-weight:600;">${e.claims}</td>
+      <td style="font-weight:700;font-family:Inter;">&#3647;${(e.total/1000).toFixed(0)}K</td>
+      <td><div class="comp-bar-wrap"><div class="comp-bar-track"><div class="comp-bar-fill" style="width:${pct}%;background:${e.avatar};"></div></div><div class="comp-bar-value">${pct}%</div></div></td>
+      <td style="font-family:Inter;font-size:.78rem;">&#3647;${(avg/1000).toFixed(1)}K</td>
+      <td style="text-align:center;"><span style="font-weight:600;color:${e.rate>=95?'var(--green)':e.rate>=90?'var(--orange)':'var(--red)'};">${e.rate}%</span></td>
     </tr>`;
   }).join('');
 }
 
-// ==================== DATE RANGE ====================
-function setRange(btn, range){
-  document.querySelectorAll('.date-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('customRange').style.display = range === 'custom' ? 'flex' : 'none';
-}
-function applyCustomRange(){
-  const from = document.getElementById('dateFrom').value;
-  const to = document.getElementById('dateTo').value;
-  console.log('Custom range:', from, 'to', to);
-}
-
-// ==================== EXPORT ====================
-function exportData(type){
-  const labels = {pdf:'PDF',excel:'Excel',csv:'CSV'};
-  const msg = document.createElement('div');
-  msg.style.cssText = 'position:fixed;top:20px;right:20px;padding:14px 24px;background:var(--green);color:#fff;border-radius:10px;font-size:.85rem;font-weight:600;z-index:9999;box-shadow:0 12px 40px rgba(0,0,0,.12);animation:fadeInOut 2.5s forwards;';
-  msg.textContent = `\u0E01\u0E33\u0E25\u0E31\u0E07\u0E2A\u0E48\u0E07\u0E2D\u0E2D\u0E01 ${labels[type]}...`;
-  document.body.appendChild(msg);
-  setTimeout(()=>msg.remove(),2500);
-}
-
-const style = document.createElement('style');
-style.textContent = `@keyframes fadeInOut{0%{opacity:0;transform:translateY(-10px);}10%{opacity:1;transform:translateY(0);}80%{opacity:1;}100%{opacity:0;transform:translateY(-10px);}}`;
-document.head.appendChild(style);
-
-// ==================== INIT ====================
-drawBarChart();
-drawDonut();
-drawLineChart();
-drawHBar();
-drawDeptTable();
-
-setTimeout(()=>{
-  document.querySelectorAll('.hbar-fill').forEach((el,i)=>{
-    el.style.width = '0';
-    setTimeout(()=>{
-      el.style.transition = 'width 0.8s ease';
-      el.style.width = top10[i] ? ((top10[i].value/Math.max(...top10.map(d=>d.value))*100).toFixed(1)+'%') : '0%';
-    },50+i*60);
+// === Donut Chart ===
+function drawDonut(){
+  const data = [
+    {label:'เดินทาง',value:720,color:'#2563EB'},
+    {label:'รับรอง',value:485,color:'#7C3AED'},
+    {label:'ซอฟต์แวร์',value:410,color:'#0891B2'},
+    {label:'อุปกรณ์',value:380,color:'#D97706'},
+    {label:'ที่พัก',value:290,color:'#059669'},
+    {label:'สำนักงาน',value:210,color:'#DB2777'},
+    {label:'ฝึกอบรม',value:180,color:'#DC2626'},
+    {label:'อื่นๆ',value:165,color:'#64748B'}
+  ];
+  const total = data.reduce((a,b)=>a+b.value,0);
+  const svg = document.getElementById('donutChart');
+  const cx=100,cy=100,r=80,r2=50;
+  let angle=-90, paths='';
+  data.forEach(d=>{
+    const pct=d.value/total;
+    const sweep=pct*360;
+    const a1=angle*Math.PI/180, a2=(angle+sweep)*Math.PI/180;
+    const large=sweep>180?1:0;
+    const x1o=cx+r*Math.cos(a1),y1o=cy+r*Math.sin(a1);
+    const x2o=cx+r*Math.cos(a2),y2o=cy+r*Math.sin(a2);
+    const x1i=cx+r2*Math.cos(a2),y1i=cy+r2*Math.sin(a2);
+    const x2i=cx+r2*Math.cos(a1),y2i=cy+r2*Math.sin(a1);
+    paths+=`<path d="M${x1o},${y1o} A${r},${r} 0 ${large} 1 ${x2o},${y2o} L${x1i},${y1i} A${r2},${r2} 0 ${large} 0 ${x2i},${y2i}Z" fill="${d.color}" opacity="0.85" style="cursor:pointer;transition:opacity .2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'"><title>${d.label}: ฿${d.value}K (${(pct*100).toFixed(1)}%)</title></path>`;
+    angle+=sweep;
   });
-},100);
+  paths+=`<text x="${cx}" y="${cy-4}" text-anchor="middle" font-size="15" font-weight="800" fill="var(--text)" font-family="Inter">&#3647;${(total/1000).toFixed(1)}M</text>`;
+  paths+=`<text x="${cx}" y="${cy+12}" text-anchor="middle" font-size="9" fill="var(--muted)" font-family="Noto Sans Thai">ไตรมาส Q1</text>`;
+  svg.innerHTML=paths;
+
+  document.getElementById('donutLegend').innerHTML = data.map(d=>`
+    <div class="legend-item">
+      <div class="legend-dot" style="background:${d.color};"></div>
+      <span class="legend-label">${d.label}</span>
+      <span class="legend-value">&#3647;${d.value}K</span>
+      <span class="legend-pct">${(d.value/total*100).toFixed(1)}%</span>
+    </div>
+  `).join('');
+}
+
+// === Trend Line Chart (12 months, 2 lines) ===
+function drawTrendChart(){
+  const months=['พ.ค.65','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.','ม.ค.66','ก.พ.','มี.ค.','เม.ย.'];
+  const actual=[580,620,640,610,680,710,690,730,680,750,790,847];
+  const budget=[650,650,650,650,700,700,700,700,750,750,750,750];
+  const svg=document.getElementById('trendChart');
+  const tooltip=document.getElementById('trendTooltip');
+  const w=svg.clientWidth||900,h=260;
+  const padL=55,padR=20,padT=20,padB=35;
+  const chartW=w-padL-padR,chartH=h-padT-padB;
+  const allVals=[...actual,...budget];
+  const maxV=Math.max(...allVals)*1.1;
+
+  let s='';
+  // Grid
+  for(let i=0;i<=5;i++){
+    const y=padT+(i/5)*chartH;
+    const val=Math.round(maxV*(1-i/5));
+    s+=`<line x1="${padL}" y1="${y}" x2="${w-padR}" y2="${y}" stroke="var(--border)" stroke-dasharray="3,3"/>`;
+    s+=`<text x="${padL-8}" y="${y+4}" text-anchor="end" font-size="10" fill="var(--muted)" font-family="Inter">${val}K</text>`;
+  }
+  // X labels
+  months.forEach((m,i)=>{
+    const x=padL+(i/(months.length-1))*chartW;
+    s+=`<text x="${x}" y="${h-4}" text-anchor="middle" font-size="9" fill="var(--muted)" font-family="Noto Sans Thai">${m}</text>`;
+  });
+
+  // Budget line (dashed)
+  const bPts=budget.map((v,i)=>({x:padL+(i/(months.length-1))*chartW,y:padT+chartH-(v/maxV)*chartH}));
+  s+=`<path d="${bPts.map((p,i)=>(i===0?'M':'L')+p.x+','+p.y).join(' ')}" fill="none" stroke="#D97706" stroke-width="2" stroke-dasharray="6,4" opacity="0.6"/>`;
+
+  // Actual area
+  const aPts=actual.map((v,i)=>({x:padL+(i/(months.length-1))*chartW,y:padT+chartH-(v/maxV)*chartH,v}));
+  s+=`<defs><linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#2563EB" stop-opacity="0"/></linearGradient></defs>`;
+  s+=`<path d="M${aPts[0].x},${aPts[0].y} ${aPts.map(p=>`L${p.x},${p.y}`).join(' ')} L${aPts[aPts.length-1].x},${padT+chartH} L${aPts[0].x},${padT+chartH}Z" fill="url(#areaGrad)" opacity="0.12"/>`;
+  s+=`<path d="${aPts.map((p,i)=>(i===0?'M':'L')+p.x+','+p.y).join(' ')}" fill="none" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+
+  // Dots
+  aPts.forEach((p,i)=>{
+    s+=`<circle cx="${p.x}" cy="${p.y}" r="4" fill="#2563EB" stroke="#fff" stroke-width="2" style="cursor:pointer;" onmouseover="showTrendTip(event,${actual[i]},${budget[i]},'${months[i]}')" onmouseout="hideTrendTip()"/>`;
+  });
+  svg.innerHTML=s;
+}
+
+function showTrendTip(e,a,b,m){
+  const t=document.getElementById('trendTooltip');
+  const area=document.getElementById('trendChartArea');
+  const rect=area.getBoundingClientRect();
+  t.innerHTML=`${m}<br>จริง: &#3647;${a}K | งบ: &#3647;${b}K`;
+  t.style.opacity='1';
+  t.style.left=(e.clientX-rect.left+10)+'px';
+  t.style.top=(e.clientY-rect.top-40)+'px';
+}
+function hideTrendTip(){document.getElementById('trendTooltip').style.opacity='0';}
+
+// === Employee Bar Chart ===
+function drawEmpBarChart(){
+  const svg=document.getElementById('empBarChart');
+  const w=svg.clientWidth||800,h=320;
+  const padL=90,padR=60,padT=20,padB=10;
+  const chartW=w-padL-padR;
+  const barH=24,gap=8;
+  const maxVal=maxTotal;
+  const colors = employees.map(e=>e.avatar);
+
+  let s='';
+  employees.forEach((emp,i)=>{
+    const y=padT+i*(barH+gap);
+    const barW=(emp.total/maxVal)*chartW;
+    // Name label
+    s+=`<text x="${padL-8}" y="${y+barH/2+4}" text-anchor="end" font-size="11" fill="var(--text2)" font-family="Noto Sans Thai" font-weight="600">${emp.name}</text>`;
+    // Bar background
+    s+=`<rect x="${padL}" y="${y}" width="${chartW}" height="${barH}" rx="4" fill="var(--bg3)" opacity="0.5"/>`;
+    // Bar fill
+    s+=`<rect x="${padL}" y="${y}" width="${barW}" height="${barH}" rx="4" fill="${colors[i]}" opacity="0.8" style="cursor:pointer;transition:opacity .2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'"><title>${emp.name}: ฿${(emp.total/1000).toFixed(0)}K (${emp.claims} claims)</title></rect>`;
+    // Value label
+    s+=`<text x="${padL+barW+8}" y="${y+barH/2+4}" font-size="11" fill="var(--text)" font-family="Inter" font-weight="700">&#3647;${(emp.total/1000).toFixed(0)}K</text>`;
+  });
+  svg.innerHTML=s;
+}
+
+function setDateRange(el){
+  document.querySelectorAll('.date-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Init
+renderEmpTable();
+drawDonut();
+drawTrendChart();
+drawEmpBarChart();
+window.addEventListener('resize',()=>{drawTrendChart();drawEmpBarChart();});
 </script>
 </body>
 </html>

@@ -164,6 +164,224 @@ body {
   font-size: 16px;
 }
 
+/* ===== MULTI-USER: Scan Stats Bar ===== */
+.scan-stats-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 14px 20px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+.scan-stats-bar .stats-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.scan-stats-bar .stat-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .82rem;
+}
+.scan-stats-bar .stat-value {
+  font-weight: 800;
+  font-size: 1.1rem;
+  font-family: 'Inter', sans-serif;
+}
+.scan-stats-bar .stat-value.blue { color: var(--blue); }
+.scan-stats-bar .stat-value.purple { color: var(--purple); }
+.scan-stats-bar .stat-value.green { color: var(--green); }
+.scan-stats-bar .stat-label { color: var(--text-dim); font-weight: 500; }
+.scan-stats-bar .stat-divider { width: 1px; height: 24px; background: var(--border); }
+.scan-stats-bar .user-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  background: rgba(37,99,235,0.08);
+  border: 1px solid rgba(37,99,235,0.2);
+  border-radius: 20px;
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--blue);
+}
+
+/* ===== MULTI-USER: Recent Scans Table ===== */
+.recent-scans-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 28px;
+  box-shadow: var(--shadow);
+}
+.recent-scans-card .card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.recent-scans-card .card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.recent-scans-card .card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.filter-btn {
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: .72rem;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all .15s;
+  font-family: inherit;
+}
+.filter-btn:hover, .filter-btn.active {
+  border-color: var(--blue);
+  color: var(--blue);
+  background: rgba(37,99,235,0.06);
+}
+.scans-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .82rem;
+}
+.scans-table thead th {
+  text-align: left;
+  padding: 10px 12px;
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: var(--text-dim);
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+.scans-table thead th:last-child { text-align: right; }
+.scans-table tbody tr {
+  cursor: pointer;
+  transition: all .15s;
+}
+.scans-table tbody tr:hover {
+  background: rgba(37,99,235,0.05);
+}
+.scans-table tbody td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.scans-table tbody td:last-child { text-align: right; }
+.scan-id {
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  color: var(--blue);
+  font-size: .78rem;
+}
+.scan-doc-name { font-weight: 600; }
+.scan-doc-sub { font-size: .7rem; color: var(--text-dim); margin-top: 1px; }
+.scan-type-badge {
+  display: inline-flex;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: .68rem;
+  font-weight: 700;
+}
+.scan-type-badge.freight { background: rgba(37,99,235,0.08); color: var(--blue); border: 1px solid rgba(37,99,235,0.2); }
+.scan-type-badge.bol { background: rgba(124,58,237,0.08); color: var(--purple); border: 1px solid rgba(124,58,237,0.2); }
+.scan-type-badge.customs { background: rgba(234,88,12,0.08); color: var(--orange); border: 1px solid rgba(234,88,12,0.2); }
+.user-avatar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.user-avatar .avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .6rem;
+  font-weight: 800;
+  color: #fff;
+  flex-shrink: 0;
+}
+.user-avatar .name { font-weight: 500; font-size: .78rem; }
+.shipment-link {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: .78rem;
+  color: var(--green);
+  cursor: pointer;
+}
+.shipment-link:hover { text-decoration: underline; }
+.scan-amount {
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+}
+.scan-date { font-size: .75rem; color: var(--text-dim); }
+.scan-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: .68rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+.scan-status.done { background: rgba(5,150,105,0.08); color: var(--green); }
+.scan-status.processing { background: rgba(37,99,235,0.08); color: var(--blue); }
+
+/* Assigned-to select in scan area */
+.assigned-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: rgba(37,99,235,0.05);
+  border: 1px solid rgba(37,99,235,0.15);
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+  font-size: .82rem;
+}
+.assigned-bar label { font-weight: 600; color: var(--text-dim); white-space: nowrap; }
+.assigned-bar select {
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: .82rem;
+  font-family: inherit;
+  background: var(--card-bg);
+  color: var(--text);
+  cursor: pointer;
+}
+.assigned-bar .shipment-input {
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: .82rem;
+  font-family: inherit;
+  background: var(--card-bg);
+  color: var(--text);
+  width: 120px;
+}
+
 /* Upload Zone */
 .upload-zone {
   border: 2px dashed var(--border);
@@ -1170,7 +1388,7 @@ body {
 <div class="breadcrumb-nav">
     <a href="../pitching-v2.html">Autopilot v2</a>
     <span>/</span>
-    <span>Logistics FX</span>
+    <a href="../pitching-v2.html">Logistics FX</a>
     <span>/</span>
     <span>Freight Invoice OCR</span>
 </div>
@@ -1199,9 +1417,77 @@ body {
     <p>สแกนและแปลงข้อมูลจากเอกสารขนส่งสินค้าด้วย AI อัตโนมัติ</p>
   </div>
 
+  <!-- ===== MULTI-USER: Scan Stats Bar ===== -->
+  <div class="scan-stats-bar">
+    <div class="stats-left">
+      <div class="stat-item">
+        <span class="stat-label">สแกนเดือนนี้:</span>
+        <span class="stat-value blue">89</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-label">สแกนของฉัน:</span>
+        <span class="stat-value purple">23</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-label">ความแม่นยำเฉลี่ย:</span>
+        <span class="stat-value green">98.7%</span>
+      </div>
+    </div>
+    <div class="user-tag">
+      <span>&#128100;</span>
+      <span>สมศักดิ์ ว. (เจ้าหน้าที่โลจิสติกส์)</span>
+    </div>
+  </div>
+
+  <!-- ===== MULTI-USER: Recent Scans Table ===== -->
+  <div class="recent-scans-card">
+    <div class="card-header">
+      <div class="card-title">&#128196; รายการสแกนล่าสุด</div>
+      <div class="card-actions">
+        <button class="filter-btn active" onclick="filterScans('all',this)">ทั้งหมด</button>
+        <button class="filter-btn" onclick="filterScans('mine',this)">ของฉัน</button>
+        <button class="filter-btn" onclick="filterScans('freight',this)">Freight Invoice</button>
+        <button class="filter-btn" onclick="filterScans('bol',this)">Bill of Lading</button>
+        <button class="filter-btn" onclick="filterScans('customs',this)">Customs</button>
+      </div>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="scans-table">
+        <thead>
+          <tr>
+            <th>Scan #</th>
+            <th>เอกสาร</th>
+            <th>ประเภท</th>
+            <th>ดำเนินการโดย</th>
+            <th>Shipment</th>
+            <th>สถานะ</th>
+            <th>จำนวนเงิน</th>
+          </tr>
+        </thead>
+        <tbody id="recentScansBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== MULTI-USER: Assigned To Bar (shows when scanning) ===== -->
+  <div class="assigned-bar" id="assignedBar" style="display:none;">
+    <label>&#128100; มอบหมายให้:</label>
+    <select id="assignedUser">
+      <option value="somsak">สมศักดิ์ ว.</option>
+      <option value="arun">อรุณ ก.</option>
+      <option value="pichai">พิชัย ส.</option>
+      <option value="nattaya">ณัฐยา พ.</option>
+    </select>
+    <label>&#128230; Shipment:</label>
+    <input class="shipment-input" id="assignedShipment" placeholder="SHP-035" value="SHP-035">
+    <label>&#128197; วันที่: <strong id="assignedDate">5 เม.ย. 2569</strong></label>
+  </div>
+
   <!-- Upload Zone -->
   <div class="upload-zone" id="uploadZone">
-    <span class="icon">🚢</span>
+    <span class="icon">&#128674;</span>
     <div class="title">อัพโหลด Freight Invoice / Bill of Lading / Customs Declaration</div>
     <div class="subtitle">ลากไฟล์มาวาง หรือคลิกเพื่อเลือกไฟล์</div>
     <div class="formats">
@@ -1217,19 +1503,19 @@ body {
     <h3>หรือเลือกเอกสารตัวอย่างเพื่อทดลองใช้งาน</h3>
     <div class="mock-grid">
       <button class="mock-btn" onclick="startOCR('freight')">
-        <span class="emoji">📄</span>
+        <span class="emoji">&#128196;</span>
         <div class="name">Freight Invoice</div>
         <div class="cat">ใบแจ้งหนี้ค่าขนส่งสินค้าระหว่างประเทศ</div>
         <div class="provider">DHL Global Forwarding</div>
       </button>
       <button class="mock-btn" onclick="startOCR('bol')">
-        <span class="emoji">📄</span>
+        <span class="emoji">&#128196;</span>
         <div class="name">Bill of Lading</div>
         <div class="cat">ใบตราส่งสินค้าทางทะเล</div>
         <div class="provider">COSCO Shipping Lines</div>
       </button>
       <button class="mock-btn" onclick="startOCR('customs')">
-        <span class="emoji">📄</span>
+        <span class="emoji">&#128196;</span>
         <div class="name">Customs Declaration</div>
         <div class="cat">ใบขนสินค้าขาเข้า กรมศุลกากร</div>
         <div class="provider">Thai Customs</div>
@@ -1242,14 +1528,14 @@ body {
     <div class="ocr-split">
       <!-- Left: Document Preview -->
       <div class="doc-panel">
-        <h4>📋 ตัวอย่างเอกสาร</h4>
+        <h4>&#128203; ตัวอย่างเอกสาร</h4>
         <div class="doc-visual" id="docVisual">
           <div class="scan-line" id="scanLine"></div>
         </div>
       </div>
       <!-- Right: Extraction Log -->
       <div class="extract-panel">
-        <h4>🤖 AI OCR Extraction Log</h4>
+        <h4>&#129302; AI OCR Extraction Log</h4>
         <div class="progress-bar-wrap">
           <div class="progress-bar-fill" id="progressBar"></div>
         </div>
@@ -1262,13 +1548,13 @@ body {
   <div id="dataSection">
     <!-- Header Fields -->
     <div class="section-card">
-      <h3><span class="icon">📋</span> ข้อมูลที่สกัดได้ -- แก้ไขได้</h3>
+      <h3><span class="icon">&#128203;</span> ข้อมูลที่สกัดได้ -- แก้ไขได้</h3>
       <div class="data-field-grid" id="headerFields"></div>
     </div>
 
     <!-- Line Items -->
     <div class="section-card">
-      <h3><span class="icon">📦</span> รายการสินค้า</h3>
+      <h3><span class="icon">&#128230;</span> รายการสินค้า</h3>
       <div class="items-table-wrap">
         <table class="items-table" id="lineItemsTable">
           <thead id="lineItemsHead"></thead>
@@ -1279,7 +1565,7 @@ body {
 
     <!-- Freight Charges -->
     <div class="section-card">
-      <h3><span class="icon">💰</span> รายละเอียดค่าใช้จ่าย Freight</h3>
+      <h3><span class="icon">&#128176;</span> รายละเอียดค่าใช้จ่าย Freight</h3>
       <div class="items-table-wrap">
         <table class="items-table" id="chargesTable">
           <thead>
@@ -1297,7 +1583,7 @@ body {
 
     <!-- Currency Conversion -->
     <div class="section-card">
-      <h3><span class="icon">💱</span> AI แนะนำอัตราแลกเปลี่ยน</h3>
+      <h3><span class="icon">&#128177;</span> AI แนะนำอัตราแลกเปลี่ยน</h3>
       <div class="currency-card" id="currencyCard"></div>
       <div id="historyComparison"></div>
     </div>
@@ -1307,11 +1593,11 @@ body {
   <div id="chartSection">
     <div class="chart-container">
       <div class="chart-box">
-        <h4>📊 สัดส่วนค่าใช้จ่าย -- Stacked Bar</h4>
+        <h4>&#128202; สัดส่วนค่าใช้จ่าย -- Stacked Bar</h4>
         <div class="stacked-bar-chart" id="barChart"></div>
       </div>
       <div class="chart-box">
-        <h4>🥧 สัดส่วนค่าใช้จ่าย -- Pie Chart</h4>
+        <h4>&#129383; สัดส่วนค่าใช้จ่าย -- Pie Chart</h4>
         <div class="pie-wrapper">
           <div class="pie-chart" id="pieChart"></div>
           <div class="pie-legend" id="pieLegend"></div>
@@ -1323,14 +1609,14 @@ body {
   <!-- Actions -->
   <div id="actionSection">
     <div class="actions-bar">
-      <button class="action-btn btn-primary" onclick="showToast('บันทึกข้อมูลสำเร็จ')">
-        💾 บันทึก
+      <button class="action-btn btn-primary" onclick="saveAndAddToRecent()">
+        &#128190; บันทึก Task
       </button>
       <button class="action-btn btn-success" onclick="showToast('ส่งข้อมูลเข้าระบบบัญชีสำเร็จ')">
-        📤 ส่งเข้าระบบบัญชี
+        &#128228; ส่งเข้าระบบบัญชี
       </button>
       <button class="action-btn btn-outline" onclick="showToast('เปรียบเทียบกับ PO #4420187 -- ตรงกัน 98.5%')">
-        🔍 เปรียบเทียบกับ PO
+        &#128269; เปรียบเทียบกับ PO
       </button>
     </div>
   </div>
@@ -1339,11 +1625,78 @@ body {
 
 <!-- Toast -->
 <div class="toast" id="toast">
-  <span>✅</span>
+  <span>&#9989;</span>
   <span id="toastMsg"></span>
 </div>
 
 <script>
+// ====== MULTI-USER: Recent Scans Data ======
+const RECENT_SCANS = [
+  { id: 'SCN-089', doc: 'DHL Invoice #4521', docSub: 'INV-2026-TH-04521', type: 'freight', typeLabel: 'Freight Invoice', user: 'somsak', userName: 'สมศักดิ์ ว.', userColor: '#2563EB', shipment: 'SHP-034', amount: '$2,450', date: '4 เม.ย.', status: 'done' },
+  { id: 'SCN-088', doc: 'COSCO B/L #789', docSub: 'COSU6284789210', type: 'bol', typeLabel: 'Bill of Lading', user: 'arun', userName: 'อรุณ ก.', userColor: '#7C3AED', shipment: 'SHP-033', amount: '$8,900', date: '3 เม.ย.', status: 'done' },
+  { id: 'SCN-087', doc: 'Thai Customs Dec', docSub: 'A1 ENT-2026-04-15893', type: 'customs', typeLabel: 'Customs Form', user: 'somsak', userName: 'สมศักดิ์ ว.', userColor: '#2563EB', shipment: 'SHP-033', amount: '&#3647;45K', date: '3 เม.ย.', status: 'done' },
+  { id: 'SCN-086', doc: 'Maersk Invoice', docSub: 'MAEU-INV-88120', type: 'freight', typeLabel: 'Freight Invoice', user: 'pichai', userName: 'พิชัย ส.', userColor: '#059669', shipment: 'SHP-032', amount: '$3,200', date: '2 เม.ย.', status: 'done' },
+  { id: 'SCN-085', doc: 'Evergreen B/L #512', docSub: 'EGLV-BL-005120', type: 'bol', typeLabel: 'Bill of Lading', user: 'nattaya', userName: 'ณัฐยา พ.', userColor: '#EA580C', shipment: 'SHP-031', amount: '$5,600', date: '1 เม.ย.', status: 'done' },
+  { id: 'SCN-084', doc: 'ONE Freight Inv', docSub: 'ONE-TH-2026-312', type: 'freight', typeLabel: 'Freight Invoice', user: 'arun', userName: 'อรุณ ก.', userColor: '#7C3AED', shipment: 'SHP-031', amount: '$4,100', date: '1 เม.ย.', status: 'done' },
+  { id: 'SCN-083', doc: 'Customs Dec #15890', docSub: 'A1 ENT-2026-03-15890', type: 'customs', typeLabel: 'Customs Form', user: 'pichai', userName: 'พิชัย ส.', userColor: '#059669', shipment: 'SHP-030', amount: '&#3647;128K', date: '31 มี.ค.', status: 'done' },
+  { id: 'SCN-082', doc: 'Yang Ming B/L', docSub: 'YMLU-BL-99210', type: 'bol', typeLabel: 'Bill of Lading', user: 'somsak', userName: 'สมศักดิ์ ว.', userColor: '#2563EB', shipment: 'SHP-030', amount: '$6,700', date: '31 มี.ค.', status: 'done' },
+];
+
+let currentFilter = 'all';
+
+function renderRecentScans(filter) {
+  const tbody = document.getElementById('recentScansBody');
+  let scans = RECENT_SCANS;
+  if (filter === 'mine') scans = scans.filter(s => s.user === 'somsak');
+  else if (filter === 'freight') scans = scans.filter(s => s.type === 'freight');
+  else if (filter === 'bol') scans = scans.filter(s => s.type === 'bol');
+  else if (filter === 'customs') scans = scans.filter(s => s.type === 'customs');
+
+  tbody.innerHTML = scans.map(s => `
+    <tr onclick="viewScan('${s.id}')">
+      <td><span class="scan-id">${s.id}</span></td>
+      <td>
+        <div class="scan-doc-name">${s.doc}</div>
+        <div class="scan-doc-sub">${s.docSub}</div>
+      </td>
+      <td><span class="scan-type-badge ${s.type}">${s.typeLabel}</span></td>
+      <td>
+        <div class="user-avatar">
+          <div class="avatar" style="background:${s.userColor}">${s.userName.charAt(0)}</div>
+          <span class="name">${s.userName}</span>
+        </div>
+      </td>
+      <td><span class="shipment-link">${s.shipment}</span></td>
+      <td><span class="scan-status ${s.status}">${s.status === 'done' ? '&#10003; สำเร็จ' : '&#9881; กำลังดำเนินการ'}</span></td>
+      <td>
+        <div class="scan-amount">${s.amount}</div>
+        <div class="scan-date">${s.date}</div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function filterScans(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderRecentScans(filter);
+}
+
+function viewScan(id) {
+  const scan = RECENT_SCANS.find(s => s.id === id);
+  if (!scan) return;
+  showToast(`เปิดรายการ ${scan.id}: ${scan.doc} -- ดำเนินการโดย ${scan.userName}`);
+}
+
+function saveAndAddToRecent() {
+  if (!currentDoc) { showToast('กรุณาสแกนเอกสารก่อน'); return; }
+  const userName = document.getElementById('assignedUser');
+  const selectedName = userName.options[userName.selectedIndex].text;
+  const shipment = document.getElementById('assignedShipment').value || 'SHP-035';
+  showToast(`บันทึก Task สำเร็จ -- มอบหมายให้ ${selectedName} | ${shipment}`);
+}
+
 // ====== MOCK DATA ======
 const DOCS = {
   freight: {
@@ -1477,6 +1830,9 @@ function startOCR(type) {
   isProcessing = true;
   currentDoc = DOCS[type];
 
+  // Show assigned bar
+  document.getElementById('assignedBar').style.display = 'flex';
+
   // Reset
   document.querySelectorAll('.mock-btn').forEach(b => b.classList.remove('active'));
   event.currentTarget.classList.add('active');
@@ -1591,7 +1947,7 @@ function renderDocument(doc) {
 
     <div class="total-section">
       <div class="total-label">GRAND TOTAL (THB)</div>
-      <div class="total-amount">฿${doc.grandTotalTHB}</div>
+      <div class="total-amount">&#3647;${doc.grandTotalTHB}</div>
     </div>
 
     <div class="currency-note">Exchange Rate: 1 USD = ${doc.exchangeRate} THB | Date: ${doc.date}</div>
@@ -1606,17 +1962,17 @@ async function runExtraction(doc) {
   let stepNum = 0;
 
   const steps = [
-    { icon: 'scanning', emoji: '🔍', step: 'เริ่มสแกนเอกสาร...', detail: `ตรวจพบเอกสาร: ${doc.docType}`, data: `Document Type: ${doc.docType}\nProvider: ${doc.company}`, pct: 5 },
-    { icon: 'scanning', emoji: '📐', step: 'วิเคราะห์โครงสร้างเอกสาร', detail: 'ตรวจจับตำแหน่ง Header, Table, Footer', data: 'Layout: 3 sections detected\nConfidence: 98.7%', pct: 12 },
-    { icon: 'extracted', emoji: '🏢', step: 'สกัดข้อมูล Shipper', detail: doc.shipper.name, data: `Address: ${doc.shipper.addr}\nTax ID: ${doc.shipper.tax}`, pct: 22 },
-    { icon: 'extracted', emoji: '📍', step: 'สกัดข้อมูล Consignee', detail: doc.consignee.name, data: `Address: ${doc.consignee.addr}\nTax ID: ${doc.consignee.tax}`, pct: 30 },
-    { icon: 'extracted', emoji: '📝', step: 'สกัดเลขที่เอกสาร & วันที่', detail: `Invoice: ${doc.docNumber}`, data: `Date: ${doc.date}\nDue Date: ${doc.dueDate}\nIncoterms: ${doc.incoterms}`, pct: 38 },
-    { icon: 'extracted', emoji: '🚢', step: 'สกัดข้อมูลการขนส่ง', detail: doc.vesselFlight, data: `B/L: ${doc.blNumber}\nContainer: ${doc.containerNo}\nPOL: ${doc.portLoad}\nPOD: ${doc.portDischarge}`, pct: 48 },
-    { icon: 'extracted', emoji: '📦', step: `สกัดรายการสินค้า (${doc.lineItems.length} รายการ)`, detail: 'OCR line items with table detection', data: doc.lineItems.map(i => `${i.desc}: ${i.qty} pcs, ${i.weight}`).join('\n'), pct: 58 },
-    { icon: 'extracted', emoji: '💰', step: `สกัดค่าใช้จ่าย Freight (${doc.charges.length} รายการ)`, detail: 'Parsing freight charges breakdown', data: doc.charges.map(c => `${c.code}: ${c.currency} ${c.amount}`).join('\n'), pct: 72 },
-    { icon: 'ai', emoji: '💱', step: 'AI วิเคราะห์อัตราแลกเปลี่ยน', detail: `1 USD = ${doc.exchangeRate} THB (อัตราในเอกสาร)`, data: `เปรียบเทียบกับอัตราตลาด...\nBest Rate: SCB 34.85 THB/USD\nSavings potential: ฿2,340`, pct: 82 },
-    { icon: 'ai', emoji: '🧮', step: 'คำนวณยอดรวม', detail: `USD ${doc.totalUSD} + THB ${doc.totalTHB}`, data: `Grand Total: ฿${doc.grandTotalTHB}\nExchange Rate Applied: ${doc.exchangeRate}`, pct: 90 },
-    { icon: 'ai', emoji: '✅', step: 'ตรวจสอบความถูกต้อง', detail: 'Cross-validation complete', data: 'Accuracy: 99.2%\nFields extracted: ' + (6 + doc.lineItems.length + doc.charges.length) + '\nWarnings: 0', pct: 100 },
+    { icon: 'scanning', emoji: '&#128269;', step: 'เริ่มสแกนเอกสาร...', detail: `ตรวจพบเอกสาร: ${doc.docType}`, data: `Document Type: ${doc.docType}\nProvider: ${doc.company}`, pct: 5 },
+    { icon: 'scanning', emoji: '&#128208;', step: 'วิเคราะห์โครงสร้างเอกสาร', detail: 'ตรวจจับตำแหน่ง Header, Table, Footer', data: 'Layout: 3 sections detected\nConfidence: 98.7%', pct: 12 },
+    { icon: 'extracted', emoji: '&#127970;', step: 'สกัดข้อมูล Shipper', detail: doc.shipper.name, data: `Address: ${doc.shipper.addr}\nTax ID: ${doc.shipper.tax}`, pct: 22 },
+    { icon: 'extracted', emoji: '&#128205;', step: 'สกัดข้อมูล Consignee', detail: doc.consignee.name, data: `Address: ${doc.consignee.addr}\nTax ID: ${doc.consignee.tax}`, pct: 30 },
+    { icon: 'extracted', emoji: '&#128221;', step: 'สกัดเลขที่เอกสาร & วันที่', detail: `Invoice: ${doc.docNumber}`, data: `Date: ${doc.date}\nDue Date: ${doc.dueDate}\nIncoterms: ${doc.incoterms}`, pct: 38 },
+    { icon: 'extracted', emoji: '&#128674;', step: 'สกัดข้อมูลการขนส่ง', detail: doc.vesselFlight, data: `B/L: ${doc.blNumber}\nContainer: ${doc.containerNo}\nPOL: ${doc.portLoad}\nPOD: ${doc.portDischarge}`, pct: 48 },
+    { icon: 'extracted', emoji: '&#128230;', step: `สกัดรายการสินค้า (${doc.lineItems.length} รายการ)`, detail: 'OCR line items with table detection', data: doc.lineItems.map(i => `${i.desc}: ${i.qty} pcs, ${i.weight}`).join('\n'), pct: 58 },
+    { icon: 'extracted', emoji: '&#128176;', step: `สกัดค่าใช้จ่าย Freight (${doc.charges.length} รายการ)`, detail: 'Parsing freight charges breakdown', data: doc.charges.map(c => `${c.code}: ${c.currency} ${c.amount}`).join('\n'), pct: 72 },
+    { icon: 'ai', emoji: '&#128177;', step: 'AI วิเคราะห์อัตราแลกเปลี่ยน', detail: `1 USD = ${doc.exchangeRate} THB (อัตราในเอกสาร)`, data: `เปรียบเทียบกับอัตราตลาด...\nBest Rate: SCB 34.85 THB/USD\nSavings potential: &#3647;2,340`, pct: 82 },
+    { icon: 'ai', emoji: '&#129518;', step: 'คำนวณยอดรวม', detail: `USD ${doc.totalUSD} + THB ${doc.totalTHB}`, data: `Grand Total: &#3647;${doc.grandTotalTHB}\nExchange Rate Applied: ${doc.exchangeRate}`, pct: 90 },
+    { icon: 'ai', emoji: '&#9989;', step: 'ตรวจสอบความถูกต้อง', detail: 'Cross-validation complete', data: 'Accuracy: 99.2%\nFields extracted: ' + (6 + doc.lineItems.length + doc.charges.length) + '\nWarnings: 0', pct: 100 },
   ];
 
   for (const s of steps) {
@@ -1664,7 +2020,7 @@ function renderExtractedData(doc) {
     { label: 'Port of Discharge', value: doc.portDischarge, conf: 'high' },
     { label: 'Incoterms', value: doc.incoterms, conf: 'medium' },
     { label: 'อัตราแลกเปลี่ยน', value: `1 USD = ${doc.exchangeRate} THB`, ai: true },
-    { label: 'ยอดรวม (THB)', value: `฿${doc.grandTotalTHB}`, conf: 'high' },
+    { label: 'ยอดรวม (THB)', value: `\u0E3F${doc.grandTotalTHB}`, conf: 'high' },
   ];
 
   hf.innerHTML = fields.map(f => `
@@ -1706,7 +2062,7 @@ function renderExtractedData(doc) {
   const cc = document.getElementById('currencyCard');
   const bestRate = BANK_RATES.reduce((a, b) => a.rate < b.rate ? a : b);
   cc.innerHTML = `
-    <h4>💱 เปรียบเทียบอัตราแลกเปลี่ยน USD/THB วันนี้</h4>
+    <h4>&#128177; เปรียบเทียบอัตราแลกเปลี่ยน USD/THB วันนี้</h4>
     <div class="rate-comparison">
       ${BANK_RATES.map(b => `
         <div class="rate-item">
@@ -1722,7 +2078,7 @@ function renderExtractedData(doc) {
   const hc = document.getElementById('historyComparison');
   hc.innerHTML = `
     <div style="margin-top:16px">
-      <h4 style="font-size:13px;font-weight:600;color:var(--text-dim);margin-bottom:10px">📈 เปรียบเทียบอัตราย้อนหลัง 5 สัปดาห์</h4>
+      <h4 style="font-size:13px;font-weight:600;color:var(--text-dim);margin-bottom:10px">&#128200; เปรียบเทียบอัตราย้อนหลัง 5 สัปดาห์</h4>
       ${HISTORY_RATES.map(h => `
         <div class="history-row">
           <span class="date">${h.date}</span>
@@ -1764,7 +2120,7 @@ function renderCharts(doc) {
       <div class="bar-group">
         <div class="bar-label">
           <span class="name">${c.name}</span>
-          <span class="amount">${c.currency} ${c.original} ${c.currency !== 'THB' ? `(฿${Math.round(c.value).toLocaleString()})` : ''}</span>
+          <span class="amount">${c.currency} ${c.original} ${c.currency !== 'THB' ? `(\u0E3F${Math.round(c.value).toLocaleString()})` : ''}</span>
         </div>
         <div class="bar-track">
           <div class="bar-fill" style="background:${colors[i % colors.length]}" data-width="${pct}">${pct}%</div>
@@ -1838,6 +2194,11 @@ uz.addEventListener('dragover', e => { e.preventDefault(); uz.classList.add('dra
 uz.addEventListener('dragleave', () => uz.classList.remove('dragover'));
 uz.addEventListener('drop', e => { e.preventDefault(); uz.classList.remove('dragover'); showToast('ไฟล์ถูกอัพโหลดแล้ว -- กำลังประมวลผล...'); });
 uz.addEventListener('click', () => showToast('กรุณาเลือกเอกสารตัวอย่างด้านล่างเพื่อทดลองใช้งาน'));
+
+// Init recent scans on load
+document.addEventListener('DOMContentLoaded', () => {
+  renderRecentScans('all');
+});
 </script>
 
 </body>

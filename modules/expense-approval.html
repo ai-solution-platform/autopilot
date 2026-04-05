@@ -3,956 +3,450 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Expense Approval Workflow — Autopilot v2 | ANTS AI Solution Hub</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+Thai:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>Expense Approval Queue — Autopilot v2 | ANTS AI Solution Hub</title>
 <style>
-:root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--grad2:linear-gradient(135deg,#0891B2,#2563EB);--grad3:linear-gradient(135deg,#7C3AED,#DB2777);--grad4:linear-gradient(135deg,#059669,#0891B2);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
-body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
+:root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--cyan-bg:#ECFEFF;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
+body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);--cyan-bg:rgba(8,145,178,0.15);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 
-* { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior: smooth; }
-body {
-    font-family:'Noto Sans Thai','Inter',sans-serif;
-    background:var(--bg); color:var(--text);
-    min-height:100vh; font-size:14px;
-}
-
-::-webkit-scrollbar { width:6px; }
-::-webkit-scrollbar-track { background:var(--bg2); }
-::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
-
-/* Dark Toggle */
 .dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);}
 
-/* Tag */
-.tag {
-    display:inline-block;
-    font-size:0.65rem; font-weight:600;
-    letter-spacing:1.5px; text-transform:uppercase;
-    color:var(--purple);
-    padding:4px 12px;
-    border:1px solid var(--purple);
-    border-radius:100px;
-    background:var(--purple-bg);
-}
-
-/* Card */
-.card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 24px;
-    transition: all 0.3s ease;
-    box-shadow: var(--shadow);
-}
-.card:hover {
-    box-shadow: 0 4px 20px rgba(0,0,0,.08);
-}
-
-/* Badge */
-.badge {
-    display: inline-flex; align-items: center; gap: 4px;
-    font-size: 0.7rem; font-weight: 600;
-    padding: 3px 10px; border-radius: 20px;
-}
-.badge-pass { background: var(--green-bg); color: var(--green); border: 1px solid var(--green); }
-.badge-warn { background: var(--orange-bg); color: var(--orange); border: 1px solid var(--orange); }
-.badge-danger { background: var(--red-bg); color: var(--red); border: 1px solid var(--red); }
-.badge-info { background: var(--blue-bg); color: var(--blue); border: 1px solid var(--blue); }
-.badge-urgent { background: var(--red-bg); color: var(--red); border: 1px solid var(--red); }
-
-/* Buttons */
-.btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-    padding: 8px 18px; border-radius: 10px;
-    font-size: 0.8rem; font-weight: 600;
-    border: none; cursor: pointer;
-    transition: all 0.2s ease;
-    font-family: inherit;
-}
-.btn:active { transform: scale(0.96); }
-.btn-approve { background: var(--green-bg); color: var(--green); border: 1px solid var(--green); }
-.btn-approve:hover { background: var(--green); color: #fff; }
-.btn-reject { background: var(--red-bg); color: var(--red); border: 1px solid var(--red); }
-.btn-reject:hover { background: var(--red); color: #fff; }
-.btn-primary { background: var(--grad); color: white; }
-.btn-primary:hover { box-shadow: 0 4px 16px rgba(37,99,235,.3); }
-.btn-ghost { background: transparent; color: var(--text2); border: 1px solid var(--border); }
-.btn-ghost:hover { border-color: var(--blue); color: var(--blue); }
-
-/* Filter pills */
-.filter-pill {
-    padding: 6px 16px; border-radius: 20px;
-    font-size: 0.75rem; font-weight: 500;
-    border: 1px solid var(--border);
-    background: var(--card-bg); color: var(--muted);
-    cursor: pointer; transition: all 0.2s ease;
-    font-family: inherit;
-}
-.filter-pill.active, .filter-pill:hover {
-    background: var(--blue-bg);
-    border-color: var(--blue);
-    color: var(--blue);
-}
-
-/* Checkbox */
-.custom-cb {
-    width: 18px; height: 18px;
-    border: 2px solid var(--border);
-    border-radius: 4px;
-    background: transparent;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
-}
-.custom-cb.checked {
-    background: var(--blue);
-    border-color: var(--blue);
-}
-.custom-cb.checked::after {
-    content: '\2713';
-    color: white;
-    font-size: 11px;
-    font-weight: 700;
-}
-
-/* Avatar */
-.avatar {
-    width: 40px; height: 40px;
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700; font-size: 0.85rem;
-    color: white; flex-shrink: 0;
-}
-
-/* Receipt thumbnail */
-.receipt-thumb {
-    width: 48px; height: 48px;
-    border-radius: 8px;
-    background: var(--bg3);
-    border: 1px dashed var(--border);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.2rem; color: var(--muted);
-    flex-shrink: 0;
-}
-
-/* Approval flow */
-.flow-node {
-    display: flex; flex-direction: column; align-items: center;
-    gap: 6px; position: relative; min-width: 100px;
-}
-.flow-node-circle {
-    width: 44px; height: 44px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1rem;
-    border: 2px solid var(--border);
-    background: var(--card-bg);
-    transition: all 0.3s ease;
-}
-.flow-node-circle.done { border-color: var(--green); background: var(--green-bg); }
-.flow-node-circle.active { border-color: var(--orange); background: var(--orange-bg); animation: pulse-glow 2s infinite; }
-.flow-node-circle.pending { border-color: var(--border); opacity: 0.5; }
-.flow-connector {
-    width: 48px; height: 2px;
-    background: var(--border);
-    align-self: center;
-    margin-top: 22px;
-}
-.flow-connector.done { background: var(--green); }
-
-@keyframes pulse-glow {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(217,119,6,0.3); }
-    50% { box-shadow: 0 0 16px 4px rgba(217,119,6,0.15); }
-}
-
-/* Toast */
-.toast-container {
-    position: fixed; bottom: 24px; right: 24px;
-    display: flex; flex-direction: column; gap: 8px;
-    z-index: 1000;
-}
-.toast {
-    padding: 14px 20px;
-    border-radius: 12px;
-    font-size: 0.8rem; font-weight: 500;
-    display: flex; align-items: center; gap: 10px;
-    animation: toastIn 0.4s ease, toastOut 0.4s ease 2.6s forwards;
-    min-width: 300px;
-    box-shadow: var(--shadow);
-}
-.toast-success { background: var(--green-bg); border: 1px solid var(--green); color: var(--green); }
-.toast-error { background: var(--red-bg); border: 1px solid var(--red); color: var(--red); }
-.toast-info { background: var(--purple-bg); border: 1px solid var(--purple); color: var(--purple); }
-
-@keyframes toastIn { from { opacity:0; transform:translateX(40px); } to { opacity:1; transform:translateX(0); } }
-@keyframes toastOut { to { opacity:0; transform:translateX(40px); } }
-
-/* Expander */
-.detail-panel {
-    max-height: 0; overflow: hidden;
-    transition: max-height 0.4s ease, padding 0.3s ease;
-}
-.detail-panel.open {
-    max-height: 600px;
-    padding-top: 16px;
-}
-
-/* Table */
-.data-table { width: 100%; border-collapse: separate; border-spacing: 0; }
-.data-table th {
-    font-size: 0.68rem; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 1px; color: var(--muted);
-    padding: 12px 16px; text-align: left;
-    border-bottom: 1px solid var(--border);
-    background: var(--bg2);
-}
-.data-table td {
-    padding: 12px 16px; font-size: 0.8rem;
-    border-bottom: 1px solid var(--border);
-    color: var(--text2);
-}
-.data-table tr:hover td { background: var(--blue-bg); }
-
-/* Section nav tabs */
-.nav-tab {
-    padding: 10px 20px;
-    font-size: 0.8rem; font-weight: 500;
-    color: var(--muted);
-    border-bottom: 2px solid transparent;
-    cursor: pointer; transition: all 0.2s ease;
-    background: none; border-top: none; border-left: none; border-right: none;
-    font-family: inherit;
-}
-.nav-tab.active, .nav-tab:hover {
-    color: var(--blue);
-    border-bottom-color: var(--blue);
-}
-
-/* Stat card */
-.stat-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px;
-    flex: 1; min-width: 160px;
-    box-shadow: var(--shadow);
-}
-.stat-card .num {
-    font-size: 1.8rem; font-weight: 800;
-    line-height: 1;
-}
-
-/* Bulk action bar */
-.bulk-bar {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    background: var(--card-bg);
-    border-top: 1px solid var(--border);
-    padding: 14px 32px;
-    display: flex; align-items: center; justify-content: space-between;
-    transform: translateY(100%);
-    transition: transform 0.3s ease;
-    z-index: 500;
-    box-shadow: 0 -4px 20px rgba(0,0,0,.08);
-}
-.bulk-bar.show { transform: translateY(0); }
-
-/* Policy card */
-.policy-item {
-    display: flex; align-items: center; gap: 14px;
-    padding: 14px 18px;
-    border-radius: 10px;
-    background: var(--blue-bg);
-    border: 1px solid var(--border);
-}
-
-/* Breadcrumb */
-.breadcrumb{display:flex;align-items:center;gap:8px;font-size:0.75rem;color:var(--muted);}
+.page{max-width:1280px;margin:0 auto;padding:24px;}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--muted);margin-bottom:12px;}
 .breadcrumb a{color:var(--blue);text-decoration:none;font-weight:500;}
 .breadcrumb a:hover{text-decoration:underline;}
+
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
+.page-title{font-size:1.4rem;font-weight:800;display:flex;align-items:center;gap:10px;}
+.page-subtitle{font-size:.82rem;color:var(--muted);margin-top:2px;}
+
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:.82rem;font-weight:600;border:none;cursor:pointer;transition:all .2s;font-family:inherit;}
+.btn-primary{background:var(--grad);color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.2);}
+.btn-primary:hover{box-shadow:0 6px 16px rgba(37,99,235,.3);transform:translateY(-1px);}
+.btn-approve{background:var(--green-bg);color:var(--green);border:1px solid var(--green);}
+.btn-approve:hover{background:var(--green);color:#fff;}
+.btn-reject{background:var(--red-bg);color:var(--red);border:1px solid var(--red);}
+.btn-reject:hover{background:var(--red);color:#fff;}
+.btn-secondary{background:var(--card-bg);color:var(--text2);border:1px solid var(--border);}
+.btn-secondary:hover{border-color:var(--blue);color:var(--blue);}
+.btn-sm{padding:5px 10px;font-size:.72rem;border-radius:6px;}
+
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:20px;}
+.card-title{font-size:.92rem;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:16px;}
+
+/* KPI Summary */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
+.kpi-mini{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow);text-align:center;}
+.kpi-mini-label{font-size:.7rem;color:var(--muted);font-weight:500;margin-bottom:4px;}
+.kpi-mini-value{font-size:1.6rem;font-weight:800;}
+.kpi-mini-sub{font-size:.65rem;margin-top:4px;display:inline-block;padding:2px 8px;border-radius:4px;font-weight:600;}
+.kpi-blue{color:var(--blue);}.kpi-orange{color:var(--orange);}.kpi-green{color:var(--green);}.kpi-red{color:var(--red);}
+
+/* Bulk Action Bar */
+.bulk-bar{display:none;background:var(--blue-bg);border:1px solid var(--blue);border-radius:10px;padding:12px 16px;margin-bottom:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.bulk-bar.visible{display:flex;}
+.bulk-info{font-size:.82rem;font-weight:600;color:var(--blue);}
+.bulk-actions{display:flex;gap:8px;}
+
+/* Filter Row */
+.filter-row{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+.filter-pill{padding:6px 14px;border-radius:20px;font-size:.72rem;font-weight:600;border:1px solid var(--border);background:var(--card-bg);color:var(--muted);cursor:pointer;transition:all .2s;font-family:inherit;}
+.filter-pill.active,.filter-pill:hover{background:var(--blue-bg);border-color:var(--blue);color:var(--blue);}
+.search-input{padding:7px 14px;border:1px solid var(--border);border-radius:8px;font-size:.8rem;font-family:inherit;background:var(--card-bg);color:var(--text);width:220px;transition:all .2s;margin-left:auto;}
+.search-input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+
+/* Approver Group */
+.approver-group{margin-bottom:24px;}
+.approver-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--border);}
+.approver-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;color:#fff;flex-shrink:0;}
+.approver-name{font-size:.9rem;font-weight:700;}
+.approver-role{font-size:.72rem;color:var(--muted);}
+.approver-count{font-size:.7rem;font-weight:600;background:var(--orange-bg);color:var(--orange);padding:2px 10px;border-radius:20px;border:1px solid var(--orange);margin-left:auto;}
+
+/* Claim Card in Queue */
+.claim-item{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:14px;transition:all .2s;cursor:pointer;}
+.claim-item:hover{box-shadow:0 3px 12px rgba(0,0,0,.06);border-color:var(--blue);}
+.claim-item.selected{border-color:var(--blue);background:var(--blue-bg);}
+.claim-check{width:18px;height:18px;border-radius:4px;border:2px solid var(--border);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;font-size:.7rem;color:transparent;}
+.claim-check.checked{background:var(--blue);border-color:var(--blue);color:#fff;}
+.claim-id{font-weight:700;color:var(--blue);font-family:'Inter',sans-serif;font-size:.82rem;min-width:70px;}
+.claim-claimant{display:flex;align-items:center;gap:8px;min-width:140px;}
+.claim-claimant-avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff;flex-shrink:0;}
+.claim-claimant-name{font-size:.78rem;font-weight:600;}
+.claim-claimant-dept{font-size:.62rem;color:var(--muted);}
+.claim-desc{flex:1;font-size:.78rem;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:300px;}
+.claim-cat{font-size:.68rem;font-weight:500;padding:2px 8px;border-radius:6px;background:var(--bg3);color:var(--text2);white-space:nowrap;}
+.claim-amount{font-weight:700;font-family:'Inter',sans-serif;font-size:.85rem;min-width:80px;text-align:right;}
+.claim-date{font-size:.72rem;color:var(--muted);min-width:70px;text-align:right;}
+.claim-actions{display:flex;gap:6px;flex-shrink:0;}
+.claim-sla{font-size:.62rem;font-weight:600;padding:2px 6px;border-radius:4px;}
+.sla-ok{background:var(--green-bg);color:var(--green);}
+.sla-warn{background:var(--orange-bg);color:var(--orange);}
+.sla-over{background:var(--red-bg);color:var(--red);}
+
+/* Delegation Rules */
+.delegation-card{margin-top:16px;}
+.delegation-rule{display:flex;align-items:center;gap:12px;padding:10px 14px;border:1px solid var(--border);border-radius:8px;margin-bottom:8px;background:var(--bg2);font-size:.78rem;}
+.delegation-rule .arrow{color:var(--blue);font-weight:700;}
+.delegation-active{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.65rem;font-weight:600;}
+.delegation-on{background:var(--green-bg);color:var(--green);}
+.delegation-off{background:var(--bg3);color:var(--muted);}
+
+/* Stats */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;}
+.stat-card{text-align:center;padding:16px;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);}
+.stat-value{font-size:1.3rem;font-weight:800;}
+.stat-label{font-size:.7rem;color:var(--muted);margin-top:2px;}
+
+@media(max-width:768px){.kpi-row{grid-template-columns:repeat(2,1fr);}.claim-item{flex-wrap:wrap;}.claim-desc{max-width:100%;}.stats-row{grid-template-columns:1fr;}.filter-row{flex-direction:column;align-items:stretch;}.search-input{margin-left:0;width:100%;}}
 </style>
 </head>
 <body>
+<button class="dark-toggle" onclick="document.body.classList.toggle('dark');this.textContent=document.body.classList.contains('dark')?'&#9728;':'&#9790;'">&#9790;</button>
 
-<button class="dark-toggle" onclick="toggleDark()" title="Dark Mode">&#x1F319;</button>
+<div class="page">
+  <div class="breadcrumb">
+    <a href="#">ANTS Autopilot</a> <span>/</span>
+    <a href="expense-dashboard.html">Expense & Receipt</a> <span>/</span>
+    <span>Approval Queue</span>
+  </div>
 
-<!-- ========== HEADER ========== -->
-<header style="background:var(--card-bg); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:100; box-shadow:var(--shadow);">
-    <div style="max-width:1200px; margin:auto; padding:14px 24px; display:flex; align-items:center; justify-content:space-between;">
-        <div style="display:flex; align-items:center; gap:16px;">
-            <div style="width:36px; height:36px; border-radius:10px; background:var(--grad); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.9rem; color:#fff;">A</div>
-            <div>
-                <div style="font-weight:700; font-size:0.95rem;">Autopilot <span style="color:var(--purple);">v2</span></div>
-                <div style="font-size:0.65rem; color:var(--muted);">Expense Approval Workflow</div>
-            </div>
-        </div>
-        <div style="display:flex; align-items:center; gap:16px;">
-            <div style="position:relative;">
-                <div style="width:36px; height:36px; border-radius:10px; background:var(--bg3); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:0.9rem;">&#128276;</div>
-                <div style="position:absolute; top:-2px; right:-2px; width:16px; height:16px; border-radius:50%; background:var(--red); font-size:0.55rem; font-weight:700; display:flex; align-items:center; justify-content:center; color:#fff;">5</div>
-            </div>
-            <div style="display:flex; align-items:center; gap:10px; padding:6px 14px 6px 6px; background:var(--bg3); border-radius:12px; cursor:pointer;">
-                <div class="avatar" style="width:30px; height:30px; font-size:0.7rem; background:var(--grad3); border-radius:8px;">SM</div>
-                <div>
-                    <div style="font-size:0.75rem; font-weight:600;">สมชาย มงคล</div>
-                    <div style="font-size:0.6rem; color:var(--muted);">ผู้จัดการแผนก</div>
-                </div>
-            </div>
-        </div>
+  <div class="page-header">
+    <div>
+      <div class="page-title">&#9989; Expense Approval Queue</div>
+      <div class="page-subtitle">คิวอนุมัติค่าใช้จ่าย — หลายผู้อนุมัติ, หลายทีม</div>
     </div>
-</header>
-
-<!-- ========== MAIN ========== -->
-<main style="max-width:1200px; margin:auto; padding:24px 24px 100px;">
-
-    <!-- Breadcrumb -->
-    <div class="breadcrumb" style="margin-bottom:24px;">
-        <a href="../poc-app/v2.html">Autopilot v2</a>
-        <span>/</span>
-        <span>Expense & Receipt</span>
-        <span>/</span>
-        <span style="color:var(--blue);">อนุมัติค่าใช้จ่าย</span>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-secondary">&#128202; รายงาน</button>
+      <button class="btn btn-primary" onclick="location.href='expense-dashboard.html'">&#127968; Dashboard</button>
     </div>
+  </div>
 
-    <!-- Page title + stats row -->
-    <div style="display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:24px; margin-bottom:28px;">
-        <div>
-            <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
-                <h1 style="font-size:1.4rem; font-weight:800;">อนุมัติค่าใช้จ่าย</h1>
-                <span class="tag">Workflow</span>
-            </div>
-            <p style="color:var(--muted); font-size:0.85rem;">จัดการ ตรวจสอบ และอนุมัติรายการเบิกค่าใช้จ่ายของพนักงาน</p>
-        </div>
-        <div style="display:flex; gap:12px; flex-wrap:wrap;">
-            <div class="stat-card" style="min-width:130px;">
-                <div style="font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">รออนุมัติ</div>
-                <div class="num" style="color:var(--orange);" id="pendingCount">23</div>
-            </div>
-            <div class="stat-card" style="min-width:130px;">
-                <div style="font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">อนุมัติแล้ว (เดือนนี้)</div>
-                <div class="num" style="color:var(--green);">87</div>
-            </div>
-            <div class="stat-card" style="min-width:130px;">
-                <div style="font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">ยอดรวม (เดือนนี้)</div>
-                <div class="num" style="color:var(--cyan);">&#3647;342K</div>
-            </div>
-            <div class="stat-card" style="min-width:130px;">
-                <div style="font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">ปฏิเสธ</div>
-                <div class="num" style="color:var(--red);">4</div>
-            </div>
-        </div>
+  <!-- KPI Summary -->
+  <div class="kpi-row">
+    <div class="kpi-mini">
+      <div class="kpi-mini-label">รอการอนุมัติ</div>
+      <div class="kpi-mini-value kpi-orange">23</div>
+      <div class="kpi-mini-sub" style="background:var(--orange-bg);color:var(--orange);">5 เกิน SLA</div>
     </div>
+    <div class="kpi-mini">
+      <div class="kpi-mini-label">อนุมัติวันนี้</div>
+      <div class="kpi-mini-value kpi-green">8</div>
+      <div class="kpi-mini-sub" style="background:var(--green-bg);color:var(--green);">&#3647;124,500</div>
+    </div>
+    <div class="kpi-mini">
+      <div class="kpi-mini-label">ปฏิเสธเดือนนี้</div>
+      <div class="kpi-mini-value kpi-red">4</div>
+      <div class="kpi-mini-sub" style="background:var(--red-bg);color:var(--red);">2.5% rejection rate</div>
+    </div>
+    <div class="kpi-mini">
+      <div class="kpi-mini-label">เวลาอนุมัติเฉลี่ย</div>
+      <div class="kpi-mini-value kpi-blue">4.2 ชม.</div>
+      <div class="kpi-mini-sub" style="background:var(--blue-bg);color:var(--blue);">เร็วกว่าเป้า 1.8 ชม.</div>
+    </div>
+  </div>
 
-    <!-- Section Tabs -->
-    <div style="display:flex; gap:4px; border-bottom:1px solid var(--border); margin-bottom:24px; overflow-x:auto;">
-        <button class="nav-tab active" onclick="switchSection('queue')">&#128203; คิวอนุมัติ</button>
-        <button class="nav-tab" onclick="switchSection('flow')">&#128260; ขั้นตอนอนุมัติ</button>
-        <button class="nav-tab" onclick="switchSection('history')">&#128197; ประวัติ</button>
-        <button class="nav-tab" onclick="switchSection('policy')">&#9881;&#65039; นโยบาย</button>
+  <!-- Filters -->
+  <div class="filter-row">
+    <button class="filter-pill active" onclick="filterApproval(this,'all')">ทั้งหมด (23)</button>
+    <button class="filter-pill" onclick="filterApproval(this,'urgent')">&#128308; เร่งด่วน (5)</button>
+    <button class="filter-pill" onclick="filterApproval(this,'high')">สูง > &#3647;10K (8)</button>
+    <button class="filter-pill" onclick="filterApproval(this,'today')">ส่งวันนี้ (3)</button>
+    <button class="filter-pill" onclick="filterApproval(this,'overdue')">เกิน SLA (5)</button>
+    <input class="search-input" type="text" placeholder="&#128269; ค้นหา Claim ID, ชื่อผู้เบิก...">
+  </div>
+
+  <!-- Bulk Action Bar -->
+  <div class="bulk-bar" id="bulkBar">
+    <div class="bulk-info" id="bulkInfo">เลือก 0 รายการ</div>
+    <div class="bulk-actions">
+      <button class="btn btn-approve btn-sm" onclick="bulkAction('approve')">&#9989; อนุมัติที่เลือก</button>
+      <button class="btn btn-reject btn-sm" onclick="bulkAction('reject')">&#10060; ปฏิเสธที่เลือก</button>
+      <button class="btn btn-secondary btn-sm" onclick="clearSelection()">ยกเลิก</button>
+    </div>
+  </div>
+
+  <!-- Approver Group 1: คุณสมชาย (Current User) -->
+  <div class="approver-group">
+    <div class="approver-header">
+      <div class="approver-avatar" style="background:#2563EB;">SM</div>
+      <div>
+        <div class="approver-name">สมชาย ก. (คุณ)</div>
+        <div class="approver-role">Finance Officer — Limit: &#3647;50,000</div>
+      </div>
+      <div class="approver-count">&#9203; 12 รายการรอ</div>
     </div>
 
-    <!-- ============ SECTION: Approval Queue ============ -->
-    <section id="section-queue">
-        <!-- Filters -->
-        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:20px;">
-            <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                <button class="filter-pill active" onclick="filterCards('all',this)">&#128204; ทั้งหมด <span style="opacity:0.6; margin-left:2px;" id="countAll">23</span></button>
-                <button class="filter-pill" onclick="filterCards('inBudget',this)">&#9989; ในวงเงิน <span style="opacity:0.6; margin-left:2px;">14</span></button>
-                <button class="filter-pill" onclick="filterCards('overBudget',this)">&#9888;&#65039; เกินวงเงิน <span style="opacity:0.6; margin-left:2px;">6</span></button>
-                <button class="filter-pill" onclick="filterCards('urgent',this)">&#128308; ด่วน <span style="opacity:0.6; margin-left:2px;">3</span></button>
-            </div>
-            <div style="display:flex; align-items:center; gap:8px;">
-                <div class="custom-cb" id="selectAllCb" onclick="toggleSelectAll()"></div>
-                <span style="font-size:0.75rem; color:var(--muted);">เลือกทั้งหมด</span>
-            </div>
-        </div>
-
-        <!-- Cards Grid -->
-        <div id="cardsContainer" style="display:flex; flex-direction:column; gap:12px;">
-        </div>
-    </section>
-
-    <!-- ============ SECTION: Approval Flow ============ -->
-    <section id="section-flow" style="display:none;">
-        <div class="card" style="margin-bottom:24px;">
-            <h3 style="font-size:1rem; font-weight:700; margin-bottom:4px;">ขั้นตอนการอนุมัติค่าใช้จ่าย</h3>
-            <p style="font-size:0.78rem; color:var(--muted); margin-bottom:24px;">ตัวอย่าง: รายการเบิก &#3647;65,000 — ค่าเดินทางไปสัมมนา</p>
-
-            <div style="display:flex; align-items:flex-start; justify-content:center; flex-wrap:wrap; gap:0; padding:20px 0;">
-                <div class="flow-node">
-                    <div class="flow-node-circle done" style="font-size:1.1rem;">&#128100;</div>
-                    <div style="text-align:center;">
-                        <div style="font-size:0.75rem; font-weight:600;">พนักงาน</div>
-                        <div style="font-size:0.6rem; color:var(--muted);">วิภา สุขใจ</div>
-                        <div class="badge badge-pass" style="margin-top:4px; font-size:0.6rem;">ยื่นเบิก</div>
-                        <div style="font-size:0.55rem; color:var(--muted); margin-top:3px;">1 เม.ย. 10:32</div>
-                    </div>
-                </div>
-                <div class="flow-connector done"></div>
-                <div class="flow-node">
-                    <div class="flow-node-circle done" style="font-size:1.1rem;">&#128101;</div>
-                    <div style="text-align:center;">
-                        <div style="font-size:0.75rem; font-weight:600;">หัวหน้าทีม</div>
-                        <div style="font-size:0.6rem; color:var(--muted);">อนันต์ ดี</div>
-                        <div class="badge badge-pass" style="margin-top:4px; font-size:0.6rem;">&#10003; อนุมัติ</div>
-                        <div style="font-size:0.55rem; color:var(--muted); margin-top:3px;">1 เม.ย. 14:15</div>
-                    </div>
-                </div>
-                <div class="flow-connector done"></div>
-                <div class="flow-node">
-                    <div class="flow-node-circle active" style="font-size:1.1rem;">&#128188;</div>
-                    <div style="text-align:center;">
-                        <div style="font-size:0.75rem; font-weight:600;">ผู้จัดการแผนก</div>
-                        <div style="font-size:0.6rem; color:var(--muted);">สมชาย มงคล</div>
-                        <div class="badge badge-warn" style="margin-top:4px; font-size:0.6rem;">&#9203; รอดำเนินการ</div>
-                        <div style="font-size:0.55rem; color:var(--muted); margin-top:3px;">รอตั้งแต่ 2 เม.ย.</div>
-                    </div>
-                </div>
-                <div class="flow-connector"></div>
-                <div class="flow-node">
-                    <div class="flow-node-circle pending" style="font-size:1.1rem;">&#128209;</div>
-                    <div style="text-align:center;">
-                        <div style="font-size:0.75rem; font-weight:600;">บัญชี</div>
-                        <div style="font-size:0.6rem; color:var(--muted);">ทีมบัญชี</div>
-                        <div class="badge" style="margin-top:4px; font-size:0.6rem; opacity:0.4; border:1px solid var(--border); color:var(--muted);">รอคิว</div>
-                    </div>
-                </div>
-                <div class="flow-connector"></div>
-                <div class="flow-node">
-                    <div class="flow-node-circle pending" style="font-size:1.1rem;">&#127970;</div>
-                    <div style="text-align:center;">
-                        <div style="font-size:0.75rem; font-weight:600;">CFO</div>
-                        <div style="font-size:0.6rem; color:var(--muted);">>&#3647;50,000</div>
-                        <div class="badge badge-danger" style="margin-top:4px; font-size:0.6rem;">ต้องอนุมัติ</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <h3 style="font-size:0.9rem; font-weight:700; margin-bottom:16px;">&#128218; กฎเกณฑ์การเดินเรื่อง</h3>
-            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:14px;">
-                <div class="policy-item">
-                    <div style="font-size:1.2rem;">&#128178;</div>
-                    <div>
-                        <div style="font-size:0.78rem; font-weight:600;">วงเงิน &#8804; &#3647;5,000</div>
-                        <div style="font-size:0.68rem; color:var(--muted);">หัวหน้าทีมอนุมัติได้เลย</div>
-                    </div>
-                </div>
-                <div class="policy-item">
-                    <div style="font-size:1.2rem;">&#128176;</div>
-                    <div>
-                        <div style="font-size:0.78rem; font-weight:600;">&#3647;5,001 - &#3647;50,000</div>
-                        <div style="font-size:0.68rem; color:var(--muted);">ผู้จัดการแผนก + บัญชี</div>
-                    </div>
-                </div>
-                <div class="policy-item">
-                    <div style="font-size:1.2rem;">&#128293;</div>
-                    <div>
-                        <div style="font-size:0.78rem; font-weight:600;">วงเงิน > &#3647;50,000</div>
-                        <div style="font-size:0.68rem; color:var(--muted);">ต้องผ่าน CFO ลงนาม</div>
-                    </div>
-                </div>
-                <div class="policy-item">
-                    <div style="font-size:1.2rem;">&#9200;</div>
-                    <div>
-                        <div style="font-size:0.78rem; font-weight:600;">SLA อนุมัติ</div>
-                        <div style="font-size:0.68rem; color:var(--muted);">ภายใน 3 วันทำการ / ด่วน 1 วัน</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============ SECTION: History ============ -->
-    <section id="section-history" style="display:none;">
-        <div class="card" style="padding:0; overflow:hidden;">
-            <div style="padding:20px 24px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
-                <h3 style="font-size:0.95rem; font-weight:700; margin:0;">&#128197; ประวัติการอนุมัติ</h3>
-                <div style="display:flex; gap:8px;">
-                    <button class="filter-pill active" onclick="filterHistory('all',this)">ทั้งหมด</button>
-                    <button class="filter-pill" onclick="filterHistory('approved',this)">อนุมัติ</button>
-                    <button class="filter-pill" onclick="filterHistory('rejected',this)">ปฏิเสธ</button>
-                </div>
-            </div>
-            <div style="overflow-x:auto;">
-                <table class="data-table" id="historyTable">
-                    <thead>
-                        <tr>
-                            <th>วันที่</th>
-                            <th>พนักงาน</th>
-                            <th>แผนก</th>
-                            <th>หมวดหมู่</th>
-                            <th>จำนวนเงิน</th>
-                            <th>สถานะ</th>
-                            <th>อนุมัติโดย</th>
-                        </tr>
-                    </thead>
-                    <tbody id="historyBody">
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============ SECTION: Policy ============ -->
-    <section id="section-policy" style="display:none;">
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(380px,1fr)); gap:20px;">
-            <div class="card">
-                <div style="display:flex; align-items:center; gap:10px; margin-bottom:18px;">
-                    <div style="width:36px; height:36px; border-radius:10px; background:var(--grad); display:flex; align-items:center; justify-content:center; font-size:1rem; color:#fff;">&#128176;</div>
-                    <div>
-                        <h3 style="font-size:0.9rem; font-weight:700; margin:0;">วงเงินอนุมัติตามตำแหน่ง</h3>
-                        <div style="font-size:0.65rem; color:var(--muted);">อัปเดตล่าสุด: 15 มี.ค. 2026</div>
-                    </div>
-                </div>
-                <div style="display:flex; flex-direction:column; gap:10px;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; border-radius:8px; background:var(--blue-bg); border:1px solid var(--border);">
-                        <div>
-                            <div style="font-size:0.78rem; font-weight:600;">หัวหน้าทีม</div>
-                            <div style="font-size:0.65rem; color:var(--muted);">Team Lead</div>
-                        </div>
-                        <div style="font-size:0.85rem; font-weight:700; color:var(--cyan);">&#3647;5,000</div>
-                    </div>
-                    <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; border-radius:8px; background:var(--blue-bg); border:1px solid var(--border);">
-                        <div>
-                            <div style="font-size:0.78rem; font-weight:600;">ผู้จัดการแผนก</div>
-                            <div style="font-size:0.65rem; color:var(--muted);">Department Manager</div>
-                        </div>
-                        <div style="font-size:0.85rem; font-weight:700; color:var(--blue);">&#3647;50,000</div>
-                    </div>
-                    <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; border-radius:8px; background:var(--blue-bg); border:1px solid var(--border);">
-                        <div>
-                            <div style="font-size:0.78rem; font-weight:600;">CFO / VP Finance</div>
-                            <div style="font-size:0.65rem; color:var(--muted);">Chief Financial Officer</div>
-                        </div>
-                        <div style="font-size:0.85rem; font-weight:700; color:var(--purple);">ไม่จำกัด</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div style="display:flex; align-items:center; gap:10px; margin-bottom:18px;">
-                    <div style="width:36px; height:36px; border-radius:10px; background:var(--grad4); display:flex; align-items:center; justify-content:center; font-size:1rem; color:#fff;">&#128206;</div>
-                    <div>
-                        <h3 style="font-size:0.9rem; font-weight:700; margin:0;">หมวดหมู่ที่ต้องแนบใบเสร็จ</h3>
-                        <div style="font-size:0.65rem; color:var(--muted);">ข้อกำหนดใบเสร็จรับเงิน</div>
-                    </div>
-                </div>
-                <div style="display:flex; flex-direction:column; gap:8px;">
-                    <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 12px; border-radius:8px; background:var(--green-bg);">
-                        <span style="font-size:0.78rem;">&#128652; ค่าเดินทาง</span>
-                        <span class="badge badge-pass" style="font-size:0.6rem;">ต้องแนบ</span>
-                    </div>
-                    <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 12px; border-radius:8px; background:var(--green-bg);">
-                        <span style="font-size:0.78rem;">&#127860; ค่าอาหาร/เลี้ยงรับรอง</span>
-                        <span class="badge badge-pass" style="font-size:0.6rem;">ต้องแนบ</span>
-                    </div>
-                    <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 12px; border-radius:8px; background:var(--green-bg);">
-                        <span style="font-size:0.78rem;">&#128187; อุปกรณ์สำนักงาน</span>
-                        <span class="badge badge-pass" style="font-size:0.6rem;">ต้องแนบ</span>
-                    </div>
-                    <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 12px; border-radius:8px; background:var(--orange-bg);">
-                        <span style="font-size:0.78rem;">&#128222; ค่าโทรศัพท์</span>
-                        <span class="badge badge-warn" style="font-size:0.6rem;">>&#3647;500 ต้องแนบ</span>
-                    </div>
-                    <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 12px; border-radius:8px; background:var(--blue-bg);">
-                        <span style="font-size:0.78rem;">&#128218; ค่าฝึกอบรม</span>
-                        <span class="badge badge-info" style="font-size:0.6rem;">ใบเสร็จ + ใบลงทะเบียน</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div style="display:flex; align-items:center; gap:10px; margin-bottom:18px;">
-                    <div style="width:36px; height:36px; border-radius:10px; background:var(--grad3); display:flex; align-items:center; justify-content:center; font-size:1rem; color:#fff;">&#128197;</div>
-                    <div>
-                        <h3 style="font-size:0.9rem; font-weight:700; margin:0;">จำนวนวันยื่นเบิก</h3>
-                        <div style="font-size:0.65rem; color:var(--muted);">เงื่อนไขระยะเวลา</div>
-                    </div>
-                </div>
-                <div style="display:flex; flex-direction:column; gap:10px;">
-                    <div class="policy-item">
-                        <div style="font-size:1.4rem; font-weight:800; color:var(--cyan); min-width:40px; text-align:center;">30</div>
-                        <div>
-                            <div style="font-size:0.78rem; font-weight:600;">วันหลังเกิดค่าใช้จ่าย</div>
-                            <div style="font-size:0.65rem; color:var(--muted);">ยื่นเบิกภายใน 30 วันนับจากวันที่เกิดรายจ่าย</div>
-                        </div>
-                    </div>
-                    <div class="policy-item">
-                        <div style="font-size:1.4rem; font-weight:800; color:var(--orange); min-width:40px; text-align:center;">5</div>
-                        <div>
-                            <div style="font-size:0.78rem; font-weight:600;">วันสิ้นเดือน</div>
-                            <div style="font-size:0.65rem; color:var(--muted);">ปิดรอบเบิกทุกวันที่ 5 ของเดือนถัดไป</div>
-                        </div>
-                    </div>
-                    <div class="policy-item">
-                        <div style="font-size:1.4rem; font-weight:800; color:var(--red); min-width:40px; text-align:center;">90</div>
-                        <div>
-                            <div style="font-size:0.78rem; font-weight:600;">วันหมดอายุใบเสร็จ</div>
-                            <div style="font-size:0.65rem; color:var(--muted);">ใบเสร็จเกิน 90 วัน ไม่สามารถเบิกได้</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div style="display:flex; align-items:center; gap:10px; margin-bottom:18px;">
-                    <div style="width:36px; height:36px; border-radius:10px; background:var(--grad2); display:flex; align-items:center; justify-content:center; font-size:1rem; color:#fff;">&#129302;</div>
-                    <div>
-                        <h3 style="font-size:0.9rem; font-weight:700; margin:0;">AI Auto-Check Rules</h3>
-                        <div style="font-size:0.65rem; color:var(--muted);">ระบบตรวจสอบอัตโนมัติ</div>
-                    </div>
-                </div>
-                <div style="display:flex; flex-direction:column; gap:8px;">
-                    <div style="display:flex; align-items:center; gap:10px; padding:8px 12px; border-radius:8px; background:var(--green-bg);">
-                        <span style="color:var(--green);">&#10003;</span>
-                        <span style="font-size:0.75rem;">ตรวจสอบใบเสร็จซ้ำ (Duplicate Detection)</span>
-                    </div>
-                    <div style="display:flex; align-items:center; gap:10px; padding:8px 12px; border-radius:8px; background:var(--green-bg);">
-                        <span style="color:var(--green);">&#10003;</span>
-                        <span style="font-size:0.75rem;">OCR อ่านใบเสร็จ ตรวจยอดเงินอัตโนมัติ</span>
-                    </div>
-                    <div style="display:flex; align-items:center; gap:10px; padding:8px 12px; border-radius:8px; background:var(--green-bg);">
-                        <span style="color:var(--green);">&#10003;</span>
-                        <span style="font-size:0.75rem;">แจ้งเตือนเมื่อเบิกเกินวงเงินต่อเดือน</span>
-                    </div>
-                    <div style="display:flex; align-items:center; gap:10px; padding:8px 12px; border-radius:8px; background:var(--green-bg);">
-                        <span style="color:var(--green);">&#10003;</span>
-                        <span style="font-size:0.75rem;">ตรวจจับรายการผิดปกติ (Anomaly Detection)</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-</main>
-
-<!-- ========== BULK ACTION BAR ========== -->
-<div class="bulk-bar" id="bulkBar">
-    <div style="display:flex; align-items:center; gap:12px;">
-        <span style="font-size:0.8rem; font-weight:600;">&#9989; เลือกแล้ว <span id="selectedCount">0</span> รายการ</span>
-        <span style="font-size:0.75rem; color:var(--muted);">ยอดรวม <span id="selectedTotal" style="color:var(--cyan); font-weight:600;">&#3647;0</span></span>
+    <div class="claim-item" onclick="toggleCheck(this)">
+      <div class="claim-check" onclick="event.stopPropagation();toggleCheck(this.parentElement)">&#10003;</div>
+      <div class="claim-id">EX-0025</div>
+      <div class="claim-claimant"><div class="claim-claimant-avatar" style="background:#DC2626;">A</div><div><div class="claim-claimant-name">อนุชา บ.</div><div class="claim-claimant-dept">Operations</div></div></div>
+      <div class="claim-desc">ค่าน้ำมันรถยนต์ เดินทางไปสาขา</div>
+      <div class="claim-cat">เดินทาง</div>
+      <div class="claim-amount">&#3647;4,800</div>
+      <div><span class="claim-sla sla-ok">SLA: 1.5 วัน</span></div>
+      <div class="claim-date">1 เม.ย.</div>
+      <div class="claim-actions">
+        <button class="btn btn-approve btn-sm" onclick="event.stopPropagation();singleAction('EX-0025','approve')">&#9989;</button>
+        <button class="btn btn-reject btn-sm" onclick="event.stopPropagation();singleAction('EX-0025','reject')">&#10060;</button>
+      </div>
     </div>
-    <div style="display:flex; gap:10px;">
-        <button class="btn btn-approve" onclick="bulkAction('approve')">&#10003; อนุมัติทั้งหมด</button>
-        <button class="btn btn-reject" onclick="bulkAction('reject')">&#10007; ปฏิเสธทั้งหมด</button>
-        <button class="btn btn-ghost" onclick="clearSelection()">ยกเลิก</button>
+
+    <div class="claim-item" onclick="toggleCheck(this)">
+      <div class="claim-check" onclick="event.stopPropagation();toggleCheck(this.parentElement)">&#10003;</div>
+      <div class="claim-id">EX-0015</div>
+      <div class="claim-claimant"><div class="claim-claimant-avatar" style="background:#DC2626;">A</div><div><div class="claim-claimant-name">อนุชา บ.</div><div class="claim-claimant-dept">Operations</div></div></div>
+      <div class="claim-desc">ค่าอาหารกลางวัน Team Building</div>
+      <div class="claim-cat">รับรอง</div>
+      <div class="claim-amount">&#3647;7,200</div>
+      <div><span class="claim-sla sla-warn">SLA: 2.8 วัน</span></div>
+      <div class="claim-date">27 มี.ค.</div>
+      <div class="claim-actions">
+        <button class="btn btn-approve btn-sm" onclick="event.stopPropagation();singleAction('EX-0015','approve')">&#9989;</button>
+        <button class="btn btn-reject btn-sm" onclick="event.stopPropagation();singleAction('EX-0015','reject')">&#10060;</button>
+      </div>
     </div>
+
+    <div class="claim-item" onclick="toggleCheck(this)">
+      <div class="claim-check" onclick="event.stopPropagation();toggleCheck(this.parentElement)">&#10003;</div>
+      <div class="claim-id">EX-0010</div>
+      <div class="claim-claimant"><div class="claim-claimant-avatar" style="background:#7C3AED;">V</div><div><div class="claim-claimant-name">วิภา ส.</div><div class="claim-claimant-dept">Sales</div></div></div>
+      <div class="claim-desc">ค่ารับรอง ประชุมกับพาร์ทเนอร์ญี่ปุ่น</div>
+      <div class="claim-cat">รับรอง</div>
+      <div class="claim-amount" style="color:var(--red);">&#3647;18,500</div>
+      <div><span class="claim-sla sla-over">SLA: เกิน 4 วัน!</span></div>
+      <div class="claim-date">22 มี.ค.</div>
+      <div class="claim-actions">
+        <button class="btn btn-approve btn-sm" onclick="event.stopPropagation();singleAction('EX-0010','approve')">&#9989;</button>
+        <button class="btn btn-reject btn-sm" onclick="event.stopPropagation();singleAction('EX-0010','reject')">&#10060;</button>
+      </div>
+    </div>
+
+    <div class="claim-item" onclick="toggleCheck(this)">
+      <div class="claim-check" onclick="event.stopPropagation();toggleCheck(this.parentElement)">&#10003;</div>
+      <div class="claim-id">EX-0005</div>
+      <div class="claim-claimant"><div class="claim-claimant-avatar" style="background:#059669;">N</div><div><div class="claim-claimant-name">ณัฐ ว.</div><div class="claim-claimant-dept">Marketing</div></div></div>
+      <div class="claim-desc">ค่า Marketing Materials - แบนเนอร์</div>
+      <div class="claim-cat">สื่อสาร</div>
+      <div class="claim-amount">&#3647;7,600</div>
+      <div><span class="claim-sla sla-over">SLA: เกิน 5 วัน!</span></div>
+      <div class="claim-date">17 มี.ค.</div>
+      <div class="claim-actions">
+        <button class="btn btn-approve btn-sm" onclick="event.stopPropagation();singleAction('EX-0005','approve')">&#9989;</button>
+        <button class="btn btn-reject btn-sm" onclick="event.stopPropagation();singleAction('EX-0005','reject')">&#10060;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Approver Group 2: คุณพิชัย -->
+  <div class="approver-group">
+    <div class="approver-header">
+      <div class="approver-avatar" style="background:#7C3AED;">PC</div>
+      <div>
+        <div class="approver-name">พิชัย ร.</div>
+        <div class="approver-role">Finance Manager — Limit: &#3647;200,000</div>
+      </div>
+      <div class="approver-count">&#9203; 7 รายการรอ</div>
+    </div>
+
+    <div class="claim-item" onclick="toggleCheck(this)">
+      <div class="claim-check" onclick="event.stopPropagation();toggleCheck(this.parentElement)">&#10003;</div>
+      <div class="claim-id">EX-0009</div>
+      <div class="claim-claimant"><div class="claim-claimant-avatar" style="background:#0891B2;">T</div><div><div class="claim-claimant-name">ธนา ป.</div><div class="claim-claimant-dept">IT</div></div></div>
+      <div class="claim-desc">ค่า Cloud Server - AWS Monthly</div>
+      <div class="claim-cat">ซอฟต์แวร์</div>
+      <div class="claim-amount" style="color:var(--red);">&#3647;22,400</div>
+      <div><span class="claim-sla sla-ok">SLA: 1 วัน</span></div>
+      <div class="claim-date">21 มี.ค.</div>
+      <div class="claim-actions">
+        <button class="btn btn-approve btn-sm" onclick="event.stopPropagation()">&#9989;</button>
+        <button class="btn btn-reject btn-sm" onclick="event.stopPropagation()">&#10060;</button>
+      </div>
+    </div>
+
+    <div class="claim-item" onclick="toggleCheck(this)">
+      <div class="claim-check" onclick="event.stopPropagation();toggleCheck(this.parentElement)">&#10003;</div>
+      <div class="claim-id">EX-0006</div>
+      <div class="claim-claimant"><div class="claim-claimant-avatar" style="background:#DC2626;">A</div><div><div class="claim-claimant-name">อนุชา บ.</div><div class="claim-claimant-dept">Operations</div></div></div>
+      <div class="claim-desc">ค่าอุปกรณ์ Safety สำหรับ Warehouse</div>
+      <div class="claim-cat">อุปกรณ์</div>
+      <div class="claim-amount" style="color:var(--red);">&#3647;14,200</div>
+      <div><span class="claim-sla sla-warn">SLA: 2.5 วัน</span></div>
+      <div class="claim-date">18 มี.ค.</div>
+      <div class="claim-actions">
+        <button class="btn btn-approve btn-sm" onclick="event.stopPropagation()">&#9989;</button>
+        <button class="btn btn-reject btn-sm" onclick="event.stopPropagation()">&#10060;</button>
+      </div>
+    </div>
+
+    <div class="claim-item" onclick="toggleCheck(this)">
+      <div class="claim-check" onclick="event.stopPropagation();toggleCheck(this.parentElement)">&#10003;</div>
+      <div class="claim-id">EX-0019</div>
+      <div class="claim-claimant"><div class="claim-claimant-avatar" style="background:#0891B2;">T</div><div><div class="claim-claimant-name">ธนา ป.</div><div class="claim-claimant-dept">IT</div></div></div>
+      <div class="claim-desc">ค่าซอฟต์แวร์ License - Adobe Creative Suite</div>
+      <div class="claim-cat">ซอฟต์แวร์</div>
+      <div class="claim-amount">&#3647;15,900</div>
+      <div><span class="claim-sla sla-ok">SLA: 0.5 วัน</span></div>
+      <div class="claim-date">31 มี.ค.</div>
+      <div class="claim-actions">
+        <button class="btn btn-approve btn-sm" onclick="event.stopPropagation()">&#9989;</button>
+        <button class="btn btn-reject btn-sm" onclick="event.stopPropagation()">&#10060;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Approver Group 3: คุณสุวรรณา (CFO) -->
+  <div class="approver-group">
+    <div class="approver-header">
+      <div class="approver-avatar" style="background:#059669;">SW</div>
+      <div>
+        <div class="approver-name">สุวรรณา ค.</div>
+        <div class="approver-role">CFO — Limit: ไม่จำกัด</div>
+      </div>
+      <div class="approver-count">&#9203; 4 รายการรอ</div>
+    </div>
+
+    <div class="claim-item" onclick="toggleCheck(this)">
+      <div class="claim-check" onclick="event.stopPropagation();toggleCheck(this.parentElement)">&#10003;</div>
+      <div class="claim-id">EX-0001</div>
+      <div class="claim-claimant"><div class="claim-claimant-avatar" style="background:#D97706;">P</div><div><div class="claim-claimant-name">ประสิทธิ์ ม.</div><div class="claim-claimant-dept">Executive</div></div></div>
+      <div class="claim-desc">ค่าเดินทางต่างประเทศ สิงคโปร์ (Conference)</div>
+      <div class="claim-cat">เดินทาง</div>
+      <div class="claim-amount" style="color:var(--red);font-size:.9rem;">&#3647;85,000</div>
+      <div><span class="claim-sla sla-ok">SLA: 0.5 วัน</span></div>
+      <div class="claim-date">4 เม.ย.</div>
+      <div class="claim-actions">
+        <button class="btn btn-approve btn-sm" onclick="event.stopPropagation()">&#9989;</button>
+        <button class="btn btn-reject btn-sm" onclick="event.stopPropagation()">&#10060;</button>
+      </div>
+    </div>
+
+    <div class="claim-item" onclick="toggleCheck(this)">
+      <div class="claim-check" onclick="event.stopPropagation();toggleCheck(this.parentElement)">&#10003;</div>
+      <div class="claim-id">EX-0002</div>
+      <div class="claim-claimant"><div class="claim-claimant-avatar" style="background:#2563EB;">SM</div><div><div class="claim-claimant-name">สมชาย ก.</div><div class="claim-claimant-dept">Finance</div></div></div>
+      <div class="claim-desc">ค่า IT Infrastructure Upgrade Q2</div>
+      <div class="claim-cat">อุปกรณ์</div>
+      <div class="claim-amount" style="color:var(--red);font-size:.9rem;">&#3647;245,000</div>
+      <div><span class="claim-sla sla-warn">SLA: 2 วัน</span></div>
+      <div class="claim-date">3 เม.ย.</div>
+      <div class="claim-actions">
+        <button class="btn btn-approve btn-sm" onclick="event.stopPropagation()">&#9989;</button>
+        <button class="btn btn-reject btn-sm" onclick="event.stopPropagation()">&#10060;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delegation Rules -->
+  <div class="card delegation-card">
+    <div class="card-title">&#128260; กฎการมอบหมายอนุมัติ (Delegation Rules)</div>
+    <div class="delegation-rule">
+      <div class="approver-avatar" style="background:#2563EB;width:28px;height:28px;font-size:.6rem;">SM</div>
+      <span>สมชาย ก.</span>
+      <span class="arrow">&#10132;</span>
+      <div class="approver-avatar" style="background:#7C3AED;width:28px;height:28px;font-size:.6rem;">PC</div>
+      <span>พิชัย ร.</span>
+      <span style="color:var(--muted);font-size:.7rem;margin-left:auto;">เมื่อลา / ไม่อยู่</span>
+      <span class="delegation-active delegation-on">&#9679; Active</span>
+    </div>
+    <div class="delegation-rule">
+      <div class="approver-avatar" style="background:#7C3AED;width:28px;height:28px;font-size:.6rem;">PC</div>
+      <span>พิชัย ร.</span>
+      <span class="arrow">&#10132;</span>
+      <div class="approver-avatar" style="background:#059669;width:28px;height:28px;font-size:.6rem;">SW</div>
+      <span>สุวรรณา ค.</span>
+      <span style="color:var(--muted);font-size:.7rem;margin-left:auto;">Claims > &#3647;200K</span>
+      <span class="delegation-active delegation-on">&#9679; Active</span>
+    </div>
+    <div class="delegation-rule">
+      <div class="approver-avatar" style="background:#059669;width:28px;height:28px;font-size:.6rem;">SW</div>
+      <span>สุวรรณา ค.</span>
+      <span class="arrow">&#10132;</span>
+      <div class="approver-avatar" style="background:#D97706;width:28px;height:28px;font-size:.6rem;">PR</div>
+      <span>ประสิทธิ์ ม.</span>
+      <span style="color:var(--muted);font-size:.7rem;margin-left:auto;">ลาพักร้อน 10-17 เม.ย.</span>
+      <span class="delegation-active delegation-off">&#9675; Scheduled</span>
+    </div>
+    <div style="margin-top:12px;">
+      <button class="btn btn-secondary btn-sm">+ เพิ่มกฎการมอบหมาย</button>
+    </div>
+  </div>
+
+  <!-- Approval Stats -->
+  <div class="card">
+    <div class="card-title">&#128202; สถิติการอนุมัติเดือนนี้</div>
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value" style="color:var(--green);">156</div>
+        <div class="stat-label">อนุมัติแล้ว</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" style="color:var(--red);">4</div>
+        <div class="stat-label">ปฏิเสธ</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" style="color:var(--blue);">&#3647;2.4M</div>
+        <div class="stat-label">มูลค่ารวมที่อนุมัติ</div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<!-- ========== TOAST CONTAINER ========== -->
-<div class="toast-container" id="toastContainer"></div>
-
-<!-- ========== JAVASCRIPT ========== -->
 <script>
-// Dark mode toggle
-function toggleDark(){document.body.classList.toggle('dark');const d=document.body.classList.contains('dark');localStorage.setItem('darkMode',d);document.querySelector('.dark-toggle').textContent=d?'\u2600\uFE0F':'\uD83C\uDF19';}
-if(localStorage.getItem('darkMode')==='true'){document.body.classList.add('dark');document.addEventListener('DOMContentLoaded',()=>{document.querySelector('.dark-toggle').textContent='\u2600\uFE0F';});}
+let selectedItems = new Set();
 
-// ── Mock Data ──
-const claims = [
-    { id:1, name:'วิภา สุขใจ', initials:'วส', dept:'Marketing', category:'ค่าเดินทาง', amount:65000, date:'1 เม.ย. 2026', status:'overBudget', urgent:true, receipt:true, color:'#DB2777', policyNote:'เกินวงเงิน \u0E3F50,000 — ต้อง CFO อนุมัติ' },
-    { id:2, name:'ธนา พงษ์ศรี', initials:'ธพ', dept:'Sales', category:'ค่าอาหาร', amount:2800, date:'2 เม.ย. 2026', status:'inBudget', urgent:false, receipt:true, color:'#2563EB', policyNote:'ในวงเงิน — อนุมัติได้' },
-    { id:3, name:'สุนิสา แก้วมณี', initials:'สก', dept:'Engineering', category:'อุปกรณ์สำนักงาน', amount:15400, date:'2 เม.ย. 2026', status:'inBudget', urgent:false, receipt:true, color:'#059669', policyNote:'ในวงเงิน — อนุมัติได้' },
-    { id:4, name:'ปรีชา วงศ์สกุล', initials:'ปว', dept:'HR', category:'ค่าฝึกอบรม', amount:45000, date:'31 มี.ค. 2026', status:'inBudget', urgent:true, receipt:true, color:'#7C3AED', policyNote:'ในวงเงิน — อนุมัติได้' },
-    { id:5, name:'นภัสสร ลิ้มสุวรรณ', initials:'นล', dept:'Finance', category:'ค่าเดินทาง', amount:78500, date:'30 มี.ค. 2026', status:'overBudget', urgent:true, receipt:true, color:'#D97706', policyNote:'เกินวงเงิน \u0E3F50,000 — ต้อง CFO อนุมัติ' },
-    { id:6, name:'อรุณ ชัยชนะ', initials:'อช', dept:'Marketing', category:'ค่าโฆษณา', amount:32000, date:'3 เม.ย. 2026', status:'inBudget', urgent:false, receipt:true, color:'#0891B2', policyNote:'ในวงเงิน — อนุมัติได้' },
-    { id:7, name:'กมล ทองดี', initials:'กท', dept:'Sales', category:'ค่าเลี้ยงรับรอง', amount:8900, date:'3 เม.ย. 2026', status:'inBudget', urgent:false, receipt:false, color:'#DC2626', policyNote:'ในวงเงิน — ยังไม่แนบใบเสร็จ' },
-    { id:8, name:'พิมพ์พรรณ ศรีสุข', initials:'พศ', dept:'Operations', category:'ค่าขนส่ง', amount:55200, date:'29 มี.ค. 2026', status:'overBudget', urgent:false, receipt:true, color:'#2563EB', policyNote:'เกินวงเงิน \u0E3F50,000 — ต้อง CFO อนุมัติ' },
-    { id:9, name:'จิรายุ เพชรดี', initials:'จพ', dept:'Engineering', category:'ค่า Cloud Server', amount:18700, date:'1 เม.ย. 2026', status:'inBudget', urgent:false, receipt:true, color:'#7C3AED', policyNote:'ในวงเงิน — อนุมัติได้' },
-    { id:10, name:'ศิริพร จันทร์ฉาย', initials:'ศจ', dept:'HR', category:'ค่าสัมมนา', amount:12500, date:'2 เม.ย. 2026', status:'inBudget', urgent:false, receipt:true, color:'#059669', policyNote:'ในวงเงิน — อนุมัติได้' },
-    { id:11, name:'ชาติชาย มั่นคง', initials:'ชม', dept:'Sales', category:'ค่าเดินทาง', amount:3400, date:'3 เม.ย. 2026', status:'inBudget', urgent:false, receipt:true, color:'#DB2777', policyNote:'ในวงเงิน — อนุมัติได้' },
-    { id:12, name:'มณีรัตน์ พลอยงาม', initials:'มพ', dept:'Marketing', category:'ค่าพิมพ์เอกสาร', amount:4200, date:'3 เม.ย. 2026', status:'inBudget', urgent:false, receipt:true, color:'#0891B2', policyNote:'ในวงเงิน — อนุมัติได้' },
-    { id:13, name:'ภาณุวัฒน์ สง่า', initials:'ภส', dept:'Engineering', category:'ค่าซอฟต์แวร์', amount:62000, date:'28 มี.ค. 2026', status:'overBudget', urgent:false, receipt:true, color:'#D97706', policyNote:'เกินวงเงิน \u0E3F50,000 — ต้อง CFO อนุมัติ' },
-    { id:14, name:'กนกวรรณ ดวงใจ', initials:'กด', dept:'Finance', category:'ค่าอาหาร', amount:1850, date:'3 เม.ย. 2026', status:'inBudget', urgent:false, receipt:true, color:'#2563EB', policyNote:'ในวงเงิน — อนุมัติได้' },
-    { id:15, name:'ทวีศักดิ์ ร่มเย็น', initials:'ทร', dept:'Operations', category:'ค่าน้ำมัน', amount:6700, date:'2 เม.ย. 2026', status:'inBudget', urgent:false, receipt:true, color:'#059669', policyNote:'ในวงเงิน — อนุมัติได้' },
-    { id:16, name:'อัญชลี วรรณา', initials:'อว', dept:'HR', category:'ค่าเดินทาง', amount:52300, date:'1 เม.ย. 2026', status:'overBudget', urgent:false, receipt:true, color:'#7C3AED', policyNote:'เกินวงเงิน \u0E3F50,000 — ต้อง CFO อนุมัติ' },
-    { id:17, name:'สมบัติ แสงทอง', initials:'สท', dept:'Sales', category:'ค่าโทรศัพท์', amount:2100, date:'3 เม.ย. 2026', status:'inBudget', urgent:false, receipt:false, color:'#DC2626', policyNote:'ในวงเงิน — ยังไม่แนบใบเสร็จ' },
-    { id:18, name:'รัตนา ภูมิใจ', initials:'รภ', dept:'Marketing', category:'ค่าอีเวนท์', amount:28500, date:'31 มี.ค. 2026', status:'inBudget', urgent:false, receipt:true, color:'#DB2777', policyNote:'ในวงเงิน — อนุมัติได้' },
-    { id:19, name:'เอกชัย ใจกว้าง', initials:'อก', dept:'Engineering', category:'ค่าอุปกรณ์ IT', amount:56800, date:'30 มี.ค. 2026', status:'overBudget', urgent:false, receipt:true, color:'#0891B2', policyNote:'เกินวงเงิน \u0E3F50,000 — ต้อง CFO อนุมัติ' },
-    { id:20, name:'นิตยา สุขสม', initials:'นส', dept:'Finance', category:'ค่าเดินทาง', amount:7800, date:'2 เม.ย. 2026', status:'inBudget', urgent:false, receipt:true, color:'#D97706', policyNote:'ในวงเงิน — อนุมัติได้' },
-    { id:21, name:'วรพจน์ ธนกิจ', initials:'วธ', dept:'Operations', category:'ค่าซ่อมบำรุง', amount:41200, date:'1 เม.ย. 2026', status:'inBudget', urgent:false, receipt:true, color:'#2563EB', policyNote:'ในวงเงิน — อนุมัติได้' },
-    { id:22, name:'พัชรี ดาวเรือง', initials:'พด', dept:'HR', category:'ค่าอาหาร', amount:3600, date:'3 เม.ย. 2026', status:'inBudget', urgent:false, receipt:true, color:'#059669', policyNote:'ในวงเงิน — อนุมัติได้' },
-    { id:23, name:'สุรชัย พลังดี', initials:'สพ', dept:'Sales', category:'ค่าของขวัญลูกค้า', amount:9500, date:'2 เม.ย. 2026', status:'inBudget', urgent:false, receipt:true, color:'#7C3AED', policyNote:'ในวงเงิน — อนุมัติได้' },
-];
-
-const historyData = [
-    { date:'28 มี.ค.', name:'อรรถพล สุข', dept:'Sales', category:'ค่าเดินทาง', amount:12500, status:'approved', approver:'สมชาย มงคล' },
-    { date:'27 มี.ค.', name:'สาวิตรี แจ้ง', dept:'Marketing', category:'ค่าโฆษณา', amount:45000, status:'approved', approver:'สมชาย มงคล' },
-    { date:'26 มี.ค.', name:'พงศธร กล้า', dept:'Engineering', category:'ค่า License', amount:88000, status:'approved', approver:'CFO พิสิษฐ์' },
-    { date:'25 มี.ค.', name:'วรรณี ศรี', dept:'HR', category:'ค่าอาหาร', amount:15600, status:'rejected', approver:'สมชาย มงคล' },
-    { date:'24 มี.ค.', name:'ธีระ ชาญ', dept:'Finance', category:'ค่าเดินทาง', amount:7200, status:'approved', approver:'สมชาย มงคล' },
-    { date:'23 มี.ค.', name:'มาลี ดี', dept:'Operations', category:'ค่าขนส่ง', amount:23400, status:'approved', approver:'สมชาย มงคล' },
-    { date:'22 มี.ค.', name:'สุริยา แสง', dept:'Sales', category:'ค่าเลี้ยงรับรอง', amount:6800, status:'approved', approver:'สมชาย มงคล' },
-    { date:'21 มี.ค.', name:'นฤมล จันทร์', dept:'Marketing', category:'ค่าพิมพ์', amount:3200, status:'rejected', approver:'สมชาย มงคล' },
-    { date:'20 มี.ค.', name:'ภัทร อุดม', dept:'Engineering', category:'ค่า Cloud', amount:35000, status:'approved', approver:'สมชาย มงคล' },
-    { date:'19 มี.ค.', name:'จุฑามาศ เก่ง', dept:'HR', category:'ค่าสัมมนา', amount:18900, status:'approved', approver:'สมชาย มงคล' },
-];
-
-let selectedIds = new Set();
-let currentFilter = 'all';
-
-// ── Render Cards ──
-function renderCards(filter) {
-    const container = document.getElementById('cardsContainer');
-    let filtered = claims;
-    if (filter === 'inBudget') filtered = claims.filter(c => c.status === 'inBudget');
-    else if (filter === 'overBudget') filtered = claims.filter(c => c.status === 'overBudget');
-    else if (filter === 'urgent') filtered = claims.filter(c => c.urgent);
-
-    filtered.sort((a, b) => (b.urgent ? 1 : 0) - (a.urgent ? 1 : 0));
-
-    container.innerHTML = filtered.map(c => `
-        <div class="card" id="card-${c.id}" style="padding:0; overflow:hidden;">
-            <div style="padding:18px 20px; display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
-                <div class="custom-cb ${selectedIds.has(c.id)?'checked':''}" onclick="toggleSelect(${c.id}, event)"></div>
-                <div class="avatar" style="background:${c.color};">${c.initials}</div>
-                <div style="flex:1; min-width:160px;">
-                    <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-                        <span style="font-size:0.85rem; font-weight:600;">${c.name}</span>
-                        ${c.urgent ? '<span class="badge badge-urgent" style="font-size:0.55rem;">&#128308; ด่วน</span>' : ''}
-                    </div>
-                    <div style="font-size:0.7rem; color:var(--muted);">${c.dept} &middot; ${c.category}</div>
-                </div>
-                <div style="text-align:right; min-width:100px;">
-                    <div style="font-size:1rem; font-weight:700; ${c.status==='overBudget'?'color:var(--orange)':'color:var(--text)'};">&#3647;${c.amount.toLocaleString()}</div>
-                    <div style="font-size:0.65rem; color:var(--muted);">${c.date}</div>
-                </div>
-                <div class="receipt-thumb" title="${c.receipt?'ใบเสร็จแนบแล้ว':'ยังไม่มีใบเสร็จ'}">
-                    ${c.receipt ? '&#128206;' : '&#10067;'}
-                </div>
-                <div>
-                    ${c.status==='inBudget' && c.receipt
-                        ? '<span class="badge badge-pass">&#10003; ผ่าน</span>'
-                        : c.status==='overBudget'
-                            ? '<span class="badge badge-warn">&#9888; เกินวงเงิน</span>'
-                            : '<span class="badge badge-danger">&#10007; ไม่มีใบเสร็จ</span>'
-                    }
-                </div>
-                <div style="display:flex; gap:6px;">
-                    <button class="btn btn-approve" onclick="approveOne(${c.id})" style="padding:6px 14px; font-size:0.75rem;">&#10003; อนุมัติ</button>
-                    <button class="btn btn-reject" onclick="rejectOne(${c.id})" style="padding:6px 14px; font-size:0.75rem;">&#10007; ปฏิเสธ</button>
-                </div>
-                <button class="btn btn-ghost" onclick="toggleDetail(${c.id})" style="padding:6px 12px; font-size:0.7rem;" id="toggleBtn-${c.id}">&#9660; ดูรายละเอียด</button>
-            </div>
-            <div class="detail-panel" id="detail-${c.id}">
-                <div style="padding:0 20px 18px; border-top:1px solid var(--border); padding-top:16px;">
-                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px,1fr)); gap:14px;">
-                        <div>
-                            <div style="font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">หมายเลขเบิก</div>
-                            <div style="font-size:0.8rem; font-weight:600;">EXP-2026-${String(c.id).padStart(4,'0')}</div>
-                        </div>
-                        <div>
-                            <div style="font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">แผนก</div>
-                            <div style="font-size:0.8rem; font-weight:600;">${c.dept}</div>
-                        </div>
-                        <div>
-                            <div style="font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">หมวดหมู่</div>
-                            <div style="font-size:0.8rem; font-weight:600;">${c.category}</div>
-                        </div>
-                        <div>
-                            <div style="font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">ใบเสร็จ</div>
-                            <div style="font-size:0.8rem; font-weight:600;">${c.receipt ? '&#10003; แนบแล้ว' : '&#10007; ยังไม่แนบ'}</div>
-                        </div>
-                    </div>
-                    <div style="margin-top:12px; padding:10px 14px; border-radius:8px; background:var(--blue-bg); border:1px solid var(--border);">
-                        <div style="font-size:0.65rem; color:var(--muted); margin-bottom:4px;">&#129302; AI Policy Check</div>
-                        <div style="font-size:0.78rem;">${c.policyNote}</div>
-                    </div>
-                    ${c.receipt ? `
-                    <div style="margin-top:12px;">
-                        <div style="font-size:0.65rem; color:var(--muted); margin-bottom:6px;">&#128206; ตัวอย่างใบเสร็จ</div>
-                        <div style="width:120px; height:80px; border-radius:8px; background:var(--bg3); border:1px dashed var(--border); display:flex; align-items:center; justify-content:center; font-size:0.7rem; color:var(--muted);">
-                            receipt_${c.id}.jpg
-                        </div>
-                    </div>` : ''}
-                </div>
-            </div>
-        </div>
-    `).join('');
-}
-
-// ── Filter ──
-function filterCards(filter, el) {
-    currentFilter = filter;
-    document.querySelectorAll('#section-queue .filter-pill').forEach(p => p.classList.remove('active'));
-    el.classList.add('active');
-    renderCards(filter);
-}
-
-// ── Toggle detail ──
-function toggleDetail(id) {
-    const panel = document.getElementById('detail-' + id);
-    const btn = document.getElementById('toggleBtn-' + id);
-    panel.classList.toggle('open');
-    btn.innerHTML = panel.classList.contains('open') ? '&#9650; ซ่อน' : '&#9660; ดูรายละเอียด';
-}
-
-// ── Select / Deselect ──
-function toggleSelect(id, e) {
-    e.stopPropagation();
-    if (selectedIds.has(id)) selectedIds.delete(id);
-    else selectedIds.add(id);
-    updateBulkBar();
-    renderCards(currentFilter);
-}
-
-function toggleSelectAll() {
-    const cb = document.getElementById('selectAllCb');
-    const visible = getVisibleClaims();
-    if (selectedIds.size === visible.length) {
-        selectedIds.clear();
-        cb.classList.remove('checked');
-    } else {
-        visible.forEach(c => selectedIds.add(c.id));
-        cb.classList.add('checked');
-    }
-    updateBulkBar();
-    renderCards(currentFilter);
-}
-
-function getVisibleClaims() {
-    if (currentFilter === 'inBudget') return claims.filter(c => c.status === 'inBudget');
-    if (currentFilter === 'overBudget') return claims.filter(c => c.status === 'overBudget');
-    if (currentFilter === 'urgent') return claims.filter(c => c.urgent);
-    return claims;
-}
-
-function clearSelection() {
-    selectedIds.clear();
-    document.getElementById('selectAllCb').classList.remove('checked');
-    updateBulkBar();
-    renderCards(currentFilter);
+function toggleCheck(item) {
+  const check = item.querySelector('.claim-check');
+  const id = item.querySelector('.claim-id').textContent;
+  if (check.classList.contains('checked')) {
+    check.classList.remove('checked');
+    item.classList.remove('selected');
+    selectedItems.delete(id);
+  } else {
+    check.classList.add('checked');
+    item.classList.add('selected');
+    selectedItems.add(id);
+  }
+  updateBulkBar();
 }
 
 function updateBulkBar() {
-    const bar = document.getElementById('bulkBar');
-    const count = selectedIds.size;
-    document.getElementById('selectedCount').textContent = count;
-    const total = claims.filter(c => selectedIds.has(c.id)).reduce((s,c) => s + c.amount, 0);
-    document.getElementById('selectedTotal').innerHTML = '&#3647;' + total.toLocaleString();
-    bar.classList.toggle('show', count > 0);
+  const bar = document.getElementById('bulkBar');
+  const info = document.getElementById('bulkInfo');
+  if (selectedItems.size > 0) {
+    bar.classList.add('visible');
+    info.textContent = `เลือก ${selectedItems.size} รายการ`;
+  } else {
+    bar.classList.remove('visible');
+  }
 }
 
-// ── Approve / Reject ──
-function approveOne(id) {
-    const claim = claims.find(c => c.id === id);
-    if (!claim) return;
-    const card = document.getElementById('card-' + id);
-    card.style.transition = 'all 0.4s ease';
-    card.style.opacity = '0';
-    card.style.transform = 'translateX(40px)';
-    setTimeout(() => {
-        const idx = claims.findIndex(c => c.id === id);
-        if (idx > -1) claims.splice(idx, 1);
-        selectedIds.delete(id);
-        updatePendingCount();
-        updateBulkBar();
-        renderCards(currentFilter);
-    }, 400);
-    showToast('success', `&#10003; อนุมัติ &#3647;${claim.amount.toLocaleString()} — ${claim.name}`);
-}
-
-function rejectOne(id) {
-    const claim = claims.find(c => c.id === id);
-    if (!claim) return;
-    const card = document.getElementById('card-' + id);
-    card.style.transition = 'all 0.4s ease';
-    card.style.opacity = '0';
-    card.style.transform = 'translateX(-40px)';
-    setTimeout(() => {
-        const idx = claims.findIndex(c => c.id === id);
-        if (idx > -1) claims.splice(idx, 1);
-        selectedIds.delete(id);
-        updatePendingCount();
-        updateBulkBar();
-        renderCards(currentFilter);
-    }, 400);
-    showToast('error', `&#10007; ปฏิเสธ &#3647;${claim.amount.toLocaleString()} — ${claim.name}`);
+function clearSelection() {
+  selectedItems.clear();
+  document.querySelectorAll('.claim-check.checked').forEach(c => c.classList.remove('checked'));
+  document.querySelectorAll('.claim-item.selected').forEach(c => c.classList.remove('selected'));
+  updateBulkBar();
 }
 
 function bulkAction(action) {
-    const ids = [...selectedIds];
-    const total = claims.filter(c => ids.includes(c.id)).reduce((s,c) => s + c.amount, 0);
-    ids.forEach(id => {
-        const idx = claims.findIndex(c => c.id === id);
-        if (idx > -1) claims.splice(idx, 1);
-    });
-    selectedIds.clear();
-    updatePendingCount();
-    updateBulkBar();
-    renderCards(currentFilter);
-    if (action === 'approve') {
-        showToast('success', `&#10003; อนุมัติ ${ids.length} รายการ — รวม &#3647;${total.toLocaleString()}`);
-    } else {
-        showToast('error', `&#10007; ปฏิเสธ ${ids.length} รายการ — รวม &#3647;${total.toLocaleString()}`);
-    }
+  const ids = Array.from(selectedItems).join(', ');
+  const label = action === 'approve' ? 'อนุมัติ' : 'ปฏิเสธ';
+  alert(`${label} ${selectedItems.size} รายการ: ${ids}`);
+  clearSelection();
 }
 
-function updatePendingCount() {
-    document.getElementById('pendingCount').textContent = claims.length;
-    document.getElementById('countAll').textContent = claims.length;
+function singleAction(id, action) {
+  const label = action === 'approve' ? 'อนุมัติ' : 'ปฏิเสธ';
+  alert(`${label} Claim ${id} สำเร็จ!`);
 }
 
-// ── Toast ──
-function showToast(type, message) {
-    const container = document.getElementById('toastContainer');
-    const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
-    const icon = type === 'success' ? '&#10003;' : type === 'error' ? '&#10007;' : '&#8505;';
-    toast.innerHTML = `<span style="font-size:1rem;">${icon}</span><span>${message}</span>`;
-    container.appendChild(toast);
-    setTimeout(() => toast.remove(), 3200);
+function filterApproval(el, type) {
+  document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
 }
-
-// ── Section switch ──
-function switchSection(id) {
-    ['queue','flow','history','policy'].forEach(s => {
-        document.getElementById('section-' + s).style.display = s === id ? 'block' : 'none';
-    });
-    document.querySelectorAll('.nav-tab').forEach((t,i) => {
-        t.classList.toggle('active', ['queue','flow','history','policy'][i] === id);
-    });
-    if (id === 'history') renderHistory('all');
-}
-
-// ── History ──
-function renderHistory(filter) {
-    const body = document.getElementById('historyBody');
-    let data = historyData;
-    if (filter === 'approved') data = historyData.filter(h => h.status === 'approved');
-    if (filter === 'rejected') data = historyData.filter(h => h.status === 'rejected');
-
-    body.innerHTML = data.map(h => `
-        <tr>
-            <td>${h.date}</td>
-            <td style="font-weight:600; color:var(--text);">${h.name}</td>
-            <td>${h.dept}</td>
-            <td>${h.category}</td>
-            <td style="font-weight:600;">&#3647;${h.amount.toLocaleString()}</td>
-            <td>
-                ${h.status === 'approved'
-                    ? '<span class="badge badge-pass" style="font-size:0.6rem;">&#10003; อนุมัติ</span>'
-                    : '<span class="badge badge-danger" style="font-size:0.6rem;">&#10007; ปฏิเสธ</span>'
-                }
-            </td>
-            <td style="color:var(--muted);">${h.approver}</td>
-        </tr>
-    `).join('');
-}
-
-function filterHistory(filter, el) {
-    document.querySelectorAll('#section-history .filter-pill').forEach(p => p.classList.remove('active'));
-    el.classList.add('active');
-    renderHistory(filter);
-}
-
-// ── Init ──
-renderCards('all');
 </script>
 </body>
 </html>

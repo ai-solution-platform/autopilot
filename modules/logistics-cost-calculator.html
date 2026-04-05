@@ -34,6 +34,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .btn-secondary{background:var(--card-bg);color:var(--text2);border:1px solid var(--border);}.btn-secondary:hover{border-color:var(--blue);color:var(--blue);}
 .btn-green{background:var(--green);color:#fff;}.btn-green:hover{background:var(--green-d);}
 .btn-outline{background:transparent;color:var(--blue);border:1px solid var(--blue);}.btn-outline:hover{background:var(--blue-l);}
+.btn-purple{background:var(--purple);color:#fff;}.btn-purple:hover{opacity:.9;}
 .btn-sm{padding:5px 10px;font-size:.72rem;border-radius:6px;}
 .btn-icon{width:36px;height:36px;padding:0;justify-content:center;border-radius:9px;border:1px solid var(--border);background:var(--card-bg);cursor:pointer;font-size:1rem;transition:all .15s;display:inline-flex;align-items:center;}
 .btn-icon:hover{background:var(--bg);border-color:var(--blue);}
@@ -158,12 +159,52 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .badge-orange{background:var(--orange-l);color:var(--orange);}
 .badge-purple{background:var(--purple-l);color:var(--purple);}
 
+/* ===== MULTI-USER: Saved Calculations Table ===== */
+.saved-calcs-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--sh);margin-bottom:20px;}
+.saved-calcs-card .card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;}
+.saved-calcs-card .card-title{font-size:.95rem;font-weight:700;display:flex;align-items:center;gap:8px;}
+.saved-calcs-card .card-actions{display:flex;gap:8px;align-items:center;}
+.calcs-table{width:100%;border-collapse:collapse;font-size:.82rem;}
+.calcs-table thead th{text-align:left;padding:10px 12px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);border-bottom:2px solid var(--border);white-space:nowrap;}
+.calcs-table thead th:last-child{text-align:right;}
+.calcs-table tbody tr{cursor:pointer;transition:all .15s;}
+.calcs-table tbody tr:hover{background:rgba(37,99,235,0.05);}
+.calcs-table tbody td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.calcs-table tbody td:last-child{text-align:right;}
+.calc-id{font-weight:700;font-family:'Inter',sans-serif;color:var(--blue);font-size:.78rem;}
+.calc-shipment{font-family:'Inter',sans-serif;font-weight:600;color:var(--green);font-size:.78rem;}
+.calc-route{font-weight:600;font-size:.82rem;}
+.calc-route-sub{font-size:.68rem;color:var(--muted);margin-top:1px;}
+.calc-cost{font-weight:800;font-family:'Inter',sans-serif;font-size:.88rem;}
+.calc-date{font-size:.75rem;color:var(--muted);}
+.user-avatar{display:inline-flex;align-items:center;gap:6px;}
+.user-avatar .avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:800;color:#fff;flex-shrink:0;}
+.user-avatar .name{font-weight:500;font-size:.78rem;}
+
+/* Share & Compare buttons */
+.share-btn-bar{display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap;}
+
+/* Compare Previous modal */
+.compare-prev-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;}
+.compare-prev-card{border:1px solid var(--border);border-radius:10px;padding:16px;}
+.compare-prev-card h4{font-size:.88rem;font-weight:700;margin-bottom:10px;}
+.compare-prev-item{display:flex;justify-content:space-between;padding:6px 0;font-size:.78rem;border-bottom:1px solid var(--border);}
+.compare-prev-item:last-child{border-bottom:none;}
+.compare-prev-item .diff-tag{font-size:.68rem;font-weight:700;padding:1px 6px;border-radius:4px;}
+.compare-prev-item .diff-tag.up{background:var(--red-l);color:var(--red);}
+.compare-prev-item .diff-tag.down{background:var(--green-l);color:var(--green);}
+
+/* Toast */
+.toast-notification{position:fixed;bottom:24px;right:24px;background:var(--card-bg);border:1px solid var(--green);border-radius:10px;padding:14px 20px;display:flex;align-items:center;gap:10px;font-size:.85rem;font-weight:600;box-shadow:var(--sh3);transform:translateY(100px);opacity:0;transition:all .3s ease;z-index:200;}
+.toast-notification.show{transform:translateY(0);opacity:1;}
+
 /* Responsive */
 @media(max-width:768px){
   .page{padding:16px;}
   .fx-grid{grid-template-columns:repeat(2,1fr);}
   .compare-grid{grid-template-columns:1fr;}
   .compare-col:first-child{border-right:none;border-bottom:1px solid var(--border);padding-bottom:16px;margin-bottom:16px;}
+  .compare-prev-grid{grid-template-columns:1fr;}
 }
 
 /* Print */
@@ -185,19 +226,47 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
     <div class="breadcrumb">
       <a href="../pitching-v2.html">Autopilot v2</a>
       <span>/</span>
-      <span>Logistics FX</span>
+      <a href="../pitching-v2.html">Logistics FX</a>
       <span>/</span>
       <span>Landed Cost Calculator</span>
     </div>
     <div class="page-title-row">
       <div>
         <div class="page-title">&#128230; Landed Cost Calculator</div>
-        <div class="page-subtitle">คำนวณต้นทุนนำเข้าสินค้าแบบครบวงจร &#183; Real-time Calculation</div>
+        <div class="page-subtitle">คำนวณต้นทุนนำเข้าสินค้าแบบครบวงจร &#183; Multi-User Task System</div>
       </div>
       <div class="header-actions">
         <div class="brand-tag">&#9889; ANTS &#8212; AI Solution Hub</div>
         <button class="btn btn-secondary no-print" onclick="exportPDF()">&#128196; PDF</button>
         <button class="btn btn-green no-print" onclick="exportExcel()">&#128202; Excel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MULTI-USER: Saved Calculations Table ===== -->
+  <div class="saved-calcs-card" id="savedCalcsCard">
+    <div class="card-header">
+      <div class="card-title">&#128203; การคำนวณที่บันทึกแล้ว (Task History)</div>
+      <div class="card-actions">
+        <span class="badge badge-blue">&#128100; ทีมโลจิสติกส์</span>
+        <button class="btn btn-sm btn-secondary no-print" onclick="toggleSavedCalcs()">&#128317; ย่อ/ขยาย</button>
+      </div>
+    </div>
+    <div id="savedCalcsContent">
+      <div style="overflow-x:auto;">
+        <table class="calcs-table">
+          <thead>
+            <tr>
+              <th>Calc #</th>
+              <th>Shipment</th>
+              <th>เส้นทาง</th>
+              <th>ต้นทุนรวม</th>
+              <th>คำนวณโดย</th>
+              <th>วันที่</th>
+            </tr>
+          </thead>
+          <tbody id="savedCalcsBody"></tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -228,6 +297,21 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
           <div class="form-group">
             <label class="form-label">จำนวน (หน่วย)</label>
             <input class="form-input" id="qty" type="number" min="1" placeholder="1" value="1" oninput="calc()">
+          </div>
+
+          <!-- MULTI-USER: Shipment & Assigned fields -->
+          <div class="form-group">
+            <label class="form-label">Shipment ID</label>
+            <input class="form-input" id="shipmentId" placeholder="SHP-035" value="">
+          </div>
+          <div class="form-group">
+            <label class="form-label">คำนวณโดย</label>
+            <select class="form-input form-select" id="calcUser">
+              <option value="somsak">สมศักดิ์ ว.</option>
+              <option value="arun">อรุณ ก.</option>
+              <option value="pichai">พิชัย ส.</option>
+              <option value="nattaya">ณัฐยา พ.</option>
+            </select>
           </div>
 
           <div class="divider"></div>
@@ -320,7 +404,13 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
             </div>
           </div>
 
-          <button class="btn btn-primary no-print" style="width:100%;justify-content:center;margin-top:8px;" onclick="saveToHistory()">&#128190; บันทึกการคำนวณ</button>
+          <button class="btn btn-primary no-print" style="width:100%;justify-content:center;margin-top:8px;" onclick="saveToHistory()">&#128190; บันทึกการคำนวณ (Task)</button>
+
+          <!-- MULTI-USER: Share & Compare buttons -->
+          <div class="share-btn-bar no-print">
+            <button class="btn btn-sm btn-purple" onclick="shareWithTeam()">&#128228; แชร์กับทีม</button>
+            <button class="btn btn-sm btn-secondary" onclick="openComparePrev()">&#128202; เปรียบเทียบกับ Shipment ก่อนหน้า</button>
+          </div>
         </div>
       </div>
 
@@ -453,7 +543,227 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
 </div>
 
+<!-- Compare Previous Shipment Modal -->
+<div class="modal-overlay" id="comparePrevModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">&#128202; เปรียบเทียบกับ Shipment ก่อนหน้า</div>
+      <button class="modal-close" onclick="closeComparePrev()">&#10005;</button>
+    </div>
+    <div class="modal-body">
+      <p style="color:var(--muted);font-size:.82rem;margin-bottom:16px;">เปรียบเทียบการคำนวณปัจจุบันกับ Shipment ที่เลือก</p>
+      <div class="compare-prev-grid" id="comparePrevContent">
+        <!-- Filled dynamically -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Share Modal -->
+<div class="modal-overlay" id="shareModal">
+  <div class="modal" style="max-width:480px;">
+    <div class="modal-header">
+      <div class="modal-title">&#128228; แชร์กับทีม</div>
+      <button class="modal-close" onclick="closeShareModal()">&#10005;</button>
+    </div>
+    <div class="modal-body">
+      <p style="color:var(--muted);font-size:.82rem;margin-bottom:16px;">เลือกสมาชิกในทีมที่ต้องการแชร์การคำนวณนี้</p>
+      <div style="display:flex;flex-direction:column;gap:10px;" id="shareUserList">
+        <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .15s;">
+          <input type="checkbox" checked> <div class="user-avatar"><div class="avatar" style="background:#7C3AED">อ</div><span class="name">อรุณ ก.</span></div>
+        </label>
+        <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .15s;">
+          <input type="checkbox" checked> <div class="user-avatar"><div class="avatar" style="background:#059669">พ</div><span class="name">พิชัย ส.</span></div>
+        </label>
+        <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .15s;">
+          <input type="checkbox"> <div class="user-avatar"><div class="avatar" style="background:#EA580C">ณ</div><span class="name">ณัฐยา พ.</span></div>
+        </label>
+      </div>
+      <div style="margin-top:16px;">
+        <label class="form-label">ข้อความ (ไม่บังคับ)</label>
+        <input class="form-input" placeholder="เช่น กรุณาตรวจสอบราคา freight..." id="shareMsg">
+      </div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:16px;" onclick="doShare()">&#128228; ส่งแชร์</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast-notification" id="toastNotif">
+  <span>&#9989;</span>
+  <span id="toastNotifMsg"></span>
+</div>
+
 <script>
+// ========== MULTI-USER: Saved Calculations Data ==========
+const SAVED_CALCS = [
+  { id: 'CALC-045', shipment: 'SHP-034', route: 'Bangkok \u2192 LA', routeSub: 'Ocean Freight / 40\'HC', cost: '$12,450', costThb: '434,082 THB', user: 'somsak', userName: 'สมศักดิ์ ว.', userColor: '#2563EB', date: '4 เม.ย.', fob: 8500, freight: 1850, ins: 120, dutyPct: 5, thc: 7500, customs: 2500, inland: 5000, other: 800, currency: 'USD' },
+  { id: 'CALC-044', shipment: 'SHP-033', route: 'Shanghai \u2192 BKK', routeSub: 'Ocean Freight / 20\'GP', cost: '$8,900', costThb: '310,265 THB', user: 'arun', userName: 'อรุณ ก.', userColor: '#7C3AED', date: '3 เม.ย.', fob: 6200, freight: 980, ins: 85, dutyPct: 8, thc: 5200, customs: 2000, inland: 3500, other: 500, currency: 'USD' },
+  { id: 'CALC-043', shipment: 'SHP-032', route: 'BKK \u2192 Tokyo', routeSub: 'Air Freight / Express', cost: '$5,600', costThb: '195,160 THB', user: 'pichai', userName: 'พิชัย ส.', userColor: '#059669', date: '2 เม.ย.', fob: 3800, freight: 1200, ins: 60, dutyPct: 3, thc: 3000, customs: 1500, inland: 2000, other: 300, currency: 'USD' },
+  { id: 'CALC-042', shipment: 'SHP-031', route: 'Osaka \u2192 BKK', routeSub: 'Ocean Freight / 20\'GP', cost: '$7,200', costThb: '251,100 THB', user: 'nattaya', userName: 'ณัฐยา พ.', userColor: '#EA580C', date: '1 เม.ย.', fob: 5000, freight: 850, ins: 70, dutyPct: 5, thc: 4200, customs: 1800, inland: 3000, other: 400, currency: 'USD' },
+  { id: 'CALC-041', shipment: 'SHP-030', route: 'Shenzhen \u2192 BKK', routeSub: 'Ocean Freight / 40\'GP', cost: '$15,800', costThb: '550,630 THB', user: 'somsak', userName: 'สมศักดิ์ ว.', userColor: '#2563EB', date: '31 มี.ค.', fob: 11000, freight: 2100, ins: 150, dutyPct: 10, thc: 8200, customs: 3500, inland: 6000, other: 1200, currency: 'USD' },
+  { id: 'CALC-040', shipment: 'SHP-029', route: 'Hamburg \u2192 BKK', routeSub: 'Ocean Freight / 40\'HC', cost: '$18,200', costThb: '634,370 THB', user: 'arun', userName: 'อรุณ ก.', userColor: '#7C3AED', date: '30 มี.ค.', fob: 13000, freight: 2800, ins: 200, dutyPct: 7, thc: 9000, customs: 4000, inland: 7000, other: 1500, currency: 'EUR' },
+];
+
+let savedCalcsCollapsed = false;
+
+function renderSavedCalcs() {
+  const tbody = document.getElementById('savedCalcsBody');
+  tbody.innerHTML = SAVED_CALCS.map(c => `
+    <tr onclick="loadSavedCalc('${c.id}')">
+      <td><span class="calc-id">${c.id}</span></td>
+      <td><span class="calc-shipment">${c.shipment}</span></td>
+      <td>
+        <div class="calc-route">${c.route}</div>
+        <div class="calc-route-sub">${c.routeSub}</div>
+      </td>
+      <td>
+        <div class="calc-cost">${c.costThb}</div>
+        <div style="font-size:.68rem;color:var(--muted);">${c.cost} equiv.</div>
+      </td>
+      <td>
+        <div class="user-avatar">
+          <div class="avatar" style="background:${c.userColor}">${c.userName.charAt(0)}</div>
+          <span class="name">${c.userName}</span>
+        </div>
+      </td>
+      <td><span class="calc-date">${c.date}</span></td>
+    </tr>
+  `).join('');
+}
+
+function loadSavedCalc(id) {
+  const c = SAVED_CALCS.find(x => x.id === id);
+  if (!c) return;
+  document.getElementById('itemName').value = c.route;
+  document.getElementById('shipmentId').value = c.shipment;
+  document.getElementById('fob').value = c.fob;
+  document.getElementById('currency').value = c.currency;
+  document.getElementById('freight').value = c.freight;
+  document.getElementById('insurance').value = c.ins;
+  document.getElementById('dutyPct').value = c.dutyPct;
+  document.getElementById('thc').value = c.thc;
+  document.getElementById('customs').value = c.customs;
+  document.getElementById('inland').value = c.inland;
+  document.getElementById('other').value = c.other;
+  // Set user
+  const userSel = document.getElementById('calcUser');
+  for (let i = 0; i < userSel.options.length; i++) {
+    if (userSel.options[i].value === c.user) { userSel.selectedIndex = i; break; }
+  }
+  switchTab('calc', document.querySelectorAll('.tab')[0]);
+  calc();
+  showNotif(`โหลด ${c.id} (${c.shipment}) สำเร็จ -- คำนวณโดย ${c.userName}`);
+}
+
+function toggleSavedCalcs() {
+  savedCalcsCollapsed = !savedCalcsCollapsed;
+  document.getElementById('savedCalcsContent').style.display = savedCalcsCollapsed ? 'none' : '';
+}
+
+// ===== Share with Team =====
+function shareWithTeam() {
+  document.getElementById('shareModal').classList.add('show');
+}
+function closeShareModal() {
+  document.getElementById('shareModal').classList.remove('show');
+}
+function doShare() {
+  closeShareModal();
+  const msg = document.getElementById('shareMsg').value;
+  showNotif('แชร์การคำนวณกับทีมสำเร็จ' + (msg ? ' -- "' + msg + '"' : ''));
+}
+
+// ===== Compare with Previous Shipment =====
+function openComparePrev() {
+  const rate = getSelectedRate();
+  const curr = document.getElementById('currency').value;
+  const fob = val('fob');
+  const freight = val('freight');
+  const ins = val('insurance');
+  const dutyPct = val('dutyPct');
+  const vatPct = val('vatPct');
+  const thc = val('thc');
+  const customs = val('customs');
+  const inland = val('inland');
+  const other = val('other');
+
+  const fobThb = fob * rate;
+  const freightThb = freight * rate;
+  const insThb = ins * rate;
+  const cifThb = fobThb + freightThb + insThb;
+  const dutyThb = cifThb * (dutyPct / 100);
+  const vatThb = (cifThb + dutyThb) * (vatPct / 100);
+  const totalLanded = cifThb + dutyThb + vatThb + thc + customs + inland + other;
+
+  // Compare with first saved calc
+  const prev = SAVED_CALCS[0];
+  const prevRate = 34.85;
+  const prevFobThb = prev.fob * prevRate;
+  const prevFreightThb = prev.freight * prevRate;
+  const prevInsThb = prev.ins * prevRate;
+  const prevCifThb = prevFobThb + prevFreightThb + prevInsThb;
+  const prevDutyThb = prevCifThb * (prev.dutyPct / 100);
+  const prevVatThb = (prevCifThb + prevDutyThb) * 0.07;
+  const prevTotal = prevCifThb + prevDutyThb + prevVatThb + prev.thc + prev.customs + prev.inland + prev.other;
+
+  const items = [
+    ['FOB (THB)', fobThb, prevFobThb],
+    ['Freight (THB)', freightThb, prevFreightThb],
+    ['Insurance (THB)', insThb, prevInsThb],
+    ['Duty', dutyThb, prevDutyThb],
+    ['VAT', vatThb, prevVatThb],
+    ['ค่าท่าเรือ', thc, prev.thc],
+    ['ขนส่งภายใน', inland, prev.inland],
+    ['Total', totalLanded, prevTotal],
+  ];
+
+  const container = document.getElementById('comparePrevContent');
+  container.innerHTML = `
+    <div class="compare-prev-card">
+      <h4 style="color:var(--blue);">&#128204; การคำนวณปัจจุบัน</h4>
+      <div style="font-size:.78rem;color:var(--muted);margin-bottom:10px;">${document.getElementById('itemName').value || 'ไม่ระบุ'} | ${document.getElementById('shipmentId').value || '-'}</div>
+      ${items.map(([label, v]) => `
+        <div class="compare-prev-item">
+          <span>${label}</span>
+          <span style="font-weight:700;font-family:'Inter',sans-serif;">${fmt(v)} THB</span>
+        </div>
+      `).join('')}
+    </div>
+    <div class="compare-prev-card">
+      <h4 style="color:var(--purple);">&#128203; ${prev.id} (${prev.shipment})</h4>
+      <div style="font-size:.78rem;color:var(--muted);margin-bottom:10px;">${prev.route} | ${prev.date} | ${prev.userName}</div>
+      ${items.map(([label, curr, prev]) => {
+        const diff = curr - prev;
+        const pct = prev > 0 ? ((diff / prev) * 100).toFixed(1) : '0';
+        const cls = diff > 0 ? 'up' : diff < 0 ? 'down' : '';
+        return `
+          <div class="compare-prev-item">
+            <span>${label}</span>
+            <span style="display:flex;align-items:center;gap:6px;">
+              <span style="font-weight:700;font-family:'Inter',sans-serif;">${fmt(prev)} THB</span>
+              ${diff !== 0 ? `<span class="diff-tag ${cls}">${diff > 0 ? '+' : ''}${pct}%</span>` : ''}
+            </span>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+
+  document.getElementById('comparePrevModal').classList.add('show');
+}
+function closeComparePrev() {
+  document.getElementById('comparePrevModal').classList.remove('show');
+}
+
+// ===== Toast =====
+function showNotif(msg) {
+  const t = document.getElementById('toastNotif');
+  document.getElementById('toastNotifMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
 // ========== FX RATES (simulated multi-bank) ==========
 const bankRates = {
   USD: [
@@ -531,7 +841,6 @@ function calcInsFromPct() {
   if (pct > 0) {
     const fob = val('fob');
     const freight = val('freight');
-    // Insurance % of CIF => ins = pct/100 * (fob + freight + ins) => ins = (pct/100)*(fob+freight) / (1 - pct/100)
     const p = pct / 100;
     const ins = p < 1 ? (p * (fob + freight)) / (1 - p) : 0;
     document.getElementById('insurance').value = ins.toFixed(2);
@@ -649,23 +958,19 @@ function drawWaterfall(d) {
     const y2 = pad.top + scaleY(bottom);
     const barH = Math.max(0, y2 - y1);
 
-    // Bar
     html += `<rect class="wf-bar" x="${x}" y="${y1}" width="${barW}" height="${barH}" rx="3" fill="${item.color}" opacity="0.85">
       <title>${item.label}: ${fmt(item.value)} THB</title>
     </rect>`;
 
-    // Value on top
     if (item.value > 0) {
       html += `<text class="wf-value" x="${x + barW/2}" y="${y1 - 6}" text-anchor="middle" fill="${item.color}">${shortFmt(item.value)}</text>`;
     }
 
-    // Connector line to next bar
     if (i < items.length - 1) {
       const nextX = pad.left + (i+1) * (barW + gap);
       html += `<line class="wf-connector" x1="${x + barW}" y1="${y1}" x2="${nextX}" y2="${y1}"/>`;
     }
 
-    // Label
     html += `<text class="wf-label" x="${x + barW/2}" y="${H - pad.bottom + 14}" text-anchor="middle">${item.label}</text>`;
   });
 
@@ -682,7 +987,6 @@ function drawWaterfall(d) {
   html += `<text class="wf-value" x="${tx + barW/2}" y="${ty1 - 6}" text-anchor="middle" fill="#2563EB" style="font-size:12px;font-weight:800;">${shortFmt(total)}</text>`;
   html += `<text class="wf-label" x="${tx + barW/2}" y="${H - pad.bottom + 14}" text-anchor="middle" style="font-weight:700;fill:var(--text);">TOTAL</text>`;
 
-  // Baseline
   html += `<line x1="${pad.left}" y1="${pad.top + chartH}" x2="${W - pad.right}" y2="${pad.top + chartH}" stroke="var(--border)" stroke-width="1"/>`;
 
   svg.innerHTML = html;
@@ -757,7 +1061,6 @@ function calcCompare() {
     </tr>`;
   });
 
-  // Total row
   const diffT = a.total - b.total;
   html += `<tr class="total-row">
     <td style="font-weight:800;">Total Landed Cost</td>
@@ -820,6 +1123,9 @@ function saveToHistory() {
   const inland = val('inland');
   const other = val('other');
   const qty = Math.max(1, val('qty'));
+  const shipmentId = document.getElementById('shipmentId').value || '';
+  const calcUserEl = document.getElementById('calcUser');
+  const calcUserName = calcUserEl.options[calcUserEl.selectedIndex].text;
 
   const fobThb = fob * rate;
   const freightThb = freight * rate;
@@ -831,7 +1137,7 @@ function saveToHistory() {
 
   const entry = {
     name, currency: curr, fob, freight, insurance, dutyPct, thc, customs, inland, other, qty,
-    rate, bank: selectedBank, total,
+    rate, bank: selectedBank, total, shipmentId, calcUser: calcUserName,
     date: new Date().toISOString()
   };
 
@@ -843,9 +1149,11 @@ function saveToHistory() {
   // Flash feedback
   const btn = event.target;
   const orig = btn.innerHTML;
-  btn.innerHTML = '&#10003; บันทึกแล้ว!';
+  btn.innerHTML = '&#10003; บันทึก Task แล้ว!';
   btn.style.background = 'var(--green)';
   setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; }, 1200);
+
+  showNotif(`บันทึก Task สำเร็จ -- ${shipmentId ? shipmentId + ' | ' : ''}${calcUserName}`);
 }
 
 function renderHistory() {
@@ -866,8 +1174,8 @@ function renderHistory() {
     const dateStr = d.toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'numeric'}) + ' ' + d.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});
     html += `<div class="history-item" onclick="loadFromHistory(${i})">
       <div class="history-info">
-        <div class="history-name">&#128230; ${h.name}</div>
-        <div class="history-meta">${dateStr} &middot; ${h.currency} &middot; Rate: ${h.rate} (${h.bank})</div>
+        <div class="history-name">&#128230; ${h.name} ${h.shipmentId ? '<span style="color:var(--green);font-size:.72rem;font-weight:600;">| ' + h.shipmentId + '</span>' : ''}</div>
+        <div class="history-meta">${dateStr} &middot; ${h.currency} &middot; Rate: ${h.rate} (${h.bank}) ${h.calcUser ? '&middot; <strong>' + h.calcUser + '</strong>' : ''}</div>
       </div>
       <div class="history-cost">${fmt(h.total)} THB</div>
       <div class="history-actions">
@@ -895,6 +1203,7 @@ function loadFromHistory(idx) {
   document.getElementById('inland').value = h.inland;
   document.getElementById('other').value = h.other;
   if (h.bank) selectedBank = h.bank;
+  if (h.shipmentId) document.getElementById('shipmentId').value = h.shipmentId;
 
   // Switch to calc tab
   document.querySelectorAll('.tab')[0].click();
@@ -916,7 +1225,7 @@ function clearHistory() {
 
 // ========== RESET ==========
 function resetForm() {
-  ['itemName','fob','freight','insurance','insurancePct','thc','customs','inland','other'].forEach(id => {
+  ['itemName','fob','freight','insurance','insurancePct','thc','customs','inland','other','shipmentId'].forEach(id => {
     document.getElementById(id).value = '';
   });
   document.getElementById('qty').value = 1;
@@ -947,6 +1256,9 @@ function exportExcel() {
   const inland = val('inland');
   const other = val('other');
   const qty = Math.max(1, val('qty'));
+  const shipmentId = document.getElementById('shipmentId').value || '-';
+  const calcUserEl = document.getElementById('calcUser');
+  const calcUserName = calcUserEl.options[calcUserEl.selectedIndex].text;
 
   const fobThb = fob * rate;
   const freightThb = freight * rate;
@@ -961,6 +1273,8 @@ function exportExcel() {
     ['Landed Cost Calculator - Autopilot v2 by ANTS'],
     [],
     ['Item', name],
+    ['Shipment ID', shipmentId],
+    ['Calculated By', calcUserName],
     ['Currency', curr],
     ['FX Rate', rate, `(${selectedBank})`],
     ['Quantity', qty],
@@ -1008,7 +1322,16 @@ if(localStorage.getItem('darkMode')==='true'){
 
 // ========== INIT ==========
 document.addEventListener('DOMContentLoaded', () => {
+  renderSavedCalcs();
   calc();
+});
+
+// Close modals on overlay click
+document.getElementById('comparePrevModal').addEventListener('click', function(e) {
+  if (e.target === this) closeComparePrev();
+});
+document.getElementById('shareModal').addEventListener('click', function(e) {
+  if (e.target === this) closeShareModal();
 });
 </script>
 </body>

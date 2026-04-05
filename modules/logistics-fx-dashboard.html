@@ -41,7 +41,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .savings-banner .sav-sub{font-size:.72rem;opacity:.8;}
 
 /* FX Rate Cards */
-.fx-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+.fx-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-bottom:24px;}
 .fx-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:18px 16px;box-shadow:var(--shadow);transition:all .2s;position:relative;overflow:hidden;cursor:pointer;}
 .fx-card:hover{box-shadow:var(--shadow2);transform:translateY(-2px);}
 .fx-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
@@ -56,13 +56,12 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .fx-change{display:inline-flex;align-items:center;gap:3px;font-size:.68rem;font-weight:600;padding:2px 8px;border-radius:5px;}
 .fx-change.up{background:var(--green-bg);color:var(--green);}
 .fx-change.down{background:var(--red-bg);color:var(--red);}
-.sparkline-wrap{margin-top:10px;height:40px;position:relative;}
-.sparkline-wrap svg{width:100%;height:40px;}
+.sparkline-wrap{margin-top:10px;height:60px;position:relative;}
+.sparkline-wrap svg{width:100%;height:60px;min-width:200px;}
 
 /* Sparkline Tooltip */
-.spark-tooltip{position:absolute;background:var(--text);color:var(--bg);padding:5px 10px;border-radius:6px;font-size:.68rem;font-weight:600;pointer-events:none;z-index:50;white-space:nowrap;opacity:0;transition:opacity .15s;transform:translate(-50%,-100%);margin-top:-8px;}
+.spark-tooltip{position:fixed;background:var(--card-bg);color:var(--text);border:1px solid var(--border);padding:8px 12px;border-radius:8px;font-size:.78rem;font-weight:600;pointer-events:none;z-index:50;white-space:nowrap;opacity:0;transition:opacity .15s;box-shadow:var(--shadow);line-height:1.5;}
 .spark-tooltip.show{opacity:1;}
-.spark-tooltip::after{content:'';position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);border-left:4px solid transparent;border-right:4px solid transparent;border-top:4px solid var(--text);}
 
 /* Rate Change Indicator */
 .rate-indicator{display:flex;align-items:center;gap:4px;margin-top:6px;font-size:.68rem;color:var(--muted);}
@@ -112,12 +111,14 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .line-legend-dot{width:8px;height:8px;border-radius:50%;}
 
 /* Chart Tooltip */
-.chart-tooltip{position:absolute;background:var(--text);color:var(--bg);padding:8px 14px;border-radius:8px;font-size:.72rem;font-weight:600;pointer-events:none;z-index:60;white-space:nowrap;opacity:0;transition:opacity .15s;transform:translate(-50%,-100%);margin-top:-10px;box-shadow:0 4px 12px rgba(0,0,0,.2);}
+.chart-tooltip{position:fixed;background:var(--card-bg);color:var(--text);border:1px solid var(--border);padding:8px 12px;border-radius:8px;font-size:.78rem;font-weight:600;pointer-events:none;z-index:60;white-space:nowrap;opacity:0;transition:opacity .15s;box-shadow:var(--shadow);line-height:1.5;}
 .chart-tooltip.show{opacity:1;}
-.chart-tooltip::after{content:'';position:absolute;bottom:-5px;left:50%;transform:translateX(-50%);border-left:5px solid transparent;border-right:5px solid transparent;border-top:5px solid var(--text);}
-.chart-tooltip .tt-pair{font-size:.65rem;color:var(--muted);margin-bottom:2px;}
-.chart-tooltip .tt-value{font-size:.82rem;font-weight:800;}
-.chart-tooltip .tt-date{font-size:.6rem;color:var(--muted);margin-top:2px;}
+.chart-tooltip .tt-pair{font-size:.72rem;color:var(--muted);margin-bottom:2px;}
+.chart-tooltip .tt-value{font-size:.88rem;font-weight:800;}
+.chart-tooltip .tt-change{font-size:.72rem;margin-top:2px;}
+.chart-tooltip .tt-change.up{color:var(--green);}
+.chart-tooltip .tt-change.down{color:var(--red);}
+.chart-tooltip .tt-date{font-size:.68rem;color:var(--muted);margin-top:2px;}
 
 /* Chart Crosshair */
 .chart-crosshair{stroke:var(--muted);stroke-width:1;stroke-dasharray:2,2;opacity:0;transition:opacity .15s;}
@@ -192,7 +193,8 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
 /* Responsive */
 @media(max-width:1200px){.fx-cards{grid-template-columns:repeat(2,1fr);}.charts-grid,.alerts-grid,.calc-grid{grid-template-columns:1fr;}}
-@media(max-width:768px){.fx-cards{grid-template-columns:1fr;}.main{padding:16px;}.page-header{padding:14px 16px;}.rate-table{font-size:.72rem;}.rate-table thead th,.rate-table tbody td{padding:8px 8px;}}
+@media(max-width:768px){.fx-cards{grid-template-columns:repeat(2,1fr);}.main{padding:16px;}.page-header{padding:14px 16px;}.rate-table{font-size:.72rem;}.rate-table thead th,.rate-table tbody td{padding:8px 8px;}}
+@media(max-width:480px){.fx-cards{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -519,7 +521,7 @@ function renderFXCards() {
         const pts = fx.sparkline;
         const minV = Math.min(...pts), maxV = Math.max(...pts);
         const range = maxV - minV || 1;
-        const w = 160, h = 35, pad = 4;
+        const w = 220, h = 55, pad = 6;
         const pathPts = pts.map((v, i) => {
             const x = pad + (i / (pts.length - 1)) * (w - 2 * pad);
             const y = pad + (1 - (v - minV) / range) * (h - 2 * pad);
@@ -528,13 +530,20 @@ function renderFXCards() {
         const pathD = 'M' + pathPts.map(p => `${p.x},${p.y}`).join(' L');
         const areaD = pathD + ` L${pathPts[pathPts.length-1].x},${h} L${pathPts[0].x},${h} Z`;
 
-        // Create interactive dots for sparkline
+        // Create interactive dots and invisible hit areas for sparkline
         let dotsHtml = pathPts.map((p, di) => {
-            return `<circle cx="${p.x}" cy="${p.y}" r="3" fill="${fx.color}" opacity="0" class="spark-dot"
-                data-val="${pts[di].toFixed(dec)}" data-date="${fx.dates[di]}" data-pair="${fx.pair}"
-                style="cursor:pointer;transition:opacity .15s,r .15s;"
-                onmouseenter="showSparkTooltip(event,this)" onmouseleave="hideSparkTooltip(this)"
-                onclick="onSparkClick(event,this)"/>`;
+            const prevVal = di > 0 ? pts[di-1] : pts[di];
+            const chg = pts[di] - prevVal;
+            const chgPct = prevVal !== 0 ? ((chg / prevVal) * 100).toFixed(3) : '0.000';
+            return `<circle cx="${p.x}" cy="${p.y}" r="10" fill="transparent" stroke="transparent" stroke-width="0"
+                class="spark-hit"
+                data-val="${pts[di].toFixed(dec)}" data-date="${fx.dates[di]}" data-pair="${fx.pair}" data-chg="${chgPct}"
+                style="cursor:pointer;"
+                onmouseenter="showSparkTooltip(event,this,${fi})" onmouseleave="hideSparkTooltip(this,${fi})"
+                onclick="onSparkClick(event,this)"/>
+            <circle cx="${p.x}" cy="${p.y}" r="3" fill="${fx.color}" opacity="0" class="spark-dot"
+                data-idx="${di}"
+                style="pointer-events:none;transition:opacity .2s,r .2s;"/>`;
         }).join('');
 
         const prevRate = pts[pts.length - 2];
@@ -552,7 +561,7 @@ function renderFXCards() {
                 <span>24h: ${rateChangeStr} (${isUp?'\u0E40\u0E1E\u0E34\u0E48\u0E21':'\u0E25\u0E14'})</span>
             </div>
             <div class="sparkline-wrap" id="spark-${fi}">
-                <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+                <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet">
                     <defs><linearGradient id="sg${fi}" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stop-color="${fx.color}" stop-opacity=".2"/>
                         <stop offset="100%" stop-color="${fx.color}" stop-opacity="0"/>
@@ -565,7 +574,7 @@ function renderFXCards() {
                         <animate attributeName="stroke-dasharray" from="500" to="500" dur="0.01s" fill="freeze"/>
                     </path>
                     ${dotsHtml}
-                    <circle cx="${pathPts[pathPts.length-1].x}" cy="${pathPts[pathPts.length-1].y}" r="3.5" fill="${fx.color}">
+                    <circle cx="${pathPts[pathPts.length-1].x}" cy="${pathPts[pathPts.length-1].y}" r="3.5" fill="${fx.color}" style="pointer-events:none;">
                         <animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite"/>
                     </circle>
                 </svg>
@@ -575,30 +584,36 @@ function renderFXCards() {
     }).join('');
 }
 
-function showSparkTooltip(e, el) {
-    el.setAttribute('opacity', '1');
-    el.setAttribute('r', '5');
+function showSparkTooltip(e, el, fi) {
+    // Show the visible dot
     const wrap = el.closest('.sparkline-wrap');
+    const idx = Array.from(wrap.querySelectorAll('.spark-hit')).indexOf(el);
+    const dots = wrap.querySelectorAll('.spark-dot');
+    if (dots[idx]) {
+        dots[idx].setAttribute('opacity', '1');
+        dots[idx].setAttribute('r', '5');
+    }
     const tt = wrap.querySelector('.spark-tooltip');
     const val = el.getAttribute('data-val');
     const date = el.getAttribute('data-date');
     const pair = el.getAttribute('data-pair');
-    tt.innerHTML = `<strong>${pair}</strong><br>${val}<br><small>${date}</small>`;
-    const svgRect = el.closest('svg').getBoundingClientRect();
-    const wrapRect = wrap.getBoundingClientRect();
-    const cx = parseFloat(el.getAttribute('cx'));
-    const cy = parseFloat(el.getAttribute('cy'));
-    const scaleX = svgRect.width / 160;
-    const scaleY = svgRect.height / 35;
-    tt.style.left = (cx * scaleX) + 'px';
-    tt.style.top = (cy * scaleY - 8) + 'px';
+    const chg = el.getAttribute('data-chg');
+    const chgNum = parseFloat(chg);
+    const chgColor = chgNum >= 0 ? 'var(--green)' : 'var(--red)';
+    const chgSign = chgNum >= 0 ? '+' : '';
+    tt.innerHTML = `<strong>${pair}</strong><br>\u0E2D\u0E31\u0E15\u0E23\u0E32: ${val}<br>\u0E40\u0E1B\u0E25\u0E35\u0E48\u0E22\u0E19\u0E41\u0E1B\u0E25\u0E07: <span style="color:${chgColor}">${chgSign}${chg}%</span><br><small>${date}</small>`;
+    // Position tooltip near mouse using fixed positioning
+    tt.style.left = (e.clientX + 15) + 'px';
+    tt.style.top = (e.clientY - 10) + 'px';
     tt.classList.add('show');
 }
 
-function hideSparkTooltip(el) {
-    el.setAttribute('opacity', '0');
-    el.setAttribute('r', '3');
+function hideSparkTooltip(el, fi) {
     const wrap = el.closest('.sparkline-wrap');
+    wrap.querySelectorAll('.spark-dot').forEach(d => {
+        d.setAttribute('opacity', '0');
+        d.setAttribute('r', '3');
+    });
     wrap.querySelector('.spark-tooltip').classList.remove('show');
 }
 
@@ -737,6 +752,9 @@ function renderHistoryChart() {
     // Vertical crosshair
     svgContent += `<line id="crosshair" class="chart-crosshair" x1="0" y1="${pad.t}" x2="0" y2="${pad.t + chartH}"/>`;
 
+    // Store points for hover lookup
+    window._chartPoints = {};
+
     // Lines and interactive dots
     pairs.forEach((pair, pi) => {
         const isActive = chartActivePairs.has(pair);
@@ -748,6 +766,8 @@ function renderHistoryChart() {
             const y = pad.t + (1 - (v - r.min) / rng) * chartH;
             return { x, y, v };
         });
+
+        if (isActive) window._chartPoints[pair] = { points, data, color: colors[pi], pi };
 
         const pathD = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
 
@@ -765,22 +785,23 @@ function renderHistoryChart() {
             <animate attributeName="stroke-dashoffset" from="2000" to="0" dur="1.2s" fill="freeze"/>
         </path>`;
 
-        // Interactive dots
+        // Interactive dots (visible on hover)
         if (isActive) {
             points.forEach((p, di) => {
                 const dec = pair === 'JPY/THB' ? 3 : 2;
+                const prevVal = di > 0 ? data[di-1] : data[di];
+                const chg = data[di] - prevVal;
+                const chgPct = prevVal !== 0 ? ((chg / prevVal) * 100).toFixed(3) : '0.000';
                 svgContent += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3" fill="${colors[pi]}"
-                    class="chart-dot" data-pair="${pair}" data-val="${data[di].toFixed(dec)}" data-date="${historyDates[di]}" data-x="${p.x.toFixed(1)}"
-                    opacity="0" style="transition:opacity .15s,r .15s;"
-                    onmouseenter="showChartTooltip(event,this)" onmouseleave="hideChartTooltip(this)"
-                    onclick="onChartDotClick(this)"/>`;
+                    class="chart-dot" data-pair="${pair}" data-val="${data[di].toFixed(dec)}" data-date="${historyDates[di]}" data-x="${p.x.toFixed(1)}" data-chg="${chgPct}" data-di="${di}"
+                    opacity="0" style="transition:opacity .2s,r .2s;"/>`;
             });
         }
 
         // End dot (always visible)
         if (isActive) {
             const last = points[points.length - 1];
-            svgContent += `<circle cx="${last.x}" cy="${last.y}" r="4" fill="${colors[pi]}">
+            svgContent += `<circle cx="${last.x}" cy="${last.y}" r="4" fill="${colors[pi]}" style="pointer-events:none;">
                 <animate attributeName="r" values="4;6;4" dur="2s" repeatCount="indefinite"/>
             </circle>`;
         }
@@ -788,6 +809,7 @@ function renderHistoryChart() {
 
     // Invisible overlay for hover detection
     svgContent += `<rect x="${pad.l}" y="${pad.t}" width="${chartW}" height="${chartH}" fill="transparent"
+        style="cursor:crosshair;"
         onmousemove="onChartHover(event)" onmouseleave="onChartLeave()"/>`;
 
     svg.innerHTML = svgContent;
@@ -801,59 +823,53 @@ function renderHistoryChart() {
     }).join('');
 }
 
-function showChartTooltip(e, el) {
-    el.setAttribute('opacity', '1');
-    el.setAttribute('r', '6');
-    const tt = document.getElementById('chartTooltip');
-    const pair = el.getAttribute('data-pair');
-    const val = el.getAttribute('data-val');
-    const date = el.getAttribute('data-date');
-    tt.innerHTML = `<div class="tt-pair">${pair}</div><div class="tt-value">${val}</div><div class="tt-date">${date}</div>`;
-
-    const container = document.getElementById('chartContainer');
-    const svg = document.getElementById('historyChart');
-    const svgRect = svg.getBoundingClientRect();
-    const containerRect = container.getBoundingClientRect();
-    const cx = parseFloat(el.getAttribute('cx'));
-    const cy = parseFloat(el.getAttribute('cy'));
-    const scaleX = svgRect.width / 600;
-    const scaleY = svgRect.height / 300;
-    tt.style.left = (cx * scaleX) + 'px';
-    tt.style.top = (cy * scaleY) + 'px';
-    tt.classList.add('show');
-
-    // Show crosshair
-    const crosshair = document.getElementById('crosshair');
-    if (crosshair) {
-        crosshair.setAttribute('x1', el.getAttribute('data-x'));
-        crosshair.setAttribute('x2', el.getAttribute('data-x'));
-        crosshair.classList.add('show');
-    }
-}
-
-function hideChartTooltip(el) {
-    el.setAttribute('opacity', '0');
-    el.setAttribute('r', '3');
-    document.getElementById('chartTooltip').classList.remove('show');
-    const crosshair = document.getElementById('crosshair');
-    if (crosshair) crosshair.classList.remove('show');
-}
-
 function onChartHover(e) {
     const svg = document.getElementById('historyChart');
     const rect = svg.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width * 600;
-    // Show all dots near this x
+    const svgX = (e.clientX - rect.left) / rect.width * 600;
+    const tt = document.getElementById('chartTooltip');
+    const crosshair = document.getElementById('crosshair');
+
+    // Find nearest data point index
+    const pad = { l: 55, r: 20, t: 20 };
+    const chartW = 600 - pad.l - pad.r;
+    const nearestIdx = Math.round(((svgX - pad.l) / chartW) * 29);
+    if (nearestIdx < 0 || nearestIdx > 29) { onChartLeave(); return; }
+
+    const snapX = pad.l + (nearestIdx / 29) * chartW;
+
+    // Show crosshair
+    if (crosshair) {
+        crosshair.setAttribute('x1', snapX);
+        crosshair.setAttribute('x2', snapX);
+        crosshair.classList.add('show');
+    }
+
+    // Highlight dots at this index and build tooltip
+    let tooltipHtml = `<div class="tt-date">\u0E27\u0E31\u0E19\u0E17\u0E35\u0E48: ${historyDates[nearestIdx]}</div>`;
     svg.querySelectorAll('.chart-dot').forEach(dot => {
-        const dx = parseFloat(dot.getAttribute('cx'));
-        if (Math.abs(dx - x) < 10) {
-            dot.setAttribute('opacity', '0.7');
-            dot.setAttribute('r', '4');
+        const di = parseInt(dot.getAttribute('data-di'));
+        if (di === nearestIdx) {
+            dot.setAttribute('opacity', '1');
+            dot.setAttribute('r', '6');
+            const pair = dot.getAttribute('data-pair');
+            const val = dot.getAttribute('data-val');
+            const chg = dot.getAttribute('data-chg');
+            const chgNum = parseFloat(chg);
+            const chgCls = chgNum >= 0 ? 'up' : 'down';
+            const chgSign = chgNum >= 0 ? '+' : '';
+            tooltipHtml += `<div style="margin-top:4px;"><div class="tt-pair">${pair}</div><div class="tt-value">\u0E2D\u0E31\u0E15\u0E23\u0E32: ${val}</div><div class="tt-change ${chgCls}">\u0E40\u0E1B\u0E25\u0E35\u0E48\u0E22\u0E19\u0E41\u0E1B\u0E25\u0E07: ${chgSign}${chg}%</div></div>`;
         } else {
             dot.setAttribute('opacity', '0');
             dot.setAttribute('r', '3');
         }
     });
+
+    tt.innerHTML = tooltipHtml;
+    // Position tooltip near mouse using fixed positioning
+    tt.style.left = (e.clientX + 15) + 'px';
+    tt.style.top = (e.clientY - 10) + 'px';
+    tt.classList.add('show');
 }
 
 function onChartLeave() {
@@ -865,20 +881,6 @@ function onChartLeave() {
     document.getElementById('chartTooltip').classList.remove('show');
     const crosshair = document.getElementById('crosshair');
     if (crosshair) crosshair.classList.remove('show');
-}
-
-function onChartDotClick(el) {
-    const val = el.getAttribute('data-val');
-    const pair = el.getAttribute('data-pair');
-    const date = el.getAttribute('data-date');
-    // Flash effect
-    const origFill = el.getAttribute('fill');
-    el.setAttribute('fill', '#059669');
-    el.setAttribute('r', '8');
-    setTimeout(() => {
-        el.setAttribute('fill', origFill);
-        el.setAttribute('r', '3');
-    }, 400);
 }
 
 function toggleChartPair(pair) {

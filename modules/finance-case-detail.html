@@ -231,6 +231,35 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 @keyframes toast-in { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes toast-out { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-10px); } }
 
+/* Assignment Bar */
+.assignment-bar { display: flex; align-items: center; gap: 16px; padding: 14px 20px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 20px; flex-wrap: wrap; }
+.assignment-bar .assign-label { font-size: 0.72rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+.assignment-bar .assign-user { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; color: var(--text); }
+.assignment-bar .assign-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--grad); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: #fff; }
+.assignment-bar .reassign-btn { padding: 5px 14px; border-radius: 8px; font-size: 0.72rem; font-weight: 600; border: 1px solid var(--border); background: var(--card-bg); color: var(--blue); cursor: pointer; transition: all 0.2s; font-family: inherit; }
+.assignment-bar .reassign-btn:hover { background: var(--blue-bg); border-color: var(--blue); }
+.assignment-bar .escalate-btn { padding: 5px 14px; border-radius: 8px; font-size: 0.72rem; font-weight: 600; border: 1px solid rgba(220,38,38,0.25); background: var(--red-bg); color: var(--red); cursor: pointer; transition: all 0.2s; font-family: inherit; }
+.assignment-bar .escalate-btn:hover { background: rgba(220,38,38,0.15); }
+
+/* Collaboration Panel */
+.collab-panel { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+.collab-panel .collab-title { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+.collab-notes { max-height: 200px; overflow-y: auto; margin-bottom: 12px; }
+.collab-note-item { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.collab-note-item:last-child { border-bottom: none; }
+.collab-note-item .note-avatar { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 600; color: #fff; flex-shrink: 0; }
+.collab-note-item .note-content { flex: 1; }
+.collab-note-item .note-author { font-size: 0.72rem; font-weight: 600; color: var(--text); }
+.collab-note-item .note-time { font-size: 0.65rem; color: var(--muted); }
+.collab-note-item .note-text { font-size: 0.78rem; color: var(--text2); margin-top: 2px; }
+.collab-note-item .note-tag { display: inline-block; background: var(--blue-bg); color: var(--blue); font-size: 0.65rem; font-weight: 600; padding: 1px 8px; border-radius: 4px; margin-right: 4px; }
+.collab-input-row { display: flex; gap: 8px; }
+.collab-input-row input { flex: 1; border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 0.78rem; font-family: inherit; background: var(--bg2); color: var(--text); outline: none; }
+.collab-input-row input:focus { border-color: var(--blue); }
+.collab-input-row button { padding: 8px 16px; border-radius: 8px; font-size: 0.72rem; font-weight: 600; font-family: inherit; cursor: pointer; border: none; transition: all 0.2s; }
+.collab-input-row .btn-note { background: var(--blue); color: #fff; }
+.collab-input-row .btn-tag { background: var(--purple-bg); color: var(--purple); border: 1px solid rgba(124,58,237,0.25); }
+
 /* Note Modal */
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 500; display: none; align-items: center; justify-content: center; }
 .modal-overlay.visible { display: flex; }
@@ -238,6 +267,9 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .modal h3 { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 16px; }
 .modal textarea { width: 100%; height: 120px; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; font-family: inherit; font-size: 0.85rem; color: var(--text); resize: vertical; outline: none; }
 .modal textarea:focus { border-color: var(--blue); }
+.modal .tag-select { margin-top: 10px; }
+.modal .tag-select label { font-size: 0.75rem; color: var(--muted); font-weight: 500; }
+.modal .tag-select select { margin-top: 4px; width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 0.82rem; background: var(--bg2); color: var(--text); outline: none; }
 .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
 .modal-actions button { padding: 8px 20px; border-radius: 8px; font-size: 0.82rem; font-weight: 600; font-family: inherit; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--text2); transition: all 0.2s; }
 .modal-actions button.save { background: var(--blue); border: none; color: #fff; }
@@ -352,6 +384,20 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
                     <div class="stat-sub">มัลติแชนแนล</div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- ASSIGNMENT BAR -->
+    <div class="assignment-bar" style="margin-top:20px;">
+        <div class="assign-label">&#x1F464; Assigned to:</div>
+        <div class="assign-user">
+            <div class="assign-avatar">&#3623;&#3621;</div>
+            &#3588;&#3640;&#3603;&#3623;&#3619;&#3619;&#3603;&#3634; &#3621;&#3636;&#3586;&#3636;&#3605;&#3608;&#3619;&#3619;&#3617;
+        </div>
+        <span style="font-size:0.72rem;color:var(--muted);">| &#3607;&#3637;&#3617;&#3626;&#3636;&#3609;&#3648;&#3594;&#3639;&#3656;&#3629;&#3619;&#3606;&#3618;&#3609;&#3605;&#3660;</span>
+        <div style="margin-left:auto; display:flex; gap:8px;">
+            <button class="reassign-btn" onclick="openReassignModal()">&#x1F501; &#3617;&#3629;&#3610;&#3627;&#3617;&#3634;&#3618;&#3651;&#3627;&#3617;&#3656;</button>
+            <button class="escalate-btn" onclick="showToast('warning','&#3626;&#3656;&#3591; Escalate &#3652;&#3611;&#3618;&#3633;&#3591;&#3612;&#3641;&#3657;&#3592;&#3633;&#3604;&#3585;&#3634;&#3619;&#3607;&#3637;&#3617;&#3649;&#3621;&#3657;&#3623;')">&#x26A0; Escalate</button>
         </div>
     </div>
 
@@ -647,6 +693,41 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
                 </div>
             </div>
 
+            <!-- COLLABORATION PANEL -->
+            <div class="card">
+                <div class="card-title"><span class="icon">&#x1F4AC;</span> Collaboration</div>
+                <div class="collab-panel" style="border:none;padding:0;">
+                    <div class="collab-notes">
+                        <div class="collab-note-item">
+                            <div class="note-avatar" style="background:#7C3AED;">&#3626;&#3585;</div>
+                            <div class="note-content">
+                                <div style="display:flex;align-items:center;gap:6px;"><span class="note-author">&#3626;&#3617;&#3624;&#3633;&#3585;&#3604;&#3636;&#3660; &#3585;.</span><span class="note-time">4 &#3648;&#3617;.&#3618;. 10:30</span></div>
+                                <div class="note-text">&#3621;&#3641;&#3585;&#3588;&#3657;&#3634;&#3649;&#3592;&#3657;&#3591;&#3623;&#3656;&#3634;&#3592;&#3632;&#3626;&#3656;&#3591; Statement &#3616;&#3634;&#3618;&#3651;&#3609;&#3623;&#3633;&#3609;&#3609;&#3637;&#3657; &#3594;&#3656;&#3623;&#3618; follow up &#3604;&#3657;&#3623;&#3618;&#3588;&#3619;&#3633;&#3610;</div>
+                            </div>
+                        </div>
+                        <div class="collab-note-item">
+                            <div class="note-avatar" style="background:#2563EB;">&#3623;&#3621;</div>
+                            <div class="note-content">
+                                <div style="display:flex;align-items:center;gap:6px;"><span class="note-author">&#3623;&#3619;&#3619;&#3603;&#3634; &#3621;.</span><span class="note-time">3 &#3648;&#3617;.&#3618;. 17:00</span></div>
+                                <div class="note-text"><span class="note-tag">@&#3626;&#3617;&#3624;&#3633;&#3585;&#3604;&#3636;&#3660;</span> &#3594;&#3656;&#3623;&#3618;&#3605;&#3619;&#3623;&#3592;&#3626;&#3629;&#3610;&#3626;&#3621;&#3636;&#3611;&#3648;&#3591;&#3636;&#3609;&#3648;&#3604;&#3639;&#3629;&#3609;&#3619;&#3629;&#3610; &#3617;&#3637;.&#3588;. &#3627;&#3609;&#3656;&#3629;&#3618;&#3588;&#3619;&#3633;&#3610; &#3605;&#3633;&#3623;&#3648;&#3621;&#3586;&#3604;&#3641;&#3649;&#3611;&#3621;&#3585;</div>
+                            </div>
+                        </div>
+                        <div class="collab-note-item">
+                            <div class="note-avatar" style="background:#059669;">&#3612;&#3592;</div>
+                            <div class="note-content">
+                                <div style="display:flex;align-items:center;gap:6px;"><span class="note-author">&#3612;&#3641;&#3657;&#3592;&#3633;&#3604;&#3585;&#3634;&#3619;&#3607;&#3637;&#3617;</span><span class="note-time">2 &#3648;&#3617;.&#3618;. 16:00</span></div>
+                                <div class="note-text">&#3648;&#3588;&#3626;&#3609;&#3637;&#3657;&#3648;&#3611;&#3655;&#3609; Priority &#3626;&#3641;&#3591; &#3588;&#3623;&#3619;&#3648;&#3619;&#3656;&#3591;&#3604;&#3635;&#3648;&#3609;&#3636;&#3609;&#3585;&#3634;&#3619;&#3585;&#3656;&#3629;&#3609; SLA &#3627;&#3617;&#3604;&#3629;&#3634;&#3618;&#3640;</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collab-input-row">
+                        <input type="text" id="collabInput" placeholder="&#3648;&#3614;&#3636;&#3656;&#3617;&#3627;&#3617;&#3634;&#3618;&#3648;&#3627;&#3605;&#3640;&#3627;&#3619;&#3639;&#3629; @tag &#3648;&#3614;&#3639;&#3656;&#3629;&#3609;&#3619;&#3656;&#3623;&#3617;..." />
+                        <button class="btn-note" onclick="addCollabNote()">&#3610;&#3633;&#3609;&#3607;&#3638;&#3585;</button>
+                        <button class="btn-tag" onclick="showTagModal()">@ Tag</button>
+                    </div>
+                </div>
+            </div>
+
             <!-- ACTIONS PANEL -->
             <div class="card">
                 <div class="card-title"><span class="icon">&#x26A1;</span> Actions</div>
@@ -666,11 +747,44 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 <!-- NOTE MODAL -->
 <div class="modal-overlay" id="noteModal">
     <div class="modal">
-        <h3>&#x1F4DD; เพิ่มหมายเหตุ</h3>
-        <textarea id="noteText" placeholder="พิมพ์หมายเหตุที่ต้องการบันทึก..."></textarea>
+        <h3>&#x1F4DD; &#3648;&#3614;&#3636;&#3656;&#3617;&#3627;&#3617;&#3634;&#3618;&#3648;&#3627;&#3605;&#3640;</h3>
+        <textarea id="noteText" placeholder="&#3614;&#3636;&#3617;&#3614;&#3660;&#3627;&#3617;&#3634;&#3618;&#3648;&#3627;&#3605;&#3640;&#3607;&#3637;&#3656;&#3605;&#3657;&#3629;&#3591;&#3585;&#3634;&#3619;&#3610;&#3633;&#3609;&#3607;&#3638;&#3585;..."></textarea>
+        <div class="tag-select">
+            <label>Tag &#3648;&#3614;&#3639;&#3656;&#3629;&#3609;&#3619;&#3656;&#3623;&#3617;&#3591;&#3634;&#3609; (&#3652;&#3617;&#3656;&#3610;&#3633;&#3591;&#3588;&#3633;&#3610;)</label>
+            <select id="tagSelect">
+                <option value="">-- &#3652;&#3617;&#3656;&#3605;&#3657;&#3629;&#3591; tag --</option>
+                <option value="somsakdi">&#3626;&#3617;&#3624;&#3633;&#3585;&#3604;&#3636;&#3660; &#3585;. (Senior Officer)</option>
+                <option value="wipa">&#3623;&#3636;&#3616;&#3634; &#3614;. (Officer)</option>
+                <option value="nittaya">&#3609;&#3636;&#3605;&#3618;&#3634; &#3626;. (Officer)</option>
+                <option value="thanakorn">&#3608;&#3609;&#3634;&#3585;&#3619; &#3611;. (Junior)</option>
+                <option value="manager">&#3612;&#3641;&#3657;&#3592;&#3633;&#3604;&#3585;&#3634;&#3619;&#3607;&#3637;&#3617;</option>
+            </select>
+        </div>
         <div class="modal-actions">
-            <button onclick="closeNoteModal()">ยกเลิก</button>
-            <button class="save" onclick="saveNote()">บันทึก</button>
+            <button onclick="closeNoteModal()">&#3618;&#3585;&#3648;&#3621;&#3636;&#3585;</button>
+            <button class="save" onclick="saveNote()">&#3610;&#3633;&#3609;&#3607;&#3638;&#3585;</button>
+        </div>
+    </div>
+</div>
+
+<!-- REASSIGN MODAL -->
+<div class="modal-overlay" id="reassignModal">
+    <div class="modal">
+        <h3>&#x1F501; &#3617;&#3629;&#3610;&#3627;&#3617;&#3634;&#3618;&#3648;&#3588;&#3626;&#3651;&#3627;&#3617;&#3656;</h3>
+        <div class="tag-select" style="margin-top:0;">
+            <label>&#3648;&#3621;&#3639;&#3629;&#3585;&#3612;&#3641;&#3657;&#3619;&#3633;&#3610;&#3612;&#3636;&#3604;&#3594;&#3629;&#3610;&#3651;&#3627;&#3617;&#3656;</label>
+            <select id="reassignSelect">
+                <option value="somsakdi">&#3626;&#3617;&#3624;&#3633;&#3585;&#3604;&#3636;&#3660; &#3585;. (Senior Officer)</option>
+                <option value="wipa">&#3623;&#3636;&#3616;&#3634; &#3614;. (Officer)</option>
+                <option value="nittaya">&#3609;&#3636;&#3605;&#3618;&#3634; &#3626;. (Officer)</option>
+                <option value="thanakorn">&#3608;&#3609;&#3634;&#3585;&#3619; &#3611;. (Junior Officer)</option>
+                <option value="arun">&#3629;&#3619;&#3640;&#3603; &#3623;. (Officer)</option>
+            </select>
+        </div>
+        <textarea id="reassignReason" placeholder="&#3648;&#3627;&#3605;&#3640;&#3612;&#3621;&#3585;&#3634;&#3619;&#3617;&#3629;&#3610;&#3627;&#3617;&#3634;&#3618;&#3651;&#3627;&#3617;&#3656; (&#3652;&#3617;&#3656;&#3610;&#3633;&#3591;&#3588;&#3633;&#3610;)" style="height:80px;margin-top:12px;"></textarea>
+        <div class="modal-actions">
+            <button onclick="closeReassignModal()">&#3618;&#3585;&#3648;&#3621;&#3636;&#3585;</button>
+            <button class="save" onclick="doReassign()">&#3617;&#3629;&#3610;&#3627;&#3617;&#3634;&#3618;</button>
         </div>
     </div>
 </div>
@@ -724,8 +838,30 @@ function saveNote() { const text = document.getElementById('noteText').value.tri
     update(); setInterval(update, 1000);
 })();
 
+// Collaboration
+function addCollabNote() {
+    const input = document.getElementById('collabInput');
+    const text = input.value.trim();
+    if (!text) return;
+    showToast('success', 'บันทึกหมายเหตุสำเร็จ');
+    input.value = '';
+}
+function showTagModal() {
+    showToast('info', 'เลือกเพื่อนร่วมงานเพื่อ tag ในเคส');
+}
+
+// Reassign
+function openReassignModal() { document.getElementById('reassignModal').classList.add('visible'); }
+function closeReassignModal() { document.getElementById('reassignModal').classList.remove('visible'); }
+function doReassign() {
+    const sel = document.getElementById('reassignSelect');
+    showToast('success', 'มอบหมายเคสให้ ' + sel.options[sel.selectedIndex].text + ' สำเร็จ');
+    closeReassignModal();
+}
+
 document.getElementById('noteModal').addEventListener('click', function(e) { if (e.target === this) closeNoteModal(); });
-document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeNoteModal(); });
+document.getElementById('reassignModal').addEventListener('click', function(e) { if (e.target === this) closeReassignModal(); });
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { closeNoteModal(); closeReassignModal(); } });
 </script>
 </body>
 </html>

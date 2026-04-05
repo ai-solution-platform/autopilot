@@ -3,1237 +3,385 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Receipt OCR Scanner | Autopilot v2 by ANTS</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Receipt OCR Scanner — Autopilot v2 | ANTS AI Solution Hub</title>
 <style>
-:root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
-body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
+:root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--cyan-bg:#ECFEFF;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
+body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);--cyan-bg:rgba(8,145,178,0.15);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 
-* { margin:0; padding:0; box-sizing:border-box; }
-
-body {
-  font-family: 'Noto Sans Thai', 'Inter', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
-  font-size: 14px;
-}
-
-/* Dark Toggle */
 .dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);}
 
-/* Header */
-.header {
-  background: var(--card-bg);
-  border-bottom: 1px solid var(--border);
-  padding: 16px 32px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: var(--shadow);
-}
-
-.header-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.header-brand .logo {
-  width: 36px;
-  height: 36px;
-  background: var(--grad);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  font-weight: 800;
-  color: white;
-}
-
-.header-brand h1 {
-  font-size: 18px;
-  font-weight: 700;
-  background: var(--grad);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.header-brand span {
-  font-size: 12px;
-  color: var(--muted);
-  display: block;
-  margin-top: -2px;
-}
-
-.header-badge {
-  padding: 6px 14px;
-  background: var(--green-bg);
-  border: 1px solid var(--green);
-  border-radius: 20px;
-  font-size: 12px;
-  color: var(--green);
-  font-weight: 600;
-}
-
-/* Main Container */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 24px;
-}
-
-/* Breadcrumb */
+.page{max-width:1000px;margin:0 auto;padding:24px;}
 .breadcrumb{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--muted);margin-bottom:16px;}
 .breadcrumb a{color:var(--blue);text-decoration:none;font-weight:500;}
 .breadcrumb a:hover{text-decoration:underline;}
 
-/* Page Title */
-.page-title {
-  text-align: center;
-  margin-bottom: 32px;
-}
+.page-title{text-align:center;margin-bottom:28px;}
+.page-title h1{font-size:1.5rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.page-title p{font-size:.82rem;color:var(--muted);margin-top:4px;}
 
-.page-title h2 {
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: var(--text);
-  margin-bottom: 8px;
-}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:.82rem;font-weight:600;border:none;cursor:pointer;transition:all .2s;font-family:inherit;}
+.btn-primary{background:var(--grad);color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.2);}
+.btn-primary:hover{box-shadow:0 6px 16px rgba(37,99,235,.3);transform:translateY(-1px);}
+.btn-secondary{background:var(--card-bg);color:var(--text2);border:1px solid var(--border);}.btn-secondary:hover{border-color:var(--blue);color:var(--blue);}
+.btn-green{background:var(--green);color:#fff;}.btn-green:hover{opacity:.9;}
+.btn-sm{padding:5px 10px;font-size:.72rem;border-radius:6px;}
 
-.page-title p {
-  color: var(--muted);
-  font-size: 0.85rem;
-}
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:20px;}
+.card-title{font-size:.92rem;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:16px;}
+
+/* Mode Toggle */
+.mode-toggle{display:flex;gap:10px;justify-content:center;margin-bottom:24px;}
+.mode-btn{padding:10px 24px;border-radius:10px;font-size:.85rem;font-weight:600;border:1px solid var(--border);background:var(--card-bg);color:var(--text2);cursor:pointer;font-family:inherit;transition:all .2s;}
+.mode-btn.active{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 4px 12px rgba(37,99,235,.2);}
+.mode-btn:not(.active):hover{border-color:var(--blue);color:var(--blue);}
 
 /* Upload Zone */
-.upload-zone {
-  border: 2px dashed var(--border);
-  border-radius: var(--radius);
-  padding: 48px 24px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s;
-  background: var(--bg2);
-  margin-bottom: 24px;
-}
-
-.upload-zone:hover, .upload-zone.dragover {
-  border-color: var(--blue);
-  background: var(--blue-bg);
-  transform: translateY(-2px);
-}
-
-.upload-zone .icon {
-  font-size: 56px;
-  margin-bottom: 16px;
-  display: block;
-}
-
-.upload-zone .title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-
-.upload-zone .subtitle {
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-
-/* Mock Receipts Grid */
-.mock-section {
-  margin-bottom: 32px;
-}
-
-.mock-section h3 {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--muted);
-  margin-bottom: 16px;
-  text-align: center;
-}
-
-.mock-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
-}
-
-@media (max-width: 768px) {
-  .mock-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-.mock-btn {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 16px 12px;
-  cursor: pointer;
-  transition: all 0.25s;
-  text-align: center;
-  color: var(--text);
-  font-family: inherit;
-  font-size: 14px;
-  box-shadow: var(--shadow);
-}
-
-.mock-btn:hover {
-  border-color: var(--blue);
-  background: var(--blue-bg);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(37,99,235,0.15);
-}
-
-.mock-btn .emoji {
-  font-size: 32px;
-  display: block;
-  margin-bottom: 8px;
-}
-
-.mock-btn .name {
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.mock-btn .cat {
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.mock-btn .price {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--green);
-  margin-top: 4px;
-}
-
-/* OCR Processing Area */
-#ocrArea {
-  display: none;
-  margin-bottom: 32px;
-}
-
-#ocrArea.active {
-  display: block;
-  animation: fadeSlideUp 0.5s ease;
-}
-
-@keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.ocr-split {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin-bottom: 20px;
-}
-
-@media (max-width: 768px) {
-  .ocr-split { grid-template-columns: 1fr; }
-}
-
-/* Receipt Visual */
-.receipt-panel {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 24px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: var(--shadow);
-}
-
-.receipt-panel h4 {
-  font-size: 0.85rem;
-  color: var(--muted);
-  margin-bottom: 16px;
-  font-weight: 600;
-}
-
-.receipt-visual {
-  background: #FEFCE8;
-  color: #1C1917;
-  border-radius: 8px;
-  padding: 24px 20px;
-  font-family: 'Courier New', monospace;
-  font-size: 13px;
-  line-height: 1.7;
-  position: relative;
-  overflow: hidden;
-  min-height: 320px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-}
-
-.receipt-visual::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 8px;
-  background: repeating-linear-gradient(90deg, transparent, transparent 8px, #FEFCE8 8px, #FEFCE8 16px);
-  background-color: #D4D4D8;
-}
-
-.receipt-visual .store-name {
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  margin: 12px 0 4px;
-}
-
-.receipt-visual .store-branch {
-  text-align: center;
-  font-size: 11px;
-  margin-bottom: 4px;
-  color: #57534E;
-}
-
-.receipt-visual .divider {
-  border: none;
-  border-top: 1px dashed #A8A29E;
-  margin: 8px 0;
-}
-
-.receipt-visual .item-row {
-  display: flex;
-  justify-content: space-between;
-}
-
-.receipt-visual .total-row {
-  display: flex;
-  justify-content: space-between;
-  font-weight: bold;
-  font-size: 15px;
-}
-
-.receipt-visual .tax-id {
-  text-align: center;
-  font-size: 10px;
-  color: #78716C;
-  margin-top: 8px;
-}
-
-/* Scan Line Animation */
-.scan-line {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, #059669, #34D399, #059669, transparent);
-  box-shadow: 0 0 15px rgba(5,150,105,0.6), 0 0 40px rgba(5,150,105,0.3);
-  z-index: 10;
-  display: none;
-}
-
-.scan-line.active {
-  display: block;
-  animation: scanDown 2.5s ease-in-out forwards;
-}
-
-@keyframes scanDown {
-  0% { top: 0; opacity: 0; }
-  5% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { top: calc(100% - 3px); opacity: 0; }
-}
-
-/* Extracted Data Panel */
-.extract-panel {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 24px;
-  box-shadow: var(--shadow);
-}
-
-.extract-panel h4 {
-  font-size: 0.85rem;
-  color: var(--muted);
-  margin-bottom: 16px;
-  font-weight: 600;
-}
-
-.extract-field {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
-  border-radius: 8px;
-  margin-bottom: 8px;
-  opacity: 0;
-  transform: translateX(20px);
-  transition: all 0.4s ease;
-  background: transparent;
-}
-
-.extract-field.revealed {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.extract-field.highlight {
-  background: var(--green-bg);
-  border: 1px solid var(--green);
-}
-
-.extract-field .field-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  background: var(--bg3);
-  flex-shrink: 0;
-}
-
-.extract-field .field-label {
-  font-size: 11px;
-  color: var(--muted);
-  margin-bottom: 2px;
-}
-
-.extract-field .field-value {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
-}
-
-/* Processing Log */
-.log-panel {
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 16px 20px;
-  font-family: 'Courier New', monospace;
-  font-size: 12px;
-  max-height: 180px;
-  overflow-y: auto;
-  line-height: 1.8;
-}
-
-.log-panel .log-line {
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.log-panel .log-line.show { opacity: 1; }
-.log-panel .log-tag-ocr { color: var(--green); }
-.log-panel .log-tag-ai { color: var(--purple); }
-.log-panel .log-tag-ok { color: var(--orange); }
-.log-panel .log-tag-done { color: var(--red); }
-.log-panel .log-text { color: var(--muted); }
-
-/* Claim Form */
-#claimForm {
-  display: none;
-  margin-bottom: 32px;
-}
-
-#claimForm.active {
-  display: block;
-  animation: fadeSlideUp 0.5s ease;
-}
-
-.form-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 28px;
-  box-shadow: var(--shadow);
-}
-
-.form-card h3 {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 24px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
-@media (max-width: 768px) {
-  .form-grid { grid-template-columns: 1fr; }
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-}
-
-.form-group.full { grid-column: 1 / -1; }
-
-.form-group label {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--muted);
-  margin-bottom: 6px;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-size: 14px;
-  color: var(--text);
-  font-family: inherit;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  border-color: var(--blue);
-  box-shadow: 0 0 0 3px rgba(37,99,235,.1);
-}
-
-.form-group textarea { resize: vertical; min-height: 60px; }
-.form-group select { cursor: pointer; }
-
-/* Policy Check */
-#policyResult {
-  display: none;
-  margin-bottom: 24px;
-}
-
-#policyResult.active {
-  display: block;
-  animation: fadeSlideUp 0.4s ease;
-}
-
-.policy-card {
-  border-radius: var(--radius);
-  padding: 20px 24px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.policy-card .policy-icon {
-  font-size: 32px;
-  flex-shrink: 0;
-}
-
-.policy-card .policy-text h4 {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-.policy-card .policy-text p {
-  font-size: 13px;
-  opacity: 0.85;
-}
-
-.policy-green {
-  background: var(--green-bg);
-  border: 1px solid var(--green);
-  color: var(--green);
-}
-
-.policy-orange {
-  background: var(--orange-bg);
-  border: 1px solid var(--orange);
-  color: var(--orange);
-}
-
-.policy-red {
-  background: var(--red-bg);
-  border: 1px solid var(--red);
-  color: var(--red);
-}
-
-/* Submit Area */
-#submitArea {
-  display: none;
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-#submitArea.active {
-  display: block;
-  animation: fadeSlideUp 0.4s ease;
-}
-
-.btn-submit {
-  background: var(--grad);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  padding: 14px 48px;
-  font-size: 16px;
-  font-weight: 700;
-  font-family: inherit;
-  cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 0 4px 20px rgba(37,99,235,0.3);
-}
-
-.btn-submit:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(37,99,235,0.4);
-}
-
-.btn-submit:active {
-  transform: translateY(0);
-}
-
-.btn-reset {
-  background: transparent;
-  color: var(--muted);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 14px 32px;
-  font-size: 14px;
-  font-weight: 600;
-  font-family: inherit;
-  cursor: pointer;
-  margin-left: 12px;
-  transition: all 0.2s;
-}
-
-.btn-reset:hover {
-  border-color: var(--text2);
-  color: var(--text);
-}
-
-/* Toast */
-.toast {
-  position: fixed;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%) translateY(100px);
-  background: var(--green);
-  color: white;
-  padding: 16px 32px;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 15px;
-  z-index: 9999;
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: 0 8px 30px rgba(5,150,105,0.4);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.toast.show {
-  transform: translateX(-50%) translateY(0);
-}
-
-/* Progress indicator */
-.progress-steps {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 32px;
-}
-
-.progress-step {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 600;
-  background: var(--card-bg);
-  color: var(--muted);
-  border: 1px solid var(--border);
-  transition: all 0.3s;
-}
-
-.progress-step.active {
-  background: var(--blue-bg);
-  color: var(--blue);
-  border-color: var(--blue);
-}
-
-.progress-step.done {
-  background: var(--green-bg);
-  color: var(--green);
-  border-color: var(--green);
-}
-
-.progress-step .step-num {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  background: var(--bg3);
-}
-
-.progress-step.active .step-num {
-  background: var(--blue);
-  color: white;
-}
-
-.progress-step.done .step-num {
-  background: var(--green);
-  color: white;
-}
+.upload-zone{border:2px dashed var(--border);border-radius:16px;padding:48px;text-align:center;transition:all .3s;background:var(--bg2);cursor:pointer;margin-bottom:20px;}
+.upload-zone:hover,.upload-zone.dragover{border-color:var(--blue);background:var(--blue-bg);}
+.upload-icon{font-size:3rem;margin-bottom:12px;}
+.upload-title{font-size:1rem;font-weight:700;margin-bottom:6px;}
+.upload-subtitle{font-size:.78rem;color:var(--muted);}
+.upload-zone input{display:none;}
+
+/* OCR Result */
+.ocr-result{display:none;}
+.ocr-result.visible{display:block;}
+
+/* Claim Banner */
+.claim-banner{background:var(--grad);color:#fff;border-radius:12px;padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.claim-id-large{font-size:1.8rem;font-weight:800;font-family:'Inter',sans-serif;letter-spacing:1px;}
+.claim-banner-info{font-size:.82rem;opacity:.9;}
+.claim-status-badge{padding:6px 16px;border-radius:20px;background:rgba(255,255,255,.2);font-size:.78rem;font-weight:600;border:1px solid rgba(255,255,255,.3);}
+
+/* Fields Grid */
+.fields-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+.field{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;}
+.field-label{font-size:.7rem;color:var(--muted);font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px;}
+.field-value{font-size:.9rem;font-weight:600;}
+.field-value.amount{font-size:1.2rem;color:var(--blue);font-family:'Inter',sans-serif;}
+.field-confidence{font-size:.65rem;margin-top:4px;display:inline-flex;align-items:center;gap:4px;padding:2px 6px;border-radius:4px;}
+.conf-high{background:var(--green-bg);color:var(--green);}
+.conf-med{background:var(--orange-bg);color:var(--orange);}
+.conf-low{background:var(--red-bg);color:var(--red);}
+
+/* Attach Existing */
+.attach-section{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:20px;}
+.attach-section h4{font-size:.82rem;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.attach-options{display:flex;gap:8px;flex-wrap:wrap;}
+.attach-chip{padding:6px 14px;border-radius:8px;font-size:.75rem;font-weight:600;border:1px solid var(--border);background:var(--card-bg);cursor:pointer;transition:all .15s;font-family:inherit;color:var(--text2);}
+.attach-chip:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-bg);}
+.attach-chip.selected{background:var(--blue);color:#fff;border-color:var(--blue);}
+
+/* Form */
+.form-group{margin-bottom:14px;}
+.form-label{font-size:.75rem;font-weight:600;color:var(--text2);margin-bottom:4px;display:block;}
+.form-input,.form-select,.form-textarea{width:100%;padding:9px 14px;border:1px solid var(--border);border-radius:8px;font-size:.82rem;font-family:inherit;background:var(--card-bg);color:var(--text);transition:all .2s;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+.form-textarea{min-height:80px;resize:vertical;}
+
+/* Action Row */
+.action-row{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:16px;}
+
+/* Recent Scans History */
+.history-table{width:100%;border-collapse:collapse;}
+.history-table th{font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;padding:8px 12px;text-align:left;border-bottom:2px solid var(--border);background:var(--bg2);}
+.history-table td{padding:8px 12px;border-bottom:1px solid var(--border);font-size:.78rem;}
+.history-table tr:hover td{background:var(--bg2);}
+.status{display:inline-flex;align-items:center;gap:4px;font-size:.7rem;font-weight:600;padding:3px 10px;border-radius:20px;}
+.status-pending{background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange);}
+.status-approved{background:var(--green-bg);color:var(--green);border:1px solid var(--green);}
+.status-processing{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue);}
+.status-draft{background:var(--bg3);color:var(--muted);border:1px solid var(--border);}
+
+/* Progress */
+.scan-progress{display:none;text-align:center;padding:32px;}
+.scan-progress.visible{display:block;}
+.progress-bar{width:100%;height:6px;background:var(--bg3);border-radius:3px;margin:16px 0;overflow:hidden;}
+.progress-fill{height:100%;background:var(--grad);border-radius:3px;transition:width .5s ease-out;}
+.progress-text{font-size:.82rem;color:var(--muted);font-weight:500;}
+.progress-icon{font-size:2.5rem;margin-bottom:8px;}
+
+@media(max-width:768px){.fields-grid{grid-template-columns:1fr;}.claim-banner{flex-direction:column;text-align:center;}.action-row{flex-direction:column;}.action-row .btn{width:100%;justify-content:center;}}
 </style>
 </head>
 <body>
+<button class="dark-toggle" onclick="document.body.classList.toggle('dark');this.textContent=document.body.classList.contains('dark')?'&#9728;':'&#9790;'">&#9790;</button>
 
-<button class="dark-toggle" onclick="toggleDark()" title="Dark Mode">&#x1F319;</button>
-
-<!-- Header -->
-<div class="header">
-  <div class="header-brand">
-    <div class="logo">A</div>
-    <div>
-      <h1>Autopilot v2</h1>
-      <span>ANTS -- AI Solution Hub</span>
-    </div>
-  </div>
-  <div class="header-badge">Receipt OCR Scanner</div>
-</div>
-
-<!-- Main -->
-<div class="container">
-
-  <!-- Breadcrumb -->
+<div class="page">
   <div class="breadcrumb">
-    <a href="../poc-app/v2.html">Autopilot v2</a>
-    <span>/</span>
-    <span>Expense & Receipt</span>
-    <span>/</span>
-    <span>Receipt OCR Scanner</span>
+    <a href="#">ANTS Autopilot</a> <span>/</span>
+    <a href="expense-dashboard.html">Expense & Receipt</a> <span>/</span>
+    <span>Scan Receipt / New Claim</span>
   </div>
 
-  <!-- Page Title -->
   <div class="page-title">
-    <h2>Receipt OCR Scanner</h2>
-    <p>สแกนใบเสร็จอัตโนมัติด้วย AI เพื่อเบิกจ่ายค่าใช้จ่าย</p>
+    <h1>&#128247; Receipt OCR Scanner</h1>
+    <p>สแกนใบเสร็จอัตโนมัติ สร้าง Expense Claim พร้อมส่งอนุมัติ</p>
   </div>
 
-  <!-- Progress Steps -->
-  <div class="progress-steps">
-    <div class="progress-step active" id="step1">
-      <span class="step-num">1</span> อัปโหลดใบเสร็จ
-    </div>
-    <div class="progress-step" id="step2">
-      <span class="step-num">2</span> OCR สแกน
-    </div>
-    <div class="progress-step" id="step3">
-      <span class="step-num">3</span> กรอกฟอร์ม
-    </div>
-    <div class="progress-step" id="step4">
-      <span class="step-num">4</span> ส่งเบิก
+  <!-- Mode Toggle -->
+  <div class="mode-toggle">
+    <button class="mode-btn active" onclick="setMode(this,'new')">&#10133; สร้าง Claim ใหม่</button>
+    <button class="mode-btn" onclick="setMode(this,'attach')">&#128206; แนบกับ Claim ที่มี</button>
+  </div>
+
+  <!-- Attach to Existing Section (hidden by default) -->
+  <div class="attach-section" id="attachSection" style="display:none;">
+    <h4>&#128206; เลือก Claim ที่ต้องการแนบใบเสร็จ</h4>
+    <div class="attach-options">
+      <button class="attach-chip" onclick="selectAttach(this,'EX-0025')">EX-0025 — ค่าเดินทาง &#3647;12,500</button>
+      <button class="attach-chip" onclick="selectAttach(this,'EX-0022')">EX-0022 — ค่า Grab/Taxi &#3647;2,350</button>
+      <button class="attach-chip" onclick="selectAttach(this,'EX-0020')">EX-0020 — ค่าน้ำมัน &#3647;4,800</button>
+      <button class="attach-chip" onclick="selectAttach(this,'EX-0011')">EX-0011 — ค่าซ่อมคอม (ร่าง) &#3647;8,900</button>
     </div>
   </div>
 
   <!-- Upload Zone -->
-  <div class="upload-zone" id="uploadZone">
-    <span class="icon">&#x1F4F8;</span>
-    <div class="title">&#x1F4F8; ถ่ายรูปหรือลากใบเสร็จมาวาง</div>
-    <div class="subtitle">รองรับ JPG, PNG, PDF -- หรือเลือกใบเสร็จตัวอย่างด้านล่าง</div>
+  <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="event.preventDefault();this.classList.remove('dragover');handleFile(event.dataTransfer.files[0])">
+    <div class="upload-icon">&#128247;</div>
+    <div class="upload-title">ลากวางใบเสร็จ หรือ คลิกเพื่ออัปโหลด</div>
+    <div class="upload-subtitle">รองรับ JPG, PNG, PDF — สูงสุด 10MB | AI OCR จะอ่านข้อมูลอัตโนมัติ</div>
+    <input type="file" id="fileInput" accept="image/*,.pdf" onchange="handleFile(this.files[0])">
   </div>
 
-  <!-- Mock Receipt Templates -->
-  <div class="mock-section" id="mockSection">
-    <h3>&#x1F4CB; เลือกใบเสร็จตัวอย่างเพื่อทดลอง</h3>
-    <div class="mock-grid">
-      <button class="mock-btn" onclick="startOCR('seven')">
-        <span class="emoji">&#x1F3EA;</span>
-        <div class="name">7-Eleven</div>
-        <div class="cat">ค่าอาหาร</div>
-        <div class="price">&#x0E3F;245</div>
-      </button>
-      <button class="mock-btn" onclick="startOCR('ptt')">
-        <span class="emoji">&#x26FD;</span>
-        <div class="name">PTT Station</div>
-        <div class="cat">น้ำมัน</div>
-        <div class="price">&#x0E3F;1,850</div>
-      </button>
-      <button class="mock-btn" onclick="startOCR('grab')">
-        <span class="emoji">&#x1F695;</span>
-        <div class="name">Grab Taxi</div>
-        <div class="cat">ค่าเดินทาง</div>
-        <div class="price">&#x0E3F;385</div>
-      </button>
-      <button class="mock-btn" onclick="startOCR('mk')">
-        <span class="emoji">&#x1F37D;</span>
-        <div class="name">MK Restaurant</div>
-        <div class="cat">ค่าอาหาร</div>
-        <div class="price">&#x0E3F;1,240</div>
-      </button>
-      <button class="mock-btn" onclick="startOCR('hotel')">
-        <span class="emoji">&#x1F3E8;</span>
-        <div class="name">Holiday Inn</div>
-        <div class="cat">ค่าที่พัก</div>
-        <div class="price">&#x0E3F;3,500</div>
-      </button>
-    </div>
+  <!-- Scanning Progress -->
+  <div class="scan-progress" id="scanProgress">
+    <div class="progress-icon">&#129302;</div>
+    <div class="progress-text" id="progressText">กำลังสแกนใบเสร็จด้วย AI OCR...</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%;"></div></div>
   </div>
 
-  <!-- OCR Processing Area -->
-  <div id="ocrArea">
-    <div class="ocr-split">
-      <!-- Receipt Visual -->
-      <div class="receipt-panel">
-        <h4>&#x1F4C4; ใบเสร็จรับเงิน</h4>
-        <div class="receipt-visual" id="receiptVisual">
-          <div class="scan-line" id="scanLine"></div>
-        </div>
+  <!-- OCR Result -->
+  <div class="ocr-result" id="ocrResult">
+    <!-- Claim Banner -->
+    <div class="claim-banner">
+      <div>
+        <div style="font-size:.7rem;opacity:.7;margin-bottom:4px;">CLAIM ID</div>
+        <div class="claim-id-large" id="claimIdDisplay">EX-0026</div>
+        <div class="claim-banner-info">สร้างเมื่อ: <span id="claimDate">5 เม.ย. 2569</span> | ผู้เบิก: สมชาย ก.</div>
       </div>
-
-      <!-- Extracted Data -->
-      <div class="extract-panel">
-        <h4>&#x1F50D; ข้อมูลที่สกัดได้</h4>
-        <div id="extractedFields"></div>
+      <div style="text-align:right;">
+        <div class="claim-status-badge">&#128221; ร่าง — รอตรวจสอบ</div>
       </div>
     </div>
 
-    <!-- Processing Log -->
-    <div class="log-panel" id="logPanel"></div>
-  </div>
+    <!-- Extracted Data -->
+    <div class="card">
+      <div class="card-title">&#129302; ข้อมูลที่ AI อ่านได้จากใบเสร็จ</div>
+      <div class="fields-grid">
+        <div class="field">
+          <div class="field-label">ร้านค้า / ผู้ออกใบเสร็จ</div>
+          <div class="field-value">บริษัท สยามฟู้ด จำกัด</div>
+          <div class="field-confidence conf-high">&#9989; ความมั่นใจ 98%</div>
+        </div>
+        <div class="field">
+          <div class="field-label">เลขประจำตัวผู้เสียภาษี</div>
+          <div class="field-value" style="font-family:Inter;">0-1234-56789-01-2</div>
+          <div class="field-confidence conf-high">&#9989; ความมั่นใจ 96%</div>
+        </div>
+        <div class="field">
+          <div class="field-label">วันที่ในใบเสร็จ</div>
+          <div class="field-value">3 เมษายน 2569</div>
+          <div class="field-confidence conf-high">&#9989; ความมั่นใจ 99%</div>
+        </div>
+        <div class="field">
+          <div class="field-label">จำนวนเงินรวม (รวม VAT)</div>
+          <div class="field-value amount">&#3647;2,850.00</div>
+          <div class="field-confidence conf-high">&#9989; ความมั่นใจ 97%</div>
+        </div>
+        <div class="field">
+          <div class="field-label">ภาษีมูลค่าเพิ่ม (VAT 7%)</div>
+          <div class="field-value">&#3647;186.45</div>
+          <div class="field-confidence conf-med">&#9888; ความมั่นใจ 82%</div>
+        </div>
+        <div class="field">
+          <div class="field-label">เลขที่ใบเสร็จ</div>
+          <div class="field-value" style="font-family:Inter;">INV-2026-04-00312</div>
+          <div class="field-confidence conf-high">&#9989; ความมั่นใจ 94%</div>
+        </div>
+      </div>
+    </div>
 
-  <!-- Claim Form -->
-  <div id="claimForm">
-    <div class="form-card">
-      <h3>&#x1F4DD; ฟอร์มเบิกค่าใช้จ่าย</h3>
-      <div class="form-grid">
+    <!-- Additional Details Form -->
+    <div class="card">
+      <div class="card-title">&#128221; รายละเอียดเพิ่มเติม</div>
+      <div class="fields-grid">
         <div class="form-group">
-          <label>&#x1F3EA; ร้านค้า / Merchant</label>
-          <input type="text" id="fMerchant" readonly>
-        </div>
-        <div class="form-group">
-          <label>&#x1F4C5; วันที่</label>
-          <input type="text" id="fDate" readonly>
-        </div>
-        <div class="form-group">
-          <label>&#x1F4B0; จำนวนเงิน (บาท)</label>
-          <input type="text" id="fAmount" readonly>
-        </div>
-        <div class="form-group">
-          <label>&#x1F4CA; VAT 7%</label>
-          <input type="text" id="fVat" readonly>
-        </div>
-        <div class="form-group">
-          <label>&#x1F3F7;&#xFE0F; หมวดหมู่</label>
-          <select id="fCategory">
-            <option>ค่าเดินทาง</option>
-            <option>น้ำมัน</option>
-            <option>ค่าอาหาร</option>
-            <option>ค่าที่พัก</option>
-            <option>จิปาถะ</option>
+          <label class="form-label">หมวดหมู่ค่าใช้จ่าย</label>
+          <select class="form-select">
+            <option>รับรอง — ค่าอาหาร</option>
+            <option>เดินทาง — ค่าขนส่ง</option>
+            <option>เดินทาง — ค่าน้ำมัน</option>
+            <option>ที่พัก</option>
+            <option>สำนักงาน</option>
+            <option>ซอฟต์แวร์</option>
+            <option>ฝึกอบรม</option>
+            <option>สื่อสาร</option>
+            <option>อื่นๆ</option>
           </select>
         </div>
         <div class="form-group">
-          <label>&#x1F4C1; แนบโครงการ / งาน</label>
-          <select id="fProject">
-            <option>PRJ-2026-001 Digital Transformation</option>
-            <option>PRJ-2026-002 Marketing Campaign Q2</option>
-            <option>PRJ-2026-003 Client Visit - SCB</option>
-            <option>PRJ-2026-004 Team Building</option>
-            <option>PRJ-2026-005 Office Supplies</option>
+          <label class="form-label">โปรเจกต์ / Cost Center</label>
+          <select class="form-select">
+            <option>PROJ-001 — Marketing Q2</option>
+            <option>PROJ-002 — Sales Team</option>
+            <option>PROJ-003 — IT Infrastructure</option>
+            <option>GENERAL — ค่าใช้จ่ายทั่วไป</option>
           </select>
         </div>
-        <div class="form-group full">
-          <label>&#x1F4DD; หมายเหตุ</label>
-          <textarea id="fNote" placeholder="เพิ่มรายละเอียดหรือหมายเหตุ..."></textarea>
-        </div>
       </div>
+      <div class="form-group">
+        <label class="form-label">คำอธิบาย / วัตถุประสงค์</label>
+        <textarea class="form-textarea" placeholder="เช่น ค่าอาหารเลี้ยงรับรองลูกค้า บริษัท ABC วันที่ 3 เม.ย.">ค่าอาหารเลี้ยงรับรองลูกค้า บริษัท สยามฟู้ด — ประชุมแผนงาน Q2</textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">ผู้ร่วมรับรอง (ถ้ามี)</label>
+        <input class="form-input" type="text" value="วิภา ส. (Sales), ณัฐ ว. (Marketing)">
+      </div>
+    </div>
+
+    <!-- Action Row -->
+    <div class="action-row">
+      <button class="btn btn-secondary" onclick="resetScan()">&#128247; สแกนใบเสร็จเพิ่ม</button>
+      <button class="btn btn-secondary">&#128190; บันทึกร่าง</button>
+      <button class="btn btn-green" onclick="alert('ส่ง Claim EX-0026 เข้าสู่ขั้นตอนอนุมัติ')">&#9989; ส่งอนุมัติ (EX-0026)</button>
     </div>
   </div>
 
-  <!-- Policy Check Result -->
-  <div id="policyResult"></div>
-
-  <!-- Submit Area -->
-  <div id="submitArea">
-    <button class="btn-submit" onclick="submitClaim()">&#x1F680; ส่งเบิกค่าใช้จ่าย</button>
-    <button class="btn-reset" onclick="resetAll()">&#x1F504; เริ่มใหม่</button>
+  <!-- Recent Scans History -->
+  <div class="card" style="margin-top:24px;">
+    <div class="card-title">&#128337; ประวัติการสแกนล่าสุด</div>
+    <div style="overflow-x:auto;">
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>Claim ID</th>
+            <th>วันที่สแกน</th>
+            <th>ร้านค้า</th>
+            <th>จำนวนเงิน</th>
+            <th>หมวดหมู่</th>
+            <th>สถานะ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:700;color:var(--blue);font-family:Inter;">EX-0025</td>
+            <td>4 เม.ย. 2569</td>
+            <td>การบินไทย</td>
+            <td style="font-weight:700;">&#3647;12,500</td>
+            <td>เดินทาง</td>
+            <td><span class="status status-pending">&#9203; รอดำเนินการ</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:700;color:var(--blue);font-family:Inter;">EX-0022</td>
+            <td>2 เม.ย. 2569</td>
+            <td>Grab Thailand</td>
+            <td style="font-weight:700;">&#3647;2,350</td>
+            <td>เดินทาง</td>
+            <td><span class="status status-processing">&#9881; กำลังดำเนินการ</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:700;color:var(--blue);font-family:Inter;">EX-0021</td>
+            <td>1 เม.ย. 2569</td>
+            <td>OfficeMate</td>
+            <td style="font-weight:700;">&#3647;3,200</td>
+            <td>สำนักงาน</td>
+            <td><span class="status status-approved">&#9989; อนุมัติแล้ว</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:700;color:var(--blue);font-family:Inter;">EX-0019</td>
+            <td>31 มี.ค. 2569</td>
+            <td>Adobe Inc.</td>
+            <td style="font-weight:700;">&#3647;15,900</td>
+            <td>ซอฟต์แวร์</td>
+            <td><span class="status status-approved">&#9989; อนุมัติแล้ว</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:700;color:var(--blue);font-family:Inter;">EX-0017</td>
+            <td>29 มี.ค. 2569</td>
+            <td>True Corp.</td>
+            <td style="font-weight:700;">&#3647;1,850</td>
+            <td>สื่อสาร</td>
+            <td><span class="status status-approved">&#9989; อนุมัติแล้ว</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:700;color:var(--blue);font-family:Inter;">EX-0011</td>
+            <td>23 มี.ค. 2569</td>
+            <td>IT City</td>
+            <td style="font-weight:700;">&#3647;8,900</td>
+            <td>อุปกรณ์</td>
+            <td><span class="status status-draft">&#128221; ร่าง</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
-
-<!-- Toast -->
-<div class="toast" id="toast">
-  &#x2705; เบิกจ่ายถูกส่งเข้าระบบอนุมัติเรียบร้อย
 </div>
 
 <script>
-// Dark mode toggle
-function toggleDark(){document.body.classList.toggle('dark');const d=document.body.classList.contains('dark');localStorage.setItem('darkMode',d);document.querySelector('.dark-toggle').textContent=d?'\u2600\uFE0F':'\uD83C\uDF19';}
-if(localStorage.getItem('darkMode')==='true'){document.body.classList.add('dark');document.addEventListener('DOMContentLoaded',()=>{document.querySelector('.dark-toggle').textContent='\u2600\uFE0F';});}
+let nextClaimId = 26;
 
-// Receipt Data
-const receipts = {
-  seven: {
-    store: '7-Eleven',
-    branch: '\u0E2A\u0E32\u0E02\u0E32 \u0E2A\u0E35\u0E25\u0E21 \u0E0B\u0E2D\u0E22 3 (00847)',
-    taxId: '\u0E40\u0E25\u0E02\u0E1B\u0E23\u0E30\u0E08\u0E33\u0E15\u0E31\u0E27\u0E1C\u0E39\u0E49\u0E40\u0E2A\u0E35\u0E22\u0E20\u0E32\u0E29\u0E35: 0-1075-43002-71-9',
-    date: '04/04/2569 15:32',
-    formDate: '4 \u0E40\u0E21\u0E29\u0E32\u0E22\u0E19 2569',
-    items: [
-      ['\u0E02\u0E49\u0E32\u0E27\u0E01\u0E25\u0E48\u0E2D\u0E07 \u0E44\u0E01\u0E48\u0E17\u0E2D\u0E14', '69.00'],
-      ['\u0E19\u0E49\u0E33\u0E14\u0E37\u0E48\u0E21 Crystal 600ml', '10.00'],
-      ['\u0E02\u0E19\u0E21\u0E1B\u0E31\u0E07 7Fresh', '35.00'],
-      ['\u0E01\u0E32\u0E41\u0E1F All Cafe (L)', '55.00'],
-      ['\u0E0B\u0E32\u0E25\u0E32\u0E40\u0E1B\u0E32\u0E2B\u0E21\u0E39\u0E41\u0E14\u0E07', '29.00'],
-      ['\u0E16\u0E38\u0E07\u0E1E\u0E25\u0E32\u0E2A\u0E15\u0E34\u0E01', '2.00']
-    ],
-    subtotal: '200.00',
-    vat: '14.00',
-    vatCalc: '14.00',
-    total: '245.00',
-    totalNum: 245,
-    payment: 'QR Code PromptPay',
-    category: '\u0E04\u0E48\u0E32\u0E2D\u0E32\u0E2B\u0E32\u0E23',
-    catIndex: 2,
-    policy: 'green',
-    policyMsg: '\u0E20\u0E32\u0E22\u0E43\u0E19\u0E27\u0E07\u0E40\u0E07\u0E34\u0E19',
-    policyDetail: '\u0E04\u0E48\u0E32\u0E2D\u0E32\u0E2B\u0E32\u0E23\u0E15\u0E48\u0E2D\u0E21\u0E37\u0E49\u0E2D\u0E44\u0E21\u0E48\u0E40\u0E01\u0E34\u0E19 500 \u0E1A\u0E32\u0E17 (\u0E43\u0E0A\u0E49\u0E44\u0E1B 245 \u0E1A\u0E32\u0E17)'
-  },
-  ptt: {
-    store: 'PTT Station',
-    branch: '\u0E2A\u0E32\u0E02\u0E32 \u0E16.\u0E27\u0E34\u0E20\u0E32\u0E27\u0E14\u0E35\u0E23\u0E31\u0E07\u0E2A\u0E34\u0E15 \u0E01\u0E21.12 (PV-1203)',
-    taxId: '\u0E40\u0E25\u0E02\u0E1B\u0E23\u0E30\u0E08\u0E33\u0E15\u0E31\u0E27\u0E1C\u0E39\u0E49\u0E40\u0E2A\u0E35\u0E22\u0E20\u0E32\u0E29\u0E35: 0-1055-44000-83-2',
-    date: '03/04/2569 08:15',
-    formDate: '3 \u0E40\u0E21\u0E29\u0E32\u0E22\u0E19 2569',
-    items: [
-      ['\u0E41\u0E01\u0E4A\u0E2A\u0E42\u0E0B\u0E2E\u0E2D\u0E25\u0E4C 95 x 48.52 \u0E25\u0E34\u0E15\u0E23', '1,650.00'],
-      ['\u0E19\u0E49\u0E33\u0E22\u0E32\u0E25\u0E49\u0E32\u0E07\u0E01\u0E23\u0E30\u0E08\u0E01 Rain-X', '120.00'],
-      ['\u0E19\u0E49\u0E33\u0E14\u0E37\u0E48\u0E21', '15.00']
-    ],
-    subtotal: '1,785.00',
-    vat: '121.03',
-    vatCalc: '121.03',
-    total: '1,850.00',
-    totalNum: 1850,
-    payment: '\u0E1A\u0E31\u0E15\u0E23\u0E40\u0E04\u0E23\u0E14\u0E34\u0E15 VISA ****4821',
-    category: '\u0E19\u0E49\u0E33\u0E21\u0E31\u0E19',
-    catIndex: 1,
-    policy: 'orange',
-    policyMsg: '\u0E40\u0E01\u0E34\u0E19\u0E27\u0E07\u0E40\u0E07\u0E34\u0E19',
-    policyDetail: '\u0E04\u0E48\u0E32\u0E19\u0E49\u0E33\u0E21\u0E31\u0E19\u0E15\u0E48\u0E2D\u0E04\u0E23\u0E31\u0E49\u0E07\u0E44\u0E21\u0E48\u0E40\u0E01\u0E34\u0E19 1,500 \u0E1A\u0E32\u0E17 (\u0E40\u0E01\u0E34\u0E19 350 \u0E1A\u0E32\u0E17 -- \u0E15\u0E49\u0E2D\u0E07\u0E02\u0E2D\u0E2D\u0E19\u0E38\u0E21\u0E31\u0E15\u0E34\u0E2B\u0E31\u0E27\u0E2B\u0E19\u0E49\u0E32)'
-  },
-  grab: {
-    store: 'Grab Taxi',
-    branch: 'Grab Thailand Co., Ltd.',
-    taxId: '\u0E40\u0E25\u0E02\u0E1B\u0E23\u0E30\u0E08\u0E33\u0E15\u0E31\u0E27\u0E1C\u0E39\u0E49\u0E40\u0E2A\u0E35\u0E22\u0E20\u0E32\u0E29\u0E35: 0-1055-60123-45-6',
-    date: '04/04/2569 09:45',
-    formDate: '4 \u0E40\u0E21\u0E29\u0E32\u0E22\u0E19 2569',
-    items: [
-      ['GrabCar Premium', ''],
-      ['\u0E08\u0E38\u0E14\u0E23\u0E31\u0E1A: \u0E2A\u0E35\u0E25\u0E21', ''],
-      ['\u0E08\u0E38\u0E14\u0E2A\u0E48\u0E07: \u0E2A\u0E32\u0E17\u0E23', ''],
-      ['\u0E04\u0E48\u0E32\u0E42\u0E14\u0E22\u0E2A\u0E32\u0E23', '320.00'],
-      ['\u0E2A\u0E48\u0E27\u0E19\u0E25\u0E14 Promo', '-15.00'],
-      ['\u0E04\u0E48\u0E32\u0E17\u0E32\u0E07\u0E14\u0E48\u0E27\u0E19', '50.00']
-    ],
-    subtotal: '355.00',
-    vat: '24.85',
-    vatCalc: '24.85',
-    total: '385.00',
-    totalNum: 385,
-    payment: 'GrabPay Wallet',
-    category: '\u0E04\u0E48\u0E32\u0E40\u0E14\u0E34\u0E19\u0E17\u0E32\u0E07',
-    catIndex: 0,
-    policy: 'green',
-    policyMsg: '\u0E20\u0E32\u0E22\u0E43\u0E19\u0E27\u0E07\u0E40\u0E07\u0E34\u0E19',
-    policyDetail: '\u0E04\u0E48\u0E32\u0E40\u0E14\u0E34\u0E19\u0E17\u0E32\u0E07\u0E15\u0E48\u0E2D\u0E40\u0E17\u0E35\u0E48\u0E22\u0E27\u0E44\u0E21\u0E48\u0E40\u0E01\u0E34\u0E19 500 \u0E1A\u0E32\u0E17 (\u0E43\u0E0A\u0E49\u0E44\u0E1B 385 \u0E1A\u0E32\u0E17)'
-  },
-  mk: {
-    store: 'MK Restaurant',
-    branch: '\u0E2A\u0E32\u0E02\u0E32 \u0E40\u0E0B\u0E47\u0E19\u0E17\u0E23\u0E31\u0E25 \u0E25\u0E32\u0E14\u0E1E\u0E23\u0E49\u0E32\u0E27 \u0E0A\u0E31\u0E49\u0E19 6',
-    taxId: '\u0E40\u0E25\u0E02\u0E1B\u0E23\u0E30\u0E08\u0E33\u0E15\u0E31\u0E27\u0E1C\u0E39\u0E49\u0E40\u0E2A\u0E35\u0E22\u0E20\u0E32\u0E29\u0E35: 0-1075-53001-22-8',
-    date: '02/04/2569 12:30',
-    formDate: '2 \u0E40\u0E21\u0E29\u0E32\u0E22\u0E19 2569',
-    items: [
-      ['\u0E0A\u0E38\u0E14\u0E2A\u0E38\u0E01\u0E35\u0E49 MK Gold (2 \u0E17\u0E48\u0E32\u0E19)', '598.00'],
-      ['\u0E40\u0E01\u0E35\u0E4A\u0E22\u0E27\u0E01\u0E38\u0E49\u0E07', '159.00'],
-      ['\u0E40\u0E1B\u0E47\u0E14\u0E22\u0E48\u0E32\u0E07 MK', '189.00'],
-      ['\u0E19\u0E49\u0E33\u0E08\u0E34\u0E49\u0E21\u0E1E\u0E34\u0E40\u0E28\u0E29 x2', '40.00'],
-      ['\u0E0A\u0E32\u0E40\u0E22\u0E47\u0E19 x2', '98.00'],
-      ['Service Charge 10%', '108.40']
-    ],
-    subtotal: '1,192.40',
-    vat: '81.09',
-    vatCalc: '81.09',
-    total: '1,240.00',
-    totalNum: 1240,
-    payment: '\u0E1A\u0E31\u0E15\u0E23\u0E40\u0E14\u0E1A\u0E34\u0E15 K-Plus ****9102',
-    category: '\u0E04\u0E48\u0E32\u0E2D\u0E32\u0E2B\u0E32\u0E23',
-    catIndex: 2,
-    policy: 'orange',
-    policyMsg: '\u0E40\u0E01\u0E34\u0E19\u0E27\u0E07\u0E40\u0E07\u0E34\u0E19',
-    policyDetail: '\u0E04\u0E48\u0E32\u0E2D\u0E32\u0E2B\u0E32\u0E23\u0E15\u0E48\u0E2D\u0E21\u0E37\u0E49\u0E2D\u0E44\u0E21\u0E48\u0E40\u0E01\u0E34\u0E19 500 \u0E1A\u0E32\u0E17/\u0E04\u0E19 (2 \u0E04\u0E19 = \u0E27\u0E07\u0E40\u0E07\u0E34\u0E19 1,000 \u0E1A\u0E32\u0E17 -- \u0E40\u0E01\u0E34\u0E19 240 \u0E1A\u0E32\u0E17)'
-  },
-  hotel: {
-    store: 'Holiday Inn',
-    branch: 'Holiday Inn Bangkok Silom',
-    taxId: '\u0E40\u0E25\u0E02\u0E1B\u0E23\u0E30\u0E08\u0E33\u0E15\u0E31\u0E27\u0E1C\u0E39\u0E49\u0E40\u0E2A\u0E35\u0E22\u0E20\u0E32\u0E29\u0E35: 0-1055-34500-12-7',
-    date: '01/04/2569 14:00',
-    formDate: '1 \u0E40\u0E21\u0E29\u0E32\u0E22\u0E19 2569',
-    items: [
-      ['Superior Room 1 \u0E04\u0E37\u0E19', '2,800.00'],
-      ['\u0E2D\u0E32\u0E2B\u0E32\u0E23\u0E40\u0E0A\u0E49\u0E32 Buffet x1', '450.00'],
-      ['Mini Bar', '150.00']
-    ],
-    subtotal: '3,400.00',
-    vat: '228.97',
-    vatCalc: '228.97',
-    total: '3,500.00',
-    totalNum: 3500,
-    payment: '\u0E1A\u0E31\u0E15\u0E23\u0E40\u0E04\u0E23\u0E14\u0E34\u0E15 AMEX ****7755',
-    category: '\u0E04\u0E48\u0E32\u0E17\u0E35\u0E48\u0E1E\u0E31\u0E01',
-    catIndex: 3,
-    policy: 'red',
-    policyMsg: '\u0E44\u0E21\u0E48\u0E2D\u0E22\u0E39\u0E48\u0E43\u0E19\u0E19\u0E42\u0E22\u0E1A\u0E32\u0E22',
-    policyDetail: '\u0E04\u0E48\u0E32\u0E17\u0E35\u0E48\u0E1E\u0E31\u0E01\u0E15\u0E48\u0E2D\u0E04\u0E37\u0E19\u0E44\u0E21\u0E48\u0E40\u0E01\u0E34\u0E19 2,500 \u0E1A\u0E32\u0E17 -- \u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E19\u0E35\u0E49\u0E23\u0E27\u0E21 Mini Bar \u0E0B\u0E36\u0E48\u0E07\u0E44\u0E21\u0E48\u0E2D\u0E22\u0E39\u0E48\u0E43\u0E19\u0E19\u0E42\u0E22\u0E1A\u0E32\u0E22\u0E40\u0E1A\u0E34\u0E01\u0E08\u0E48\u0E32\u0E22'
-  }
-};
-
-let currentReceipt = null;
-let animTimers = [];
-
-function clearTimers() {
-  animTimers.forEach(t => clearTimeout(t));
-  animTimers = [];
+function setMode(el, mode) {
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('attachSection').style.display = mode === 'attach' ? 'block' : 'none';
 }
 
-function setStep(n) {
-  for (let i = 1; i <= 4; i++) {
-    const el = document.getElementById('step' + i);
-    el.className = 'progress-step';
-    if (i < n) el.classList.add('done');
-    if (i === n) el.classList.add('active');
-  }
+function selectAttach(el, id) {
+  document.querySelectorAll('.attach-chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
 }
 
-function startOCR(key) {
-  clearTimers();
-  currentReceipt = receipts[key];
-  const r = currentReceipt;
-
+function handleFile(file) {
+  if (!file) return;
+  // Show progress
   document.getElementById('uploadZone').style.display = 'none';
-  document.getElementById('mockSection').style.display = 'none';
-  document.getElementById('claimForm').className = '';
-  document.getElementById('policyResult').className = '';
-  document.getElementById('submitArea').className = '';
+  const prog = document.getElementById('scanProgress');
+  prog.classList.add('visible');
+  const fill = document.getElementById('progressFill');
+  const text = document.getElementById('progressText');
 
-  const ocrArea = document.getElementById('ocrArea');
-  ocrArea.className = 'active';
-  setStep(2);
+  const steps = [
+    {pct:15,msg:'&#128196; กำลังอ่านไฟล์...'},
+    {pct:35,msg:'&#129302; AI กำลังวิเคราะห์ข้อความ...'},
+    {pct:55,msg:'&#128270; ตรวจจับจำนวนเงินและวันที่...'},
+    {pct:75,msg:'&#128279; จับคู่ข้อมูลภาษี...'},
+    {pct:90,msg:'&#9989; ตรวจสอบความถูกต้อง...'},
+    {pct:100,msg:'&#127881; สแกนเสร็จสิ้น! กำลังสร้าง Claim...'}
+  ];
 
-  let itemsHtml = '';
-  r.items.forEach(it => {
-    if (it[1]) {
-      itemsHtml += `<div class="item-row"><span>${it[0]}</span><span>${it[1]}</span></div>`;
+  let i = 0;
+  const interval = setInterval(() => {
+    if (i < steps.length) {
+      fill.style.width = steps[i].pct + '%';
+      text.innerHTML = steps[i].msg;
+      i++;
     } else {
-      itemsHtml += `<div style="color:#57534E;font-size:11px">${it[0]}</div>`;
+      clearInterval(interval);
+      setTimeout(() => {
+        prog.classList.remove('visible');
+        prog.style.display = 'none';
+        // Generate claim ID
+        const claimId = 'EX-' + String(nextClaimId).padStart(4, '0');
+        nextClaimId++;
+        document.getElementById('claimIdDisplay').textContent = claimId;
+        document.getElementById('ocrResult').classList.add('visible');
+      }, 400);
     }
-  });
-
-  document.getElementById('receiptVisual').innerHTML = `
-    <div class="scan-line" id="scanLine"></div>
-    <div class="store-name">${r.store}</div>
-    <div class="store-branch">${r.branch}</div>
-    <hr class="divider">
-    <div style="font-size:11px;color:#57534E;margin-bottom:4px">\u0E27\u0E31\u0E19\u0E17\u0E35\u0E48: ${r.date}</div>
-    <hr class="divider">
-    ${itemsHtml}
-    <hr class="divider">
-    <div class="item-row"><span>\u0E23\u0E27\u0E21\u0E01\u0E48\u0E2D\u0E19 VAT</span><span>${r.subtotal}</span></div>
-    <div class="item-row"><span>VAT 7%</span><span>${r.vat}</span></div>
-    <hr class="divider">
-    <div class="total-row"><span>\u0E23\u0E27\u0E21\u0E17\u0E31\u0E49\u0E07\u0E2A\u0E34\u0E49\u0E19</span><span>\u0E3F${r.total}</span></div>
-    <hr class="divider">
-    <div style="font-size:11px;color:#57534E">\u0E0A\u0E33\u0E23\u0E30\u0E40\u0E07\u0E34\u0E19: ${r.payment}</div>
-    <div class="tax-id">${r.taxId}</div>
-    <div class="tax-id">*** \u0E02\u0E2D\u0E1A\u0E04\u0E38\u0E13\u0E17\u0E35\u0E48\u0E43\u0E0A\u0E49\u0E1A\u0E23\u0E34\u0E01\u0E32\u0E23 ***</div>
-  `;
-
-  document.getElementById('extractedFields').innerHTML = '';
-  document.getElementById('logPanel').innerHTML = '';
-
-  animTimers.push(setTimeout(() => {
-    document.getElementById('scanLine').classList.add('active');
-  }, 300));
-
-  const fields = [
-    { icon: '\uD83C\uDFEA', label: '\u0E23\u0E49\u0E32\u0E19\u0E04\u0E49\u0E32', value: r.store + ' ' + r.branch },
-    { icon: '\uD83D\uDCC5', label: '\u0E27\u0E31\u0E19\u0E17\u0E35\u0E48', value: r.formDate },
-    { icon: '\uD83D\uDED2', label: '\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32', value: r.items.filter(i=>i[1]).map(i=>i[0]).join(', ') },
-    { icon: '\uD83D\uDCB0', label: '\u0E08\u0E33\u0E19\u0E27\u0E19\u0E40\u0E07\u0E34\u0E19', value: '\u0E3F' + r.total },
-    { icon: '\uD83D\uDCCA', label: 'VAT 7%', value: '\u0E3F' + r.vat },
-    { icon: '\uD83C\uDFF7\uFE0F', label: '\u0E1B\u0E23\u0E30\u0E40\u0E20\u0E17', value: r.category }
-  ];
-
-  let fieldsHtml = '';
-  fields.forEach((f, i) => {
-    fieldsHtml += `
-      <div class="extract-field" id="exField${i}">
-        <div class="field-icon">${f.icon}</div>
-        <div>
-          <div class="field-label">${f.label}</div>
-          <div class="field-value">${f.value}</div>
-        </div>
-      </div>
-    `;
-  });
-  document.getElementById('extractedFields').innerHTML = fieldsHtml;
-
-  const logs = [
-    { tag: 'ocr', tagLabel: '[OCR]', text: 'Analyzing document structure...' },
-    { tag: 'ocr', tagLabel: '[OCR]', text: 'Detecting text regions... 12 regions found' },
-    { tag: 'ai', tagLabel: '[AI]', text: 'Extracting merchant name...' },
-    { tag: 'ai', tagLabel: '[AI]', text: 'Parsing transaction date...' },
-    { tag: 'ai', tagLabel: '[AI]', text: 'Identifying line items...' },
-    { tag: 'ai', tagLabel: '[AI]', text: 'Calculating total amount & VAT...' },
-    { tag: 'ok', tagLabel: '[AI]', text: 'Auto-classifying expense category: ' + r.category },
-    { tag: 'done', tagLabel: '[DONE]', text: 'Extraction complete -- Confidence: 98.7%' }
-  ];
-
-  const baseDelay = 600;
-  const stepDelay = 450;
-
-  logs.forEach((log, i) => {
-    animTimers.push(setTimeout(() => {
-      const div = document.createElement('div');
-      div.className = 'log-line';
-      div.innerHTML = `<span class="log-tag-${log.tag}">${log.tagLabel}</span> <span class="log-text">${log.text}</span>`;
-      document.getElementById('logPanel').appendChild(div);
-      requestAnimationFrame(() => div.classList.add('show'));
-      document.getElementById('logPanel').scrollTop = 99999;
-    }, baseDelay + i * stepDelay));
-  });
-
-  const fieldTimings = [
-    baseDelay + 2 * stepDelay,
-    baseDelay + 3 * stepDelay,
-    baseDelay + 4 * stepDelay,
-    baseDelay + 5 * stepDelay,
-    baseDelay + 5 * stepDelay + 200,
-    baseDelay + 6 * stepDelay
-  ];
-
-  fieldTimings.forEach((delay, i) => {
-    animTimers.push(setTimeout(() => {
-      const el = document.getElementById('exField' + i);
-      if (el) {
-        el.classList.add('revealed', 'highlight');
-        animTimers.push(setTimeout(() => el.classList.remove('highlight'), 800));
-      }
-    }, delay));
-  });
-
-  const formDelay = baseDelay + logs.length * stepDelay + 600;
-  animTimers.push(setTimeout(() => {
-    showClaimForm(r);
-  }, formDelay));
+  }, 600);
 }
 
-function showClaimForm(r) {
-  setStep(3);
-  document.getElementById('fMerchant').value = r.store + ' - ' + r.branch;
-  document.getElementById('fDate').value = r.formDate;
-  document.getElementById('fAmount').value = r.total + ' \u0E1A\u0E32\u0E17';
-  document.getElementById('fVat').value = r.vatCalc + ' \u0E1A\u0E32\u0E17';
-  document.getElementById('fCategory').selectedIndex = r.catIndex;
-  document.getElementById('fNote').value = '';
-
-  document.getElementById('claimForm').className = 'active';
-
-  animTimers.push(setTimeout(() => showPolicyCheck(r), 700));
-}
-
-function showPolicyCheck(r) {
-  let iconStr, cssClass;
-  if (r.policy === 'green') {
-    iconStr = '\u2705';
-    cssClass = 'policy-green';
-  } else if (r.policy === 'orange') {
-    iconStr = '\u26A0\uFE0F';
-    cssClass = 'policy-orange';
-  } else {
-    iconStr = '\u274C';
-    cssClass = 'policy-red';
-  }
-
-  document.getElementById('policyResult').innerHTML = `
-    <div class="policy-card ${cssClass}">
-      <div class="policy-icon">${iconStr}</div>
-      <div class="policy-text">
-        <h4>${r.policyMsg}</h4>
-        <p>${r.policyDetail}</p>
-      </div>
-    </div>
-  `;
-  document.getElementById('policyResult').className = 'active';
-
-  animTimers.push(setTimeout(() => {
-    setStep(4);
-    document.getElementById('submitArea').className = 'active';
-  }, 500));
-}
-
-function submitClaim() {
-  const toast = document.getElementById('toast');
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 3500);
-}
-
-function resetAll() {
-  clearTimers();
-  currentReceipt = null;
-  setStep(1);
+function resetScan() {
+  document.getElementById('ocrResult').classList.remove('visible');
   document.getElementById('uploadZone').style.display = '';
-  document.getElementById('mockSection').style.display = '';
-  document.getElementById('ocrArea').className = '';
-  document.getElementById('claimForm').className = '';
-  document.getElementById('policyResult').className = '';
-  document.getElementById('submitArea').className = '';
-  document.getElementById('receiptVisual').innerHTML = '<div class="scan-line" id="scanLine"></div>';
-  document.getElementById('extractedFields').innerHTML = '';
-  document.getElementById('logPanel').innerHTML = '';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.getElementById('scanProgress').style.display = '';
+  document.getElementById('scanProgress').classList.remove('visible');
+  document.getElementById('progressFill').style.width = '0%';
 }
-
-// Drag and drop visual feedback
-const uploadZone = document.getElementById('uploadZone');
-uploadZone.addEventListener('dragover', e => {
-  e.preventDefault();
-  uploadZone.classList.add('dragover');
-});
-uploadZone.addEventListener('dragleave', () => {
-  uploadZone.classList.remove('dragover');
-});
-uploadZone.addEventListener('drop', e => {
-  e.preventDefault();
-  uploadZone.classList.remove('dragover');
-  const keys = Object.keys(receipts);
-  startOCR(keys[Math.floor(Math.random() * keys.length)]);
-});
-uploadZone.addEventListener('click', () => {
-  const keys = Object.keys(receipts);
-  startOCR(keys[Math.floor(Math.random() * keys.length)]);
-});
 </script>
 </body>
 </html>

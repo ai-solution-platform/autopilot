@@ -322,7 +322,7 @@ select.form-input{cursor:pointer;}
         <!-- Module 5: Sales Doc Gen -->
         <div class="module-header" onclick="toggleModule('mod5')"><span class="mod-icon">💰</span>Sales Doc Gen<span class="mod-check">✓</span></div>
         <div class="module-children" id="mod5" style="display:none;">
-            <button class="nav-item" onclick="loadModule('modules/sales-quotation-builder.html','Sales Dashboard')"><span class="icon">📈</span>Dashboard</button>
+            <button class="nav-item" onclick="loadModule('modules/sales-dashboard.html','Sales Dashboard')"><span class="icon">📈</span>Dashboard</button>
             <button class="nav-item" onclick="loadModule('modules/sales-quotation-builder.html','Quotation Builder')"><span class="icon">📝</span>Quotation Builder</button>
             <button class="nav-item" onclick="loadModule('modules/sales-pipeline.html','Sales Pipeline')"><span class="icon">📊</span>Pipeline</button>
             <button class="nav-item" onclick="loadModule('modules/sales-analytics.html','Sales Analytics')"><span class="icon">📈</span>Analytics</button>
@@ -331,10 +331,10 @@ select.form-input{cursor:pointer;}
         <!-- Module 6: Procurement PO/PR -->
         <div class="module-header" onclick="toggleModule('mod3')"><span class="mod-icon">📋</span>Procurement PO/PR<span class="mod-check">✓</span></div>
         <div class="module-children" id="mod3" style="display:none;">
-            <button class="nav-item" onclick="loadModule('modules/procurement-prpo.html','Procurement Dashboard')"><span class="icon">📈</span>Dashboard</button>
-            <button class="nav-item" onclick="loadModule('modules/procurement-prpo.html','PR / PO')"><span class="icon">📄</span>PR/PO</button>
+            <button class="nav-item" onclick="loadModule('modules/procurement-dashboard.html','Procurement Dashboard')"><span class="icon">📈</span>Dashboard</button>
+            <button class="nav-item" onclick="loadModule('modules/procurement-prpo.html','PR / PO')"><span class="icon">📄</span>PR / PO</button>
             <button class="nav-item" onclick="loadModule('modules/procurement-matching.html','3-Way Match')"><span class="icon">🔗</span>3-Way Match</button>
-            <button class="nav-item" onclick="loadModule('modules/procurement-analytics.html','Procurement Analytics')"><span class="icon">📊</span>Analytics</button>
+            <button class="nav-item" onclick="loadModule('modules/procurement-analytics.html','Procurement Analytics')"><span class="icon">📈</span>Analytics</button>
         </div>
     </div>
 
@@ -347,12 +347,15 @@ select.form-input{cursor:pointer;}
     </div>
 
     <div class="nav-section"><div class="nav-label">System</div>
-        <button class="nav-item" data-page="users"><span class="icon">👥</span>Users & Roles</button>
-        <button class="nav-item" data-page="channels"><span class="icon">🔗</span>Channels</button>
-        <button class="nav-item" data-page="billing"><span class="icon">💳</span>Billing & Packages</button>
-        <button class="nav-item" data-page="vendors"><span class="icon">🏢</span>Vendors</button>
-        <button class="nav-item" data-page="audit"><span class="icon">📜</span>Audit Log</button>
-        <button class="nav-item" data-page="settings"><span class="icon">⚙️</span>Settings</button>
+        <div class="module-header" onclick="toggleModule('modSys')"><span class="mod-icon">⚙️</span>System<span class="mod-check">✓</span></div>
+        <div class="module-children" id="modSys" style="display:none;">
+            <button class="nav-item" data-page="users"><span class="icon">👥</span>Users & Roles</button>
+            <button class="nav-item" data-page="channels"><span class="icon">🔗</span>Channels</button>
+            <button class="nav-item" data-page="billing"><span class="icon">💳</span>Billing & Packages</button>
+            <button class="nav-item" data-page="vendors"><span class="icon">🏢</span>Vendors</button>
+            <button class="nav-item" data-page="audit"><span class="icon">📜</span>Audit Log</button>
+            <button class="nav-item" data-page="settings"><span class="icon">⚙️</span>Settings</button>
+        </div>
     </div>
     <div class="sidebar-footer"><div class="plan-badge">⭐ Enterprise Plan — 6 Modules Active</div></div>
 </div>

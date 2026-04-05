@@ -14,32 +14,56 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
 .dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);}
 
-.page-wrap{max-width:1200px;margin:0 auto;padding:24px;}
+.page-wrap{max-width:1280px;margin:0 auto;padding:24px;}
+
+/* User Context Bar */
+.user-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding:10px 16px;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);}
+.user-info{display:flex;align-items:center;gap:10px;}
+.user-avatar{width:36px;height:36px;border-radius:50%;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;}
+.user-name{font-size:.88rem;font-weight:700;}
+.user-role{font-size:.7rem;color:var(--muted);}
 
 .breadcrumb{font-size:.72rem;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:6px;}
 .breadcrumb a{color:var(--blue);text-decoration:none;font-weight:500;}
 .breadcrumb a:hover{text-decoration:underline;}
 
-.page-title{font-size:1.25rem;font-weight:800;margin-bottom:6px;}
+.page-title{font-size:1.25rem;font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:10px;}
 .page-sub{color:var(--muted);font-size:.82rem;margin-bottom:24px;}
 
-/* KPI Cards */
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
-.kpi{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:all .3s ease;}
+/* Auto-Match Queue Badge */
+.queue-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:700;background:var(--blue-bg);color:var(--blue);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.7;}}
+
+/* KPI Cards - 4 per row */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+.kpi{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:all .3s ease;}
 .kpi:hover{box-shadow:0 4px 20px rgba(0,0,0,.08);transform:translateY(-2px);}
 .kpi .glow-bar{position:absolute;top:0;left:0;right:0;height:3px;}
-.kpi-label{font-size:.75rem;color:var(--muted);margin-bottom:8px;}
-.kpi-value{font-size:1.8rem;font-weight:800;line-height:1;}
-.kpi-sub{font-size:.72rem;color:var(--muted);margin-top:6px;}
-.kpi-icon{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;}
+.kpi-top{display:flex;align-items:flex-start;justify-content:space-between;}
+.kpi-label{font-size:.7rem;color:var(--muted);margin-bottom:6px;}
+.kpi-value{font-size:1.6rem;font-weight:800;line-height:1;}
+.kpi-sub{font-size:.68rem;color:var(--muted);margin-top:4px;}
+.kpi-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;}
+.kpi-chart{margin-top:8px;height:32px;display:flex;align-items:flex-end;gap:2px;}
+.kpi-chart .bar{border-radius:2px 2px 0 0;width:100%;transition:height .3s;cursor:pointer;position:relative;}
+.kpi-chart .bar:hover{opacity:.8;}
 
 /* Section titles */
 .section-title{font-size:1rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:10px;}
 .section-title .dot{width:8px;height:8px;border-radius:50%;background:var(--blue);}
 
+/* Tabs */
+.tabs{display:flex;gap:4px;margin-bottom:20px;background:var(--bg2);padding:4px;border-radius:var(--radius);width:fit-content;}
+.tab-btn{padding:8px 20px;border-radius:8px;font-size:.82rem;font-weight:500;cursor:pointer;color:var(--muted);transition:all .2s;border:none;background:none;font-family:inherit;position:relative;}
+.tab-btn:hover{color:var(--text);}
+.tab-btn.active{background:var(--card-bg);color:var(--blue);font-weight:600;box-shadow:var(--shadow);}
+.tab-badge{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:.6rem;font-weight:700;padding:1px 5px;border-radius:10px;min-width:16px;text-align:center;}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
 /* Tables */
 .data-table{width:100%;border-collapse:separate;border-spacing:0;background:var(--card-bg);border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);}
-.data-table thead th{padding:12px 16px;text-align:left;font-size:.72rem;font-weight:600;text-transform:uppercase;color:var(--muted);background:var(--bg2);letter-spacing:.5px;border-bottom:1px solid var(--border);}
+.data-table thead th{padding:12px 16px;text-align:left;font-size:.72rem;font-weight:600;text-transform:uppercase;color:var(--muted);background:var(--bg2);letter-spacing:.5px;border-bottom:1px solid var(--border);white-space:nowrap;}
 .data-table tbody tr{cursor:pointer;transition:all .2s ease;}
 .data-table tbody tr:hover{background:var(--blue-bg);}
 .data-table tbody tr.selected{background:var(--blue-bg);box-shadow:inset 3px 0 0 var(--blue);}
@@ -51,11 +75,13 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .badge-partial{background:var(--orange-bg);color:var(--orange);}
 .badge-mismatch{background:var(--red-bg);color:var(--red);}
 .badge-pending{background:var(--blue-bg);color:var(--blue);}
+.badge-missing{background:var(--red-bg);color:var(--red);}
 .badge::before{content:'';width:6px;height:6px;border-radius:50%;}
 .badge-matched::before{background:var(--green);}
 .badge-partial::before{background:var(--orange);}
 .badge-mismatch::before{background:var(--red);}
 .badge-pending::before{background:var(--blue);}
+.badge-missing::before{background:var(--red);}
 
 /* 3-Column Match Detail */
 .match-detail-wrapper{position:relative;margin-top:24px;margin-bottom:24px;}
@@ -105,6 +131,17 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .btn-return:hover{background:var(--orange);color:#fff;}
 .btn-debit{background:var(--blue-bg);color:var(--blue);border:1px solid transparent;}
 .btn-debit:hover{background:var(--blue);color:#fff;}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text2);}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue);}
+.btn-sm{padding:5px 12px;font-size:.75rem;border-radius:6px;}
+
+/* Linked Quotation Section */
+.linked-section{margin-top:24px;padding:16px;background:linear-gradient(135deg,var(--purple-bg),var(--blue-bg));border:1px solid var(--border);border-radius:var(--radius);}
+.linked-item{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;}
+.linked-item:last-child{margin-bottom:0;}
+
+/* Tooltip */
+.chart-tooltip{position:absolute;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:.72rem;box-shadow:0 4px 12px rgba(0,0,0,.1);pointer-events:none;z-index:100;display:none;white-space:nowrap;}
 
 /* Animate in */
 .fade-up{opacity:0;transform:translateY(20px);animation:fadeUp .5s ease forwards;}
@@ -125,79 +162,153 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
 <div class="page-wrap">
 
+  <!-- User Context Bar -->
+  <div class="user-bar">
+    <div class="user-info">
+      <div class="user-avatar">AC</div>
+      <div>
+        <div class="user-name">&#3626;&#3623;&#3633;&#3626;&#3604;&#3637; Artit C. | Procurement Manager</div>
+        <div class="user-role">3-Way Matching Engine &middot; &#3629;&#3629;&#3609;&#3652;&#3621;&#3609;&#3660;</div>
+      </div>
+    </div>
+    <div class="queue-badge">&#9889; Auto-Match Queue: <strong id="autoMatchCount">8</strong> &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;</div>
+  </div>
+
   <div class="breadcrumb">
-    <a href="#">Autopilot v2</a> <span>/</span>
-    <a href="#">Procurement PO/PR</a> <span>/</span>
+    <a href="../poc-v2.html">Autopilot v2</a> <span>/</span>
+    <a href="procurement-prpo.html">Procurement PR/PO</a> <span>/</span>
     <span>3-Way Matching Engine</span>
   </div>
 
   <div class="page-title">3-Way Matching Engine</div>
-  <div class="page-sub">เปรียบเทียบ PO vs Invoice vs Goods Receipt &mdash; ตรวจสอบความถูกต้องก่อนอนุมัติจ่าย</div>
+  <div class="page-sub">&#3648;&#3611;&#3619;&#3637;&#3618;&#3610;&#3648;&#3607;&#3637;&#3618;&#3610; PO vs Invoice vs Goods Receipt &mdash; &#3605;&#3619;&#3623;&#3592;&#3626;&#3629;&#3610;&#3588;&#3623;&#3634;&#3617;&#3606;&#3641;&#3585;&#3605;&#3657;&#3629;&#3591;&#3585;&#3656;&#3629;&#3609;&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;&#3592;&#3656;&#3634;&#3618;</div>
 
-  <!-- KPI Dashboard -->
+  <!-- KPI Dashboard — 4 per row compact -->
   <div class="kpi-grid fade-up" style="animation-delay:0.1s;">
     <div class="kpi">
       <div class="glow-bar" style="background:var(--green);"></div>
-      <div class="kpi-icon" style="background:var(--green-bg);color:var(--green);">&#10003;</div>
-      <div class="kpi-label">Matched (ตรงกัน)</div>
-      <div class="kpi-value" style="color:var(--green);">142</div>
-      <div class="kpi-sub">78% ของทั้งหมด</div>
+      <div class="kpi-top">
+        <div>
+          <div class="kpi-label">Matched (&#3605;&#3619;&#3591;&#3585;&#3633;&#3609;)</div>
+          <div class="kpi-value" style="color:var(--green);">142</div>
+          <div class="kpi-sub">78% &#3586;&#3629;&#3591;&#3607;&#3633;&#3657;&#3591;&#3627;&#3617;&#3604;</div>
+        </div>
+        <div class="kpi-icon" style="background:var(--green-bg);color:var(--green);">&#10003;</div>
+      </div>
+      <div class="kpi-chart" id="matchedChart"></div>
     </div>
     <div class="kpi">
       <div class="glow-bar" style="background:var(--orange);"></div>
-      <div class="kpi-icon" style="background:var(--orange-bg);color:var(--orange);">&#9888;</div>
-      <div class="kpi-label">Partial Match</div>
-      <div class="kpi-value" style="color:var(--orange);">28</div>
-      <div class="kpi-sub">15% ตรงบางส่วน</div>
+      <div class="kpi-top">
+        <div>
+          <div class="kpi-label">Partial Match</div>
+          <div class="kpi-value" style="color:var(--orange);">28</div>
+          <div class="kpi-sub">15% &#3605;&#3619;&#3591;&#3610;&#3634;&#3591;&#3626;&#3656;&#3623;&#3609;</div>
+        </div>
+        <div class="kpi-icon" style="background:var(--orange-bg);color:var(--orange);">&#9888;</div>
+      </div>
+      <div class="kpi-chart" id="partialChart"></div>
     </div>
     <div class="kpi">
       <div class="glow-bar" style="background:var(--red);"></div>
-      <div class="kpi-icon" style="background:var(--red-bg);color:var(--red);">&#10007;</div>
-      <div class="kpi-label">Mismatch</div>
-      <div class="kpi-value" style="color:var(--red);">12</div>
-      <div class="kpi-sub">7% ไม่ตรงกัน</div>
+      <div class="kpi-top">
+        <div>
+          <div class="kpi-label">Mismatch</div>
+          <div class="kpi-value" style="color:var(--red);">12</div>
+          <div class="kpi-sub">7% &#3652;&#3617;&#3656;&#3605;&#3619;&#3591;&#3585;&#3633;&#3609;</div>
+        </div>
+        <div class="kpi-icon" style="background:var(--red-bg);color:var(--red);">&#10007;</div>
+      </div>
+      <div class="kpi-chart" id="mismatchChart"></div>
     </div>
     <div class="kpi">
       <div class="glow-bar" style="background:var(--blue);"></div>
-      <div class="kpi-icon" style="background:var(--blue-bg);color:var(--blue);">&#8987;</div>
-      <div class="kpi-label">รอตรวจสอบ</div>
-      <div class="kpi-value" style="color:var(--blue);">8</div>
-      <div class="kpi-sub">รายการใหม่วันนี้</div>
+      <div class="kpi-top">
+        <div>
+          <div class="kpi-label">&#3619;&#3629;&#3605;&#3619;&#3623;&#3592;&#3626;&#3629;&#3610;</div>
+          <div class="kpi-value" style="color:var(--blue);">8</div>
+          <div class="kpi-sub">&#3619;&#3634;&#3618;&#3585;&#3634;&#3619;&#3651;&#3627;&#3617;&#3656;&#3623;&#3633;&#3609;&#3609;&#3637;&#3657;</div>
+        </div>
+        <div class="kpi-icon" style="background:var(--blue-bg);color:var(--blue);">&#8987;</div>
+      </div>
+      <div class="kpi-chart" id="pendingChart"></div>
     </div>
   </div>
 
-  <!-- Match Queue -->
-  <div class="fade-up" style="animation-delay:0.2s;">
-    <div class="section-title">
-      <div class="dot"></div>
-      Match Queue &mdash; รายการรอตรวจสอบ
+  <!-- Tabs: Queue / Recent Matches / Linked -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchMatchTab('queue')" style="position:relative;">&#9889; Match Queue<span class="tab-badge">8</span></button>
+    <button class="tab-btn" onclick="switchMatchTab('recent')">&#128203; &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;&#3621;&#3656;&#3634;&#3626;&#3640;&#3604;</button>
+    <button class="tab-btn" onclick="switchMatchTab('linked')">&#128279; Linked Quotation</button>
+  </div>
+
+  <!-- Queue Tab -->
+  <div id="mtab-queue" class="tab-content active">
+    <div class="fade-up" style="animation-delay:0.2s;">
+      <div class="section-title">
+        <div class="dot"></div>
+        Match Queue &mdash; &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;&#3619;&#3629;&#3605;&#3619;&#3623;&#3592;&#3626;&#3629;&#3610;
+      </div>
+      <div style="overflow-x:auto;margin-bottom:8px;">
+        <table class="data-table" id="matchQueue">
+          <thead>
+            <tr>
+              <th>PO Number</th>
+              <th>Vendor</th>
+              <th>Invoice No.</th>
+              <th>GR No.</th>
+              <th style="text-align:right;">PO Amount</th>
+              <th style="text-align:right;">Invoice Amount</th>
+              <th style="text-align:right;">GR Qty</th>
+              <th>Match Status</th>
+            </tr>
+          </thead>
+          <tbody id="queueBody"></tbody>
+        </table>
+      </div>
+      <p style="font-size:.72rem;color:var(--muted);margin-bottom:32px;">&#3588;&#3621;&#3636;&#3585;&#3607;&#3637;&#3656;&#3649;&#3606;&#3623;&#3648;&#3614;&#3639;&#3656;&#3629;&#3604;&#3641;&#3619;&#3634;&#3618;&#3621;&#3632;&#3648;&#3629;&#3637;&#3618;&#3604;&#3585;&#3634;&#3619;&#3648;&#3611;&#3619;&#3637;&#3618;&#3610;&#3648;&#3607;&#3637;&#3618;&#3610;</p>
     </div>
-    <div style="overflow-x:auto;margin-bottom:8px;">
-      <table class="data-table" id="matchQueue">
+  </div>
+
+  <!-- Recent Matches Tab -->
+  <div id="mtab-recent" class="tab-content">
+    <div class="section-title">
+      <div class="dot" style="background:var(--purple);"></div>
+      Recent Matches &mdash; &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;&#3621;&#3656;&#3634;&#3626;&#3640;&#3604;
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="data-table" id="recentTable">
         <thead>
           <tr>
-            <th>PO Number</th>
-            <th>Vendor</th>
-            <th>Invoice No.</th>
-            <th>GR No.</th>
-            <th style="text-align:right;">PO Amount</th>
-            <th style="text-align:right;">Invoice Amount</th>
-            <th style="text-align:right;">GR Qty</th>
-            <th>Match Status</th>
+            <th>Match #</th>
+            <th>PO</th>
+            <th>Invoice</th>
+            <th>GR</th>
+            <th>&#3612;&#3621;</th>
+            <th>Matched By</th>
+            <th>&#3623;&#3633;&#3609;&#3607;&#3637;&#3656;</th>
+            <th></th>
           </tr>
         </thead>
-        <tbody id="queueBody"></tbody>
+        <tbody id="recentBody"></tbody>
       </table>
     </div>
-    <p style="font-size:.72rem;color:var(--muted);margin-bottom:32px;">คลิกที่แถวเพื่อดูรายละเอียดการเปรียบเทียบ</p>
   </div>
 
-  <!-- Interactive Match Detail -->
+  <!-- Linked Quotation Tab -->
+  <div id="mtab-linked" class="tab-content">
+    <div class="linked-section" style="background:transparent;border:none;padding:0;">
+      <div style="font-size:.95rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;">&#128279; Linked Quotation Tasks &mdash; &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;&#3607;&#3637;&#3656;&#3617;&#3634;&#3592;&#3634;&#3585; Quotation Autopilot</div>
+      <div id="linkedContainer"></div>
+    </div>
+  </div>
+
+  <!-- Interactive Match Detail (shown on click) -->
   <div id="matchDetail" style="display:none;">
     <div class="fade-up">
       <div class="section-title">
         <div class="dot" style="background:var(--cyan);"></div>
-        <span id="detailTitle">ผลเปรียบเทียบ 3 ทาง</span>
+        <span id="detailTitle">&#3612;&#3621;&#3648;&#3611;&#3619;&#3637;&#3618;&#3610;&#3648;&#3607;&#3637;&#3618;&#3610; 3 &#3607;&#3634;&#3591;</span>
       </div>
     </div>
 
@@ -208,44 +319,26 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
         <div class="match-col" id="colPO">
           <div class="col-header">
             <div class="col-icon" style="background:var(--blue-bg);color:var(--blue);">PO</div>
-            <div>
-              <div class="col-label">Purchase Order</div>
-              <div class="col-number" id="poNumber">PO-2026-0145</div>
-            </div>
+            <div><div class="col-label">Purchase Order</div><div class="col-number" id="poNumber">PO-2026-0145</div></div>
           </div>
           <div id="poItems"></div>
-          <div class="match-total">
-            <span>รวม</span>
-            <span id="poTotal" style="color:var(--blue);">&#3647;8,980</span>
-          </div>
+          <div class="match-total"><span>&#3619;&#3623;&#3617;</span><span id="poTotal" style="color:var(--blue);">&#3647;8,980</span></div>
         </div>
         <div class="match-col" id="colInv">
           <div class="col-header">
             <div class="col-icon" style="background:var(--purple-bg);color:var(--purple);">INV</div>
-            <div>
-              <div class="col-label">Invoice</div>
-              <div class="col-number" id="invNumber">INV-2026-3847</div>
-            </div>
+            <div><div class="col-label">Invoice</div><div class="col-number" id="invNumber">INV-2026-3847</div></div>
           </div>
           <div id="invItems"></div>
-          <div class="match-total">
-            <span>รวม</span>
-            <span id="invTotal" style="color:var(--purple);">&#3647;9,230</span>
-          </div>
+          <div class="match-total"><span>&#3619;&#3623;&#3617;</span><span id="invTotal" style="color:var(--purple);">&#3647;9,230</span></div>
         </div>
         <div class="match-col" id="colGR">
           <div class="col-header">
             <div class="col-icon" style="background:rgba(8,145,178,0.1);color:var(--cyan);">GR</div>
-            <div>
-              <div class="col-label">Goods Receipt</div>
-              <div class="col-number" id="grNumber">GR-2026-0891</div>
-            </div>
+            <div><div class="col-label">Goods Receipt</div><div class="col-number" id="grNumber">GR-2026-0891</div></div>
           </div>
           <div id="grItems"></div>
-          <div class="match-total">
-            <span>รับครบ</span>
-            <span id="grStatus" style="color:var(--cyan);">บางส่วน</span>
-          </div>
+          <div class="match-total"><span>&#3619;&#3633;&#3610;&#3588;&#3619;&#3610;</span><span id="grStatus" style="color:var(--cyan);">&#3610;&#3634;&#3591;&#3626;&#3656;&#3623;&#3609;</span></div>
         </div>
       </div>
     </div>
@@ -253,72 +346,37 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
     <!-- Match Result Summary -->
     <div class="fade-up" style="animation-delay:0.2s;">
       <div class="result-summary" id="resultSummary">
-        <div class="result-item">
-          <div class="res-label">Item Match</div>
-          <div class="res-value" id="resItemMatch" style="color:var(--orange);">1/2 (50%)</div>
-        </div>
-        <div class="result-item">
-          <div class="res-label">Price Variance</div>
-          <div class="res-value" id="resPriceVar" style="color:var(--red);">+&#3647;250</div>
-          <div class="res-sub" id="resPricePct">2.8%</div>
-        </div>
-        <div class="result-item">
-          <div class="res-label">Quantity Variance</div>
-          <div class="res-value" id="resQtyVar" style="color:var(--red);">-1 item</div>
-        </div>
-        <div class="result-item">
-          <div class="res-label">Overall Status</div>
-          <div class="res-value" id="resOverall"><span class="badge badge-partial">Partial Match</span></div>
-        </div>
+        <div class="result-item"><div class="res-label">Item Match</div><div class="res-value" id="resItemMatch" style="color:var(--orange);">1/2 (50%)</div></div>
+        <div class="result-item"><div class="res-label">Price Variance</div><div class="res-value" id="resPriceVar" style="color:var(--red);">+&#3647;250</div><div class="res-sub" id="resPricePct">2.8%</div></div>
+        <div class="result-item"><div class="res-label">Quantity Variance</div><div class="res-value" id="resQtyVar" style="color:var(--red);">-1 item</div></div>
+        <div class="result-item"><div class="res-label">Overall Status</div><div class="res-value" id="resOverall"><span class="badge badge-partial">Partial Match</span></div></div>
       </div>
     </div>
 
     <!-- AI Recommendations -->
     <div class="reco-box fade-up" style="animation-delay:0.3s;">
-      <div class="reco-title">
-        <span style="font-size:1rem;">&#9889;</span> AI Recommendation
-      </div>
+      <div class="reco-title"><span style="font-size:1rem;">&#9889;</span> AI Recommendation</div>
       <ul id="recoList">
-        <li>ตรวจสอบราคาไขควงกับ vendor &mdash; ส่วนต่าง &#3647;250 (2.8%)</li>
-        <li>ติดตามสินค้าที่ขาด &mdash; ไขควง 1 ชิ้นยังไม่ได้รับ</li>
-        <li>พิจารณาสร้าง Debit Note สำหรับส่วนต่างราคา</li>
+        <li>&#3605;&#3619;&#3623;&#3592;&#3626;&#3629;&#3610;&#3619;&#3634;&#3588;&#3634;&#3652;&#3586;&#3588;&#3623;&#3591;&#3585;&#3633;&#3610; vendor &mdash; &#3626;&#3656;&#3623;&#3609;&#3605;&#3656;&#3634;&#3591; &#3647;250 (2.8%)</li>
+        <li>&#3605;&#3636;&#3604;&#3605;&#3634;&#3617;&#3626;&#3636;&#3609;&#3588;&#3657;&#3634;&#3607;&#3637;&#3656;&#3586;&#3634;&#3604;</li>
+        <li>&#3614;&#3636;&#3592;&#3634;&#3619;&#3603;&#3634;&#3626;&#3619;&#3657;&#3634;&#3591; Debit Note</li>
       </ul>
     </div>
 
     <!-- Action Buttons -->
     <div class="action-bar fade-up" style="animation-delay:0.35s;">
-      <button class="btn btn-approve" onclick="doAction('approve')">&#10003; อนุมัติจ่าย</button>
-      <button class="btn btn-reject" onclick="doAction('reject')">&#10007; ปฏิเสธ</button>
-      <button class="btn btn-return" onclick="doAction('return')">&#8617; ส่งกลับ vendor</button>
-      <button class="btn btn-debit" onclick="doAction('debit')">&#9998; สร้าง Debit Note</button>
-    </div>
-  </div>
-
-  <!-- Match History -->
-  <div class="fade-up" style="animation-delay:0.4s;">
-    <div class="section-title">
-      <div class="dot" style="background:var(--purple);"></div>
-      Match History &mdash; รายการล่าสุด
-    </div>
-    <div style="overflow-x:auto;">
-      <table class="data-table" id="historyTable">
-        <thead>
-          <tr>
-            <th>PO Number</th>
-            <th>Vendor</th>
-            <th>Invoice No.</th>
-            <th style="text-align:right;">Amount</th>
-            <th>Status</th>
-            <th>ผล</th>
-            <th>วันที่</th>
-          </tr>
-        </thead>
-        <tbody id="historyBody"></tbody>
-      </table>
+      <button class="btn btn-approve" onclick="doAction('approve')">&#10003; &#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;&#3592;&#3656;&#3634;&#3618;</button>
+      <button class="btn btn-reject" onclick="doAction('reject')">&#10007; &#3611;&#3599;&#3636;&#3648;&#3626;&#3608;</button>
+      <button class="btn btn-return" onclick="doAction('return')">&#8617; &#3626;&#3656;&#3591;&#3585;&#3621;&#3633;&#3610; vendor</button>
+      <button class="btn btn-debit" onclick="doAction('debit')">&#9998; &#3626;&#3619;&#3657;&#3634;&#3591; Debit Note</button>
+      <a href="#" class="btn btn-outline" style="text-decoration:none;">&#128279; View in Audit Log</a>
     </div>
   </div>
 
 </div>
+
+<!-- Chart Tooltip -->
+<div class="chart-tooltip" id="chartTooltip"></div>
 
 <!-- Toast -->
 <div id="toast" style="position:fixed;bottom:-80px;left:50%;transform:translateX(-50%);background:var(--card-bg);border:1px solid var(--blue);border-radius:var(--radius);padding:14px 28px;font-size:.82rem;font-weight:600;z-index:999;transition:bottom .4s ease;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(0,0,0,.1);">
@@ -327,13 +385,29 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 </div>
 
 <script>
+// ============ SHARED VENDORS (same as System/Vendors in poc-v2.html) ============
+const VENDORS=[
+  {id:'V1',code:'1200248',name:'บริษัท เจ เจ พี ซัพพลาย จำกัด',short:'เจ เจ พี ซัพพลาย',score:4.2,tasks:38,spend:4520000},
+  {id:'V2',code:'1200249',name:'บริษัท ไทยเอ็กซ์เพรส ซัพพลาย จำกัด',short:'ไทยเอ็กซ์เพรส',score:3.8,tasks:24,spend:2870000},
+  {id:'V3',code:'1200179',name:'บริษัท ศรีรุ่งเรือง แมชชีนแอนด์ทูลส์ จำกัด',short:'ศรีรุ่งเรือง',score:4.5,tasks:31,spend:3910000},
+  {id:'V4',code:'1200286',name:'บริษัท ชลบุรี ฮาร์ดแวร์ แอนด์ ทูลส์ จำกัด',short:'ชลบุรี ฮาร์ดแวร์',score:4.0,tasks:19,spend:1680000}
+];
+
 // Dark mode
 function toggleDark(){document.body.classList.toggle('dark');const d=document.body.classList.contains('dark');localStorage.setItem('darkMode',d);document.querySelector('.dark-toggle').textContent=d?'\u2600\uFE0F':'\uD83C\uDF19';}
 if(localStorage.getItem('darkMode')==='true'){document.body.classList.add('dark');document.addEventListener('DOMContentLoaded',()=>{document.querySelector('.dark-toggle').textContent='\u2600\uFE0F';});}
 
-// ============ DATA ============
+// ============ TAB SWITCHING ============
+function switchMatchTab(tabId){
+  document.querySelectorAll('.tab-btn').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  document.getElementById('mtab-'+tabId).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ============ QUEUE DATA ============
 const queueData = [
-    { po:'PO-2026-0145', vendor:'Thai Tools Co.,Ltd.', inv:'INV-2026-3847', gr:'GR-2026-0891', poAmt:8980, invAmt:9230, grQty:'7/8', status:'partial',
+    { po:'PO-2026-0145', vendor:'Thai Tools Co.,Ltd.', vendorId:'V1', inv:'INV-2026-3847', gr:'GR-2026-0891', poAmt:8980, invAmt:9230, grQty:'7/8', status:'partial',
       detail: {
           poItems: [{name:'ประแจแหวน',qty:3,price:2160,total:6480},{name:'ไขควง',qty:5,price:500,total:2500}],
           invItems: [{name:'ประแจแหวน',qty:3,price:2160,total:6480,status:'ok'},{name:'ไขควง',qty:5,price:550,total:2750,status:'warn',note:'+\u0E3F250'}],
@@ -343,7 +417,7 @@ const queueData = [
           recos:['ตรวจสอบราคาไขควงกับ vendor \u2014 ส่วนต่าง \u0E3F250 (2.8%)','ติดตามสินค้าที่ขาด \u2014 ไขควง 1 ชิ้นยังไม่ได้รับ','พิจารณาสร้าง Debit Note สำหรับส่วนต่างราคา']
       }
     },
-    { po:'PO-2026-0146', vendor:'ABC Supplies', inv:'INV-2026-3850', gr:'GR-2026-0892', poAmt:15400, invAmt:15400, grQty:'12/12', status:'matched',
+    { po:'PO-2026-0146', vendor:'ABC Supplies', vendorId:'V2', inv:'INV-2026-3850', gr:'GR-2026-0892', poAmt:15400, invAmt:15400, grQty:'12/12', status:'matched',
       detail: {
           poItems: [{name:'ท่อ PVC 4"',qty:6,price:1200,total:7200},{name:'ข้อต่อ PVC',qty:6,price:450,total:2700},{name:'กาว PVC',qty:10,price:550,total:5500}],
           invItems: [{name:'ท่อ PVC 4"',qty:6,price:1200,total:7200,status:'ok'},{name:'ข้อต่อ PVC',qty:6,price:450,total:2700,status:'ok'},{name:'กาว PVC',qty:10,price:550,total:5500,status:'ok'}],
@@ -353,7 +427,7 @@ const queueData = [
           recos:['ทุกรายการตรงกัน \u2014 แนะนำอนุมัติจ่ายได้เลย']
       }
     },
-    { po:'PO-2026-0147', vendor:'Siam Electric', inv:'INV-2026-3851', gr:'GR-2026-0893', poAmt:22600, invAmt:24100, grQty:'8/10', status:'mismatch',
+    { po:'PO-2026-0147', vendor:'Siam Electric', vendorId:'V3', inv:'INV-2026-3851', gr:'GR-2026-0893', poAmt:22600, invAmt:24100, grQty:'8/10', status:'mismatch',
       detail: {
           poItems: [{name:'สายไฟ THW 2.5mm',qty:5,price:2800,total:14000},{name:'เบรคเกอร์ 30A',qty:5,price:1720,total:8600}],
           invItems: [{name:'สายไฟ THW 2.5mm',qty:5,price:3100,total:15500,status:'warn',note:'+\u0E3F1,500'},{name:'เบรคเกอร์ 30A',qty:5,price:1720,total:8600,status:'ok'}],
@@ -363,7 +437,7 @@ const queueData = [
           recos:['ราคาสายไฟสูงกว่า PO ถึง \u0E3F1,500 (10.7%) \u2014 ต้องตรวจสอบ','เบรคเกอร์ยังขาด 2 ชิ้น \u2014 ติดตามการจัดส่ง','แนะนำปฏิเสธ Invoice จนกว่าจะแก้ไข']
       }
     },
-    { po:'PO-2026-0148', vendor:'Metro Hardware', inv:'INV-2026-3855', gr:'GR-2026-0895', poAmt:5200, invAmt:5200, grQty:'20/20', status:'matched',
+    { po:'PO-2026-0148', vendor:'Metro Hardware', vendorId:'V4', inv:'INV-2026-3855', gr:'GR-2026-0895', poAmt:5200, invAmt:5200, grQty:'20/20', status:'matched',
       detail: {
           poItems: [{name:'สกรูหัวแฉก #8',qty:10,price:280,total:2800},{name:'น็อตแบน M10',qty:10,price:240,total:2400}],
           invItems: [{name:'สกรูหัวแฉก #8',qty:10,price:280,total:2800,status:'ok'},{name:'น็อตแบน M10',qty:10,price:240,total:2400,status:'ok'}],
@@ -373,7 +447,7 @@ const queueData = [
           recos:['ทุกรายการตรงกัน \u2014 แนะนำอนุมัติจ่ายได้เลย']
       }
     },
-    { po:'PO-2026-0149', vendor:'Green Paint Co.', inv:'INV-2026-3860', gr:'GR-2026-0897', poAmt:18750, invAmt:19000, grQty:'14/15', status:'partial',
+    { po:'PO-2026-0149', vendor:'Green Paint Co.', vendorId:'V1', inv:'INV-2026-3860', gr:'GR-2026-0897', poAmt:18750, invAmt:19000, grQty:'14/15', status:'partial',
       detail: {
           poItems: [{name:'สีน้ำอะคริลิก 5 กล.',qty:10,price:1500,total:15000},{name:'ลูกกลิ้งทาสี',qty:5,price:750,total:3750}],
           invItems: [{name:'สีน้ำอะคริลิก 5 กล.',qty:10,price:1525,total:15250,status:'warn',note:'+\u0E3F250'},{name:'ลูกกลิ้งทาสี',qty:5,price:750,total:3750,status:'ok'}],
@@ -383,8 +457,8 @@ const queueData = [
           recos:['ตรวจสอบราคาสีน้ำอะคริลิกกับ vendor','ติดตามสีที่ขาดส่ง 1 กล.','ส่วนต่างราคาต่ำ \u2014 อาจอนุมัติจ่ายบางส่วนได้']
       }
     },
-    { po:'PO-2026-0150', vendor:'Diamond Drill', inv:'INV-2026-3862', gr:'-', poAmt:34000, invAmt:34000, grQty:'0/8', status:'pending', detail: null },
-    { po:'PO-2026-0151', vendor:'Solid Cement', inv:'INV-2026-3865', gr:'GR-2026-0900', poAmt:42000, invAmt:42000, grQty:'50/50', status:'matched',
+    { po:'PO-2026-0150', vendor:'Diamond Drill', vendorId:'V3', inv:'INV-2026-3862', gr:'\u2014', poAmt:34000, invAmt:34000, grQty:'0/8', status:'pending', detail: null },
+    { po:'PO-2026-0151', vendor:'Solid Cement', vendorId:'V2', inv:'INV-2026-3865', gr:'GR-2026-0900', poAmt:42000, invAmt:42000, grQty:'50/50', status:'matched',
       detail: {
           poItems: [{name:'ปูนซีเมนต์ปอร์ตแลนด์',qty:50,price:840,total:42000}],
           invItems: [{name:'ปูนซีเมนต์ปอร์ตแลนด์',qty:50,price:840,total:42000,status:'ok'}],
@@ -394,26 +468,46 @@ const queueData = [
           recos:['ทุกรายการตรงกัน \u2014 แนะนำอนุมัติจ่ายได้เลย']
       }
     },
-    { po:'PO-2026-0152', vendor:'Lucky Steel', inv:'-', gr:'-', poAmt:67500, invAmt:0, grQty:'0/0', status:'pending', detail: null }
+    { po:'PO-2026-0152', vendor:'Lucky Steel', vendorId:'V4', inv:'\u2014', gr:'\u2014', poAmt:67500, invAmt:0, grQty:'0/0', status:'pending', detail: null }
 ];
 
+// ============ RECENT MATCHES DATA (multi-user, repeating process) ============
+const recentMatches=[
+  {id:'MTH-142',po:'PO-2026-0062',inv:'INV-2026-3889',gr:'GR-2026-0045',result:'matched',matchedBy:'Artit C.',date:'04/04/2026'},
+  {id:'MTH-141',po:'PO-2026-0061',inv:'INV-2026-3888',gr:'GR-2026-0044',result:'partial',matchedBy:'System',date:'03/04/2026'},
+  {id:'MTH-140',po:'PO-2026-0060',inv:'INV-2026-3887',gr:'\u2014',result:'missing',matchedBy:'\u2014',date:'03/04/2026'},
+  {id:'MTH-139',po:'PO-2026-0059',inv:'INV-2026-3886',gr:'GR-2026-0043',result:'matched',matchedBy:'สมชาย พ.',date:'02/04/2026'},
+  {id:'MTH-138',po:'PO-2026-0058',inv:'INV-2026-3885',gr:'GR-2026-0042',result:'matched',matchedBy:'System',date:'02/04/2026'},
+  {id:'MTH-137',po:'PO-2026-0057',inv:'INV-2026-3884',gr:'GR-2026-0041',result:'mismatch',matchedBy:'วิภา ส.',date:'01/04/2026'},
+  {id:'MTH-136',po:'PO-2026-0056',inv:'INV-2026-3883',gr:'GR-2026-0040',result:'matched',matchedBy:'Artit C.',date:'01/04/2026'},
+  {id:'MTH-135',po:'PO-2026-0055',inv:'INV-2026-3882',gr:'GR-2026-0039',result:'matched',matchedBy:'System',date:'31/03/2026'},
+  {id:'MTH-134',po:'PO-2026-0054',inv:'INV-2026-3881',gr:'GR-2026-0038',result:'partial',matchedBy:'ปิยะ ร.',date:'31/03/2026'},
+  {id:'MTH-133',po:'PO-2026-0053',inv:'INV-2026-3880',gr:'GR-2026-0037',result:'matched',matchedBy:'Artit C.',date:'30/03/2026'},
+  {id:'MTH-132',po:'PO-2026-0052',inv:'INV-2026-3879',gr:'GR-2026-0036',result:'matched',matchedBy:'System',date:'30/03/2026'},
+  {id:'MTH-131',po:'PO-2026-0051',inv:'INV-2026-3878',gr:'GR-2026-0035',result:'mismatch',matchedBy:'ประยุทธ์ แ.',date:'29/03/2026'}
+];
+
+// ============ LINKED QUOTATION TASKS ============
+const linkedTasks=[
+  {id:'QA-4800192691',title:'ใบเสนอราคา อะไหล่เครื่องจักร',vendor:'เจ เจ พี ซัพพลาย',vendorId:'V1',poRef:'PO-2026-0061',matchRef:'MTH-141',amount:126752,date:'19/02/2026'},
+  {id:'QT2026/060',title:'วัสดุส่งเสริมการขาย',vendor:'ไทยเอ็กซ์เพรส',vendorId:'V2',poRef:'PO-2026-0062',matchRef:'MTH-142',amount:154254,date:'20/02/2026'},
+  {id:'QT2603000013',title:'Server & Storage Quote',vendor:'ศรีรุ่งเรือง',vendorId:'V3',poRef:'PO-2026-0060',matchRef:'MTH-140',amount:125839,date:'18/02/2026'}
+];
+
+// ============ HISTORY DATA (legacy compat) ============
 const historyData = [
     {po:'PO-2026-0130',vendor:'Thai Pipe',inv:'INV-2026-3800',amt:'\u0E3F28,400',status:'matched',result:'อนุมัติจ่าย',date:'01/04/2026'},
     {po:'PO-2026-0129',vendor:'Central Supply',inv:'INV-2026-3795',amt:'\u0E3F12,800',status:'matched',result:'อนุมัติจ่าย',date:'01/04/2026'},
     {po:'PO-2026-0128',vendor:'BKK Electric',inv:'INV-2026-3790',amt:'\u0E3F35,600',status:'partial',result:'สร้าง Debit Note',date:'31/03/2026'},
     {po:'PO-2026-0127',vendor:'Quick Parts',inv:'INV-2026-3785',amt:'\u0E3F8,900',status:'matched',result:'อนุมัติจ่าย',date:'31/03/2026'},
     {po:'PO-2026-0126',vendor:'Green Material',inv:'INV-2026-3780',amt:'\u0E3F56,200',status:'mismatch',result:'ส่งกลับ vendor',date:'30/03/2026'},
-    {po:'PO-2026-0125',vendor:'Siam Bolt',inv:'INV-2026-3775',amt:'\u0E3F4,300',status:'matched',result:'อนุมัติจ่าย',date:'30/03/2026'},
-    {po:'PO-2026-0124',vendor:'Pro Weld',inv:'INV-2026-3770',amt:'\u0E3F19,750',status:'matched',result:'อนุมัติจ่าย',date:'29/03/2026'},
-    {po:'PO-2026-0123',vendor:'Thai Tools Co.,Ltd.',inv:'INV-2026-3765',amt:'\u0E3F11,200',status:'partial',result:'อนุมัติบางส่วน',date:'29/03/2026'},
-    {po:'PO-2026-0122',vendor:'Metro Hardware',inv:'INV-2026-3760',amt:'\u0E3F7,600',status:'matched',result:'อนุมัติจ่าย',date:'28/03/2026'},
-    {po:'PO-2026-0121',vendor:'Diamond Drill',inv:'INV-2026-3755',amt:'\u0E3F41,000',status:'mismatch',result:'ปฏิเสธ',date:'28/03/2026'}
+    {po:'PO-2026-0125',vendor:'Siam Bolt',inv:'INV-2026-3775',amt:'\u0E3F4,300',status:'matched',result:'อนุมัติจ่าย',date:'30/03/2026'}
 ];
 
 // ============ RENDER ============
 function fmt(n){return n.toLocaleString('th-TH');}
 function statusBadge(s){
-    const map = {matched:'<span class="badge badge-matched">Matched</span>',partial:'<span class="badge badge-partial">Partial</span>',mismatch:'<span class="badge badge-mismatch">Mismatch</span>',pending:'<span class="badge badge-pending">รอตรวจสอบ</span>'};
+    const map = {matched:'<span class="badge badge-matched">&#10003; Matched</span>',partial:'<span class="badge badge-partial">&#9888; Partial</span>',mismatch:'<span class="badge badge-mismatch">&#10007; Mismatch</span>',pending:'<span class="badge badge-pending">&#8987; รอตรวจสอบ</span>',missing:'<span class="badge badge-missing">&#10060; Missing GR</span>'};
     return map[s]||s;
 }
 
@@ -426,26 +520,42 @@ function renderQueue(){
             <td>${r.inv}</td>
             <td>${r.gr}</td>
             <td style="text-align:right;font-weight:600;">\u0E3F${fmt(r.poAmt)}</td>
-            <td style="text-align:right;font-weight:600;">${r.invAmt?'\u0E3F'+fmt(r.invAmt):'-'}</td>
+            <td style="text-align:right;font-weight:600;">${r.invAmt?'\u0E3F'+fmt(r.invAmt):'\u2014'}</td>
             <td style="text-align:right;">${r.grQty}</td>
             <td>${statusBadge(r.status)}</td>
         </tr>
     `).join('');
 }
 
-function renderHistory(){
-    const body=document.getElementById('historyBody');
-    body.innerHTML=historyData.map(r=>`
-        <tr>
-            <td style="font-weight:600;color:var(--text);">${r.po}</td>
-            <td>${r.vendor}</td>
+function renderRecentMatches(){
+    const body=document.getElementById('recentBody');
+    body.innerHTML=recentMatches.map(r=>`
+        <tr onclick="showToast('&#128269;','กำลังโหลดรายละเอียด ${r.id}...')">
+            <td style="font-weight:700;color:var(--text);">${r.id}</td>
+            <td style="font-weight:600;">${r.po}</td>
             <td>${r.inv}</td>
-            <td style="text-align:right;font-weight:600;">${r.amt}</td>
-            <td>${statusBadge(r.status)}</td>
-            <td>${r.result}</td>
+            <td>${r.gr}</td>
+            <td>${statusBadge(r.result)}</td>
+            <td>${r.matchedBy}</td>
             <td style="color:var(--muted);">${r.date}</td>
+            <td><a href="#" class="btn btn-outline btn-sm" style="text-decoration:none;font-size:.7rem;" onclick="event.stopPropagation()">&#128279; Audit Log</a></td>
         </tr>
     `).join('');
+}
+
+function renderLinkedTasks(){
+    const container=document.getElementById('linkedContainer');
+    container.innerHTML=linkedTasks.map(t=>{
+        const v=VENDORS.find(x=>x.id===t.vendorId);
+        return `<div class="linked-item">
+          <div style="width:32px;height:32px;border-radius:8px;background:var(--purple-bg);color:var(--purple);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;">&#128196;</div>
+          <div style="flex:1;">
+            <div style="font-size:.82rem;font-weight:600;">${t.id} &mdash; ${t.title}</div>
+            <div style="font-size:.7rem;color:var(--muted);margin-top:2px;">Vendor: ${t.vendor} ${v?'(&#9733; '+v.score+')':''} &middot; &#3647;${fmt(t.amount)} &middot; ${t.date} &middot; PO: ${t.poRef} &middot; Match: ${t.matchRef}</div>
+          </div>
+          <a href="procurement-prpo.html" class="btn btn-outline btn-sm" style="text-decoration:none;">&#8592; PR/PO</a>
+        </div>`;
+    }).join('');
 }
 
 function renderDetail(d,po){
@@ -469,7 +579,7 @@ function renderDetail(d,po){
     document.getElementById('resPricePct').textContent=d.pricePct;
     document.getElementById('resQtyVar').textContent=d.qtyVar;
     document.getElementById('resQtyVar').style.color=d.qtyVar==='0'?'var(--green)':'var(--red)';
-    const overallMap={matched:'<span class="badge badge-matched">Matched</span>',partial:'<span class="badge badge-partial">Partial Match</span>',mismatch:'<span class="badge badge-mismatch">Mismatch</span>'};
+    const overallMap={matched:'<span class="badge badge-matched">&#10003; Matched</span>',partial:'<span class="badge badge-partial">&#9888; Partial Match</span>',mismatch:'<span class="badge badge-mismatch">&#10007; Mismatch</span>'};
     document.getElementById('resOverall').innerHTML=overallMap[d.overall]||'';
     document.getElementById('recoList').innerHTML=d.recos.map(r=>`<li>${r}</li>`).join('');
     requestAnimationFrame(()=>{requestAnimationFrame(drawLines);});
@@ -490,9 +600,9 @@ function drawLines(){
     const grItems=document.querySelectorAll('#grItems .match-item');
     poItems.forEach((poEl,idx)=>{
         const invEl=invItems[idx];
-        if(invEl){drawConnector(svg,wRect,poEl,invEl,invEl.classList.contains('ok'));}
+        if(invEl)drawConnector(svg,wRect,poEl,invEl,invEl.classList.contains('ok'));
         const grEl=grItems[idx];
-        if(invEl&&grEl){drawConnector(svg,wRect,invEl,grEl,grEl.classList.contains('ok'));}
+        if(invEl&&grEl)drawConnector(svg,wRect,invEl,grEl,grEl.classList.contains('ok'));
     });
 }
 
@@ -504,14 +614,13 @@ function drawConnector(svg,wRect,fromEl,toEl,isOk){
     const x2=tRect.left-wRect.left;
     const y2=tRect.top+tRect.height/2-wRect.top;
     const midX=(x1+x2)/2;
-    const strokeColor=isOk?'var(--green)':'var(--red)';
     const path=document.createElementNS('http://www.w3.org/2000/svg','path');
     path.setAttribute('d',`M ${x1} ${y1} C ${midX} ${y1}, ${midX} ${y2}, ${x2} ${y2}`);
     path.setAttribute('fill','none');
     path.setAttribute('stroke',isOk?'#059669':'#DC2626');
     path.setAttribute('stroke-width','2');
     path.setAttribute('opacity','0.5');
-    if(!isOk){path.setAttribute('stroke-dasharray','6 4');}
+    if(!isOk)path.setAttribute('stroke-dasharray','6 4');
     path.classList.add('match-line');
     svg.appendChild(path);
     const c1=document.createElementNS('http://www.w3.org/2000/svg','circle');
@@ -524,12 +633,41 @@ function drawConnector(svg,wRect,fromEl,toEl,isOk){
     svg.appendChild(c2);
 }
 
+// ============ INTERACTIVE MINI CHARTS WITH TOOLTIPS ============
+function buildMiniCharts(){
+    const tooltip=document.getElementById('chartTooltip');
+    const days=['28 Mar','29 Mar','30 Mar','31 Mar','1 Apr','2 Apr','3 Apr','4 Apr'];
+
+    function makeChart(elId,values,color,label){
+        const el=document.getElementById(elId);
+        if(!el)return;
+        const max=Math.max(...values);
+        el.innerHTML=values.map((v,i)=>{
+            const h=max>0?Math.round((v/max)*100):0;
+            return `<div class="bar" style="height:${Math.max(h,4)}%;background:${color};opacity:0.7;" data-label="${days[i]}: ${v} ${label}" onmouseenter="showChartTip(event,this)" onmouseleave="hideChartTip()"></div>`;
+        }).join('');
+    }
+
+    makeChart('matchedChart',[16,18,20,19,22,17,15,15],'var(--green)','matched');
+    makeChart('partialChart',[3,4,2,5,3,4,3,4],'var(--orange)','partial');
+    makeChart('mismatchChart',[1,2,1,2,1,2,1,2],'var(--red)','mismatch');
+    makeChart('pendingChart',[5,4,6,3,5,4,3,8],'var(--blue)','pending');
+
+    window.showChartTip=function(e,el){
+        tooltip.textContent=el.dataset.label;
+        tooltip.style.display='block';
+        tooltip.style.left=(e.pageX+10)+'px';
+        tooltip.style.top=(e.pageY-30)+'px';
+    };
+    window.hideChartTip=function(){tooltip.style.display='none';};
+}
+
 // ============ INTERACTIONS ============
 let selectedIdx=0;
 function selectRow(idx){
     selectedIdx=idx;
     document.querySelectorAll('#queueBody tr').forEach(tr=>tr.classList.remove('selected'));
-    document.querySelector(`#queueBody tr[data-idx="${idx}"]`).classList.add('selected');
+    document.querySelector(`#queueBody tr[data-idx="${idx}"]`)?.classList.add('selected');
     const row=queueData[idx];
     if(row.detail){renderDetail(row.detail,row.po);document.getElementById('matchDetail').scrollIntoView({behavior:'smooth',block:'start'});}
     else{document.getElementById('matchDetail').style.display='none';showToast('\u23F3','รายการนี้ยังรอข้อมูล \u2014 ไม่สามารถเปรียบเทียบได้');}
@@ -553,7 +691,9 @@ window.addEventListener('resize',drawLines);
 
 // ============ INIT ============
 renderQueue();
-renderHistory();
+renderRecentMatches();
+renderLinkedTasks();
+buildMiniCharts();
 selectRow(0);
 </script>
 

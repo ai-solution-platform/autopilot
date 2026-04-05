@@ -54,6 +54,39 @@ body {
 .page-title h2 { font-size: 1.4rem; font-weight: 800; color: var(--text); }
 .page-title p { color: var(--muted); font-size: 0.85rem; margin-top: 2px; }
 
+/* Filter Bar */
+.filter-bar {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.filter-btn {
+  padding: 7px 16px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--card-bg);
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex; align-items: center; gap: 6px;
+}
+.filter-btn:hover { border-color: var(--blue); color: var(--blue); }
+.filter-btn.active {
+  background: var(--blue);
+  color: white;
+  border-color: var(--blue);
+  box-shadow: 0 2px 8px rgba(37,99,235,0.2);
+}
+.filter-btn .filter-avatar {
+  width: 20px; height: 20px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.6rem; font-weight: 700; color: white;
+}
+.filter-btn.active .filter-avatar { box-shadow: 0 0 0 2px white; }
+
 /* KPI Cards */
 .kpi-grid {
   display: grid;
@@ -69,7 +102,9 @@ body {
   position: relative;
   overflow: hidden;
   box-shadow: var(--shadow);
+  transition: transform 0.2s;
 }
+.kpi-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
 .kpi-card::before {
   content: '';
   position: absolute; top: 0; left: 0; right: 0; height: 3px;
@@ -143,10 +178,12 @@ body {
 }
 .kanban-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
 .kanban-card:active { cursor: grabbing; transform: scale(0.97); opacity: 0.85; }
+.kanban-card .card-qt { font-size: 0.68rem; color: var(--muted); font-weight: 600; margin-bottom: 2px; letter-spacing: 0.3px; }
 .kanban-card .card-customer { font-size: 0.82rem; font-weight: 600; margin-bottom: 6px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .kanban-card .card-value { font-size: 0.9rem; font-weight: 800; font-family: 'Inter', sans-serif; margin-bottom: 6px; }
 .kanban-card .card-footer { display: flex; align-items: center; justify-content: space-between; }
 .kanban-card .card-days { font-size: 0.7rem; color: var(--muted); background: var(--bg3); padding: 2px 8px; border-radius: 8px; }
+.kanban-card .card-days.overdue { background: var(--red-bg); color: var(--red); font-weight: 600; }
 .kanban-card .card-avatar { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; color: white; }
 
 /* Stage Colors */
@@ -194,6 +231,15 @@ body {
 .alert-card .alert-body { flex: 1; }
 .alert-card .alert-title { font-size: 0.85rem; font-weight: 600; color: var(--text); margin-bottom: 2px; }
 .alert-card .alert-desc { font-size: 0.75rem; color: var(--muted); }
+.alert-card .alert-rep {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.72rem; color: var(--text2); margin-top: 4px;
+}
+.alert-card .alert-rep .rep-dot {
+  width: 18px; height: 18px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.55rem; font-weight: 700; color: white;
+}
 .alert-card .alert-action {
   padding: 6px 14px;
   background: var(--blue-bg);
@@ -257,6 +303,7 @@ body {
 @media (max-width: 768px) {
   .kpi-grid { grid-template-columns: repeat(2, 1fr); }
   .kanban-board { grid-template-columns: 1fr 1fr; }
+  .filter-bar { gap: 6px; }
 }
 @media (max-width: 480px) {
   .kpi-grid { grid-template-columns: 1fr; }
@@ -287,34 +334,58 @@ body {
 
   <!-- Page Title -->
   <div class="page-title">
-    <h2>Sales Pipeline</h2>
-    <p>ภาพรวมกระบวนการขายและติดตามใบเสนอราคา | อัปเดตล่าสุด: 5 เมษายน 2569</p>
+    <h2>Sales Pipeline — Multi-User Task Board</h2>
+    <p>ภาพรวมกระบวนการขายและติดตามใบเสนอราคาทุกสมาชิกทีม | อัปเดตล่าสุด: 5 เมษายน 2569</p>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar" id="filterBar">
+    <span style="font-size:0.82rem;font-weight:600;color:var(--text);margin-right:4px;">กรองตามสมาชิก:</span>
+    <button class="filter-btn active" onclick="filterByMember('all')">
+      ทุกคน
+    </button>
+    <button class="filter-btn" onclick="filterByMember('somchai')">
+      <div class="filter-avatar" style="background:#2563EB;">สม</div>
+      สมชาย ก.
+    </button>
+    <button class="filter-btn" onclick="filterByMember('suwanna')">
+      <div class="filter-avatar" style="background:#7C3AED;">สว</div>
+      สุวรรณา ท.
+    </button>
+    <button class="filter-btn" onclick="filterByMember('natthapong')">
+      <div class="filter-avatar" style="background:#059669;">ณฐ</div>
+      ณัฐพงษ์ ส.
+    </button>
+    <button class="filter-btn" onclick="filterByMember('pornthip')">
+      <div class="filter-avatar" style="background:#D97706;">พร</div>
+      พรทิพย์ ร.
+    </button>
   </div>
 
   <!-- KPI Cards -->
-  <div class="kpi-grid">
+  <div class="kpi-grid" id="kpiGrid">
     <div class="kpi-card">
       <div class="kpi-icon" style="background:var(--blue-bg);color:var(--blue);">&#128176;</div>
       <div class="kpi-label">มูลค่า Pipeline รวม</div>
-      <div class="kpi-value" style="color:var(--blue);">&#3647;12.8M</div>
+      <div class="kpi-value" id="kpiPipelineValue" style="color:var(--blue);">&#3647;12.8M</div>
       <div class="kpi-change up">+18.3% จากเดือนที่แล้ว</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-icon" style="background:var(--green-bg);color:var(--green);">&#127919;</div>
       <div class="kpi-label">Win Rate</div>
-      <div class="kpi-value" style="color:var(--green);">42.5%</div>
+      <div class="kpi-value" id="kpiWinRate" style="color:var(--green);">42.5%</div>
       <div class="kpi-change up">+3.2% จากเดือนที่แล้ว</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-icon" style="background:var(--purple-bg);color:var(--purple);">&#128202;</div>
       <div class="kpi-label">มูลค่าเฉลี่ยต่อดีล</div>
-      <div class="kpi-value" style="color:var(--purple);">&#3647;556K</div>
+      <div class="kpi-value" id="kpiAvgDeal" style="color:var(--purple);">&#3647;556K</div>
       <div class="kpi-change up">+8.7% จากเดือนที่แล้ว</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-icon" style="background:var(--orange-bg);color:var(--orange);">&#9201;&#65039;</div>
       <div class="kpi-label">วงจรขายเฉลี่ย</div>
-      <div class="kpi-value" style="color:var(--orange);">18 วัน</div>
+      <div class="kpi-value" id="kpiCycleTime" style="color:var(--orange);">18 วัน</div>
       <div class="kpi-change down">+2 วันจากเดือนที่แล้ว</div>
     </div>
   </div>
@@ -323,299 +394,53 @@ body {
   <div class="section">
     <div class="section-header">
       <h3>Kanban Pipeline Board</h3>
-      <div class="section-badge">23 ดีลทั้งหมด</div>
+      <div class="section-badge" id="totalDealsLabel">23 ดีลทั้งหมด</div>
     </div>
-    <div class="kanban-board">
-
-      <!-- Column 1: ส่งใบเสนอราคา -->
-      <div class="kanban-column col-quote">
-        <div class="kanban-col-header">
-          <div class="kanban-col-title">&#128196; ส่งใบเสนอราคา</div>
-          <div class="kanban-col-meta">
-            <div class="kanban-col-count">8 ดีล</div>
-            <div class="kanban-col-value" style="color:var(--blue);">&#3647;4.2M</div>
-          </div>
-        </div>
-        <div class="kanban-card stage-quote">
-          <div class="card-customer">บจก. สยามเทค โซลูชัน</div>
-          <div class="card-value" style="color:var(--blue);">&#3647;820K</div>
-          <div class="card-footer"><span class="card-days">3 วัน</span><div class="card-avatar" style="background:#2563EB;">สม</div></div>
-        </div>
-        <div class="kanban-card stage-quote">
-          <div class="card-customer">บจก. ไทยสตีล อินดัสตรี</div>
-          <div class="card-value" style="color:var(--blue);">&#3647;1.2M</div>
-          <div class="card-footer"><span class="card-days">1 วัน</span><div class="card-avatar" style="background:#7C3AED;">นภ</div></div>
-        </div>
-        <div class="kanban-card stage-quote">
-          <div class="card-customer">บมจ. เอเชียแปซิฟิค</div>
-          <div class="card-value" style="color:var(--blue);">&#3647;650K</div>
-          <div class="card-footer"><span class="card-days">5 วัน</span><div class="card-avatar" style="background:#059669;">วร</div></div>
-        </div>
-        <div class="kanban-card stage-quote">
-          <div class="card-customer">บจก. แกรนด์ โลจิสติกส์</div>
-          <div class="card-value" style="color:var(--blue);">&#3647;480K</div>
-          <div class="card-footer"><span class="card-days">2 วัน</span><div class="card-avatar" style="background:#2563EB;">สม</div></div>
-        </div>
-        <div class="kanban-card stage-quote">
-          <div class="card-customer">บจก. เมโทร ฟู้ดส์</div>
-          <div class="card-value" style="color:var(--blue);">&#3647;390K</div>
-          <div class="card-footer"><span class="card-days">4 วัน</span><div class="card-avatar" style="background:#D97706;">พร</div></div>
-        </div>
-        <div class="kanban-card stage-quote">
-          <div class="card-customer">หจก. กรีนพาวเวอร์</div>
-          <div class="card-value" style="color:var(--blue);">&#3647;270K</div>
-          <div class="card-footer"><span class="card-days">6 วัน</span><div class="card-avatar" style="background:#7C3AED;">นภ</div></div>
-        </div>
-        <div class="kanban-card stage-quote">
-          <div class="card-customer">บจก. ยูนิเวิร์ส มีเดีย</div>
-          <div class="card-value" style="color:var(--blue);">&#3647;210K</div>
-          <div class="card-footer"><span class="card-days">1 วัน</span><div class="card-avatar" style="background:#059669;">วร</div></div>
-        </div>
-        <div class="kanban-card stage-quote">
-          <div class="card-customer">บจก. ดิจิทัล เวนเจอร์</div>
-          <div class="card-value" style="color:var(--blue);">&#3647;180K</div>
-          <div class="card-footer"><span class="card-days">7 วัน</span><div class="card-avatar" style="background:#D97706;">พร</div></div>
-        </div>
-        <div class="kanban-drag-hint">ลากการ์ดเพื่อย้ายสถานะ</div>
-      </div>
-
-      <!-- Column 2: ติดตาม -->
-      <div class="kanban-column col-follow">
-        <div class="kanban-col-header">
-          <div class="kanban-col-title">&#128222; ติดตาม</div>
-          <div class="kanban-col-meta">
-            <div class="kanban-col-count">6 ดีล</div>
-            <div class="kanban-col-value" style="color:var(--orange);">&#3647;3.1M</div>
-          </div>
-        </div>
-        <div class="kanban-card stage-follow">
-          <div class="card-customer">บมจ. ไทยออยล์ พลัส</div>
-          <div class="card-value" style="color:var(--orange);">&#3647;950K</div>
-          <div class="card-footer"><span class="card-days">8 วัน</span><div class="card-avatar" style="background:#2563EB;">สม</div></div>
-        </div>
-        <div class="kanban-card stage-follow">
-          <div class="card-customer">บจก. พรีเมียร์ เฮลท์</div>
-          <div class="card-value" style="color:var(--orange);">&#3647;720K</div>
-          <div class="card-footer"><span class="card-days">5 วัน</span><div class="card-avatar" style="background:#059669;">วร</div></div>
-        </div>
-        <div class="kanban-card stage-follow">
-          <div class="card-customer">บจก. สมาร์ท โฮม</div>
-          <div class="card-value" style="color:var(--orange);">&#3647;540K</div>
-          <div class="card-footer"><span class="card-days">12 วัน</span><div class="card-avatar" style="background:#7C3AED;">นภ</div></div>
-        </div>
-        <div class="kanban-card stage-follow">
-          <div class="card-customer">บจก. ออโต้พาร์ท</div>
-          <div class="card-value" style="color:var(--orange);">&#3647;410K</div>
-          <div class="card-footer"><span class="card-days">3 วัน</span><div class="card-avatar" style="background:#D97706;">พร</div></div>
-        </div>
-        <div class="kanban-card stage-follow">
-          <div class="card-customer">บจก. ครีเอทีฟ แล็บ</div>
-          <div class="card-value" style="color:var(--orange);">&#3647;290K</div>
-          <div class="card-footer"><span class="card-days">9 วัน</span><div class="card-avatar" style="background:#2563EB;">สม</div></div>
-        </div>
-        <div class="kanban-card stage-follow">
-          <div class="card-customer">หจก. นอร์ธเทิร์น ทรานส์</div>
-          <div class="card-value" style="color:var(--orange);">&#3647;190K</div>
-          <div class="card-footer"><span class="card-days">15 วัน</span><div class="card-avatar" style="background:#059669;">วร</div></div>
-        </div>
-        <div class="kanban-drag-hint">ลากการ์ดเพื่อย้ายสถานะ</div>
-      </div>
-
-      <!-- Column 3: เจรจา -->
-      <div class="kanban-column col-negotiate">
-        <div class="kanban-col-header">
-          <div class="kanban-col-title">&#129309; เจรจา</div>
-          <div class="kanban-col-meta">
-            <div class="kanban-col-count">4 ดีล</div>
-            <div class="kanban-col-value" style="color:var(--purple);">&#3647;2.8M</div>
-          </div>
-        </div>
-        <div class="kanban-card stage-negotiate">
-          <div class="card-customer">บมจ. เซ็นทรัล รีเทล</div>
-          <div class="card-value" style="color:var(--purple);">&#3647;1.1M</div>
-          <div class="card-footer"><span class="card-days">10 วัน</span><div class="card-avatar" style="background:#7C3AED;">นภ</div></div>
-        </div>
-        <div class="kanban-card stage-negotiate">
-          <div class="card-customer">บจก. โกลบอล เทรด</div>
-          <div class="card-value" style="color:var(--purple);">&#3647;780K</div>
-          <div class="card-footer"><span class="card-days">14 วัน</span><div class="card-avatar" style="background:#2563EB;">สม</div></div>
-        </div>
-        <div class="kanban-card stage-negotiate">
-          <div class="card-customer">บจก. อินโนเวชัน ฮับ</div>
-          <div class="card-value" style="color:var(--purple);">&#3647;560K</div>
-          <div class="card-footer"><span class="card-days">7 วัน</span><div class="card-avatar" style="background:#D97706;">พร</div></div>
-        </div>
-        <div class="kanban-card stage-negotiate">
-          <div class="card-customer">บจก. ไบร์ท สตาร์</div>
-          <div class="card-value" style="color:var(--purple);">&#3647;360K</div>
-          <div class="card-footer"><span class="card-days">18 วัน</span><div class="card-avatar" style="background:#059669;">วร</div></div>
-        </div>
-        <div class="kanban-drag-hint">ลากการ์ดเพื่อย้ายสถานะ</div>
-      </div>
-
-      <!-- Column 4: ปิดการขาย -->
-      <div class="kanban-column col-won">
-        <div class="kanban-col-header">
-          <div class="kanban-col-title">&#9989; ปิดการขาย</div>
-          <div class="kanban-col-meta">
-            <div class="kanban-col-count">3 ดีล</div>
-            <div class="kanban-col-value" style="color:var(--green);">&#3647;1.9M</div>
-          </div>
-        </div>
-        <div class="kanban-card stage-won">
-          <div class="card-customer">บมจ. แบงค์กรุ๊ป โฮลดิ้ง</div>
-          <div class="card-value" style="color:var(--green);">&#3647;890K</div>
-          <div class="card-footer"><span class="card-days">22 วัน</span><div class="card-avatar" style="background:#2563EB;">สม</div></div>
-        </div>
-        <div class="kanban-card stage-won">
-          <div class="card-customer">บจก. ฟิวเจอร์ เอ็นเนอร์ยี่</div>
-          <div class="card-value" style="color:var(--green);">&#3647;620K</div>
-          <div class="card-footer"><span class="card-days">15 วัน</span><div class="card-avatar" style="background:#7C3AED;">นภ</div></div>
-        </div>
-        <div class="kanban-card stage-won">
-          <div class="card-customer">บจก. เพอร์เฟค ดีไซน์</div>
-          <div class="card-value" style="color:var(--green);">&#3647;390K</div>
-          <div class="card-footer"><span class="card-days">12 วัน</span><div class="card-avatar" style="background:#059669;">วร</div></div>
-        </div>
-        <div class="kanban-drag-hint">ลากการ์ดเพื่อย้ายสถานะ</div>
-      </div>
-
-      <!-- Column 5: แพ้ -->
-      <div class="kanban-column col-lost">
-        <div class="kanban-col-header">
-          <div class="kanban-col-title">&#10060; แพ้</div>
-          <div class="kanban-col-meta">
-            <div class="kanban-col-count">2 ดีล</div>
-            <div class="kanban-col-value" style="color:var(--red);">&#3647;0.8M</div>
-          </div>
-        </div>
-        <div class="kanban-card stage-lost">
-          <div class="card-customer">บจก. สตาร์ไลท์ กรุ๊ป</div>
-          <div class="card-value" style="color:var(--red);">&#3647;520K</div>
-          <div class="card-footer"><span class="card-days">25 วัน</span><div class="card-avatar" style="background:#D97706;">พร</div></div>
-        </div>
-        <div class="kanban-card stage-lost">
-          <div class="card-customer">หจก. ซัพพลาย ลิงค์</div>
-          <div class="card-value" style="color:var(--red);">&#3647;280K</div>
-          <div class="card-footer"><span class="card-days">30 วัน</span><div class="card-avatar" style="background:#7C3AED;">นภ</div></div>
-        </div>
-        <div class="kanban-drag-hint">ลากการ์ดเพื่อย้ายสถานะ</div>
-      </div>
-
+    <div class="kanban-board" id="kanbanBoard">
+      <!-- Rendered by JS -->
     </div>
   </div>
 
-  <!-- Two Column: Funnel + Alerts -->
+  <!-- Two Column: Funnel + Follow-up Alerts -->
   <div class="two-col section">
     <!-- Sales Funnel -->
     <div>
       <div class="section-header"><h3>Sales Funnel</h3></div>
       <div class="funnel-container">
-        <div class="funnel-svg-wrap">
-          <svg viewBox="0 0 500 340" width="100%" style="max-width:500px;">
-            <polygon points="30,10 470,10 440,70 60,70" fill="#2563EB" opacity="0.9"/>
-            <text x="250" y="36" text-anchor="middle" fill="white" font-size="13" font-weight="700" font-family="Noto Sans Thai, Inter, sans-serif">ส่งใบเสนอราคา</text>
-            <text x="250" y="56" text-anchor="middle" fill="white" font-size="11" opacity="0.8" font-family="Inter, sans-serif">23 ดีล — &#3647;12.8M (100%)</text>
-            <polygon points="60,78 440,78 410,138 90,138" fill="#D97706" opacity="0.9"/>
-            <text x="250" y="104" text-anchor="middle" fill="white" font-size="13" font-weight="700" font-family="Noto Sans Thai, Inter, sans-serif">ติดตาม</text>
-            <text x="250" y="124" text-anchor="middle" fill="white" font-size="11" opacity="0.8" font-family="Inter, sans-serif">15 ดีล — &#3647;8.6M (65%)</text>
-            <polygon points="90,146 410,146 370,206 130,206" fill="#7C3AED" opacity="0.9"/>
-            <text x="250" y="172" text-anchor="middle" fill="white" font-size="13" font-weight="700" font-family="Noto Sans Thai, Inter, sans-serif">เจรจา</text>
-            <text x="250" y="192" text-anchor="middle" fill="white" font-size="11" opacity="0.8" font-family="Inter, sans-serif">9 ดีล — &#3647;5.7M (44%)</text>
-            <polygon points="130,214 370,214 330,274 170,274" fill="#059669" opacity="0.9"/>
-            <text x="250" y="240" text-anchor="middle" fill="white" font-size="13" font-weight="700" font-family="Noto Sans Thai, Inter, sans-serif">ปิดการขาย</text>
-            <text x="250" y="260" text-anchor="middle" fill="white" font-size="11" opacity="0.8" font-family="Inter, sans-serif">3 ดีล — &#3647;1.9M (13%)</text>
-            <polygon points="170,282 330,282 310,330 190,330" fill="#DC2626" opacity="0.7"/>
-            <text x="250" y="304" text-anchor="middle" fill="white" font-size="12" font-weight="700" font-family="Noto Sans Thai, Inter, sans-serif">แพ้</text>
-            <text x="250" y="322" text-anchor="middle" fill="white" font-size="10" opacity="0.8" font-family="Inter, sans-serif">2 ดีล — &#3647;0.8M</text>
-          </svg>
+        <div class="funnel-svg-wrap" id="funnelChart">
+          <!-- Rendered by JS -->
         </div>
       </div>
     </div>
 
-    <!-- Quote Follow-up Alerts -->
+    <!-- Follow-up Alerts per Sales Rep -->
     <div>
-      <div class="section-header"><h3>แจ้งเตือนติดตามใบเสนอราคา</h3></div>
-      <div class="alert-list">
-        <div class="alert-card" style="border-left: 3px solid var(--orange);">
-          <div class="alert-icon">&#9888;&#65039;</div>
-          <div class="alert-body">
-            <div class="alert-title">QT-2026-089 หมดอายุใน 2 วัน</div>
-            <div class="alert-desc">ลูกค้า: บจก. ไทยสตีล — มูลค่า &#3647;1.2M — ส่งเมื่อ 28 มี.ค.</div>
-          </div>
-          <div class="alert-action">ต่ออายุ</div>
-        </div>
-        <div class="alert-card" style="border-left: 3px solid var(--blue);">
-          <div class="alert-icon">&#128222;</div>
-          <div class="alert-body">
-            <div class="alert-title">QT-2026-076 ไม่มีการตอบกลับ 5 วัน</div>
-            <div class="alert-desc">แนะนำโทรติดตาม — ลูกค้า: บมจ. เอเชียแปซิฟิค — มูลค่า &#3647;650K</div>
-          </div>
-          <div class="alert-action">โทรเลย</div>
-        </div>
-        <div class="alert-card" style="border-left: 3px solid var(--red);">
-          <div class="alert-icon">&#128293;</div>
-          <div class="alert-body">
-            <div class="alert-title">QT-2026-092 ลูกค้าขอเจรจาราคา</div>
-            <div class="alert-desc">บจก. เซ็นทรัล รีเทล — มูลค่า &#3647;1.2M — ขอส่วนลด 10%</div>
-          </div>
-          <div class="alert-action">ดูรายละเอียด</div>
-        </div>
+      <div class="section-header"><h3>แจ้งเตือนติดตาม (Follow-up Alerts)</h3></div>
+      <div class="alert-list" id="alertList">
+        <!-- Rendered by JS -->
       </div>
     </div>
   </div>
 
-  <!-- Sales Performance Table -->
+  <!-- Team Performance Table -->
   <div class="section">
     <div class="section-header">
-      <h3>ผลงานทีมขาย</h3>
+      <h3>ผลงานทีมขาย — Team Performance</h3>
       <div class="section-badge">Q1/2569</div>
     </div>
     <div class="data-table-wrap">
-      <table class="data-table">
+      <table class="data-table" id="perfTable">
         <thead>
           <tr>
             <th>พนักงานขาย</th>
-            <th>ใบเสนอราคาส่ง</th>
-            <th>ชนะ / แพ้</th>
+            <th>Active (กำลังดำเนินการ)</th>
+            <th>Won (ชนะ)</th>
+            <th>Lost (แพ้)</th>
             <th>Win Rate</th>
-            <th>มูลค่ารวม</th>
-            <th>วงจรเฉลี่ย</th>
+            <th>Revenue (รายได้)</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td><div class="rep-cell"><div class="rep-avatar" style="background:#2563EB;">สม</div><div><div style="font-weight:600;color:var(--text);">สมชาย วิทยากร</div><div style="font-size:0.75rem;color:var(--muted);">Senior Sales</div></div></div></td>
-            <td style="font-family:'Inter';font-weight:600;">28</td>
-            <td><div class="win-bar"><div class="bar-segment bar-win" style="width:60px;"></div><div class="bar-segment bar-loss" style="width:20px;"></div><span style="font-size:0.75rem;margin-left:6px;color:var(--muted);">12 / 4</span></div></td>
-            <td style="color:var(--green);font-weight:700;font-family:'Inter';">75.0%</td>
-            <td style="font-family:'Inter';font-weight:700;">&#3647;4.2M</td>
-            <td style="font-family:'Inter';">15 วัน</td>
-          </tr>
-          <tr>
-            <td><div class="rep-cell"><div class="rep-avatar" style="background:#7C3AED;">นภ</div><div><div style="font-weight:600;color:var(--text);">นภัสสร แสงทอง</div><div style="font-size:0.75rem;color:var(--muted);">Sales Lead</div></div></div></td>
-            <td style="font-family:'Inter';font-weight:600;">24</td>
-            <td><div class="win-bar"><div class="bar-segment bar-win" style="width:48px;"></div><div class="bar-segment bar-loss" style="width:24px;"></div><span style="font-size:0.75rem;margin-left:6px;color:var(--muted);">10 / 5</span></div></td>
-            <td style="color:var(--green);font-weight:700;font-family:'Inter';">66.7%</td>
-            <td style="font-family:'Inter';font-weight:700;">&#3647;3.5M</td>
-            <td style="font-family:'Inter';">18 วัน</td>
-          </tr>
-          <tr>
-            <td><div class="rep-cell"><div class="rep-avatar" style="background:#059669;">วร</div><div><div style="font-weight:600;color:var(--text);">วรพล จันทร์เพ็ญ</div><div style="font-size:0.75rem;color:var(--muted);">Sales Executive</div></div></div></td>
-            <td style="font-family:'Inter';font-weight:600;">20</td>
-            <td><div class="win-bar"><div class="bar-segment bar-win" style="width:36px;"></div><div class="bar-segment bar-loss" style="width:28px;"></div><span style="font-size:0.75rem;margin-left:6px;color:var(--muted);">8 / 6</span></div></td>
-            <td style="color:var(--orange);font-weight:700;font-family:'Inter';">57.1%</td>
-            <td style="font-family:'Inter';font-weight:700;">&#3647;2.9M</td>
-            <td style="font-family:'Inter';">20 วัน</td>
-          </tr>
-          <tr>
-            <td><div class="rep-cell"><div class="rep-avatar" style="background:#D97706;">พร</div><div><div style="font-weight:600;color:var(--text);">พรทิพย์ รักษ์ดี</div><div style="font-size:0.75rem;color:var(--muted);">Junior Sales</div></div></div></td>
-            <td style="font-family:'Inter';font-weight:600;">16</td>
-            <td><div class="win-bar"><div class="bar-segment bar-win" style="width:24px;"></div><div class="bar-segment bar-loss" style="width:32px;"></div><span style="font-size:0.75rem;margin-left:6px;color:var(--muted);">5 / 7</span></div></td>
-            <td style="color:var(--red);font-weight:700;font-family:'Inter';">41.7%</td>
-            <td style="font-family:'Inter';font-weight:700;">&#3647;2.2M</td>
-            <td style="font-family:'Inter';">22 วัน</td>
-          </tr>
+        <tbody id="perfBody">
         </tbody>
       </table>
     </div>
@@ -709,8 +534,278 @@ body {
 </div>
 
 <script>
+// Dark Mode
 function toggleDark(){document.body.classList.toggle('dark');const d=document.body.classList.contains('dark');localStorage.setItem('darkMode',d);document.querySelector('.dark-toggle').textContent=d?'\u2600\uFE0F':'\uD83C\uDF19';}
 if(localStorage.getItem('darkMode')==='true'){document.body.classList.add('dark');document.addEventListener('DOMContentLoaded',()=>{document.querySelector('.dark-toggle').textContent='\u2600\uFE0F';});}
+
+// Team members data
+const teamMembers = {
+  somchai:    { name: 'สมชาย ก.',    fullName: 'สมชาย วิทยากร',  role: 'Senior Sales',    color: '#2563EB', initials: 'สม' },
+  suwanna:    { name: 'สุวรรณา ท.',  fullName: 'สุวรรณา ทองดี',  role: 'Sales Lead',      color: '#7C3AED', initials: 'สว' },
+  natthapong: { name: 'ณัฐพงษ์ ส.',  fullName: 'ณัฐพงษ์ สุขศรี',  role: 'Sales Executive', color: '#059669', initials: 'ณฐ' },
+  pornthip:   { name: 'พรทิพย์ ร.',  fullName: 'พรทิพย์ รักษ์ดี',  role: 'Junior Sales',    color: '#D97706', initials: 'พร' },
+};
+
+// Pipeline deals data (all team members)
+const allDeals = [
+  // Stage: quote (Draft/Sent)
+  { id: 'QT-0189', customer: 'บจก. สยามเทค โซลูชัน',    value: 820000,  stage: 'quote',     days: 3,  member: 'somchai' },
+  { id: 'QT-0188', customer: 'บจก. ไทยสตีล อินดัสตรี',    value: 1200000, stage: 'quote',     days: 1,  member: 'suwanna' },
+  { id: 'QT-0187', customer: 'บมจ. เอเชียแปซิฟิค',       value: 650000,  stage: 'quote',     days: 5,  member: 'natthapong' },
+  { id: 'QT-0186', customer: 'บจก. แกรนด์ โลจิสติกส์',    value: 480000,  stage: 'quote',     days: 2,  member: 'somchai' },
+  { id: 'QT-0185', customer: 'บจก. เมโทร ฟู้ดส์',         value: 390000,  stage: 'quote',     days: 4,  member: 'pornthip' },
+  { id: 'QT-0184', customer: 'หจก. กรีนพาวเวอร์',        value: 270000,  stage: 'quote',     days: 6,  member: 'suwanna' },
+  { id: 'QT-0183', customer: 'บจก. ยูนิเวิร์ส มีเดีย',    value: 210000,  stage: 'quote',     days: 1,  member: 'natthapong' },
+  { id: 'QT-0182', customer: 'บจก. ดิจิทัล เวนเจอร์',     value: 180000,  stage: 'quote',     days: 7,  member: 'pornthip' },
+  // Stage: follow
+  { id: 'QT-0175', customer: 'บมจ. ไทยออยล์ พลัส',       value: 950000,  stage: 'follow',    days: 8,  member: 'somchai' },
+  { id: 'QT-0174', customer: 'บจก. พรีเมียร์ เฮลท์',      value: 720000,  stage: 'follow',    days: 5,  member: 'natthapong' },
+  { id: 'QT-0173', customer: 'บจก. สมาร์ท โฮม',          value: 540000,  stage: 'follow',    days: 12, member: 'suwanna' },
+  { id: 'QT-0172', customer: 'บจก. ออโต้พาร์ท',          value: 410000,  stage: 'follow',    days: 3,  member: 'pornthip' },
+  { id: 'QT-0171', customer: 'บจก. ครีเอทีฟ แล็บ',       value: 290000,  stage: 'follow',    days: 9,  member: 'somchai' },
+  { id: 'QT-0170', customer: 'หจก. นอร์ธเทิร์น ทรานส์',   value: 190000,  stage: 'follow',    days: 15, member: 'natthapong' },
+  // Stage: negotiate
+  { id: 'QT-0162', customer: 'บมจ. เซ็นทรัล รีเทล',      value: 1100000, stage: 'negotiate', days: 10, member: 'suwanna' },
+  { id: 'QT-0161', customer: 'บจก. โกลบอล เทรด',         value: 780000,  stage: 'negotiate', days: 14, member: 'somchai' },
+  { id: 'QT-0160', customer: 'บจก. อินโนเวชัน ฮับ',       value: 560000,  stage: 'negotiate', days: 7,  member: 'pornthip' },
+  { id: 'QT-0159', customer: 'บจก. ไบร์ท สตาร์',         value: 360000,  stage: 'negotiate', days: 18, member: 'natthapong' },
+  // Stage: won
+  { id: 'QT-0148', customer: 'บมจ. แบงค์กรุ๊ป โฮลดิ้ง',   value: 890000,  stage: 'won',       days: 22, member: 'somchai' },
+  { id: 'QT-0147', customer: 'บจก. ฟิวเจอร์ เอ็นเนอร์ยี่',  value: 620000,  stage: 'won',       days: 15, member: 'suwanna' },
+  { id: 'QT-0146', customer: 'บจก. เพอร์เฟค ดีไซน์',      value: 390000,  stage: 'won',       days: 12, member: 'natthapong' },
+  // Stage: lost
+  { id: 'QT-0138', customer: 'บจก. สตาร์ไลท์ กรุ๊ป',      value: 520000,  stage: 'lost',      days: 25, member: 'pornthip' },
+  { id: 'QT-0137', customer: 'หจก. ซัพพลาย ลิงค์',       value: 280000,  stage: 'lost',      days: 30, member: 'suwanna' },
+];
+
+// Follow-up alerts data
+const followUpAlerts = [
+  { qt: 'QT-0182', title: 'QT-0182 อยู่ใน Draft นาน 7 วัน', desc: 'ลูกค้า: บจก. ดิจิทัล เวนเจอร์ — มูลค่า ฿180K', member: 'pornthip', icon: '&#9888;&#65039;', borderColor: 'var(--orange)', actionLabel: 'ติดตาม' },
+  { qt: 'QT-0170', title: 'QT-0170 ไม่มีการตอบกลับ 15 วัน', desc: 'หจก. นอร์ธเทิร์น ทรานส์ — มูลค่า ฿190K — เกินกำหนดติดตาม', member: 'natthapong', icon: '&#128293;', borderColor: 'var(--red)', actionLabel: 'โทรเลย' },
+  { qt: 'QT-0173', title: 'QT-0173 รอติดตาม 12 วัน', desc: 'บจก. สมาร์ท โฮม — มูลค่า ฿540K — ควรนัดประชุม', member: 'suwanna', icon: '&#128222;', borderColor: 'var(--blue)', actionLabel: 'นัดประชุม' },
+  { qt: 'QT-0159', title: 'QT-0159 เจรจานาน 18 วัน', desc: 'บจก. ไบร์ท สตาร์ — มูลค่า ฿360K — ลูกค้าขอส่วนลดเพิ่ม', member: 'natthapong', icon: '&#129309;', borderColor: 'var(--purple)', actionLabel: 'ดูรายละเอียด' },
+  { qt: 'QT-0175', title: 'QT-0175 ยังไม่ติดตาม 8 วัน', desc: 'บมจ. ไทยออยล์ พลัส — มูลค่า ฿950K — ดีลใหญ่ต้องดูแล', member: 'somchai', icon: '&#128176;', borderColor: 'var(--blue)', actionLabel: 'ติดตาม' },
+];
+
+// Performance data per member
+const perfData = {
+  somchai:    { active: 5, won: 12, lost: 4, revenue: 4200000, cycle: 15 },
+  suwanna:    { active: 4, won: 10, lost: 5, revenue: 3500000, cycle: 18 },
+  natthapong: { active: 5, won: 8,  lost: 6, revenue: 2900000, cycle: 20 },
+  pornthip:   { active: 4, won: 5,  lost: 7, revenue: 2200000, cycle: 22 },
+};
+
+// Current filter
+let activeFilter = 'all';
+
+// Stage config
+const stageConfig = {
+  quote:     { label: '&#128196; ส่งใบเสนอราคา', cls: 'col-quote',     cardCls: 'stage-quote',     colorVar: 'var(--blue)' },
+  follow:    { label: '&#128222; ติดตาม',         cls: 'col-follow',     cardCls: 'stage-follow',    colorVar: 'var(--orange)' },
+  negotiate: { label: '&#129309; เจรจา',          cls: 'col-negotiate',  cardCls: 'stage-negotiate', colorVar: 'var(--purple)' },
+  won:       { label: '&#9989; ปิดการขาย',        cls: 'col-won',        cardCls: 'stage-won',       colorVar: 'var(--green)' },
+  lost:      { label: '&#10060; แพ้',             cls: 'col-lost',       cardCls: 'stage-lost',      colorVar: 'var(--red)' },
+};
+
+const stageOrder = ['quote', 'follow', 'negotiate', 'won', 'lost'];
+
+// Format currency
+function fmtCurrency(val) {
+  if (val >= 1000000) return '฿' + (val / 1000000).toFixed(1) + 'M';
+  if (val >= 1000) return '฿' + (val / 1000).toFixed(0) + 'K';
+  return '฿' + val.toLocaleString();
+}
+
+// Filter deals
+function getFilteredDeals() {
+  if (activeFilter === 'all') return allDeals;
+  return allDeals.filter(d => d.member === activeFilter);
+}
+
+// Filter by member
+function filterByMember(member) {
+  activeFilter = member;
+  // Update filter buttons
+  document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  renderAll();
+}
+
+// Render everything
+function renderAll() {
+  renderKanban();
+  renderFunnel();
+  renderAlerts();
+  renderPerfTable();
+  updateKPIs();
+}
+
+// Update KPIs based on filter
+function updateKPIs() {
+  const deals = getFilteredDeals();
+  const totalValue = deals.reduce((s, d) => s + d.value, 0);
+  const wonDeals = deals.filter(d => d.stage === 'won');
+  const lostDeals = deals.filter(d => d.stage === 'lost');
+  const closedDeals = wonDeals.length + lostDeals.length;
+  const winRate = closedDeals > 0 ? ((wonDeals.length / closedDeals) * 100).toFixed(1) : '0.0';
+  const avgDeal = deals.length > 0 ? totalValue / deals.length : 0;
+
+  document.getElementById('kpiPipelineValue').innerHTML = fmtCurrency(totalValue);
+  document.getElementById('kpiWinRate').textContent = winRate + '%';
+  document.getElementById('kpiAvgDeal').innerHTML = fmtCurrency(avgDeal);
+}
+
+// Render Kanban
+function renderKanban() {
+  const deals = getFilteredDeals();
+  const board = document.getElementById('kanbanBoard');
+  let totalCount = deals.length;
+  document.getElementById('totalDealsLabel').textContent = totalCount + ' ดีลทั้งหมด';
+
+  let html = '';
+  stageOrder.forEach(stage => {
+    const sc = stageConfig[stage];
+    const stageDeals = deals.filter(d => d.stage === stage);
+    const stageValue = stageDeals.reduce((s, d) => s + d.value, 0);
+
+    html += '<div class="kanban-column ' + sc.cls + '">';
+    html += '<div class="kanban-col-header">';
+    html += '<div class="kanban-col-title">' + sc.label + '</div>';
+    html += '<div class="kanban-col-meta">';
+    html += '<div class="kanban-col-count">' + stageDeals.length + ' ดีล</div>';
+    html += '<div class="kanban-col-value" style="color:' + sc.colorVar + ';">' + fmtCurrency(stageValue) + '</div>';
+    html += '</div></div>';
+
+    stageDeals.forEach(deal => {
+      const m = teamMembers[deal.member];
+      const isOverdue = (stage !== 'won' && stage !== 'lost' && deal.days > 10);
+      html += '<div class="kanban-card ' + sc.cardCls + '" draggable="true">';
+      html += '<div class="card-qt">' + deal.id + '</div>';
+      html += '<div class="card-customer">' + deal.customer + '</div>';
+      html += '<div class="card-value" style="color:' + sc.colorVar + ';">' + fmtCurrency(deal.value) + '</div>';
+      html += '<div class="card-footer">';
+      html += '<span class="card-days' + (isOverdue ? ' overdue' : '') + '">' + deal.days + ' วัน</span>';
+      html += '<div class="card-avatar" style="background:' + m.color + ';" title="' + m.name + '">' + m.initials + '</div>';
+      html += '</div></div>';
+    });
+
+    html += '<div class="kanban-drag-hint">ลากการ์ดเพื่อย้ายสถานะ</div>';
+    html += '</div>';
+  });
+
+  board.innerHTML = html;
+}
+
+// Render Funnel
+function renderFunnel() {
+  const deals = getFilteredDeals();
+  const stages = {};
+  stageOrder.forEach(s => { stages[s] = { count: 0, value: 0 }; });
+  deals.forEach(d => { stages[d.stage].count++; stages[d.stage].value += d.value; });
+
+  // Cumulative for funnel (quote = all, follow = all except lost that were only in quote, etc.)
+  const quoteTotal = deals.length;
+  const followCount = stages.follow.count + stages.negotiate.count + stages.won.count;
+  const negotiateCount = stages.negotiate.count + stages.won.count;
+  const wonCount = stages.won.count;
+  const lostCount = stages.lost.count;
+
+  const quoteValue = deals.reduce((s,d)=>s+d.value,0);
+  const followValue = deals.filter(d=>d.stage!=='quote').reduce((s,d)=>s+d.value,0);
+  const negotiateValue = deals.filter(d=>d.stage==='negotiate'||d.stage==='won').reduce((s,d)=>s+d.value,0);
+  const wonValue = stages.won.value;
+
+  const pct = (n) => quoteTotal > 0 ? Math.round((n/quoteTotal)*100) : 0;
+
+  const funnelColors = ['#2563EB', '#D97706', '#7C3AED', '#059669', '#DC2626'];
+  const funnelLabels = ['ส่งใบเสนอราคา', 'ติดตาม', 'เจรจา', 'ปิดการขาย', 'แพ้'];
+  const funnelData = [
+    { count: quoteTotal,    value: quoteValue,     pct: 100 },
+    { count: followCount,   value: followValue,    pct: pct(followCount) },
+    { count: negotiateCount,value: negotiateValue,  pct: pct(negotiateCount) },
+    { count: wonCount,      value: wonValue,        pct: pct(wonCount) },
+    { count: lostCount,     value: stages.lost.value, pct: 0 },
+  ];
+
+  // Points for trapezoids
+  const yStart = 10;
+  const rowH = 60;
+  const gap = 8;
+  const cx = 250;
+  const maxW = 440;
+
+  let svg = '<svg viewBox="0 0 500 340" width="100%" style="max-width:500px;">';
+  funnelData.forEach((d, i) => {
+    const y1 = yStart + i * (rowH + gap);
+    const y2 = y1 + rowH;
+    const w1 = i === 0 ? maxW : maxW * (0.4 + 0.6 * funnelData[i].pct / 100);
+    const w2 = (i < 4) ? maxW * (0.4 + 0.6 * (funnelData[Math.min(i+1,4)].pct || 10) / 100) : w1 * 0.7;
+    const x1l = cx - w1/2, x1r = cx + w1/2;
+    const x2l = cx - w2/2, x2r = cx + w2/2;
+
+    svg += '<polygon points="' + x1l + ',' + y1 + ' ' + x1r + ',' + y1 + ' ' + x2r + ',' + y2 + ' ' + x2l + ',' + y2 + '" fill="' + funnelColors[i] + '" opacity="0.9"/>';
+    svg += '<text x="' + cx + '" y="' + (y1 + 24) + '" text-anchor="middle" fill="white" font-size="13" font-weight="700" font-family="Noto Sans Thai, Inter, sans-serif">' + funnelLabels[i] + '</text>';
+    svg += '<text x="' + cx + '" y="' + (y1 + 44) + '" text-anchor="middle" fill="white" font-size="11" opacity="0.85" font-family="Inter, sans-serif">' + d.count + ' ดีล — ' + fmtCurrency(d.value) + (d.pct > 0 ? ' (' + d.pct + '%)' : '') + '</text>';
+  });
+  svg += '</svg>';
+
+  document.getElementById('funnelChart').innerHTML = svg;
+}
+
+// Render Alerts
+function renderAlerts() {
+  const alerts = activeFilter === 'all' ? followUpAlerts : followUpAlerts.filter(a => a.member === activeFilter);
+  const list = document.getElementById('alertList');
+
+  if (alerts.length === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted);font-size:0.85rem;">ไม่มีแจ้งเตือนสำหรับสมาชิกนี้</div>';
+    return;
+  }
+
+  list.innerHTML = alerts.map(a => {
+    const m = teamMembers[a.member];
+    return '<div class="alert-card" style="border-left: 3px solid ' + a.borderColor + ';">' +
+      '<div class="alert-icon">' + a.icon + '</div>' +
+      '<div class="alert-body">' +
+        '<div class="alert-title">' + a.title + '</div>' +
+        '<div class="alert-desc">' + a.desc + '</div>' +
+        '<div class="alert-rep"><div class="rep-dot" style="background:' + m.color + ';">' + m.initials + '</div> ' + m.name + '</div>' +
+      '</div>' +
+      '<div class="alert-action">' + a.actionLabel + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+// Render Performance Table
+function renderPerfTable() {
+  const body = document.getElementById('perfBody');
+  const memberKeys = activeFilter === 'all' ? Object.keys(teamMembers) : [activeFilter];
+
+  body.innerHTML = memberKeys.map(key => {
+    const m = teamMembers[key];
+    const p = perfData[key];
+    if (!m || !p) return '';
+    const totalClosed = p.won + p.lost;
+    const winRate = totalClosed > 0 ? ((p.won / totalClosed) * 100).toFixed(1) : '0.0';
+    const winW = Math.round((p.won / Math.max(totalClosed, 1)) * 80);
+    const lossW = 80 - winW;
+    const wrColor = parseFloat(winRate) >= 60 ? 'var(--green)' : parseFloat(winRate) >= 45 ? 'var(--orange)' : 'var(--red)';
+
+    return '<tr>' +
+      '<td><div class="rep-cell"><div class="rep-avatar" style="background:' + m.color + ';">' + m.initials + '</div><div><div style="font-weight:600;color:var(--text);">' + m.fullName + '</div><div style="font-size:0.75rem;color:var(--muted);">' + m.role + '</div></div></div></td>' +
+      '<td style="font-family:\'Inter\';font-weight:600;">' + p.active + '</td>' +
+      '<td style="font-family:\'Inter\';font-weight:600;color:var(--green);">' + p.won + '</td>' +
+      '<td style="font-family:\'Inter\';font-weight:600;color:var(--red);">' + p.lost + '</td>' +
+      '<td><div class="win-bar"><div class="bar-segment bar-win" style="width:' + winW + 'px;"></div><div class="bar-segment bar-loss" style="width:' + lossW + 'px;"></div><span style="font-size:0.82rem;margin-left:8px;font-weight:700;color:' + wrColor + ';font-family:\'Inter\';">' + winRate + '%</span></div></td>' +
+      '<td style="font-family:\'Inter\';font-weight:700;">' + fmtCurrency(p.revenue) + '</td>' +
+    '</tr>';
+  }).join('');
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', () => {
+  renderAll();
+});
 </script>
 
 </body>
