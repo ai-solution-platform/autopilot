@@ -7,6 +7,7 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
 :root{--bg:#F8FAFC;--bg2:#F1F5F9;--white:#FFF;--border:#E2E8F0;--border2:#CBD5E1;--text:#0F172A;--text2:#334155;--muted:#64748B;--light:#94A3B8;--blue:#2563EB;--blue-l:#EFF6FF;--blue-d:#1D4ED8;--purple:#7C3AED;--purple-l:#F5F3FF;--cyan:#0891B2;--cyan-l:#ECFEFF;--green:#059669;--green-l:#ECFDF5;--green-d:#047857;--orange:#D97706;--orange-l:#FFFBEB;--red:#DC2626;--red-l:#FEF2F2;--pink:#DB2777;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--sh:0 1px 3px rgba(0,0,0,.06);--sh2:0 4px 20px rgba(0,0,0,.08);--sh3:0 12px 40px rgba(0,0,0,.12);--sidebar-w:280px;--header-h:56px;}
+body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--white:#1E293B;--border:#334155;--border2:#475569;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--light:#64748B;--blue-l:rgba(37,99,235,0.15);--purple-l:rgba(124,58,237,0.15);--green-l:rgba(5,150,105,0.15);--orange-l:rgba(217,119,6,0.15);--red-l:rgba(220,38,38,0.15);}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;}
 ::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
@@ -296,14 +297,14 @@ select.form-input{cursor:pointer;}
         <div class="module-children" id="mod2">
             <button class="nav-item" onclick="loadModule('modules/expense-dashboard.html','Expense Dashboard')"><span class="icon">📈</span>Dashboard</button>
             <button class="nav-item" onclick="loadModule('modules/expense-receipt-ocr.html','Receipt OCR')"><span class="icon">📷</span>Receipt OCR</button>
-            <button class="nav-item" onclick="loadModule('modules/expense-analytics.html','Expense Analytics')"><span class="icon">📊</span>Analytics</button>
             <button class="nav-item" onclick="loadModule('modules/expense-approval.html','Expense Approval')"><span class="icon">✅</span>Approval</button>
+            <button class="nav-item" onclick="loadModule('modules/expense-analytics.html','Expense Analytics')"><span class="icon">📊</span>Analytics</button>
         </div>
 
         <!-- Module 3: Finance Doc Hub -->
         <div class="module-header" onclick="toggleModule('mod6')"><span class="mod-icon">🏦</span>Finance Doc Hub<span class="mod-check">✓</span></div>
         <div class="module-children" id="mod6">
-            <button class="nav-item" onclick="loadModule('modules/finance-cases.html','Finance Cases')"><span class="icon">📁</span>Cases<span class="badge">47</span></button>
+            <button class="nav-item" onclick="loadModule('modules/finance-cases.html','Finance Dashboard')"><span class="icon">📈</span>Dashboard<span class="badge">47</span></button>
             <button class="nav-item" onclick="loadModule('modules/finance-case-detail.html','Case Detail')"><span class="icon">📋</span>Case Detail</button>
             <button class="nav-item" onclick="loadModule('modules/finance-verification.html','Verification')"><span class="icon">🔍</span>Verification</button>
             <button class="nav-item" onclick="loadModule('modules/finance-analytics.html','Finance Analytics')"><span class="icon">📊</span>Analytics</button>
@@ -312,42 +313,37 @@ select.form-input{cursor:pointer;}
         <!-- Module 4: Logistics FX -->
         <div class="module-header" onclick="toggleModule('mod4')"><span class="mod-icon">🚢</span>Logistics FX<span class="mod-check">✓</span></div>
         <div class="module-children" id="mod4" style="display:none;">
-            <button class="nav-item" onclick="loadModule('modules/logistics-fx-dashboard.html','FX Dashboard')"><span class="icon">💱</span>FX Dashboard</button>
+            <button class="nav-item" onclick="loadModule('modules/logistics-fx-dashboard.html','Logistics Dashboard')"><span class="icon">📈</span>Dashboard</button>
             <button class="nav-item" onclick="loadModule('modules/logistics-freight-ocr.html','Freight OCR')"><span class="icon">📷</span>Freight OCR</button>
             <button class="nav-item" onclick="loadModule('modules/logistics-cost-calculator.html','Cost Calculator')"><span class="icon">🧮</span>Cost Calculator</button>
-            <button class="nav-item" onclick="loadModule('modules/logistics-tracking.html','Shipment Tracking')"><span class="icon">📦</span>Tracking</button>
+            <button class="nav-item" onclick="loadModule('modules/logistics-tracking.html','Logistics Analytics')"><span class="icon">📊</span>Analytics</button>
         </div>
 
         <!-- Module 5: Sales Doc Gen -->
         <div class="module-header" onclick="toggleModule('mod5')"><span class="mod-icon">💰</span>Sales Doc Gen<span class="mod-check">✓</span></div>
         <div class="module-children" id="mod5" style="display:none;">
+            <button class="nav-item" onclick="loadModule('modules/sales-quotation-builder.html','Sales Dashboard')"><span class="icon">📈</span>Dashboard</button>
             <button class="nav-item" onclick="loadModule('modules/sales-quotation-builder.html','Quotation Builder')"><span class="icon">📝</span>Quotation Builder</button>
             <button class="nav-item" onclick="loadModule('modules/sales-pipeline.html','Sales Pipeline')"><span class="icon">📊</span>Pipeline</button>
-            <button class="nav-item" onclick="loadModule('modules/sales-catalog.html','Product Catalog')"><span class="icon">📦</span>Product Catalog</button>
             <button class="nav-item" onclick="loadModule('modules/sales-analytics.html','Sales Analytics')"><span class="icon">📈</span>Analytics</button>
         </div>
 
         <!-- Module 6: Procurement PO/PR -->
         <div class="module-header" onclick="toggleModule('mod3')"><span class="mod-icon">📋</span>Procurement PO/PR<span class="mod-check">✓</span></div>
         <div class="module-children" id="mod3" style="display:none;">
-            <button class="nav-item" onclick="loadModule('modules/procurement-prpo.html','PR / PO')"><span class="icon">📄</span>PR / PO</button>
+            <button class="nav-item" onclick="loadModule('modules/procurement-prpo.html','Procurement Dashboard')"><span class="icon">📈</span>Dashboard</button>
+            <button class="nav-item" onclick="loadModule('modules/procurement-prpo.html','PR / PO')"><span class="icon">📄</span>PR/PO</button>
             <button class="nav-item" onclick="loadModule('modules/procurement-matching.html','3-Way Match')"><span class="icon">🔗</span>3-Way Match</button>
             <button class="nav-item" onclick="loadModule('modules/procurement-analytics.html','Procurement Analytics')"><span class="icon">📊</span>Analytics</button>
-            <button class="nav-item" onclick="loadModule('modules/procurement-approval.html','Procurement Approval')"><span class="icon">✅</span>Approval</button>
         </div>
     </div>
 
     <div class="nav-section connector-section"><div class="nav-label">🔌 Connectors</div>
-        <button class="nav-item" onclick="loadModule('connectors/connector-hub.html','Connector Hub')"><span class="icon">🌐</span>Connector Hub</button>
-        <button class="nav-item" onclick="loadModule('connectors/thai-ocr-providers.html','Thai OCR')"><span class="icon">🇹🇭</span>Thai OCR</button>
-        <button class="nav-item" onclick="loadModule('connectors/global-ocr-providers.html','Global OCR')"><span class="icon">🌍</span>Global OCR</button>
-        <button class="nav-item" onclick="loadModule('connectors/ekyc-thai-id.html','eKYC / Thai ID')"><span class="icon">🪪</span>eKYC / Thai ID</button>
-        <button class="nav-item" onclick="loadModule('connectors/fraud-detection.html','Fraud Detection')"><span class="icon">🛡️</span>Fraud Detection</button>
-        <button class="nav-item" onclick="loadModule('connectors/bank-statement-parser.html','Bank Statement')"><span class="icon">🏦</span>Bank Statement</button>
-        <button class="nav-item" onclick="loadModule('connectors/receipt-invoice-parser.html','Receipt Parser')"><span class="icon">🧾</span>Receipt Parser</button>
-        <button class="nav-item" onclick="loadModule('connectors/gov-document-parser.html','Gov Document')"><span class="icon">🏛️</span>Gov Document</button>
-        <button class="nav-item" onclick="loadModule('connectors/passport-visa-parser.html','Passport / Visa')"><span class="icon">🛂</span>Passport / Visa</button>
-        <button class="nav-item" onclick="loadModule('connectors/vehicle-registration-parser.html','Vehicle Reg')"><span class="icon">🚗</span>Vehicle Reg</button>
+        <button class="nav-item" onclick="loadModule('connectors/connector-hub.html','Connector Hub')"><span class="icon">🌐</span>Connector Hub<span class="badge">10</span></button>
+    </div>
+
+    <div class="nav-section"><div class="nav-label">📊 Insights</div>
+        <button class="nav-item" onclick="loadModule('modules/customer-feedback.html','Customer Feedback')"><span class="icon">🎯</span>Customer Feedback<span class="badge green">512K</span></button>
     </div>
 
     <div class="nav-section"><div class="nav-label">System</div>
@@ -378,6 +374,7 @@ select.form-input{cursor:pointer;}
                 <div class="notif-item" onclick="showPage('channels')"><div class="notif-icon" style="background:var(--blue-l);">📨</div><div><div class="notif-text"><strong>LINE</strong> received 2 quotations</div><div class="notif-time">15 min ago</div></div></div>
             </div>
         </button>
+        <button class="header-btn dark-toggle" onclick="toggleDark()" title="Toggle Dark Mode">🌙</button>
         <button class="header-btn" onclick="showModal('help')">❓</button>
         <div class="user-pill" onclick="toggleUserMenu()"><div class="user-avatar">TN</div>Thanakan
             <div class="user-menu" id="userMenu">
@@ -871,6 +868,10 @@ select.form-input{cursor:pointer;}
 <div class="chart-tip" id="chartTip"></div>
 
 <script>
+// ═══ DARK MODE ═══
+function toggleDark(){document.body.classList.toggle('dark');const d=document.body.classList.contains('dark');localStorage.setItem('darkMode',d);document.querySelector('.dark-toggle').textContent=d?'☀️':'🌙';}
+if(localStorage.getItem('darkMode')==='true'){document.body.classList.add('dark');document.querySelector('.dark-toggle').textContent='☀️';}
+
 // ═══ DATA ═══
 const VENDORS=[{id:'V1',code:'1200248',name:'บริษัท เจ เจ พี ซัพพลาย จำกัด',short:'เจ เจ พี ซัพพลาย',color:'v1',score:4.2,tasks:38,spend:4520000},
 {id:'V2',code:'1200249',name:'บริษัท ไทยเอ็กซ์เพรส ซัพพลาย จำกัด',short:'ไทยเอ็กซ์เพรส',color:'v2',score:3.8,tasks:24,spend:2870000},

@@ -8,44 +8,19 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+Thai:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root {
-    --bg: #0B0F1A;
-    --bg2: #111827;
-    --bg3: #1F2937;
-    --surface: rgba(17,24,39,0.8);
-    --surface-border: rgba(99,102,241,0.15);
-    --border: rgba(148,163,184,0.12);
-    --text: #F1F5F9;
-    --text2: #CBD5E1;
-    --text-muted: #64748B;
-    --accent: #6366F1;
-    --accent2: #8B5CF6;
-    --accent3: #06B6D4;
-    --success: #10B981;
-    --warning: #F59E0B;
-    --danger: #EF4444;
-    --grad1: linear-gradient(135deg, #3B82F6, #8B5CF6);
-    --grad2: linear-gradient(135deg, #06B6D4, #3B82F6);
-    --grad3: linear-gradient(135deg, #8B5CF6, #EC4899);
-    --grad4: linear-gradient(135deg, #10B981, #06B6D4);
-}
+:root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
+body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);}
 
 * { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior: smooth; }
 
-body {
-    font-family: 'Inter', 'Noto Sans Thai', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s;}
 
 /* ── Header ── */
 .header {
     position: sticky; top: 0; z-index: 100;
     backdrop-filter: blur(20px);
-    background: rgba(11,15,26,0.85);
+    background:rgba(255,255,255,0.85);
     border-bottom: 1px solid var(--border);
     padding: 16px 32px;
     display: flex; align-items: center; justify-content: space-between;
@@ -55,26 +30,26 @@ body {
 }
 .header-brand .logo {
     width: 36px; height: 36px;
-    background: var(--grad1);
+    background: var(--grad);
     border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
     font-weight: 800; font-size: 16px; color: #fff;
 }
 .header-brand h1 {
     font-size: 18px; font-weight: 700;
-    background: var(--grad1);
+    background: var(--grad);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 .header-brand span {
-    font-size: 12px; color: var(--text-muted); margin-left: 4px;
+    font-size: 12px; color:var(--muted); margin-left: 4px;
 }
 .header-status {
     display: flex; align-items: center; gap: 8px;
-    font-size: 13px; color: var(--success);
+    font-size: 13px; color: var(--green);
 }
 .header-status::before {
     content: ''; width: 8px; height: 8px;
-    background: var(--success); border-radius: 50%;
+    background: var(--green); border-radius: 50%;
     animation: pulse-dot 2s infinite;
 }
 
@@ -84,20 +59,20 @@ body {
 }
 
 /* ── Layout ── */
-.main { max-width: 1400px; margin: 0 auto; padding: 32px; }
+.main { max-width:1200px; margin: 0 auto; padding: 32px; }
 
 .page-title {
     font-size: 32px; font-weight: 800; margin-bottom: 8px;
     background: linear-gradient(135deg, #EF4444, #F59E0B);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
-.page-subtitle { color: var(--text2); font-size: 16px; margin-bottom: 32px; }
+.page-subtitle { color:var(--text2); font-size: 16px; margin-bottom: 32px; }
 
 /* ── Cards / Surfaces ── */
 .card {
-    background: var(--surface);
-    border: 1px solid var(--surface-border);
-    border-radius: 16px;
+    background:var(--card-bg);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
     padding: 24px;
     backdrop-filter: blur(10px);
 }
@@ -120,9 +95,9 @@ body {
     margin-bottom: 32px;
 }
 .stat-card {
-    background: var(--surface);
-    border: 1px solid var(--surface-border);
-    border-radius: 16px;
+    background:var(--card-bg);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
     padding: 24px;
     text-align: center;
     position: relative;
@@ -131,7 +106,7 @@ body {
 }
 .stat-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(99,102,241,0.15);
+    box-shadow: 0 8px 30px var(--border);
 }
 .stat-card .stat-icon {
     width: 48px; height: 48px; border-radius: 12px;
@@ -142,7 +117,7 @@ body {
     font-size: 36px; font-weight: 800; line-height: 1.1;
 }
 .stat-card .stat-label {
-    font-size: 13px; color: var(--text-muted); margin-top: 4px;
+    font-size: 13px; color:var(--muted); margin-top: 4px;
 }
 .stat-card .stat-badge {
     display: inline-block; margin-top: 8px;
@@ -158,15 +133,15 @@ body {
     margin-bottom: 32px;
 }
 .method-card {
-    background: var(--surface);
-    border: 1px solid var(--surface-border);
+    background:var(--card-bg);
+    border:1px solid var(--border);
     border-radius: 14px;
     padding: 20px;
     transition: all 0.3s;
     cursor: default;
 }
 .method-card:hover {
-    border-color: var(--accent);
+    border-color: var(--blue);
     transform: translateY(-3px);
     box-shadow: 0 8px 30px rgba(99,102,241,0.2);
 }
@@ -179,7 +154,7 @@ body {
     font-size: 14px; font-weight: 700; margin-bottom: 6px;
 }
 .method-card .mc-desc {
-    font-size: 12px; color: var(--text-muted); line-height: 1.5;
+    font-size: 12px; color:var(--muted); line-height: 1.5;
 }
 
 /* ── Live Demo ── */
@@ -199,33 +174,33 @@ body {
     position: relative;
 }
 .doc-item:hover {
-    border-color: var(--accent);
+    border-color: var(--blue);
     background: rgba(99,102,241,0.05);
 }
 .doc-item.active {
-    border-color: var(--accent);
-    box-shadow: 0 0 20px rgba(99,102,241,0.15);
+    border-color: var(--blue);
+    box-shadow: 0 0 20px var(--border);
 }
 .doc-item.fraud-detected {
-    border-color: var(--danger) !important;
+    border-color: var(--red) !important;
     box-shadow: 0 0 25px rgba(239,68,68,0.2) !important;
 }
 .doc-item .doc-icon { font-size: 28px; margin-bottom: 8px; }
 .doc-item .doc-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
-.doc-item .doc-desc { font-size: 12px; color: var(--text-muted); }
+.doc-item .doc-desc { font-size: 12px; color:var(--muted); }
 .doc-item .doc-tag {
     display: inline-block; margin-top: 10px;
     padding: 3px 10px; border-radius: 20px;
     font-size: 11px; font-weight: 600;
 }
-.tag-normal { background: rgba(16,185,129,0.15); color: var(--success); }
-.tag-tampered { background: rgba(239,68,68,0.15); color: var(--danger); }
+.tag-normal { background:var(--green-bg); color: var(--green); }
+.tag-tampered { background:var(--red-bg); color: var(--red); }
 
 /* ── Analysis Panel ── */
 .analysis-panel {
     background: var(--bg2);
     border: 1px solid var(--border);
-    border-radius: 16px;
+    border-radius:var(--radius);
     overflow: hidden;
     display: none;
 }
@@ -263,7 +238,7 @@ body {
 .mr-spinner {
     width: 18px; height: 18px;
     border: 2px solid var(--border);
-    border-top-color: var(--accent);
+    border-top-color: var(--blue);
     border-radius: 50%;
     animation: spin 0.7s linear infinite;
 }
@@ -281,13 +256,13 @@ body {
 }
 .result-genuine {
     background: rgba(16,185,129,0.12);
-    border: 1px solid rgba(16,185,129,0.3);
-    color: var(--success);
+    border:1px solid var(--green);
+    color: var(--green);
 }
 .result-fraud {
     background: rgba(239,68,68,0.12);
-    border: 1px solid rgba(239,68,68,0.4);
-    color: var(--danger);
+    border:1px solid var(--red);
+    color: var(--red);
     animation: fraud-pulse 1.5s ease infinite;
 }
 @keyframes fraud-pulse {
@@ -302,16 +277,16 @@ body {
 .fraud-details {
     margin-top: 16px; padding: 16px 20px;
     background: rgba(239,68,68,0.06);
-    border: 1px solid rgba(239,68,68,0.2);
+    border:1px solid var(--red);
     border-radius: 12px;
     animation: fadeIn 0.6s ease;
 }
 .fraud-details .fd-title {
-    font-size: 13px; font-weight: 700; color: var(--danger);
+    font-size: 13px; font-weight: 700; color: var(--red);
     margin-bottom: 10px;
 }
 .fraud-details .fd-item {
-    font-size: 13px; color: var(--text2);
+    font-size: 13px; color:var(--text2);
     padding: 6px 0;
     display: flex; align-items: flex-start; gap: 8px;
 }
@@ -328,7 +303,7 @@ body {
     position: relative;
 }
 .doc-preview-title {
-    font-size: 12px; color: var(--text-muted); margin-bottom: 12px;
+    font-size: 12px; color:var(--muted); margin-bottom: 12px;
     text-transform: uppercase; letter-spacing: 1px;
 }
 .mock-doc {
@@ -352,8 +327,8 @@ body {
 .mock-doc .doc-row:last-child { border-bottom: none; }
 .highlight-fraud {
     position: relative;
-    background: rgba(239,68,68,0.15);
-    border: 2px solid var(--danger);
+    background:var(--red-bg);
+    border: 2px solid var(--red);
     border-radius: 4px;
     padding: 2px 6px;
     animation: highlight-glow 1.5s ease infinite;
@@ -377,7 +352,7 @@ body {
 .gauge-bg {
     width: 180px; height: 90px;
     border-radius: 90px 90px 0 0;
-    background: conic-gradient(from 180deg at 50% 100%, var(--danger) 0deg, var(--warning) 90deg, var(--success) 180deg);
+    background: conic-gradient(from 180deg at 50% 100%, var(--red) 0deg, var(--orange) 90deg, var(--green) 180deg);
     overflow: hidden;
     position: relative;
 }
@@ -407,7 +382,7 @@ body {
 }
 .gauge-label {
     text-align: center;
-    font-size: 13px; color: var(--text-muted);
+    font-size: 13px; color:var(--muted);
 }
 
 /* Report table */
@@ -420,7 +395,7 @@ body {
     text-align: left;
     padding: 10px 12px;
     font-size: 12px;
-    color: var(--text-muted);
+    color:var(--muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     border-bottom: 1px solid var(--border);
@@ -440,9 +415,9 @@ body {
     padding: 6px 14px; border-radius: 20px;
     font-size: 13px; font-weight: 600;
 }
-.rec-approve { background: rgba(16,185,129,0.15); color: var(--success); }
-.rec-review { background: rgba(245,158,11,0.15); color: var(--warning); }
-.rec-reject { background: rgba(239,68,68,0.15); color: var(--danger); }
+.rec-approve { background:var(--green-bg); color: var(--green); }
+.rec-review { background:var(--orange-bg); color: var(--orange); }
+.rec-reject { background:var(--red-bg); color: var(--red); }
 
 /* ── History Table ── */
 .history-table {
@@ -453,7 +428,7 @@ body {
     text-align: left;
     padding: 12px;
     font-size: 12px;
-    color: var(--text-muted);
+    color:var(--muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     border-bottom: 1px solid var(--border);
@@ -494,7 +469,7 @@ body {
     margin-bottom: 12px;
     transition: border-color 0.2s;
 }
-.rule-item:hover { border-color: var(--accent); }
+.rule-item:hover { border-color: var(--blue); }
 .rule-item .rule-icon {
     width: 40px; height: 40px; border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
@@ -502,7 +477,7 @@ body {
 }
 .rule-item .rule-body { flex: 1; }
 .rule-item .rule-title { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
-.rule-item .rule-desc { font-size: 12px; color: var(--text-muted); }
+.rule-item .rule-desc { font-size: 12px; color:var(--muted); }
 
 .toggle-switch {
     width: 44px; height: 24px;
@@ -513,7 +488,7 @@ body {
     transition: background 0.3s;
     flex-shrink: 0;
 }
-.toggle-switch.active { background: var(--accent); }
+.toggle-switch.active { background: var(--blue); }
 .toggle-switch::after {
     content: '';
     width: 18px; height: 18px;
@@ -532,11 +507,11 @@ body {
     margin-top: 8px;
 }
 .threshold-input label {
-    font-size: 12px; color: var(--text-muted);
+    font-size: 12px; color:var(--muted);
 }
 .threshold-input input[type="range"] {
     width: 120px;
-    accent-color: var(--accent);
+    accent-color: var(--blue);
 }
 .threshold-input .val {
     font-size: 13px; font-weight: 600; min-width: 36px;
@@ -567,9 +542,34 @@ body {
     .methods-grid { grid-template-columns: 1fr; }
     .header { padding: 12px 16px; }
 }
+
+/* Dark mode toggle */
+.dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:all .2s;}
+.dark-toggle:hover{transform:scale(1.1);box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+
+/* Breadcrumb */
+.breadcrumb{font-size:13px;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:6px;}
+.breadcrumb a{color:var(--blue);text-decoration:none;transition:opacity .2s;}
+.breadcrumb a:hover{opacity:0.8;}
+.breadcrumb .sep{color:var(--border);}
+
+/* Transitions for dark mode */
+.header,.card,.kpi-card,.provider-card,.metric-card,.stat-card,.feature-card,.section-card,.tab-btn,.comparison-table th,.comparison-table td{transition:background .3s,border-color .3s,color .3s;}
+body.dark ::-webkit-scrollbar-track{background:var(--bg2);}body.dark ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+body.dark .header{background:rgba(15,23,42,0.85);border-bottom-color:rgba(51,65,85,0.5);}
+.header-badge{color:var(--green);}
 </style>
 </head>
 <body>
+<button class="dark-toggle" onclick="toggleDark()" aria-label="Toggle dark mode"></button>
+<nav class="breadcrumb" style="max-width:1200px;margin:0 auto;padding:12px 24px 0;">
+  <a href="index.html">Autopilot v2</a>
+  <span class="sep">/</span>
+  <a href="connector-hub.html">Connectors</a>
+  <span class="sep">/</span>
+  <span>Document Fraud Detection</span>
+</nav>
+
 
 <!-- ── Header ── -->
 <header class="header">
@@ -577,7 +577,7 @@ body {
         <div class="logo">A</div>
         <div>
             <h1>Autopilot v2 <span>by ANTS</span></h1>
-            <div style="font-size:11px;color:var(--text-muted)">AI Solution Hub</div>
+            <div style="font-size:11px;color:var(--muted)">AI Solution Hub</div>
         </div>
     </div>
     <div class="header-status">Fraud Detection Engine Active</div>
@@ -592,27 +592,27 @@ body {
     <!-- ══ 1. Dashboard Stats ══ -->
     <div class="stats-row">
         <div class="stat-card">
-            <div class="stat-icon" style="background:rgba(99,102,241,0.15)">&#128196;</div>
-            <div class="stat-value" style="color:var(--accent)" id="statTotal">0</div>
+            <div class="stat-icon" style="background:var(--blue-bg)">&#128196;</div>
+            <div class="stat-value" style="color:var(--blue)" id="statTotal">0</div>
             <div class="stat-label">เอกสารตรวจสอบวันนี้</div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon" style="background:rgba(16,185,129,0.15)">&#9989;</div>
-            <div class="stat-value" style="color:var(--success)" id="statGenuine">0</div>
+            <div class="stat-icon" style="background:var(--green-bg)">&#9989;</div>
+            <div class="stat-value" style="color:var(--green)" id="statGenuine">0</div>
             <div class="stat-label">ผ่าน (Genuine)</div>
-            <div class="stat-badge" style="background:rgba(16,185,129,0.15);color:var(--success)">97.4%</div>
+            <div class="stat-badge" style="background:var(--green-bg);color:var(--green)">97.4%</div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon" style="background:rgba(245,158,11,0.15)">&#9888;&#65039;</div>
-            <div class="stat-value" style="color:var(--warning)" id="statReview">0</div>
+            <div class="stat-icon" style="background:var(--orange-bg)">&#9888;&#65039;</div>
+            <div class="stat-value" style="color:var(--orange)" id="statReview">0</div>
             <div class="stat-label">ต้องตรวจสอบเพิ่ม</div>
-            <div class="stat-badge" style="background:rgba(245,158,11,0.15);color:var(--warning)">1.7%</div>
+            <div class="stat-badge" style="background:var(--orange-bg);color:var(--orange)">1.7%</div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon" style="background:rgba(239,68,68,0.15)">&#10060;</div>
-            <div class="stat-value" style="color:var(--danger)" id="statFraud">0</div>
+            <div class="stat-icon" style="background:var(--red-bg)">&#10060;</div>
+            <div class="stat-value" style="color:var(--red)" id="statFraud">0</div>
             <div class="stat-label">ตรวจพบปลอม</div>
-            <div class="stat-badge" style="background:rgba(239,68,68,0.15);color:var(--danger)">0.9%</div>
+            <div class="stat-badge" style="background:var(--red-bg);color:var(--red)">0.9%</div>
         </div>
     </div>
 
@@ -669,10 +669,10 @@ body {
     <!-- ══ 3. Live Detection Demo ══ -->
     <div class="card demo-section mb-32">
         <div class="section-title">
-            <div class="icon" style="background:rgba(239,68,68,0.15)">&#9889;</div>
+            <div class="icon" style="background:var(--red-bg)">&#9889;</div>
             Live Detection Demo
         </div>
-        <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">คลิกเลือกเอกสารเพื่อเริ่มการตรวจสอบด้วย AI</p>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">คลิกเลือกเอกสารเพื่อเริ่มการตรวจสอบด้วย AI</p>
 
         <div class="doc-list">
             <div class="doc-item" onclick="analyzeDoc(0)" id="doc0">
@@ -705,7 +705,7 @@ body {
         <div class="analysis-panel" id="analysisPanel">
             <div class="analysis-header">
                 <h3 id="analysisTitle">กำลังวิเคราะห์...</h3>
-                <span id="analysisTimer" style="font-size:12px;color:var(--text-muted)"></span>
+                <span id="analysisTimer" style="font-size:12px;color:var(--muted)"></span>
             </div>
             <div class="analysis-body" id="analysisBody">
                 <!-- Dynamic content -->
@@ -716,7 +716,7 @@ body {
     <!-- ══ 4. Fraud Report ══ -->
     <div class="card report-section mb-32" id="reportSection" style="display:none">
         <div class="section-title">
-            <div class="icon" style="background:rgba(245,158,11,0.15)">&#128203;</div>
+            <div class="icon" style="background:var(--orange-bg)">&#128203;</div>
             Fraud Analysis Report
         </div>
 
@@ -724,10 +724,10 @@ body {
             <div>
                 <table class="report-table" id="reportMeta">
                     <tr><th colspan="2">ข้อมูลเอกสาร</th></tr>
-                    <tr><td style="color:var(--text-muted)">ประเภทเอกสาร</td><td id="rptDocType">-</td></tr>
-                    <tr><td style="color:var(--text-muted)">วันที่ส่ง</td><td id="rptDate">-</td></tr>
-                    <tr><td style="color:var(--text-muted)">แหล่งที่มา</td><td id="rptSource">-</td></tr>
-                    <tr><td style="color:var(--text-muted)">ผลการประเมิน</td><td id="rptRecommendation">-</td></tr>
+                    <tr><td style="color:var(--muted)">ประเภทเอกสาร</td><td id="rptDocType">-</td></tr>
+                    <tr><td style="color:var(--muted)">วันที่ส่ง</td><td id="rptDate">-</td></tr>
+                    <tr><td style="color:var(--muted)">แหล่งที่มา</td><td id="rptSource">-</td></tr>
+                    <tr><td style="color:var(--muted)">ผลการประเมิน</td><td id="rptRecommendation">-</td></tr>
                 </table>
             </div>
             <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
@@ -753,7 +753,7 @@ body {
 
         <!-- Evidence Section for Fraud -->
         <div id="evidenceSection" style="display:none;margin-top:20px;">
-            <h4 style="font-size:14px;font-weight:700;margin-bottom:12px;color:var(--danger)">&#128680; หลักฐานที่ตรวจพบ</h4>
+            <h4 style="font-size:14px;font-weight:700;margin-bottom:12px;color:var(--red)">&#128680; หลักฐานที่ตรวจพบ</h4>
             <div id="evidenceContent"></div>
         </div>
     </div>
@@ -761,7 +761,7 @@ body {
     <!-- ══ 5. Detection History ══ -->
     <div class="card mb-32">
         <div class="section-title">
-            <div class="icon" style="background:rgba(6,182,212,0.15)">&#128197;</div>
+            <div class="icon" style="background:var(--blue-bg)">&#128197;</div>
             Detection History
         </div>
         <div style="overflow-x:auto">
@@ -779,58 +779,58 @@ body {
                 <tbody id="historyBody">
                     <tr>
                         <td>สลิปเงินเดือน - นายสมชาย</td>
-                        <td><span class="badge-sm" style="background:rgba(99,102,241,0.15);color:var(--accent)">Payslip</span></td>
-                        <td><span class="score-bar"><span class="score-bar-fill" style="width:97%;background:var(--success)"></span></span>97%</td>
-                        <td><span class="badge-sm" style="background:rgba(16,185,129,0.15);color:var(--success)">Genuine</span></td>
-                        <td style="color:var(--text-muted)">-</td>
+                        <td><span class="badge-sm" style="background:var(--blue-bg);color:var(--blue)">Payslip</span></td>
+                        <td><span class="score-bar"><span class="score-bar-fill" style="width:97%;background:var(--green)"></span></span>97%</td>
+                        <td><span class="badge-sm" style="background:var(--green-bg);color:var(--green)">Genuine</span></td>
+                        <td style="color:var(--muted)">-</td>
                         <td>4 เม.ย. 2569</td>
                     </tr>
                     <tr>
                         <td>Statement - น.ส.วรรณา</td>
-                        <td><span class="badge-sm" style="background:rgba(6,182,212,0.15);color:var(--accent3)">Bank Statement</span></td>
-                        <td><span class="score-bar"><span class="score-bar-fill" style="width:95%;background:var(--success)"></span></span>95%</td>
-                        <td><span class="badge-sm" style="background:rgba(16,185,129,0.15);color:var(--success)">Genuine</span></td>
-                        <td style="color:var(--text-muted)">-</td>
+                        <td><span class="badge-sm" style="background:var(--blue-bg);color:var(--cyan)">Bank Statement</span></td>
+                        <td><span class="score-bar"><span class="score-bar-fill" style="width:95%;background:var(--green)"></span></span>95%</td>
+                        <td><span class="badge-sm" style="background:var(--green-bg);color:var(--green)">Genuine</span></td>
+                        <td style="color:var(--muted)">-</td>
                         <td>4 เม.ย. 2569</td>
                     </tr>
                     <tr>
                         <td>สลิปเงินเดือน - นางสาวพิม</td>
-                        <td><span class="badge-sm" style="background:rgba(99,102,241,0.15);color:var(--accent)">Payslip</span></td>
-                        <td><span class="score-bar"><span class="score-bar-fill" style="width:12%;background:var(--danger)"></span></span>12%</td>
-                        <td><span class="badge-sm" style="background:rgba(239,68,68,0.15);color:var(--danger)">FRAUD</span></td>
-                        <td style="color:var(--danger)">แก้ไขตัวเลข, Metadata ผิดปกติ</td>
+                        <td><span class="badge-sm" style="background:var(--blue-bg);color:var(--blue)">Payslip</span></td>
+                        <td><span class="score-bar"><span class="score-bar-fill" style="width:12%;background:var(--red)"></span></span>12%</td>
+                        <td><span class="badge-sm" style="background:var(--red-bg);color:var(--red)">FRAUD</span></td>
+                        <td style="color:var(--red)">แก้ไขตัวเลข, Metadata ผิดปกติ</td>
                         <td>4 เม.ย. 2569</td>
                     </tr>
                     <tr>
                         <td>Statement - นายวิทยา</td>
-                        <td><span class="badge-sm" style="background:rgba(6,182,212,0.15);color:var(--accent3)">Bank Statement</span></td>
-                        <td><span class="score-bar"><span class="score-bar-fill" style="width:52%;background:var(--warning)"></span></span>52%</td>
-                        <td><span class="badge-sm" style="background:rgba(245,158,11,0.15);color:var(--warning)">Review</span></td>
-                        <td style="color:var(--warning)">ฟอนต์ไม่สม่ำเสมอ</td>
+                        <td><span class="badge-sm" style="background:var(--blue-bg);color:var(--cyan)">Bank Statement</span></td>
+                        <td><span class="score-bar"><span class="score-bar-fill" style="width:52%;background:var(--orange)"></span></span>52%</td>
+                        <td><span class="badge-sm" style="background:var(--orange-bg);color:var(--orange)">Review</span></td>
+                        <td style="color:var(--orange)">ฟอนต์ไม่สม่ำเสมอ</td>
                         <td>3 เม.ย. 2569</td>
                     </tr>
                     <tr>
                         <td>หนังสือรับรองเงินเดือน</td>
-                        <td><span class="badge-sm" style="background:rgba(139,92,246,0.15);color:var(--accent2)">Certificate</span></td>
-                        <td><span class="score-bar"><span class="score-bar-fill" style="width:98%;background:var(--success)"></span></span>98%</td>
-                        <td><span class="badge-sm" style="background:rgba(16,185,129,0.15);color:var(--success)">Genuine</span></td>
-                        <td style="color:var(--text-muted)">-</td>
+                        <td><span class="badge-sm" style="background:rgba(139,92,246,0.15);color:var(--purple)">Certificate</span></td>
+                        <td><span class="score-bar"><span class="score-bar-fill" style="width:98%;background:var(--green)"></span></span>98%</td>
+                        <td><span class="badge-sm" style="background:var(--green-bg);color:var(--green)">Genuine</span></td>
+                        <td style="color:var(--muted)">-</td>
                         <td>3 เม.ย. 2569</td>
                     </tr>
                     <tr>
                         <td>Statement - น.ส.กมลวรรณ</td>
-                        <td><span class="badge-sm" style="background:rgba(6,182,212,0.15);color:var(--accent3)">Bank Statement</span></td>
-                        <td><span class="score-bar"><span class="score-bar-fill" style="width:8%;background:var(--danger)"></span></span>8%</td>
-                        <td><span class="badge-sm" style="background:rgba(239,68,68,0.15);color:var(--danger)">FRAUD</span></td>
-                        <td style="color:var(--danger)">เอกสารปลอมทั้งฉบับ</td>
+                        <td><span class="badge-sm" style="background:var(--blue-bg);color:var(--cyan)">Bank Statement</span></td>
+                        <td><span class="score-bar"><span class="score-bar-fill" style="width:8%;background:var(--red)"></span></span>8%</td>
+                        <td><span class="badge-sm" style="background:var(--red-bg);color:var(--red)">FRAUD</span></td>
+                        <td style="color:var(--red)">เอกสารปลอมทั้งฉบับ</td>
                         <td>3 เม.ย. 2569</td>
                     </tr>
                     <tr>
                         <td>สลิปเงินเดือน - นายธนา</td>
-                        <td><span class="badge-sm" style="background:rgba(99,102,241,0.15);color:var(--accent)">Payslip</span></td>
-                        <td><span class="score-bar"><span class="score-bar-fill" style="width:96%;background:var(--success)"></span></span>96%</td>
-                        <td><span class="badge-sm" style="background:rgba(16,185,129,0.15);color:var(--success)">Genuine</span></td>
-                        <td style="color:var(--text-muted)">-</td>
+                        <td><span class="badge-sm" style="background:var(--blue-bg);color:var(--blue)">Payslip</span></td>
+                        <td><span class="score-bar"><span class="score-bar-fill" style="width:96%;background:var(--green)"></span></span>96%</td>
+                        <td><span class="badge-sm" style="background:var(--green-bg);color:var(--green)">Genuine</span></td>
+                        <td style="color:var(--muted)">-</td>
                         <td>2 เม.ย. 2569</td>
                     </tr>
                 </tbody>
@@ -841,57 +841,57 @@ body {
     <!-- ══ 6. Alert Rules ══ -->
     <div class="card alert-rules mb-32">
         <div class="section-title">
-            <div class="icon" style="background:rgba(239,68,68,0.15)">&#128276;</div>
+            <div class="icon" style="background:var(--red-bg)">&#128276;</div>
             Alert Rules &amp; Thresholds
         </div>
 
         <div class="rule-item">
-            <div class="rule-icon" style="background:rgba(239,68,68,0.15)">&#9940;</div>
+            <div class="rule-icon" style="background:var(--red-bg)">&#9940;</div>
             <div class="rule-body">
                 <div class="rule-title">ปฏิเสธอัตโนมัติเมื่อ Fraud Score ต่ำกว่า Threshold</div>
                 <div class="rule-desc">ระบบจะปฏิเสธเอกสารอัตโนมัติและแจ้ง Fraud Alert ไปยังทีมตรวจสอบ</div>
                 <div class="threshold-input">
                     <label>Threshold:</label>
                     <input type="range" min="5" max="50" value="30" oninput="this.nextElementSibling.textContent=this.value+'%'">
-                    <span class="val" style="color:var(--danger)">30%</span>
+                    <span class="val" style="color:var(--red)">30%</span>
                 </div>
             </div>
             <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
         </div>
 
         <div class="rule-item">
-            <div class="rule-icon" style="background:rgba(245,158,11,0.15)">&#9888;&#65039;</div>
+            <div class="rule-icon" style="background:var(--orange-bg)">&#9888;&#65039;</div>
             <div class="rule-body">
                 <div class="rule-title">แจ้งเตือนหัวหน้าเมื่อ Score อยู่ในช่วง Review</div>
                 <div class="rule-desc">ส่งการแจ้งเตือนให้หัวหน้าทีมตรวจสอบเมื่อ Score อยู่ในช่วงสีเหลือง</div>
                 <div class="threshold-input">
                     <label>ช่วง:</label>
                     <input type="range" min="20" max="50" value="30" oninput="document.getElementById('ruleMin').textContent=this.value+'%'">
-                    <span class="val" id="ruleMin" style="color:var(--warning)">30%</span>
-                    <span style="color:var(--text-muted);font-size:12px;margin:0 4px;">ถึง</span>
+                    <span class="val" id="ruleMin" style="color:var(--orange)">30%</span>
+                    <span style="color:var(--muted);font-size:12px;margin:0 4px;">ถึง</span>
                     <input type="range" min="50" max="90" value="70" oninput="document.getElementById('ruleMax').textContent=this.value+'%'">
-                    <span class="val" id="ruleMax" style="color:var(--warning)">70%</span>
+                    <span class="val" id="ruleMax" style="color:var(--orange)">70%</span>
                 </div>
             </div>
             <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
         </div>
 
         <div class="rule-item">
-            <div class="rule-icon" style="background:rgba(16,185,129,0.15)">&#9989;</div>
+            <div class="rule-icon" style="background:var(--green-bg)">&#9989;</div>
             <div class="rule-body">
                 <div class="rule-title">อนุมัติอัตโนมัติเมื่อ Score สูงกว่า Threshold</div>
                 <div class="rule-desc">เอกสารที่ผ่านเกณฑ์จะถูกส่งต่อเข้าระบบอนุมัติอัตโนมัติ</div>
                 <div class="threshold-input">
                     <label>Threshold:</label>
                     <input type="range" min="70" max="99" value="85" oninput="this.nextElementSibling.textContent=this.value+'%'">
-                    <span class="val" style="color:var(--success)">85%</span>
+                    <span class="val" style="color:var(--green)">85%</span>
                 </div>
             </div>
             <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
         </div>
 
         <div class="rule-item">
-            <div class="rule-icon" style="background:rgba(99,102,241,0.15)">&#128233;</div>
+            <div class="rule-icon" style="background:var(--blue-bg)">&#128233;</div>
             <div class="rule-body">
                 <div class="rule-title">ส่ง Email แจ้งเตือนเมื่อตรวจพบ Fraud</div>
                 <div class="rule-desc">แจ้งเตือนไปยัง fraud-alert@company.co.th ทันทีเมื่อตรวจพบเอกสารปลอม</div>
@@ -1062,9 +1062,9 @@ function analyzeDoc(idx) {
     let html = '<div id="methodRows">';
     methods.forEach((m, i) => {
         html += `<div class="method-row" id="mr${i}">
-            <span class="mr-status" id="mrs${i}"><span class="mr-spinner" style="display:none" id="mrspin${i}"></span><span id="mrsicon${i}" style="color:var(--text-muted)">&#9679;</span></span>
+            <span class="mr-status" id="mrs${i}"><span class="mr-spinner" style="display:none" id="mrspin${i}"></span><span id="mrsicon${i}" style="color:var(--muted)">&#9679;</span></span>
             <span class="mr-name">${m.name}</span>
-            <span class="mr-score" id="mrscore${i}" style="color:var(--text-muted)">--</span>
+            <span class="mr-score" id="mrscore${i}" style="color:var(--muted)">--</span>
         </div>`;
     });
     html += '</div>';
@@ -1100,16 +1100,16 @@ function analyzeDoc(idx) {
 
             if (status === 'pass') {
                 icon.innerHTML = '&#9989;';
-                icon.style.color = 'var(--success)';
-                scoreEl.style.color = 'var(--success)';
+                icon.style.color = 'var(--green)';
+                scoreEl.style.color = 'var(--green)';
             } else if (status === 'warn') {
                 icon.innerHTML = '&#9888;&#65039;';
-                icon.style.color = 'var(--warning)';
-                scoreEl.style.color = 'var(--warning)';
+                icon.style.color = 'var(--orange)';
+                scoreEl.style.color = 'var(--orange)';
             } else {
                 icon.innerHTML = '&#10060;';
-                icon.style.color = 'var(--danger)';
-                scoreEl.style.color = 'var(--danger)';
+                icon.style.color = 'var(--red)';
+                scoreEl.style.color = 'var(--red)';
             }
             scoreEl.textContent = score + '%';
 
@@ -1219,8 +1219,8 @@ function showReport(idx) {
     }, 100);
     document.getElementById('gaugeValue').textContent = doc.overallScore + '%';
     document.getElementById('gaugeValue').style.color =
-        doc.overallScore >= 70 ? 'var(--success)' :
-        doc.overallScore >= 30 ? 'var(--warning)' : 'var(--danger)';
+        doc.overallScore >= 70 ? 'var(--green)' :
+        doc.overallScore >= 30 ? 'var(--orange)' : 'var(--red)';
 
     // Method results table
     const tbody = document.getElementById('reportMethodsTable');
@@ -1232,13 +1232,13 @@ function showReport(idx) {
         row.innerHTML = `
             <td>${m.name}</td>
             <td>${doc.statuses[i] === 'pass'
-                ? '<span class="badge-sm" style="background:rgba(16,185,129,0.15);color:var(--success)">&#9989; ผ่าน</span>'
+                ? '<span class="badge-sm" style="background:var(--green-bg);color:var(--green)">&#9989; ผ่าน</span>'
                 : doc.statuses[i] === 'warn'
-                ? '<span class="badge-sm" style="background:rgba(245,158,11,0.15);color:var(--warning)">&#9888; ตรวจสอบ</span>'
-                : '<span class="badge-sm" style="background:rgba(239,68,68,0.15);color:var(--danger)">&#10060; ผิดปกติ</span>'
+                ? '<span class="badge-sm" style="background:var(--orange-bg);color:var(--orange)">&#9888; ตรวจสอบ</span>'
+                : '<span class="badge-sm" style="background:var(--red-bg);color:var(--red)">&#10060; ผิดปกติ</span>'
             }</td>
-            <td style="font-weight:600;color:${doc.scores[i]>=70?'var(--success)':doc.scores[i]>=30?'var(--warning)':'var(--danger)'}">${doc.scores[i]}%</td>
-            <td style="color:var(--text-muted);font-size:12px">${doc.statuses[i]==='pass'?'ไม่พบความผิดปกติ':doc.statuses[i]==='warn'?'พบความผิดปกติเล็กน้อย':'ตรวจพบปัญหาร้ายแรง'}</td>
+            <td style="font-weight:600;color:${doc.scores[i]>=70?'var(--green)':doc.scores[i]>=30?'var(--orange)':'var(--red)'}">${doc.scores[i]}%</td>
+            <td style="color:var(--muted);font-size:12px">${doc.statuses[i]==='pass'?'ไม่พบความผิดปกติ':doc.statuses[i]==='warn'?'พบความผิดปกติเล็กน้อย':'ตรวจพบปัญหาร้ายแรง'}</td>
         `;
     });
 
@@ -1259,5 +1259,10 @@ function showReport(idx) {
 }
 </script>
 
+<script>
+function toggleDark(){document.body.classList.toggle('dark');const d=document.body.classList.contains('dark');localStorage.setItem('darkMode',d);document.querySelector('.dark-toggle').textContent=d?'\u2600\uFE0F':'\uD83C\uDF19';}
+if(localStorage.getItem('darkMode')==='true'){document.body.classList.add('dark');}
+window.addEventListener('DOMContentLoaded',function(){var btn=document.querySelector('.dark-toggle');if(btn){btn.textContent=document.body.classList.contains('dark')?'\u2600\uFE0F':'\uD83C\uDF19';}});
+</script>
 </body>
 </html>

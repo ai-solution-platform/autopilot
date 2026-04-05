@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Customer Feedback & Product Improvement | Autopilot v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
+body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:var(--bg);color:var(--text);line-height:1.6;transition:background .3s,color .3s;}
+.container{max-width:1280px;margin:0 auto;padding:20px 24px 40px;}
+
+/* Dark mode toggle */
+.dark-toggle{position:fixed;top:16px;right:16px;z-index:1000;width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--card-bg);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:all .2s;}
+.dark-toggle:hover{transform:scale(1.1);box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+
+/* Breadcrumb */
+.breadcrumb{font-size:0.78rem;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.breadcrumb a{color:var(--blue);text-decoration:none;}
+.breadcrumb a:hover{text-decoration:underline;}
+.breadcrumb span{color:var(--muted);}
+
+/* Page header */
+.page-header{margin-bottom:28px;}
+.page-title{font-size:1.65rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px;}
+.page-subtitle{font-size:0.95rem;color:var(--text2);font-weight:400;}
+
+/* Section titles */
+.section-title{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.section-title .icon{font-size:1.2rem;}
+
+/* KPI Cards */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px;}
+.kpi-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);transition:all .2s;position:relative;overflow:hidden;}
+.kpi-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.08);}
+.kpi-card.blue{border-top:3px solid var(--blue);}
+.kpi-card.green{border-top:3px solid var(--green);}
+.kpi-card.purple{border-top:3px solid var(--purple);}
+.kpi-card.orange{border-top:3px solid var(--orange);}
+.kpi-label{font-size:0.78rem;color:var(--muted);font-weight:500;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.03em;}
+.kpi-value{font-size:1.5rem;font-weight:800;color:var(--text);line-height:1.2;}
+.kpi-sub{font-size:0.75rem;color:var(--muted);margin-top:4px;display:flex;align-items:center;gap:4px;}
+.kpi-sub .up{color:var(--green);font-weight:600;}
+.kpi-sub .tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:0.7rem;font-weight:600;}
+.tag-green{background:var(--green-bg);color:var(--green);}
+.tag-blue{background:var(--blue-bg);color:var(--blue);}
+
+/* Feedback categories grid */
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:32px;}
+.cat-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);transition:all .2s;cursor:default;}
+.cat-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.08);}
+.cat-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.cat-name{font-weight:700;font-size:0.95rem;display:flex;align-items:center;gap:6px;}
+.cat-name .cat-icon{font-size:1.1rem;}
+.cat-badge{font-size:0.7rem;padding:2px 10px;border-radius:999px;font-weight:600;}
+.cat-stat{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.cat-stat-label{font-size:0.78rem;color:var(--muted);}
+.cat-stat-val{font-weight:700;font-size:0.9rem;}
+.cat-bar-bg{height:6px;background:var(--bg3);border-radius:999px;overflow:hidden;}
+.cat-bar-fill{height:100%;border-radius:999px;transition:width .6s ease;}
+
+/* NPS Chart */
+.chart-section{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:32px;}
+.chart-container{position:relative;width:100%;height:280px;}
+.chart-container svg{width:100%;height:100%;}
+.chart-tooltip{position:absolute;background:var(--text);color:var(--bg);padding:6px 12px;border-radius:8px;font-size:0.78rem;font-weight:600;pointer-events:none;opacity:0;transition:opacity .15s;white-space:nowrap;z-index:10;}
+.chart-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--text);}
+
+/* Feature requests table */
+.table-section{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:32px;}
+.table-header-bar{padding:18px 20px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.table-header-bar h3{font-size:1.05rem;font-weight:700;}
+.table-count{font-size:0.78rem;color:var(--muted);}
+table{width:100%;border-collapse:collapse;}
+thead th{padding:10px 16px;text-align:left;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);font-weight:600;background:var(--bg2);border-bottom:1px solid var(--border);}
+tbody td{padding:12px 16px;border-bottom:1px solid var(--border);font-size:0.88rem;}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:var(--bg2);}
+.vote-count{font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px;}
+.vote-btn{width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:var(--bg2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.75rem;transition:all .15s;color:var(--muted);}
+.vote-btn:hover{background:var(--blue-bg);border-color:var(--blue);color:var(--blue);}
+.status-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;font-size:0.75rem;font-weight:600;white-space:nowrap;}
+.status-shipped{background:var(--green-bg);color:var(--green);}
+.status-progress{background:var(--blue-bg);color:var(--blue);}
+.status-planned{background:var(--purple-bg);color:var(--purple);}
+.status-declined{background:var(--red-bg);color:var(--red);}
+.rank-num{font-weight:700;color:var(--muted);font-size:0.85rem;}
+
+/* Testimonials */
+.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px;}
+.testimonial-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);transition:all .2s;position:relative;}
+.testimonial-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.08);}
+.testimonial-card::before{content:'\201C';position:absolute;top:12px;right:18px;font-size:3rem;color:var(--border);font-family:Georgia,serif;line-height:1;}
+.testimonial-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;color:#fff;margin-bottom:12px;}
+.testimonial-quote{font-size:0.9rem;color:var(--text2);line-height:1.7;margin-bottom:14px;font-style:italic;}
+.testimonial-author{font-weight:700;font-size:0.85rem;color:var(--text);}
+.testimonial-role{font-size:0.75rem;color:var(--muted);}
+.stars{color:#F59E0B;font-size:0.85rem;margin-bottom:10px;}
+
+/* Timeline */
+.timeline-section{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:24px 28px;box-shadow:var(--shadow);margin-bottom:32px;}
+.timeline{position:relative;padding-left:32px;}
+.timeline::before{content:'';position:absolute;left:11px;top:8px;bottom:8px;width:2px;background:linear-gradient(to bottom,var(--blue),var(--purple),var(--green));border-radius:2px;}
+.timeline-item{position:relative;padding-bottom:28px;}
+.timeline-item:last-child{padding-bottom:0;}
+.timeline-dot{position:absolute;left:-32px;top:3px;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;color:#fff;box-shadow:0 0 0 4px var(--bg);}
+.timeline-dot.active{background:var(--blue);}
+.timeline-dot.current{background:var(--purple);animation:pulse 2s infinite;}
+.timeline-dot.planned{background:var(--muted);}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 4px var(--bg);}50%{box-shadow:0 0 0 8px rgba(124,58,237,0.15);}}
+.timeline-label{font-size:0.75rem;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:2px;}
+.timeline-title{font-weight:700;font-size:0.95rem;color:var(--text);margin-bottom:2px;}
+.timeline-desc{font-size:0.82rem;color:var(--muted);}
+.timeline-tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:0.68rem;font-weight:600;margin-top:4px;}
+
+/* Feedback form */
+.form-section{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);margin-bottom:20px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-group.full{grid-column:1/-1;}
+.form-label{font-size:0.82rem;font-weight:600;color:var(--text);}
+.form-label .required{color:var(--red);}
+.form-select,.form-textarea{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:0.88rem;color:var(--text);font-family:inherit;transition:border-color .2s;outline:none;width:100%;}
+.form-select:focus,.form-textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,0.1);}
+.form-textarea{resize:vertical;min-height:100px;}
+.star-rating{display:flex;gap:4px;}
+.star-rating .star{font-size:1.5rem;cursor:pointer;color:var(--border);transition:color .15s;user-select:none;}
+.star-rating .star.active,.star-rating .star:hover{color:#F59E0B;}
+.star-rating:hover .star{color:var(--border);}
+.star-rating .star:hover,.star-rating .star:hover~.star-reverse{color:#F59E0B;}
+.star-rating:hover .star:hover,.star-rating:hover .star:hover~.star{color:var(--border);}
+
+.btn-submit{display:inline-flex;align-items:center;gap:8px;padding:11px 28px;border:none;border-radius:8px;background:var(--grad);color:#fff;font-weight:700;font-size:0.9rem;cursor:pointer;transition:all .2s;font-family:inherit;}
+.btn-submit:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(37,99,235,0.3);}
+.btn-submit:active{transform:translateY(0);}
+
+.form-actions{display:flex;align-items:center;gap:16px;}
+.form-note{font-size:0.75rem;color:var(--muted);}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--green);color:#fff;padding:14px 22px;border-radius:var(--radius);font-weight:600;font-size:0.88rem;box-shadow:0 8px 24px rgba(0,0,0,0.15);transform:translateY(100px);opacity:0;transition:all .3s;z-index:9999;display:flex;align-items:center;gap:8px;}
+.toast.show{transform:translateY(0);opacity:1;}
+
+/* Satisfaction distribution */
+.sat-dist{display:flex;flex-direction:column;gap:12px;margin-bottom:20px;}
+.sat-row{display:flex;align-items:center;gap:12px;}
+.sat-label{width:52px;font-size:0.82rem;font-weight:600;color:var(--text);text-align:right;flex-shrink:0;}
+.sat-bar-bg{flex:1;height:24px;background:var(--bg3);border-radius:999px;overflow:hidden;}
+.sat-bar-fill{height:100%;border-radius:999px;transition:width .8s ease;}
+.sat-pct{width:40px;font-size:0.82rem;font-weight:700;color:var(--text);text-align:right;flex-shrink:0;}
+.sat-count{width:90px;font-size:0.75rem;color:var(--muted);flex-shrink:0;}
+.sat-summary{display:flex;gap:24px;padding-top:16px;border-top:1px solid var(--border);}
+.sat-summary-item{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.sat-summary-val{font-size:1.3rem;font-weight:800;}
+.sat-summary-label{font-size:0.75rem;color:var(--muted);}
+
+/* Responsive */
+@media(max-width:1024px){
+  .kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .cat-grid{grid-template-columns:repeat(2,1fr);}
+  .testimonials-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:640px){
+  .kpi-grid{grid-template-columns:1fr;}
+  .cat-grid{grid-template-columns:1fr;}
+  .testimonials-grid{grid-template-columns:1fr;}
+  .form-grid{grid-template-columns:1fr;}
+  .form-group.full{grid-column:1;}
+}
+</style>
+</head>
+<body>
+
+<button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode">&#127769;</button>
+
+<div class="container">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="#">Autopilot v2</a>
+    <span>/</span>
+    <span>Customer Feedback</span>
+  </div>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1 class="page-title">&#127919; Customer Feedback & Product Improvement</h1>
+    <p class="page-subtitle">&#128172; &#3648;&#3626;&#3637;&#3618;&#3591;&#3592;&#3634;&#3585;&#3621;&#3641;&#3585;&#3588;&#3657;&#3634;&#3585;&#3623;&#3656;&#3634; 500,000+ &#3619;&#3634;&#3618; &mdash; &#3586;&#3633;&#3610;&#3648;&#3588;&#3621;&#3639;&#3656;&#3629;&#3609;&#3585;&#3634;&#3619;&#3614;&#3633;&#3602;&#3609;&#3634;&#3612;&#3621;&#3636;&#3605;&#3616;&#3633;&#3603;&#3601;&#3660;</p>
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="kpi-grid">
+    <div class="kpi-card blue">
+      <div class="kpi-label">&#128100; Total Users</div>
+      <div class="kpi-value" id="kpi-users">0</div>
+      <div class="kpi-sub"><span class="up">&#9650; 18% MoM</span></div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label">&#128200; NPS Score</div>
+      <div class="kpi-value" id="kpi-nps">0</div>
+      <div class="kpi-sub"><span class="tag tag-green">Excellent</span></div>
+    </div>
+    <div class="kpi-card purple">
+      <div class="kpi-label">&#11088; Satisfaction</div>
+      <div class="kpi-value"><span id="kpi-sat">0</span>/5.0 &#9733;</div>
+      <div class="kpi-sub"><span class="tag tag-blue">&#3604;&#3637;&#3648;&#3618;&#3637;&#3656;&#3618;&#3617;</span></div>
+    </div>
+    <div class="kpi-card orange">
+      <div class="kpi-label">&#128172; Response Rate</div>
+      <div class="kpi-value"><span id="kpi-rate">0</span>%</div>
+      <div class="kpi-sub">&#3592;&#3634;&#3585; survey &#3607;&#3633;&#3657;&#3591;&#3627;&#3617;&#3604;</div>
+    </div>
+  </div>
+
+  <!-- Feedback Categories -->
+  <div class="section-title"><span class="icon">&#128202;</span> &#3627;&#3617;&#3623;&#3604;&#3627;&#3617;&#3641;&#3656; Feedback &#3605;&#3634;&#3617;&#3611;&#3619;&#3632;&#3648;&#3616;&#3607;</div>
+  <div class="cat-grid">
+    <!-- UI/UX -->
+    <div class="cat-card">
+      <div class="cat-header">
+        <span class="cat-name"><span class="cat-icon">&#127912;</span> UI/UX</span>
+        <span class="cat-badge" style="background:var(--blue-bg);color:var(--blue);">78% &#3648;&#3594;&#3636;&#3591;&#3610;&#3623;&#3585;</span>
+      </div>
+      <div class="cat-stat">
+        <span class="cat-stat-label">&#3592;&#3635;&#3609;&#3623;&#3609; Feedback</span>
+        <span class="cat-stat-val">45,230</span>
+      </div>
+      <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:78%;background:var(--blue);"></div></div>
+    </div>
+    <!-- Performance -->
+    <div class="cat-card">
+      <div class="cat-header">
+        <span class="cat-name"><span class="cat-icon">&#9889;</span> Performance</span>
+        <span class="cat-badge" style="background:var(--green-bg);color:var(--green);">85% &#3648;&#3594;&#3636;&#3591;&#3610;&#3623;&#3585;</span>
+      </div>
+      <div class="cat-stat">
+        <span class="cat-stat-label">&#3592;&#3635;&#3609;&#3623;&#3609; Feedback</span>
+        <span class="cat-stat-val">32,100</span>
+      </div>
+      <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:85%;background:var(--green);"></div></div>
+    </div>
+    <!-- Features -->
+    <div class="cat-card">
+      <div class="cat-header">
+        <span class="cat-name"><span class="cat-icon">&#128161;</span> Features</span>
+        <span class="cat-badge" style="background:var(--purple-bg);color:var(--purple);">71% &#3648;&#3594;&#3636;&#3591;&#3610;&#3623;&#3585;</span>
+      </div>
+      <div class="cat-stat">
+        <span class="cat-stat-label">&#3592;&#3635;&#3609;&#3623;&#3609; Feedback</span>
+        <span class="cat-stat-val">67,800</span>
+      </div>
+      <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:71%;background:var(--purple);"></div></div>
+      <div style="margin-top:6px;font-size:0.7rem;color:var(--orange);font-weight:600;">&#128293; &#3617;&#3637;&#3588;&#3635;&#3586;&#3629;&#3617;&#3634;&#3585;&#3607;&#3637;&#3656;&#3626;&#3640;&#3604;</div>
+    </div>
+    <!-- Support -->
+    <div class="cat-card">
+      <div class="cat-header">
+        <span class="cat-name"><span class="cat-icon">&#127897;&#65039;</span> Support</span>
+        <span class="cat-badge" style="background:var(--green-bg);color:var(--green);">92% &#3648;&#3594;&#3636;&#3591;&#3610;&#3623;&#3585;</span>
+      </div>
+      <div class="cat-stat">
+        <span class="cat-stat-label">&#3592;&#3635;&#3609;&#3623;&#3609; Feedback</span>
+        <span class="cat-stat-val">18,500</span>
+      </div>
+      <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:92%;background:var(--green);"></div></div>
+    </div>
+    <!-- Integration -->
+    <div class="cat-card">
+      <div class="cat-header">
+        <span class="cat-name"><span class="cat-icon">&#128268;</span> Integration</span>
+        <span class="cat-badge" style="background:var(--orange-bg);color:var(--orange);">68% &#3648;&#3594;&#3636;&#3591;&#3610;&#3623;&#3585;</span>
+      </div>
+      <div class="cat-stat">
+        <span class="cat-stat-label">&#3592;&#3635;&#3609;&#3623;&#3609; Feedback</span>
+        <span class="cat-stat-val">12,300</span>
+      </div>
+      <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:68%;background:var(--orange);"></div></div>
+    </div>
+    <!-- Pricing -->
+    <div class="cat-card">
+      <div class="cat-header">
+        <span class="cat-name"><span class="cat-icon">&#128176;</span> Pricing</span>
+        <span class="cat-badge" style="background:var(--orange-bg);color:var(--orange);">61% &#3648;&#3594;&#3636;&#3591;&#3610;&#3623;&#3585;</span>
+      </div>
+      <div class="cat-stat">
+        <span class="cat-stat-label">&#3592;&#3635;&#3609;&#3623;&#3609; Feedback</span>
+        <span class="cat-stat-val">8,900</span>
+      </div>
+      <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:61%;background:var(--red);"></div></div>
+    </div>
+  </div>
+
+  <!-- NPS Trend Chart -->
+  <div class="chart-section">
+    <div class="section-title" style="margin-bottom:20px;"><span class="icon">&#128200;</span> NPS Score Trend (&#3619;&#3634;&#3618;&#3648;&#3604;&#3639;&#3629;&#3609;)</div>
+    <div class="chart-container" id="npsChart">
+      <div class="chart-tooltip" id="chartTooltip"></div>
+      <svg viewBox="0 0 700 260" preserveAspectRatio="xMidYMid meet">
+        <!-- Grid lines -->
+        <defs>
+          <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="var(--blue)" stop-opacity="0.2"/>
+            <stop offset="100%" stop-color="var(--blue)" stop-opacity="0.02"/>
+          </linearGradient>
+          <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#2563EB"/>
+            <stop offset="100%" stop-color="#7C3AED"/>
+          </linearGradient>
+        </defs>
+        <!-- Y axis labels -->
+        <text x="30" y="38" fill="var(--muted)" font-size="11" text-anchor="end" font-family="Inter,sans-serif">80</text>
+        <text x="30" y="88" fill="var(--muted)" font-size="11" text-anchor="end" font-family="Inter,sans-serif">70</text>
+        <text x="30" y="138" fill="var(--muted)" font-size="11" text-anchor="end" font-family="Inter,sans-serif">60</text>
+        <text x="30" y="188" fill="var(--muted)" font-size="11" text-anchor="end" font-family="Inter,sans-serif">50</text>
+        <text x="30" y="238" fill="var(--muted)" font-size="11" text-anchor="end" font-family="Inter,sans-serif">40</text>
+        <!-- Grid lines -->
+        <line x1="45" y1="33" x2="680" y2="33" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4,4"/>
+        <line x1="45" y1="83" x2="680" y2="83" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4,4"/>
+        <line x1="45" y1="133" x2="680" y2="133" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4,4"/>
+        <line x1="45" y1="183" x2="680" y2="183" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4,4"/>
+        <line x1="45" y1="233" x2="680" y2="233" stroke="var(--border)" stroke-width="0.5"/>
+        <!-- Area -->
+        <path d="M100,108 L216,88 L332,78 L448,58 L564,48 L680,38 L680,233 L100,233 Z" fill="url(#areaGrad)"/>
+        <!-- Line -->
+        <path d="M100,108 L216,88 L332,78 L448,58 L564,48 L680,38" fill="none" stroke="url(#lineGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- Data points -->
+        <circle cx="100" cy="108" r="6" fill="var(--blue)" stroke="#fff" stroke-width="2" class="chart-dot" data-month="ม.ค. 2026" data-val="65"/>
+        <circle cx="216" cy="88" r="6" fill="var(--blue)" stroke="#fff" stroke-width="2" class="chart-dot" data-month="ก.พ. 2026" data-val="67"/>
+        <circle cx="332" cy="78" r="6" fill="var(--blue)" stroke="#fff" stroke-width="2" class="chart-dot" data-month="มี.ค. 2026" data-val="68"/>
+        <circle cx="448" cy="58" r="6" fill="var(--blue)" stroke="#fff" stroke-width="2" class="chart-dot" data-month="เม.ย. 2026" data-val="70"/>
+        <circle cx="564" cy="48" r="6" fill="var(--blue)" stroke="#fff" stroke-width="2" class="chart-dot" data-month="พ.ค. 2026" data-val="71"/>
+        <circle cx="680" cy="38" r="6" fill="var(--purple)" stroke="#fff" stroke-width="2" class="chart-dot" data-month="มิ.ย. 2026" data-val="72"/>
+        <!-- X axis labels -->
+        <text x="100" y="253" fill="var(--muted)" font-size="11" text-anchor="middle" font-family="Noto Sans Thai,sans-serif">ม.ค.</text>
+        <text x="216" y="253" fill="var(--muted)" font-size="11" text-anchor="middle" font-family="Noto Sans Thai,sans-serif">ก.พ.</text>
+        <text x="332" y="253" fill="var(--muted)" font-size="11" text-anchor="middle" font-family="Noto Sans Thai,sans-serif">มี.ค.</text>
+        <text x="448" y="253" fill="var(--muted)" font-size="11" text-anchor="middle" font-family="Noto Sans Thai,sans-serif">เม.ย.</text>
+        <text x="564" y="253" fill="var(--muted)" font-size="11" text-anchor="middle" font-family="Noto Sans Thai,sans-serif">พ.ค.</text>
+        <text x="680" y="253" fill="var(--muted)" font-size="11" text-anchor="middle" font-family="Noto Sans Thai,sans-serif">มิ.ย.</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Top Feature Requests -->
+  <div class="table-section">
+    <div class="table-header-bar">
+      <h3>&#128640; Top Feature Requests (&#3588;&#3635;&#3586;&#3629;&#3618;&#3629;&#3604;&#3609;&#3636;&#3618;&#3617;)</h3>
+      <span class="table-count">&#3607;&#3633;&#3657;&#3591;&#3627;&#3617;&#3604; 10 &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:50px;">&#3621;&#3635;&#3604;&#3633;&#3610;</th>
+          <th>Feature</th>
+          <th style="width:160px;">Votes</th>
+          <th style="width:130px;">&#3626;&#3606;&#3634;&#3609;&#3632;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="rank-num">#1</span></td>
+          <td><strong>Dark Mode Toggle</strong><br><span style="font-size:0.78rem;color:var(--muted);">&#3619;&#3629;&#3591;&#3619;&#3633;&#3610;&#3650;&#3627;&#3617;&#3604;&#3617;&#3639;&#3604;&#3626;&#3635;&#3627;&#3619;&#3633;&#3610;&#3585;&#3634;&#3619;&#3651;&#3594;&#3657;&#3591;&#3634;&#3609;&#3605;&#3629;&#3609;&#3585;&#3621;&#3634;&#3591;&#3588;&#3639;&#3609;</span></td>
+          <td><div class="vote-count"><button class="vote-btn" onclick="vote(this)">&#9650;</button> <span>12,340</span></div></td>
+          <td><span class="status-badge status-shipped">&#9989; Shipped</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num">#2</span></td>
+          <td><strong>Multi-language Support</strong><br><span style="font-size:0.78rem;color:var(--muted);">&#3619;&#3629;&#3591;&#3619;&#3633;&#3610;&#3627;&#3621;&#3634;&#3618;&#3616;&#3634;&#3625;&#3634; &#3652;&#3607;&#3618;/&#3629;&#3633;&#3591;&#3585;&#3620;&#3625;/&#3592;&#3637;&#3609;</span></td>
+          <td><div class="vote-count"><button class="vote-btn" onclick="vote(this)">&#9650;</button> <span>8,920</span></div></td>
+          <td><span class="status-badge status-progress">&#128260; In Progress</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num">#3</span></td>
+          <td><strong>Mobile App</strong><br><span style="font-size:0.78rem;color:var(--muted);">&#3649;&#3629;&#3611;&#3617;&#3639;&#3629;&#3606;&#3639;&#3629;&#3626;&#3635;&#3627;&#3619;&#3633;&#3610; iOS &#3649;&#3621;&#3632; Android</span></td>
+          <td><div class="vote-count"><button class="vote-btn" onclick="vote(this)">&#9650;</button> <span>7,650</span></div></td>
+          <td><span class="status-badge status-planned">&#128203; Planned</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num">#4</span></td>
+          <td><strong>API Webhooks</strong><br><span style="font-size:0.78rem;color:var(--muted);">&#3648;&#3594;&#3639;&#3656;&#3629;&#3617;&#3605;&#3656;&#3629;&#3619;&#3632;&#3610;&#3610;&#3616;&#3634;&#3618;&#3609;&#3629;&#3585;&#3612;&#3656;&#3634;&#3609; API</span></td>
+          <td><div class="vote-count"><button class="vote-btn" onclick="vote(this)">&#9650;</button> <span>6,200</span></div></td>
+          <td><span class="status-badge status-planned">&#128203; Planned</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num">#5</span></td>
+          <td><strong>Bulk Document Upload</strong><br><span style="font-size:0.78rem;color:var(--muted);">&#3629;&#3633;&#3614;&#3650;&#3627;&#3621;&#3604;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;&#3607;&#3637;&#3621;&#3632;&#3592;&#3635;&#3609;&#3623;&#3609;&#3617;&#3634;&#3585;</span></td>
+          <td><div class="vote-count"><button class="vote-btn" onclick="vote(this)">&#9650;</button> <span>5,890</span></div></td>
+          <td><span class="status-badge status-shipped">&#9989; Shipped</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num">#6</span></td>
+          <td><strong>Custom Report Builder</strong><br><span style="font-size:0.78rem;color:var(--muted);">&#3626;&#3619;&#3657;&#3634;&#3591;&#3619;&#3634;&#3618;&#3591;&#3634;&#3609;&#3649;&#3610;&#3610;&#3585;&#3635;&#3627;&#3609;&#3604;&#3648;&#3629;&#3591;</span></td>
+          <td><div class="vote-count"><button class="vote-btn" onclick="vote(this)">&#9650;</button> <span>5,100</span></div></td>
+          <td><span class="status-badge status-progress">&#128260; In Progress</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num">#7</span></td>
+          <td><strong>Slack Integration</strong><br><span style="font-size:0.78rem;color:var(--muted);">&#3649;&#3592;&#3657;&#3591;&#3648;&#3605;&#3639;&#3629;&#3609;&#3612;&#3656;&#3634;&#3609; Slack &#3650;&#3604;&#3618;&#3605;&#3619;&#3591;</span></td>
+          <td><div class="vote-count"><button class="vote-btn" onclick="vote(this)">&#9650;</button> <span>4,800</span></div></td>
+          <td><span class="status-badge status-planned">&#128203; Planned</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num">#8</span></td>
+          <td><strong>AI Auto-categorization</strong><br><span style="font-size:0.78rem;color:var(--muted);">AI &#3592;&#3633;&#3604;&#3627;&#3617;&#3623;&#3604;&#3627;&#3617;&#3641;&#3656;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;&#3629;&#3633;&#3605;&#3650;&#3609;&#3617;&#3633;&#3605;&#3636;</span></td>
+          <td><div class="vote-count"><button class="vote-btn" onclick="vote(this)">&#9650;</button> <span>4,200</span></div></td>
+          <td><span class="status-badge status-shipped">&#9989; Shipped</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num">#9</span></td>
+          <td><strong>Offline Mode</strong><br><span style="font-size:0.78rem;color:var(--muted);">&#3651;&#3594;&#3657;&#3591;&#3634;&#3609;&#3652;&#3604;&#3657;&#3650;&#3604;&#3618;&#3652;&#3617;&#3656;&#3605;&#3657;&#3629;&#3591;&#3605;&#3656;&#3629;&#3629;&#3636;&#3609;&#3648;&#3607;&#3629;&#3619;&#3660;&#3648;&#3609;&#3655;&#3605;</span></td>
+          <td><div class="vote-count"><button class="vote-btn" onclick="vote(this)">&#9650;</button> <span>3,900</span></div></td>
+          <td><span class="status-badge status-declined">&#10060; Declined</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num">#10</span></td>
+          <td><strong>2FA Authentication</strong><br><span style="font-size:0.78rem;color:var(--muted);">&#3618;&#3639;&#3609;&#3618;&#3633;&#3609;&#3605;&#3633;&#3623;&#3605;&#3609; 2 &#3594;&#3633;&#3657;&#3609;</span></td>
+          <td><div class="vote-count"><button class="vote-btn" onclick="vote(this)">&#9650;</button> <span>3,500</span></div></td>
+          <td><span class="status-badge status-shipped">&#9989; Shipped</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- User Testimonials -->
+  <div class="section-title"><span class="icon">&#128172;</span> &#3648;&#3626;&#3637;&#3618;&#3591;&#3592;&#3634;&#3585;&#3612;&#3641;&#3657;&#3651;&#3594;&#3657;&#3591;&#3634;&#3609;&#3592;&#3619;&#3636;&#3591;</div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <div class="testimonial-avatar" style="background:linear-gradient(135deg,#2563EB,#3B82F6);">&#3626;&#3594;</div>
+      <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <div class="testimonial-quote">"&#3621;&#3604;&#3648;&#3623;&#3621;&#3634;&#3607;&#3635;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619; 70% &#3607;&#3637;&#3617; finance &#3607;&#3635;&#3591;&#3634;&#3609;&#3652;&#3604;&#3657;&#3648;&#3619;&#3655;&#3623;&#3586;&#3638;&#3657;&#3609;&#3617;&#3634;&#3585;"</div>
+      <div class="testimonial-author">&#3626;&#3617;&#3594;&#3634;&#3618; &#3585;.</div>
+      <div class="testimonial-role">CFO, Manufacturing</div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-avatar" style="background:linear-gradient(135deg,#7C3AED,#A855F7);">&#3626;&#3623;</div>
+      <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <div class="testimonial-quote">"&#3619;&#3632;&#3610;&#3610; OCR &#3649;&#3617;&#3656;&#3609;&#3618;&#3635;&#3617;&#3634;&#3585; &#3586;&#3657;&#3629;&#3617;&#3641;&#3621;&#3606;&#3641;&#3585;&#3605;&#3657;&#3629;&#3591; 99%"</div>
+      <div class="testimonial-author">&#3626;&#3640;&#3623;&#3619;&#3619;&#3603;&#3634; &#3607;.</div>
+      <div class="testimonial-role">Operations Manager</div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-avatar" style="background:linear-gradient(135deg,#059669,#10B981);">&#3603;&#3600;</div>
+      <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <div class="testimonial-quote">"3-Way Match &#3594;&#3656;&#3623;&#3618;&#3621;&#3604;&#3586;&#3657;&#3629;&#3612;&#3636;&#3604;&#3614;&#3621;&#3634;&#3604;&#3651;&#3609;&#3585;&#3634;&#3619;&#3592;&#3656;&#3634;&#3618;&#3648;&#3591;&#3636;&#3609;&#3652;&#3604;&#3657;&#3626;&#3640;&#3604;&#3618;&#3629;&#3604;"</div>
+      <div class="testimonial-author">&#3603;&#3633;&#3600;&#3614;&#3591;&#3625;&#3660; &#3626;.</div>
+      <div class="testimonial-role">Procurement Lead</div>
+    </div>
+  </div>
+
+  <!-- Satisfaction Distribution -->
+  <div class="chart-section">
+    <div class="section-title" style="margin-bottom:20px;"><span class="icon">&#128202;</span> การกระจายคะแนนความพึงพอใจ</div>
+    <div class="sat-dist">
+      <div class="sat-row">
+        <span class="sat-label">5 ดาว</span>
+        <div class="sat-bar-bg">
+          <div class="sat-bar-fill" style="width:52%;background:var(--green);"></div>
+        </div>
+        <span class="sat-pct">52%</span>
+        <span class="sat-count">266,680 คน</span>
+      </div>
+      <div class="sat-row">
+        <span class="sat-label">4 ดาว</span>
+        <div class="sat-bar-bg">
+          <div class="sat-bar-fill" style="width:28%;background:var(--blue);"></div>
+        </div>
+        <span class="sat-pct">28%</span>
+        <span class="sat-count">143,597 คน</span>
+      </div>
+      <div class="sat-row">
+        <span class="sat-label">3 ดาว</span>
+        <div class="sat-bar-bg">
+          <div class="sat-bar-fill" style="width:12%;background:var(--orange);"></div>
+        </div>
+        <span class="sat-pct">12%</span>
+        <span class="sat-count">61,542 คน</span>
+      </div>
+      <div class="sat-row">
+        <span class="sat-label">2 ดาว</span>
+        <div class="sat-bar-bg">
+          <div class="sat-bar-fill" style="width:5%;background:var(--red);"></div>
+        </div>
+        <span class="sat-pct">5%</span>
+        <span class="sat-count">25,642 คน</span>
+      </div>
+      <div class="sat-row">
+        <span class="sat-label">1 ดาว</span>
+        <div class="sat-bar-bg">
+          <div class="sat-bar-fill" style="width:3%;background:var(--red);"></div>
+        </div>
+        <span class="sat-pct">3%</span>
+        <span class="sat-count">15,386 คน</span>
+      </div>
+    </div>
+    <div class="sat-summary">
+      <div class="sat-summary-item">
+        <span class="sat-summary-val" style="color:var(--green);">80%</span>
+        <span class="sat-summary-label">ให้ 4-5 ดาว</span>
+      </div>
+      <div class="sat-summary-item">
+        <span class="sat-summary-val" style="color:var(--orange);">12%</span>
+        <span class="sat-summary-label">ให้ 3 ดาว (ปานกลาง)</span>
+      </div>
+      <div class="sat-summary-item">
+        <span class="sat-summary-val" style="color:var(--red);">8%</span>
+        <span class="sat-summary-label">ให้ 1-2 ดาว</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Feedback Activity -->
+  <div class="table-section">
+    <div class="table-header-bar">
+      <h3>&#128172; กิจกรรม Feedback ล่าสุด</h3>
+      <span class="table-count">อัพเดทแบบ real-time</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:120px;">เวลา</th>
+          <th>ผู้ใช้งาน</th>
+          <th>หมวดหมู่</th>
+          <th>คะแนน</th>
+          <th>ข้อความ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-size:0.78rem;color:var(--muted);">2 นาทีที่แล้ว</td>
+          <td><strong>วิชัย พ.</strong></td>
+          <td><span class="cat-badge" style="background:var(--blue-bg);color:var(--blue);">UI/UX</span></td>
+          <td style="color:#F59E0B;">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+          <td style="font-size:0.82rem;color:var(--text2);">Dashboard ใหม่ใช้งานง่ายมาก ดีไซน์สวย</td>
+        </tr>
+        <tr>
+          <td style="font-size:0.78rem;color:var(--muted);">8 นาทีที่แล้ว</td>
+          <td><strong>ปิยะ ล.</strong></td>
+          <td><span class="cat-badge" style="background:var(--green-bg);color:var(--green);">Performance</span></td>
+          <td style="color:#F59E0B;">&#9733;&#9733;&#9733;&#9733;&#9734;</td>
+          <td style="font-size:0.82rem;color:var(--text2);">โหลดเร็วขึ้นจากเดิมมาก แต่ยังติดบ้างตอน peak</td>
+        </tr>
+        <tr>
+          <td style="font-size:0.78rem;color:var(--muted);">15 นาทีที่แล้ว</td>
+          <td><strong>สุภาพร จ.</strong></td>
+          <td><span class="cat-badge" style="background:var(--purple-bg);color:var(--purple);">Features</span></td>
+          <td style="color:#F59E0B;">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+          <td style="font-size:0.82rem;color:var(--text2);">ขอฟีเจอร์ export เป็น PDF หลายรูปแบบ</td>
+        </tr>
+        <tr>
+          <td style="font-size:0.78rem;color:var(--muted);">22 นาทีที่แล้ว</td>
+          <td><strong>อรุณ ค.</strong></td>
+          <td><span class="cat-badge" style="background:var(--green-bg);color:var(--green);">Support</span></td>
+          <td style="color:#F59E0B;">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+          <td style="font-size:0.82rem;color:var(--text2);">ทีม support ตอบเร็วมาก แก้ปัญหาได้ภายใน 10 นาที</td>
+        </tr>
+        <tr>
+          <td style="font-size:0.78rem;color:var(--muted);">35 นาทีที่แล้ว</td>
+          <td><strong>กมลชนก ว.</strong></td>
+          <td><span class="cat-badge" style="background:var(--orange-bg);color:var(--orange);">Integration</span></td>
+          <td style="color:#F59E0B;">&#9733;&#9733;&#9733;&#9734;&#9734;</td>
+          <td style="font-size:0.82rem;color:var(--text2);">อยากให้เชื่อมต่อกับ SAP ได้โดยตรง</td>
+        </tr>
+        <tr>
+          <td style="font-size:0.78rem;color:var(--muted);">42 นาทีที่แล้ว</td>
+          <td><strong>ธนา ม.</strong></td>
+          <td><span class="cat-badge" style="background:var(--purple-bg);color:var(--purple);">Features</span></td>
+          <td style="color:#F59E0B;">&#9733;&#9733;&#9733;&#9733;&#9734;</td>
+          <td style="font-size:0.82rem;color:var(--text2);">Bulk upload ทำงานได้ดีมาก ลดเวลาเยอะ</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Product Improvement Timeline -->
+  <div class="timeline-section">
+    <div class="section-title" style="margin-bottom:20px;"><span class="icon">&#128197;</span> Product Improvement Timeline</div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot active">&#10003;</div>
+        <div class="timeline-label">Q1 2026</div>
+        <div class="timeline-title">&#3648;&#3611;&#3636;&#3604;&#3605;&#3633;&#3623; Autopilot v2.0</div>
+        <div class="timeline-desc">&#3614;&#3619;&#3657;&#3629;&#3617; 6 &#3650;&#3617;&#3604;&#3641;&#3621;&#3627;&#3621;&#3633;&#3585; &mdash; Expense, Procurement, Sales, Logistics, Finance, Analytics</div>
+        <span class="timeline-tag" style="background:var(--green-bg);color:var(--green);">&#9989; &#3648;&#3626;&#3619;&#3655;&#3592;&#3626;&#3617;&#3610;&#3641;&#3619;&#3603;&#3660;</span>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot current">&#9679;</div>
+        <div class="timeline-label">Q2 2026</div>
+        <div class="timeline-title">Dark Mode & Multi-language</div>
+        <div class="timeline-desc">&#3614;&#3633;&#3602;&#3609;&#3634;&#3605;&#3634;&#3617; feedback &#3586;&#3629;&#3591;&#3612;&#3641;&#3657;&#3651;&#3594;&#3657;&#3591;&#3634;&#3609; &mdash; &#3619;&#3629;&#3591;&#3619;&#3633;&#3610; Dark Mode &#3649;&#3621;&#3632;&#3627;&#3621;&#3634;&#3618;&#3616;&#3634;&#3625;&#3634;</div>
+        <span class="timeline-tag" style="background:var(--blue-bg);color:var(--blue);">&#128260; &#3585;&#3635;&#3621;&#3633;&#3591;&#3604;&#3635;&#3648;&#3609;&#3636;&#3609;&#3585;&#3634;&#3619;</span>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot planned">3</div>
+        <div class="timeline-label">Q3 2026</div>
+        <div class="timeline-title">Mobile App & API Webhooks</div>
+        <div class="timeline-desc">&#3649;&#3629;&#3611;&#3617;&#3639;&#3629;&#3606;&#3639;&#3629;&#3626;&#3635;&#3627;&#3619;&#3633;&#3610; iOS/Android &#3649;&#3621;&#3632; Webhook API &#3626;&#3635;&#3627;&#3619;&#3633;&#3610;&#3648;&#3594;&#3639;&#3656;&#3629;&#3617;&#3605;&#3656;&#3629;&#3619;&#3632;&#3610;&#3610;&#3616;&#3634;&#3618;&#3609;&#3629;&#3585;</div>
+        <span class="timeline-tag" style="background:var(--purple-bg);color:var(--purple);">&#128203; &#3623;&#3634;&#3591;&#3649;&#3612;&#3609;</span>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot planned">4</div>
+        <div class="timeline-label">Q4 2026</div>
+        <div class="timeline-title">AI Auto-insights & Custom Reports</div>
+        <div class="timeline-desc">&#3619;&#3632;&#3610;&#3610; AI &#3623;&#3636;&#3648;&#3588;&#3619;&#3634;&#3632;&#3627;&#3660;&#3586;&#3657;&#3629;&#3617;&#3641;&#3621;&#3629;&#3633;&#3605;&#3650;&#3609;&#3617;&#3633;&#3605;&#3636; &#3649;&#3621;&#3632;&#3626;&#3619;&#3657;&#3634;&#3591;&#3619;&#3634;&#3618;&#3591;&#3634;&#3609;&#3649;&#3610;&#3610;&#3585;&#3635;&#3627;&#3609;&#3604;&#3648;&#3629;&#3591;</div>
+        <span class="timeline-tag" style="background:var(--purple-bg);color:var(--purple);">&#128203; &#3623;&#3634;&#3591;&#3649;&#3612;&#3609;</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feedback Submission Form -->
+  <div class="form-section">
+    <div class="section-title" style="margin-bottom:20px;"><span class="icon">&#9997;&#65039;</span> &#3626;&#3656;&#3591; Feedback &#3586;&#3629;&#3591;&#3588;&#3640;&#3603;</div>
+    <p style="font-size:0.85rem;color:var(--text2);margin-bottom:18px;">&#3648;&#3619;&#3634;&#3651;&#3627;&#3657;&#3588;&#3623;&#3634;&#3617;&#3626;&#3635;&#3588;&#3633;&#3597;&#3585;&#3633;&#3610;&#3607;&#3640;&#3585;&#3588;&#3623;&#3634;&#3617;&#3588;&#3636;&#3604;&#3648;&#3627;&#3655;&#3609;&#3586;&#3629;&#3591;&#3588;&#3640;&#3603; &#3607;&#3640;&#3585; feedback &#3592;&#3632;&#3606;&#3641;&#3585;&#3609;&#3635;&#3652;&#3611;&#3614;&#3636;&#3592;&#3634;&#3619;&#3603;&#3634;&#3648;&#3614;&#3639;&#3656;&#3629;&#3614;&#3633;&#3602;&#3609;&#3634;&#3612;&#3621;&#3636;&#3605;&#3616;&#3633;&#3603;&#3601;&#3660;</p>
+    <form id="feedbackForm" onsubmit="submitFeedback(event)">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">&#3627;&#3617;&#3623;&#3604;&#3627;&#3617;&#3641;&#3656; <span class="required">*</span></label>
+          <select class="form-select" required>
+            <option value="">&#3648;&#3621;&#3639;&#3629;&#3585;&#3627;&#3617;&#3623;&#3604;&#3627;&#3617;&#3641;&#3656;...</option>
+            <option value="uiux">UI/UX</option>
+            <option value="performance">Performance</option>
+            <option value="features">Features</option>
+            <option value="support">Support</option>
+            <option value="integration">Integration</option>
+            <option value="pricing">Pricing</option>
+            <option value="other">&#3629;&#3639;&#3656;&#3609;&#3654;</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">&#3651;&#3627;&#3657;&#3588;&#3632;&#3649;&#3609;&#3609; <span class="required">*</span></label>
+          <div class="star-rating" id="starRating">
+            <span class="star" data-val="1" onclick="setRating(1)">&#9733;</span>
+            <span class="star" data-val="2" onclick="setRating(2)">&#9733;</span>
+            <span class="star" data-val="3" onclick="setRating(3)">&#9733;</span>
+            <span class="star" data-val="4" onclick="setRating(4)">&#9733;</span>
+            <span class="star" data-val="5" onclick="setRating(5)">&#9733;</span>
+          </div>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">&#3588;&#3623;&#3634;&#3617;&#3588;&#3636;&#3604;&#3648;&#3627;&#3655;&#3609; / &#3586;&#3657;&#3629;&#3648;&#3626;&#3609;&#3629;&#3649;&#3609;&#3632; <span class="required">*</span></label>
+          <textarea class="form-textarea" placeholder="&#3585;&#3619;&#3640;&#3603;&#3634;&#3629;&#3608;&#3636;&#3610;&#3634;&#3618;&#3611;&#3619;&#3632;&#3626;&#3610;&#3585;&#3634;&#3619;&#3603;&#3660;&#3585;&#3634;&#3619;&#3651;&#3594;&#3657;&#3591;&#3634;&#3609; &#3627;&#3619;&#3639;&#3629;&#3626;&#3636;&#3656;&#3591;&#3607;&#3637;&#3656;&#3629;&#3618;&#3634;&#3585;&#3651;&#3627;&#3657;&#3611;&#3619;&#3633;&#3610;&#3611;&#3619;&#3640;&#3591;..." required></textarea>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn-submit">&#128640; &#3626;&#3656;&#3591; Feedback</button>
+        <span class="form-note">&#3588;&#3635;&#3605;&#3629;&#3610;&#3586;&#3629;&#3591;&#3588;&#3640;&#3603;&#3592;&#3632;&#3606;&#3641;&#3585;&#3648;&#3585;&#3655;&#3610;&#3648;&#3611;&#3655;&#3609;&#3588;&#3623;&#3634;&#3617;&#3621;&#3633;&#3610;</span>
+      </div>
+    </form>
+  </div>
+
+  <!-- Key Metrics Summary -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px;">
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);text-align:center;">
+      <div style="font-size:2rem;margin-bottom:6px;">&#128200;</div>
+      <div style="font-size:1.5rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">184,830</div>
+      <div style="font-size:0.78rem;color:var(--muted);margin-top:2px;">Feedback ทั้งหมดที่ได้รับ</div>
+      <div style="font-size:0.72rem;color:var(--green);font-weight:600;margin-top:4px;">&#9650; 24% จากเดือนก่อน</div>
+    </div>
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);text-align:center;">
+      <div style="font-size:2rem;margin-bottom:6px;">&#9889;</div>
+      <div style="font-size:1.5rem;font-weight:800;color:var(--green);">2.4 ชม.</div>
+      <div style="font-size:0.78rem;color:var(--muted);margin-top:2px;">เวลาตอบกลับเฉลี่ย</div>
+      <div style="font-size:0.72rem;color:var(--green);font-weight:600;margin-top:4px;">&#9660; 35% จากเดือนก่อน</div>
+    </div>
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);text-align:center;">
+      <div style="font-size:2rem;margin-bottom:6px;">&#9989;</div>
+      <div style="font-size:1.5rem;font-weight:800;color:var(--blue);">87%</div>
+      <div style="font-size:0.78rem;color:var(--muted);margin-top:2px;">Feedback ที่ดำเนินการแล้ว</div>
+      <div style="font-size:0.72rem;color:var(--green);font-weight:600;margin-top:4px;">&#9650; 12% จากเดือนก่อน</div>
+    </div>
+  </div>
+
+  <!-- Footer info -->
+  <div style="text-align:center;padding:24px 0 8px;border-top:1px solid var(--border);margin-top:16px;">
+    <div style="font-size:0.82rem;color:var(--muted);margin-bottom:4px;">
+      &#128274; ข้อมูล Feedback ทั้งหมดถูกเก็บรักษาเป็นความลับและใช้เพื่อการพัฒนาผลิตภัณฑ์เท่านั้น
+    </div>
+    <div style="font-size:0.72rem;color:var(--muted);">
+      Autopilot v2 &mdash; Customer Feedback Module &mdash; อัพเดทล่าสุด: 5 เมษายน 2569
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- Toast notification -->
+<div class="toast" id="toast">&#9989; &#3586;&#3629;&#3610;&#3588;&#3640;&#3603;&#3626;&#3635;&#3627;&#3619;&#3633;&#3610; feedback! &#3648;&#3619;&#3634;&#3592;&#3632;&#3609;&#3635;&#3652;&#3611;&#3614;&#3633;&#3602;&#3609;&#3634;&#3605;&#3656;&#3629;&#3652;&#3611;</div>
+
+<script>
+/* ============================
+   Dark Mode Toggle
+   ============================ */
+function toggleDark(){
+  document.body.classList.toggle('dark');
+  const d=document.body.classList.contains('dark');
+  localStorage.setItem('darkMode',d);
+  document.querySelector('.dark-toggle').textContent=d?'\u2600\uFE0F':'\uD83C\uDF19';
+}
+if(localStorage.getItem('darkMode')==='true'){
+  document.body.classList.add('dark');
+  document.addEventListener('DOMContentLoaded',function(){
+    document.querySelector('.dark-toggle').textContent='\u2600\uFE0F';
+  });
+}
+
+/* ============================
+   KPI Counter Animation
+   ============================ */
+function animateCount(el,target,decimals,suffix){
+  const duration=1200;
+  const start=performance.now();
+  const initial=0;
+  function update(now){
+    const elapsed=now-start;
+    const progress=Math.min(elapsed/duration,1);
+    const eased=1-Math.pow(1-progress,3);
+    const current=initial+(target-initial)*eased;
+    if(decimals>0){
+      el.textContent=current.toFixed(decimals)+(suffix||'');
+    }else{
+      el.textContent=Math.round(current).toLocaleString()+(suffix||'');
+    }
+    if(progress<1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  animateCount(document.getElementById('kpi-users'),512847,0,'');
+  animateCount(document.getElementById('kpi-nps'),72,0,'');
+  animateCount(document.getElementById('kpi-sat'),4.6,1,'');
+  animateCount(document.getElementById('kpi-rate'),94.2,1,'');
+});
+
+/* ============================
+   NPS Chart Tooltips
+   ============================ */
+document.addEventListener('DOMContentLoaded',function(){
+  const dots=document.querySelectorAll('.chart-dot');
+  const tooltip=document.getElementById('chartTooltip');
+  const chartContainer=document.getElementById('npsChart');
+
+  dots.forEach(function(dot){
+    dot.style.cursor='pointer';
+    dot.style.transition='r 0.15s';
+
+    dot.addEventListener('mouseenter',function(e){
+      const month=dot.getAttribute('data-month');
+      const val=dot.getAttribute('data-val');
+      tooltip.innerHTML=month+' &mdash; NPS: <strong>'+val+'</strong>';
+      tooltip.style.opacity='1';
+
+      const svgRect=dot.closest('svg').getBoundingClientRect();
+      const containerRect=chartContainer.getBoundingClientRect();
+      const cx=parseFloat(dot.getAttribute('cx'));
+      const cy=parseFloat(dot.getAttribute('cy'));
+
+      const svgViewBox=dot.closest('svg').viewBox.baseVal;
+      const scaleX=svgRect.width/svgViewBox.width;
+      const scaleY=svgRect.height/svgViewBox.height;
+
+      const posX=(svgRect.left-containerRect.left)+cx*scaleX;
+      const posY=(svgRect.top-containerRect.top)+cy*scaleY;
+
+      tooltip.style.left=(posX-tooltip.offsetWidth/2)+'px';
+      tooltip.style.top=(posY-tooltip.offsetHeight-14)+'px';
+
+      dot.setAttribute('r','9');
+    });
+
+    dot.addEventListener('mouseleave',function(){
+      tooltip.style.opacity='0';
+      dot.setAttribute('r','6');
+    });
+  });
+});
+
+/* ============================
+   Vote Button
+   ============================ */
+function vote(btn){
+  const countEl=btn.nextElementSibling;
+  const current=parseInt(countEl.textContent.replace(/,/g,''));
+  countEl.textContent=(current+1).toLocaleString();
+  btn.style.color='var(--blue)';
+  btn.style.background='var(--blue-bg)';
+  btn.disabled=true;
+  btn.style.cursor='default';
+}
+
+/* ============================
+   Star Rating
+   ============================ */
+let currentRating=0;
+
+function setRating(val){
+  currentRating=val;
+  const stars=document.querySelectorAll('#starRating .star');
+  stars.forEach(function(star){
+    const sv=parseInt(star.getAttribute('data-val'));
+    star.classList.toggle('active',sv<=val);
+  });
+}
+
+// Hover effect for stars
+document.addEventListener('DOMContentLoaded',function(){
+  const stars=document.querySelectorAll('#starRating .star');
+  stars.forEach(function(star){
+    star.addEventListener('mouseenter',function(){
+      const val=parseInt(star.getAttribute('data-val'));
+      stars.forEach(function(s){
+        const sv=parseInt(s.getAttribute('data-val'));
+        s.style.color=sv<=val?'#F59E0B':'var(--border)';
+      });
+    });
+  });
+  document.getElementById('starRating').addEventListener('mouseleave',function(){
+    stars.forEach(function(s){
+      const sv=parseInt(s.getAttribute('data-val'));
+      s.style.color=sv<=currentRating?'#F59E0B':'var(--border)';
+    });
+  });
+});
+
+/* ============================
+   Feedback Form Submit
+   ============================ */
+function submitFeedback(e){
+  e.preventDefault();
+  if(currentRating===0){
+    alert('\u0E01\u0E23\u0E38\u0E13\u0E32\u0E43\u0E2B\u0E49\u0E04\u0E30\u0E41\u0E19\u0E19\u0E01\u0E48\u0E2D\u0E19\u0E2A\u0E48\u0E07');
+    return;
+  }
+  const toast=document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(function(){toast.classList.remove('show');},3000);
+  e.target.reset();
+  currentRating=0;
+  document.querySelectorAll('#starRating .star').forEach(function(s){
+    s.classList.remove('active');
+    s.style.color='var(--border)';
+  });
+}
+
+/* ============================
+   Intersection Observer for animations
+   ============================ */
+document.addEventListener('DOMContentLoaded',function(){
+  const observer=new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.style.opacity='1';
+        entry.target.style.transform='translateY(0)';
+      }
+    });
+  },{threshold:0.1});
+
+  document.querySelectorAll('.cat-card,.testimonial-card,.timeline-item,.chart-section,.table-section,.form-section').forEach(function(el){
+    el.style.opacity='0';
+    el.style.transform='translateY(20px)';
+    el.style.transition='opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+});
+</script>
+</body>
+</html>

@@ -6,20 +6,8 @@
 <title>Receipt OCR Scanner | Autopilot v2 by ANTS</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root {
-  --blue: #2563EB;
-  --purple: #7C3AED;
-  --green: #059669;
-  --grad: linear-gradient(135deg, #2563EB, #7C3AED);
-  --bg: #0F172A;
-  --surface: #1E293B;
-  --surface2: #334155;
-  --text: #F8FAFC;
-  --text-dim: #94A3B8;
-  --border: #475569;
-  --radius: 16px;
-  --radius-sm: 10px;
-}
+:root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
+body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);}
 
 * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -29,13 +17,16 @@ body {
   color: var(--text);
   min-height: 100vh;
   overflow-x: hidden;
+  font-size: 14px;
 }
+
+/* Dark Toggle */
+.dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);}
 
 /* Header */
 .header {
-  background: rgba(15,23,42,0.85);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(71,85,105,0.4);
+  background: var(--card-bg);
+  border-bottom: 1px solid var(--border);
   padding: 16px 32px;
   display: flex;
   align-items: center;
@@ -43,6 +34,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
+  box-shadow: var(--shadow);
 }
 
 .header-brand {
@@ -74,18 +66,18 @@ body {
 
 .header-brand span {
   font-size: 12px;
-  color: var(--text-dim);
+  color: var(--muted);
   display: block;
   margin-top: -2px;
 }
 
 .header-badge {
   padding: 6px 14px;
-  background: rgba(5,150,105,0.15);
-  border: 1px solid rgba(5,150,105,0.3);
+  background: var(--green-bg);
+  border: 1px solid var(--green);
   border-radius: 20px;
   font-size: 12px;
-  color: #34D399;
+  color: var(--green);
   font-weight: 600;
 }
 
@@ -93,27 +85,30 @@ body {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 32px 24px;
+  padding: 24px;
 }
+
+/* Breadcrumb */
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--muted);margin-bottom:16px;}
+.breadcrumb a{color:var(--blue);text-decoration:none;font-weight:500;}
+.breadcrumb a:hover{text-decoration:underline;}
 
 /* Page Title */
 .page-title {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
 }
 
 .page-title h2 {
-  font-size: 32px;
+  font-size: 1.4rem;
   font-weight: 800;
-  background: var(--grad);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--text);
   margin-bottom: 8px;
 }
 
 .page-title p {
-  color: var(--text-dim);
-  font-size: 16px;
+  color: var(--muted);
+  font-size: 0.85rem;
 }
 
 /* Upload Zone */
@@ -124,13 +119,13 @@ body {
   text-align: center;
   cursor: pointer;
   transition: all 0.3s;
-  background: rgba(30,41,59,0.5);
+  background: var(--bg2);
   margin-bottom: 24px;
 }
 
 .upload-zone:hover, .upload-zone.dragover {
   border-color: var(--blue);
-  background: rgba(37,99,235,0.08);
+  background: var(--blue-bg);
   transform: translateY(-2px);
 }
 
@@ -141,14 +136,14 @@ body {
 }
 
 .upload-zone .title {
-  font-size: 20px;
+  font-size: 1.1rem;
   font-weight: 700;
   margin-bottom: 8px;
 }
 
 .upload-zone .subtitle {
-  font-size: 14px;
-  color: var(--text-dim);
+  font-size: 0.85rem;
+  color: var(--muted);
 }
 
 /* Mock Receipts Grid */
@@ -157,9 +152,9 @@ body {
 }
 
 .mock-section h3 {
-  font-size: 16px;
+  font-size: 0.85rem;
   font-weight: 600;
-  color: var(--text-dim);
+  color: var(--muted);
   margin-bottom: 16px;
   text-align: center;
 }
@@ -175,9 +170,9 @@ body {
 }
 
 .mock-btn {
-  background: var(--surface);
+  background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius);
   padding: 16px 12px;
   cursor: pointer;
   transition: all 0.25s;
@@ -185,13 +180,14 @@ body {
   color: var(--text);
   font-family: inherit;
   font-size: 14px;
+  box-shadow: var(--shadow);
 }
 
 .mock-btn:hover {
   border-color: var(--blue);
-  background: rgba(37,99,235,0.1);
+  background: var(--blue-bg);
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(37,99,235,0.2);
+  box-shadow: 0 8px 25px rgba(37,99,235,0.15);
 }
 
 .mock-btn .emoji {
@@ -207,13 +203,13 @@ body {
 
 .mock-btn .cat {
   font-size: 12px;
-  color: var(--text-dim);
+  color: var(--muted);
 }
 
 .mock-btn .price {
   font-size: 16px;
   font-weight: 700;
-  color: #34D399;
+  color: var(--green);
   margin-top: 4px;
 }
 
@@ -246,17 +242,18 @@ body {
 
 /* Receipt Visual */
 .receipt-panel {
-  background: var(--surface);
+  background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 24px;
   position: relative;
   overflow: hidden;
+  box-shadow: var(--shadow);
 }
 
 .receipt-panel h4 {
-  font-size: 14px;
-  color: var(--text-dim);
+  font-size: 0.85rem;
+  color: var(--muted);
   margin-bottom: 16px;
   font-weight: 600;
 }
@@ -272,7 +269,7 @@ body {
   position: relative;
   overflow: hidden;
   min-height: 320px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
 
 .receipt-visual::before {
@@ -350,15 +347,16 @@ body {
 
 /* Extracted Data Panel */
 .extract-panel {
-  background: var(--surface);
+  background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 24px;
+  box-shadow: var(--shadow);
 }
 
 .extract-panel h4 {
-  font-size: 14px;
-  color: var(--text-dim);
+  font-size: 0.85rem;
+  color: var(--muted);
   margin-bottom: 16px;
   font-weight: 600;
 }
@@ -382,8 +380,8 @@ body {
 }
 
 .extract-field.highlight {
-  background: rgba(5,150,105,0.12);
-  border: 1px solid rgba(5,150,105,0.3);
+  background: var(--green-bg);
+  border: 1px solid var(--green);
 }
 
 .extract-field .field-icon {
@@ -394,26 +392,27 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 16px;
-  background: var(--surface2);
+  background: var(--bg3);
   flex-shrink: 0;
 }
 
 .extract-field .field-label {
   font-size: 11px;
-  color: var(--text-dim);
+  color: var(--muted);
   margin-bottom: 2px;
 }
 
 .extract-field .field-value {
   font-size: 14px;
   font-weight: 600;
+  color: var(--text);
 }
 
 /* Processing Log */
 .log-panel {
-  background: #0D1117;
+  background: var(--bg3);
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius);
   padding: 16px 20px;
   font-family: 'Courier New', monospace;
   font-size: 12px;
@@ -428,11 +427,11 @@ body {
 }
 
 .log-panel .log-line.show { opacity: 1; }
-.log-panel .log-tag-ocr { color: #34D399; }
-.log-panel .log-tag-ai { color: #818CF8; }
-.log-panel .log-tag-ok { color: #FBBF24; }
-.log-panel .log-tag-done { color: #F472B6; }
-.log-panel .log-text { color: #94A3B8; }
+.log-panel .log-tag-ocr { color: var(--green); }
+.log-panel .log-tag-ai { color: var(--purple); }
+.log-panel .log-tag-ok { color: var(--orange); }
+.log-panel .log-tag-done { color: var(--red); }
+.log-panel .log-text { color: var(--muted); }
 
 /* Claim Form */
 #claimForm {
@@ -446,14 +445,15 @@ body {
 }
 
 .form-card {
-  background: var(--surface);
+  background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 28px;
+  box-shadow: var(--shadow);
 }
 
 .form-card h3 {
-  font-size: 20px;
+  font-size: 1.1rem;
   font-weight: 700;
   margin-bottom: 24px;
   display: flex;
@@ -481,14 +481,14 @@ body {
 .form-group label {
   font-size: 13px;
   font-weight: 600;
-  color: var(--text-dim);
+  color: var(--muted);
   margin-bottom: 6px;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
-  background: var(--bg);
+  background: var(--bg2);
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 10px 14px;
@@ -503,6 +503,7 @@ body {
 .form-group select:focus,
 .form-group textarea:focus {
   border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(37,99,235,.1);
 }
 
 .form-group textarea { resize: vertical; min-height: 60px; }
@@ -544,21 +545,21 @@ body {
 }
 
 .policy-green {
-  background: rgba(5,150,105,0.12);
-  border: 1px solid rgba(5,150,105,0.3);
-  color: #34D399;
+  background: var(--green-bg);
+  border: 1px solid var(--green);
+  color: var(--green);
 }
 
 .policy-orange {
-  background: rgba(245,158,11,0.12);
-  border: 1px solid rgba(245,158,11,0.3);
-  color: #FBBF24;
+  background: var(--orange-bg);
+  border: 1px solid var(--orange);
+  color: var(--orange);
 }
 
 .policy-red {
-  background: rgba(239,68,68,0.12);
-  border: 1px solid rgba(239,68,68,0.3);
-  color: #F87171;
+  background: var(--red-bg);
+  border: 1px solid var(--red);
+  color: var(--red);
 }
 
 /* Submit Area */
@@ -598,7 +599,7 @@ body {
 
 .btn-reset {
   background: transparent;
-  color: var(--text-dim);
+  color: var(--muted);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 14px 32px;
@@ -611,7 +612,7 @@ body {
 }
 
 .btn-reset:hover {
-  border-color: var(--text-dim);
+  border-color: var(--text2);
   color: var(--text);
 }
 
@@ -655,22 +656,22 @@ body {
   border-radius: 20px;
   font-size: 13px;
   font-weight: 600;
-  background: var(--surface);
-  color: var(--text-dim);
+  background: var(--card-bg);
+  color: var(--muted);
   border: 1px solid var(--border);
   transition: all 0.3s;
 }
 
 .progress-step.active {
-  background: rgba(37,99,235,0.15);
-  color: #60A5FA;
-  border-color: rgba(37,99,235,0.4);
+  background: var(--blue-bg);
+  color: var(--blue);
+  border-color: var(--blue);
 }
 
 .progress-step.done {
-  background: rgba(5,150,105,0.15);
-  color: #34D399;
-  border-color: rgba(5,150,105,0.4);
+  background: var(--green-bg);
+  color: var(--green);
+  border-color: var(--green);
 }
 
 .progress-step .step-num {
@@ -681,7 +682,7 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 11px;
-  background: var(--surface2);
+  background: var(--bg3);
 }
 
 .progress-step.active .step-num {
@@ -697,6 +698,8 @@ body {
 </head>
 <body>
 
+<button class="dark-toggle" onclick="toggleDark()" title="Dark Mode">&#x1F319;</button>
+
 <!-- Header -->
 <div class="header">
   <div class="header-brand">
@@ -711,6 +714,15 @@ body {
 
 <!-- Main -->
 <div class="container">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="../poc-app/v2.html">Autopilot v2</a>
+    <span>/</span>
+    <span>Expense & Receipt</span>
+    <span>/</span>
+    <span>Receipt OCR Scanner</span>
+  </div>
 
   <!-- Page Title -->
   <div class="page-title">
@@ -865,21 +877,25 @@ body {
 </div>
 
 <script>
+// Dark mode toggle
+function toggleDark(){document.body.classList.toggle('dark');const d=document.body.classList.contains('dark');localStorage.setItem('darkMode',d);document.querySelector('.dark-toggle').textContent=d?'\u2600\uFE0F':'\uD83C\uDF19';}
+if(localStorage.getItem('darkMode')==='true'){document.body.classList.add('dark');document.addEventListener('DOMContentLoaded',()=>{document.querySelector('.dark-toggle').textContent='\u2600\uFE0F';});}
+
 // Receipt Data
 const receipts = {
   seven: {
     store: '7-Eleven',
-    branch: 'สาขา สีลม ซอย 3 (00847)',
-    taxId: 'เลขประจำตัวผู้เสียภาษี: 0-1075-43002-71-9',
+    branch: '\u0E2A\u0E32\u0E02\u0E32 \u0E2A\u0E35\u0E25\u0E21 \u0E0B\u0E2D\u0E22 3 (00847)',
+    taxId: '\u0E40\u0E25\u0E02\u0E1B\u0E23\u0E30\u0E08\u0E33\u0E15\u0E31\u0E27\u0E1C\u0E39\u0E49\u0E40\u0E2A\u0E35\u0E22\u0E20\u0E32\u0E29\u0E35: 0-1075-43002-71-9',
     date: '04/04/2569 15:32',
-    formDate: '4 เมษายน 2569',
+    formDate: '4 \u0E40\u0E21\u0E29\u0E32\u0E22\u0E19 2569',
     items: [
-      ['ข้าวกล่อง ไก่ทอด', '69.00'],
-      ['น้ำดื่ม Crystal 600ml', '10.00'],
-      ['ขนมปัง 7Fresh', '35.00'],
-      ['กาแฟ All Cafe (L)', '55.00'],
-      ['ซาลาเปาหมูแดง', '29.00'],
-      ['ถุงพลาสติก', '2.00']
+      ['\u0E02\u0E49\u0E32\u0E27\u0E01\u0E25\u0E48\u0E2D\u0E07 \u0E44\u0E01\u0E48\u0E17\u0E2D\u0E14', '69.00'],
+      ['\u0E19\u0E49\u0E33\u0E14\u0E37\u0E48\u0E21 Crystal 600ml', '10.00'],
+      ['\u0E02\u0E19\u0E21\u0E1B\u0E31\u0E07 7Fresh', '35.00'],
+      ['\u0E01\u0E32\u0E41\u0E1F All Cafe (L)', '55.00'],
+      ['\u0E0B\u0E32\u0E25\u0E32\u0E40\u0E1B\u0E32\u0E2B\u0E21\u0E39\u0E41\u0E14\u0E07', '29.00'],
+      ['\u0E16\u0E38\u0E07\u0E1E\u0E25\u0E32\u0E2A\u0E15\u0E34\u0E01', '2.00']
     ],
     subtotal: '200.00',
     vat: '14.00',
@@ -887,48 +903,48 @@ const receipts = {
     total: '245.00',
     totalNum: 245,
     payment: 'QR Code PromptPay',
-    category: 'ค่าอาหาร',
+    category: '\u0E04\u0E48\u0E32\u0E2D\u0E32\u0E2B\u0E32\u0E23',
     catIndex: 2,
     policy: 'green',
-    policyMsg: 'ภายในวงเงิน',
-    policyDetail: 'ค่าอาหารต่อมื้อไม่เกิน 500 บาท (ใช้ไป 245 บาท)'
+    policyMsg: '\u0E20\u0E32\u0E22\u0E43\u0E19\u0E27\u0E07\u0E40\u0E07\u0E34\u0E19',
+    policyDetail: '\u0E04\u0E48\u0E32\u0E2D\u0E32\u0E2B\u0E32\u0E23\u0E15\u0E48\u0E2D\u0E21\u0E37\u0E49\u0E2D\u0E44\u0E21\u0E48\u0E40\u0E01\u0E34\u0E19 500 \u0E1A\u0E32\u0E17 (\u0E43\u0E0A\u0E49\u0E44\u0E1B 245 \u0E1A\u0E32\u0E17)'
   },
   ptt: {
     store: 'PTT Station',
-    branch: 'สาขา ถ.วิภาวดีรังสิต กม.12 (PV-1203)',
-    taxId: 'เลขประจำตัวผู้เสียภาษี: 0-1055-44000-83-2',
+    branch: '\u0E2A\u0E32\u0E02\u0E32 \u0E16.\u0E27\u0E34\u0E20\u0E32\u0E27\u0E14\u0E35\u0E23\u0E31\u0E07\u0E2A\u0E34\u0E15 \u0E01\u0E21.12 (PV-1203)',
+    taxId: '\u0E40\u0E25\u0E02\u0E1B\u0E23\u0E30\u0E08\u0E33\u0E15\u0E31\u0E27\u0E1C\u0E39\u0E49\u0E40\u0E2A\u0E35\u0E22\u0E20\u0E32\u0E29\u0E35: 0-1055-44000-83-2',
     date: '03/04/2569 08:15',
-    formDate: '3 เมษายน 2569',
+    formDate: '3 \u0E40\u0E21\u0E29\u0E32\u0E22\u0E19 2569',
     items: [
-      ['แก๊สโซฮอล์ 95 x 48.52 ลิตร', '1,650.00'],
-      ['น้ำยาล้างกระจก Rain-X', '120.00'],
-      ['น้ำดื่ม', '15.00']
+      ['\u0E41\u0E01\u0E4A\u0E2A\u0E42\u0E0B\u0E2E\u0E2D\u0E25\u0E4C 95 x 48.52 \u0E25\u0E34\u0E15\u0E23', '1,650.00'],
+      ['\u0E19\u0E49\u0E33\u0E22\u0E32\u0E25\u0E49\u0E32\u0E07\u0E01\u0E23\u0E30\u0E08\u0E01 Rain-X', '120.00'],
+      ['\u0E19\u0E49\u0E33\u0E14\u0E37\u0E48\u0E21', '15.00']
     ],
     subtotal: '1,785.00',
     vat: '121.03',
     vatCalc: '121.03',
     total: '1,850.00',
     totalNum: 1850,
-    payment: 'บัตรเครดิต VISA ****4821',
-    category: 'น้ำมัน',
+    payment: '\u0E1A\u0E31\u0E15\u0E23\u0E40\u0E04\u0E23\u0E14\u0E34\u0E15 VISA ****4821',
+    category: '\u0E19\u0E49\u0E33\u0E21\u0E31\u0E19',
     catIndex: 1,
     policy: 'orange',
-    policyMsg: 'เกินวงเงิน',
-    policyDetail: 'ค่าน้ำมันต่อครั้งไม่เกิน 1,500 บาท (เกิน 350 บาท -- ต้องขออนุมัติหัวหน้า)'
+    policyMsg: '\u0E40\u0E01\u0E34\u0E19\u0E27\u0E07\u0E40\u0E07\u0E34\u0E19',
+    policyDetail: '\u0E04\u0E48\u0E32\u0E19\u0E49\u0E33\u0E21\u0E31\u0E19\u0E15\u0E48\u0E2D\u0E04\u0E23\u0E31\u0E49\u0E07\u0E44\u0E21\u0E48\u0E40\u0E01\u0E34\u0E19 1,500 \u0E1A\u0E32\u0E17 (\u0E40\u0E01\u0E34\u0E19 350 \u0E1A\u0E32\u0E17 -- \u0E15\u0E49\u0E2D\u0E07\u0E02\u0E2D\u0E2D\u0E19\u0E38\u0E21\u0E31\u0E15\u0E34\u0E2B\u0E31\u0E27\u0E2B\u0E19\u0E49\u0E32)'
   },
   grab: {
     store: 'Grab Taxi',
     branch: 'Grab Thailand Co., Ltd.',
-    taxId: 'เลขประจำตัวผู้เสียภาษี: 0-1055-60123-45-6',
+    taxId: '\u0E40\u0E25\u0E02\u0E1B\u0E23\u0E30\u0E08\u0E33\u0E15\u0E31\u0E27\u0E1C\u0E39\u0E49\u0E40\u0E2A\u0E35\u0E22\u0E20\u0E32\u0E29\u0E35: 0-1055-60123-45-6',
     date: '04/04/2569 09:45',
-    formDate: '4 เมษายน 2569',
+    formDate: '4 \u0E40\u0E21\u0E29\u0E32\u0E22\u0E19 2569',
     items: [
       ['GrabCar Premium', ''],
-      ['จุดรับ: สีลม', ''],
-      ['จุดส่ง: สาทร', ''],
-      ['ค่าโดยสาร', '320.00'],
-      ['ส่วนลด Promo', '-15.00'],
-      ['ค่าทางด่วน', '50.00']
+      ['\u0E08\u0E38\u0E14\u0E23\u0E31\u0E1A: \u0E2A\u0E35\u0E25\u0E21', ''],
+      ['\u0E08\u0E38\u0E14\u0E2A\u0E48\u0E07: \u0E2A\u0E32\u0E17\u0E23', ''],
+      ['\u0E04\u0E48\u0E32\u0E42\u0E14\u0E22\u0E2A\u0E32\u0E23', '320.00'],
+      ['\u0E2A\u0E48\u0E27\u0E19\u0E25\u0E14 Promo', '-15.00'],
+      ['\u0E04\u0E48\u0E32\u0E17\u0E32\u0E07\u0E14\u0E48\u0E27\u0E19', '50.00']
     ],
     subtotal: '355.00',
     vat: '24.85',
@@ -936,24 +952,24 @@ const receipts = {
     total: '385.00',
     totalNum: 385,
     payment: 'GrabPay Wallet',
-    category: 'ค่าเดินทาง',
+    category: '\u0E04\u0E48\u0E32\u0E40\u0E14\u0E34\u0E19\u0E17\u0E32\u0E07',
     catIndex: 0,
     policy: 'green',
-    policyMsg: 'ภายในวงเงิน',
-    policyDetail: 'ค่าเดินทางต่อเที่ยวไม่เกิน 500 บาท (ใช้ไป 385 บาท)'
+    policyMsg: '\u0E20\u0E32\u0E22\u0E43\u0E19\u0E27\u0E07\u0E40\u0E07\u0E34\u0E19',
+    policyDetail: '\u0E04\u0E48\u0E32\u0E40\u0E14\u0E34\u0E19\u0E17\u0E32\u0E07\u0E15\u0E48\u0E2D\u0E40\u0E17\u0E35\u0E48\u0E22\u0E27\u0E44\u0E21\u0E48\u0E40\u0E01\u0E34\u0E19 500 \u0E1A\u0E32\u0E17 (\u0E43\u0E0A\u0E49\u0E44\u0E1B 385 \u0E1A\u0E32\u0E17)'
   },
   mk: {
     store: 'MK Restaurant',
-    branch: 'สาขา เซ็นทรัล ลาดพร้าว ชั้น 6',
-    taxId: 'เลขประจำตัวผู้เสียภาษี: 0-1075-53001-22-8',
+    branch: '\u0E2A\u0E32\u0E02\u0E32 \u0E40\u0E0B\u0E47\u0E19\u0E17\u0E23\u0E31\u0E25 \u0E25\u0E32\u0E14\u0E1E\u0E23\u0E49\u0E32\u0E27 \u0E0A\u0E31\u0E49\u0E19 6',
+    taxId: '\u0E40\u0E25\u0E02\u0E1B\u0E23\u0E30\u0E08\u0E33\u0E15\u0E31\u0E27\u0E1C\u0E39\u0E49\u0E40\u0E2A\u0E35\u0E22\u0E20\u0E32\u0E29\u0E35: 0-1075-53001-22-8',
     date: '02/04/2569 12:30',
-    formDate: '2 เมษายน 2569',
+    formDate: '2 \u0E40\u0E21\u0E29\u0E32\u0E22\u0E19 2569',
     items: [
-      ['ชุดสุกี้ MK Gold (2 ท่าน)', '598.00'],
-      ['เกี๊ยวกุ้ง', '159.00'],
-      ['เป็ดย่าง MK', '189.00'],
-      ['น้ำจิ้มพิเศษ x2', '40.00'],
-      ['ชาเย็น x2', '98.00'],
+      ['\u0E0A\u0E38\u0E14\u0E2A\u0E38\u0E01\u0E35\u0E49 MK Gold (2 \u0E17\u0E48\u0E32\u0E19)', '598.00'],
+      ['\u0E40\u0E01\u0E35\u0E4A\u0E22\u0E27\u0E01\u0E38\u0E49\u0E07', '159.00'],
+      ['\u0E40\u0E1B\u0E47\u0E14\u0E22\u0E48\u0E32\u0E07 MK', '189.00'],
+      ['\u0E19\u0E49\u0E33\u0E08\u0E34\u0E49\u0E21\u0E1E\u0E34\u0E40\u0E28\u0E29 x2', '40.00'],
+      ['\u0E0A\u0E32\u0E40\u0E22\u0E47\u0E19 x2', '98.00'],
       ['Service Charge 10%', '108.40']
     ],
     subtotal: '1,192.40',
@@ -961,22 +977,22 @@ const receipts = {
     vatCalc: '81.09',
     total: '1,240.00',
     totalNum: 1240,
-    payment: 'บัตรเดบิต K-Plus ****9102',
-    category: 'ค่าอาหาร',
+    payment: '\u0E1A\u0E31\u0E15\u0E23\u0E40\u0E14\u0E1A\u0E34\u0E15 K-Plus ****9102',
+    category: '\u0E04\u0E48\u0E32\u0E2D\u0E32\u0E2B\u0E32\u0E23',
     catIndex: 2,
     policy: 'orange',
-    policyMsg: 'เกินวงเงิน',
-    policyDetail: 'ค่าอาหารต่อมื้อไม่เกิน 500 บาท/คน (2 คน = วงเงิน 1,000 บาท -- เกิน 240 บาท)'
+    policyMsg: '\u0E40\u0E01\u0E34\u0E19\u0E27\u0E07\u0E40\u0E07\u0E34\u0E19',
+    policyDetail: '\u0E04\u0E48\u0E32\u0E2D\u0E32\u0E2B\u0E32\u0E23\u0E15\u0E48\u0E2D\u0E21\u0E37\u0E49\u0E2D\u0E44\u0E21\u0E48\u0E40\u0E01\u0E34\u0E19 500 \u0E1A\u0E32\u0E17/\u0E04\u0E19 (2 \u0E04\u0E19 = \u0E27\u0E07\u0E40\u0E07\u0E34\u0E19 1,000 \u0E1A\u0E32\u0E17 -- \u0E40\u0E01\u0E34\u0E19 240 \u0E1A\u0E32\u0E17)'
   },
   hotel: {
     store: 'Holiday Inn',
     branch: 'Holiday Inn Bangkok Silom',
-    taxId: 'เลขประจำตัวผู้เสียภาษี: 0-1055-34500-12-7',
+    taxId: '\u0E40\u0E25\u0E02\u0E1B\u0E23\u0E30\u0E08\u0E33\u0E15\u0E31\u0E27\u0E1C\u0E39\u0E49\u0E40\u0E2A\u0E35\u0E22\u0E20\u0E32\u0E29\u0E35: 0-1055-34500-12-7',
     date: '01/04/2569 14:00',
-    formDate: '1 เมษายน 2569',
+    formDate: '1 \u0E40\u0E21\u0E29\u0E32\u0E22\u0E19 2569',
     items: [
-      ['Superior Room 1 คืน', '2,800.00'],
-      ['อาหารเช้า Buffet x1', '450.00'],
+      ['Superior Room 1 \u0E04\u0E37\u0E19', '2,800.00'],
+      ['\u0E2D\u0E32\u0E2B\u0E32\u0E23\u0E40\u0E0A\u0E49\u0E32 Buffet x1', '450.00'],
       ['Mini Bar', '150.00']
     ],
     subtotal: '3,400.00',
@@ -984,12 +1000,12 @@ const receipts = {
     vatCalc: '228.97',
     total: '3,500.00',
     totalNum: 3500,
-    payment: 'บัตรเครดิต AMEX ****7755',
-    category: 'ค่าที่พัก',
+    payment: '\u0E1A\u0E31\u0E15\u0E23\u0E40\u0E04\u0E23\u0E14\u0E34\u0E15 AMEX ****7755',
+    category: '\u0E04\u0E48\u0E32\u0E17\u0E35\u0E48\u0E1E\u0E31\u0E01',
     catIndex: 3,
     policy: 'red',
-    policyMsg: 'ไม่อยู่ในนโยบาย',
-    policyDetail: 'ค่าที่พักต่อคืนไม่เกิน 2,500 บาท -- รายการนี้รวม Mini Bar ซึ่งไม่อยู่ในนโยบายเบิกจ่าย'
+    policyMsg: '\u0E44\u0E21\u0E48\u0E2D\u0E22\u0E39\u0E48\u0E43\u0E19\u0E19\u0E42\u0E22\u0E1A\u0E32\u0E22',
+    policyDetail: '\u0E04\u0E48\u0E32\u0E17\u0E35\u0E48\u0E1E\u0E31\u0E01\u0E15\u0E48\u0E2D\u0E04\u0E37\u0E19\u0E44\u0E21\u0E48\u0E40\u0E01\u0E34\u0E19 2,500 \u0E1A\u0E32\u0E17 -- \u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E19\u0E35\u0E49\u0E23\u0E27\u0E21 Mini Bar \u0E0B\u0E36\u0E48\u0E07\u0E44\u0E21\u0E48\u0E2D\u0E22\u0E39\u0E48\u0E43\u0E19\u0E19\u0E42\u0E22\u0E1A\u0E32\u0E22\u0E40\u0E1A\u0E34\u0E01\u0E08\u0E48\u0E32\u0E22'
   }
 };
 
@@ -1015,19 +1031,16 @@ function startOCR(key) {
   currentReceipt = receipts[key];
   const r = currentReceipt;
 
-  // Hide upload and mock section
   document.getElementById('uploadZone').style.display = 'none';
   document.getElementById('mockSection').style.display = 'none';
   document.getElementById('claimForm').className = '';
   document.getElementById('policyResult').className = '';
   document.getElementById('submitArea').className = '';
 
-  // Show OCR area
   const ocrArea = document.getElementById('ocrArea');
   ocrArea.className = 'active';
   setStep(2);
 
-  // Build receipt HTML
   let itemsHtml = '';
   r.items.forEach(it => {
     if (it[1]) {
@@ -1042,40 +1055,36 @@ function startOCR(key) {
     <div class="store-name">${r.store}</div>
     <div class="store-branch">${r.branch}</div>
     <hr class="divider">
-    <div style="font-size:11px;color:#57534E;margin-bottom:4px">วันที่: ${r.date}</div>
+    <div style="font-size:11px;color:#57534E;margin-bottom:4px">\u0E27\u0E31\u0E19\u0E17\u0E35\u0E48: ${r.date}</div>
     <hr class="divider">
     ${itemsHtml}
     <hr class="divider">
-    <div class="item-row"><span>รวมก่อน VAT</span><span>${r.subtotal}</span></div>
+    <div class="item-row"><span>\u0E23\u0E27\u0E21\u0E01\u0E48\u0E2D\u0E19 VAT</span><span>${r.subtotal}</span></div>
     <div class="item-row"><span>VAT 7%</span><span>${r.vat}</span></div>
     <hr class="divider">
-    <div class="total-row"><span>รวมทั้งสิ้น</span><span>&#x0E3F;${r.total}</span></div>
+    <div class="total-row"><span>\u0E23\u0E27\u0E21\u0E17\u0E31\u0E49\u0E07\u0E2A\u0E34\u0E49\u0E19</span><span>\u0E3F${r.total}</span></div>
     <hr class="divider">
-    <div style="font-size:11px;color:#57534E">ชำระเงิน: ${r.payment}</div>
+    <div style="font-size:11px;color:#57534E">\u0E0A\u0E33\u0E23\u0E30\u0E40\u0E07\u0E34\u0E19: ${r.payment}</div>
     <div class="tax-id">${r.taxId}</div>
-    <div class="tax-id">*** ขอบคุณที่ใช้บริการ ***</div>
+    <div class="tax-id">*** \u0E02\u0E2D\u0E1A\u0E04\u0E38\u0E13\u0E17\u0E35\u0E48\u0E43\u0E0A\u0E49\u0E1A\u0E23\u0E34\u0E01\u0E32\u0E23 ***</div>
   `;
 
-  // Clear extracted fields
   document.getElementById('extractedFields').innerHTML = '';
   document.getElementById('logPanel').innerHTML = '';
 
-  // Start scan animation
   animTimers.push(setTimeout(() => {
     document.getElementById('scanLine').classList.add('active');
   }, 300));
 
-  // Extracted data fields
   const fields = [
-    { icon: '\uD83C\uDFEA', label: 'ร้านค้า', value: r.store + ' ' + r.branch },
-    { icon: '\uD83D\uDCC5', label: 'วันที่', value: r.formDate },
-    { icon: '\uD83D\uDED2', label: 'รายการสินค้า', value: r.items.filter(i=>i[1]).map(i=>i[0]).join(', ') },
-    { icon: '\uD83D\uDCB0', label: 'จำนวนเงิน', value: '\u0E3F' + r.total },
+    { icon: '\uD83C\uDFEA', label: '\u0E23\u0E49\u0E32\u0E19\u0E04\u0E49\u0E32', value: r.store + ' ' + r.branch },
+    { icon: '\uD83D\uDCC5', label: '\u0E27\u0E31\u0E19\u0E17\u0E35\u0E48', value: r.formDate },
+    { icon: '\uD83D\uDED2', label: '\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32', value: r.items.filter(i=>i[1]).map(i=>i[0]).join(', ') },
+    { icon: '\uD83D\uDCB0', label: '\u0E08\u0E33\u0E19\u0E27\u0E19\u0E40\u0E07\u0E34\u0E19', value: '\u0E3F' + r.total },
     { icon: '\uD83D\uDCCA', label: 'VAT 7%', value: '\u0E3F' + r.vat },
-    { icon: '\uD83C\uDFF7\uFE0F', label: 'ประเภท', value: r.category }
+    { icon: '\uD83C\uDFF7\uFE0F', label: '\u0E1B\u0E23\u0E30\u0E40\u0E20\u0E17', value: r.category }
   ];
 
-  // Build field HTML
   let fieldsHtml = '';
   fields.forEach((f, i) => {
     fieldsHtml += `
@@ -1090,7 +1099,6 @@ function startOCR(key) {
   });
   document.getElementById('extractedFields').innerHTML = fieldsHtml;
 
-  // Log messages
   const logs = [
     { tag: 'ocr', tagLabel: '[OCR]', text: 'Analyzing document structure...' },
     { tag: 'ocr', tagLabel: '[OCR]', text: 'Detecting text regions... 12 regions found' },
@@ -1102,7 +1110,6 @@ function startOCR(key) {
     { tag: 'done', tagLabel: '[DONE]', text: 'Extraction complete -- Confidence: 98.7%' }
   ];
 
-  // Animate each field and log with timing
   const baseDelay = 600;
   const stepDelay = 450;
 
@@ -1117,14 +1124,13 @@ function startOCR(key) {
     }, baseDelay + i * stepDelay));
   });
 
-  // Reveal fields one by one (synced with related log messages)
   const fieldTimings = [
-    baseDelay + 2 * stepDelay, // merchant after 3rd log
-    baseDelay + 3 * stepDelay, // date after 4th log
-    baseDelay + 4 * stepDelay, // items after 5th log
-    baseDelay + 5 * stepDelay, // amount after 6th log
-    baseDelay + 5 * stepDelay + 200, // vat shortly after
-    baseDelay + 6 * stepDelay  // category after 7th log
+    baseDelay + 2 * stepDelay,
+    baseDelay + 3 * stepDelay,
+    baseDelay + 4 * stepDelay,
+    baseDelay + 5 * stepDelay,
+    baseDelay + 5 * stepDelay + 200,
+    baseDelay + 6 * stepDelay
   ];
 
   fieldTimings.forEach((delay, i) => {
@@ -1132,13 +1138,11 @@ function startOCR(key) {
       const el = document.getElementById('exField' + i);
       if (el) {
         el.classList.add('revealed', 'highlight');
-        // Remove highlight after a moment
         animTimers.push(setTimeout(() => el.classList.remove('highlight'), 800));
       }
     }, delay));
   });
 
-  // After OCR complete, show claim form
   const formDelay = baseDelay + logs.length * stepDelay + 600;
   animTimers.push(setTimeout(() => {
     showClaimForm(r);
@@ -1149,14 +1153,13 @@ function showClaimForm(r) {
   setStep(3);
   document.getElementById('fMerchant').value = r.store + ' - ' + r.branch;
   document.getElementById('fDate').value = r.formDate;
-  document.getElementById('fAmount').value = r.total + ' บาท';
-  document.getElementById('fVat').value = r.vatCalc + ' บาท';
+  document.getElementById('fAmount').value = r.total + ' \u0E1A\u0E32\u0E17';
+  document.getElementById('fVat').value = r.vatCalc + ' \u0E1A\u0E32\u0E17';
   document.getElementById('fCategory').selectedIndex = r.catIndex;
   document.getElementById('fNote').value = '';
 
   document.getElementById('claimForm').className = 'active';
 
-  // Show policy check after a beat
   animTimers.push(setTimeout(() => showPolicyCheck(r), 700));
 }
 
@@ -1184,7 +1187,6 @@ function showPolicyCheck(r) {
   `;
   document.getElementById('policyResult').className = 'active';
 
-  // Show submit button
   animTimers.push(setTimeout(() => {
     setStep(4);
     document.getElementById('submitArea').className = 'active';
@@ -1225,7 +1227,6 @@ uploadZone.addEventListener('dragleave', () => {
 uploadZone.addEventListener('drop', e => {
   e.preventDefault();
   uploadZone.classList.remove('dragover');
-  // Demo: pick a random receipt
   const keys = Object.keys(receipts);
   startOCR(keys[Math.floor(Math.random() * keys.length)]);
 });

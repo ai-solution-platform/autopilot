@@ -8,593 +8,178 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+Thai:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root {
-    --bg: #0B0F1A;
-    --bg2: #111827;
-    --bg3: #1F2937;
-    --surface: rgba(17,24,39,0.8);
-    --surface-border: rgba(99,102,241,0.15);
-    --border: rgba(148,163,184,0.12);
-    --text: #F1F5F9;
-    --text2: #CBD5E1;
-    --text-muted: #64748B;
-    --accent: #6366F1;
-    --accent2: #8B5CF6;
-    --accent3: #06B6D4;
-    --success: #10B981;
-    --warning: #F59E0B;
-    --danger: #EF4444;
-    --grad1: linear-gradient(135deg, #3B82F6, #8B5CF6);
-    --grad2: linear-gradient(135deg, #06B6D4, #3B82F6);
-    --grad3: linear-gradient(135deg, #8B5CF6, #EC4899);
-    --grad4: linear-gradient(135deg, #10B981, #06B6D4);
-}
+:root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
+body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);}
 
 * { margin:0; padding:0; box-sizing:border-box; }
-
 html { scroll-behavior: smooth; }
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh;overflow-x:hidden;transition:background 0.3s,color 0.3s;}
 
-body {
-    font-family: 'Inter', 'Noto Sans Thai', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-}
+.dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:all 0.2s;}
+.dark-toggle:hover{transform:scale(1.1);}
 
-/* ── Header ── */
+/* Header */
 .header {
     position: sticky; top: 0; z-index: 100;
-    backdrop-filter: blur(20px);
-    background: rgba(11,15,26,0.85);
-    border-bottom: 1px solid var(--border);
-    padding: 16px 32px;
-    display: flex; align-items: center; justify-content: space-between;
+    background: var(--card-bg); border-bottom: 1px solid var(--border); box-shadow: var(--shadow);
+    padding: 14px 32px; display: flex; align-items: center; justify-content: space-between;
 }
-.header-brand {
-    display: flex; align-items: center; gap: 12px;
-}
-.header-brand .logo {
-    width: 36px; height: 36px;
-    background: var(--grad1);
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 800; font-size: 16px; color: #fff;
-}
-.header-brand h1 {
-    font-size: 18px; font-weight: 700;
-    background: var(--grad1);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-}
-.header-brand span {
-    font-size: 12px; color: var(--text-muted); margin-left: 4px;
-}
-.header-status {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 13px; color: var(--success);
-}
-.header-status::before {
-    content: ''; width: 8px; height: 8px;
-    background: var(--success); border-radius: 50%;
-    animation: pulse-dot 2s infinite;
-}
-@keyframes pulse-dot {
-    0%,100% { opacity:1; } 50% { opacity:0.4; }
-}
+.header-brand { display: flex; align-items: center; gap: 12px; }
+.header-brand .logo { width: 36px; height: 36px; background: var(--grad); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; color: #fff; }
+.header-brand h1 { font-size: 18px; font-weight: 700; }
+.header-brand span { font-size: 12px; color: var(--muted); margin-left: 4px; }
+.header-breadcrumb { font-size: 13px; color: var(--muted); }
+.header-breadcrumb a { color: var(--text2); text-decoration: none; }
+.header-breadcrumb a:hover { color: var(--blue); }
+.header-status { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--green); }
+.header-status::before { content: ''; width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse-dot 2s infinite; }
+@keyframes pulse-dot { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
 
-/* ── Container ── */
-.container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 32px;
-}
+/* Container */
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
 
-/* ── Section Title ── */
-.section-title {
-    font-size: 28px; font-weight: 800;
-    margin-bottom: 8px;
-}
-.section-subtitle {
-    font-size: 14px; color: var(--text-muted);
-    margin-bottom: 32px;
-}
+.section-title { font-size: 1.4rem; font-weight: 800; margin-bottom: 8px; }
+.section-subtitle { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
 
-/* ── Cards ── */
-.card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 24px;
-    transition: all 0.3s ease;
-}
-.card:hover {
-    border-color: var(--surface-border);
-    box-shadow: 0 0 40px rgba(99,102,241,0.08);
-}
+/* Cards */
+.card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; transition: all 0.3s ease; }
+.card:hover { border-color: var(--blue); }
 
-/* ── Dashboard Stats ── */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    margin-bottom: 32px;
-}
+/* Stats Grid - COMPACT */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
 .stat-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 24px;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    cursor: default;
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 14px 16px; position: relative; overflow: hidden; transition: all 0.2s; cursor: default;
 }
-.stat-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0;
-    height: 3px;
-}
-.stat-card:nth-child(1)::before { background: var(--grad2); }
-.stat-card:nth-child(2)::before { background: var(--grad4); }
-.stat-card:nth-child(3)::before { background: linear-gradient(135deg, var(--warning), #F97316); }
-.stat-card:nth-child(4)::before { background: linear-gradient(135deg, var(--danger), #F97316); }
+.stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.stat-card:nth-child(1)::before { background: linear-gradient(135deg, var(--cyan), var(--blue)); }
+.stat-card:nth-child(2)::before { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+.stat-card:nth-child(3)::before { background: linear-gradient(135deg, var(--orange), #F97316); }
+.stat-card:nth-child(4)::before { background: linear-gradient(135deg, var(--red), #F97316); }
+.stat-card:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+.stat-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 10px; }
+.stat-card:nth-child(1) .stat-icon { background: rgba(8,145,178,0.1); }
+.stat-card:nth-child(2) .stat-icon { background: var(--green-bg); }
+.stat-card:nth-child(3) .stat-icon { background: var(--orange-bg); }
+.stat-card:nth-child(4) .stat-icon { background: var(--red-bg); }
+.stat-value { font-size: 1.5rem; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+.stat-card:nth-child(1) .stat-value { color: var(--cyan); }
+.stat-card:nth-child(2) .stat-value { color: var(--green); }
+.stat-card:nth-child(3) .stat-value { color: var(--orange); }
+.stat-card:nth-child(4) .stat-value { color: var(--red); }
+.stat-label { font-size: 12px; color: var(--muted); }
+.stat-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
 
-.stat-card:hover {
-    transform: translateY(-2px);
-    border-color: var(--surface-border);
-}
-.stat-icon {
-    width: 44px; height: 44px;
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-    margin-bottom: 16px;
-}
-.stat-card:nth-child(1) .stat-icon { background: rgba(6,182,212,0.15); }
-.stat-card:nth-child(2) .stat-icon { background: rgba(16,185,129,0.15); }
-.stat-card:nth-child(3) .stat-icon { background: rgba(245,158,11,0.15); }
-.stat-card:nth-child(4) .stat-icon { background: rgba(239,68,68,0.15); }
-
-.stat-value {
-    font-size: 32px; font-weight: 800;
-    line-height: 1;
-    margin-bottom: 4px;
-}
-.stat-card:nth-child(1) .stat-value { color: var(--accent3); }
-.stat-card:nth-child(2) .stat-value { color: var(--success); }
-.stat-card:nth-child(3) .stat-value { color: var(--warning); }
-.stat-card:nth-child(4) .stat-value { color: var(--danger); }
-
-.stat-label {
-    font-size: 13px; color: var(--text-muted);
-}
-.stat-sub {
-    font-size: 12px; color: var(--text-muted);
-    margin-top: 4px;
-}
-
-/* ── Document Type Selector ── */
-.doc-types {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 12px;
-    margin-bottom: 32px;
-}
+/* Document Type Selector */
+.doc-types { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-bottom: 24px; }
 .doc-type-btn {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 20px 12px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    color: var(--text);
-    font-family: inherit;
-    font-size: 13px;
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px;
+    padding: 18px 12px; text-align: center; cursor: pointer; transition: all 0.3s ease;
+    color: var(--text); font-family: inherit; font-size: 13px;
 }
-.doc-type-btn:hover {
-    border-color: var(--accent);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 30px rgba(99,102,241,0.15);
-}
-.doc-type-btn.active {
-    border-color: var(--accent);
-    background: rgba(99,102,241,0.1);
-    box-shadow: 0 0 20px rgba(99,102,241,0.2);
-}
-.doc-type-btn .icon {
-    font-size: 32px;
-    display: block;
-    margin-bottom: 10px;
-}
-.doc-type-btn .label {
-    font-weight: 600;
-    line-height: 1.3;
-}
+.doc-type-btn:hover { border-color: var(--blue); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(37,99,235,0.08); }
+.doc-type-btn.active { border-color: var(--blue); background: var(--blue-bg); }
+.doc-type-btn .icon { font-size: 32px; display: block; margin-bottom: 10px; }
+.doc-type-btn .label { font-weight: 600; line-height: 1.3; }
 
-/* ── Verification Area ── */
-.verification-area {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    margin-bottom: 32px;
-    min-height: 420px;
-}
+/* Verification Area */
+.verification-area { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; min-height: 420px; }
 
-/* ── Mock Document ── */
+/* Mock Document */
 .mock-doc {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 16px;
+    padding: 32px; display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
 }
 .mock-doc-inner {
-    width: 100%;
-    max-width: 380px;
-    background: #fff;
-    border-radius: 8px;
-    padding: 24px;
-    color: #1a1a1a;
-    font-size: 12px;
-    position: relative;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.3);
-    transform: perspective(800px) rotateY(-2deg);
-    transition: transform 0.5s ease;
+    width: 100%; max-width: 380px; background: #fff; border-radius: 8px; padding: 24px;
+    color: #1a1a1a; font-size: 12px; position: relative;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.1);
+    transform: perspective(800px) rotateY(-2deg); transition: transform 0.5s ease;
 }
-.mock-doc-inner:hover {
-    transform: perspective(800px) rotateY(0deg);
-}
-.doc-header-bar {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 16px;
-    padding-bottom: 12px;
-    border-bottom: 2px solid #1a1a1a;
-}
-.doc-header-bar .doc-title {
-    font-size: 14px; font-weight: 700; color: #1a1a1a;
-}
-.doc-header-bar .doc-emblem {
-    width: 40px; height: 40px;
-    background: linear-gradient(135deg, #1e3a5f, #2563eb);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    color: #fff; font-size: 16px; font-weight: 800;
-}
-.doc-field {
-    display: flex;
-    margin-bottom: 8px;
-    font-size: 11px;
-}
-.doc-field-label {
-    width: 120px;
-    color: #666;
-    flex-shrink: 0;
-}
-.doc-field-value {
-    color: #1a1a1a;
-    font-weight: 600;
-}
-.doc-photo-placeholder {
-    width: 80px; height: 100px;
-    background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #94a3b8;
-    font-size: 24px;
-    float: right;
-    margin-left: 16px;
-    margin-bottom: 8px;
-}
-.doc-watermark {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%) rotate(-30deg);
-    font-size: 48px;
-    color: rgba(99,102,241,0.06);
-    font-weight: 900;
-    pointer-events: none;
-    white-space: nowrap;
-}
-.doc-stamp {
-    position: absolute;
-    bottom: 16px; right: 16px;
-    width: 60px; height: 60px;
-    border: 3px solid rgba(220,38,38,0.3);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    color: rgba(220,38,38,0.4);
-    font-size: 8px; font-weight: 700;
-    text-align: center;
-    transform: rotate(-15deg);
-    line-height: 1.2;
-}
-.scanning-line {
-    position: absolute;
-    left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, var(--accent3), transparent);
-    box-shadow: 0 0 20px var(--accent3);
-    animation: scanLine 2s ease-in-out infinite;
-    opacity: 0;
-    pointer-events: none;
-    z-index: 10;
-}
-.scanning-line.active {
-    opacity: 1;
-}
-@keyframes scanLine {
-    0% { top: 0; }
-    100% { top: 100%; }
-}
+.mock-doc-inner:hover { transform: perspective(800px) rotateY(0deg); }
+.doc-header-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid #1a1a1a; }
+.doc-header-bar .doc-title { font-size: 14px; font-weight: 700; color: #1a1a1a; }
+.doc-header-bar .doc-emblem { width: 40px; height: 40px; background: linear-gradient(135deg, #1e3a5f, #2563eb); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 16px; font-weight: 800; }
+.doc-field { display: flex; margin-bottom: 8px; font-size: 11px; }
+.doc-field-label { width: 120px; color: #666; flex-shrink: 0; }
+.doc-field-value { color: #1a1a1a; font-weight: 600; }
+.doc-photo-placeholder { width: 80px; height: 100px; background: linear-gradient(135deg, #e2e8f0, #cbd5e1); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #94a3b8; font-size: 24px; float: right; margin-left: 16px; margin-bottom: 8px; }
+.doc-watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg); font-size: 48px; color: rgba(37,99,235,0.06); font-weight: 900; pointer-events: none; white-space: nowrap; }
+.doc-stamp { position: absolute; bottom: 16px; right: 16px; width: 60px; height: 60px; border: 3px solid rgba(220,38,38,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: rgba(220,38,38,0.4); font-size: 8px; font-weight: 700; text-align: center; transform: rotate(-15deg); line-height: 1.2; }
+.scanning-line { position: absolute; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); box-shadow: 0 0 20px var(--cyan); animation: scanLine 2s ease-in-out infinite; opacity: 0; pointer-events: none; z-index: 10; }
+.scanning-line.active { opacity: 1; }
+@keyframes scanLine { 0% { top: 0; } 100% { top: 100%; } }
 
-/* ── Empty State ── */
-.empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-muted);
-    gap: 12px;
-    height: 100%;
-}
-.empty-state .empty-icon {
-    font-size: 48px;
-    opacity: 0.5;
-}
-.empty-state p {
-    font-size: 14px;
-}
+.empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--muted); gap: 12px; height: 100%; }
+.empty-state .empty-icon { font-size: 48px; opacity: 0.5; }
+.empty-state p { font-size: 14px; }
 
-/* ── Verification Steps ── */
+/* Verification Steps */
 .verification-panel {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 28px;
-    display: flex;
-    flex-direction: column;
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px;
+    padding: 24px; display: flex; flex-direction: column;
 }
-.verification-panel h3 {
-    font-size: 16px; font-weight: 700;
-    margin-bottom: 20px;
-    display: flex; align-items: center; gap: 8px;
-}
-.verification-panel h3::before {
-    content: '';
-    width: 4px; height: 20px;
-    background: var(--grad1);
-    border-radius: 2px;
-}
-.step-list {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
+.verification-panel h3 { font-size: 16px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+.verification-panel h3::before { content: ''; width: 4px; height: 20px; background: var(--grad); border-radius: 2px; }
+.step-list { flex: 1; display: flex; flex-direction: column; gap: 12px; }
 .step-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 16px;
-    background: var(--bg3);
-    border-radius: 10px;
-    font-size: 13px;
-    opacity: 0.3;
-    transition: all 0.4s ease;
-    border: 1px solid transparent;
+    display: flex; align-items: center; gap: 12px; padding: 14px 16px;
+    background: var(--bg2); border-radius: 10px; font-size: 13px;
+    opacity: 0.3; transition: all 0.4s ease; border: 1px solid transparent;
 }
-.step-item.processing {
-    opacity: 1;
-    border-color: var(--accent);
-    background: rgba(99,102,241,0.08);
-}
-.step-item.done {
-    opacity: 1;
-    border-color: rgba(16,185,129,0.3);
-    background: rgba(16,185,129,0.05);
-}
-.step-num {
-    width: 28px; height: 28px;
-    border-radius: 8px;
-    background: var(--bg);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px; font-weight: 700;
-    flex-shrink: 0;
-    color: var(--text-muted);
-}
-.step-item.processing .step-num {
-    background: var(--accent);
-    color: #fff;
-}
-.step-item.done .step-num {
-    background: var(--success);
-    color: #fff;
-}
+.step-item.processing { opacity: 1; border-color: var(--blue); background: var(--blue-bg); }
+.step-item.done { opacity: 1; border-color: rgba(5,150,105,0.3); background: var(--green-bg); }
+.step-num { width: 28px; height: 28px; border-radius: 8px; background: var(--bg3); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; color: var(--muted); }
+.step-item.processing .step-num { background: var(--blue); color: #fff; }
+.step-item.done .step-num { background: var(--green); color: #fff; }
 .step-text { flex: 1; }
-.step-status {
-    font-size: 16px;
-    flex-shrink: 0;
-    width: 24px;
-    text-align: center;
-}
-.spinner {
-    width: 18px; height: 18px;
-    border: 2px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    display: inline-block;
-}
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
+.step-status { font-size: 16px; flex-shrink: 0; width: 24px; text-align: center; }
+.spinner { width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; }
+@keyframes spin { to { transform: rotate(360deg); } }
 
-/* ── Results Area ── */
-.results-section {
-    display: none;
-    margin-bottom: 32px;
-}
-.results-section.visible {
-    display: block;
-    animation: fadeUp 0.5s ease;
-}
-@keyframes fadeUp {
-    from { opacity:0; transform:translateY(16px); }
-    to { opacity:1; transform:translateY(0); }
-}
+/* Results */
+.results-section { display: none; margin-bottom: 24px; }
+.results-section.visible { display: block; animation: fadeUp 0.5s ease; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+.results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 
-.results-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-}
-
-/* ── Extracted Data Table ── */
-.data-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-}
-.data-table th {
-    text-align: left;
-    padding: 10px 16px;
-    background: var(--bg3);
-    color: var(--text-muted);
-    font-weight: 600;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table th { text-align: left; padding: 10px 16px; background: var(--bg2); color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
 .data-table th:first-child { border-radius: 8px 0 0 8px; }
 .data-table th:last-child { border-radius: 0 8px 8px 0; }
-.data-table td {
-    padding: 10px 16px;
-    border-bottom: 1px solid var(--border);
-}
+.data-table td { padding: 10px 16px; border-bottom: 1px solid var(--border); }
 .data-table tr:last-child td { border-bottom: none; }
-.data-table .field-name { color: var(--text-muted); }
+.data-table .field-name { color: var(--muted); }
 .data-table .field-value { font-weight: 600; }
 
-/* ── Confidence Gauge ── */
-.gauge-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-.gauge-svg {
-    width: 200px; height: 120px;
-    margin-bottom: 16px;
-}
-.gauge-bg {
-    fill: none;
-    stroke: var(--bg3);
-    stroke-width: 14;
-    stroke-linecap: round;
-}
-.gauge-fill {
-    fill: none;
-    stroke-width: 14;
-    stroke-linecap: round;
-    transition: stroke-dashoffset 1.5s ease, stroke 0.5s ease;
-}
-.gauge-text {
-    font-size: 36px; font-weight: 800;
-    text-anchor: middle;
-    fill: var(--text);
-}
-.gauge-label-text {
-    font-size: 12px;
-    text-anchor: middle;
-    fill: var(--text-muted);
-}
-.confidence-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: 700;
-}
-.confidence-badge.green {
-    background: rgba(16,185,129,0.12);
-    color: var(--success);
-    border: 1px solid rgba(16,185,129,0.3);
-}
-.confidence-badge.orange {
-    background: rgba(245,158,11,0.12);
-    color: var(--warning);
-    border: 1px solid rgba(245,158,11,0.3);
-}
-.confidence-badge.red {
-    background: rgba(239,68,68,0.12);
-    color: var(--danger);
-    border: 1px solid rgba(239,68,68,0.3);
-}
+/* Gauge */
+.gauge-container { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+.gauge-svg { width: 200px; height: 120px; margin-bottom: 16px; }
+.gauge-bg { fill: none; stroke: var(--bg3); stroke-width: 14; stroke-linecap: round; }
+.gauge-fill { fill: none; stroke-width: 14; stroke-linecap: round; transition: stroke-dashoffset 1.5s ease, stroke 0.5s ease; }
+.gauge-text { font-size: 36px; font-weight: 800; text-anchor: middle; fill: var(--text); }
+.gauge-label-text { font-size: 12px; text-anchor: middle; fill: var(--muted); }
+.confidence-badge { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 12px; font-size: 15px; font-weight: 700; }
+.confidence-badge.green { background: var(--green-bg); color: var(--green); border: 1px solid rgba(5,150,105,0.3); }
+.confidence-badge.orange { background: var(--orange-bg); color: var(--orange); border: 1px solid rgba(217,119,6,0.3); }
+.confidence-badge.red { background: var(--red-bg); color: var(--red); border: 1px solid rgba(220,38,38,0.3); }
 
-/* ── History Table ── */
-.history-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-}
-.history-table thead th {
-    text-align: left;
-    padding: 12px 16px;
-    background: var(--bg3);
-    color: var(--text-muted);
-    font-weight: 600;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-}
+/* History Table */
+.history-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.history-table thead th { text-align: left; padding: 12px 16px; background: var(--bg2); color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
 .history-table thead th:first-child { border-radius: 10px 0 0 10px; }
 .history-table thead th:last-child { border-radius: 0 10px 10px 0; }
-.history-table tbody td {
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-    white-space: nowrap;
-}
+.history-table tbody td { padding: 12px 16px; border-bottom: 1px solid var(--border); white-space: nowrap; }
 .history-table tbody tr:last-child td { border-bottom: none; }
-.history-table tbody tr {
-    transition: background 0.2s;
-}
-.history-table tbody tr:hover {
-    background: rgba(99,102,241,0.04);
-}
-.badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-size: 11px;
-    font-weight: 600;
-}
-.badge.pass { background: rgba(16,185,129,0.12); color: var(--success); }
-.badge.warn { background: rgba(245,158,11,0.12); color: var(--warning); }
-.badge.fail { background: rgba(239,68,68,0.12); color: var(--danger); }
-.badge-doc-type {
-    display: inline-flex;
-    padding: 3px 8px;
-    border-radius: 5px;
-    font-size: 11px;
-    font-weight: 500;
-    background: rgba(99,102,241,0.1);
-    color: var(--accent);
-}
+.history-table tbody tr { transition: background 0.2s; }
+.history-table tbody tr:hover { background: var(--blue-bg); }
+.badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+.badge.pass { background: var(--green-bg); color: var(--green); }
+.badge.warn { background: var(--orange-bg); color: var(--orange); }
+.badge.fail { background: var(--red-bg); color: var(--red); }
+.badge-doc-type { display: inline-flex; padding: 3px 8px; border-radius: 5px; font-size: 11px; font-weight: 500; background: var(--blue-bg); color: var(--blue); }
 
-/* ── Responsive ── */
 @media (max-width: 1024px) {
     .stats-grid { grid-template-columns: repeat(2, 1fr); }
     .doc-types { grid-template-columns: repeat(3, 1fr); }
@@ -610,6 +195,8 @@ body {
 </head>
 <body>
 
+<button class="dark-toggle" onclick="toggleDark()">&#127769;</button>
+
 <!-- Header -->
 <div class="header">
     <div class="header-brand">
@@ -619,18 +206,20 @@ body {
             <span>AI Document Verification Module</span>
         </div>
     </div>
+    <div class="header-breadcrumb">
+        <a href="#">Autopilot v2</a> / <a href="#">Finance Doc Hub</a> / <strong>Document Verification</strong>
+    </div>
     <div class="header-status">AI Verification Engine Active</div>
 </div>
 
 <div class="container">
 
-    <!-- Section Title -->
     <div style="margin-bottom:8px;">
         <div class="section-title">AI Document Verification</div>
         <div class="section-subtitle">ระบบตรวจสอบเอกสารทางการเงินอัตโนมัติด้วย AI &mdash; ANTS AI Solution Hub</div>
     </div>
 
-    <!-- Dashboard Stats -->
+    <!-- Stats -->
     <div class="stats-grid">
         <div class="stat-card">
             <div class="stat-icon">📑</div>
@@ -658,115 +247,58 @@ body {
         </div>
     </div>
 
-    <!-- Document Type Selector -->
+    <!-- Doc Types -->
     <div style="margin-bottom:8px;">
         <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;">เลือกประเภทเอกสารเพื่อทดสอบการตรวจสอบ</h3>
     </div>
     <div class="doc-types" id="docTypes">
-        <button class="doc-type-btn" data-type="thaiid" onclick="startVerification('thaiid', this)">
-            <span class="icon">🪪</span>
-            <span class="label">บัตรประชาชน</span>
-        </button>
-        <button class="doc-type-btn" data-type="payslip" onclick="startVerification('payslip', this)">
-            <span class="icon">📄</span>
-            <span class="label">สลิปเงินเดือน</span>
-        </button>
-        <button class="doc-type-btn" data-type="statement" onclick="startVerification('statement', this)">
-            <span class="icon">🏦</span>
-            <span class="label">Statement ธนาคาร</span>
-        </button>
-        <button class="doc-type-btn" data-type="tabienban" onclick="startVerification('tabienban', this)">
-            <span class="icon">🏠</span>
-            <span class="label">ทะเบียนบ้าน</span>
-        </button>
-        <button class="doc-type-btn" data-type="salarycert" onclick="startVerification('salarycert', this)">
-            <span class="icon">📋</span>
-            <span class="label">หนังสือรับรอง<br>เงินเดือน</span>
-        </button>
-        <button class="doc-type-btn" data-type="carcert" onclick="startVerification('carcert', this)">
-            <span class="icon">🚗</span>
-            <span class="label">สำเนาทะเบียนรถ</span>
-        </button>
+        <button class="doc-type-btn" data-type="thaiid" onclick="startVerification('thaiid', this)"><span class="icon">🪪</span><span class="label">บัตรประชาชน</span></button>
+        <button class="doc-type-btn" data-type="payslip" onclick="startVerification('payslip', this)"><span class="icon">📄</span><span class="label">สลิปเงินเดือน</span></button>
+        <button class="doc-type-btn" data-type="statement" onclick="startVerification('statement', this)"><span class="icon">����</span><span class="label">Statement ธนาคาร</span></button>
+        <button class="doc-type-btn" data-type="tabienban" onclick="startVerification('tabienban', this)"><span class="icon">🏠</span><span class="label">ทะเบียนบ้าน</span></button>
+        <button class="doc-type-btn" data-type="salarycert" onclick="startVerification('salarycert', this)"><span class="icon">📋</span><span class="label">หนังสือรับรอง<br>เงินเดือน</span></button>
+        <button class="doc-type-btn" data-type="carcert" onclick="startVerification('carcert', this)"><span class="icon">🚗</span><span class="label">สำเนาทะเบียนรถ</span></button>
     </div>
 
     <!-- Verification Area -->
     <div class="verification-area">
-        <!-- Left: Mock Document -->
         <div class="mock-doc" id="mockDocPanel">
-            <div class="empty-state" id="docEmpty">
-                <span class="empty-icon">📂</span>
-                <p>เลือกประเภทเอกสารด้านบนเพื่อเริ่มต้น</p>
-            </div>
+            <div class="empty-state" id="docEmpty"><span class="empty-icon">📂</span><p>เลือกประเภทเอกสารด้านบนเพื่อเริ่มต้น</p></div>
             <div class="scanning-line" id="scanLine"></div>
             <div id="mockDocContent" style="display:none;"></div>
         </div>
-        <!-- Right: Verification Steps -->
         <div class="verification-panel">
             <h3>AI Verification Process</h3>
             <div class="step-list" id="stepList">
-                <div class="step-item" id="step1">
-                    <div class="step-num">1</div>
-                    <div class="step-text">[1/6] ตรวจสอบรูปแบบเอกสาร...</div>
-                    <div class="step-status" id="status1"></div>
-                </div>
-                <div class="step-item" id="step2">
-                    <div class="step-num">2</div>
-                    <div class="step-text">[2/6] OCR สแกนข้อมูล...</div>
-                    <div class="step-status" id="status2"></div>
-                </div>
-                <div class="step-item" id="step3">
-                    <div class="step-num">3</div>
-                    <div class="step-text">[3/6] ตรวจสอบลายน้ำ/ตราประทับ...</div>
-                    <div class="step-status" id="status3"></div>
-                </div>
-                <div class="step-item" id="step4">
-                    <div class="step-num">4</div>
-                    <div class="step-text">[4/6] Cross-reference ข้อมูลกับฐานข้อมูล...</div>
-                    <div class="step-status" id="status4"></div>
-                </div>
-                <div class="step-item" id="step5">
-                    <div class="step-num">5</div>
-                    <div class="step-text">[5/6] AI Fraud Detection...</div>
-                    <div class="step-status" id="status5"></div>
-                </div>
-                <div class="step-item" id="step6">
-                    <div class="step-num">6</div>
-                    <div class="step-text">[6/6] สรุปผลการตรวจสอบ...</div>
-                    <div class="step-status" id="status6"></div>
-                </div>
+                <div class="step-item" id="step1"><div class="step-num">1</div><div class="step-text">[1/6] ตรวจสอบรูปแบบเอกสาร...</div><div class="step-status" id="status1"></div></div>
+                <div class="step-item" id="step2"><div class="step-num">2</div><div class="step-text">[2/6] OCR สแกนข้อมูล...</div><div class="step-status" id="status2"></div></div>
+                <div class="step-item" id="step3"><div class="step-num">3</div><div class="step-text">[3/6] ตรวจสอบลายน้ำ/ตราประทับ...</div><div class="step-status" id="status3"></div></div>
+                <div class="step-item" id="step4"><div class="step-num">4</div><div class="step-text">[4/6] Cross-reference ข้อมูลกับฐานข้อมูล...</div><div class="step-status" id="status4"></div></div>
+                <div class="step-item" id="step5"><div class="step-num">5</div><div class="step-text">[5/6] AI Fraud Detection...</div><div class="step-status" id="status5"></div></div>
+                <div class="step-item" id="step6"><div class="step-num">6</div><div class="step-text">[6/6] สรุปผลการตรวจสอบ...</div><div class="step-status" id="status6"></div></div>
             </div>
         </div>
     </div>
 
-    <!-- Results Section -->
+    <!-- Results -->
     <div class="results-section" id="resultsSection">
         <div class="results-grid">
-            <!-- Extracted Data -->
             <div class="card">
                 <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
-                    <span style="width:4px;height:20px;background:var(--grad2);border-radius:2px;display:inline-block;"></span>
+                    <span style="width:4px;height:20px;background:linear-gradient(135deg,var(--cyan),var(--blue));border-radius:2px;display:inline-block;"></span>
                     ข้อมูลที่สกัดได้
                 </h3>
-                <table class="data-table" id="extractedDataTable">
-                    <thead>
-                        <tr><th>รายการ</th><th>ข้อมูล</th></tr>
-                    </thead>
-                    <tbody id="extractedDataBody"></tbody>
-                </table>
+                <table class="data-table" id="extractedDataTable"><thead><tr><th>รายการ</th><th>ข้อมูล</th></tr></thead><tbody id="extractedDataBody"></tbody></table>
             </div>
-            <!-- Confidence Gauge -->
             <div class="card">
                 <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
-                    <span style="width:4px;height:20px;background:var(--grad3);border-radius:2px;display:inline-block;"></span>
+                    <span style="width:4px;height:20px;background:var(--grad);border-radius:2px;display:inline-block;"></span>
                     Confidence Score
                 </h3>
                 <div class="gauge-container" id="gaugeContainer">
                     <svg class="gauge-svg" viewBox="0 0 200 120">
                         <path class="gauge-bg" d="M 20 100 A 80 80 0 0 1 180 100" />
-                        <path class="gauge-fill" id="gaugeFill" d="M 20 100 A 80 80 0 0 1 180 100"
-                              stroke="var(--success)"
-                              stroke-dasharray="251.2"
-                              stroke-dashoffset="251.2" />
+                        <path class="gauge-fill" id="gaugeFill" d="M 20 100 A 80 80 0 0 1 180 100" stroke="var(--green)" stroke-dasharray="251.2" stroke-dashoffset="251.2" />
                         <text class="gauge-text" x="100" y="90" id="gaugeValue">0%</text>
                         <text class="gauge-label-text" x="100" y="108">Confidence</text>
                     </svg>
@@ -776,355 +308,120 @@ body {
         </div>
     </div>
 
-    <!-- Verification History -->
+    <!-- History -->
     <div class="card" style="margin-bottom:40px;">
         <h3 style="font-size:16px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px;">
-            <span style="width:4px;height:20px;background:var(--grad1);border-radius:2px;display:inline-block;"></span>
+            <span style="width:4px;height:20px;background:var(--grad);border-radius:2px;display:inline-block;"></span>
             ประวัติการตรวจสอบล่าสุด
         </h3>
         <div style="overflow-x:auto;">
-            <table class="history-table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>เวลา</th>
-                        <th>ประเภทเอกสาร</th>
-                        <th>ชื่อผู้ยื่น</th>
-                        <th>Confidence</th>
-                        <th>ผลลัพธ์</th>
-                        <th>ตรวจโดย</th>
-                    </tr>
-                </thead>
-                <tbody id="historyBody"></tbody>
-            </table>
+            <table class="history-table"><thead><tr><th>#</th><th>เวลา</th><th>ประเภทเอกสาร</th><th>ชื่อผู้ยื่น</th><th>Confidence</th><th>ผลลัพธ์</th><th>ตรวจโดย</th></tr></thead><tbody id="historyBody"></tbody></table>
         </div>
     </div>
-
 </div>
 
 <script>
-// ── Document Data ──
+function toggleDark(){document.body.classList.toggle('dark');const d=document.body.classList.contains('dark');localStorage.setItem('darkMode',d);document.querySelector('.dark-toggle').textContent=d?'☀️':'🌙';}
+if(localStorage.getItem('darkMode')==='true'){document.body.classList.add('dark');document.addEventListener('DOMContentLoaded',()=>{document.querySelector('.dark-toggle').textContent='☀️';});}
+
 const docData = {
     thaiid: {
-        title: 'บัตรประจำตัวประชาชน',
-        emblem: '🇹🇭',
-        confidence: 97.3,
-        fields: [
-            ['เลขบัตรประชาชน', '1-1099-0XXXX-XX-1'],
-            ['คำนำหน้า', 'นาย'],
-            ['ชื่อ-นามสกุล', 'สมชาย ใจดี'],
-            ['วันเกิด', '15 มกราคม 2533'],
-            ['ที่อยู่', '123/45 ถ.สุขุมวิท แขวงคลองเตย เขตคลองเตย กทม. 10110'],
-            ['วันออกบัตร', '20 มีนาคม 2565'],
-            ['วันหมดอายุ', '14 มกราคม 2574'],
-            ['เลเซอร์โค้ด', 'ME1-XXXXXXX-XX']
-        ],
-        mockDoc: `
-            <div class="doc-photo-placeholder">👤</div>
-            <div class="doc-header-bar">
-                <div class="doc-title">บัตรประจำตัวประชาชน<br><span style="font-size:10px;color:#666;">Thai National ID Card</span></div>
-                <div class="doc-emblem">🇹🇭</div>
-            </div>
-            <div class="doc-field"><span class="doc-field-label">เลขประจำตัว</span><span class="doc-field-value">1-1099-0XXXX-XX-1</span></div>
-            <div class="doc-field"><span class="doc-field-label">ชื่อ</span><span class="doc-field-value">นาย สมชาย</span></div>
-            <div class="doc-field"><span class="doc-field-label">นามสกุล</span><span class="doc-field-value">ใจดี</span></div>
-            <div class="doc-field"><span class="doc-field-label">วันเกิด</span><span class="doc-field-value">15 ม.ค. 2533</span></div>
-            <div class="doc-field"><span class="doc-field-label">ที่อยู่</span><span class="doc-field-value">123/45 ถ.สุขุมวิท แขวงคลองเตย</span></div>
-            <div class="doc-field"><span class="doc-field-label">วันหมดอายุ</span><span class="doc-field-value">14 ม.ค. 2574</span></div>
-            <div class="doc-watermark">VERIFIED</div>
-            <div class="doc-stamp">กรมการ<br>ปกครอง</div>
-        `
+        title: 'บัตรประจำตัวประชาชน', emblem: '🇹🇭', confidence: 97.3,
+        fields: [['เลขบัตรประชาชน','1-1099-0XXXX-XX-1'],['คำนำหน้า','นาย'],['ชื่อ-นามสกุล','สมชาย ใจดี'],['วันเกิด','15 มกราคม 2533'],['ที่อยู่','123/45 ถ.สุขุมวิท แขวงคลองเตย เขตคลองเตย กทม. 10110'],['วันออกบัตร','20 มีนาคม 2565'],['วันหมดอายุ','14 มกราคม 2574'],['เลเซอร์โค้ด','ME1-XXXXXXX-XX']],
+        mockDoc: `<div class="doc-photo-placeholder">👤</div><div class="doc-header-bar"><div class="doc-title">บัตรประจำตัวประชาชน<br><span style="font-size:10px;color:#666;">Thai National ID Card</span></div><div class="doc-emblem">🇹🇭</div></div><div class="doc-field"><span class="doc-field-label">เลขประจำตัว</span><span class="doc-field-value">1-1099-0XXXX-XX-1</span></div><div class="doc-field"><span class="doc-field-label">ชื่อ</span><span class="doc-field-value">นาย สมชาย</span></div><div class="doc-field"><span class="doc-field-label">นามสกุล</span><span class="doc-field-value">ใจดี</span></div><div class="doc-field"><span class="doc-field-label">วันเกิด</span><span class="doc-field-value">15 ม.ค. 2533</span></div><div class="doc-field"><span class="doc-field-label">ที่อยู่</span><span class="doc-field-value">123/45 ถ.สุขุมวิท แขวงคลองเตย</span></div><div class="doc-field"><span class="doc-field-label">วันหมดอายุ</span><span class="doc-field-value">14 ม.ค. 2574</span></div><div class="doc-watermark">VERIFIED</div><div class="doc-stamp">กรมการ<br>ปกครอง</div>`
     },
     payslip: {
-        title: 'สลิปเงินเดือน',
-        emblem: '💰',
-        confidence: 94.8,
-        fields: [
-            ['บริษัท', 'บจก. เอบีซี โฮลดิ้งส์'],
-            ['พนักงาน', 'นาย สมชาย ใจดี'],
-            ['ตำแหน่ง', 'Senior Developer'],
-            ['เงินเดือน', '฿85,000.00'],
-            ['ค่าล่วงเวลา', '฿4,500.00'],
-            ['ภาษีหัก ณ ที่จ่าย', '฿7,650.00'],
-            ['ประกันสังคม', '฿750.00'],
-            ['กองทุนสำรอง', '฿4,250.00'],
-            ['รายได้สุทธิ', '฿76,850.00']
-        ],
-        mockDoc: `
-            <div class="doc-header-bar">
-                <div class="doc-title">ใบแจ้งเงินเดือน / Payslip<br><span style="font-size:10px;color:#666;">บจก. เอบีซี โฮลดิ้งส์</span></div>
-                <div class="doc-emblem" style="background:linear-gradient(135deg,#059669,#10B981);font-size:12px;">ABC</div>
-            </div>
-            <div class="doc-field"><span class="doc-field-label">งวด</span><span class="doc-field-value">มีนาคม 2569</span></div>
-            <div class="doc-field"><span class="doc-field-label">พนักงาน</span><span class="doc-field-value">นาย สมชาย ใจดี</span></div>
-            <div style="margin:12px 0;padding:8px 0;border-top:1px dashed #ccc;border-bottom:1px dashed #ccc;">
-                <div class="doc-field"><span class="doc-field-label">เงินเดือน</span><span class="doc-field-value">฿85,000.00</span></div>
-                <div class="doc-field"><span class="doc-field-label">OT</span><span class="doc-field-value">฿4,500.00</span></div>
-                <div class="doc-field"><span class="doc-field-label">ภาษี</span><span class="doc-field-value" style="color:#dc2626;">-฿7,650.00</span></div>
-                <div class="doc-field"><span class="doc-field-label">ประกันสังคม</span><span class="doc-field-value" style="color:#dc2626;">-฿750.00</span></div>
-                <div class="doc-field"><span class="doc-field-label">กองทุน PVD</span><span class="doc-field-value" style="color:#dc2626;">-฿4,250.00</span></div>
-            </div>
-            <div class="doc-field"><span class="doc-field-label" style="font-weight:700;color:#1a1a1a;">สุทธิ</span><span class="doc-field-value" style="font-size:16px;color:#059669;">฿76,850.00</span></div>
-            <div class="doc-watermark">PAYSLIP</div>
-        `
+        title: 'สลิปเงินเดือน', emblem: '💰', confidence: 94.8,
+        fields: [['บริษัท','บจก. เอบีซี โฮลดิ้งส์'],['พนักงาน','นาย สมชาย ใจดี'],['ตำแหน่ง','Senior Developer'],['เงินเดือน','฿85,000.00'],['ค่าล่วงเวลา','฿4,500.00'],['ภาษีหัก ณ ที่จ่าย','฿7,650.00'],['ประกันสังคม','฿750.00'],['กองทุนสำรอง','฿4,250.00'],['รายได้สุทธิ','฿76,850.00']],
+        mockDoc: `<div class="doc-header-bar"><div class="doc-title">ใบแจ้งเงินเดือน / Payslip<br><span style="font-size:10px;color:#666;">บจก. เอบีซี โฮลดิ้งส์</span></div><div class="doc-emblem" style="background:linear-gradient(135deg,#059669,#10B981);font-size:12px;">ABC</div></div><div class="doc-field"><span class="doc-field-label">งวด</span><span class="doc-field-value">มีนาคม 2569</span></div><div class="doc-field"><span class="doc-field-label">พนักงาน</span><span class="doc-field-value">นาย สมชาย ใจดี</span></div><div style="margin:12px 0;padding:8px 0;border-top:1px dashed #ccc;border-bottom:1px dashed #ccc;"><div class="doc-field"><span class="doc-field-label">เงินเดือน</span><span class="doc-field-value">฿85,000.00</span></div><div class="doc-field"><span class="doc-field-label">OT</span><span class="doc-field-value">฿4,500.00</span></div><div class="doc-field"><span class="doc-field-label">ภาษี</span><span class="doc-field-value" style="color:#dc2626;">-฿7,650.00</span></div><div class="doc-field"><span class="doc-field-label">ประกันสังคม</span><span class="doc-field-value" style="color:#dc2626;">-฿750.00</span></div><div class="doc-field"><span class="doc-field-label">กองทุน PVD</span><span class="doc-field-value" style="color:#dc2626;">-฿4,250.00</span></div></div><div class="doc-field"><span class="doc-field-label" style="font-weight:700;color:#1a1a1a;">สุทธิ</span><span class="doc-field-value" style="font-size:16px;color:#059669;">฿76,850.00</span></div><div class="doc-watermark">PAYSLIP</div>`
     },
     statement: {
-        title: 'Statement ธนาคาร',
-        emblem: '🏦',
-        confidence: 96.1,
-        fields: [
-            ['ธนาคาร', 'ธนาคารกสิกรไทย (KBANK)'],
-            ['เลขบัญชี', 'XXX-X-XXXXX-X'],
-            ['ชื่อบัญชี', 'นาย สมชาย ใจดี'],
-            ['ประเภทบัญชี', 'ออมทรัพย์'],
-            ['ยอดเฉลี่ย 6 เดือน', '฿328,450.75'],
-            ['รายรับเฉลี่ย/เดือน', '฿89,200.00'],
-            ['รายจ่ายเฉลี่ย/เดือน', '฿62,150.00'],
-            ['จำนวน Transactions', '156 รายการ']
-        ],
-        mockDoc: `
-            <div class="doc-header-bar">
-                <div class="doc-title">รายการเดินบัญชี<br><span style="font-size:10px;color:#666;">Bank Statement</span></div>
-                <div class="doc-emblem" style="background:linear-gradient(135deg,#047857,#10B981);font-size:10px;">KB</div>
-            </div>
-            <div class="doc-field"><span class="doc-field-label">บัญชี</span><span class="doc-field-value">XXX-X-XXXXX-X</span></div>
-            <div class="doc-field"><span class="doc-field-label">ชื่อ</span><span class="doc-field-value">นาย สมชาย ใจดี</span></div>
-            <div class="doc-field"><span class="doc-field-label">งวด</span><span class="doc-field-value">ต.ค. 2568 — มี.ค. 2569</span></div>
-            <div style="margin-top:12px;font-size:10px;border-top:1px solid #e2e8f0;padding-top:8px;">
-                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>01/03</span><span>โอนเข้า</span><span style="color:#059669;">+85,000</span></div>
-                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>03/03</span><span>ค่าเช่า</span><span style="color:#dc2626;">-18,000</span></div>
-                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>05/03</span><span>ค่าบัตรเครดิต</span><span style="color:#dc2626;">-12,350</span></div>
-                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>10/03</span><span>โอนเข้า</span><span style="color:#059669;">+4,500</span></div>
-                <div style="display:flex;justify-content:space-between;padding:3px 0;color:#94a3b8;"><span colspan="3">... อีก 152 รายการ</span></div>
-            </div>
-            <div style="margin-top:8px;padding-top:8px;border-top:1px solid #e2e8f0;">
-                <div class="doc-field"><span class="doc-field-label">ยอดเฉลี่ย</span><span class="doc-field-value" style="color:#059669;">฿328,450.75</span></div>
-            </div>
-            <div class="doc-watermark">STATEMENT</div>
-        `
+        title: 'Statement ธนาคาร', emblem: '🏦', confidence: 96.1,
+        fields: [['ธนาคาร','ธนาคารกสิกรไทย (KBANK)'],['เลขบัญชี','XXX-X-XXXXX-X'],['ชื่อบัญชี','นาย สมชาย ใจดี'],['ประเภทบัญชี','ออมทรัพย์'],['ยอดเฉลี่ย 6 เดือน','฿328,450.75'],['รายรับเฉลี่ย/เดือน','฿89,200.00'],['รายจ่ายเฉลี่ย/เดือน','฿62,150.00'],['จำนวน Transactions','156 รายการ']],
+        mockDoc: `<div class="doc-header-bar"><div class="doc-title">รายการเดินบัญชี<br><span style="font-size:10px;color:#666;">Bank Statement</span></div><div class="doc-emblem" style="background:linear-gradient(135deg,#047857,#10B981);font-size:10px;">KB</div></div><div class="doc-field"><span class="doc-field-label">บัญชี</span><span class="doc-field-value">XXX-X-XXXXX-X</span></div><div class="doc-field"><span class="doc-field-label">ชื่อ</span><span class="doc-field-value">นาย สมชาย ใจดี</span></div><div class="doc-field"><span class="doc-field-label">งวด</span><span class="doc-field-value">ต.ค. 2568 — มี.ค. 2569</span></div><div style="margin-top:12px;font-size:10px;border-top:1px solid #e2e8f0;padding-top:8px;"><div style="display:flex;justify-content:space-between;padding:3px 0;"><span>01/03</span><span>โอนเข้า</span><span style="color:#059669;">+85,000</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;"><span>03/03</span><span>ค่าเช่า</span><span style="color:#dc2626;">-18,000</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;"><span>05/03</span><span>ค่าบัตรเครดิต</span><span style="color:#dc2626;">-12,350</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;color:#94a3b8;"><span>... อีก 152 รายการ</span></div></div><div style="margin-top:8px;padding-top:8px;border-top:1px solid #e2e8f0;"><div class="doc-field"><span class="doc-field-label">ยอดเฉลี่ย</span><span class="doc-field-value" style="color:#059669;">฿328,450.75</span></div></div><div class="doc-watermark">STATEMENT</div>`
     },
     tabienban: {
-        title: 'ทะเบียนบ้าน',
-        emblem: '🏠',
-        confidence: 98.2,
-        fields: [
-            ['เลขรหัสประจำบ้าน', '1001-XXXXX-X'],
-            ['ที่อยู่', '123/45 ซ.สุขุมวิท 21 แขวงคลองเตยเหนือ เขตวัฒนา กรุงเทพฯ 10110'],
-            ['ประเภท', 'ทะเบียนบ้าน (ท.ร. 14)'],
-            ['เจ้าบ้าน', 'นาง สุดา ใจดี'],
-            ['จำนวนผู้อยู่อาศัย', '4 คน'],
-            ['วันที่ออก', '10 พฤศจิกายน 2558']
-        ],
-        mockDoc: `
-            <div class="doc-header-bar">
-                <div class="doc-title">ทะเบียนบ้าน<br><span style="font-size:10px;color:#666;">ท.ร. 14</span></div>
-                <div class="doc-emblem">🏠</div>
-            </div>
-            <div class="doc-field"><span class="doc-field-label">เลขรหัสประจำบ้าน</span><span class="doc-field-value">1001-XXXXX-X</span></div>
-            <div class="doc-field"><span class="doc-field-label">ที่ตั้ง</span><span class="doc-field-value">123/45 ซ.สุขุมวิท 21</span></div>
-            <div class="doc-field"><span class="doc-field-label">แขวง/ตำบล</span><span class="doc-field-value">คลองเตยเหนือ</span></div>
-            <div class="doc-field"><span class="doc-field-label">เขต/อำเภอ</span><span class="doc-field-value">วัฒนา</span></div>
-            <div class="doc-field"><span class="doc-field-label">จังหวัด</span><span class="doc-field-value">กรุงเทพมหานคร</span></div>
-            <div class="doc-field"><span class="doc-field-label">เจ้าบ้าน</span><span class="doc-field-value">นาง สุดา ใจดี</span></div>
-            <div class="doc-watermark">ท.ร. 14</div>
-            <div class="doc-stamp">สำนักงาน<br>เขตวัฒนา</div>
-        `
+        title: 'ทะเบียนบ้าน', emblem: '🏠', confidence: 98.2,
+        fields: [['เลขรหัสประจำบ้าน','1001-XXXXX-X'],['ที่อยู่','123/45 ซ.สุขุมวิท 21 แขวงคลองเตยเหนือ เขตวัฒนา กรุงเทพฯ 10110'],['ประเภท','ทะเบียนบ้าน (ท.ร. 14)'],['เจ้าบ้าน','นาง สุดา ใจดี'],['จำนวนผู้อยู่อาศัย','4 คน'],['วันที่ออก','10 พฤศจิกายน 2558']],
+        mockDoc: `<div class="doc-header-bar"><div class="doc-title">ทะเบียนบ้าน<br><span style="font-size:10px;color:#666;">ท.ร. 14</span></div><div class="doc-emblem">🏠</div></div><div class="doc-field"><span class="doc-field-label">เลขรหัสประจำบ้าน</span><span class="doc-field-value">1001-XXXXX-X</span></div><div class="doc-field"><span class="doc-field-label">ที่ตั้ง</span><span class="doc-field-value">123/45 ซ.สุขุมวิท 21</span></div><div class="doc-field"><span class="doc-field-label">แขวง/ตำบล</span><span class="doc-field-value">คลองเตยเหนือ</span></div><div class="doc-field"><span class="doc-field-label">เขต/อำเภอ</span><span class="doc-field-value">วัฒนา</span></div><div class="doc-field"><span class="doc-field-label">จังหวัด</span><span class="doc-field-value">กรุงเทพมหานคร</span></div><div class="doc-field"><span class="doc-field-label">เจ้าบ้าน</span><span class="doc-field-value">นาง สุดา ใจดี</span></div><div class="doc-watermark">ท.ร. 14</div><div class="doc-stamp">สำนักงาน<br>เขตวัฒนา</div>`
     },
     salarycert: {
-        title: 'หนังสือรับรองเงินเดือน',
-        emblem: '📋',
-        confidence: 88.5,
-        fields: [
-            ['บริษัท', 'บจก. เอบีซี โฮลดิ้งส์'],
-            ['ผู้ออกหนังสือ', 'นาง วิภา รัตนกุล (HR Manager)'],
-            ['พนักงาน', 'นาย สมชาย ใจดี'],
-            ['ตำแหน่ง', 'Senior Developer'],
-            ['เงินเดือน', '฿85,000.00/เดือน'],
-            ['อายุงาน', '3 ปี 7 เดือน'],
-            ['วันที่ออก', '1 เมษายน 2569'],
-            ['เลขที่หนังสือ', 'HR-2569/0342']
-        ],
-        mockDoc: `
-            <div class="doc-header-bar">
-                <div class="doc-title">หนังสือรับรองเงินเดือน<br><span style="font-size:10px;color:#666;">Salary Certificate</span></div>
-                <div class="doc-emblem" style="background:linear-gradient(135deg,#7c3aed,#8B5CF6);font-size:12px;">ABC</div>
-            </div>
-            <div style="font-size:11px;line-height:1.8;color:#374151;margin-top:8px;">
-                <p>เลขที่ HR-2569/0342</p>
-                <p style="margin-top:8px;">ข้าพเจ้า นาง วิภา รัตนกุล ตำแหน่ง HR Manager ขอรับรองว่า</p>
-                <p style="margin-top:8px;font-weight:600;">นาย สมชาย ใจดี</p>
-                <p>เป็นพนักงานของ บจก. เอบีซี โฮลดิ้งส์ ตำแหน่ง Senior Developer เงินเดือน ฿85,000.00 ต่อเดือน อายุงาน 3 ปี 7 เดือน</p>
-            </div>
-            <div class="doc-watermark">CERTIFIED</div>
-            <div class="doc-stamp">บจก.<br>ABC</div>
-        `
+        title: 'หนังสือรับรองเงินเดือน', emblem: '📋', confidence: 88.5,
+        fields: [['บริษัท','บจก. เอบีซี โฮลดิ้งส์'],['ผู้ออกหนังสือ','นาง วิภา รัตนกุล (HR Manager)'],['พนักงาน','นาย สมชาย ใจดี'],['ตำแหน่ง','Senior Developer'],['เงินเดือน','฿85,000.00/เดือน'],['อายุงาน','3 ปี 7 เดือน'],['วันที่ออก','1 เมษายน 2569'],['เลขที่หนังสือ','HR-2569/0342']],
+        mockDoc: `<div class="doc-header-bar"><div class="doc-title">หนังสือรับรองเงินเดือน<br><span style="font-size:10px;color:#666;">Salary Certificate</span></div><div class="doc-emblem" style="background:linear-gradient(135deg,#7c3aed,#8B5CF6);font-size:12px;">ABC</div></div><div style="font-size:11px;line-height:1.8;color:#374151;margin-top:8px;"><p>เลขที่ HR-2569/0342</p><p style="margin-top:8px;">ข้าพเจ้า นาง วิภา รัตนกุล ตำแหน่ง HR Manager ขอรับรองว่า</p><p style="margin-top:8px;font-weight:600;">นาย สมชาย ใจดี</p><p>เป็นพนักงานของ บจก. เอบีซี โฮลดิ้งส์ ตำแหน่ง Senior Developer เงินเดือน ฿85,000.00 ต่อเดือน อายุงาน 3 ปี 7 เดือน</p></div><div class="doc-watermark">CERTIFIED</div><div class="doc-stamp">บจก.<br>ABC</div>`
     },
     carcert: {
-        title: 'สำเนาทะเบียนรถ',
-        emblem: '🚗',
-        confidence: 95.7,
-        fields: [
-            ['หมายเลขทะเบียน', 'กข 1234 กรุงเทพมหานคร'],
-            ['ประเภท', 'รถยนต์นั่งส่วนบุคคลไม่เกิน 7 คน'],
-            ['ยี่ห้อ/รุ่น', 'Toyota Camry 2.5 HV'],
-            ['สี', 'เทา'],
-            ['ปีจดทะเบียน', '2566'],
-            ['เลขตัวรถ', 'XXXXXXXXXXXXXXXXX'],
-            ['เจ้าของ', 'นาย สมชาย ใจดี'],
-            ['วันครบกำหนดภาษี', '30 กันยายน 2569']
-        ],
-        mockDoc: `
-            <div class="doc-header-bar">
-                <div class="doc-title">สำเนาทะเบียนรถ<br><span style="font-size:10px;color:#666;">Vehicle Registration</span></div>
-                <div class="doc-emblem" style="background:linear-gradient(135deg,#b45309,#f59e0b);">🚗</div>
-            </div>
-            <div style="text-align:center;margin:12px 0;padding:8px;background:#f8fafc;border-radius:6px;">
-                <div style="font-size:20px;font-weight:800;color:#1a1a1a;">กข 1234</div>
-                <div style="font-size:10px;color:#64748b;">กรุงเทพมหานคร</div>
-            </div>
-            <div class="doc-field"><span class="doc-field-label">ประเภท</span><span class="doc-field-value">รถยนต์นั่งส่วนบุคคล</span></div>
-            <div class="doc-field"><span class="doc-field-label">ยี่ห้อ/รุ่น</span><span class="doc-field-value">Toyota Camry 2.5 HV</span></div>
-            <div class="doc-field"><span class="doc-field-label">สี</span><span class="doc-field-value">เทา</span></div>
-            <div class="doc-field"><span class="doc-field-label">ปีจดทะเบียน</span><span class="doc-field-value">2566</span></div>
-            <div class="doc-field"><span class="doc-field-label">เจ้าของ</span><span class="doc-field-value">นาย สมชาย ใจดี</span></div>
-            <div class="doc-watermark">ทะเบียนรถ</div>
-            <div class="doc-stamp">กรม<br>ขนส่ง</div>
-        `
+        title: 'สำเนาทะเบียนรถ', emblem: '🚗', confidence: 95.7,
+        fields: [['หมายเลขทะเบียน','กข 1234 กรุงเทพมหานคร'],['ประเภท','รถยนต์นั่งส่วนบุคคลไม่เกิน 7 คน'],['ยี่ห้อ/รุ่น','Toyota Camry 2.5 HV'],['สี','เทา'],['ปีจดทะเบียน','2566'],['เลขตัวรถ','XXXXXXXXXXXXXXXXX'],['เจ้าของ','นาย สมชาย ใจดี'],['วันครบกำหนดภาษี','30 กันยายน 2569']],
+        mockDoc: `<div class="doc-header-bar"><div class="doc-title">สำเนาทะเบียนรถ<br><span style="font-size:10px;color:#666;">Vehicle Registration</span></div><div class="doc-emblem" style="background:linear-gradient(135deg,#b45309,#f59e0b);">🚗</div></div><div style="text-align:center;margin:12px 0;padding:8px;background:#f8fafc;border-radius:6px;"><div style="font-size:20px;font-weight:800;color:#1a1a1a;">กข 1234</div><div style="font-size:10px;color:#64748b;">กรุงเทพมหานคร</div></div><div class="doc-field"><span class="doc-field-label">ประเภท</span><span class="doc-field-value">รถยนต์นั่งส่วนบุคคล</span></div><div class="doc-field"><span class="doc-field-label">ยี่ห้อ/รุ่น</span><span class="doc-field-value">Toyota Camry 2.5 HV</span></div><div class="doc-field"><span class="doc-field-label">สี</span><span class="doc-field-value">เทา</span></div><div class="doc-field"><span class="doc-field-label">ปีจดทะเบียน</span><span class="doc-field-value">2566</span></div><div class="doc-field"><span class="doc-field-label">เจ้าของ</span><span class="doc-field-value">นาย สมชาย ใจดี</span></div><div class="doc-watermark">ทะเบียนรถ</div><div class="doc-stamp">กรม<br>ขนส่ง</div>`
     }
 };
 
-// ── Verification Animation ──
 let isVerifying = false;
 
 function startVerification(type, btnEl) {
     if (isVerifying) return;
     isVerifying = true;
-
-    // Active button state
     document.querySelectorAll('.doc-type-btn').forEach(b => b.classList.remove('active'));
     btnEl.classList.add('active');
-
     const data = docData[type];
-
-    // Hide results
     document.getElementById('resultsSection').classList.remove('visible');
-
-    // Show mock document
     document.getElementById('docEmpty').style.display = 'none';
     const mockContent = document.getElementById('mockDocContent');
     mockContent.innerHTML = `<div class="mock-doc-inner">${data.mockDoc}</div>`;
     mockContent.style.display = 'block';
-
-    // Activate scanning line
     const scanLine = document.getElementById('scanLine');
     scanLine.classList.add('active');
-
-    // Reset steps
-    for (let i = 1; i <= 6; i++) {
-        const step = document.getElementById('step' + i);
-        step.className = 'step-item';
-        document.getElementById('status' + i).innerHTML = '';
-    }
-
-    // Animate steps
+    for (let i = 1; i <= 6; i++) { document.getElementById('step' + i).className = 'step-item'; document.getElementById('status' + i).innerHTML = ''; }
     let currentStep = 1;
     function runStep() {
-        if (currentStep > 6) {
-            // Done
-            scanLine.classList.remove('active');
-            isVerifying = false;
-            showResults(data);
-            return;
-        }
+        if (currentStep > 6) { scanLine.classList.remove('active'); isVerifying = false; showResults(data); return; }
         const step = document.getElementById('step' + currentStep);
         const status = document.getElementById('status' + currentStep);
-        step.className = 'step-item processing';
-        status.innerHTML = '<div class="spinner"></div>';
-
+        step.className = 'step-item processing'; status.innerHTML = '<div class="spinner"></div>';
         const delay = 800 + Math.random() * 600;
-        setTimeout(() => {
-            step.className = 'step-item done';
-            status.innerHTML = '✅';
-            currentStep++;
-            setTimeout(runStep, 150);
-        }, delay);
+        setTimeout(() => { step.className = 'step-item done'; status.innerHTML = '✅'; currentStep++; setTimeout(runStep, 150); }, delay);
     }
     setTimeout(runStep, 300);
 }
 
 function showResults(data) {
-    // Extracted data
     const tbody = document.getElementById('extractedDataBody');
-    tbody.innerHTML = data.fields.map(f =>
-        `<tr><td class="field-name">${f[0]}</td><td class="field-value">${f[1]}</td></tr>`
-    ).join('');
-
-    // Confidence gauge
+    tbody.innerHTML = data.fields.map(f => `<tr><td class="field-name">${f[0]}</td><td class="field-value">${f[1]}</td></tr>`).join('');
     const score = data.confidence;
-    const arc = 251.2; // total arc length
+    const arc = 251.2;
     const offset = arc - (arc * score / 100);
     const gaugeFill = document.getElementById('gaugeFill');
     const gaugeValue = document.getElementById('gaugeValue');
-
     let color, badgeClass, badgeText;
-    if (score >= 95) {
-        color = 'var(--success)';
-        badgeClass = 'green';
-        badgeText = '✅ เอกสารถูกต้อง';
-    } else if (score >= 80) {
-        color = 'var(--warning)';
-        badgeClass = 'orange';
-        badgeText = '⚠️ ต้องตรวจสอบเพิ่ม';
-    } else {
-        color = 'var(--danger)';
-        badgeClass = 'red';
-        badgeText = '❌ ตรวจพบความผิดปกติ';
-    }
-
+    if (score >= 95) { color = 'var(--green)'; badgeClass = 'green'; badgeText = '✅ เอกสารถูกต้อง'; }
+    else if (score >= 80) { color = 'var(--orange)'; badgeClass = 'orange'; badgeText = '⚠️ ต้องตรวจสอบเพิ่ม'; }
+    else { color = 'var(--red)'; badgeClass = 'red'; badgeText = '❌ ตรวจพบความผิดปกติ'; }
     gaugeFill.style.strokeDashoffset = arc;
     gaugeFill.setAttribute('stroke', color);
     gaugeValue.textContent = '0%';
-
-    document.getElementById('confidenceBadge').innerHTML =
-        `<div class="confidence-badge ${badgeClass}">${badgeText}</div>`;
-
-    // Show results section
+    document.getElementById('confidenceBadge').innerHTML = `<div class="confidence-badge ${badgeClass}">${badgeText}</div>`;
     document.getElementById('resultsSection').classList.add('visible');
-
-    // Animate gauge
-    requestAnimationFrame(() => {
-        setTimeout(() => {
-            gaugeFill.style.strokeDashoffset = offset;
-            animateCounter(gaugeValue, 0, score, 1200);
-        }, 100);
-    });
+    requestAnimationFrame(() => { setTimeout(() => { gaugeFill.style.strokeDashoffset = offset; animateCounter(gaugeValue, 0, score, 1200); }, 100); });
 }
 
 function animateCounter(el, start, end, duration) {
     const startTime = performance.now();
-    function update(now) {
-        const elapsed = now - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        const current = start + (end - start) * eased;
-        el.textContent = current.toFixed(1) + '%';
-        if (progress < 1) requestAnimationFrame(update);
-    }
+    function update(now) { const elapsed = now - startTime; const progress = Math.min(elapsed / duration, 1); const eased = 1 - Math.pow(1 - progress, 3); el.textContent = (start + (end - start) * eased).toFixed(1) + '%'; if (progress < 1) requestAnimationFrame(update); }
     requestAnimationFrame(update);
 }
 
-// ── History Table ──
 const historyData = [
-    { time: '14:32', type: 'บัตรประชาชน', name: 'สมชาย ใจดี', conf: 97.3, result: 'pass', by: 'AI Auto' },
-    { time: '14:28', type: 'สลิปเงินเดือน', name: 'วิชัย สุขสม', conf: 94.8, result: 'pass', by: 'AI Auto' },
-    { time: '14:15', type: 'Statement', name: 'อรุณ แสงจันทร์', conf: 96.1, result: 'pass', by: 'AI Auto' },
-    { time: '13:55', type: 'ทะเบียนบ้าน', name: 'ปริญญา วงศ์สกุล', conf: 98.2, result: 'pass', by: 'AI Auto' },
-    { time: '13:42', type: 'หนังสือรับรอง', name: 'กานต์ มั่งมี', conf: 88.5, result: 'warn', by: 'AI + Manual' },
-    { time: '13:30', type: 'บัตรประชาชน', name: 'ธนา เจริญผล', conf: 72.1, result: 'fail', by: 'AI Flagged' },
-    { time: '13:18', type: 'สลิปเงินเดือน', name: 'พิมพ์ใจ รักดี', conf: 95.4, result: 'pass', by: 'AI Auto' },
-    { time: '13:05', type: 'ทะเบียนรถ', name: 'สมศักดิ์ พูนทรัพย์', conf: 95.7, result: 'pass', by: 'AI Auto' },
-    { time: '12:48', type: 'Statement', name: 'นภัส อินทร์ทอง', conf: 91.2, result: 'warn', by: 'AI + Manual' },
-    { time: '12:30', type: 'บัตรประชาชน', name: 'รัชนี สว่างจิต', conf: 99.1, result: 'pass', by: 'AI Auto' }
+    { time:'14:32', type:'บัตรประชาชน', name:'สมชาย ใจดี', conf:97.3, result:'pass', by:'AI Auto' },
+    { time:'14:28', type:'สลิปเงินเดือน', name:'วิชัย สุขสม', conf:94.8, result:'pass', by:'AI Auto' },
+    { time:'14:15', type:'Statement', name:'อรุณ แสงจันทร์', conf:96.1, result:'pass', by:'AI Auto' },
+    { time:'13:55', type:'ทะเบียนบ้าน', name:'ปริญญา วงศ์สกุล', conf:98.2, result:'pass', by:'AI Auto' },
+    { time:'13:42', type:'หนังสือรับรอง', name:'กานต์ มั่งมี', conf:88.5, result:'warn', by:'AI + Manual' },
+    { time:'13:30', type:'บัตรประชาชน', name:'ธนา เจริญผล', conf:72.1, result:'fail', by:'AI Flagged' },
+    { time:'13:18', type:'สลิปเงินเดือน', name:'พิมพ์ใจ รักดี', conf:95.4, result:'pass', by:'AI Auto' },
+    { time:'13:05', type:'ทะเบียนรถ', name:'สมศักดิ์ พูนทรัพย์', conf:95.7, result:'pass', by:'AI Auto' },
+    { time:'12:48', type:'Statement', name:'นภัส อินทร์ทอง', conf:91.2, result:'warn', by:'AI + Manual' },
+    { time:'12:30', type:'บัตรประชาชน', name:'รัชนี สว่างจิต', conf:99.1, result:'pass', by:'AI Auto' }
 ];
 
 function renderHistory() {
@@ -1134,40 +431,16 @@ function renderHistory() {
         if (row.result === 'pass') badge = '<span class="badge pass">✅ ผ่าน</span>';
         else if (row.result === 'warn') badge = '<span class="badge warn">⚠️ ตรวจเพิ่ม</span>';
         else badge = '<span class="badge fail">❌ ไม่ผ่าน</span>';
-
-        return `<tr>
-            <td style="color:var(--text-muted);">${i + 1}</td>
-            <td>${row.time}</td>
-            <td><span class="badge-doc-type">${row.type}</span></td>
-            <td>${row.name}</td>
-            <td style="font-weight:600;">${row.conf}%</td>
-            <td>${badge}</td>
-            <td style="color:var(--text-muted);">${row.by}</td>
-        </tr>`;
+        return `<tr><td style="color:var(--muted);">${i+1}</td><td>${row.time}</td><td><span class="badge-doc-type">${row.type}</span></td><td>${row.name}</td><td style="font-weight:600;">${row.conf}%</td><td>${badge}</td><td style="color:var(--muted);">${row.by}</td></tr>`;
     }).join('');
 }
-
 renderHistory();
 
-// ── Animate stat counters on load ──
 function animateStatCounters() {
-    const targets = [
-        { id: 'statTotal', end: 47 },
-        { id: 'statPass', end: 43 },
-        { id: 'statWarn', end: 3 },
-        { id: 'statFail', end: 1 }
-    ];
-    targets.forEach(t => {
+    [{id:'statTotal',end:47},{id:'statPass',end:43},{id:'statWarn',end:3},{id:'statFail',end:1}].forEach(t => {
         const el = document.getElementById(t.id);
-        const duration = 1200;
-        const startTime = performance.now();
-        function update(now) {
-            const elapsed = now - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            el.textContent = Math.round(t.end * eased);
-            if (progress < 1) requestAnimationFrame(update);
-        }
+        const duration = 1200; const startTime = performance.now();
+        function update(now) { const elapsed = now - startTime; const progress = Math.min(elapsed/duration, 1); const eased = 1 - Math.pow(1 - progress, 3); el.textContent = Math.round(t.end * eased); if (progress < 1) requestAnimationFrame(update); }
         requestAnimationFrame(update);
     });
 }

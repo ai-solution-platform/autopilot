@@ -6,50 +6,23 @@
 <title>Global OCR Providers Connector | Autopilot v2 by ANTS</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root {
-  --blue: #2563EB;
-  --purple: #7C3AED;
-  --green: #059669;
-  --cyan: #06B6D4;
-  --orange: #F59E0B;
-  --red: #EF4444;
-  --pink: #EC4899;
-  --grad: linear-gradient(135deg, #2563EB, #7C3AED);
-  --grad2: linear-gradient(135deg, #06B6D4, #2563EB);
-  --grad3: linear-gradient(135deg, #7C3AED, #EC4899);
-  --grad4: linear-gradient(135deg, #059669, #06B6D4);
-  --bg: #0F172A;
-  --surface: #1E293B;
-  --surface2: #334155;
-  --surface3: #475569;
-  --text: #F8FAFC;
-  --text-dim: #94A3B8;
-  --text-muted: #64748B;
-  --border: #475569;
-  --radius: 16px;
-  --radius-sm: 10px;
-}
+:root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
+body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);}
 
 * { margin:0; padding:0; box-sizing:border-box; }
 
-body {
-  font-family: 'Noto Sans Thai', 'Inter', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s;}
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 3px; }
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 
 /* Header */
 .header {
-  background: rgba(15,23,42,0.9);
+  background:rgba(255,255,255,0.9);
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(71,85,105,0.4);
+  border-bottom:1px solid var(--border);
   padding: 16px 32px;
   display: flex;
   align-items: center;
@@ -88,7 +61,7 @@ body {
 
 .header-brand span {
   font-size: 12px;
-  color: var(--text-dim);
+  color:var(--muted);
   display: block;
   margin-top: -2px;
 }
@@ -116,29 +89,29 @@ body {
 }
 
 .nav-btn:not(.active) {
-  background: var(--surface);
-  color: var(--text-dim);
-  border: 1px solid rgba(71,85,105,0.4);
+  background:var(--card-bg);
+  color:var(--muted);
+  border:1px solid var(--border);
 }
 
 .nav-btn:not(.active):hover {
-  background: var(--surface2);
+  background:var(--bg3);
   color: var(--text);
 }
 
 .header-badge {
   padding: 6px 14px;
-  background: rgba(5,150,105,0.15);
-  border: 1px solid rgba(5,150,105,0.3);
+  background:var(--green-bg);
+  border:1px solid var(--green);
   border-radius: 20px;
   font-size: 12px;
-  color: #34D399;
+  color:var(--green);
   font-weight: 600;
 }
 
 /* Container */
 .container {
-  max-width: 1400px;
+  max-width:1200px;
   margin: 0 auto;
   padding: 32px 24px 80px;
 }
@@ -159,7 +132,7 @@ body {
 }
 
 .page-title p {
-  color: var(--text-dim);
+  color:var(--muted);
   font-size: 16px;
   max-width: 700px;
   margin: 0 auto;
@@ -174,8 +147,8 @@ body {
 }
 
 .stat-card {
-  background: var(--surface);
-  border: 1px solid rgba(71,85,105,0.3);
+  background:var(--card-bg);
+  border:1px solid var(--border);
   border-radius: var(--radius);
   padding: 20px;
   text-align: center;
@@ -200,7 +173,7 @@ body {
 
 .stat-card .stat-label {
   font-size: 13px;
-  color: var(--text-dim);
+  color:var(--muted);
 }
 
 /* Section Titles */
@@ -228,10 +201,10 @@ body {
   display: flex;
   gap: 4px;
   margin-bottom: 28px;
-  background: var(--surface);
+  background:var(--card-bg);
   border-radius: 12px;
   padding: 4px;
-  border: 1px solid rgba(71,85,105,0.3);
+  border:1px solid var(--border);
   overflow-x: auto;
 }
 
@@ -243,7 +216,7 @@ body {
   cursor: pointer;
   border: none;
   background: transparent;
-  color: var(--text-dim);
+  color:var(--muted);
   font-family: inherit;
   transition: all 0.2s;
   white-space: nowrap;
@@ -255,7 +228,7 @@ body {
 }
 
 .tab-btn:hover:not(.active) {
-  background: var(--surface2);
+  background:var(--bg3);
   color: var(--text);
 }
 
@@ -270,8 +243,8 @@ body {
 }
 
 .provider-card {
-  background: var(--surface);
-  border: 1px solid rgba(71,85,105,0.3);
+  background:var(--card-bg);
+  border:1px solid var(--border);
   border-radius: var(--radius);
   padding: 24px;
   transition: all 0.3s;
@@ -326,7 +299,7 @@ body {
 
 .provider-sub {
   font-size: 12px;
-  color: var(--text-dim);
+  color:var(--muted);
 }
 
 .status-badge {
@@ -341,20 +314,20 @@ body {
 }
 
 .status-badge.connected {
-  background: rgba(5,150,105,0.15);
-  border: 1px solid rgba(5,150,105,0.3);
-  color: #34D399;
+  background:var(--green-bg);
+  border:1px solid var(--green);
+  color:var(--green);
 }
 
 .status-badge.available {
   background: rgba(37,99,235,0.12);
-  border: 1px solid rgba(37,99,235,0.3);
+  border:1px solid var(--blue);
   color: #60A5FA;
 }
 
 .status-badge.offline {
   background: rgba(239,68,68,0.12);
-  border: 1px solid rgba(239,68,68,0.3);
+  border:1px solid var(--red);
   color: #F87171;
 }
 
@@ -374,7 +347,7 @@ body {
 
 .metric .label {
   font-size: 10px;
-  color: var(--text-muted);
+  color:var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 4px;
@@ -385,7 +358,7 @@ body {
   font-weight: 700;
 }
 
-.metric .value.green { color: #34D399; }
+.metric .value.green { color:var(--green); }
 .metric .value.blue { color: #60A5FA; }
 .metric .value.cyan { color: #22D3EE; }
 .metric .value.yellow { color: #FBBF24; }
@@ -405,11 +378,11 @@ body {
   font-weight: 600;
   background: rgba(99,102,241,0.12);
   color: #818CF8;
-  border: 1px solid rgba(99,102,241,0.2);
+  border:1px solid var(--blue);
 }
 
 .tag.lang { background: rgba(6,182,212,0.12); color: #22D3EE; border-color: rgba(6,182,212,0.2); }
-.tag.free { background: rgba(5,150,105,0.12); color: #34D399; border-color: rgba(5,150,105,0.2); }
+.tag.free { background: rgba(5,150,105,0.12); color:var(--green); border-color: rgba(5,150,105,0.2); }
 .tag.premium { background: rgba(245,158,11,0.12); color: #FBBF24; border-color: rgba(245,158,11,0.2); }
 .tag.thai { background: rgba(236,72,153,0.12); color: #F472B6; border-color: rgba(236,72,153,0.2); }
 
@@ -439,33 +412,33 @@ body {
 .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
 
 .btn-secondary {
-  background: var(--surface2);
-  color: var(--text-dim);
-  border: 1px solid rgba(71,85,105,0.4);
+  background:var(--bg3);
+  color:var(--muted);
+  border:1px solid var(--border);
 }
 
 .btn-secondary:hover {
-  background: var(--surface3);
+  background: var(--bg3);
   color: var(--text);
 }
 
 .btn-success {
   background: rgba(5,150,105,0.2);
-  color: #34D399;
-  border: 1px solid rgba(5,150,105,0.3);
+  color:var(--green);
+  border:1px solid var(--green);
 }
 
 .btn-danger {
   background: rgba(239,68,68,0.12);
   color: #F87171;
-  border: 1px solid rgba(239,68,68,0.3);
+  border:1px solid var(--red);
 }
 
 /* Comparison Table */
 .comparison-wrap {
   overflow-x: auto;
   border-radius: var(--radius);
-  border: 1px solid rgba(71,85,105,0.3);
+  border:1px solid var(--border);
 }
 
 .comparison-table {
@@ -475,23 +448,23 @@ body {
 }
 
 .comparison-table th {
-  background: rgba(15,23,42,0.8);
+  background:rgba(255,255,255,0.85);
   padding: 14px 16px;
   text-align: left;
   font-size: 12px;
   font-weight: 700;
-  color: var(--text-dim);
+  color:var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  border-bottom: 1px solid rgba(71,85,105,0.3);
+  border-bottom:1px solid var(--border);
   white-space: nowrap;
 }
 
 .comparison-table td {
   padding: 14px 16px;
   font-size: 14px;
-  border-bottom: 1px solid rgba(71,85,105,0.15);
-  background: var(--surface);
+  border-bottom:1px solid var(--border);
+  background:var(--card-bg);
 }
 
 .comparison-table tr:hover td {
@@ -525,18 +498,18 @@ body {
   font-weight: 700;
 }
 
-.rating.excellent { background: rgba(5,150,105,0.15); color: #34D399; }
+.rating.excellent { background:var(--green-bg); color:var(--green); }
 .rating.good { background: rgba(6,182,212,0.12); color: #22D3EE; }
 .rating.fair { background: rgba(245,158,11,0.12); color: #FBBF24; }
 .rating.limited { background: rgba(239,68,68,0.12); color: #F87171; }
 
-.check-icon { color: #34D399; font-weight: 700; }
-.cross-icon { color: #64748B; }
+.check-icon { color:var(--green); font-weight: 700; }
+.cross-icon { color:var(--muted); }
 
 /* Pipeline Section */
 .pipeline-visual {
-  background: var(--surface);
-  border: 1px solid rgba(71,85,105,0.3);
+  background:var(--card-bg);
+  border:1px solid var(--border);
   border-radius: var(--radius);
   padding: 40px 32px;
   margin-bottom: 28px;
@@ -563,7 +536,7 @@ body {
 .pipeline-step .step-icon {
   width: 56px;
   height: 56px;
-  border-radius: 16px;
+  border-radius:var(--radius);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -578,13 +551,13 @@ body {
 
 .pipeline-step .step-sub {
   font-size: 11px;
-  color: var(--text-dim);
+  color:var(--muted);
   text-align: center;
 }
 
 .pipeline-arrow {
   font-size: 24px;
-  color: var(--text-muted);
+  color:var(--muted);
   margin: 0 4px;
   flex-shrink: 0;
 }
@@ -597,8 +570,8 @@ body {
 }
 
 .config-card {
-  background: var(--surface);
-  border: 1px solid rgba(71,85,105,0.3);
+  background:var(--card-bg);
+  border:1px solid var(--border);
   border-radius: var(--radius);
   padding: 20px;
 }
@@ -617,20 +590,20 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 10px 12px;
-  background: rgba(15,23,42,0.5);
+  background:rgba(255,255,255,0.85);
   border-radius: 8px;
   margin-bottom: 8px;
   font-size: 13px;
 }
 
-.rule-item .rule-label { color: var(--text-dim); }
+.rule-item .rule-label { color:var(--muted); }
 .rule-item .rule-value { font-weight: 600; }
 
 .toggle {
   width: 40px;
   height: 22px;
   border-radius: 11px;
-  background: var(--surface2);
+  background:var(--bg3);
   position: relative;
   cursor: pointer;
   transition: all 0.3s;
@@ -657,8 +630,8 @@ body {
 
 /* A/B Testing */
 .ab-panel {
-  background: var(--surface);
-  border: 1px solid rgba(71,85,105,0.3);
+  background:var(--card-bg);
+  border:1px solid var(--border);
   border-radius: var(--radius);
   padding: 24px;
   margin-bottom: 20px;
@@ -673,7 +646,7 @@ body {
 }
 
 .ab-side {
-  background: rgba(15,23,42,0.5);
+  background:rgba(255,255,255,0.85);
   border-radius: 12px;
   padding: 20px;
   text-align: center;
@@ -683,7 +656,7 @@ body {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: var(--grad3);
+  background: linear-gradient(135deg,#7C3AED,#EC4899);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -697,8 +670,8 @@ body {
   width: 100%;
   padding: 10px 14px;
   border-radius: 8px;
-  border: 1px solid rgba(71,85,105,0.4);
-  background: var(--surface2);
+  border:1px solid var(--border);
+  background:var(--bg3);
   color: var(--text);
   font-size: 14px;
   font-family: inherit;
@@ -708,10 +681,10 @@ body {
   appearance: none;
 }
 
-.ab-select option { background: var(--surface); }
+.ab-select option { background:var(--card-bg); }
 
 .upload-drop {
-  border: 2px dashed rgba(71,85,105,0.5);
+  border: 2px dashed var(--border);
   border-radius: 12px;
   padding: 32px;
   text-align: center;
@@ -726,7 +699,7 @@ body {
 }
 
 .upload-drop .drop-icon { font-size: 36px; margin-bottom: 8px; }
-.upload-drop .drop-text { font-size: 14px; color: var(--text-dim); }
+.upload-drop .drop-text { font-size: 14px; color:var(--muted); }
 
 .ab-results {
   display: grid;
@@ -735,7 +708,7 @@ body {
 }
 
 .ab-result-side {
-  background: rgba(15,23,42,0.5);
+  background:rgba(255,255,255,0.85);
   border-radius: 12px;
   padding: 20px;
 }
@@ -753,20 +726,20 @@ body {
   display: flex;
   justify-content: space-between;
   padding: 8px 0;
-  border-bottom: 1px solid rgba(71,85,105,0.15);
+  border-bottom:1px solid var(--border);
   font-size: 13px;
 }
 
 .result-metric:last-child { border: none; }
-.result-metric .rm-label { color: var(--text-dim); }
+.result-metric .rm-label { color:var(--muted); }
 .result-metric .rm-value { font-weight: 700; }
-.rm-value.winner { color: #34D399; }
+.rm-value.winner { color:var(--green); }
 .rm-value.loser { color: #F87171; }
 
 .diff-bar {
   height: 8px;
   border-radius: 4px;
-  background: var(--surface2);
+  background:var(--bg3);
   margin-top: 6px;
   overflow: hidden;
 }
@@ -785,8 +758,8 @@ body {
 }
 
 .health-card {
-  background: var(--surface);
-  border: 1px solid rgba(71,85,105,0.3);
+  background:var(--card-bg);
+  border:1px solid var(--border);
   border-radius: var(--radius);
   padding: 20px;
 }
@@ -840,7 +813,7 @@ body {
 .hm {
   text-align: center;
   padding: 10px;
-  background: rgba(15,23,42,0.5);
+  background:rgba(255,255,255,0.85);
   border-radius: 8px;
 }
 
@@ -852,7 +825,7 @@ body {
 
 .hm .hm-label {
   font-size: 10px;
-  color: var(--text-muted);
+  color:var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -884,7 +857,7 @@ body {
   display: flex;
   justify-content: space-between;
   font-size: 11px;
-  color: var(--text-muted);
+  color:var(--muted);
   margin-top: 6px;
 }
 
@@ -903,8 +876,8 @@ body {
 .modal-overlay.show { display: flex; }
 
 .modal {
-  background: var(--surface);
-  border: 1px solid rgba(71,85,105,0.4);
+  background:var(--card-bg);
+  border:1px solid var(--border);
   border-radius: var(--radius);
   padding: 32px;
   width: 90%;
@@ -927,7 +900,7 @@ body {
   display: block;
   font-size: 13px;
   font-weight: 600;
-  color: var(--text-dim);
+  color:var(--muted);
   margin-bottom: 6px;
 }
 
@@ -935,7 +908,7 @@ body {
   width: 100%;
   padding: 10px 14px;
   border-radius: 8px;
-  border: 1px solid rgba(71,85,105,0.4);
+  border:1px solid var(--border);
   background: rgba(15,23,42,0.6);
   color: var(--text);
   font-size: 14px;
@@ -983,9 +956,34 @@ body {
   .pipeline-arrow { transform: rotate(90deg); }
   .page-title h2 { font-size: 24px; }
 }
+
+/* Dark mode toggle */
+.dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:all .2s;}
+.dark-toggle:hover{transform:scale(1.1);box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+
+/* Breadcrumb */
+.breadcrumb{font-size:13px;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:6px;}
+.breadcrumb a{color:var(--blue);text-decoration:none;transition:opacity .2s;}
+.breadcrumb a:hover{opacity:0.8;}
+.breadcrumb .sep{color:var(--border);}
+
+/* Transitions for dark mode */
+.header,.card,.kpi-card,.provider-card,.metric-card,.stat-card,.feature-card,.section-card,.tab-btn,.comparison-table th,.comparison-table td{transition:background .3s,border-color .3s,color .3s;}
+body.dark ::-webkit-scrollbar-track{background:var(--bg);}body.dark ::-webkit-scrollbar-thumb{background:var(--border);}
+body.dark .header{background:rgba(15,23,42,0.85);border-bottom-color:rgba(51,65,85,0.5);}
+.header-badge{color:var(--green);}
 </style>
 </head>
 <body>
+<button class="dark-toggle" onclick="toggleDark()" aria-label="Toggle dark mode"></button>
+<nav class="breadcrumb" style="max-width:1200px;margin:0 auto;padding:12px 24px 0;">
+  <a href="index.html">Autopilot v2</a>
+  <span class="sep">/</span>
+  <a href="connector-hub.html">Connectors</a>
+  <span class="sep">/</span>
+  <span>Global OCR Providers</span>
+</nav>
+
 
 <!-- Header -->
 <div class="header">
@@ -1018,22 +1016,22 @@ body {
   <!-- Stats Strip -->
   <div class="stats-strip animate-in">
     <div class="stat-card">
-      <div class="stat-icon" style="background:rgba(37,99,235,0.15);color:#60A5FA;">&#128279;</div>
+      <div class="stat-icon" style="background:var(--blue-bg);color:#60A5FA;">&#128279;</div>
       <div class="stat-val" style="color:#60A5FA;">8</div>
       <div class="stat-label">OCR Providers</div>
     </div>
     <div class="stat-card">
-      <div class="stat-icon" style="background:rgba(5,150,105,0.15);color:#34D399;">&#9989;</div>
-      <div class="stat-val" style="color:#34D399;">5</div>
+      <div class="stat-icon" style="background:var(--green-bg);color:var(--green);">&#9989;</div>
+      <div class="stat-val" style="color:var(--green);">5</div>
       <div class="stat-label">เชื่อมต่อแล้ว</div>
     </div>
     <div class="stat-card">
-      <div class="stat-icon" style="background:rgba(124,58,237,0.15);color:#A78BFA;">&#128196;</div>
+      <div class="stat-icon" style="background:var(--purple-bg);color:#A78BFA;">&#128196;</div>
       <div class="stat-val" style="color:#A78BFA;">47,832</div>
       <div class="stat-label">เอกสารประมวลผลเดือนนี้</div>
     </div>
     <div class="stat-card">
-      <div class="stat-icon" style="background:rgba(6,182,212,0.15);color:#22D3EE;">&#9889;</div>
+      <div class="stat-icon" style="background:var(--blue-bg);color:#22D3EE;">&#9889;</div>
       <div class="stat-val" style="color:#22D3EE;">97.4%</div>
       <div class="stat-label">ความแม่นยำเฉลี่ย</div>
     </div>
@@ -1053,7 +1051,7 @@ body {
   <!-- ========== 2. COMPARISON TABLE ========== -->
   <div id="tab-comparison" class="tab-panel">
     <div class="section-title">
-      <div class="icon" style="background:var(--grad2);">&#128202;</div>
+      <div class="icon" style="background:linear-gradient(135deg,#0891B2,#2563EB);">&#128202;</div>
       เปรียบเทียบ Provider แบบ Side-by-Side
     </div>
     <div class="comparison-wrap">
@@ -1079,20 +1077,20 @@ body {
   <!-- ========== 3. MULTI-PROVIDER PIPELINE ========== -->
   <div id="tab-pipeline" class="tab-panel">
     <div class="section-title">
-      <div class="icon" style="background:var(--grad4);">&#9881;</div>
+      <div class="icon" style="background:linear-gradient(135deg,#059669,#0891B2);">&#9881;</div>
       Multi-Provider Pipeline
     </div>
 
     <div class="pipeline-visual">
       <div class="pipeline-flow">
         <div class="pipeline-step">
-          <div class="step-icon" style="background:rgba(37,99,235,0.15);color:#60A5FA;">&#128196;</div>
+          <div class="step-icon" style="background:var(--blue-bg);color:#60A5FA;">&#128196;</div>
           <div class="step-label">Document Upload</div>
           <div class="step-sub">PDF, Image, Scan</div>
         </div>
         <div class="pipeline-arrow">&#10140;</div>
         <div class="pipeline-step">
-          <div class="step-icon" style="background:rgba(124,58,237,0.15);color:#A78BFA;">&#129504;</div>
+          <div class="step-icon" style="background:var(--purple-bg);color:#A78BFA;">&#129504;</div>
           <div class="step-label">AI Classifier</div>
           <div class="step-sub">แยกประเภทเอกสาร</div>
         </div>
@@ -1104,19 +1102,19 @@ body {
         </div>
         <div class="pipeline-arrow">&#10140;</div>
         <div class="pipeline-step">
-          <div class="step-icon" style="background:rgba(6,182,212,0.15);color:#22D3EE;">&#128270;</div>
+          <div class="step-icon" style="background:var(--blue-bg);color:#22D3EE;">&#128270;</div>
           <div class="step-label">OCR Extract</div>
           <div class="step-sub">สกัดข้อมูลจากเอกสาร</div>
         </div>
         <div class="pipeline-arrow">&#10140;</div>
         <div class="pipeline-step">
-          <div class="step-icon" style="background:rgba(245,158,11,0.15);color:#FBBF24;">&#9989;</div>
+          <div class="step-icon" style="background:var(--orange-bg);color:#FBBF24;">&#9989;</div>
           <div class="step-label">Validate</div>
           <div class="step-sub">ตรวจสอบความถูกต้อง</div>
         </div>
         <div class="pipeline-arrow">&#10140;</div>
         <div class="pipeline-step">
-          <div class="step-icon" style="background:rgba(5,150,105,0.15);color:#34D399;">&#128203;</div>
+          <div class="step-icon" style="background:var(--green-bg);color:var(--green);">&#128203;</div>
           <div class="step-label">Structured Data</div>
           <div class="step-sub">JSON / Database</div>
         </div>
@@ -1176,7 +1174,7 @@ body {
         </div>
         <div class="rule-item">
           <span class="rule-label">Confidence Threshold</span>
-          <span class="rule-value" style="color:#34D399;">85%</span>
+          <span class="rule-value" style="color:var(--green);">85%</span>
         </div>
       </div>
 
@@ -1204,7 +1202,7 @@ body {
         </div>
         <div class="rule-item">
           <span class="rule-label">ประหยัด vs เดือนก่อน</span>
-          <span class="rule-value" style="color:#34D399;">-18%</span>
+          <span class="rule-value" style="color:var(--green);">-18%</span>
         </div>
       </div>
 
@@ -1241,14 +1239,14 @@ body {
   <!-- ========== 4. A/B TESTING ========== -->
   <div id="tab-ab-testing" class="tab-panel">
     <div class="section-title">
-      <div class="icon" style="background:var(--grad3);">&#128300;</div>
+      <div class="icon" style="background:linear-gradient(135deg,#7C3AED,#EC4899);">&#128300;</div>
       A/B Testing Panel
     </div>
 
     <div class="ab-panel">
       <div class="ab-config">
         <div class="ab-side">
-          <div style="font-size:13px;color:var(--text-dim);font-weight:600;margin-bottom:4px;">PROVIDER A</div>
+          <div style="font-size:13px;color:var(--muted);font-weight:600;margin-bottom:4px;">PROVIDER A</div>
           <div style="font-size:20px;font-weight:800;color:#60A5FA;">&#9398;</div>
           <select class="ab-select" id="providerA">
             <option>Google Cloud Vision AI</option>
@@ -1263,7 +1261,7 @@ body {
         </div>
         <div class="ab-vs">VS</div>
         <div class="ab-side">
-          <div style="font-size:13px;color:var(--text-dim);font-weight:600;margin-bottom:4px;">PROVIDER B</div>
+          <div style="font-size:13px;color:var(--muted);font-weight:600;margin-bottom:4px;">PROVIDER B</div>
           <div style="font-size:20px;font-weight:800;color:#A78BFA;">&#9399;</div>
           <select class="ab-select" id="providerB">
             <option selected>Google Cloud Vision AI</option>
@@ -1281,17 +1279,17 @@ body {
       <div class="upload-drop" onclick="runABTest()">
         <div class="drop-icon">&#128228;</div>
         <div class="drop-text">ลากไฟล์มาวางที่นี่ หรือ คลิกเพื่อเลือกเอกสารตัวอย่าง</div>
-        <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">รองรับ PDF, JPG, PNG (สูงสุด 10MB)</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:6px;">รองรับ PDF, JPG, PNG (สูงสุด 10MB)</div>
       </div>
 
       <div id="abResults" style="display:none;">
         <div style="text-align:center;margin-bottom:20px;">
-          <span style="font-size:13px;color:var(--text-dim);">ผลทดสอบจากเอกสาร:</span>
+          <span style="font-size:13px;color:var(--muted);">ผลทดสอบจากเอกสาร:</span>
           <span style="font-weight:700;color:#60A5FA;"> sample_invoice_001.pdf</span>
         </div>
 
         <div class="ab-results">
-          <div class="ab-result-side" style="border:1px solid rgba(37,99,235,0.3);">
+          <div class="ab-result-side" style="border:1px solid var(--blue);">
             <h4><span style="color:#60A5FA;">&#9398;</span> ABBYY FineReader</h4>
             <div class="result-metric">
               <span class="rm-label">Accuracy</span>
@@ -1318,12 +1316,12 @@ body {
               <span class="rm-value winner">0.97</span>
             </div>
             <div style="margin-top:12px;">
-              <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">Overall Score</div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">Overall Score</div>
               <div class="diff-bar"><div class="fill" style="width:96%;background:var(--grad);"></div></div>
             </div>
           </div>
 
-          <div class="ab-result-side" style="border:1px solid rgba(124,58,237,0.3);">
+          <div class="ab-result-side" style="border:1px solid var(--purple);">
             <h4><span style="color:#A78BFA;">&#9399;</span> Google Cloud Vision AI</h4>
             <div class="result-metric">
               <span class="rm-label">Accuracy</span>
@@ -1350,16 +1348,16 @@ body {
               <span class="rm-value">0.95</span>
             </div>
             <div style="margin-top:12px;">
-              <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">Overall Score</div>
-              <div class="diff-bar"><div class="fill" style="width:93%;background:var(--grad3);"></div></div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">Overall Score</div>
+              <div class="diff-bar"><div class="fill" style="width:93%;background:linear-gradient(135deg,#7C3AED,#EC4899);"></div></div>
             </div>
           </div>
         </div>
 
-        <div style="margin-top:20px;background:rgba(5,150,105,0.1);border:1px solid rgba(5,150,105,0.2);border-radius:12px;padding:16px;text-align:center;">
-          <div style="font-size:13px;color:var(--text-dim);margin-bottom:4px;">&#127942; ผลสรุป A/B Test</div>
-          <div style="font-size:16px;font-weight:700;color:#34D399;">ABBYY FineReader ชนะด้านความแม่นยำและความเร็ว (+0.4% accuracy, +22% faster)</div>
-          <div style="font-size:13px;color:var(--text-dim);margin-top:4px;">Google Vision ชนะด้านต้นทุน (-25% cheaper) และ Thai Accuracy (+0.9%)</div>
+        <div style="margin-top:20px;background:var(--green-bg);border:1px solid var(--green);border-radius:12px;padding:16px;text-align:center;">
+          <div style="font-size:13px;color:var(--muted);margin-bottom:4px;">&#127942; ผลสรุป A/B Test</div>
+          <div style="font-size:16px;font-weight:700;color:var(--green);">ABBYY FineReader ชนะด้านความแม่นยำและความเร็ว (+0.4% accuracy, +22% faster)</div>
+          <div style="font-size:13px;color:var(--muted);margin-top:4px;">Google Vision ชนะด้านต้นทุน (-25% cheaper) และ Thai Accuracy (+0.9%)</div>
         </div>
       </div>
     </div>
@@ -1368,9 +1366,9 @@ body {
   <!-- ========== 5. HEALTH DASHBOARD ========== -->
   <div id="tab-health" class="tab-panel">
     <div class="section-title">
-      <div class="icon" style="background:var(--grad4);">&#128154;</div>
+      <div class="icon" style="background:linear-gradient(135deg,#059669,#0891B2);">&#128154;</div>
       Provider Health Dashboard
-      <span style="font-size:13px;color:var(--text-dim);font-weight:400;margin-left:auto;">30 วันล่าสุด</span>
+      <span style="font-size:13px;color:var(--muted);font-weight:400;margin-left:auto;">30 วันล่าสุด</span>
     </div>
     <div class="health-grid" id="healthGrid"></div>
   </div>
@@ -1672,7 +1670,7 @@ function renderComparison() {
             <div class="mini-logo" style="background:${p.logoBg};color:${p.logoColor};">${p.logo}</div>
             <div>
               <div>${p.name}</div>
-              <div style="font-size:11px;color:var(--text-muted);font-weight:400;">${p.sub}</div>
+              <div style="font-size:11px;color:var(--muted);font-weight:400;">${p.sub}</div>
             </div>
           </div>
         </td>
@@ -1725,7 +1723,7 @@ function renderHealth() {
       </div>
       <div class="health-metrics">
         <div class="hm">
-          <div class="hm-val" style="color:#34D399;">${h.uptime}</div>
+          <div class="hm-val" style="color:var(--green);">${h.uptime}</div>
           <div class="hm-label">Uptime</div>
         </div>
         <div class="hm">
@@ -1779,7 +1777,7 @@ function runABTest() {
   const dropZone = document.querySelector('.upload-drop');
   dropZone.innerHTML = '<div class="drop-icon pulse" style="color:#60A5FA;">&#9881;</div><div class="drop-text" style="color:#60A5FA;">กำลังประมวลผล...</div>';
   setTimeout(() => {
-    dropZone.innerHTML = '<div class="drop-icon">&#9989;</div><div class="drop-text" style="color:#34D399;">ประมวลผลเสร็จสิ้น! คลิกเพื่อทดสอบใหม่</div>';
+    dropZone.innerHTML = '<div class="drop-icon">&#9989;</div><div class="drop-text" style="color:var(--green);">ประมวลผลเสร็จสิ้น! คลิกเพื่อทดสอบใหม่</div>';
     results.style.display = 'block';
     results.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, 1500);
@@ -1807,6 +1805,11 @@ renderHealth();
 document.getElementById('configModal').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
 });
+</script>
+<script>
+function toggleDark(){document.body.classList.toggle('dark');const d=document.body.classList.contains('dark');localStorage.setItem('darkMode',d);document.querySelector('.dark-toggle').textContent=d?'\u2600\uFE0F':'\uD83C\uDF19';}
+if(localStorage.getItem('darkMode')==='true'){document.body.classList.add('dark');}
+window.addEventListener('DOMContentLoaded',function(){var btn=document.querySelector('.dark-toggle');if(btn){btn.textContent=document.body.classList.contains('dark')?'\u2600\uFE0F':'\uD83C\uDF19';}});
 </script>
 </body>
 </html>

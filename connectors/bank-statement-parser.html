@@ -6,38 +6,18 @@
 <title>Bank Statement Parser | Autopilot v2 by ANTS</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root {
-  --blue: #2563EB;
-  --purple: #7C3AED;
-  --green: #059669;
-  --red: #DC2626;
-  --amber: #D97706;
-  --grad: linear-gradient(135deg, #2563EB, #7C3AED);
-  --bg: #0F172A;
-  --surface: #1E293B;
-  --surface2: #334155;
-  --text: #F8FAFC;
-  --text-dim: #94A3B8;
-  --border: #475569;
-  --radius: 16px;
-  --radius-sm: 10px;
-}
+:root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
+body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);}
 
 * { margin:0; padding:0; box-sizing:border-box; }
 
-body {
-  font-family: 'Noto Sans Thai', 'Inter', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s;}
 
 /* Header */
 .header {
-  background: rgba(15,23,42,0.85);
+  background:rgba(255,255,255,0.85);
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(71,85,105,0.4);
+  border-bottom:1px solid var(--border);
   padding: 16px 32px;
   display: flex;
   align-items: center;
@@ -76,24 +56,24 @@ body {
 
 .header-brand span {
   font-size: 12px;
-  color: var(--text-dim);
+  color:var(--muted);
   display: block;
   margin-top: -2px;
 }
 
 .header-badge {
   padding: 6px 14px;
-  background: rgba(5,150,105,0.15);
-  border: 1px solid rgba(5,150,105,0.3);
+  background:var(--green-bg);
+  border:1px solid var(--green);
   border-radius: 20px;
   font-size: 12px;
-  color: #34D399;
+  color:var(--green);
   font-weight: 600;
 }
 
 /* Main Container */
 .container {
-  max-width: 1400px;
+  max-width:1200px;
   margin: 0 auto;
   padding: 32px 24px;
 }
@@ -114,7 +94,7 @@ body {
 }
 
 .page-title p {
-  color: var(--text-dim);
+  color:var(--muted);
   font-size: 16px;
 }
 
@@ -141,7 +121,7 @@ body {
 }
 
 .bank-card {
-  background: var(--surface);
+  background:var(--card-bg);
   border: 2px solid transparent;
   border-radius: var(--radius);
   padding: 20px 16px;
@@ -159,7 +139,7 @@ body {
 
 .bank-card.active {
   border-color: var(--blue);
-  background: rgba(37,99,235,0.1);
+  background:var(--blue-bg);
 }
 
 .bank-icon {
@@ -183,7 +163,7 @@ body {
 
 .bank-card .bank-name-en {
   font-size: 11px;
-  color: var(--text-dim);
+  color:var(--muted);
 }
 
 /* Statement Preview */
@@ -209,8 +189,8 @@ body {
 }
 
 .mock-statement::-webkit-scrollbar { width: 6px; }
-.mock-statement::-webkit-scrollbar-track { background: #f1f1f1; }
-.mock-statement::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+.mock-statement::-webkit-scrollbar-track{background:var(--bg2);}
+.mock-statement::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 
 .stmt-header {
   padding: 20px 24px;
@@ -335,7 +315,7 @@ body {
 }
 
 .extract-card {
-  background: var(--surface);
+  background:var(--card-bg);
   border-radius: var(--radius);
   padding: 20px;
   border: 1px solid var(--border);
@@ -363,8 +343,8 @@ body {
   font-size: 11px;
   padding: 3px 8px;
   border-radius: 10px;
-  background: rgba(5,150,105,0.15);
-  color: #34D399;
+  background:var(--green-bg);
+  color:var(--green);
   font-weight: 600;
 }
 
@@ -376,7 +356,7 @@ body {
 
 .info-item .label {
   font-size: 11px;
-  color: var(--text-dim);
+  color:var(--muted);
   margin-bottom: 2px;
 }
 
@@ -396,7 +376,7 @@ body {
   padding: 8px 10px;
   text-align: left;
   font-weight: 600;
-  color: var(--text-dim);
+  color:var(--muted);
   border-bottom: 1px solid var(--border);
   font-size: 11px;
   cursor: pointer;
@@ -413,12 +393,12 @@ body {
 
 .mini-table td {
   padding: 6px 10px;
-  border-bottom: 1px solid rgba(71,85,105,0.3);
+  border-bottom:1px solid var(--border);
   font-size: 12px;
 }
 
 .mini-table .debit { color: #F87171; }
-.mini-table .credit { color: #34D399; }
+.mini-table .credit { color:var(--green); }
 
 /* Summary Stats */
 .summary-grid {
@@ -428,14 +408,14 @@ body {
 }
 
 .stat-box {
-  background: rgba(15,23,42,0.5);
+  background:rgba(255,255,255,0.85);
   border-radius: var(--radius-sm);
   padding: 12px;
 }
 
 .stat-box .stat-label {
   font-size: 11px;
-  color: var(--text-dim);
+  color:var(--muted);
   margin-bottom: 4px;
 }
 
@@ -444,7 +424,7 @@ body {
   font-weight: 700;
 }
 
-.stat-box .stat-value.income { color: #34D399; }
+.stat-box .stat-value.income { color:var(--green); }
 .stat-box .stat-value.expense { color: #F87171; }
 
 /* AI Analysis */
@@ -458,9 +438,9 @@ body {
 }
 
 .ai-card {
-  background: var(--surface);
+  background:var(--card-bg);
   border-radius: var(--radius);
-  border: 1px solid rgba(124,58,237,0.3);
+  border:1px solid var(--purple);
   padding: 24px;
   position: relative;
   overflow: hidden;
@@ -493,7 +473,7 @@ body {
 }
 
 .ai-metric {
-  background: rgba(15,23,42,0.5);
+  background:rgba(255,255,255,0.85);
   border-radius: var(--radius-sm);
   padding: 16px;
   text-align: center;
@@ -506,7 +486,7 @@ body {
 
 .ai-metric .metric-label {
   font-size: 12px;
-  color: var(--text-dim);
+  color:var(--muted);
   margin-bottom: 4px;
 }
 
@@ -515,12 +495,12 @@ body {
   font-weight: 800;
 }
 
-.ai-metric .metric-value.good { color: #34D399; }
+.ai-metric .metric-value.good { color:var(--green); }
 .ai-metric .metric-value.warn { color: #FBBF24; }
 
 .ai-recommendation {
-  background: rgba(5,150,105,0.1);
-  border: 1px solid rgba(5,150,105,0.3);
+  background:var(--green-bg);
+  border:1px solid var(--green);
   border-radius: var(--radius-sm);
   padding: 16px;
   display: flex;
@@ -539,7 +519,7 @@ body {
 }
 
 .ai-recommendation .rec-text strong {
-  color: #34D399;
+  color:var(--green);
 }
 
 /* Multi-Statement Compare */
@@ -553,7 +533,7 @@ body {
 }
 
 .compare-card {
-  background: var(--surface);
+  background:var(--card-bg);
   border-radius: var(--radius);
   border: 1px solid var(--border);
   padding: 24px;
@@ -575,7 +555,7 @@ body {
 }
 
 .chart-box {
-  background: rgba(15,23,42,0.5);
+  background:rgba(255,255,255,0.85);
   border-radius: var(--radius-sm);
   padding: 20px;
 }
@@ -584,7 +564,7 @@ body {
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 16px;
-  color: var(--text-dim);
+  color:var(--muted);
 }
 
 /* Line Chart */
@@ -680,7 +660,7 @@ body {
 
 .balance-bar-label {
   font-size: 10px;
-  color: var(--text-dim);
+  color:var(--muted);
   margin-top: 6px;
 }
 
@@ -692,7 +672,7 @@ body {
   text-align: center;
   cursor: pointer;
   transition: all 0.3s;
-  background: rgba(30,41,59,0.5);
+  background:var(--card-bg);
   margin-bottom: 24px;
 }
 
@@ -703,7 +683,7 @@ body {
 
 .upload-zone .icon { font-size: 48px; margin-bottom: 12px; display: block; }
 .upload-zone .title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
-.upload-zone .subtitle { font-size: 13px; color: var(--text-dim); }
+.upload-zone .subtitle { font-size: 13px; color:var(--muted); }
 
 /* Progress */
 .progress-bar {
@@ -737,13 +717,13 @@ body {
 }
 
 .status-pill.processing {
-  background: rgba(37,99,235,0.15);
+  background:var(--blue-bg);
   color: #60A5FA;
 }
 
 .status-pill.done {
-  background: rgba(5,150,105,0.15);
-  color: #34D399;
+  background:var(--green-bg);
+  color:var(--green);
 }
 
 /* Responsive */
@@ -778,9 +758,34 @@ body {
 .typing {
   animation: pulse 1s ease infinite;
 }
+
+/* Dark mode toggle */
+.dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:all .2s;}
+.dark-toggle:hover{transform:scale(1.1);box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+
+/* Breadcrumb */
+.breadcrumb{font-size:13px;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:6px;}
+.breadcrumb a{color:var(--blue);text-decoration:none;transition:opacity .2s;}
+.breadcrumb a:hover{opacity:0.8;}
+.breadcrumb .sep{color:var(--border);}
+
+/* Transitions for dark mode */
+.header,.card,.kpi-card,.provider-card,.metric-card,.stat-card,.feature-card,.section-card,.tab-btn,.comparison-table th,.comparison-table td{transition:background .3s,border-color .3s,color .3s;}
+body.dark ::-webkit-scrollbar-track{background:var(--bg);}body.dark ::-webkit-scrollbar-thumb{background:var(--border);}
+body.dark .header{background:rgba(15,23,42,0.85);border-bottom-color:rgba(51,65,85,0.5);}
+.header-badge{color:var(--green);}
 </style>
 </head>
 <body>
+<button class="dark-toggle" onclick="toggleDark()" aria-label="Toggle dark mode"></button>
+<nav class="breadcrumb" style="max-width:1200px;margin:0 auto;padding:12px 24px 0;">
+  <a href="index.html">Autopilot v2</a>
+  <span class="sep">/</span>
+  <a href="connector-hub.html">Connectors</a>
+  <span class="sep">/</span>
+  <span>Bank Statement Parser</span>
+</nav>
+
 
 <!-- Header -->
 <div class="header">
@@ -1111,7 +1116,7 @@ function startOCRAnimation(bank, acct) {
 
     const card = createExtractCard('💰 วิเคราะห์รายได้', '98.1%', `
       <div class="info-grid">
-        <div class="info-item"><div class="label">เงินเดือนเฉลี่ย</div><div class="value" style="color:#34D399">฿${fmt(avgSalary)}</div></div>
+        <div class="info-item"><div class="label">เงินเดือนเฉลี่ย</div><div class="value" style="color:var(--green)">฿${fmt(avgSalary)}</div></div>
         <div class="info-item"><div class="label">รายได้อื่น</div><div class="value" style="color:#60A5FA">฿${fmt(otherIncome)}</div></div>
         <div class="info-item"><div class="label">เฉลี่ย/เดือน</div><div class="value">฿${fmt(totalCredit/4)}</div></div>
         <div class="info-item"><div class="label">จำนวนรายการรับ</div><div class="value">${currentTxns.filter(t=>t.credit).length} รายการ</div></div>
@@ -1176,25 +1181,25 @@ function showAIAnalysis(totalCredit, totalDebit) {
       <div class="metric-icon">💵</div>
       <div class="metric-label">รายได้เฉลี่ย</div>
       <div class="metric-value good">฿42,500</div>
-      <div style="font-size:11px;color:var(--text-dim)">/เดือน</div>
+      <div style="font-size:11px;color:var(--muted)">/เดือน</div>
     </div>
     <div class="ai-metric">
       <div class="metric-icon">🛒</div>
       <div class="metric-label">ค่าใช้จ่ายเฉลี่ย</div>
       <div class="metric-value warn">฿28,300</div>
-      <div style="font-size:11px;color:var(--text-dim)">/เดือน</div>
+      <div style="font-size:11px;color:var(--muted)">/เดือน</div>
     </div>
     <div class="ai-metric">
       <div class="metric-icon">🏦</div>
       <div class="metric-label">อัตราการออม</div>
       <div class="metric-value good">33.4%</div>
-      <div style="font-size:11px;color:var(--text-dim)">ดีกว่าค่าเฉลี่ย</div>
+      <div style="font-size:11px;color:var(--muted)">ดีกว่าค่าเฉลี่ย</div>
     </div>
     <div class="ai-metric">
       <div class="metric-icon">📉</div>
       <div class="metric-label">Debt Service Ratio</div>
       <div class="metric-value good">28%</div>
-      <div style="font-size:11px;color:var(--text-dim)">ต่ำกว่าเกณฑ์ 40%</div>
+      <div style="font-size:11px;color:var(--muted)">ต่ำกว่าเกณฑ์ 40%</div>
     </div>
   `;
 
@@ -1205,7 +1210,7 @@ function showAIAnalysis(totalCredit, totalDebit) {
       <strong>แนะนำ:</strong> รายได้สม่ำเสมอ มีอัตราการออมสูง (33.4%) และ Debt Service Ratio อยู่ในเกณฑ์ดี (28%)
       <br>เหมาะสำหรับ<strong>สินเชื่อไม่เกิน ฿1,500,000</strong> โดยผ่อนชำระไม่เกิน ฿17,000/เดือน
       <br><br>
-      <span style="font-size:12px;color:var(--text-dim)">* วิเคราะห์โดย AI จากข้อมูล Statement 6 เดือน &bull; ความแม่นยำ 98.5%</span>
+      <span style="font-size:12px;color:var(--muted)">* วิเคราะห์โดย AI จากข้อมูล Statement 6 เดือน &bull; ความแม่นยำ 98.5%</span>
     </div>
   `;
 
@@ -1272,7 +1277,7 @@ function showCompareSection() {
   const barsEl = document.getElementById('balanceBars');
   barsEl.innerHTML = months.map((m, i) => `
     <div class="balance-bar-wrapper">
-      <div style="font-size:9px;color:var(--text-dim);margin-bottom:4px">${(balances[i]/1000).toFixed(0)}k</div>
+      <div style="font-size:9px;color:var(--muted);margin-bottom:4px">${(balances[i]/1000).toFixed(0)}k</div>
       <div class="balance-bar" style="height:${(balances[i]/maxBal)*100}%"></div>
       <div class="balance-bar-label">${m}</div>
     </div>
@@ -1300,6 +1305,11 @@ function showCompareSection() {
     </div>
   `).join('');
 }
+</script>
+<script>
+function toggleDark(){document.body.classList.toggle('dark');const d=document.body.classList.contains('dark');localStorage.setItem('darkMode',d);document.querySelector('.dark-toggle').textContent=d?'\u2600\uFE0F':'\uD83C\uDF19';}
+if(localStorage.getItem('darkMode')==='true'){document.body.classList.add('dark');}
+window.addEventListener('DOMContentLoaded',function(){var btn=document.querySelector('.dark-toggle');if(btn){btn.textContent=document.body.classList.contains('dark')?'\u2600\uFE0F':'\uD83C\uDF19';}});
 </script>
 </body>
 </html>

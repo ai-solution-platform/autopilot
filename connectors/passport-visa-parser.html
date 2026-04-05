@@ -7,20 +7,51 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
+  --bg: #FFFFFF;
+  --bg2: #F8FAFC;
+  --bg3: #F1F5F9;
+  --card-bg: #FFFFFF;
+  --surface: #FFFFFF;
+  --surface2: #F1F5F9;
+  --border: #E2E8F0;
+  --text: #0F172A;
+  --text2: #475569;
+  --text-dim: #64748B;
+  --muted: #64748B;
   --blue: #2563EB;
+  --blue-bg: #EFF6FF;
   --purple: #7C3AED;
+  --purple-bg: #F5F3FF;
   --green: #059669;
+  --green-bg: #ECFDF5;
   --orange: #D97706;
+  --orange-bg: #FFFBEB;
   --red: #DC2626;
+  --red-bg: #FEF2F2;
+  --cyan: #0891B2;
   --grad: linear-gradient(135deg, #2563EB, #7C3AED);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+body.dark {
   --bg: #0F172A;
+  --bg2: #1E293B;
+  --bg3: #334155;
+  --card-bg: #1E293B;
   --surface: #1E293B;
   --surface2: #334155;
+  --border: #334155;
   --text: #F8FAFC;
+  --text2: #CBD5E1;
   --text-dim: #94A3B8;
-  --border: #475569;
-  --radius: 16px;
-  --radius-sm: 10px;
+  --muted: #94A3B8;
+  --blue-bg: rgba(37,99,235,0.15);
+  --purple-bg: rgba(124,58,237,0.15);
+  --green-bg: rgba(5,150,105,0.15);
+  --orange-bg: rgba(217,119,6,0.15);
+  --red-bg: rgba(220,38,38,0.15);
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -31,13 +62,15 @@ body {
   color: var(--text);
   min-height: 100vh;
   overflow-x: hidden;
+  font-size: 14px;
+  transition: background 0.3s, color 0.3s;
 }
 
 /* Header */
 .header {
-  background: rgba(15,23,42,0.85);
+  background: var(--card-bg);
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(71,85,105,0.4);
+  border-bottom: 1px solid var(--border);
   padding: 16px 32px;
   display: flex;
   align-items: center;
@@ -45,6 +78,8 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
+  box-shadow: var(--shadow);
+  transition: background 0.3s, border-color 0.3s;
 }
 
 .header-brand {
@@ -83,17 +118,17 @@ body {
 
 .header-badge {
   padding: 6px 14px;
-  background: rgba(5,150,105,0.15);
+  background: var(--green-bg);
   border: 1px solid rgba(5,150,105,0.3);
   border-radius: 20px;
   font-size: 12px;
-  color: #34D399;
+  color: var(--green);
   font-weight: 600;
 }
 
 /* Main Container */
 .container {
-  max-width: 1280px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 32px 24px;
 }
@@ -477,7 +512,7 @@ body {
   align-items: center;
   gap: 8px;
   font-size: 13px;
-  color: #34D399;
+  color: var(--green);
   font-weight: 600;
 }
 
@@ -646,7 +681,7 @@ body {
 .expiry-badge.ok {
   background: rgba(5,150,105,0.15);
   border: 1px solid rgba(5,150,105,0.3);
-  color: #34D399;
+  color: var(--green);
 }
 
 .expiry-badge.warning {
@@ -658,7 +693,7 @@ body {
 .expiry-badge.danger {
   background: rgba(220,38,38,0.15);
   border: 1px solid rgba(220,38,38,0.3);
-  color: #F87171;
+  color: var(--red);
 }
 
 /* Validation Panel */
@@ -752,7 +787,7 @@ body {
 
 .status-pill.valid {
   background: rgba(5,150,105,0.15);
-  color: #34D399;
+  color: var(--green);
 }
 
 .status-pill.expiring {
@@ -762,12 +797,12 @@ body {
 
 .status-pill.expired {
   background: rgba(220,38,38,0.15);
-  color: #F87171;
+  color: var(--red);
 }
 
 .status-pill.processing {
   background: rgba(37,99,235,0.15);
-  color: #60A5FA;
+  color: var(--blue);
 }
 
 /* Buttons */
@@ -993,11 +1028,11 @@ body {
   font-weight: 600;
 }
 
-.tag-blue { background: rgba(37,99,235,0.15); color: #60A5FA; }
-.tag-green { background: rgba(5,150,105,0.15); color: #34D399; }
+.tag-blue { background: rgba(37,99,235,0.15); color: var(--blue); }
+.tag-green { background: rgba(5,150,105,0.15); color: var(--green); }
 .tag-orange { background: rgba(217,119,6,0.15); color: #FBBF24; }
-.tag-red { background: rgba(220,38,38,0.15); color: #F87171; }
-.tag-purple { background: rgba(124,58,237,0.15); color: #A78BFA; }
+.tag-red { background: rgba(220,38,38,0.15); color: var(--red); }
+.tag-purple { background: rgba(124,58,237,0.15); color: var(--purple); }
 
 /* Nationality Flag placeholder */
 .flag {
@@ -1015,9 +1050,42 @@ body {
 .flag-kh { background: linear-gradient(180deg, #032EA1 0% 25%, #E00025 25% 75%, #032EA1 75% 100%); }
 .flag-la { background: linear-gradient(180deg, #CE1126 0% 25%, #002868 25% 75%, #CE1126 75% 100%); }
 
+/* Dark Mode Toggle */
+.dark-toggle {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 999;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow);
+  transition: all 0.2s;
+}
+.dark-toggle:hover { transform: scale(1.1); box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+
+/* Breadcrumb */
+.breadcrumb {
+  padding: 12px 0;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.breadcrumb a { color: var(--blue); text-decoration: none; font-weight: 500; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb span.sep { margin: 0 6px; }
+
 </style>
 </head>
 <body>
+<button class="dark-toggle" onclick="toggleDark()">&#127769;</button>
 
 <!-- Header -->
 <div class="header">
@@ -1033,6 +1101,7 @@ body {
 
 <!-- Container -->
 <div class="container">
+  <div class="breadcrumb"><a href="connector-hub.html">Autopilot v2</a><span class="sep">/</span><a href="connector-hub.html">Connectors</a><span class="sep">/</span>Passport & Visa Parser</div>
 
   <!-- Page Title -->
   <div class="page-title fade-in">
@@ -1240,7 +1309,7 @@ body {
           </div>
           <div class="mrz-decode-item">
             <div class="label">Checksum</div>
-            <div class="val" style="color:#34D399">VALID (04)</div>
+            <div class="val" style="color:var(--green)">VALID (04)</div>
             <div class="check">✅</div>
           </div>
         </div>
@@ -1303,7 +1372,7 @@ body {
             <div class="metric-bar">
               <div class="label">Face Detection</div>
               <div class="bar"><div class="bar-fill green" style="width:99.2%"></div></div>
-              <div class="val" style="color:#34D399">99.2%</div>
+              <div class="val" style="color:var(--green)">99.2%</div>
             </div>
             <div class="metric-bar">
               <div class="label">Face Quality Score</div>
@@ -1313,12 +1382,12 @@ body {
             <div class="metric-bar">
               <div class="label">Liveness Check</div>
               <div class="bar"><div class="bar-fill purple" style="width:88%"></div></div>
-              <div class="val" style="color:#A78BFA">88.0%</div>
+              <div class="val" style="color:var(--purple)">88.0%</div>
             </div>
             <div class="metric-bar">
               <div class="label">Photo Clarity</div>
               <div class="bar"><div class="bar-fill green" style="width:97%"></div></div>
-              <div class="val" style="color:#34D399">97.0%</div>
+              <div class="val" style="color:var(--green)">97.0%</div>
             </div>
             <div class="metric-bar">
               <div class="label">Face Angle</div>
@@ -1350,9 +1419,9 @@ body {
             <div style="font-size:11px;color:var(--text-dim);margin-top:6px">Passport Photo</div>
           </div>
           <div style="text-align:center">
-            <div style="font-size:32px;color:#34D399">↔</div>
-            <div style="font-size:24px;font-weight:800;color:#34D399;margin-top:4px">97.8%</div>
-            <div style="font-size:11px;color:#34D399">Match Score</div>
+            <div style="font-size:32px;color:var(--green)">↔</div>
+            <div style="font-size:24px;font-weight:800;color:var(--green);margin-top:4px">97.8%</div>
+            <div style="font-size:11px;color:var(--green)">Match Score</div>
           </div>
           <div style="text-align:center">
             <div style="width:100px;height:120px;background:linear-gradient(135deg,#e0e0e0,#bdbdbd);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:40px;border:2px solid var(--blue);margin:0 auto">📷</div>
@@ -1496,7 +1565,7 @@ body {
         <div style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);border-radius:8px;padding:14px">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
             <span style="font-size:20px">⚠️</span>
-            <span style="font-size:14px;font-weight:700;color:#F87171">วีซ่าหมดอายุแล้ว — Overstay 12 วัน</span>
+            <span style="font-size:14px;font-weight:700;color:var(--red)">วีซ่าหมดอายุแล้ว — Overstay 12 วัน</span>
           </div>
           <div style="font-size:12px;color:var(--text-dim)">
             Valid Until: 23 มี.ค. 2569 | ปัจจุบัน: 4 เม.ย. 2569 | กรุณาติดต่อ ตม. ทันที
@@ -1581,7 +1650,7 @@ body {
         <div style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.25);border-radius:10px;padding:16px;margin-bottom:14px">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
             <span style="font-size:20px">🔴</span>
-            <span style="font-size:14px;font-weight:700;color:#F87171">วีซ่าจะหมดอายุใน 45 วัน</span>
+            <span style="font-size:14px;font-weight:700;color:var(--red)">วีซ่าจะหมดอายุใน 45 วัน</span>
           </div>
           <p style="font-size:12px;color:var(--text-dim);margin-bottom:8px">
             กรุณาดำเนินการต่ออายุวีซ่าที่สำนักงานตรวจคนเข้าเมือง ก่อนวันหมดอายุ
@@ -1604,16 +1673,16 @@ body {
         <div class="section-label" style="margin-top:20px">Checklist สำหรับ HR</div>
         <div style="display:flex;flex-direction:column;gap:8px">
           <div style="display:flex;align-items:center;gap:10px;font-size:13px">
-            <span style="color:#34D399;font-size:18px">☑</span> พาสปอร์ตมีอายุเหลือเกิน 6 เดือน
+            <span style="color:var(--green);font-size:18px">☑</span> พาสปอร์ตมีอายุเหลือเกิน 6 เดือน
           </div>
           <div style="display:flex;align-items:center;gap:10px;font-size:13px">
-            <span style="color:#34D399;font-size:18px">☑</span> วีซ่าตรงกับประเภทการทำงาน
+            <span style="color:var(--green);font-size:18px">☑</span> วีซ่าตรงกับประเภทการทำงาน
           </div>
           <div style="display:flex;align-items:center;gap:10px;font-size:13px">
-            <span style="color:#34D399;font-size:18px">☑</span> Work Permit ยังไม่หมดอายุ
+            <span style="color:var(--green);font-size:18px">☑</span> Work Permit ยังไม่หมดอายุ
           </div>
           <div style="display:flex;align-items:center;gap:10px;font-size:13px">
-            <span style="color:#34D399;font-size:18px">☑</span> TM.30 ลงทะเบียนแล้ว
+            <span style="color:var(--green);font-size:18px">☑</span> TM.30 ลงทะเบียนแล้ว
           </div>
           <div style="display:flex;align-items:center;gap:10px;font-size:13px">
             <span style="color:#FBBF24;font-size:18px">☐</span> ยื่นต่อวีซ่าก่อนหมดอายุ
@@ -1766,7 +1835,7 @@ body {
       <!-- Batch Summary -->
       <div class="grid-4" style="margin-top:16px">
         <div style="background:rgba(5,150,105,0.1);border:1px solid rgba(5,150,105,0.2);border-radius:10px;padding:16px;text-align:center">
-          <div style="font-size:28px;font-weight:800;color:#34D399">5</div>
+          <div style="font-size:28px;font-weight:800;color:var(--green)">5</div>
           <div style="font-size:12px;color:var(--text-dim)">เอกสารครบถ้วน</div>
         </div>
         <div style="background:rgba(217,119,6,0.1);border:1px solid rgba(217,119,6,0.2);border-radius:10px;padding:16px;text-align:center">
@@ -1774,7 +1843,7 @@ body {
           <div style="font-size:12px;color:var(--text-dim)">ใกล้หมดอายุ</div>
         </div>
         <div style="background:rgba(220,38,38,0.1);border:1px solid rgba(220,38,38,0.2);border-radius:10px;padding:16px;text-align:center">
-          <div style="font-size:28px;font-weight:800;color:#F87171">1</div>
+          <div style="font-size:28px;font-weight:800;color:var(--red)">1</div>
           <div style="font-size:12px;color:var(--text-dim)">หมดอายุแล้ว</div>
         </div>
         <div style="background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.2);border-radius:10px;padding:16px;text-align:center">
@@ -1848,6 +1917,20 @@ window.addEventListener('load', () => {
     setTimeout(() => { bar.style.width = w; }, 500);
   });
 });
+
+// ===== DARK MODE =====
+function toggleDark(){
+  document.body.classList.toggle('dark');
+  const d=document.body.classList.contains('dark');
+  localStorage.setItem('darkMode',d);
+  document.querySelector('.dark-toggle').textContent=d?'\u2600\uFE0F':'\uD83C\uDF19';
+}
+if(localStorage.getItem('darkMode')==='true'){
+  document.body.classList.add('dark');
+  document.addEventListener('DOMContentLoaded',function(){
+    var t=document.querySelector('.dark-toggle');if(t)t.textContent='\u2600\uFE0F';
+  });
+}
 </script>
 
 </body>

@@ -8,171 +8,131 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+Thai:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root {
-    --bg: #0B0F1A;
-    --bg2: #111827;
-    --bg3: #1F2937;
-    --surface: rgba(17,24,39,0.8);
-    --surface-border: rgba(99,102,241,0.15);
-    --border: rgba(148,163,184,0.12);
-    --text: #F1F5F9;
-    --text2: #CBD5E1;
-    --text-muted: #64748B;
-    --accent: #6366F1;
-    --accent2: #8B5CF6;
-    --accent3: #06B6D4;
-    --success: #10B981;
-    --warning: #F59E0B;
-    --danger: #EF4444;
-    --grad1: linear-gradient(135deg, #3B82F6, #8B5CF6);
-    --grad2: linear-gradient(135deg, #06B6D4, #3B82F6);
-    --grad3: linear-gradient(135deg, #8B5CF6, #EC4899);
-    --grad4: linear-gradient(135deg, #10B981, #06B6D4);
-    --glow-blue: 0 0 60px rgba(59,130,246,0.15);
-    --glow-purple: 0 0 60px rgba(139,92,246,0.15);
-    --radius: 12px;
-    --radius-sm: 8px;
-}
+:root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
+body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);}
 
 * { margin:0; padding:0; box-sizing:border-box; }
-
 html { scroll-behavior: smooth; }
 
 body {
-    font-family: 'Inter', 'Noto Sans Thai', sans-serif;
+    font-family: 'Noto Sans Thai', 'Inter', sans-serif;
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
     line-height: 1.6;
+    font-size: 14px;
 }
 
-/* ── Scrollbar ── */
+/* Dark toggle */
+.dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);}
+
+/* Scrollbar */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
 
-/* ── Header ── */
+/* Breadcrumb Header */
 .app-header {
     position: sticky; top: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 32px;
-    background: rgba(11,15,26,0.85);
-    backdrop-filter: blur(20px);
+    display: flex; align-items: center; gap: 16px;
+    padding: 14px 24px;
+    background: var(--card-bg);
     border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    font-size: 0.85rem;
+    color: var(--muted);
 }
-.app-header .logo {
-    display: flex; align-items: center; gap: 12px;
-    font-weight: 700; font-size: 1.1rem;
-}
-.app-header .logo .icon {
-    width: 36px; height: 36px;
-    background: var(--grad1);
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem;
-}
-.app-header .breadcrumb {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 0.85rem; color: var(--text-muted);
-}
-.app-header .breadcrumb a {
-    color: var(--text-muted); text-decoration: none;
-    transition: color 0.2s;
-}
-.app-header .breadcrumb a:hover { color: var(--accent); }
-.app-header .breadcrumb .sep { opacity: 0.4; }
-.app-header .breadcrumb .current { color: var(--text); font-weight: 500; }
-.header-actions { display: flex; gap: 8px; }
+.app-header a { color: var(--muted); text-decoration: none; }
+.app-header a:hover { color: var(--blue); }
+.app-header .sep { opacity: 0.4; }
+.app-header .current { color: var(--text); font-weight: 600; }
 
-/* ── Container ── */
+/* Container */
 .container {
-    max-width: 1440px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 24px 32px 48px;
+    padding: 24px;
 }
 
-/* ── Page Title ── */
+/* Page Title */
 .page-title-row {
     display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
 }
 .page-title-row h1 {
-    font-size: 1.8rem; font-weight: 800;
-    letter-spacing: -0.02em;
-    background: var(--grad1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-size: 1.4rem; font-weight: 800;
+    color: var(--text);
 }
 .page-title-row .subtitle {
-    font-size: 0.9rem; color: var(--text-muted); margin-top: 4px;
-    -webkit-text-fill-color: var(--text-muted);
-    background: none;
+    font-size: 0.85rem; color: var(--muted); margin-top: 2px;
 }
 
-/* ── KPI Cards ── */
+/* KPI Cards */
 .kpi-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
 }
 .kpi-card {
-    background: var(--bg2);
+    background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 20px 24px;
+    padding: 16px 20px;
     position: relative; overflow: hidden;
     transition: border-color 0.3s, transform 0.2s;
+    box-shadow: var(--shadow);
 }
+.kpi-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.kpi-card:nth-child(1)::before { background: var(--blue); }
+.kpi-card:nth-child(2)::before { background: var(--purple); }
+.kpi-card:nth-child(3)::before { background: var(--green); }
+.kpi-card:nth-child(4)::before { background: var(--cyan); }
 .kpi-card:hover {
-    border-color: var(--surface-border);
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 .kpi-card .kpi-icon {
-    width: 40px; height: 40px;
+    width: 36px; height: 36px;
     border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 1.2rem;
-    margin-bottom: 12px;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
 }
 .kpi-card .kpi-label {
-    font-size: 0.78rem; color: var(--text-muted);
+    font-size: 0.75rem; color: var(--muted);
     text-transform: uppercase; letter-spacing: 0.5px;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 .kpi-card .kpi-value {
-    font-size: 1.7rem; font-weight: 800;
-    letter-spacing: -0.02em;
+    font-size: 1.5rem; font-weight: 800;
+    color: var(--text);
 }
 .kpi-card .kpi-sub {
-    font-size: 0.75rem; color: var(--success);
+    font-size: 0.75rem; color: var(--green);
     margin-top: 4px; display: flex; align-items: center; gap: 4px;
 }
-.kpi-card .kpi-glow {
-    position: absolute; top: -30px; right: -30px;
-    width: 100px; height: 100px;
-    border-radius: 50%;
-    opacity: 0.08;
-    pointer-events: none;
-}
 
-/* ── Tabs ── */
+/* Tabs */
 .tabs {
     display: flex; gap: 4px;
     background: var(--bg2);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 4px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     width: fit-content;
 }
 .tab-btn {
-    padding: 10px 24px;
+    padding: 8px 20px;
     border: none;
-    border-radius: var(--radius-sm);
+    border-radius: 8px;
     background: transparent;
-    color: var(--text-muted);
+    color: var(--muted);
     font-family: inherit;
     font-size: 0.85rem;
     font-weight: 500;
@@ -180,14 +140,14 @@ body {
     transition: all 0.2s;
     display: flex; align-items: center; gap: 8px;
 }
-.tab-btn:hover { color: var(--text); background: rgba(99,102,241,0.05); }
+.tab-btn:hover { color: var(--text); background: var(--bg3); }
 .tab-btn.active {
-    background: var(--accent);
+    background: var(--blue);
     color: white;
-    box-shadow: 0 2px 12px rgba(99,102,241,0.3);
+    box-shadow: 0 2px 8px rgba(37,99,235,0.25);
 }
 
-/* ── Tab Panels ── */
+/* Tab Panels */
 .tab-panel { display: none; }
 .tab-panel.active { display: block; animation: fadeUp 0.3s ease; }
 @keyframes fadeUp {
@@ -195,23 +155,24 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Table ── */
+/* Table */
 .table-wrap {
-    background: var(--bg2);
+    background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     overflow: hidden;
+    box-shadow: var(--shadow);
 }
 .table-toolbar {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 20px;
+    padding: 14px 16px;
     border-bottom: 1px solid var(--border);
 }
 .table-toolbar .search-box {
     display: flex; align-items: center; gap: 8px;
-    background: var(--bg3);
+    background: var(--bg2);
     border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
+    border-radius: 8px;
     padding: 8px 14px;
     width: 280px;
 }
@@ -220,57 +181,52 @@ body {
     color: var(--text); font-family: inherit;
     font-size: 0.85rem; width: 100%; outline: none;
 }
-.table-toolbar .search-box input::placeholder { color: var(--text-muted); }
+.table-toolbar .search-box input::placeholder { color: var(--muted); }
 
 table {
     width: 100%; border-collapse: collapse;
 }
 table th {
-    padding: 12px 16px;
+    padding: 10px 14px;
     text-align: left;
     font-size: 0.72rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.8px;
-    color: var(--text-muted);
-    background: rgba(31,41,55,0.5);
+    color: var(--muted);
+    background: var(--bg2);
     border-bottom: 1px solid var(--border);
 }
 table td {
-    padding: 12px 16px;
+    padding: 10px 14px;
     font-size: 0.85rem;
     border-bottom: 1px solid var(--border);
     color: var(--text2);
 }
-table tbody tr {
-    transition: background 0.15s;
-}
-table tbody tr:hover {
-    background: rgba(99,102,241,0.04);
-}
+table tbody tr { transition: background 0.15s; }
+table tbody tr:hover { background: var(--blue-bg); }
 table tbody tr:last-child td { border-bottom: none; }
 
-/* ── Status Badge ── */
+/* Status Badge */
 .badge {
     display: inline-flex; align-items: center; gap: 5px;
     padding: 4px 12px;
     border-radius: 100px;
     font-size: 0.72rem;
     font-weight: 600;
-    letter-spacing: 0.3px;
 }
-.badge-draft { background: rgba(100,116,139,0.15); color: #94A3B8; }
-.badge-sent { background: rgba(59,130,246,0.12); color: #60A5FA; }
-.badge-accepted { background: rgba(16,185,129,0.12); color: #34D399; }
-.badge-rejected { background: rgba(239,68,68,0.12); color: #F87171; }
-.badge-expired { background: rgba(245,158,11,0.12); color: #FBBF24; }
+.badge-draft { background: var(--bg3); color: var(--muted); }
+.badge-sent { background: var(--blue-bg); color: var(--blue); }
+.badge-accepted { background: var(--green-bg); color: var(--green); }
+.badge-rejected { background: var(--red-bg); color: var(--red); }
+.badge-expired { background: var(--orange-bg); color: var(--orange); }
 
-/* ── Buttons ── */
+/* Buttons */
 .btn {
     display: inline-flex; align-items: center; gap: 8px;
-    padding: 10px 20px;
+    padding: 8px 18px;
     border: none;
-    border-radius: var(--radius-sm);
+    border-radius: 8px;
     font-family: inherit;
     font-size: 0.85rem;
     font-weight: 600;
@@ -279,76 +235,78 @@ table tbody tr:last-child td { border-bottom: none; }
     text-decoration: none;
 }
 .btn-primary {
-    background: var(--grad1);
+    background: var(--grad);
     color: white;
-    box-shadow: 0 2px 12px rgba(99,102,241,0.25);
+    box-shadow: 0 2px 8px rgba(37,99,235,0.2);
 }
-.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(99,102,241,0.35); }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(37,99,235,0.3); }
 .btn-secondary {
     background: var(--bg3);
     color: var(--text);
     border: 1px solid var(--border);
 }
-.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
-.btn-success { background: var(--grad4); color: white; }
+.btn-secondary:hover { border-color: var(--blue); color: var(--blue); }
+.btn-success { background: linear-gradient(135deg,#059669,#0891B2); color: white; }
 .btn-success:hover { transform: translateY(-1px); }
 .btn-sm { padding: 6px 14px; font-size: 0.78rem; }
 .btn-ghost {
-    background: transparent; color: var(--text-muted);
+    background: transparent; color: var(--muted);
     border: 1px solid var(--border);
 }
-.btn-ghost:hover { color: var(--accent); border-color: var(--accent); }
-.btn-danger { background: rgba(239,68,68,0.12); color: #F87171; }
-.btn-danger:hover { background: rgba(239,68,68,0.2); }
+.btn-ghost:hover { color: var(--blue); border-color: var(--blue); }
+.btn-danger { background: var(--red-bg); color: var(--red); }
+.btn-danger:hover { background: rgba(220,38,38,0.15); }
 
-/* ── Builder Layout ── */
+/* Builder Layout */
 .builder-layout {
     display: grid;
-    grid-template-columns: 1fr 420px;
+    grid-template-columns: 1fr 400px;
     gap: 20px;
     min-height: 70vh;
 }
 .builder-main {
-    display: flex; flex-direction: column; gap: 20px;
+    display: flex; flex-direction: column; gap: 16px;
 }
 
-/* ── Card Sections ── */
+/* Card Sections */
 .section-card {
-    background: var(--bg2);
+    background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     overflow: hidden;
+    box-shadow: var(--shadow);
 }
 .section-card .section-header {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 20px;
+    padding: 14px 18px;
     border-bottom: 1px solid var(--border);
-    background: rgba(31,41,55,0.3);
+    background: var(--bg2);
 }
 .section-card .section-header h3 {
-    font-size: 0.9rem; font-weight: 700;
+    font-size: 0.85rem; font-weight: 700;
     display: flex; align-items: center; gap: 8px;
+    color: var(--text);
 }
-.section-card .section-body { padding: 20px; }
+.section-card .section-body { padding: 18px; }
 
-/* ── Form Elements ── */
-.form-group { margin-bottom: 16px; }
+/* Form Elements */
+.form-group { margin-bottom: 14px; }
 .form-group:last-child { margin-bottom: 0; }
 .form-label {
     display: block;
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     font-weight: 600;
-    color: var(--text-muted);
+    color: var(--muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-bottom: 6px;
+    margin-bottom: 5px;
 }
 .form-input, .form-select, .form-textarea {
     width: 100%;
-    padding: 10px 14px;
-    background: var(--bg3);
+    padding: 9px 12px;
+    background: var(--bg2);
     border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
+    border-radius: 8px;
     color: var(--text);
     font-family: inherit;
     font-size: 0.85rem;
@@ -356,65 +314,59 @@ table tbody tr:last-child td { border-bottom: none; }
     transition: border-color 0.2s;
 }
 .form-input:focus, .form-select:focus, .form-textarea:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
 }
 .form-select { cursor: pointer; appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2394A3B8' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2364748B' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 12px center;
     padding-right: 36px;
 }
-.form-select option { background: var(--bg2); color: var(--text); }
+.form-select option { background: var(--card-bg); color: var(--text); }
 .form-textarea { resize: vertical; min-height: 80px; }
 
-/* ── Template Cards ── */
+/* Template Cards */
 .template-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
 }
 .template-card {
-    background: var(--bg3);
+    background: var(--bg2);
     border: 2px solid var(--border);
     border-radius: var(--radius);
-    padding: 16px;
+    padding: 14px;
     text-align: center;
     cursor: pointer;
     transition: all 0.2s;
 }
-.template-card:hover { border-color: rgba(99,102,241,0.3); }
+.template-card:hover { border-color: rgba(37,99,235,0.3); }
 .template-card.selected {
-    border-color: var(--accent);
-    background: rgba(99,102,241,0.08);
-    box-shadow: 0 0 20px rgba(99,102,241,0.1);
+    border-color: var(--blue);
+    background: var(--blue-bg);
+    box-shadow: 0 0 16px rgba(37,99,235,0.1);
 }
-.template-card .tmpl-icon {
-    font-size: 2rem; margin-bottom: 8px;
-}
-.template-card .tmpl-name {
-    font-size: 0.85rem; font-weight: 700;
-}
-.template-card .tmpl-desc {
-    font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;
-}
+.template-card .tmpl-icon { font-size: 2rem; margin-bottom: 8px; }
+.template-card .tmpl-name { font-size: 0.85rem; font-weight: 700; color: var(--text); }
+.template-card .tmpl-desc { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
 
-/* ── Product Catalog Popup ── */
+/* Product Catalog Popup */
 .catalog-overlay {
     position: fixed; inset: 0;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.4);
     backdrop-filter: blur(4px);
     z-index: 500;
     display: none; align-items: center; justify-content: center;
 }
 .catalog-overlay.open { display: flex; }
 .catalog-modal {
-    background: var(--bg2);
+    background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     width: 900px; max-height: 80vh;
     overflow: hidden;
-    box-shadow: 0 25px 80px rgba(0,0,0,0.5);
+    box-shadow: 0 25px 80px rgba(0,0,0,0.15);
     animation: modalUp 0.3s ease;
 }
 @keyframes modalUp {
@@ -422,24 +374,25 @@ table tbody tr:last-child td { border-bottom: none; }
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* ── Quotation Items ── */
+/* Quotation Items */
 .qi-table { width: 100%; border-collapse: collapse; }
 .qi-table th {
-    padding: 10px 12px; text-align: left;
+    padding: 8px 10px; text-align: left;
     font-size: 0.7rem; font-weight: 600;
     text-transform: uppercase; letter-spacing: 0.8px;
-    color: var(--text-muted);
-    background: rgba(31,41,55,0.5);
+    color: var(--muted);
+    background: var(--bg2);
     border-bottom: 1px solid var(--border);
 }
 .qi-table td {
-    padding: 8px 12px;
+    padding: 8px 10px;
     font-size: 0.82rem;
     border-bottom: 1px solid var(--border);
+    color: var(--text2);
 }
 .qi-table .qi-input {
     width: 100%; padding: 6px 10px;
-    background: var(--bg3);
+    background: var(--bg2);
     border: 1px solid var(--border);
     border-radius: 6px;
     color: var(--text);
@@ -449,28 +402,19 @@ table tbody tr:last-child td { border-bottom: none; }
     text-align: right;
     transition: border-color 0.2s;
 }
-.qi-table .qi-input:focus { border-color: var(--accent); }
-.qi-table .drag-handle {
-    cursor: grab; color: var(--text-muted);
-    font-size: 1rem; user-select: none;
-}
+.qi-table .qi-input:focus { border-color: var(--blue); }
+.qi-table .drag-handle { cursor: grab; color: var(--muted); font-size: 1rem; user-select: none; }
 .qi-table .drag-handle:active { cursor: grabbing; }
-.qi-table tr.dragging {
-    opacity: 0.5;
-    background: rgba(99,102,241,0.1);
-}
-.qi-table .row-total {
-    font-weight: 700; color: var(--text);
-    text-align: right; white-space: nowrap;
-}
+.qi-table tr.dragging { opacity: 0.5; background: var(--blue-bg); }
+.qi-table .row-total { font-weight: 700; color: var(--text); text-align: right; white-space: nowrap; }
 .ai-hint {
     display: flex; align-items: center; gap: 6px;
     padding: 6px 12px;
-    background: rgba(139,92,246,0.08);
-    border: 1px solid rgba(139,92,246,0.15);
+    background: var(--purple-bg);
+    border: 1px solid rgba(124,58,237,0.2);
     border-radius: 6px;
     font-size: 0.72rem;
-    color: var(--accent2);
+    color: var(--purple);
     margin-top: 4px;
     animation: hintPulse 2s ease-in-out infinite;
 }
@@ -479,82 +423,72 @@ table tbody tr:last-child td { border-bottom: none; }
     50% { opacity: 1; }
 }
 
-/* ── Summary ── */
-.summary-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-.summary-table td {
-    padding: 8px 0;
-    font-size: 0.85rem;
-}
-.summary-table .sum-label { color: var(--text-muted); }
-.summary-table .sum-value { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+/* Summary */
+.summary-table { width: 100%; border-collapse: collapse; }
+.summary-table td { padding: 8px 0; font-size: 0.85rem; }
+.summary-table .sum-label { color: var(--muted); }
+.summary-table .sum-value { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--text); }
 .summary-table .sum-grand td {
     padding-top: 12px;
-    border-top: 2px solid var(--accent);
+    border-top: 2px solid var(--blue);
     font-size: 1.2rem;
     font-weight: 800;
 }
 .summary-table .sum-grand .sum-value {
-    background: var(--grad1);
+    background: var(--grad);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-/* ── Preview Panel ── */
+/* Preview Panel */
 .preview-panel {
-    background: var(--bg2);
+    background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     position: sticky;
-    top: 85px;
-    max-height: calc(100vh - 100px);
+    top: 70px;
+    max-height: calc(100vh - 85px);
     overflow-y: auto;
+    box-shadow: var(--shadow);
 }
 .preview-panel .preview-header {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 20px;
+    padding: 12px 18px;
     border-bottom: 1px solid var(--border);
-    background: rgba(31,41,55,0.3);
+    background: var(--bg2);
 }
 .preview-panel .preview-header h3 {
     font-size: 0.85rem; font-weight: 700;
     display: flex; align-items: center; gap: 8px;
+    color: var(--text);
 }
 .preview-doc {
     background: white;
-    margin: 16px;
+    margin: 14px;
     border-radius: 8px;
     min-height: 500px;
     color: #1a1a1a;
     font-size: 0.72rem;
     line-height: 1.5;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
     overflow: hidden;
 }
 .preview-doc .doc-header {
     padding: 24px 24px 16px;
-    border-bottom: 2px solid #6366F1;
+    border-bottom: 2px solid #2563EB;
 }
 .preview-doc .doc-header.professional {
     background: linear-gradient(135deg, #1e293b, #334155);
     color: white;
-    border-bottom: 3px solid #6366F1;
+    border-bottom: 3px solid #2563EB;
 }
 .preview-doc .doc-header.premium {
-    background: linear-gradient(135deg, #6366F1, #8B5CF6, #EC4899);
+    background: linear-gradient(135deg, #2563EB, #7C3AED, #EC4899);
     color: white;
     border-bottom: none;
 }
-.preview-doc .doc-company {
-    font-size: 0.9rem; font-weight: 800;
-    margin-bottom: 4px;
-}
-.preview-doc .doc-title {
-    font-size: 0.7rem; text-transform: uppercase;
-    letter-spacing: 1.5px; opacity: 0.7;
-}
+.preview-doc .doc-company { font-size: 0.9rem; font-weight: 800; margin-bottom: 4px; }
+.preview-doc .doc-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.7; }
 .preview-doc .doc-meta {
     padding: 12px 24px;
     display: grid; grid-template-columns: 1fr 1fr;
@@ -563,72 +497,47 @@ table tbody tr:last-child td { border-bottom: none; }
     border-bottom: 1px solid #e5e7eb;
 }
 .preview-doc .doc-meta .label { color: #6b7280; }
-.preview-doc .doc-items {
-    padding: 12px 24px;
-}
-.preview-doc .doc-items table {
-    width: 100%; border-collapse: collapse;
-    font-size: 0.68rem;
-}
+.preview-doc .doc-items { padding: 12px 24px; }
+.preview-doc .doc-items table { width: 100%; border-collapse: collapse; font-size: 0.68rem; }
 .preview-doc .doc-items th {
-    background: #f3f4f6;
-    padding: 6px 8px;
-    text-align: left;
-    font-size: 0.62rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: #374151;
-    border-bottom: 1px solid #d1d5db;
+    background: #f3f4f6; padding: 6px 8px; text-align: left;
+    font-size: 0.62rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.5px; color: #374151; border-bottom: 1px solid #d1d5db;
 }
-.preview-doc .doc-items td {
-    padding: 6px 8px;
-    border-bottom: 1px solid #e5e7eb;
-    color: #374151;
-}
-.preview-doc .doc-summary {
-    padding: 12px 24px 24px;
-    display: flex; justify-content: flex-end;
-}
-.preview-doc .doc-summary table {
-    width: 200px; border-collapse: collapse;
-    font-size: 0.68rem;
-}
+.preview-doc .doc-items td { padding: 6px 8px; border-bottom: 1px solid #e5e7eb; color: #374151; }
+.preview-doc .doc-summary { padding: 12px 24px 24px; display: flex; justify-content: flex-end; }
+.preview-doc .doc-summary table { width: 200px; border-collapse: collapse; font-size: 0.68rem; }
 .preview-doc .doc-summary td { padding: 4px 0; color: #374151; }
 .preview-doc .doc-summary .grand {
     font-weight: 800; font-size: 0.78rem;
-    border-top: 2px solid #6366F1;
-    padding-top: 6px;
-    color: #6366F1;
+    border-top: 2px solid #2563EB; padding-top: 6px; color: #2563EB;
 }
 .preview-doc .doc-footer {
-    padding: 12px 24px;
-    border-top: 1px solid #e5e7eb;
-    font-size: 0.62rem;
-    color: #9ca3af;
+    padding: 12px 24px; border-top: 1px solid #e5e7eb;
+    font-size: 0.62rem; color: #9ca3af;
 }
 
-/* ── Actions Bar ── */
+/* Actions Bar */
 .actions-bar {
     display: flex; gap: 10px;
-    padding: 16px 20px;
+    padding: 14px 18px;
     border-top: 1px solid var(--border);
-    background: rgba(31,41,55,0.3);
+    background: var(--bg2);
     flex-wrap: wrap;
 }
 
-/* ── Toast ── */
+/* Toast */
 .toast {
     position: fixed; bottom: 24px; right: 24px;
     padding: 14px 24px;
-    background: var(--bg2);
-    border: 1px solid var(--success);
+    background: var(--card-bg);
+    border: 1px solid var(--green);
     border-radius: var(--radius);
-    color: var(--success);
+    color: var(--green);
     font-size: 0.85rem;
     font-weight: 600;
     display: flex; align-items: center; gap: 8px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
     transform: translateY(100px);
     opacity: 0;
     transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
@@ -636,7 +545,7 @@ table tbody tr:last-child td { border-bottom: none; }
 }
 .toast.show { transform: translateY(0); opacity: 1; }
 
-/* ── Responsive ── */
+/* Responsive */
 @media (max-width: 1200px) {
     .builder-layout { grid-template-columns: 1fr; }
     .preview-panel { position: static; max-height: none; }
@@ -645,32 +554,24 @@ table tbody tr:last-child td { border-bottom: none; }
     .kpi-grid { grid-template-columns: repeat(2, 1fr); }
     .template-grid { grid-template-columns: 1fr; }
     .container { padding: 16px; }
-    .app-header { padding: 12px 16px; }
 }
 </style>
 </head>
 <body>
 
-<!-- ── Header ── -->
+<!-- Dark Mode Toggle -->
+<button class="dark-toggle" onclick="toggleDark()">&#127769;</button>
+
+<!-- Header / Breadcrumb -->
 <header class="app-header">
-    <div class="logo">
-        <div class="icon">A</div>
-        <span>Autopilot <span style="color:var(--accent);font-weight:400;">v2</span></span>
-    </div>
-    <div class="breadcrumb">
-        <a href="#">หน้าแรก</a>
-        <span class="sep">/</span>
-        <a href="#">โมดูล</a>
-        <span class="sep">/</span>
-        <span class="current">Sales Quotation Builder</span>
-    </div>
-    <div class="header-actions">
-        <button class="btn btn-ghost btn-sm" onclick="showToast('ซิงค์ข้อมูลสำเร็จ')">&#x21bb; ซิงค์</button>
-        <button class="btn btn-primary btn-sm">&#x1f464; สมชาย ก.</button>
-    </div>
+    <a href="#">Autopilot v2</a>
+    <span class="sep">/</span>
+    <a href="#">Sales Doc Gen</a>
+    <span class="sep">/</span>
+    <span class="current">Quotation Builder</span>
 </header>
 
-<!-- ── Main Content ── -->
+<!-- Main Content -->
 <div class="container">
 
     <!-- Page Title -->
@@ -684,29 +585,25 @@ table tbody tr:last-child td { border-bottom: none; }
     <!-- KPI Cards -->
     <div class="kpi-grid">
         <div class="kpi-card">
-            <div class="kpi-glow" style="background:#3B82F6;"></div>
-            <div class="kpi-icon" style="background:rgba(59,130,246,0.12);color:#60A5FA;">&#x1f4c4;</div>
+            <div class="kpi-icon" style="background:var(--blue-bg);color:var(--blue);">&#x1f4c4;</div>
             <div class="kpi-label">ใบเสนอราคาเดือนนี้</div>
             <div class="kpi-value">156</div>
             <div class="kpi-sub">&#x2191; 23% จากเดือนก่อน</div>
         </div>
         <div class="kpi-card">
-            <div class="kpi-glow" style="background:#8B5CF6;"></div>
-            <div class="kpi-icon" style="background:rgba(139,92,246,0.12);color:#A78BFA;">&#x0E3F;</div>
+            <div class="kpi-icon" style="background:var(--purple-bg);color:var(--purple);">&#x0E3F;</div>
             <div class="kpi-label">มูลค่ารวม</div>
             <div class="kpi-value">&#x0E3F;28.5M</div>
             <div class="kpi-sub">&#x2191; 18% จากเดือนก่อน</div>
         </div>
         <div class="kpi-card">
-            <div class="kpi-glow" style="background:#10B981;"></div>
-            <div class="kpi-icon" style="background:rgba(16,185,129,0.12);color:#34D399;">&#x2714;</div>
+            <div class="kpi-icon" style="background:var(--green-bg);color:var(--green);">&#x2714;</div>
             <div class="kpi-label">Conversion Rate</div>
             <div class="kpi-value">34%</div>
             <div class="kpi-sub">&#x2191; 8% จากเดือนก่อน</div>
         </div>
         <div class="kpi-card">
-            <div class="kpi-glow" style="background:#06B6D4;"></div>
-            <div class="kpi-icon" style="background:rgba(6,182,212,0.12);color:#22D3EE;">&#x23F1;</div>
+            <div class="kpi-icon" style="background:rgba(8,145,178,0.1);color:var(--cyan);">&#x23F1;</div>
             <div class="kpi-label">เวลาเฉลี่ยสร้าง</div>
             <div class="kpi-value">2.5 <span style="font-size:0.8rem;font-weight:400;">นาที</span></div>
             <div class="kpi-sub">จาก 45 นาที &mdash; ลด 94%</div>
@@ -719,7 +616,7 @@ table tbody tr:last-child td { border-bottom: none; }
         <button class="tab-btn" onclick="switchTab('builder')">&#x2795; สร้างใบเสนอราคาใหม่</button>
     </div>
 
-    <!-- ── Tab 1: Quotation List ── -->
+    <!-- Tab 1: Quotation List -->
     <div id="tab-list" class="tab-panel active">
         <div class="table-wrap">
             <div class="table-toolbar">
@@ -748,7 +645,7 @@ table tbody tr:last-child td { border-bottom: none; }
         </div>
     </div>
 
-    <!-- ── Tab 2: Quotation Builder ── -->
+    <!-- Tab 2: Quotation Builder -->
     <div id="tab-builder" class="tab-panel">
         <div class="builder-layout">
 
@@ -761,7 +658,7 @@ table tbody tr:last-child td { border-bottom: none; }
                         <h3>&#x1f464; ข้อมูลลูกค้า</h3>
                     </div>
                     <div class="section-body">
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
                             <div class="form-group">
                                 <label class="form-label">ลูกค้า</label>
                                 <select class="form-select" id="customerSelect" onchange="onCustomerChange()">
@@ -840,7 +737,7 @@ table tbody tr:last-child td { border-bottom: none; }
                             </thead>
                             <tbody id="quoteItemsBody">
                                 <tr id="emptyRow">
-                                    <td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted);">
+                                    <td colspan="7" style="text-align:center;padding:40px;color:var(--muted);">
                                         ยังไม่มีรายการ &mdash; กดปุ่ม "เพิ่มจากแคตตาล็อก" เพื่อเริ่มต้น
                                     </td>
                                 </tr>
@@ -855,7 +752,7 @@ table tbody tr:last-child td { border-bottom: none; }
                         <h3>&#x1f4b0; สรุปยอด</h3>
                     </div>
                     <div class="section-body">
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
                             <div>
                                 <div class="form-group">
                                     <label class="form-label">เงื่อนไขการชำระ</label>
@@ -883,7 +780,7 @@ table tbody tr:last-child td { border-bottom: none; }
                                     </tr>
                                     <tr>
                                         <td class="sum-label">ส่วนลดรวม</td>
-                                        <td class="sum-value" style="color:#F87171;" id="sumDiscount">-&#x0E3F;0.00</td>
+                                        <td class="sum-value" style="color:var(--red);" id="sumDiscount">-&#x0E3F;0.00</td>
                                     </tr>
                                     <tr>
                                         <td class="sum-label">ราคาหลังส่วนลด</td>
@@ -915,7 +812,7 @@ table tbody tr:last-child td { border-bottom: none; }
             <div class="preview-panel">
                 <div class="preview-header">
                     <h3>&#x1f441; ตัวอย่างเอกสาร</h3>
-                    <span style="font-size:0.72rem;color:var(--text-muted);">อัพเดทอัตโนมัติ</span>
+                    <span style="font-size:0.72rem;color:var(--muted);">อัพเดทอัตโนมัติ</span>
                 </div>
                 <div class="preview-doc" id="previewDoc">
                     <div class="doc-header" id="docHeader">
@@ -929,7 +826,7 @@ table tbody tr:last-child td { border-bottom: none; }
                         </div>
                         <div>
                             <div class="label">วันที่</div>
-                            <div id="previewDate">4 เมษายน 2569</div>
+                            <div id="previewDate">5 เมษายน 2569</div>
                         </div>
                         <div>
                             <div class="label">ลูกค้า</div>
@@ -976,15 +873,15 @@ table tbody tr:last-child td { border-bottom: none; }
 
 </div>
 
-<!-- ── Product Catalog Modal ── -->
+<!-- Product Catalog Modal -->
 <div class="catalog-overlay" id="catalogOverlay">
     <div class="catalog-modal">
-        <div class="section-header" style="background:rgba(31,41,55,0.5);">
+        <div class="section-header" style="background:var(--bg2);">
             <h3>&#x1f4e6; แคตตาล็อกสินค้า</h3>
             <button class="btn btn-ghost btn-sm" onclick="closeCatalog()">&#x2715; ปิด</button>
         </div>
-        <div style="padding:16px;border-bottom:1px solid var(--border);">
-            <div class="search-box" style="display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 14px;width:100%;">
+        <div style="padding:14px;border-bottom:1px solid var(--border);">
+            <div style="display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px 14px;width:100%;">
                 <span>&#x1f50d;</span>
                 <input type="text" placeholder="ค้นหาสินค้า... (รหัส / ชื่อ)" id="catalogSearch" oninput="filterCatalog()" style="border:none;background:transparent;color:var(--text);font-family:inherit;font-size:0.85rem;width:100%;outline:none;">
             </div>
@@ -1006,11 +903,15 @@ table tbody tr:last-child td { border-bottom: none; }
     </div>
 </div>
 
-<!-- ── Toast ── -->
+<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ── Data ──
+// Dark mode
+function toggleDark(){document.body.classList.toggle('dark');const d=document.body.classList.contains('dark');localStorage.setItem('darkMode',d);document.querySelector('.dark-toggle').textContent=d?'\u2600\uFE0F':'\uD83C\uDF19';}
+if(localStorage.getItem('darkMode')==='true'){document.body.classList.add('dark');document.addEventListener('DOMContentLoaded',()=>{document.querySelector('.dark-toggle').textContent='\u2600\uFE0F';});}
+
+// Data
 const customers = {
     c1: { name: 'บจก. สยามเทค โซลูชั่น', contact: 'คุณวิชัย สมบูรณ์', email: 'wichai@siamtech.co.th', phone: '02-123-4567' },
     c2: { name: 'บมจ. ไทย อินโนเวชั่น กรุ๊ป', contact: 'คุณพรทิพย์ ศรีสุข', email: 'porntip@thaiinno.com', phone: '02-234-5678' },
@@ -1070,12 +971,12 @@ const statusMap = {
     expired: { label: 'หมดอายุ', cls: 'badge-expired' },
 };
 
-// ── State ──
+// State
 let quoteItems = [];
 let selectedTemplate = 'standard';
 let dragIdx = null;
 
-// ── Init ──
+// Init
 document.addEventListener('DOMContentLoaded', () => {
     renderQuotationList();
     renderCatalog();
@@ -1088,7 +989,7 @@ function setDefaultExpiry() {
     document.getElementById('expiryDate').value = d.toISOString().split('T')[0];
 }
 
-// ── Tabs ──
+// Tabs
 function switchTab(tab) {
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -1097,19 +998,19 @@ function switchTab(tab) {
     if (tab === 'builder') updatePreview();
 }
 
-// ── Quotation List ──
+// Quotation List
 function renderQuotationList(data) {
     const list = data || quotations;
     const body = document.getElementById('quotationListBody');
     body.innerHTML = list.map(q => {
         const s = statusMap[q.status];
         return `<tr>
-            <td style="font-weight:600;color:var(--accent);">${q.no}</td>
+            <td style="font-weight:600;color:var(--blue);">${q.no}</td>
             <td>${q.customer}</td>
             <td style="text-align:center;">${q.items} รายการ</td>
             <td style="text-align:right;font-weight:600;font-variant-numeric:tabular-nums;">&#x0E3F;${q.total.toLocaleString()}</td>
             <td><span class="badge ${s.cls}">${s.label}</span></td>
-            <td style="color:var(--text-muted);">${q.date}</td>
+            <td style="color:var(--muted);">${q.date}</td>
             <td>${q.rep}</td>
         </tr>`;
     }).join('');
@@ -1125,7 +1026,7 @@ function filterQuotations() {
     ));
 }
 
-// ── Customer ──
+// Customer
 function onCustomerChange() {
     const val = document.getElementById('customerSelect').value;
     if (val === 'new') {
@@ -1143,7 +1044,7 @@ function onCustomerChange() {
     updatePreview();
 }
 
-// ── Template ──
+// Template
 function selectTemplate(tmpl) {
     selectedTemplate = tmpl;
     document.querySelectorAll('.template-card').forEach(c => c.classList.remove('selected'));
@@ -1151,7 +1052,7 @@ function selectTemplate(tmpl) {
     updatePreview();
 }
 
-// ── Product Catalog ──
+// Product Catalog
 function openCatalog() {
     document.getElementById('catalogOverlay').classList.add('open');
     document.getElementById('catalogSearch').value = '';
@@ -1165,7 +1066,7 @@ function renderCatalog(data) {
     const list = data || products;
     document.getElementById('catalogBody').innerHTML = list.map(p => `
         <tr>
-            <td style="font-weight:600;color:var(--accent3);">${p.code}</td>
+            <td style="font-weight:600;color:var(--cyan);">${p.code}</td>
             <td>${p.name}</td>
             <td>${p.unit}</td>
             <td style="text-align:right;font-weight:600;font-variant-numeric:tabular-nums;">&#x0E3F;${p.price.toLocaleString()}</td>
@@ -1183,16 +1084,13 @@ function filterCatalog() {
     ));
 }
 
-// ── Add Product to Quote ──
+// Add Product
 function addProduct(code) {
     const p = products.find(x => x.code === code);
     if (!p) return;
     const existing = quoteItems.find(x => x.code === code);
-    if (existing) {
-        existing.qty += 1;
-    } else {
-        quoteItems.push({ code: p.code, name: p.name, unit: p.unit, qty: 1, price: p.price, discount: 0 });
-    }
+    if (existing) { existing.qty += 1; }
+    else { quoteItems.push({ code: p.code, name: p.name, unit: p.unit, qty: 1, price: p.price, discount: 0 }); }
     renderQuoteItems();
     recalc();
     showToast(`เพิ่ม "${p.name}" แล้ว`);
@@ -1204,11 +1102,11 @@ function removeItem(idx) {
     recalc();
 }
 
-// ── Render Quote Items ──
+// Render Quote Items
 function renderQuoteItems() {
     const body = document.getElementById('quoteItemsBody');
     if (quoteItems.length === 0) {
-        body.innerHTML = `<tr id="emptyRow"><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted);">ยังไม่มีรายการ &mdash; กดปุ่ม "เพิ่มจากแคตตาล็อก" เพื่อเริ่มต้น</td></tr>`;
+        body.innerHTML = `<tr id="emptyRow"><td colspan="7" style="text-align:center;padding:40px;color:var(--muted);">ยังไม่มีรายการ &mdash; กดปุ่ม "เพิ่มจากแคตตาล็อก" เพื่อเริ่มต้น</td></tr>`;
         return;
     }
     const custVal = document.getElementById('customerSelect').value;
@@ -1218,8 +1116,8 @@ function renderQuoteItems() {
         return `<tr draggable="true" ondragstart="dragStart(event,${i})" ondragover="dragOver(event)" ondrop="drop(event,${i})" ondragend="dragEnd(event)">
             <td><span class="drag-handle">&#x2630;</span></td>
             <td>
-                <div style="font-weight:600;">${item.name}</div>
-                <div style="font-size:0.72rem;color:var(--text-muted);">${item.code} &middot; ${item.unit}</div>
+                <div style="font-weight:600;color:var(--text);">${item.name}</div>
+                <div style="font-size:0.72rem;color:var(--muted);">${item.code} &middot; ${item.unit}</div>
                 ${hint ? `<div class="ai-hint">&#x1f916; AI: ลูกค้านี้เคยซื้อราคา &#x0E3F;${hint.toLocaleString()} ครั้งก่อน</div>` : ''}
             </td>
             <td><input class="qi-input" type="number" min="1" value="${item.qty}" onchange="updateItem(${i},'qty',this.value)" style="width:70px;"></td>
@@ -1232,9 +1130,7 @@ function renderQuoteItems() {
 }
 
 function getAIHint(custVal, code) {
-    if (custVal && aiPriceHints[custVal] && aiPriceHints[custVal][code]) {
-        return aiPriceHints[custVal][code];
-    }
+    if (custVal && aiPriceHints[custVal] && aiPriceHints[custVal][code]) return aiPriceHints[custVal][code];
     return null;
 }
 
@@ -1246,12 +1142,8 @@ function updateItem(idx, field, val) {
     recalc();
 }
 
-// ── Drag & Drop ──
-function dragStart(e, idx) {
-    dragIdx = idx;
-    e.currentTarget.classList.add('dragging');
-    e.dataTransfer.effectAllowed = 'move';
-}
+// Drag & Drop
+function dragStart(e, idx) { dragIdx = idx; e.currentTarget.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; }
 function dragOver(e) { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; }
 function drop(e, idx) {
     e.preventDefault();
@@ -1259,54 +1151,43 @@ function drop(e, idx) {
     const item = quoteItems.splice(dragIdx, 1)[0];
     quoteItems.splice(idx, 0, item);
     dragIdx = null;
-    renderQuoteItems();
-    recalc();
+    renderQuoteItems(); recalc();
 }
-function dragEnd(e) {
-    e.currentTarget.classList.remove('dragging');
-    dragIdx = null;
-}
+function dragEnd(e) { e.currentTarget.classList.remove('dragging'); dragIdx = null; }
 
-// ── Recalculate ──
+// Recalculate
 function recalc() {
     let subtotal = 0, totalDiscount = 0;
     quoteItems.forEach(item => {
         const gross = item.qty * item.price;
         const disc = gross * (item.discount / 100);
-        subtotal += gross;
-        totalDiscount += disc;
+        subtotal += gross; totalDiscount += disc;
     });
     const afterDisc = subtotal - totalDiscount;
     const vat = afterDisc * 0.07;
     const grand = afterDisc + vat;
-
     document.getElementById('sumSubtotal').innerHTML = `&#x0E3F;${subtotal.toLocaleString(undefined,{minimumFractionDigits:2})}`;
     document.getElementById('sumDiscount').innerHTML = `-&#x0E3F;${totalDiscount.toLocaleString(undefined,{minimumFractionDigits:2})}`;
     document.getElementById('sumAfterDisc').innerHTML = `&#x0E3F;${afterDisc.toLocaleString(undefined,{minimumFractionDigits:2})}`;
     document.getElementById('sumVat').innerHTML = `&#x0E3F;${vat.toLocaleString(undefined,{minimumFractionDigits:2})}`;
     document.getElementById('sumGrand').innerHTML = `&#x0E3F;${grand.toLocaleString(undefined,{minimumFractionDigits:2})}`;
-
     updatePreview();
 }
 
-// ── Update Preview ──
+// Update Preview
 function updatePreview() {
-    // Template header
     const hdr = document.getElementById('docHeader');
     hdr.className = 'doc-header';
     if (selectedTemplate === 'professional') hdr.classList.add('professional');
     if (selectedTemplate === 'premium') hdr.classList.add('premium');
 
-    // Customer
     const custVal = document.getElementById('customerSelect').value;
     const custName = (custVal && custVal !== 'new' && customers[custVal]) ? customers[custVal].name : (document.getElementById('contactName').value || '-');
     document.getElementById('previewCustomer').textContent = custName;
 
-    // Expiry
     const exp = document.getElementById('expiryDate').value;
     document.getElementById('previewExpiry').textContent = exp ? new Date(exp).toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' }) : '-';
 
-    // Items
     const pBody = document.getElementById('previewItemsBody');
     if (quoteItems.length === 0) {
         pBody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#9ca3af;padding:20px;">ยังไม่มีรายการ</td></tr>';
@@ -1323,12 +1204,10 @@ function updatePreview() {
         }).join('');
     }
 
-    // Totals
     let subtotal = 0, totalDiscount = 0;
     quoteItems.forEach(item => {
         const gross = item.qty * item.price;
-        subtotal += gross;
-        totalDiscount += gross * (item.discount / 100);
+        subtotal += gross; totalDiscount += gross * (item.discount / 100);
     });
     const afterDisc = subtotal - totalDiscount;
     const vat = afterDisc * 0.07;
@@ -1339,7 +1218,6 @@ function updatePreview() {
     document.getElementById('previewVat').innerHTML = `&#x0E3F;${vat.toLocaleString(undefined,{minimumFractionDigits:2})}`;
     document.getElementById('previewGrand').innerHTML = `&#x0E3F;${grand.toLocaleString(undefined,{minimumFractionDigits:2})}`;
 
-    // Footer
     const terms = document.getElementById('paymentTerms');
     const termsText = terms.options[terms.selectedIndex].text;
     const notes = document.getElementById('notes').value;
@@ -1350,36 +1228,22 @@ function updatePreview() {
     `;
 }
 
-// ── Actions ──
-function saveDraft() {
-    showToast('บันทึกร่างเรียบร้อยแล้ว');
-}
-
+// Actions
+function saveDraft() { showToast('บันทึกร่างเรียบร้อยแล้ว'); }
 function sendEmail() {
     const email = document.getElementById('contactEmail').value;
     if (!email) { showToast('กรุณาระบุอีเมลลูกค้า'); return; }
     showToast(`ส่งใบเสนอราคาไปที่ ${email} เรียบร้อยแล้ว`);
 }
+function downloadPDF() { showToast('กำลังสร้าง PDF... ดาวน์โหลดจะเริ่มในไม่ช้า'); }
+function printQuote() { window.print(); }
 
-function downloadPDF() {
-    showToast('กำลังสร้าง PDF... ดาวน์โหลดจะเริ่มในไม่ช้า');
-}
-
-function printQuote() {
-    window.print();
-}
-
-// ── Toast ──
+// Toast
 function showToast(msg) {
     const t = document.getElementById('toast');
     t.innerHTML = `&#x2714; ${msg}`;
     t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-// ── Format helpers ──
-function fmt(n) {
-    return n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 </script>
 
