@@ -198,6 +198,31 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .toast-notification{position:fixed;bottom:24px;right:24px;background:var(--card-bg);border:1px solid var(--green);border-radius:10px;padding:14px 20px;display:flex;align-items:center;gap:10px;font-size:.85rem;font-weight:600;box-shadow:var(--sh3);transform:translateY(100px);opacity:0;transition:all .3s ease;z-index:200;}
 .toast-notification.show{transform:translateY(0);opacity:1;}
 
+/* History Drawer */
+.history-drawer{position:fixed;top:0;right:-420px;width:420px;height:100vh;background:var(--card-bg);border-left:1px solid var(--border);box-shadow:-4px 0 20px rgba(0,0,0,.12);z-index:200;transition:right .3s ease;overflow-y:auto;padding:24px;}
+.history-drawer.open{right:0;}
+.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.2);z-index:199;display:none;}
+.drawer-overlay.show{display:block;}
+.drawer-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+.drawer-title{font-size:1rem;font-weight:800;display:flex;align-items:center;gap:8px;}
+.drawer-close{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--card-bg);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;transition:all .15s;flex-shrink:0;}
+.drawer-close:hover{background:var(--red-l);border-color:var(--red);color:var(--red);}
+.drawer-field{margin-bottom:14px;}
+.drawer-field-label{font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;}
+.drawer-field-value{font-size:.88rem;font-weight:600;color:var(--text);}
+.drawer-section{margin-top:18px;margin-bottom:10px;font-size:.72rem;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.8px;display:flex;align-items:center;gap:6px;}
+.drawer-cost-table{width:100%;border-collapse:collapse;font-size:.8rem;margin-top:6px;}
+.drawer-cost-table tr{border-bottom:1px solid var(--border);}
+.drawer-cost-table tr:last-child{border-bottom:none;}
+.drawer-cost-table td{padding:7px 4px;vertical-align:middle;}
+.drawer-cost-table td:last-child{text-align:right;font-weight:700;font-family:'Inter',sans-serif;color:var(--text);}
+.drawer-cost-table .dot{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px;flex-shrink:0;}
+.drawer-total-row{background:var(--grad);border-radius:10px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;margin-top:10px;color:#fff;}
+.drawer-total-row .lbl{font-size:.88rem;font-weight:700;}
+.drawer-total-row .val{font-size:1.15rem;font-weight:800;font-family:'Inter',sans-serif;}
+.drawer-actions{display:flex;gap:8px;margin-top:20px;flex-wrap:wrap;}
+.drawer-actions .btn{flex:1;justify-content:center;font-size:.78rem;}
+
 /* Responsive */
 @media(max-width:768px){
   .page{padding:16px;}
@@ -205,6 +230,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
   .compare-grid{grid-template-columns:1fr;}
   .compare-col:first-child{border-right:none;border-bottom:1px solid var(--border);padding-bottom:16px;margin-bottom:16px;}
   .compare-prev-grid{grid-template-columns:1fr;}
+  .history-drawer{width:100%;right:-100%;}
 }
 
 /* Print */
@@ -594,6 +620,64 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
   <span id="toastNotifMsg"></span>
 </div>
 
+<!-- History Detail Drawer -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeHistoryDrawer()"></div>
+<div class="history-drawer" id="historyDrawer">
+  <div class="drawer-header">
+    <div class="drawer-title">&#128203; รายละเอียดการคำนวณ</div>
+    <button class="drawer-close" onclick="closeHistoryDrawer()">&#10005;</button>
+  </div>
+
+  <div class="drawer-field">
+    <div class="drawer-field-label">ชื่องาน / Task Name</div>
+    <div class="drawer-field-value" id="dr-taskName">—</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+    <div class="drawer-field">
+      <div class="drawer-field-label">วันที่คำนวณ</div>
+      <div class="drawer-field-value" id="dr-date">—</div>
+    </div>
+    <div class="drawer-field">
+      <div class="drawer-field-label">สถานะ</div>
+      <div id="dr-status">—</div>
+    </div>
+  </div>
+
+  <div class="drawer-field">
+    <div class="drawer-field-label">เส้นทาง / Route</div>
+    <div class="drawer-field-value" id="dr-route">—</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+    <div class="drawer-field">
+      <div class="drawer-field-label">ประเภทสินค้า / Cargo</div>
+      <div class="drawer-field-value" id="dr-cargo">—</div>
+    </div>
+    <div class="drawer-field">
+      <div class="drawer-field-label">น้ำหนัก / Weight</div>
+      <div class="drawer-field-value" id="dr-weight">—</div>
+    </div>
+  </div>
+  <div class="drawer-field">
+    <div class="drawer-field-label">ธนาคารที่ใช้ FX / Bank Used</div>
+    <div class="drawer-field-value" id="dr-bank">—</div>
+  </div>
+
+  <div class="drawer-section">&#128200; Cost Breakdown</div>
+  <table class="drawer-cost-table" id="dr-costTable">
+    <tbody></tbody>
+  </table>
+  <div class="drawer-total-row" id="dr-grandTotal">
+    <span class="lbl">&#127919; รวมทั้งหมด / Grand Total</span>
+    <span class="val" id="dr-grandTotalVal">0.00 THB</span>
+  </div>
+
+  <div class="drawer-actions">
+    <button class="btn btn-primary" onclick="reuseHistoryCalc()" id="dr-reuseBtn">&#128260; นำมาใช้ซ้ำ</button>
+    <button class="btn btn-secondary" onclick="exportPDF()">&#128196; PDF</button>
+    <button class="btn btn-secondary" onclick="closeHistoryDrawer()">&#10005; ปิด</button>
+  </div>
+</div>
+
 <script>
 // ========== MULTI-USER: Saved Calculations Data ==========
 const SAVED_CALCS = [
@@ -659,6 +743,248 @@ function loadSavedCalc(id) {
 function toggleSavedCalcs() {
   savedCalcsCollapsed = !savedCalcsCollapsed;
   document.getElementById('savedCalcsContent').style.display = savedCalcsCollapsed ? 'none' : '';
+}
+
+// ========== HISTORY DETAIL DRAWER ==========
+const MOCK_HISTORY = [
+  {
+    id: 1,
+    taskName: 'นำเข้าชิ้นส่วนอิเล็กทรอนิกส์ — Q2/2025',
+    date: '4 เม.ย. 2568 09:32',
+    origin: 'Shanghai, China',
+    destination: 'ท่าเรือแหลมฉบัง, ไทย',
+    cargo: 'ชิ้นส่วนอิเล็กทรอนิกส์',
+    weight: '8,200 kg / 40\'GP',
+    bank: 'BOT (34.85 THB/USD)',
+    status: 'เสร็จสิ้น',
+    statusClass: 'badge-green',
+    freight: 312450,
+    fxRate: 34.85,
+    insurance: 18750,
+    inspection: 12000,
+    portFees: 24500,
+    importDuty: 48900,
+    total: 416600,
+    reuseData: { name:'นำเข้าชิ้นส่วนอิเล็กทรอนิกส์', fob:6200, freight:980, ins:85, dutyPct:8, thc:5200, customs:2000, inland:3500, other:500, currency:'USD', bank:'BOT' }
+  },
+  {
+    id: 2,
+    taskName: 'ส่งออกเฟอร์นิเจอร์ไม้สัก — บ. ไทยวู้ดเฮ้าส์',
+    date: '3 เม.ย. 2568 14:15',
+    origin: 'กรุงเทพฯ, ไทย',
+    destination: 'Los Angeles, USA',
+    cargo: 'เฟอร์นิเจอร์ไม้สัก',
+    weight: '5,600 kg / 20\'GP',
+    bank: 'KBANK (34.88 THB/USD)',
+    status: 'รอตรวจสอบ',
+    statusClass: 'badge-orange',
+    freight: 228960,
+    fxRate: 34.88,
+    insurance: 11500,
+    inspection: 9800,
+    portFees: 18200,
+    importDuty: 32400,
+    total: 300860,
+    reuseData: { name:'ส่งออกเฟอร์นิเจอร์ไม้สัก', fob:4800, freight:750, ins:60, dutyPct:5, thc:4000, customs:1800, inland:2500, other:300, currency:'USD', bank:'KBANK' }
+  },
+  {
+    id: 3,
+    taskName: 'นำเข้าเครื่องจักรอุตสาหกรรม — บ. ไทยแมนูแฟคเจอริ่ง',
+    date: '2 เม.ย. 2568 11:05',
+    origin: 'Osaka, Japan',
+    destination: 'ท่าเรือแหลมฉบัง, ไทย',
+    cargo: 'เครื่องจักรอุตสาหกรรม (Heavy Machinery)',
+    weight: '18,400 kg / 40\'HC',
+    bank: 'SCB (34.90 THB/USD)',
+    status: 'เสร็จสิ้น',
+    statusClass: 'badge-green',
+    freight: 524700,
+    fxRate: 34.90,
+    insurance: 31800,
+    inspection: 22500,
+    portFees: 38000,
+    importDuty: 78600,
+    total: 695600,
+    reuseData: { name:'นำเข้าเครื่องจักรอุตสาหกรรม', fob:11000, freight:2100, ins:150, dutyPct:10, thc:8200, customs:3500, inland:6000, other:1200, currency:'USD', bank:'SCB' }
+  },
+  {
+    id: 4,
+    taskName: 'ส่งออกอาหารทะเลแช่แข็ง — บ. สยามซีฟู้ด',
+    date: '1 เม.ย. 2568 08:50',
+    origin: 'ท่าเรือสงขลา, ไทย',
+    destination: 'Hamburg, Germany',
+    cargo: 'อาหารทะเลแช่แข็ง (Frozen Seafood)',
+    weight: '12,000 kg / 40\'RF',
+    bank: 'BBL (37.35 THB/EUR)',
+    status: 'เสร็จสิ้น',
+    statusClass: 'badge-green',
+    freight: 415800,
+    fxRate: 37.35,
+    insurance: 24600,
+    inspection: 16800,
+    portFees: 29500,
+    importDuty: 61200,
+    total: 547900,
+    reuseData: { name:'ส่งออกอาหารทะเลแช่แข็ง', fob:8000, freight:1500, ins:100, dutyPct:7, thc:7000, customs:3000, inland:4500, other:800, currency:'EUR', bank:'BBL' }
+  },
+  {
+    id: 5,
+    taskName: 'นำเข้ายาและเวชภัณฑ์ — บ. ไทยฟาร์มา กรุ๊ป',
+    date: '31 มี.ค. 2568 16:20',
+    origin: 'Singapore',
+    destination: 'ท่าอากาศยานสุวรรณภูมิ, ไทย',
+    cargo: 'ยาและเวชภัณฑ์ (Pharmaceuticals)',
+    weight: '1,200 kg / Air Freight',
+    bank: 'BOT (34.85 THB/USD)',
+    status: 'รอดำเนินการ',
+    statusClass: 'badge-blue',
+    freight: 186200,
+    fxRate: 34.85,
+    insurance: 9400,
+    inspection: 28000,
+    portFees: 12500,
+    importDuty: 24800,
+    total: 260900,
+    reuseData: { name:'นำเข้ายาและเวชภัณฑ์', fob:3500, freight:800, ins:40, dutyPct:3, thc:3000, customs:1500, inland:1800, other:500, currency:'USD', bank:'BOT' }
+  },
+  {
+    id: 6,
+    taskName: 'นำเข้าสิ่งทอและเสื้อผ้า — บ. แฟชั่นไทย อินเตอร์',
+    date: '30 มี.ค. 2568 10:40',
+    origin: 'Guangzhou, China',
+    destination: 'ท่าเรือแหลมฉบัง, ไทย',
+    cargo: 'สิ่งทอและเสื้อผ้าสำเร็จรูป',
+    weight: '6,800 kg / 20\'GP',
+    bank: 'KBANK (4.81 THB/CNY)',
+    status: 'เสร็จสิ้น',
+    statusClass: 'badge-green',
+    freight: 189600,
+    fxRate: 4.81,
+    insurance: 10200,
+    inspection: 8500,
+    portFees: 16800,
+    importDuty: 35700,
+    total: 260800,
+    reuseData: { name:'นำเข้าสิ่งทอและเสื้อผ้า', fob:28000, freight:3200, ins:180, dutyPct:12, thc:4500, customs:1800, inland:2800, other:400, currency:'CNY', bank:'KBANK' }
+  },
+  {
+    id: 7,
+    taskName: 'ส่งออกยางพาราแปรรูป — บ. ไทยรับเบอร์ เอ็กซ์พอร์ต',
+    date: '29 มี.ค. 2568 13:55',
+    origin: 'ท่าเรือระนอง, ไทย',
+    destination: 'Shanghai, China',
+    cargo: 'ยางพาราแปรรูป (Processed Rubber)',
+    weight: '22,000 kg / 40\'GP',
+    bank: 'BBL (34.92 THB/USD)',
+    status: 'เสร็จสิ้น',
+    statusClass: 'badge-green',
+    freight: 487900,
+    fxRate: 34.92,
+    insurance: 29300,
+    inspection: 18000,
+    portFees: 32400,
+    importDuty: 0,
+    total: 567600,
+    reuseData: { name:'ส่งออกยางพาราแปรรูป', fob:9800, freight:1800, ins:120, dutyPct:0, thc:9000, customs:4000, inland:5500, other:900, currency:'USD', bank:'BBL' }
+  },
+  {
+    id: 8,
+    taskName: 'นำเข้าอุปกรณ์โซลาร์เซลล์ — บ. กรีนเอเนอร์ยี่ ไทย',
+    date: '28 มี.ค. 2568 09:10',
+    origin: 'Seoul, South Korea',
+    destination: 'ท่าเรือแหลมฉบัง, ไทย',
+    cargo: 'อุปกรณ์โซลาร์เซลล์ (Solar PV Modules)',
+    weight: '14,600 kg / 40\'HC',
+    bank: 'SCB (34.90 THB/USD)',
+    status: 'รอตรวจสอบ',
+    statusClass: 'badge-orange',
+    freight: 392400,
+    fxRate: 34.90,
+    insurance: 22800,
+    inspection: 19500,
+    portFees: 27600,
+    importDuty: 45200,
+    total: 507500,
+    reuseData: { name:'นำเข้าอุปกรณ์โซลาร์เซลล์', fob:7500, freight:1400, ins:95, dutyPct:8, thc:6500, customs:2800, inland:4200, other:700, currency:'USD', bank:'SCB' }
+  }
+];
+
+let currentDrawerRecord = null;
+
+function openHistoryDetail(id) {
+  const rec = MOCK_HISTORY.find(r => r.id === id);
+  if (!rec) return;
+  currentDrawerRecord = rec;
+
+  document.getElementById('dr-taskName').textContent = rec.taskName;
+  document.getElementById('dr-date').textContent = rec.date;
+  document.getElementById('dr-route').textContent = rec.origin + ' → ' + rec.destination;
+  document.getElementById('dr-cargo').textContent = rec.cargo;
+  document.getElementById('dr-weight').textContent = rec.weight;
+  document.getElementById('dr-bank').textContent = rec.bank;
+
+  // Status badge
+  document.getElementById('dr-status').innerHTML =
+    `<span class="badge ${rec.statusClass}">${rec.status}</span>`;
+
+  // Cost breakdown table
+  const rows = [
+    { label: 'ค่าระวางสินค้า (Freight)', color: '#06B6D4', value: rec.freight },
+    { label: 'ค่า FX ที่ใช้ / Exchange Rate', color: '#3B82F6', value: null, fx: rec.fxRate },
+    { label: 'ค่าประกันภัย / Insurance', color: '#8B5CF6', value: rec.insurance },
+    { label: 'ค่าตรวจสอบ / Inspection', color: '#EC4899', value: rec.inspection },
+    { label: 'ค่าธรรมเนียมท่าเรือ / Port Fees', color: '#10B981', value: rec.portFees },
+    { label: 'ค่าภาษีนำเข้า / Import Duty', color: '#F59E0B', value: rec.importDuty },
+  ];
+
+  let tableHtml = '';
+  rows.forEach(r => {
+    const valDisplay = r.fx != null
+      ? `${r.fx.toFixed(2)} THB`
+      : r.value.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' THB';
+    tableHtml += `<tr>
+      <td><span class="dot" style="background:${r.color};display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px;"></span>${r.label}</td>
+      <td>${valDisplay}</td>
+    </tr>`;
+  });
+  document.getElementById('dr-costTable').querySelector('tbody').innerHTML = tableHtml;
+
+  // Grand total
+  document.getElementById('dr-grandTotalVal').textContent =
+    rec.total.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' THB';
+
+  // Store id on re-use button
+  document.getElementById('dr-reuseBtn').dataset.recId = id;
+
+  // Open drawer + overlay
+  document.getElementById('drawerOverlay').classList.add('show');
+  document.getElementById('historyDrawer').classList.add('open');
+}
+
+function closeHistoryDrawer() {
+  document.getElementById('drawerOverlay').classList.remove('show');
+  document.getElementById('historyDrawer').classList.remove('open');
+  currentDrawerRecord = null;
+}
+
+function reuseHistoryCalc() {
+  if (!currentDrawerRecord) return;
+  const d = currentDrawerRecord.reuseData;
+  document.getElementById('itemName').value = d.name;
+  document.getElementById('fob').value = d.fob;
+  document.getElementById('currency').value = d.currency;
+  document.getElementById('freight').value = d.freight;
+  document.getElementById('insurance').value = d.ins;
+  document.getElementById('dutyPct').value = d.dutyPct;
+  document.getElementById('thc').value = d.thc;
+  document.getElementById('customs').value = d.customs;
+  document.getElementById('inland').value = d.inland;
+  document.getElementById('other').value = d.other;
+  if (d.bank) selectedBank = d.bank;
+  closeHistoryDrawer();
+  document.querySelectorAll('.tab')[0].click();
+  calc();
+  showNotif(`โหลดข้อมูล "${d.name}" เพื่อคำนวณใหม่แล้ว`);
 }
 
 // ===== Share with Team =====
@@ -1160,29 +1486,51 @@ function renderHistory() {
   const history = JSON.parse(localStorage.getItem('lcc_history') || '[]');
   const container = document.getElementById('historyList');
 
-  if (history.length === 0) {
-    container.innerHTML = `<div style="text-align:center;padding:40px;color:var(--muted);">
-      <div style="font-size:2rem;margin-bottom:8px;">&#128203;</div>
-      <div>ยังไม่มีประวัติการคำนวณ</div>
-    </div>`;
-    return;
-  }
-
   let html = '';
-  history.forEach((h, i) => {
-    const d = new Date(h.date);
-    const dateStr = d.toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'numeric'}) + ' ' + d.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});
-    html += `<div class="history-item" onclick="loadFromHistory(${i})">
+
+  // ---- Mock history records (8 records, always shown) ----
+  html += `<div style="font-size:.72rem;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;">&#128336; ประวัติทีม (คลิกเพื่อดูรายละเอียด)</div>`;
+  MOCK_HISTORY.forEach(rec => {
+    const statusColors = { 'badge-green': '#059669', 'badge-orange': '#D97706', 'badge-blue': '#2563EB' };
+    const dotColor = statusColors[rec.statusClass] || '#64748B';
+    html += `<div class="history-item" onclick="openHistoryDetail(${rec.id})" title="คลิกเพื่อดูรายละเอียด">
       <div class="history-info">
-        <div class="history-name">&#128230; ${h.name} ${h.shipmentId ? '<span style="color:var(--green);font-size:.72rem;font-weight:600;">| ' + h.shipmentId + '</span>' : ''}</div>
-        <div class="history-meta">${dateStr} &middot; ${h.currency} &middot; Rate: ${h.rate} (${h.bank}) ${h.calcUser ? '&middot; <strong>' + h.calcUser + '</strong>' : ''}</div>
+        <div class="history-name">&#128230; ${rec.taskName}</div>
+        <div class="history-meta">${rec.date} &middot; ${rec.origin} &#8594; ${rec.destination} &middot; ${rec.cargo}</div>
       </div>
-      <div class="history-cost">${fmt(h.total)} THB</div>
-      <div class="history-actions">
-        <button class="btn-icon btn-sm" onclick="event.stopPropagation();deleteHistory(${i})" title="ลบ">&#128465;&#65039;</button>
+      <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+        <div class="history-cost">${rec.total.toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2})} THB</div>
+        <span class="badge ${rec.statusClass}" style="white-space:nowrap;">${rec.status}</span>
       </div>
     </div>`;
   });
+
+  // ---- User's own saved calculations from localStorage ----
+  if (history.length > 0) {
+    html += `<div style="font-size:.72rem;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.6px;margin-top:16px;margin-bottom:8px;">&#128190; การคำนวณของคุณ</div>`;
+    history.forEach((h, i) => {
+      const d = new Date(h.date);
+      const dateStr = d.toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'numeric'}) + ' ' + d.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});
+      html += `<div class="history-item" onclick="loadFromHistory(${i})">
+        <div class="history-info">
+          <div class="history-name">&#128230; ${h.name} ${h.shipmentId ? '<span style="color:var(--green);font-size:.72rem;font-weight:600;">| ' + h.shipmentId + '</span>' : ''}</div>
+          <div class="history-meta">${dateStr} &middot; ${h.currency} &middot; Rate: ${h.rate} (${h.bank}) ${h.calcUser ? '&middot; <strong>' + h.calcUser + '</strong>' : ''}</div>
+        </div>
+        <div class="history-cost">${fmt(h.total)} THB</div>
+        <div class="history-actions">
+          <button class="btn-icon btn-sm" onclick="event.stopPropagation();deleteHistory(${i})" title="ลบ">&#128465;&#65039;</button>
+        </div>
+      </div>`;
+    });
+  }
+
+  if (!html) {
+    html = `<div style="text-align:center;padding:40px;color:var(--muted);">
+      <div style="font-size:2rem;margin-bottom:8px;">&#128203;</div>
+      <div>ยังไม่มีประวัติการคำนวณ</div>
+    </div>`;
+  }
+
   container.innerHTML = html;
 }
 

@@ -46,26 +46,18 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .period-selector .label{font-size:.8rem;color:var(--muted);font-weight:500;}
 .last-updated{font-size:.72rem;color:var(--muted);margin-left:auto;}
 
-/* KPI Grid */
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
-.kpi-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);transition:all .25s;position:relative;overflow:hidden;}
-.kpi-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.08);}
-.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
-.kpi-card:nth-child(1)::before{background:var(--blue);}
-.kpi-card:nth-child(2)::before{background:var(--purple);}
-.kpi-card:nth-child(3)::before{background:var(--orange);}
-.kpi-card:nth-child(4)::before{background:var(--green);}
-.kpi-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:12px;}
-.kpi-card:nth-child(1) .kpi-icon{background:var(--blue-bg);color:var(--blue);}
-.kpi-card:nth-child(2) .kpi-icon{background:var(--purple-bg);color:var(--purple);}
-.kpi-card:nth-child(3) .kpi-icon{background:var(--orange-bg);color:var(--orange);}
-.kpi-card:nth-child(4) .kpi-icon{background:var(--green-bg);color:var(--green);}
-.kpi-label{font-size:.75rem;color:var(--muted);font-weight:500;margin-bottom:4px;}
-.kpi-value{font-size:1.6rem;font-weight:800;line-height:1.2;margin-bottom:6px;}
-.kpi-change{display:inline-flex;align-items:center;gap:3px;font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:6px;}
-.kpi-change.up{color:var(--green);background:var(--green-bg);}
-.kpi-change.down{color:var(--red);background:var(--red-bg);}
-.kpi-sub{font-size:.68rem;color:var(--muted);margin-top:6px;}
+/* KPI Strip */
+.kpi-strip{display:flex;gap:0;background:var(--card-bg);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:20px;box-shadow:var(--shadow);}
+.kpi-strip-item{flex:1;display:flex;align-items:center;gap:10px;padding:12px 16px;border-right:1px solid var(--border);}
+.kpi-strip-item:last-child{border-right:none;}
+.kpi-strip-icon{font-size:1.4rem;}
+.kpi-strip-body{flex:1;}
+.kpi-strip-label{font-size:.65rem;color:var(--muted);font-weight:500;}
+.kpi-strip-value{font-size:1.1rem;font-weight:800;color:var(--text);line-height:1.1;}
+.kpi-strip-trend{font-size:.65rem;font-weight:600;padding:1px 5px;border-radius:4px;}
+.kpi-strip-trend.up{background:var(--green-bg);color:var(--green);}
+.kpi-strip-trend.down{background:var(--green-bg);color:var(--green);}
+.kpi-strip-trend.bad{background:var(--red-bg);color:var(--red);}
 
 /* Charts Grid */
 .charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
@@ -142,13 +134,13 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .ai-severity.low{background:var(--blue-bg);color:var(--blue);}
 
 /* Responsive */
-@media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(2,1fr);}.summary-grid{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:768px){.kpi-grid{grid-template-columns:1fr;}.charts-grid{grid-template-columns:1fr;}.summary-grid{grid-template-columns:1fr;}.user-bar{flex-direction:column;align-items:flex-start;}}
+@media(max-width:1100px){.kpi-strip{flex-wrap:wrap;}.kpi-strip-item{flex:1 1 48%;}.summary-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:768px){.kpi-strip{flex-direction:column;}.charts-grid{grid-template-columns:1fr;}.summary-grid{grid-template-columns:1fr;}.user-bar{flex-direction:column;align-items:flex-start;}}
 
 /* Animations */
 @keyframes fadeInUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
-.kpi-card,.chart-card,.summary-card{animation:fadeInUp .4s ease both;}
-.kpi-card:nth-child(1){animation-delay:.05s;}.kpi-card:nth-child(2){animation-delay:.1s;}.kpi-card:nth-child(3){animation-delay:.15s;}.kpi-card:nth-child(4){animation-delay:.2s;}
+.kpi-strip,.chart-card,.summary-card{animation:fadeInUp .4s ease both;}
+.kpi-strip{animation-delay:.05s;}
 .chart-card:nth-child(1){animation-delay:.1s;}.chart-card:nth-child(2){animation-delay:.15s;}.chart-card:nth-child(3){animation-delay:.2s;}.chart-card:nth-child(4){animation-delay:.25s;}
 .summary-card:nth-child(1){animation-delay:.15s;}.summary-card:nth-child(2){animation-delay:.2s;}.summary-card:nth-child(3){animation-delay:.25s;}.summary-card:nth-child(4){animation-delay:.3s;}
 
@@ -264,43 +256,39 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
   </div>
 </div>
 
-<!-- KPI Grid -->
-<div class="kpi-grid">
-  <div class="kpi-card">
-    <div class="kpi-icon">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+<!-- KPI Strip -->
+<div class="kpi-strip">
+  <div class="kpi-strip-item">
+    <div class="kpi-strip-icon">💰</div>
+    <div class="kpi-strip-body">
+      <div class="kpi-strip-label">เบิกจ่ายเดือนนี้</div>
+      <div class="kpi-strip-value">฿847,320</div>
     </div>
-    <div class="kpi-label">เบิกจ่ายเดือนนี้</div>
-    <div class="kpi-value">247</div>
-    <span class="kpi-change up">&#9650; +12.3% จากเดือนก่อน</span>
-    <div class="kpi-sub">รายการ (220 เดือนก่อน)</div>
+    <span class="kpi-strip-trend up">↑ 12%</span>
   </div>
-  <div class="kpi-card">
-    <div class="kpi-icon">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+  <div class="kpi-strip-item">
+    <div class="kpi-strip-icon">📋</div>
+    <div class="kpi-strip-body">
+      <div class="kpi-strip-label">Claims ทั้งหมด</div>
+      <div class="kpi-strip-value">247 รายการ</div>
     </div>
-    <div class="kpi-label">ยอดรวมเดือนนี้</div>
-    <div class="kpi-value" style="font-size:1.4rem;">&#3647;2,847,350</div>
-    <span class="kpi-change up">&#9650; +8.7% จากเดือนก่อน</span>
-    <div class="kpi-sub">เฉลี่ย ฿11,527 / รายการ</div>
+    <span class="kpi-strip-trend up">↑ 8%</span>
   </div>
-  <div class="kpi-card">
-    <div class="kpi-icon">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+  <div class="kpi-strip-item">
+    <div class="kpi-strip-icon">⏱️</div>
+    <div class="kpi-strip-body">
+      <div class="kpi-strip-label">เวลาดำเนินการ</div>
+      <div class="kpi-strip-value">2.3 วัน</div>
     </div>
-    <div class="kpi-label">เวลาดำเนินการเฉลี่ย</div>
-    <div class="kpi-value">2.4 <span style="font-size:.8rem;font-weight:500;color:var(--muted)">วัน</span></div>
-    <span class="kpi-change down">&#9660; -0.8 วัน ลดลง</span>
-    <div class="kpi-sub">เป้าหมาย: ภายใน 3 วัน</div>
+    <span class="kpi-strip-trend up">↓ 15%</span>
   </div>
-  <div class="kpi-card">
-    <div class="kpi-icon">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+  <div class="kpi-strip-item">
+    <div class="kpi-strip-icon">✅</div>
+    <div class="kpi-strip-body">
+      <div class="kpi-strip-label">อัตราปฏิบัติตามนโยบาย</div>
+      <div class="kpi-strip-value">94.2%</div>
     </div>
-    <div class="kpi-label">อัตราปฏิบัติตามนโยบาย</div>
-    <div class="kpi-value">94.2<span style="font-size:.8rem;font-weight:500;color:var(--muted)">%</span></div>
-    <span class="kpi-change up">&#9650; +1.8% จากเดือนก่อน</span>
-    <div class="kpi-sub">เป้าหมาย: 95%</div>
+    <span class="kpi-strip-trend up">↑ 3%</span>
   </div>
 </div>
 

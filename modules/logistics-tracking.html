@@ -3,48 +3,92 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Logistics Shipping Tracker — Autopilot v2</title>
+<title>Shipment Tracking — Autopilot v2</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
-:root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--border2:#CBD5E1;--text:#0F172A;--text2:#475569;--muted:#64748B;--light:#94A3B8;--blue:#2563EB;--blue-bg:#EFF6FF;--blue-l:#EFF6FF;--blue-d:#1D4ED8;--purple:#7C3AED;--purple-l:#F5F3FF;--purple-bg:#F5F3FF;--cyan:#0891B2;--cyan-l:#ECFEFF;--green:#059669;--green-l:#ECFDF5;--green-bg:#ECFDF5;--green-d:#047857;--orange:#D97706;--orange-l:#FFFBEB;--orange-bg:#FFFBEB;--red:#DC2626;--red-l:#FEF2F2;--red-bg:#FEF2F2;--pink:#DB2777;--white:#FFFFFF;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--sh:0 1px 3px rgba(0,0,0,.05);--sh2:0 4px 20px rgba(0,0,0,.08);--sh3:0 12px 40px rgba(0,0,0,.12);--shadow:0 1px 3px rgba(0,0,0,0.05);}
-body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--border2:#475569;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--light:#64748B;--white:#1E293B;--blue-l:rgba(37,99,235,0.15);--blue-bg:rgba(37,99,235,0.15);--purple-l:rgba(124,58,237,0.15);--purple-bg:rgba(124,58,237,0.15);--green-l:rgba(5,150,105,0.15);--green-bg:rgba(5,150,105,0.15);--orange-l:rgba(217,119,6,0.15);--orange-bg:rgba(217,119,6,0.15);--red-l:rgba(220,38,38,0.15);--red-bg:rgba(220,38,38,0.15);}
+:root{
+  --bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;
+  --border:#E2E8F0;--border2:#CBD5E1;
+  --text:#0F172A;--text2:#475569;--muted:#64748B;--light:#94A3B8;
+  --blue:#2563EB;--blue-bg:#EFF6FF;--blue-l:#EFF6FF;--blue-d:#1D4ED8;
+  --purple:#7C3AED;--purple-l:#F5F3FF;
+  --cyan:#0891B2;--cyan-l:#ECFEFF;
+  --green:#059669;--green-l:#ECFDF5;--green-d:#047857;
+  --orange:#D97706;--orange-l:#FFFBEB;
+  --red:#DC2626;--red-l:#FEF2F2;
+  --pink:#DB2777;
+  --white:#FFFFFF;
+  --grad:linear-gradient(135deg,#2563EB,#7C3AED);
+  --radius:12px;
+  --sh:0 1px 3px rgba(0,0,0,.05);
+  --sh2:0 4px 20px rgba(0,0,0,.08);
+  --sh3:0 12px 40px rgba(0,0,0,.14);
+}
+body.dark{
+  --bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;
+  --border:#334155;--border2:#475569;
+  --text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--light:#64748B;--white:#1E293B;
+  --blue-l:rgba(37,99,235,0.15);--blue-bg:rgba(37,99,235,0.15);
+  --purple-l:rgba(124,58,237,0.15);
+  --cyan-l:rgba(8,145,178,0.15);
+  --green-l:rgba(5,150,105,0.15);
+  --orange-l:rgba(217,119,6,0.15);
+  --red-l:rgba(220,38,38,0.15);
+}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;transition:background .3s,color .3s;}
-.dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:all .2s;}
-.dark-toggle:hover{box-shadow:var(--sh2);transform:scale(1.1);}
-::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
 
-.page{max-width:1200px;margin:0 auto;padding:24px;}
+/* Dark toggle */
+.dark-toggle{position:fixed;top:12px;right:12px;z-index:9999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:38px;height:38px;cursor:pointer;font-size:1.05rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--sh2);transition:all .2s;}
+.dark-toggle:hover{transform:scale(1.1);}
 
-/* Header */
-.page-header{margin-bottom:24px;}
-.breadcrumb{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--muted);margin-bottom:8px;}
+/* Layout */
+.page{max-width:1280px;margin:0 auto;padding:24px 24px 60px;}
+
+/* User Context Bar */
+.user-bar{display:flex;align-items:center;justify-content:space-between;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:8px 16px;margin-bottom:16px;font-size:.75rem;color:var(--muted);}
+.user-bar-left{display:flex;align-items:center;gap:14px;}
+.user-avatar{width:28px;height:28px;border-radius:50%;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;}
+.user-name{font-weight:600;color:var(--text);}
+.user-role{font-size:.68rem;color:var(--muted);}
+.user-bar-right{display:flex;align-items:center;gap:10px;}
+.live-dot{display:inline-flex;align-items:center;gap:5px;font-size:.7rem;font-weight:600;color:var(--green);}
+.live-dot::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;animation:livePulse 1.5s infinite;}
+@keyframes livePulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+/* Breadcrumb */
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--muted);margin-bottom:10px;}
 .breadcrumb a{color:var(--blue);text-decoration:none;font-weight:500;}
 .breadcrumb a:hover{text-decoration:underline;}
+
+/* Header */
+.page-header{margin-bottom:22px;}
 .page-title-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
 .page-title{font-size:1.5rem;font-weight:800;display:flex;align-items:center;gap:10px;}
-.page-subtitle{font-size:.82rem;color:var(--muted);margin-top:2px;}
-.header-actions{display:flex;align-items:center;gap:8px;}
+.page-subtitle{font-size:.8rem;color:var(--muted);margin-top:3px;}
+.header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 .brand-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;background:var(--grad);color:#fff;border-radius:20px;font-size:.68rem;font-weight:700;letter-spacing:.3px;}
 
 /* Buttons */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:.82rem;font-weight:600;border:none;cursor:pointer;transition:all .2s;font-family:inherit;}
 .btn-primary{background:var(--grad);color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.2);}
 .btn-primary:hover{box-shadow:0 6px 16px rgba(37,99,235,.3);transform:translateY(-1px);}
-.btn-secondary{background:var(--card-bg);color:var(--text2);border:1px solid var(--border);}.btn-secondary:hover{border-color:var(--blue);color:var(--blue);}
-.btn-green{background:var(--green);color:#fff;}.btn-green:hover{background:var(--green-d);}
-.btn-outline{background:transparent;color:var(--blue);border:1px solid var(--blue);}.btn-outline:hover{background:var(--blue-l);}
+.btn-secondary{background:var(--card-bg);color:var(--text2);border:1px solid var(--border);}
+.btn-secondary:hover{border-color:var(--blue);color:var(--blue);}
+.btn-green{background:var(--green);color:#fff;}
+.btn-green:hover{background:var(--green-d);}
+.btn-outline{background:transparent;color:var(--blue);border:1px solid var(--blue);}
+.btn-outline:hover{background:var(--blue-l);}
+.btn-danger{background:var(--red);color:#fff;}
 .btn-sm{padding:5px 10px;font-size:.72rem;border-radius:6px;}
 .btn-icon{width:36px;height:36px;padding:0;justify-content:center;border-radius:9px;border:1px solid var(--border);background:var(--card-bg);cursor:pointer;font-size:1rem;transition:all .15s;display:inline-flex;align-items:center;}
-.btn-icon:hover{background:var(--bg);border-color:var(--blue);}
-
-/* Cards */
-.card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--sh);transition:background .3s,border-color .3s;}
-.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
-.card-title{font-size:.92rem;font-weight:700;}
+.btn-icon:hover{border-color:var(--blue);}
 
 /* KPI Grid */
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px;}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
 .kpi{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--sh);position:relative;overflow:hidden;transition:all .2s;}
 .kpi:hover{box-shadow:var(--sh2);transform:translateY(-2px);}
 .kpi::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
@@ -65,682 +109,1212 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .kpi-change.good{background:var(--blue-l);color:var(--blue);}
 .kpi-change.danger{background:var(--red-l);color:var(--red);}
 
-/* Alert Panel */
-.alert-panel{margin-bottom:20px;}
-.alert-item{display:flex;align-items:flex-start;gap:10px;padding:12px 16px;border-radius:10px;font-size:.8rem;margin-bottom:8px;transition:all .15s;cursor:pointer;}
-.alert-item:last-child{margin-bottom:0;}
-.alert-item:hover{transform:translateX(2px);}
-.alert-warn{background:var(--orange-l);border:1px solid #FDE68A;}
-.alert-danger{background:var(--red-l);border:1px solid #FECACA;}
-.alert-info{background:var(--blue-l);border:1px solid #BFDBFE;}
-.alert-success{background:var(--green-l);border:1px solid #A7F3D0;}
-.alert-icon{font-size:1rem;flex-shrink:0;margin-top:1px;}
-.alert-text{line-height:1.5;flex:1;}
-.alert-text strong{font-weight:700;}
-.alert-time{font-size:.68rem;color:var(--muted);margin-top:3px;}
+/* View toggle toolbar */
+.view-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap;}
+.view-toggle{display:flex;background:var(--bg3);border-radius:10px;padding:3px;gap:2px;}
+.view-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:8px;font-size:.8rem;font-weight:600;border:none;cursor:pointer;font-family:inherit;background:transparent;color:var(--muted);transition:all .2s;}
+.view-btn.active{background:var(--card-bg);color:var(--blue);box-shadow:var(--sh);}
+.view-btn:hover:not(.active){color:var(--text);}
+.toolbar-right{display:flex;align-items:center;gap:8px;}
 
-/* Shipment Cards Grid */
-.shipment-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:20px;}
-.shipment-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--sh);cursor:pointer;transition:all .2s;position:relative;}
-.shipment-card:hover{box-shadow:var(--sh2);transform:translateY(-2px);border-color:var(--blue);}
-.shipment-card.expanded{grid-column:1/-1;border-color:var(--blue);}
-.shipment-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
-.shipment-tracking{font-weight:800;font-size:.88rem;color:var(--blue);}
-.shipment-carrier{font-size:.72rem;color:var(--muted);font-weight:500;display:flex;align-items:center;gap:4px;}
-.shipment-route{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-size:.82rem;font-weight:600;}
-.route-city{display:flex;flex-direction:column;gap:2px;}
-.route-city small{font-size:.68rem;color:var(--muted);font-weight:400;}
-.route-arrow{color:var(--light);font-size:1.1rem;flex-shrink:0;}
-.shipment-dates{display:flex;gap:16px;margin-bottom:12px;font-size:.72rem;color:var(--muted);}
-.shipment-dates span{display:flex;align-items:center;gap:4px;}
-.shipment-dates strong{color:var(--text2);font-weight:600;}
-
-/* Status Badges */
-.status{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:700;}
-.status-booked{background:var(--blue-l);color:var(--blue);}
-.status-transit{background:var(--orange-l);color:var(--orange);}
-.status-customs{background:var(--purple-l);color:var(--purple);}
-.status-delivered{background:var(--green-l);color:var(--green);}
-.status-delayed{background:var(--red-l);color:var(--red);}
-.status-dot{width:6px;height:6px;border-radius:50%;}
-.status-booked .status-dot{background:var(--blue);}
-.status-transit .status-dot{background:var(--orange);}
-.status-customs .status-dot{background:var(--purple);}
-.status-delivered .status-dot{background:var(--green);}
-.status-delayed .status-dot{background:var(--red);}
-
-/* Progress Bar */
-.progress-wrap{margin-top:8px;}
-.progress-bar{height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;position:relative;}
-.progress-fill{height:100%;border-radius:3px;transition:width .8s ease;background:var(--blue);}
-.progress-fill.transit{background:linear-gradient(90deg,var(--blue),var(--orange));}
-.progress-fill.customs{background:linear-gradient(90deg,var(--blue),var(--purple));}
-.progress-fill.delivered{background:var(--green);}
-.progress-fill.delayed{background:var(--red);}
-.progress-pct{font-size:.68rem;color:var(--muted);margin-top:4px;text-align:right;font-weight:600;}
-.delay-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:.68rem;font-weight:700;background:var(--red-l);color:var(--red);margin-top:6px;}
-
-/* Expanded Detail */
-.shipment-detail{display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);}
-.shipment-card.expanded .shipment-detail{display:block;}
-
-/* Tracking Timeline Stepper */
-.tracking-stepper{display:flex;align-items:flex-start;justify-content:space-between;position:relative;margin:20px 0 24px;padding:0 8px;}
-.tracking-stepper::before{content:'';position:absolute;top:20px;left:40px;right:40px;height:3px;background:var(--bg3);z-index:0;}
-.step{display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;z-index:1;flex:1;max-width:120px;}
-.step-circle{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;border:3px solid var(--bg3);background:var(--card-bg);transition:all .3s;position:relative;}
-.step.completed .step-circle{background:var(--green);border-color:var(--green);color:#fff;box-shadow:0 2px 8px rgba(5,150,105,.3);}
-.step.active .step-circle{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 2px 12px rgba(37,99,235,.4);animation:stepPulse 2s infinite;}
-.step.delayed .step-circle{background:var(--red);border-color:var(--red);color:#fff;box-shadow:0 2px 8px rgba(220,38,38,.3);animation:stepPulse 1.5s infinite;}
-.step.pending .step-circle{background:var(--card-bg);border-color:var(--border2);color:var(--light);}
-@keyframes stepPulse{0%,100%{box-shadow:0 2px 8px rgba(37,99,235,.3);}50%{box-shadow:0 2px 20px rgba(37,99,235,.5);}}
-.step-label{font-size:.68rem;font-weight:700;text-align:center;color:var(--muted);line-height:1.3;}
-.step.completed .step-label{color:var(--green);}
-.step.active .step-label{color:var(--blue);}
-.step.delayed .step-label{color:var(--red);}
-.step-date{font-size:.62rem;color:var(--light);text-align:center;line-height:1.3;}
-.step-connector{position:absolute;top:20px;left:calc(50% + 20px);right:calc(-50% + 20px);height:3px;z-index:0;}
-.step:last-child .step-connector{display:none;}
-.step.completed .step-connector{background:var(--green);}
-.step.active .step-connector{background:linear-gradient(90deg,var(--blue),var(--bg2));}
-
-/* Map Placeholder */
-.map-placeholder{background:linear-gradient(135deg,#EFF6FF 0%,#F5F3FF 50%,#ECFDF5 100%);border:2px dashed var(--border);border-radius:12px;padding:32px;text-align:center;margin:16px 0;position:relative;overflow:hidden;min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
-.map-placeholder::before{content:'';position:absolute;top:50%;left:10%;width:80%;height:2px;background:linear-gradient(90deg,var(--blue),var(--orange),var(--green));border-radius:2px;opacity:.4;}
-.map-placeholder::after{content:'';position:absolute;top:calc(50% - 6px);left:10%;width:12px;height:12px;background:var(--blue);border-radius:50%;box-shadow:0 0 0 3px rgba(37,99,235,.2);}
-.map-dot-end{position:absolute;top:calc(50% - 6px);right:10%;width:12px;height:12px;background:var(--green);border-radius:50%;box-shadow:0 0 0 3px rgba(5,150,105,.2);}
-.map-ship-icon{position:absolute;top:calc(50% - 10px);left:45%;font-size:1.2rem;animation:shipMove 3s ease-in-out infinite alternate;}
-@keyframes shipMove{0%{transform:translateX(-20px);}100%{transform:translateX(20px);}}
-.map-label{font-size:.78rem;font-weight:600;color:var(--muted);z-index:1;}
-.map-sublabel{font-size:.68rem;color:var(--light);z-index:1;}
-
-/* Documents */
-.doc-list{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;}
-.doc-item{display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:var(--bg);font-size:.78rem;transition:all .15s;cursor:pointer;}
-.doc-item:hover{border-color:var(--blue);background:var(--blue-l);}
-.doc-icon{font-size:1rem;}
-.doc-name{font-weight:600;color:var(--text2);}
-.doc-ocr{font-size:.65rem;padding:2px 6px;border-radius:3px;font-weight:700;}
-.doc-ocr.done{background:var(--green-l);color:var(--green);}
-.doc-ocr.processing{background:var(--orange-l);color:var(--orange);}
-.doc-ocr.pending{background:var(--bg3);color:var(--muted);}
-
-/* Detail Grid */
-.detail-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px;}
-.detail-item{display:flex;flex-direction:column;gap:2px;}
-.detail-label{font-size:.65rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
-.detail-value{font-size:.82rem;font-weight:600;}
-
-/* Table */
-.table-wrap{overflow-x:auto;}
-table{width:100%;border-collapse:collapse;}
-th{font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;padding:10px 12px;text-align:left;border-bottom:2px solid var(--border);cursor:pointer;user-select:none;white-space:nowrap;transition:color .15s;}
-th:hover{color:var(--blue);}
-th .sort-icon{margin-left:4px;font-size:.6rem;opacity:.4;}
-th.sorted .sort-icon{opacity:1;color:var(--blue);}
-td{padding:10px 12px;border-bottom:1px solid var(--border);font-size:.82rem;white-space:nowrap;}
-tr{transition:background .1s;}
-tr:hover td{background:var(--bg);}
-
-/* Table controls */
-.table-controls{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:12px;flex-wrap:wrap;}
-.search-input{padding:7px 14px 7px 36px;border:1px solid var(--border);border-radius:8px;font-size:.82rem;font-family:inherit;color:var(--text);background:var(--card-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 12px center;width:240px;outline:none;transition:border-color .15s;}
+/* Search */
+.search-input{padding:7px 14px 7px 36px;border:1px solid var(--border);border-radius:8px;font-size:.82rem;font-family:inherit;color:var(--text);background:var(--card-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 12px center;width:220px;outline:none;transition:border-color .15s;}
 .search-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1);}
-.filter-pills{display:flex;gap:6px;}
+.filter-pills{display:flex;gap:6px;flex-wrap:wrap;}
 .pill{padding:5px 12px;border-radius:20px;font-size:.72rem;font-weight:600;border:1px solid var(--border);background:var(--card-bg);cursor:pointer;transition:all .15s;font-family:inherit;}
 .pill:hover{border-color:var(--blue);color:var(--blue);}
 .pill.active{background:var(--blue);color:#fff;border-color:var(--blue);}
 
-/* Carrier Performance */
-.carrier-table td{font-size:.8rem;}
-.carrier-name{font-weight:700;color:var(--text);}
-.perf-bar{width:80px;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;display:inline-block;vertical-align:middle;margin-left:6px;}
-.perf-fill{height:100%;border-radius:3px;}
-.cost-index{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700;}
-.cost-low{background:var(--green-l);color:var(--green);}
-.cost-mid{background:var(--orange-l);color:var(--orange);}
-.cost-high{background:var(--red-l);color:var(--red);}
+/* Status badges */
+.status{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:700;}
+.status-transit{background:var(--blue-l);color:var(--blue);}
+.status-waiting{background:var(--orange-l);color:var(--orange);}
+.status-arrived{background:var(--green-l);color:var(--green);}
+.status-delayed{background:var(--red-l);color:var(--red);}
+.status-customs{background:var(--purple-l);color:var(--purple);}
+.status-dot{width:6px;height:6px;border-radius:50%;display:inline-block;}
+.status-transit .status-dot{background:var(--blue);}
+.status-waiting .status-dot{background:var(--orange);}
+.status-arrived .status-dot{background:var(--green);}
+.status-delayed .status-dot{background:var(--red);}
+.status-customs .status-dot{background:var(--purple);}
 
-/* Section spacing */
-.section-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
-.section-full{margin-bottom:20px;}
+/* ===== BOARD VIEW ===== */
+#boardView{}
+.board-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.ship-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--sh);cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.ship-card:hover{box-shadow:var(--sh2);transform:translateY(-3px);border-color:var(--blue);}
+.ship-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.ship-card.transit::before{background:var(--blue);}
+.ship-card.waiting::before{background:var(--orange);}
+.ship-card.arrived::before{background:var(--green);}
+.ship-card.delayed::before{background:var(--red);}
+.card-header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.card-shp-id{font-weight:800;font-size:.88rem;color:var(--blue);}
+.card-type-icon{font-size:1.1rem;}
+.card-parties{margin-bottom:10px;}
+.card-party-row{display:flex;align-items:center;gap:6px;font-size:.75rem;margin-bottom:3px;}
+.card-party-label{color:var(--muted);font-weight:500;width:36px;flex-shrink:0;}
+.card-party-name{font-weight:600;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.card-route{display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;margin-bottom:10px;color:var(--text);}
+.card-route-arrow{color:var(--light);}
+.card-footer{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.card-eta{font-size:.72rem;color:var(--muted);}
+.card-eta strong{color:var(--text2);font-weight:700;}
+/* Mini progress steps */
+.mini-steps{display:flex;align-items:center;gap:0;margin-top:10px;}
+.mini-step{width:20px;height:20px;border-radius:50%;border:2px solid var(--border2);background:var(--bg3);font-size:.6rem;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0;color:var(--muted);}
+.mini-step.done{background:var(--green);border-color:var(--green);color:#fff;}
+.mini-step.current{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.2);}
+.mini-step.skip{background:var(--red);border-color:var(--red);color:#fff;}
+.mini-connector{flex:1;height:2px;background:var(--border2);}
+.mini-connector.done{background:var(--green);}
+.mini-step-label{position:absolute;top:24px;left:50%;transform:translateX(-50%);font-size:.55rem;color:var(--muted);white-space:nowrap;}
 
-/* Pagination */
-.pagination{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);}
-.page-info{font-size:.75rem;color:var(--muted);}
-.page-buttons{display:flex;gap:4px;}
-.page-btn{width:30px;height:30px;border-radius:6px;border:1px solid var(--border);background:var(--card-bg);display:flex;align-items:center;justify-content:center;font-size:.75rem;cursor:pointer;font-family:inherit;font-weight:600;transition:all .15s;}
-.page-btn:hover{border-color:var(--blue);color:var(--blue);}
-.page-btn.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+/* ===== TABLE VIEW ===== */
+#tableView{display:none;}
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--sh);}
+.table-wrap{overflow-x:auto;border-radius:8px;}
+table{width:100%;border-collapse:collapse;}
+thead{position:sticky;top:0;background:var(--bg2);z-index:2;}
+th{font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;padding:11px 12px;text-align:left;border-bottom:2px solid var(--border);cursor:pointer;user-select:none;white-space:nowrap;transition:color .15s;}
+th:hover{color:var(--blue);}
+th .sort-icon{margin-left:4px;font-size:.6rem;opacity:.4;}
+th.sorted .sort-icon{opacity:1;color:var(--blue);}
+td{padding:11px 12px;border-bottom:1px solid var(--border);font-size:.82rem;white-space:nowrap;vertical-align:middle;}
+tr{transition:background .1s;cursor:pointer;}
+tr:hover td{background:var(--bg2);}
+tr:last-child td{border-bottom:none;}
+.td-shp{font-weight:800;color:var(--blue);}
+.td-weight{font-size:.75rem;color:var(--muted);}
+.td-actions{display:flex;gap:6px;}
+
+/* ===== DETAIL MODAL ===== */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:10000;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);}
+.modal-overlay.open{display:flex;}
+.modal-box{background:var(--card-bg);border-radius:16px;width:100%;max-width:860px;max-height:90vh;overflow-y:auto;box-shadow:var(--sh3);animation:modalIn .25s ease;}
+@keyframes modalIn{from{opacity:0;transform:scale(.96) translateY(16px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.modal-header{display:flex;align-items:flex-start;justify-content:space-between;padding:24px 28px 20px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--card-bg);z-index:2;border-radius:16px 16px 0 0;}
+.modal-title{font-size:1.15rem;font-weight:800;}
+.modal-subtitle{font-size:.78rem;color:var(--muted);margin-top:3px;}
+.modal-close{width:36px;height:36px;border-radius:8px;border:1px solid var(--border);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:var(--muted);transition:all .15s;font-family:inherit;}
+.modal-close:hover{background:var(--red-l);color:var(--red);border-color:var(--red);}
+.modal-body{padding:24px 28px;}
+
+/* Modal info grid */
+.info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;padding:18px;background:var(--bg2);border-radius:10px;border:1px solid var(--border);}
+.info-item{}
+.info-label{font-size:.65rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px;}
+.info-value{font-size:.85rem;font-weight:700;color:var(--text);}
+
+/* Route visualization */
+.route-vis{margin-bottom:22px;}
+.route-vis-title{font-size:.82rem;font-weight:700;margin-bottom:14px;color:var(--text2);}
+.route-steps{display:flex;align-items:flex-start;position:relative;padding:0 4px;}
+.route-step{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;}
+.route-step-circle{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;border:3px solid var(--border2);background:var(--card-bg);transition:all .3s;position:relative;z-index:1;}
+.route-step.done .route-step-circle{background:var(--green);border-color:var(--green);box-shadow:0 2px 10px rgba(5,150,105,.3);}
+.route-step.current .route-step-circle{background:var(--blue);border-color:var(--blue);box-shadow:0 2px 16px rgba(37,99,235,.4);animation:stepPulse 2s infinite;}
+.route-step.pending .route-step-circle{background:var(--bg3);border-color:var(--border2);}
+.route-step.delayed .route-step-circle{background:var(--red);border-color:var(--red);box-shadow:0 2px 10px rgba(220,38,38,.3);}
+@keyframes stepPulse{0%,100%{box-shadow:0 2px 12px rgba(37,99,235,.3);}50%{box-shadow:0 2px 24px rgba(37,99,235,.6);}}
+.route-step-name{font-size:.68rem;font-weight:700;text-align:center;line-height:1.3;}
+.route-step.done .route-step-name{color:var(--green);}
+.route-step.current .route-step-name{color:var(--blue);}
+.route-step.pending .route-step-name{color:var(--muted);}
+.route-step.delayed .route-step-name{color:var(--red);}
+.route-step-loc{font-size:.62rem;color:var(--light);text-align:center;}
+.route-connector{flex:1;height:3px;background:var(--border2);margin-top:22px;position:relative;z-index:0;}
+.route-connector.done{background:var(--green);}
+.route-connector.active{background:linear-gradient(90deg,var(--blue),var(--border2));}
+.route-step:last-child + .route-connector{display:none;}
+
+/* Documents */
+.section-label{font-size:.82rem;font-weight:700;margin-bottom:12px;color:var(--text);}
+.doc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:22px;}
+.doc-card{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:8px;border:1px solid var(--border);background:var(--bg);font-size:.78rem;cursor:pointer;transition:all .15s;}
+.doc-card:hover{border-color:var(--blue);background:var(--blue-l);}
+.doc-icon{font-size:1.1rem;flex-shrink:0;}
+.doc-info{}
+.doc-name{font-weight:700;color:var(--text2);}
+.doc-badge{display:inline-flex;padding:2px 7px;border-radius:4px;font-size:.62rem;font-weight:700;margin-top:2px;}
+.doc-badge.ready{background:var(--green-l);color:var(--green);}
+.doc-badge.pending{background:var(--orange-l);color:var(--orange);}
+.doc-badge.na{background:var(--bg3);color:var(--muted);}
+
+/* Carrier details */
+.carrier-section{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:22px;}
+.carrier-box{padding:14px 16px;background:var(--bg2);border-radius:10px;border:1px solid var(--border);}
+.carrier-box-label{font-size:.65rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;}
+.carrier-name-big{font-size:1rem;font-weight:800;}
+.carrier-detail-row{font-size:.75rem;color:var(--text2);margin-top:4px;display:flex;align-items:center;gap:6px;}
+
+/* Cost summary */
+.cost-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px;}
+.cost-item{padding:12px;background:var(--bg2);border-radius:8px;border:1px solid var(--border);text-align:center;}
+.cost-item-label{font-size:.65rem;color:var(--muted);font-weight:600;margin-bottom:4px;}
+.cost-item-value{font-size:1rem;font-weight:800;color:var(--text);}
+
+/* Timeline */
+.timeline{margin-bottom:22px;}
+.timeline-item{display:flex;gap:14px;padding:10px 0;border-bottom:1px solid var(--border);}
+.timeline-item:last-child{border-bottom:none;}
+.timeline-dot-col{display:flex;flex-direction:column;align-items:center;gap:0;}
+.timeline-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;}
+.timeline-dot.done{background:var(--green-l);color:var(--green);}
+.timeline-dot.current{background:var(--blue-l);color:var(--blue);}
+.timeline-dot.pending{background:var(--bg3);color:var(--muted);}
+.timeline-line{width:2px;flex:1;background:var(--border);margin:4px 0;}
+.timeline-info{flex:1;padding-bottom:4px;}
+.timeline-title{font-size:.82rem;font-weight:700;}
+.timeline-desc{font-size:.75rem;color:var(--text2);margin-top:2px;}
+.timeline-meta{font-size:.68rem;color:var(--muted);margin-top:3px;}
+
+/* Modal footer */
+.modal-footer{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:18px 28px;border-top:1px solid var(--border);background:var(--bg2);border-radius:0 0 16px 16px;flex-wrap:wrap;}
+
+/* ===== CREATE SHIPPING MODAL ===== */
+#createModal .modal-box{max-width:760px;}
+.form-section{margin-bottom:24px;}
+.form-section-title{font-size:.88rem;font-weight:800;color:var(--blue);margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--blue-l);display:flex;align-items:center;gap:8px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.form-group{display:flex;flex-direction:column;gap:5px;}
+.form-group.full{grid-column:1/-1;}
+.form-label{font-size:.72rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;}
+.form-input,.form-select,.form-textarea{padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:.85rem;font-family:inherit;color:var(--text);background:var(--card-bg);outline:none;transition:border-color .15s,box-shadow .15s;width:100%;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+.form-textarea{resize:vertical;min-height:70px;}
+.form-input[readonly]{background:var(--bg2);color:var(--muted);cursor:default;}
+.radio-group{display:flex;gap:12px;}
+.radio-label{display:flex;align-items:center;gap:7px;cursor:pointer;font-size:.82rem;font-weight:600;}
+.radio-label input{accent-color:var(--blue);width:16px;height:16px;}
+.checkbox-group{display:flex;flex-direction:column;gap:8px;}
+.checkbox-label{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.82rem;font-weight:600;}
+.checkbox-label input{accent-color:var(--blue);width:15px;height:15px;}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;right:24px;z-index:99999;background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:14px 20px;box-shadow:var(--sh3);font-size:.85rem;font-weight:600;display:flex;align-items:center;gap:10px;transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.34,1.56,.64,1);}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{border-left:4px solid var(--green);}
+.toast.error{border-left:4px solid var(--red);}
 
 /* Responsive */
-@media(max-width:900px){
-.kpi-grid{grid-template-columns:repeat(2,1fr);}
-.shipment-grid{grid-template-columns:1fr;}
-.section-grid{grid-template-columns:1fr;}
-.detail-grid{grid-template-columns:1fr 1fr;}
-.tracking-stepper{flex-wrap:wrap;gap:8px;}
-}
-@media(max-width:600px){
-.kpi-grid{grid-template-columns:1fr;}
-.page-title{font-size:1.2rem;}
-.header-actions{width:100%;justify-content:flex-end;}
-}
+@media(max-width:1100px){.board-grid{grid-template-columns:repeat(2,1fr);}  .kpi-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:780px){.board-grid{grid-template-columns:1fr;} .info-grid{grid-template-columns:1fr 1fr;} .doc-grid{grid-template-columns:1fr 1fr;} .cost-grid{grid-template-columns:1fr 1fr;} .carrier-section{grid-template-columns:1fr;} .form-grid{grid-template-columns:1fr;} .form-grid-3{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.kpi-grid{grid-template-columns:1fr;} .page-title{font-size:1.2rem;} .route-steps{flex-wrap:wrap;} .modal-box{border-radius:12px;} .form-grid-3{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
+
 <!-- Dark Mode Toggle -->
-<button class="dark-toggle" onclick="toggleDark()">&#127769;</button>
+<button class="dark-toggle" onclick="toggleDark()" title="สลับ Dark Mode">&#127769;</button>
 
 <div class="page">
 
-<!-- Header -->
-<div class="page-header">
-  <div class="breadcrumb">
-    <a href="../pitching-v2.html">Autopilot v2</a> <span>/</span> <span>Logistics FX</span> <span>/</span> <span>Shipping Tracker</span>
+<!-- User Context Bar -->
+<div class="user-bar">
+  <div class="user-bar-left">
+    <div class="user-avatar">PP</div>
+    <div>
+      <div class="user-name">คุณพชร พรมทอง</div>
+      <div class="user-role">Logistics Manager &bull; ANTS Co., Ltd.</div>
+    </div>
+    <div style="width:1px;height:28px;background:var(--border);margin:0 4px;"></div>
+    <span class="live-dot">Live Tracking</span>
   </div>
+  <div class="user-bar-right">
+    <span style="font-size:.72rem;">&#128197; อัพเดทล่าสุด: 05 เม.ย. 2026 10:42</span>
+    <span style="font-size:.72rem;background:var(--blue-l);color:var(--blue);padding:2px 9px;border-radius:5px;font-weight:700;">Autopilot v2</span>
+  </div>
+</div>
+
+<!-- Breadcrumb -->
+<div class="breadcrumb">
+  <a href="../pitching-v2.html">Autopilot v2</a>
+  <span>/</span>
+  <span>Logistics FX</span>
+  <span>/</span>
+  <span>Shipment Tracking</span>
+</div>
+
+<!-- Page Header -->
+<div class="page-header">
   <div class="page-title-row">
     <div>
-      <div class="page-title">&#128674; Logistics Shipping Tracker</div>
-      <div class="page-subtitle">ติดตามสถานะการขนส่งสินค้าแบบเรียลไทม์ พร้อมข้อมูลเอกสารและ AI วิเคราะห์ความเสี่ยงล่าช้า</div>
+      <div class="page-title">&#128674; Shipment Tracking</div>
+      <div class="page-subtitle">ติดตามสถานะการขนส่งสินค้าระหว่างประเทศแบบ Real-Time &bull; 12 Shipments Active</div>
     </div>
     <div class="header-actions">
       <span class="brand-tag">&#9679; ANTS &mdash; AI Solution Hub</span>
-      <button class="btn btn-secondary" onclick="location.reload()">&#8635; รีเฟรช</button>
-      <button class="btn btn-primary">+ สร้าง Shipment</button>
+      <button class="btn btn-secondary btn-sm" onclick="location.reload()">&#8635; รีเฟรช</button>
+      <button class="btn btn-primary" onclick="openCreateModal()">&#43; สร้าง Shipping</button>
     </div>
   </div>
 </div>
 
-<!-- Alert Panel -->
-<div class="alert-panel" id="alertPanel">
-  <div class="alert-item alert-danger">
-    <span class="alert-icon">&#128680;</span>
-    <div class="alert-text"><strong>SH-2026-015</strong> ล่าช้า 2 วันที่ด่านศุลกากร &mdash; สินค้าอยู่ระหว่างตรวจสอบเอกสาร<div class="alert-time">15 นาทีที่แล้ว</div></div>
-  </div>
-  <div class="alert-item alert-success">
-    <span class="alert-icon">&#9989;</span>
-    <div class="alert-text"><strong>SH-2026-012</strong> ผ่านพิธีการศุลกากรเรียบร้อย &mdash; กำลังจัดส่งไปยังปลายทาง<div class="alert-time">42 นาทีที่แล้ว</div></div>
-  </div>
-  <div class="alert-item alert-warn">
-    <span class="alert-icon">&#9888;&#65039;</span>
-    <div class="alert-text"><strong>SH-2026-018</strong> คาดว่าจะถึงปลายทางช้ากว่ากำหนด 1 วัน เนื่องจากสภาพอากาศ<div class="alert-time">1 ชั่วโมงที่แล้ว</div></div>
-  </div>
-  <div class="alert-item alert-info">
-    <span class="alert-icon">&#128225;</span>
-    <div class="alert-text"><strong>SH-2026-019</strong> เอกสาร BL ถูกสแกนและ OCR สำเร็จ &mdash; พร้อมสำหรับการตรวจสอบ<div class="alert-time">2 ชั่วโมงที่แล้ว</div></div>
-  </div>
-</div>
-
-<!-- KPI Grid -->
-<div class="kpi-grid">
-  <div class="kpi">
-    <div class="kpi-icon">&#128230;</div>
-    <div class="kpi-label">Shipment ทั้งหมด (Active)</div>
-    <div class="kpi-value">24</div>
-    <div class="kpi-change good">&#8593; +3 จากสัปดาห์ก่อน</div>
-  </div>
+<!-- KPI Row -->
+<div class="kpi-grid" id="kpiGrid">
   <div class="kpi">
     <div class="kpi-icon">&#128674;</div>
-    <div class="kpi-label">กำลังขนส่ง (In Transit)</div>
-    <div class="kpi-value">18</div>
-    <div class="kpi-change warn">75% ของทั้งหมด</div>
+    <div class="kpi-label">Shipments ทั้งหมด</div>
+    <div class="kpi-value" id="kpiTotal">12</div>
+    <div class="kpi-change good">&#128200; Active</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-icon">&#9992;&#65039;</div>
+    <div class="kpi-label">กำลังขนส่ง</div>
+    <div class="kpi-value" id="kpiTransit">0</div>
+    <div class="kpi-change warn">&#9992; In Transit</div>
   </div>
   <div class="kpi">
     <div class="kpi-icon">&#9989;</div>
-    <div class="kpi-label">ถึงปลายทางแล้ว (Arrived)</div>
-    <div class="kpi-value">4</div>
-    <div class="kpi-change up">&#8593; ตรงเวลา 100%</div>
+    <div class="kpi-label">ถึงแล้ว</div>
+    <div class="kpi-value" id="kpiArrived">0</div>
+    <div class="kpi-change up">&#9989; Delivered</div>
   </div>
   <div class="kpi">
     <div class="kpi-icon">&#9888;&#65039;</div>
-    <div class="kpi-label">ล่าช้า (Delayed)</div>
-    <div class="kpi-value">2</div>
-    <div class="kpi-change danger">&#9888; ต้องติดตาม</div>
+    <div class="kpi-label">ล่าช้า</div>
+    <div class="kpi-value" id="kpiDelayed">0</div>
+    <div class="kpi-change danger">&#9888; Delayed</div>
   </div>
 </div>
 
-<!-- Shipment Cards -->
-<div class="card-header" style="margin-bottom:12px;">
-  <div class="card-title">&#128230; รายการ Shipment</div>
-  <div class="filter-pills">
-    <button class="pill active" onclick="filterCards('all',this)">ทั้งหมด</button>
-    <button class="pill" onclick="filterCards('transit',this)">In Transit</button>
-    <button class="pill" onclick="filterCards('customs',this)">Customs</button>
-    <button class="pill" onclick="filterCards('delivered',this)">Delivered</button>
-    <button class="pill" onclick="filterCards('booked',this)">Booked</button>
+<!-- View Toolbar -->
+<div class="view-toolbar">
+  <div class="view-toggle">
+    <button class="view-btn active" id="btnBoard" onclick="switchView('board')">&#128203; Board View</button>
+    <button class="view-btn" id="btnTable" onclick="switchView('table')">&#128202; Table View</button>
   </div>
-</div>
-
-<div class="shipment-grid" id="shipmentGrid">
-</div>
-
-<!-- Shipment Table -->
-<div class="card section-full">
-  <div class="card-header">
-    <div class="card-title">&#128203; ตารางรายการขนส่งทั้งหมด</div>
-    <div class="header-actions">
-      <button class="btn btn-sm btn-secondary">&#128229; Export</button>
-    </div>
-  </div>
-  <div class="table-controls">
-    <input type="text" class="search-input" placeholder="ค้นหา Tracking No., ปลายทาง..." id="tableSearch" oninput="filterTable()">
-    <div class="filter-pills">
-      <button class="pill active" onclick="filterTableStatus('all',this)">ทั้งหมด</button>
-      <button class="pill" onclick="filterTableStatus('transit',this)">In Transit</button>
-      <button class="pill" onclick="filterTableStatus('customs',this)">Customs</button>
-      <button class="pill" onclick="filterTableStatus('delivered',this)">Delivered</button>
-      <button class="pill" onclick="filterTableStatus('booked',this)">Booked</button>
-    </div>
-  </div>
-  <div class="table-wrap">
-    <table id="shipmentTable">
-      <thead>
-        <tr>
-          <th onclick="sortTable(0)">Tracking No. <span class="sort-icon">&#9650;&#9660;</span></th>
-          <th onclick="sortTable(1)">ต้นทาง <span class="sort-icon">&#9650;&#9660;</span></th>
-          <th onclick="sortTable(2)">ปลายทาง <span class="sort-icon">&#9650;&#9660;</span></th>
-          <th onclick="sortTable(3)">Carrier <span class="sort-icon">&#9650;&#9660;</span></th>
-          <th onclick="sortTable(4)">ETD <span class="sort-icon">&#9650;&#9660;</span></th>
-          <th onclick="sortTable(5)">ETA <span class="sort-icon">&#9650;&#9660;</span></th>
-          <th onclick="sortTable(6)">สถานะ <span class="sort-icon">&#9650;&#9660;</span></th>
-          <th>ความคืบหน้า</th>
-        </tr>
-      </thead>
-      <tbody id="tableBody"></tbody>
-    </table>
-  </div>
-  <div class="pagination">
-    <div class="page-info">แสดง 1-8 จาก 24 รายการ</div>
-    <div class="page-buttons">
-      <button class="page-btn">&laquo;</button>
-      <button class="page-btn active">1</button>
-      <button class="page-btn">2</button>
-      <button class="page-btn">3</button>
-      <button class="page-btn">&raquo;</button>
+  <div class="toolbar-right">
+    <input class="search-input" type="text" placeholder="ค้นหา Shipment ID, บริษัท..." oninput="handleSearch(this.value)" id="searchInput">
+    <div class="filter-pills" id="filterPills">
+      <button class="pill active" onclick="setFilter('all',this)">ทั้งหมด</button>
+      <button class="pill" onclick="setFilter('transit',this)">กำลังขนส่ง</button>
+      <button class="pill" onclick="setFilter('waiting',this)">รอดำเนินการ</button>
+      <button class="pill" onclick="setFilter('arrived',this)">ถึงแล้ว</button>
+      <button class="pill" onclick="setFilter('delayed',this)">ล่าช้า</button>
     </div>
   </div>
 </div>
 
-<!-- Carrier Performance -->
-<div class="card section-full">
-  <div class="card-header">
-    <div class="card-title">&#128200; ประสิทธิภาพ Carrier เปรียบเทียบ</div>
-    <div class="header-actions">
-      <button class="btn btn-sm btn-secondary">&#128197; Q1 2026</button>
+<!-- Board View -->
+<div id="boardView">
+  <div class="board-grid" id="boardGrid"></div>
+</div>
+
+<!-- Table View -->
+<div id="tableView">
+  <div class="card">
+    <div class="table-wrap">
+      <table id="shipTable">
+        <thead>
+          <tr>
+            <th onclick="sortTable('id')" id="th-id">Shipment ID <span class="sort-icon">&#8597;</span></th>
+            <th onclick="sortTable('shipper')" id="th-shipper">ผู้ส่ง <span class="sort-icon">&#8597;</span></th>
+            <th onclick="sortTable('consignee')" id="th-consignee">ผู้รับ <span class="sort-icon">&#8597;</span></th>
+            <th onclick="sortTable('route')" id="th-route">เส้นทาง <span class="sort-icon">&#8597;</span></th>
+            <th onclick="sortTable('weight')" id="th-weight">น้ำหนัก <span class="sort-icon">&#8597;</span></th>
+            <th onclick="sortTable('status')" id="th-status">สถานะ <span class="sort-icon">&#8597;</span></th>
+            <th onclick="sortTable('eta')" id="th-eta">ETA <span class="sort-icon">&#8597;</span></th>
+            <th>ดำเนินการ</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
     </div>
-  </div>
-  <div class="table-wrap">
-    <table class="carrier-table">
-      <thead>
-        <tr>
-          <th>Carrier</th>
-          <th>Shipments</th>
-          <th>On-time %</th>
-          <th>Avg Transit (วัน)</th>
-          <th>Cost Index</th>
-          <th>Rating</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><span class="carrier-name">&#128674; Maersk</span></td>
-          <td>42</td>
-          <td>96%<div class="perf-bar"><div class="perf-fill" style="width:96%;background:var(--green);"></div></div></td>
-          <td>14.2</td>
-          <td><span class="cost-index cost-mid">1.15</span></td>
-          <td>&#11088;&#11088;&#11088;&#11088;&#11088;</td>
-        </tr>
-        <tr>
-          <td><span class="carrier-name">&#128674; MSC</span></td>
-          <td>38</td>
-          <td>91%<div class="perf-bar"><div class="perf-fill" style="width:91%;background:var(--green);"></div></div></td>
-          <td>15.8</td>
-          <td><span class="cost-index cost-low">0.92</span></td>
-          <td>&#11088;&#11088;&#11088;&#11088;</td>
-        </tr>
-        <tr>
-          <td><span class="carrier-name">&#9992;&#65039; Thai Airways Cargo</span></td>
-          <td>15</td>
-          <td>98%<div class="perf-bar"><div class="perf-fill" style="width:98%;background:var(--green);"></div></div></td>
-          <td>3.5</td>
-          <td><span class="cost-index cost-high">2.40</span></td>
-          <td>&#11088;&#11088;&#11088;&#11088;&#11088;</td>
-        </tr>
-        <tr>
-          <td><span class="carrier-name">&#128674; ONE (Ocean Network Express)</span></td>
-          <td>28</td>
-          <td>88%<div class="perf-bar"><div class="perf-fill" style="width:88%;background:var(--orange);"></div></div></td>
-          <td>16.1</td>
-          <td><span class="cost-index cost-low">0.88</span></td>
-          <td>&#11088;&#11088;&#11088;</td>
-        </tr>
-        <tr>
-          <td><span class="carrier-name">&#128666; Kerry Logistics</span></td>
-          <td>22</td>
-          <td>94%<div class="perf-bar"><div class="perf-fill" style="width:94%;background:var(--green);"></div></div></td>
-          <td>5.2</td>
-          <td><span class="cost-index cost-mid">1.30</span></td>
-          <td>&#11088;&#11088;&#11088;&#11088;</td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 </div>
 
+</div><!-- .page -->
+
+<!-- ===== DETAIL MODAL ===== -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="detailTitle">SHP-2026-001</div>
+        <div class="modal-subtitle" id="detailSubtitle">รายละเอียด Shipment</div>
+      </div>
+      <button class="modal-close" onclick="closeDetail()">&#10005;</button>
+    </div>
+    <div class="modal-body" id="detailBody">
+      <!-- Filled by JS -->
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeDetail()">&#10005; ปิด</button>
+      <button class="btn btn-secondary btn-sm" onclick="alert('ฟีเจอร์ Documents กำลังพัฒนา')">&#128196; ดู Documents</button>
+      <button class="btn btn-outline btn-sm" onclick="alert('ส่งแจ้งเตือนเรียบร้อย')">&#128276; ส่งแจ้งเตือน</button>
+      <button class="btn btn-primary btn-sm" onclick="alert('เปิดฟอร์มอัพเดทสถานะ')">&#9998; อัพเดทสถานะ</button>
+    </div>
+  </div>
 </div>
+
+<!-- ===== CREATE SHIPPING MODAL ===== -->
+<div class="modal-overlay" id="createModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">&#43; สร้าง Shipment ใหม่</div>
+        <div class="modal-subtitle">กรอกข้อมูลการขนส่งสินค้าระหว่างประเทศ</div>
+      </div>
+      <button class="modal-close" onclick="closeCreateModal()">&#10005;</button>
+    </div>
+    <div class="modal-body">
+      <form id="createForm" onsubmit="submitCreate(event)">
+
+        <!-- Section 1 -->
+        <div class="form-section">
+          <div class="form-section-title">&#128204; ข้อมูลพื้นฐาน</div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Shipment Reference</label>
+              <input class="form-input" id="fRef" readonly>
+            </div>
+            <div class="form-group">
+              <label class="form-label">วันที่คาดว่าออกจากต้นทาง</label>
+              <input class="form-input" type="date" id="fEtd" required>
+            </div>
+            <div class="form-group full">
+              <label class="form-label">ประเภทการขนส่ง</label>
+              <div class="radio-group">
+                <label class="radio-label"><input type="radio" name="fType" value="sea" checked> &#128674; ทางเรือ</label>
+                <label class="radio-label"><input type="radio" name="fType" value="air"> &#9992;&#65039; ทางอากาศ</label>
+                <label class="radio-label"><input type="radio" name="fType" value="land"> &#128656; ทางบก</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2 -->
+        <div class="form-section">
+          <div class="form-section-title">&#128101; ผู้ส่งและผู้รับ</div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">ชื่อผู้ส่ง (Shipper)</label>
+              <input class="form-input" id="fShipper" placeholder="ชื่อบริษัทผู้ส่ง" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">ที่อยู่ผู้ส่ง</label>
+              <input class="form-input" id="fShipperAddr" placeholder="ที่อยู่ผู้ส่ง" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">ชื่อผู้รับ (Consignee)</label>
+              <input class="form-input" id="fConsignee" placeholder="ชื่อบริษัทผู้รับ" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">ที่อยู่ผู้รับ</label>
+              <input class="form-input" id="fConsigneeAddr" placeholder="ที่อยู่ผู้รับ" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3 -->
+        <div class="form-section">
+          <div class="form-section-title">&#128205; เส้นทาง</div>
+          <div class="form-grid-3">
+            <div class="form-group">
+              <label class="form-label">ต้นทาง (Origin)</label>
+              <input class="form-input" id="fOrigin" placeholder="เช่น กรุงเทพฯ" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">ปลายทาง (Destination)</label>
+              <input class="form-input" id="fDest" placeholder="เช่น Shanghai" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">ผู้ขนส่ง / Carrier</label>
+              <select class="form-select" id="fCarrier" required>
+                <option value="">-- เลือก Carrier --</option>
+                <option>DHL</option>
+                <option>COSCO</option>
+                <option>Maersk</option>
+                <option>Thai Airways</option>
+                <option>Kerry Express</option>
+                <option>Evergreen</option>
+                <option>MSC</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Port of Loading</label>
+              <input class="form-input" id="fPOL" placeholder="เช่น ท่าเรือแหลมฉบัง" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Port of Discharge</label>
+              <input class="form-input" id="fPOD" placeholder="เช่น Port of Shanghai" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 4 -->
+        <div class="form-section">
+          <div class="form-section-title">&#128230; รายละเอียดสินค้า</div>
+          <div class="form-grid-3">
+            <div class="form-group full" style="grid-column:span 3;">
+              <label class="form-label">ประเภทสินค้า</label>
+              <input class="form-input" id="fGoodsType" placeholder="เช่น อิเล็กทรอนิกส์, อาหารแปรรูป" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">น้ำหนัก (กก.)</label>
+              <input class="form-input" type="number" id="fWeight" placeholder="0" min="1" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">ปริมาตร (CBM)</label>
+              <input class="form-input" type="number" id="fVolume" placeholder="0.00" step="0.01" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">จำนวน Packages</label>
+              <input class="form-input" type="number" id="fPackages" placeholder="0" min="1" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Incoterms</label>
+              <select class="form-select" id="fIncoterms" required>
+                <option value="">-- เลือก --</option>
+                <option>FOB</option>
+                <option>CIF</option>
+                <option>EXW</option>
+                <option>DDP</option>
+                <option>DAP</option>
+                <option>CFR</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 5 -->
+        <div class="form-section">
+          <div class="form-section-title">&#128196; เอกสาร</div>
+          <div class="checkbox-group">
+            <label class="checkbox-label"><input type="checkbox" id="docBL" checked> &#128196; Bill of Lading (B/L)</label>
+            <label class="checkbox-label"><input type="checkbox" id="docInv" checked> &#128203; Commercial Invoice</label>
+            <label class="checkbox-label"><input type="checkbox" id="docPL" checked> &#128221; Packing List</label>
+            <label class="checkbox-label"><input type="checkbox" id="docCO"> &#127979; Certificate of Origin</label>
+            <label class="checkbox-label"><input type="checkbox" id="docCustoms"> &#128268; ใบขนสินค้า</label>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:8px;">
+          <button type="button" class="btn btn-secondary" onclick="closeCreateModal()">ยกเลิก</button>
+          <button type="submit" class="btn btn-primary">&#128674; สร้าง Shipment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
 
 <script>
-// Mock shipment data
-const shipments = [
+/* ============================================================
+   DATA
+============================================================ */
+let shipments = [
   {
-    id:'SH-2026-010', origin:'กรุงเทพ (แหลมฉบัง)', originCode:'TH', dest:'โตเกียว (Yokohama)', destCode:'JP',
-    carrier:'Maersk', etd:'25 มี.ค. 2026', eta:'8 เม.ย. 2026', status:'transit', statusLabel:'In Transit',
-    progress:62, delayed:false, delayDays:0,
-    steps:[
-      {label:'รับสินค้า',icon:'&#128230;',date:'25 มี.ค. 10:00',loc:'แหลมฉบัง, TH',state:'completed'},
-      {label:'ขึ้นเรือ',icon:'&#128674;',date:'26 มี.ค. 06:00',loc:'ท่าเรือแหลมฉบัง',state:'completed'},
-      {label:'ขนส่งทางทะเล',icon:'&#127754;',date:'กำลังเดินทาง',loc:'ทะเลจีนใต้',state:'active'},
-      {label:'ถึงท่าเรือ',icon:'&#128205;',date:'5 เม.ย. (คาด)',loc:'Yokohama, JP',state:'pending'},
-      {label:'ศุลกากร',icon:'&#128203;',date:'-',loc:'Yokohama Customs',state:'pending'},
-      {label:'จัดส่ง',icon:'&#127968;',date:'8 เม.ย. (คาด)',loc:'Tokyo, JP',state:'pending'}
-    ],
+    id:'SHP-2026-001', type:'sea', typeIcon:'&#128674;',
+    shipper:'บริษัท ไทยฟู้ดส์ เอ็กซ์ปอร์ต จำกัด', shipperAddr:'123 ถนนสุขุมวิท, กรุงเทพฯ 10110',
+    consignee:'Shanghai Grocery Import Co., Ltd.', consigneeAddr:'88 Pudong Ave, Shanghai 200120',
+    origin:'กรุงเทพฯ', destination:'Shanghai', pol:'ท่าเรือแหลมฉบัง', pod:'Port of Shanghai',
+    carrier:'COSCO', vesselFlight:'COSCO SHIPPING ARIES V.026E', bl:'COSCO26001TH',
+    goods:'อาหารแปรรูป (กุ้งแช่แข็ง)', weight:8500, volume:24.5, packages:320,
+    incoterms:'FOB', status:'transit', statusLabel:'กำลังขนส่ง',
+    etd:'2026-03-18', eta:'2026-04-10', created:'2026-03-10',
+    currentStep:2,
+    costs:{freight:45000,insurance:3200,handling:8500,total:56700},
     docs:[
-      {name:'Bill of Lading',icon:'&#128196;',ocr:'done',ocrLabel:'OCR สำเร็จ'},
-      {name:'Commercial Invoice',icon:'&#128203;',ocr:'done',ocrLabel:'OCR สำเร็จ'},
-      {name:'Customs Declaration',icon:'&#128209;',ocr:'pending',ocrLabel:'รอดำเนินการ'}
+      {name:'Bill of Lading',status:'ready'},{name:'Commercial Invoice',status:'ready'},
+      {name:'Packing List',status:'ready'},{name:'Health Certificate',status:'pending'},
+      {name:'ใบขนสินค้า',status:'ready'}
+    ],
+    timeline:[
+      {date:'10 มี.ค. 2026',title:'รับ Booking',desc:'ได้รับการยืนยัน Booking จาก COSCO',loc:'กรุงเทพฯ',status:'done'},
+      {date:'15 มี.ค. 2026',title:'สินค้าเข้าโกดัง CFS',desc:'สินค้าถูกนำเข้า Container Freight Station',loc:'ท่าเรือแหลมฉบัง',status:'done'},
+      {date:'18 มี.ค. 2026',title:'เรือออกจากท่า (ETD)',desc:'เรือ COSCO SHIPPING ARIES ออกจากท่าเรือแหลมฉบัง',loc:'ท่าเรือแหลมฉบัง',status:'done'},
+      {date:'28 มี.ค. 2026',title:'ผ่าน Singapore Strait',desc:'เรือผ่านช่องแคบสิงคโปร์ตามกำหนด',loc:'Singapore Strait',status:'done'},
+      {date:'10 เม.ย. 2026',title:'คาดถึง Port of Shanghai',desc:'รอการยืนยันจาก Agent ณ Shanghai',loc:'Port of Shanghai',status:'current'},
     ]
   },
   {
-    id:'SH-2026-012', origin:'เซี่ยงไฮ้ (Shanghai)', originCode:'CN', dest:'กรุงเทพ (แหลมฉบัง)', destCode:'TH',
-    carrier:'MSC', etd:'20 มี.ค. 2026', eta:'3 เม.ย. 2026', status:'customs', statusLabel:'Customs',
-    progress:85, delayed:false, delayDays:0,
-    steps:[
-      {label:'รับสินค้า',icon:'&#128230;',date:'20 มี.ค. 08:00',loc:'Shanghai, CN',state:'completed'},
-      {label:'ขึ้นเรือ',icon:'&#128674;',date:'21 มี.ค. 14:00',loc:'ท่าเรือ Shanghai',state:'completed'},
-      {label:'ขนส่งทางทะเล',icon:'&#127754;',date:'21-31 มี.ค.',loc:'ทะเลจีนใต้',state:'completed'},
-      {label:'ถึงท่าเรือ',icon:'&#128205;',date:'1 เม.ย. 09:00',loc:'แหลมฉบัง, TH',state:'completed'},
-      {label:'ศุลกากร',icon:'&#128203;',date:'2 เม.ย. 10:00',loc:'ด่านศุลกากรแหลมฉบัง',state:'active'},
-      {label:'จัดส่ง',icon:'&#127968;',date:'3 เม.ย. (คาด)',loc:'กรุงเทพ, TH',state:'pending'}
-    ],
+    id:'SHP-2026-002', type:'air', typeIcon:'&#9992;&#65039;',
+    shipper:'Thai Auto Parts Co., Ltd.', shipperAddr:'456 นิคมอุตสาหกรรมอมตะ, ชลบุรี',
+    consignee:'Yamaha Motor Japan K.K.', consigneeAddr:'2500 Shingai, Iwata, Shizuoka 438-8501',
+    origin:'กรุงเทพฯ', destination:'Tokyo', pol:'สนามบินสุวรรณภูมิ', pod:'Narita Airport',
+    carrier:'Thai Airways', vesselFlight:'TG676', bl:'TGAWB26002TH',
+    goods:'ชิ้นส่วนยานยนต์ (เบรก, ช่วงล่าง)', weight:1200, volume:4.8, packages:45,
+    incoterms:'CIF', status:'arrived', statusLabel:'ถึงแล้ว',
+    etd:'2026-03-25', eta:'2026-03-26', created:'2026-03-20',
+    currentStep:4,
+    costs:{freight:72000,insurance:5400,handling:12000,total:89400},
     docs:[
-      {name:'Bill of Lading',icon:'&#128196;',ocr:'done',ocrLabel:'OCR สำเร็จ'},
-      {name:'Commercial Invoice',icon:'&#128203;',ocr:'done',ocrLabel:'OCR สำเร็จ'},
-      {name:'Customs Declaration',icon:'&#128209;',ocr:'processing',ocrLabel:'กำลัง OCR...'}
+      {name:'Air Waybill',status:'ready'},{name:'Commercial Invoice',status:'ready'},
+      {name:'Packing List',status:'ready'},{name:'Certificate of Origin',status:'ready'},
+      {name:'ใบขนสินค้า',status:'ready'}
+    ],
+    timeline:[
+      {date:'20 มี.ค. 2026',title:'รับ Booking ทางอากาศ',desc:'ยืนยัน Booking เที่ยวบิน TG676',loc:'กรุงเทพฯ',status:'done'},
+      {date:'24 มี.ค. 2026',title:'ส่งสินค้าที่ Cargo Terminal',desc:'สินค้าผ่าน X-ray และ Security Check',loc:'สุวรรณภูมิ Cargo',status:'done'},
+      {date:'25 มี.ค. 2026',title:'เที่ยวบินออกเดินทาง',desc:'TG676 ออกจากสุวรรณภูมิ 23:45 น.',loc:'BKK - NRT',status:'done'},
+      {date:'26 มี.ค. 2026',title:'ถึง Narita Airport',desc:'สินค้าถึง Narita เวลา 09:30 JST',loc:'Narita, Japan',status:'done'},
+      {date:'27 มี.ค. 2026',title:'ผ่านพิธีการศุลกากร & ส่งมอบ',desc:'ผ่านพิธีการศุลกากรญี่ปุ่นเรียบร้อย ส่งมอบให้ Yamaha Motor แล้ว',loc:'Iwata, Shizuoka',status:'done'},
     ]
   },
   {
-    id:'SH-2026-015', origin:'ฮัมบูร์ก (Hamburg)', originCode:'DE', dest:'กรุงเทพ (แหลมฉบัง)', destCode:'TH',
-    carrier:'ONE', etd:'10 มี.ค. 2026', eta:'1 เม.ย. 2026', status:'customs', statusLabel:'Customs (Delayed)',
-    progress:78, delayed:true, delayDays:2,
-    steps:[
-      {label:'รับสินค้า',icon:'&#128230;',date:'10 มี.ค. 07:00',loc:'Hamburg, DE',state:'completed'},
-      {label:'ขึ้นเรือ',icon:'&#128674;',date:'11 มี.ค. 16:00',loc:'ท่าเรือ Hamburg',state:'completed'},
-      {label:'ขนส่งทางทะเล',icon:'&#127754;',date:'11-28 มี.ค.',loc:'มหาสมุทรอินเดีย',state:'completed'},
-      {label:'ถึงท่าเรือ',icon:'&#128205;',date:'29 มี.ค. 11:00',loc:'แหลมฉบัง, TH',state:'completed'},
-      {label:'ศุลกากร',icon:'&#128203;',date:'30 มี.ค. (ล่าช้า)',loc:'ด่านศุลกากร',state:'delayed'},
-      {label:'จัดส่ง',icon:'&#127968;',date:'4 เม.ย. (คาด)',loc:'กรุงเทพ, TH',state:'pending'}
-    ],
+    id:'SHP-2026-003', type:'sea', typeIcon:'&#128674;',
+    shipper:'สยามเท็กซ์ไทล์ กรุ๊ป จำกัด', shipperAddr:'789 ถนนพระราม 4, กรุงเทพฯ 10500',
+    consignee:'Uniqlo Singapore Pte. Ltd.', consigneeAddr:'9 Penang Road, Singapore 238459',
+    origin:'กรุงเทพฯ', destination:'Singapore', pol:'ท่าเรือแหลมฉบัง', pod:'Port of Singapore (PSA)',
+    carrier:'Maersk', vesselFlight:'MAERSK HANNOVER V.318S', bl:'MAEU26003TH',
+    goods:'เสื้อผ้าสำเร็จรูป (เสื้อยืด, กางเกง)', weight:3200, volume:18.2, packages:580,
+    incoterms:'DDP', status:'delayed', statusLabel:'ล่าช้า',
+    etd:'2026-03-20', eta:'2026-04-02', created:'2026-03-14',
+    currentStep:2,
+    costs:{freight:28000,insurance:1800,handling:6200,total:36000},
     docs:[
-      {name:'Bill of Lading',icon:'&#128196;',ocr:'done',ocrLabel:'OCR สำเร็จ'},
-      {name:'Commercial Invoice',icon:'&#128203;',ocr:'done',ocrLabel:'OCR สำเร็จ'},
-      {name:'Customs Declaration',icon:'&#128209;',ocr:'done',ocrLabel:'OCR สำเร็จ'}
+      {name:'Bill of Lading',status:'ready'},{name:'Commercial Invoice',status:'ready'},
+      {name:'Packing List',status:'ready'},{name:'Certificate of Origin',status:'pending'},
+      {name:'ใบขนสินค้า',status:'ready'}
+    ],
+    timeline:[
+      {date:'14 มี.ค. 2026',title:'ยืนยัน Booking Maersk',desc:'ได้รับ Booking Confirmation No. MCX-8821',loc:'กรุงเทพฯ',status:'done'},
+      {date:'19 มี.ค. 2026',title:'บรรจุสินค้าลง Container',desc:'FCL 20GP บรรจุสินค้าครบ 580 Packages',loc:'ท่าเรือแหลมฉบัง',status:'done'},
+      {date:'20 มี.ค. 2026',title:'เรือออกจากท่า',desc:'MAERSK HANNOVER ออกจากท่าแหลมฉบัง',loc:'ท่าเรือแหลมฉบัง',status:'done'},
+      {date:'25 มี.ค. 2026',title:'เรือล่าช้าเนื่องจากพายุ',desc:'พายุในทะเลจีนใต้ทำให้เรือต้องเลี่ยงเส้นทาง ล่าช้า 5 วัน',loc:'ทะเลจีนใต้',status:'current'},
+      {date:'07 เม.ย. 2026',title:'คาดถึง PSA Singapore (ใหม่)',desc:'วัน ETA ปรับเป็น 7 เม.ย. 2026',loc:'Port of Singapore',status:'pending'},
     ]
   },
   {
-    id:'SH-2026-016', origin:'กรุงเทพ (สุวรรณภูมิ)', originCode:'TH', dest:'สิงคโปร์ (Changi)', destCode:'SG',
-    carrier:'Thai Airways Cargo', etd:'2 เม.ย. 2026', eta:'3 เม.ย. 2026', status:'transit', statusLabel:'In Transit',
-    progress:55, delayed:false, delayDays:0,
-    steps:[
-      {label:'รับสินค้า',icon:'&#128230;',date:'2 เม.ย. 06:00',loc:'คลังสินค้า BKK',state:'completed'},
-      {label:'ขึ้นเครื่อง',icon:'&#9992;&#65039;',date:'2 เม.ย. 14:30',loc:'สุวรรณภูมิ',state:'completed'},
-      {label:'ขนส่งทางอากาศ',icon:'&#9729;&#65039;',date:'กำลังบิน',loc:'เส้นทาง BKK-SIN',state:'active'},
-      {label:'ถึงสนามบิน',icon:'&#128205;',date:'2 เม.ย. 17:30 (คาด)',loc:'Changi, SG',state:'pending'},
-      {label:'ศุลกากร',icon:'&#128203;',date:'-',loc:'SG Customs',state:'pending'},
-      {label:'จัดส่ง',icon:'&#127968;',date:'3 เม.ย. (คาด)',loc:'Singapore',state:'pending'}
-    ],
+    id:'SHP-2026-004', type:'sea', typeIcon:'&#128674;',
+    shipper:'กรุงเทพ อิเล็กทรอนิกส์ จำกัด (มหาชน)', shipperAddr:'99 ถนนงามวงศ์วาน, นนทบุรี 11000',
+    consignee:'Alibaba Logistics (HK) Co., Ltd.', consigneeAddr:'20F Tower 1, Kowloon, Hong Kong',
+    origin:'กรุงเทพฯ', destination:'Hong Kong', pol:'ท่าเรือกรุงเทพ (คลองเตย)', pod:'Kwai Tsing Container Port',
+    carrier:'Evergreen', vesselFlight:'EVER GIVEN V.041W', bl:'EGLV26004TH',
+    goods:'อุปกรณ์อิเล็กทรอนิกส์ (PCB, Sensor)', weight:620, volume:6.1, packages:88,
+    incoterms:'EXW', status:'transit', statusLabel:'กำลังขนส่ง',
+    etd:'2026-03-28', eta:'2026-04-07', created:'2026-03-22',
+    currentStep:2,
+    costs:{freight:18500,insurance:2100,handling:4200,total:24800},
     docs:[
-      {name:'Air Waybill',icon:'&#128196;',ocr:'done',ocrLabel:'OCR สำเร็จ'},
-      {name:'Commercial Invoice',icon:'&#128203;',ocr:'done',ocrLabel:'OCR สำเร็จ'},
-      {name:'Customs Declaration',icon:'&#128209;',ocr:'pending',ocrLabel:'รอดำเนินการ'}
+      {name:'Bill of Lading',status:'ready'},{name:'Commercial Invoice',status:'ready'},
+      {name:'Packing List',status:'ready'},{name:'Dangerous Goods Decl.',status:'pending'},
+      {name:'ใบขนสินค้า',status:'ready'}
+    ],
+    timeline:[
+      {date:'22 มี.ค. 2026',title:'รับ Booking Evergreen',desc:'ยืนยัน Booking HK Service',loc:'กรุงเทพฯ',status:'done'},
+      {date:'27 มี.ค. 2026',title:'Gate-in ท่าเรือคลองเตย',desc:'Container เข้าท่าเรือกรุงเทพเรียบร้อย',loc:'ท่าเรือคลองเตย',status:'done'},
+      {date:'28 มี.ค. 2026',title:'เรือออกจากท่า',desc:'EVER GIVEN ออกจากท่าเรือกรุงเทพ',loc:'Bangkok Port',status:'done'},
+      {date:'04 เม.ย. 2026',title:'กำลังอยู่ในทะเลจีนใต้',desc:'เรืออยู่ระหว่างเดินทาง คาดถึง HK ตามกำหนด',loc:'South China Sea',status:'current'},
+      {date:'07 เม.ย. 2026',title:'คาดถึง Kwai Tsing',desc:'รอการนัดรับสินค้า',loc:'Hong Kong',status:'pending'},
     ]
   },
   {
-    id:'SH-2026-017', origin:'โอซาก้า (Osaka)', originCode:'JP', dest:'กรุงเทพ (แหลมฉบัง)', destCode:'TH',
-    carrier:'Maersk', etd:'15 มี.ค. 2026', eta:'30 มี.ค. 2026', status:'delivered', statusLabel:'Delivered',
-    progress:100, delayed:false, delayDays:0,
-    steps:[
-      {label:'รับสินค้า',icon:'&#128230;',date:'15 มี.ค. 09:00',loc:'Osaka, JP',state:'completed'},
-      {label:'ขึ้นเรือ',icon:'&#128674;',date:'16 มี.ค. 05:00',loc:'ท่าเรือ Osaka',state:'completed'},
-      {label:'ขนส่งทางทะเล',icon:'&#127754;',date:'16-27 มี.ค.',loc:'ทะเลจีนใต้',state:'completed'},
-      {label:'ถึงท่าเรือ',icon:'&#128205;',date:'28 มี.ค. 08:00',loc:'แหลมฉบัง, TH',state:'completed'},
-      {label:'ศุลกากร',icon:'&#128203;',date:'28 มี.ค. 14:00',loc:'ด่านศุลกากร',state:'completed'},
-      {label:'จัดส่ง',icon:'&#127968;',date:'30 มี.ค. 10:00',loc:'กรุงเทพ, TH',state:'completed'}
-    ],
+    id:'SHP-2026-005', type:'air', typeIcon:'&#9992;&#65039;',
+    shipper:'ไทยรับเบอร์ แอนด์ พลาสติก จำกัด', shipperAddr:'200 นิคมมาบตาพุด, ระยอง 21150',
+    consignee:'BMW Group Logistics GmbH', consigneeAddr:'Petuelring 130, Munich 80809, Germany',
+    origin:'กรุงเทพฯ', destination:'Munich', pol:'สนามบินสุวรรณภูมิ', pod:'Munich Airport (MUC)',
+    carrier:'Thai Airways', vesselFlight:'TH220/LH7492', bl:'TYAWB26005TH',
+    goods:'ยางซีล, O-Ring สำหรับยานยนต์', weight:850, volume:3.2, packages:30,
+    incoterms:'DAP', status:'waiting', statusLabel:'รอดำเนินการ',
+    etd:'2026-04-08', eta:'2026-04-09', created:'2026-04-01',
+    currentStep:0,
+    costs:{freight:68000,insurance:4800,handling:9500,total:82300},
     docs:[
-      {name:'Bill of Lading',icon:'&#128196;',ocr:'done',ocrLabel:'OCR สำเร็จ'},
-      {name:'Commercial Invoice',icon:'&#128203;',ocr:'done',ocrLabel:'OCR สำเร็จ'},
-      {name:'Customs Declaration',icon:'&#128209;',ocr:'done',ocrLabel:'OCR สำเร็จ'}
+      {name:'Air Waybill',status:'pending'},{name:'Commercial Invoice',status:'ready'},
+      {name:'Packing List',status:'ready'},{name:'MSDS',status:'pending'},
+      {name:'ใบขนสินค้า',status:'pending'}
+    ],
+    timeline:[
+      {date:'01 เม.ย. 2026',title:'เปิด Booking',desc:'ยืนยัน Booking ทางอากาศ TH/LH',loc:'กรุงเทพฯ',status:'done'},
+      {date:'06 เม.ย. 2026',title:'เตรียมเอกสาร',desc:'กำลังจัดเตรียม Air Waybill และ MSDS',loc:'กรุงเทพฯ',status:'current'},
+      {date:'07 เม.ย. 2026',title:'ส่งสินค้าที่ Cargo Terminal',desc:'(รอดำเนินการ)',loc:'สุวรรณภูมิ',status:'pending'},
+      {date:'08 เม.ย. 2026',title:'เที่ยวบินออกเดินทาง',desc:'(รอดำเนินการ)',loc:'BKK → MUC',status:'pending'},
+      {date:'09 เม.ย. 2026',title:'ถึง Munich Airport',desc:'(รอดำเนินการ)',loc:'Munich, Germany',status:'pending'},
     ]
   },
   {
-    id:'SH-2026-018', origin:'ปูซาน (Busan)', originCode:'KR', dest:'กรุงเทพ (แหลมฉบัง)', destCode:'TH',
-    carrier:'MSC', etd:'22 มี.ค. 2026', eta:'7 เม.ย. 2026', status:'transit', statusLabel:'In Transit',
-    progress:48, delayed:true, delayDays:1,
-    steps:[
-      {label:'รับสินค้า',icon:'&#128230;',date:'22 มี.ค. 10:00',loc:'Busan, KR',state:'completed'},
-      {label:'ขึ้นเรือ',icon:'&#128674;',date:'23 มี.ค. 08:00',loc:'ท่าเรือ Busan',state:'completed'},
-      {label:'ขนส่งทางทะเล',icon:'&#127754;',date:'กำลังเดินทาง',loc:'ทะเลจีนใต้ (สภาพอากาศไม่ดี)',state:'active'},
-      {label:'ถึงท่าเรือ',icon:'&#128205;',date:'5 เม.ย. (คาด)',loc:'แหลมฉบัง, TH',state:'pending'},
-      {label:'ศุลกากร',icon:'&#128203;',date:'-',loc:'ด่านศุลกากร',state:'pending'},
-      {label:'จัดส่ง',icon:'&#127968;',date:'7 เม.ย. (คาด)',loc:'กรุงเทพ, TH',state:'pending'}
-    ],
+    id:'SHP-2026-006', type:'sea', typeIcon:'&#128674;',
+    shipper:'ไทยซูการ์ มิลล์ จำกัด', shipperAddr:'55 ถนนพหลโยธิน, ลพบุรี 15000',
+    consignee:'Mitsui Sugar Co., Ltd.', consigneeAddr:'3-2 Nihonbashi, Chuo-ku, Tokyo 103-0027',
+    origin:'ลพบุรี', destination:'Osaka', pol:'ท่าเรือแหลมฉบัง', pod:'Port of Osaka',
+    carrier:'MSC', vesselFlight:'MSC FEDERICA V.GN621A', bl:'MSCU26006TH',
+    goods:'น้ำตาลทรายขาว (ถุง 50 กก.)', weight:25000, volume:42.0, packages:500,
+    incoterms:'CIF', status:'transit', statusLabel:'กำลังขนส่ง',
+    etd:'2026-03-22', eta:'2026-04-12', created:'2026-03-15',
+    currentStep:3,
+    costs:{freight:62000,insurance:8500,handling:15000,total:85500},
     docs:[
-      {name:'Bill of Lading',icon:'&#128196;',ocr:'done',ocrLabel:'OCR สำเร็จ'},
-      {name:'Commercial Invoice',icon:'&#128203;',ocr:'processing',ocrLabel:'กำลัง OCR...'},
-      {name:'Customs Declaration',icon:'&#128209;',ocr:'pending',ocrLabel:'รอดำเนินการ'}
+      {name:'Bill of Lading',status:'ready'},{name:'Commercial Invoice',status:'ready'},
+      {name:'Packing List',status:'ready'},{name:'Phytosanitary Certificate',status:'ready'},
+      {name:'ใบขนสินค้า',status:'ready'}
+    ],
+    timeline:[
+      {date:'15 มี.ค. 2026',title:'รับ Booking MSC',desc:'ยืนยัน Booking Japan Service',loc:'กรุงเทพฯ',status:'done'},
+      {date:'21 มี.ค. 2026',title:'บรรจุสินค้าลง Container',desc:'FCL 40HC บรรจุน้ำตาล 25,000 กก.',loc:'ท่าเรือแหลมฉบัง',status:'done'},
+      {date:'22 มี.ค. 2026',title:'เรือออกจากท่า',desc:'MSC FEDERICA ออกจากท่าแหลมฉบัง',loc:'ท่าเรือแหลมฉบัง',status:'done'},
+      {date:'03 เม.ย. 2026',title:'แวะ Busan, Korea',desc:'เรือจอดแวะที่ Busan เพื่อขนถ่ายสินค้าบางส่วน',loc:'Busan, South Korea',status:'done'},
+      {date:'12 เม.ย. 2026',title:'คาดถึง Port of Osaka',desc:'รอการยืนยัน ETA จาก MSC',loc:'Port of Osaka, Japan',status:'current'},
     ]
   },
   {
-    id:'SH-2026-019', origin:'กรุงเทพ (แหลมฉบัง)', originCode:'TH', dest:'ลอสแอนเจลิส (LA)', destCode:'US',
-    carrier:'Maersk', etd:'5 เม.ย. 2026', eta:'28 เม.ย. 2026', status:'booked', statusLabel:'Booked',
-    progress:5, delayed:false, delayDays:0,
-    steps:[
-      {label:'รับสินค้า',icon:'&#128230;',date:'5 เม.ย. (กำหนด)',loc:'แหลมฉบัง, TH',state:'active'},
-      {label:'ขึ้นเรือ',icon:'&#128674;',date:'6 เม.ย. (คาด)',loc:'ท่าเรือแหลมฉบัง',state:'pending'},
-      {label:'ขนส่งทางทะเล',icon:'&#127754;',date:'-',loc:'ข้ามมหาสมุทร',state:'pending'},
-      {label:'ถึงท่าเรือ',icon:'&#128205;',date:'25 เม.ย. (คาด)',loc:'Port of LA, US',state:'pending'},
-      {label:'ศุลกากร',icon:'&#128203;',date:'-',loc:'US Customs',state:'pending'},
-      {label:'จัดส่ง',icon:'&#127968;',date:'28 เม.ย. (คาด)',loc:'Los Angeles, US',state:'pending'}
-    ],
+    id:'SHP-2026-007', type:'land', typeIcon:'&#128656;',
+    shipper:'ไทยพลาสติก อุตสาหกรรม จำกัด', shipperAddr:'300 ถนนมิตรภาพ, ขอนแก่น 40000',
+    consignee:'Lao Plastic Trading Co., Ltd.', consigneeAddr:'Kaysone Phomvihane Rd, Vientiane 01000',
+    origin:'ขอนแก่น', destination:'เวียงจันทน์', pol:'ด่านหนองคาย', pod:'ท่าเรือบก ท่านาแล้ง',
+    carrier:'Kerry Express', vesselFlight:'KX-TH-LA-0045', bl:'KERYTLA26007',
+    goods:'ท่อพลาสติก PVC, ท่อ HDPE', weight:4800, volume:32.0, packages:120,
+    incoterms:'DAP', status:'arrived', statusLabel:'ถึงแล้ว',
+    etd:'2026-03-30', eta:'2026-04-01', created:'2026-03-28',
+    currentStep:4,
+    costs:{freight:12000,insurance:800,handling:2500,total:15300},
     docs:[
-      {name:'Bill of Lading',icon:'&#128196;',ocr:'pending',ocrLabel:'รอดำเนินการ'},
-      {name:'Commercial Invoice',icon:'&#128203;',ocr:'done',ocrLabel:'OCR สำเร็จ'},
-      {name:'Customs Declaration',icon:'&#128209;',ocr:'pending',ocrLabel:'รอดำเนินการ'}
+      {name:'Invoice',status:'ready'},{name:'Packing List',status:'ready'},
+      {name:'ใบขนสินค้าส่งออก',status:'ready'},{name:'Form D (ATIGA)',status:'ready'},
+      {name:'ใบขนสินค้านำเข้า (สปป.ลาว)',status:'ready'}
+    ],
+    timeline:[
+      {date:'28 มี.ค. 2026',title:'รถออกจากขอนแก่น',desc:'รถบรรทุก 6 ล้อ ออกจากโรงงานขอนแก่น',loc:'ขอนแก่น',status:'done'},
+      {date:'29 มี.ค. 2026',title:'ถึงด่านหนองคาย',desc:'สินค้าเข้าพิธีการส่งออกที่ด่านหนองคาย',loc:'ด่านหนองคาย',status:'done'},
+      {date:'30 มี.ค. 2026',title:'ผ่านด่านส่งออกไทย',desc:'ผ่านพิธีการศุลกากรไทยเรียบร้อย',loc:'ด่านหนองคาย',status:'done'},
+      {date:'30 มี.ค. 2026',title:'ผ่านด่านนำเข้า สปป.ลาว',desc:'ผ่านพิธีการนำเข้าลาวที่ท่านาแล้ง',loc:'ท่าเรือบก ท่านาแล้ง',status:'done'},
+      {date:'01 เม.ย. 2026',title:'ส่งมอบสินค้าเรียบร้อย',desc:'Lao Plastic รับสินค้าครบถ้วน ลงนาม POD',loc:'เวียงจันทน์',status:'done'},
     ]
   },
   {
-    id:'SH-2026-020', origin:'โฮจิมินห์ (Ho Chi Minh)', originCode:'VN', dest:'กรุงเทพ (แหลมฉบัง)', destCode:'TH',
-    carrier:'Kerry Logistics', etd:'28 มี.ค. 2026', eta:'2 เม.ย. 2026', status:'delivered', statusLabel:'Delivered',
-    progress:100, delayed:false, delayDays:0,
-    steps:[
-      {label:'รับสินค้า',icon:'&#128230;',date:'28 มี.ค. 07:00',loc:'HCMC, VN',state:'completed'},
-      {label:'ขึ้นรถ',icon:'&#128666;',date:'28 มี.ค. 09:00',loc:'คลังสินค้า HCMC',state:'completed'},
-      {label:'ขนส่งทางบก',icon:'&#128739;&#65039;',date:'28 มี.ค.-1 เม.ย.',loc:'เส้นทาง VN-TH',state:'completed'},
-      {label:'ข้ามแดน',icon:'&#128205;',date:'30 มี.ค. 14:00',loc:'ด่านอรัญประเทศ',state:'completed'},
-      {label:'ศุลกากร',icon:'&#128203;',date:'30 มี.ค. 16:00',loc:'ด่านศุลกากร TH',state:'completed'},
-      {label:'จัดส่ง',icon:'&#127968;',date:'2 เม.ย. 09:00',loc:'กรุงเทพ, TH',state:'completed'}
-    ],
+    id:'SHP-2026-008', type:'sea', typeIcon:'&#128674;',
+    shipper:'ไทยเซรามิก เอ็กซ์พอร์ต จำกัด', shipperAddr:'10 นิคมอุตสาหกรรมบางปู, สมุทรปราการ',
+    consignee:'Shenzhen Home Décor Import Ltd.', consigneeAddr:'Futian District, Shenzhen 518000, China',
+    origin:'สมุทรปราการ', destination:'Shenzhen', pol:'ท่าเรือแหลมฉบัง', pod:'Shekou Container Terminal',
+    carrier:'COSCO', vesselFlight:'COSCO DEVELOPMENT V.102E', bl:'COSCO26008TH',
+    goods:'กระเบื้องเซรามิก, กระเบื้องหินอ่อน', weight:18000, volume:35.5, packages:900,
+    incoterms:'FOB', status:'delayed', statusLabel:'ล่าช้า',
+    etd:'2026-03-15', eta:'2026-03-28', created:'2026-03-08',
+    currentStep:2,
+    costs:{freight:38000,insurance:4200,handling:9000,total:51200},
     docs:[
-      {name:'Bill of Lading',icon:'&#128196;',ocr:'done',ocrLabel:'OCR สำเร็จ'},
-      {name:'Commercial Invoice',icon:'&#128203;',ocr:'done',ocrLabel:'OCR สำเร็จ'},
-      {name:'Customs Declaration',icon:'&#128209;',ocr:'done',ocrLabel:'OCR สำเร็จ'}
+      {name:'Bill of Lading',status:'ready'},{name:'Commercial Invoice',status:'ready'},
+      {name:'Packing List',status:'ready'},{name:'Certificate of Origin',status:'pending'},
+      {name:'ใบขนสินค้า',status:'ready'}
+    ],
+    timeline:[
+      {date:'08 มี.ค. 2026',title:'รับ Booking COSCO',desc:'ยืนยัน Booking Shenzhen Service',loc:'กรุงเทพฯ',status:'done'},
+      {date:'14 มี.ค. 2026',title:'สินค้าเข้าท่า',desc:'Container เข้าท่าเรือแหลมฉบัง Gate-in',loc:'ท่าเรือแหลมฉบัง',status:'done'},
+      {date:'15 มี.ค. 2026',title:'เรือออกจากท่า',desc:'COSCO DEVELOPMENT ออกจากท่า',loc:'ท่าเรือแหลมฉบัง',status:'done'},
+      {date:'22 มี.ค. 2026',title:'กักกันที่ด่านศุลกากร Shekou',desc:'ศุลกากรจีนสุ่มตรวจสินค้า ล่าช้า 10+ วัน',loc:'Shekou, Shenzhen',status:'current'},
+      {date:'05 เม.ย. 2026',title:'คาดผ่านพิธีการศุลกากร (ใหม่)',desc:'รอผลการตรวจสอบจากศุลกากรจีน',loc:'Shenzhen',status:'pending'},
+    ]
+  },
+  {
+    id:'SHP-2026-009', type:'air', typeIcon:'&#9992;&#65039;',
+    shipper:'บริษัท เมดไทย ฟาร์มา จำกัด', shipperAddr:'45 ถนนพระราม 9, กรุงเทพฯ 10310',
+    consignee:'PT Pharma Distribusi Indonesia', consigneeAddr:'Jl. Gatot Subroto No.88, Jakarta 12930',
+    origin:'กรุงเทพฯ', destination:'Jakarta', pol:'สนามบินสุวรรณภูมิ', pod:'Soekarno-Hatta Airport',
+    carrier:'Thai Airways', vesselFlight:'TG433', bl:'TGAWB26009TH',
+    goods:'ยาและเวชภัณฑ์ (เภสัชกรรม)', weight:380, volume:1.5, packages:22,
+    incoterms:'CIF', status:'transit', statusLabel:'กำลังขนส่ง',
+    etd:'2026-04-04', eta:'2026-04-04', created:'2026-04-01',
+    currentStep:2,
+    costs:{freight:32000,insurance:6000,handling:5000,total:43000},
+    docs:[
+      {name:'Air Waybill',status:'ready'},{name:'Commercial Invoice',status:'ready'},
+      {name:'Packing List',status:'ready'},{name:'BPOM Import Permit',status:'pending'},
+      {name:'ใบขนสินค้า',status:'ready'}
+    ],
+    timeline:[
+      {date:'01 เม.ย. 2026',title:'รับ Booking',desc:'ยืนยัน Booking TG433 Bangkok-Jakarta',loc:'กรุงเทพฯ',status:'done'},
+      {date:'03 เม.ย. 2026',title:'ส่งสินค้า Pharma Cold Chain',desc:'สินค้าเก็บใน Cool Storage -2°C',loc:'Cargo BKK',status:'done'},
+      {date:'04 เม.ย. 2026',title:'TG433 ออกเดินทาง',desc:'เที่ยวบิน TG433 ออก 08:15 น. ถึง CGK 11:30 น.',loc:'BKK → CGK',status:'current'},
+      {date:'04 เม.ย. 2026',title:'ผ่านศุลกากรอินโดนีเซีย',desc:'(รอดำเนินการ)',loc:'Jakarta',status:'pending'},
+      {date:'05 เม.ย. 2026',title:'ส่งมอบให้ PT Pharma',desc:'(รอดำเนินการ)',loc:'Jakarta',status:'pending'},
+    ]
+  },
+  {
+    id:'SHP-2026-010', type:'sea', typeIcon:'&#128674;',
+    shipper:'ไทยฟิชเชอรี่ โปรดักส์ จำกัด', shipperAddr:'77 ถนนสมุทร, สมุทรสาคร 74000',
+    consignee:'Korean Ocean Foods Co., Ltd.', consigneeAddr:'Mapo-gu, Seoul 03925, South Korea',
+    origin:'สมุทรสาคร', destination:'Busan', pol:'ท่าเรือแหลมฉบัง', pod:'Busan New Port',
+    carrier:'Maersk', vesselFlight:'MAERSK ANTARES V.226N', bl:'MAEU26010TH',
+    goods:'ปลาทูน่ากระป๋อง, ซาร์ดีนกระป๋อง', weight:15500, volume:28.8, packages:1200,
+    incoterms:'FOB', status:'waiting', statusLabel:'รอดำเนินการ',
+    etd:'2026-04-10', eta:'2026-04-20', created:'2026-04-03',
+    currentStep:0,
+    costs:{freight:52000,insurance:5200,handling:11000,total:68200},
+    docs:[
+      {name:'Bill of Lading',status:'pending'},{name:'Commercial Invoice',status:'ready'},
+      {name:'Packing List',status:'ready'},{name:'Health Certificate',status:'pending'},
+      {name:'ใบขนสินค้า',status:'pending'}
+    ],
+    timeline:[
+      {date:'03 เม.ย. 2026',title:'เปิด Booking Maersk',desc:'ยืนยัน Booking Korea Service',loc:'กรุงเทพฯ',status:'done'},
+      {date:'08 เม.ย. 2026',title:'บรรจุสินค้า (กำหนด)',desc:'(รอดำเนินการ)',loc:'ท่าเรือแหลมฉบัง',status:'pending'},
+      {date:'10 เม.ย. 2026',title:'เรือออกจากท่า (กำหนด)',desc:'(รอดำเนินการ)',loc:'ท่าเรือแหลมฉบัง',status:'pending'},
+      {date:'16 เม.ย. 2026',title:'ผ่าน East China Sea',desc:'(รอดำเนินการ)',loc:'East China Sea',status:'pending'},
+      {date:'20 เม.ย. 2026',title:'ถึง Busan New Port',desc:'(รอดำเนินการ)',loc:'Busan, Korea',status:'pending'},
+    ]
+  },
+  {
+    id:'SHP-2026-011', type:'sea', typeIcon:'&#128674;',
+    shipper:'บริษัท สยาม ไบโอ-เทค จำกัด', shipperAddr:'29 ถนนอ่อนนุช, กรุงเทพฯ 10250',
+    consignee:'Brenntag Asia Pacific Pte. Ltd.', consigneeAddr:'30 Biopolis Street, Singapore 138671',
+    origin:'กรุงเทพฯ', destination:'Singapore', pol:'ท่าเรือแหลมฉบัง', pod:'Jurong Port',
+    carrier:'Evergreen', vesselFlight:'EVER GLORY V.218S', bl:'EGLV26011TH',
+    goods:'สารเคมีชีวภาพ, Enzyme อุตสาหกรรม', weight:2200, volume:10.5, packages:180,
+    incoterms:'CIF', status:'transit', statusLabel:'กำลังขนส่ง',
+    etd:'2026-04-01', eta:'2026-04-06', created:'2026-03-28',
+    currentStep:2,
+    costs:{freight:22000,insurance:3100,handling:5500,total:30600},
+    docs:[
+      {name:'Bill of Lading',status:'ready'},{name:'Commercial Invoice',status:'ready'},
+      {name:'Packing List',status:'ready'},{name:'MSDS / SDS',status:'ready'},
+      {name:'ใบขนสินค้า',status:'ready'}
+    ],
+    timeline:[
+      {date:'28 มี.ค. 2026',title:'รับ Booking Evergreen',desc:'ยืนยัน Booking Singapore Feeder Service',loc:'กรุงเทพฯ',status:'done'},
+      {date:'31 มี.ค. 2026',title:'บรรจุสินค้าลง Container',desc:'ISO Tank + Flexi Bag สำหรับสารเคมีเหลว',loc:'ท่าเรือแหลมฉบัง',status:'done'},
+      {date:'01 เม.ย. 2026',title:'เรือออกจากท่า',desc:'EVER GLORY ออกจากท่าแหลมฉบัง',loc:'ท่าเรือแหลมฉบัง',status:'done'},
+      {date:'04 เม.ย. 2026',title:'กำลังอยู่ในอ่าวไทย',desc:'เรืออยู่บริเวณอ่าวไทย คาดถึง SGP ตามกำหนด',loc:'Gulf of Thailand',status:'current'},
+      {date:'06 เม.ย. 2026',title:'คาดถึง Jurong Port',desc:'(รอการยืนยัน)',loc:'Singapore',status:'pending'},
+    ]
+  },
+  {
+    id:'SHP-2026-012', type:'air', typeIcon:'&#9992;&#65039;',
+    shipper:'Thai Gem & Jewelry Traders Assoc.', shipperAddr:'919 ถนนสีลม, กรุงเทพฯ 10500',
+    consignee:'Dubai Gold & Commodities Exchange', consigneeAddr:'Gold Tower, JLT, Dubai, UAE',
+    origin:'กรุงเทพฯ', destination:'Dubai', pol:'สนามบินสุวรรณภูมิ', pod:'Dubai Airport (DXB)',
+    carrier:'Thai Airways', vesselFlight:'TG509/EK384', bl:'TGAWB26012TH',
+    goods:'เครื่องประดับทองและอัญมณี', weight:95, volume:0.3, packages:8,
+    incoterms:'CIF', status:'arrived', statusLabel:'ถึงแล้ว',
+    etd:'2026-04-02', eta:'2026-04-03', created:'2026-04-01',
+    currentStep:4,
+    costs:{freight:28000,insurance:15000,handling:8000,total:51000},
+    docs:[
+      {name:'Air Waybill',status:'ready'},{name:'Commercial Invoice',status:'ready'},
+      {name:'Packing List',status:'ready'},{name:'Gem Certificate (GIA)',status:'ready'},
+      {name:'ใบขนสินค้า',status:'ready'}
+    ],
+    timeline:[
+      {date:'01 เม.ย. 2026',title:'เตรียมสินค้าพร้อม Security',desc:'ตรวจสอบและซีลกล่องอัญมณีด้วย Security Seal',loc:'กรุงเทพฯ',status:'done'},
+      {date:'02 เม.ย. 2026',title:'ส่งสินค้า High Value Cargo',desc:'นำเข้า Valuables Room สนามบินสุวรรณภูมิ',loc:'BKK Cargo HVC',status:'done'},
+      {date:'02 เม.ย. 2026',title:'TG509 ออกเดินทาง',desc:'เที่ยวบิน TG509 ออก 22:00 น. ถึง DXB 02:30+1',loc:'BKK → DXB',status:'done'},
+      {date:'03 เม.ย. 2026',title:'ถึง Dubai Airport',desc:'สินค้าถึง DXB ผ่านพิธีการศุลกากรเรียบร้อย',loc:'Dubai',status:'done'},
+      {date:'03 เม.ย. 2026',title:'ส่งมอบให้ DGCE แล้ว',desc:'Dubai Gold & Commodities Exchange รับสินค้าครบถ้วน',loc:'Dubai, UAE',status:'done'},
     ]
   }
 ];
 
-// Render shipment cards
-function renderShipmentCards(filter='all') {
-  const grid = document.getElementById('shipmentGrid');
-  const filtered = filter === 'all' ? shipments : shipments.filter(s => {
-    if(filter === 'transit') return s.status === 'transit';
-    if(filter === 'customs') return s.status === 'customs';
-    if(filter === 'delivered') return s.status === 'delivered';
-    if(filter === 'booked') return s.status === 'booked';
-    return true;
+/* ============================================================
+   STATE
+============================================================ */
+let currentView = 'board';
+let currentFilter = 'all';
+let currentSearch = '';
+let sortCol = 'id';
+let sortDir = 1;
+
+/* ============================================================
+   FILTER + SEARCH
+============================================================ */
+function getFiltered(){
+  return shipments.filter(s => {
+    const matchFilter = currentFilter === 'all' || s.status === currentFilter;
+    const q = currentSearch.toLowerCase();
+    const matchSearch = !q ||
+      s.id.toLowerCase().includes(q) ||
+      s.shipper.toLowerCase().includes(q) ||
+      s.consignee.toLowerCase().includes(q) ||
+      s.origin.toLowerCase().includes(q) ||
+      s.destination.toLowerCase().includes(q);
+    return matchFilter && matchSearch;
   });
-  grid.innerHTML = filtered.map((s,i) => `
-    <div class="shipment-card" data-status="${s.status}" data-id="${s.id}" onclick="toggleExpand(this)">
-      <div class="shipment-card-header">
-        <div>
-          <div class="shipment-tracking">${s.id}</div>
-          <div class="shipment-carrier">&#128666; ${s.carrier}</div>
-        </div>
-        <span class="status status-${s.delayed?'delayed':s.status}"><span class="status-dot"></span>${s.statusLabel}</span>
-      </div>
-      <div class="shipment-route">
-        <div class="route-city">${s.origin}<small>${s.originCode}</small></div>
-        <span class="route-arrow">&rarr;</span>
-        <div class="route-city">${s.dest}<small>${s.destCode}</small></div>
-      </div>
-      <div class="shipment-dates">
-        <span>ETD: <strong>${s.etd}</strong></span>
-        <span>ETA: <strong>${s.eta}</strong></span>
-      </div>
-      <div class="progress-wrap">
-        <div class="progress-bar"><div class="progress-fill ${s.delayed?'delayed':s.status}" style="width:${s.progress}%"></div></div>
-        <div class="progress-pct">${s.progress}%</div>
-      </div>
-      ${s.delayed ? `<div class="delay-badge">&#9888; ล่าช้า ${s.delayDays} วัน</div>` : ''}
+}
 
-      <div class="shipment-detail">
-        <div style="font-weight:700;font-size:.85rem;margin-bottom:12px;">&#128205; Tracking Timeline</div>
-        <div class="tracking-stepper">
-          ${s.steps.map((step,si) => `
-            <div class="step ${step.state}">
-              <div class="step-circle">${step.icon}</div>
-              <div class="step-label">${step.label}</div>
-              <div class="step-date">${step.date}<br>${step.loc}</div>
-              ${si < s.steps.length-1 ? `<div class="step-connector"></div>` : ''}
-            </div>
-          `).join('')}
-        </div>
+function setFilter(f, el){
+  currentFilter = f;
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  renderAll();
+}
 
-        <div class="map-placeholder">
-          <div class="map-dot-end"></div>
-          <div class="map-ship-icon">${s.carrier.includes('Airways')||s.carrier.includes('Cargo')?'&#9992;&#65039;':s.carrier.includes('Kerry')?'&#128666;':'&#128674;'}</div>
-          <div class="map-label">${s.origin} &rarr; ${s.dest}</div>
-          <div class="map-sublabel">แผนที่เส้นทางขนส่ง (Conceptual Route View)</div>
-        </div>
+function handleSearch(v){
+  currentSearch = v;
+  renderAll();
+}
 
-        <div style="font-weight:700;font-size:.85rem;margin:16px 0 8px;">&#128203; เอกสารที่เกี่ยวข้อง</div>
-        <div class="doc-list">
-          ${s.docs.map(d => `
-            <div class="doc-item">
-              <span class="doc-icon">${d.icon}</span>
-              <span class="doc-name">${d.name}</span>
-              <span class="doc-ocr ${d.ocr}">${d.ocrLabel}</span>
-            </div>
-          `).join('')}
-        </div>
+function renderAll(){
+  renderBoard();
+  renderTable();
+  updateKPIs();
+}
 
-        <div style="font-weight:700;font-size:.85rem;margin:16px 0 8px;">&#128200; รายละเอียด</div>
-        <div class="detail-grid">
-          <div class="detail-item"><div class="detail-label">Tracking No.</div><div class="detail-value">${s.id}</div></div>
-          <div class="detail-item"><div class="detail-label">Carrier</div><div class="detail-value">${s.carrier}</div></div>
-          <div class="detail-item"><div class="detail-label">ความคืบหน้า</div><div class="detail-value">${s.progress}%</div></div>
-          <div class="detail-item"><div class="detail-label">ETD</div><div class="detail-value">${s.etd}</div></div>
-          <div class="detail-item"><div class="detail-label">ETA</div><div class="detail-value">${s.eta}</div></div>
-          <div class="detail-item"><div class="detail-label">สถานะ</div><div class="detail-value">${s.statusLabel}${s.delayed?' (ล่าช้า '+s.delayDays+' วัน)':''}</div></div>
-        </div>
-      </div>
+/* ============================================================
+   KPIs
+============================================================ */
+function updateKPIs(){
+  const all = shipments;
+  document.getElementById('kpiTotal').textContent = all.length;
+  document.getElementById('kpiTransit').textContent = all.filter(s=>s.status==='transit').length;
+  document.getElementById('kpiArrived').textContent = all.filter(s=>s.status==='arrived').length;
+  document.getElementById('kpiDelayed').textContent = all.filter(s=>s.status==='delayed').length;
+}
+
+/* ============================================================
+   BOARD VIEW
+============================================================ */
+function renderBoard(){
+  const data = getFiltered();
+  const grid = document.getElementById('boardGrid');
+  if(!data.length){
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--muted);">&#128269; ไม่พบ Shipment ที่ตรงกับเงื่อนไข</div>';
+    return;
+  }
+  grid.innerHTML = data.map(s => buildCard(s)).join('');
+}
+
+function buildCard(s){
+  const steps = ['ต้นทาง','ขนส่ง','ท่าเรือ','ปลายทาง','ถึงแล้ว'];
+  const miniSteps = steps.map((lbl,i) => {
+    let cls = 'pending';
+    if(i < s.currentStep) cls = 'done';
+    else if(i === s.currentStep) cls = (s.status==='delayed'?'skip':'current');
+    const connector = i < steps.length-1
+      ? `<div class="mini-connector${i < s.currentStep?' done':''}"></div>`
+      : '';
+    return `<div class="mini-step ${cls}" title="${lbl}"></div>${connector}`;
+  }).join('');
+
+  const statusMap = {transit:'status-transit',waiting:'status-waiting',arrived:'status-arrived',delayed:'status-delayed'};
+  const sBadge = `<span class="status ${statusMap[s.status]||'status-waiting'}"><span class="status-dot"></span>${s.statusLabel}</span>`;
+
+  return `<div class="ship-card ${s.status}" onclick="openDetail('${s.id}')">
+    <div class="card-header-row">
+      <span class="card-shp-id">${s.id}</span>
+      <span class="card-type-icon" title="${s.type==='sea'?'ทางเรือ':s.type==='air'?'ทางอากาศ':'ทางบก'}">${s.typeIcon}</span>
     </div>
-  `).join('');
+    <div class="card-parties">
+      <div class="card-party-row"><span class="card-party-label">ส่ง:</span><span class="card-party-name">${s.shipper}</span></div>
+      <div class="card-party-row"><span class="card-party-label">รับ:</span><span class="card-party-name">${s.consignee}</span></div>
+    </div>
+    <div class="card-route">
+      <span>${s.origin}</span>
+      <span class="card-route-arrow">&#8594;</span>
+      <span>${s.destination}</span>
+    </div>
+    <div class="card-footer">
+      ${sBadge}
+      <div class="card-eta"><strong>ETA: </strong>${formatDate(s.eta)}</div>
+    </div>
+    <div class="mini-steps">${miniSteps}</div>
+  </div>`;
 }
 
-function toggleExpand(card) {
-  const wasExpanded = card.classList.contains('expanded');
-  document.querySelectorAll('.shipment-card.expanded').forEach(c => c.classList.remove('expanded'));
-  if (!wasExpanded) card.classList.add('expanded');
-}
-
-function filterCards(status, btn) {
-  document.querySelectorAll('.card-header .pill').forEach(p => p.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  renderShipmentCards(status);
-}
-
-// Render table
-function renderTable() {
+/* ============================================================
+   TABLE VIEW
+============================================================ */
+function renderTable(){
+  const data = [...getFiltered()].sort((a,b) => {
+    let va = a[sortCol]||'', vb = b[sortCol]||'';
+    if(sortCol==='weight'){va=+a.weight;vb=+b.weight;return sortDir*(va-vb);}
+    return sortDir * String(va).localeCompare(String(vb),'th');
+  });
   const tbody = document.getElementById('tableBody');
-  tbody.innerHTML = shipments.map(s => `
-    <tr data-status="${s.status}">
-      <td><strong style="color:var(--blue)">${s.id}</strong></td>
-      <td>${s.origin}</td>
-      <td>${s.dest}</td>
-      <td>${s.carrier}</td>
-      <td>${s.etd}</td>
-      <td>${s.eta}</td>
-      <td><span class="status status-${s.delayed?'delayed':s.status}"><span class="status-dot"></span>${s.statusLabel}</span></td>
-      <td>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <div class="progress-bar" style="width:80px;"><div class="progress-fill ${s.delayed?'delayed':s.status}" style="width:${s.progress}%"></div></div>
-          <span style="font-size:.72rem;font-weight:700;color:var(--muted)">${s.progress}%</span>
+  if(!data.length){
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--muted);">&#128269; ไม่พบข้อมูล</td></tr>';
+    return;
+  }
+  const statusMap = {transit:'status-transit',waiting:'status-waiting',arrived:'status-arrived',delayed:'status-delayed'};
+  tbody.innerHTML = data.map(s => `
+    <tr onclick="openDetail('${s.id}')">
+      <td class="td-shp">${s.id}</td>
+      <td>${truncate(s.shipper,22)}</td>
+      <td>${truncate(s.consignee,22)}</td>
+      <td>${s.origin} &#8594; ${s.destination}</td>
+      <td class="td-weight">${s.weight.toLocaleString()} กก.</td>
+      <td><span class="status ${statusMap[s.status]||''}"><span class="status-dot"></span>${s.statusLabel}</span></td>
+      <td>${formatDate(s.eta)}</td>
+      <td onclick="event.stopPropagation()">
+        <div class="td-actions">
+          <button class="btn btn-secondary btn-sm" onclick="openDetail('${s.id}')">&#128065; ดู</button>
         </div>
       </td>
-    </tr>
-  `).join('');
+    </tr>`).join('');
 }
 
-let currentTableFilter = 'all';
-function filterTable() {
-  const q = document.getElementById('tableSearch').value.toLowerCase();
-  const rows = document.querySelectorAll('#tableBody tr');
-  rows.forEach(r => {
-    const text = r.textContent.toLowerCase();
-    const statusMatch = currentTableFilter === 'all' || r.dataset.status === currentTableFilter;
-    r.style.display = (text.includes(q) && statusMatch) ? '' : 'none';
-  });
+function sortTable(col){
+  if(sortCol === col) sortDir *= -1; else {sortCol=col;sortDir=1;}
+  document.querySelectorAll('th').forEach(th => th.classList.remove('sorted'));
+  const th = document.getElementById('th-'+col);
+  if(th) th.classList.add('sorted');
+  renderTable();
 }
 
-function filterTableStatus(status, btn) {
-  currentTableFilter = status;
-  document.querySelectorAll('.table-controls .pill').forEach(p => p.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  filterTable();
+/* ============================================================
+   DETAIL MODAL
+============================================================ */
+function openDetail(id){
+  const s = shipments.find(x=>x.id===id);
+  if(!s) return;
+  document.getElementById('detailTitle').textContent = s.id + ' — ' + s.goods;
+  document.getElementById('detailSubtitle').textContent = s.shipper + ' → ' + s.consignee + ' | ' + s.typeIcon + ' ' + s.carrier;
+
+  const statusMap = {transit:'status-transit',waiting:'status-waiting',arrived:'status-arrived',delayed:'status-delayed'};
+  const sBadge = `<span class="status ${statusMap[s.status]||''}"><span class="status-dot"></span>${s.statusLabel}</span>`;
+
+  // Route steps
+  const rSteps = [
+    {icon:'&#127968;',name:'ต้นทาง',loc:s.origin},
+    {icon:'&#9973;&#65039;',name:'Port of Loading',loc:s.pol},
+    {icon:'&#127754;',name:'Ocean / Air',loc:s.type==='air'?'In the Air':'High Seas'},
+    {icon:'&#9973;&#65039;',name:'Port of Discharge',loc:s.pod},
+    {icon:'&#127937;',name:'ปลายทาง',loc:s.destination},
+  ];
+  const routeHtml = rSteps.map((r,i) => {
+    let cls = i < s.currentStep ? 'done' : i === s.currentStep ? (s.status==='delayed'?'delayed':'current') : 'pending';
+    const connector = i < rSteps.length-1
+      ? `<div class="route-connector${i < s.currentStep?' done':i===s.currentStep?' active':''}"></div>`
+      : '';
+    return `<div class="route-step ${cls}">
+      <div class="route-step-circle">${r.icon}</div>
+      <div class="route-step-name">${r.name}</div>
+      <div class="route-step-loc">${r.loc}</div>
+    </div>${connector}`;
+  }).join('');
+
+  // Docs
+  const docBadgeMap = {ready:'ready',pending:'pending',na:'na'};
+  const docsHtml = s.docs.map(d => `
+    <div class="doc-card">
+      <div class="doc-icon">&#128196;</div>
+      <div class="doc-info">
+        <div class="doc-name">${d.name}</div>
+        <div class="doc-badge ${d.status}">${d.status==='ready'?'&#9989; พร้อม':d.status==='pending'?'&#9203; รอดำเนินการ':'N/A'}</div>
+      </div>
+    </div>`).join('');
+
+  // Timeline
+  const tlHtml = s.timeline.map((t,i) => {
+    const isLast = i === s.timeline.length-1;
+    return `<div class="timeline-item">
+      <div class="timeline-dot-col">
+        <div class="timeline-dot ${t.status}">${t.status==='done'?'&#9989;':t.status==='current'?'&#11835;':'&#9711;'}</div>
+        ${!isLast?'<div class="timeline-line"></div>':''}
+      </div>
+      <div class="timeline-info">
+        <div class="timeline-title">${t.title}</div>
+        <div class="timeline-desc">${t.desc}</div>
+        <div class="timeline-meta">&#128197; ${t.date} &bull; &#128205; ${t.loc}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('detailBody').innerHTML = `
+    <!-- Info grid -->
+    <div class="info-grid">
+      <div class="info-item"><div class="info-label">Shipment ID</div><div class="info-value" style="color:var(--blue)">${s.id}</div></div>
+      <div class="info-item"><div class="info-label">สถานะ</div><div class="info-value">${sBadge}</div></div>
+      <div class="info-item"><div class="info-label">ETD</div><div class="info-value">${formatDate(s.etd)}</div></div>
+      <div class="info-item"><div class="info-label">ETA</div><div class="info-value">${formatDate(s.eta)}</div></div>
+      <div class="info-item"><div class="info-label">ผู้ส่ง</div><div class="info-value" style="font-size:.78rem">${s.shipper}</div></div>
+      <div class="info-item"><div class="info-label">ผู้รับ</div><div class="info-value" style="font-size:.78rem">${s.consignee}</div></div>
+      <div class="info-item"><div class="info-label">Incoterms</div><div class="info-value">${s.incoterms}</div></div>
+      <div class="info-item"><div class="info-label">B/L หรือ AWB</div><div class="info-value" style="font-size:.75rem">${s.bl}</div></div>
+    </div>
+
+    <!-- Route -->
+    <div class="route-vis">
+      <div class="route-vis-title">&#128205; เส้นทางการขนส่ง</div>
+      <div class="route-steps">${routeHtml}</div>
+    </div>
+
+    <!-- Carrier -->
+    <div class="section-label">&#128674; ข้อมูล Carrier</div>
+    <div class="carrier-section" style="margin-bottom:20px;">
+      <div class="carrier-box">
+        <div class="carrier-box-label">Carrier / Vessel / Flight</div>
+        <div class="carrier-name-big">${s.carrier}</div>
+        <div class="carrier-detail-row">&#128674; ${s.vesselFlight}</div>
+      </div>
+      <div class="carrier-box">
+        <div class="carrier-box-label">รายละเอียดสินค้า</div>
+        <div class="carrier-name-big" style="font-size:.88rem">${s.goods}</div>
+        <div class="carrier-detail-row">&#9878;&#65039; ${s.weight.toLocaleString()} กก. &bull; ${s.volume} CBM &bull; ${s.packages} Pkgs</div>
+      </div>
+    </div>
+
+    <!-- Cost Summary -->
+    <div class="section-label">&#128181; ต้นทุนการขนส่ง</div>
+    <div class="cost-grid" style="margin-bottom:20px;">
+      <div class="cost-item">
+        <div class="cost-item-label">Freight Charge</div>
+        <div class="cost-item-value">฿${s.costs.freight.toLocaleString()}</div>
+      </div>
+      <div class="cost-item">
+        <div class="cost-item-label">Insurance</div>
+        <div class="cost-item-value">฿${s.costs.insurance.toLocaleString()}</div>
+      </div>
+      <div class="cost-item">
+        <div class="cost-item-label">Handling Charges</div>
+        <div class="cost-item-value">฿${s.costs.handling.toLocaleString()}</div>
+      </div>
+      <div class="cost-item" style="grid-column:1/-1;background:var(--blue-l);border-color:var(--blue);">
+        <div class="cost-item-label" style="color:var(--blue)">รวมทั้งสิ้น</div>
+        <div class="cost-item-value" style="color:var(--blue);font-size:1.3rem">฿${s.costs.total.toLocaleString()}</div>
+      </div>
+    </div>
+
+    <!-- Documents -->
+    <div class="section-label">&#128196; เอกสารที่เกี่ยวข้อง</div>
+    <div class="doc-grid" style="margin-bottom:22px;">${docsHtml}</div>
+
+    <!-- Timeline -->
+    <div class="section-label">&#9201; Timeline การขนส่ง</div>
+    <div class="timeline">${tlHtml}</div>
+  `;
+
+  document.getElementById('detailModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
-// Sort table
-let sortDir = {};
-function sortTable(col) {
-  const tbody = document.getElementById('tableBody');
-  const rows = Array.from(tbody.querySelectorAll('tr'));
-  const dir = sortDir[col] = !sortDir[col];
-  rows.sort((a,b) => {
-    const aVal = a.children[col].textContent.trim();
-    const bVal = b.children[col].textContent.trim();
-    return dir ? aVal.localeCompare(bVal,'th') : bVal.localeCompare(aVal,'th');
-  });
-  rows.forEach(r => tbody.appendChild(r));
+function closeDetail(){
+  document.getElementById('detailModal').classList.remove('open');
+  document.body.style.overflow = '';
 }
 
-// Dark Mode
+/* ============================================================
+   CREATE MODAL
+============================================================ */
+function openCreateModal(){
+  // Auto-generate reference
+  const nextNum = String(shipments.length + 1).padStart(3,'0');
+  document.getElementById('fRef').value = 'SHP-2026-' + nextNum;
+  // Set default date to today
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('fEtd').value = today;
+  document.getElementById('createModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCreateModal(){
+  document.getElementById('createModal').classList.remove('open');
+  document.body.style.overflow = '';
+  document.getElementById('createForm').reset();
+}
+
+function submitCreate(e){
+  e.preventDefault();
+  const type = document.querySelector('input[name="fType"]:checked').value;
+  const typeIconMap = {sea:'&#128674;',air:'&#9992;&#65039;',land:'&#128656;'};
+  const typeLabelMap = {sea:'ทางเรือ',air:'ทางอากาศ',land:'ทางบก'};
+
+  const docs = [];
+  if(document.getElementById('docBL').checked) docs.push({name:'Bill of Lading',status:'pending'});
+  if(document.getElementById('docInv').checked) docs.push({name:'Commercial Invoice',status:'pending'});
+  if(document.getElementById('docPL').checked) docs.push({name:'Packing List',status:'pending'});
+  if(document.getElementById('docCO').checked) docs.push({name:'Certificate of Origin',status:'pending'});
+  if(document.getElementById('docCustoms').checked) docs.push({name:'ใบขนสินค้า',status:'pending'});
+
+  const origin = document.getElementById('fOrigin').value;
+  const dest = document.getElementById('fDest').value;
+  const pol = document.getElementById('fPOL').value;
+  const pod = document.getElementById('fPOD').value;
+
+  const newShip = {
+    id: document.getElementById('fRef').value,
+    type, typeIcon: typeIconMap[type],
+    shipper: document.getElementById('fShipper').value,
+    shipperAddr: document.getElementById('fShipperAddr').value,
+    consignee: document.getElementById('fConsignee').value,
+    consigneeAddr: document.getElementById('fConsigneeAddr').value,
+    origin, destination: dest, pol, pod,
+    carrier: document.getElementById('fCarrier').value,
+    vesselFlight: 'TBD',
+    bl: 'TBD-' + Math.random().toString(36).substr(2,8).toUpperCase(),
+    goods: document.getElementById('fGoodsType').value,
+    weight: +document.getElementById('fWeight').value,
+    volume: +document.getElementById('fVolume').value,
+    packages: +document.getElementById('fPackages').value,
+    incoterms: document.getElementById('fIncoterms').value,
+    status: 'waiting', statusLabel: 'รอดำเนินการ',
+    etd: document.getElementById('fEtd').value,
+    eta: '',
+    created: new Date().toISOString().split('T')[0],
+    currentStep: 0,
+    costs:{freight:0,insurance:0,handling:0,total:0},
+    docs,
+    timeline:[
+      {date:formatDate(new Date().toISOString().split('T')[0]),title:'สร้าง Shipment',desc:'สร้าง Shipment ใหม่ในระบบ Autopilot v2',loc:origin,status:'done'},
+      {date:formatDate(document.getElementById('fEtd').value),title:'ETD (กำหนด)',desc:'วันที่คาดว่าออกจากต้นทาง',loc:pol,status:'pending'},
+      {date:'TBD',title:'ออกจากท่า',desc:'(รอดำเนินการ)',loc:pol,status:'pending'},
+      {date:'TBD',title:'กำลังขนส่ง',desc:'(รอดำเนินการ)',loc:'In Transit',status:'pending'},
+      {date:'TBD',title:'ถึงปลายทาง',desc:'(รอดำเนินการ)',loc:pod,status:'pending'},
+    ]
+  };
+
+  shipments.push(newShip);
+  closeCreateModal();
+  renderAll();
+  showToast('&#9989; สร้าง Shipment สำเร็จ: ' + newShip.id,'success');
+}
+
+/* ============================================================
+   VIEW TOGGLE
+============================================================ */
+function switchView(v){
+  currentView = v;
+  if(v==='board'){
+    document.getElementById('boardView').style.display='block';
+    document.getElementById('tableView').style.display='none';
+    document.getElementById('btnBoard').classList.add('active');
+    document.getElementById('btnTable').classList.remove('active');
+  } else {
+    document.getElementById('boardView').style.display='none';
+    document.getElementById('tableView').style.display='block';
+    document.getElementById('btnBoard').classList.remove('active');
+    document.getElementById('btnTable').classList.add('active');
+  }
+}
+
+/* ============================================================
+   DARK MODE
+============================================================ */
 function toggleDark(){
-    document.body.classList.toggle('dark');
-    const d=document.body.classList.contains('dark');
-    localStorage.setItem('darkMode',d);
-    document.querySelector('.dark-toggle').textContent=d?'\u2600\uFE0F':'\uD83C\uDF19';
+  document.body.classList.toggle('dark');
+  const btn = document.querySelector('.dark-toggle');
+  btn.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+  localStorage.setItem('logistics-dark', document.body.classList.contains('dark') ? '1':'0');
 }
-if(localStorage.getItem('darkMode')==='true'){
-    document.body.classList.add('dark');
-    document.addEventListener('DOMContentLoaded',()=>{
-        document.querySelector('.dark-toggle').textContent='\u2600\uFE0F';
-    });
+if(localStorage.getItem('logistics-dark')==='1'){
+  document.body.classList.add('dark');
+  document.querySelector('.dark-toggle').textContent = '☀️';
 }
 
-// Init
-renderShipmentCards();
-renderTable();
+/* ============================================================
+   TOAST
+============================================================ */
+function showToast(msg, type='success'){
+  const t = document.getElementById('toast');
+  t.innerHTML = msg;
+  t.className = 'toast '+type;
+  setTimeout(()=>t.classList.add('show'),10);
+  setTimeout(()=>{t.classList.remove('show');},3500);
+}
+
+/* ============================================================
+   HELPERS
+============================================================ */
+function formatDate(d){
+  if(!d) return 'TBD';
+  const dt = new Date(d);
+  if(isNaN(dt)) return d;
+  return dt.toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'numeric'});
+}
+function truncate(s,n){return s.length>n?s.slice(0,n)+'…':s;}
+
+// Close modals on overlay click
+document.getElementById('detailModal').addEventListener('click', e=>{if(e.target===e.currentTarget)closeDetail();});
+document.getElementById('createModal').addEventListener('click', e=>{if(e.target===e.currentTarget)closeCreateModal();});
+
+/* ============================================================
+   INIT
+============================================================ */
+renderAll();
 </script>
 </body>
 </html>

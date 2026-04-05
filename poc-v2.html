@@ -287,26 +287,31 @@ select.form-input{cursor:pointer;}
     </div>
 
     <div class="nav-section"><div class="nav-label">Active Modules</div>
-        <!-- Module 1: Procurement & Quotation (merged) -->
-        <div class="module-header" onclick="toggleModule('mod1')"><span class="mod-icon">📋</span>Procurement & Quotation<span class="mod-check">✓</span></div>
+        <!-- Module 1: Procurement -->
+        <div class="module-header" onclick="toggleModule('mod1')"><span class="mod-icon">📋</span>Procurement<span class="mod-check">✓</span></div>
         <div class="module-children" id="mod1">
             <button class="nav-item" onclick="loadModule('modules/procurement-dashboard.html','Procurement Dashboard')"><span class="icon">📈</span>Dashboard</button>
             <button class="nav-item" onclick="loadModule('modules/procurement-prpo.html','PR / PO')"><span class="icon">📄</span>PR / PO</button>
             <button class="nav-item" onclick="loadModule('modules/procurement-matching.html','3-Way Match')"><span class="icon">🔗</span>3-Way Match</button>
-            <button class="nav-item" onclick="loadModule('modules/vendor-management.html','Vendor Management')"><span class="icon">🏢</span>Vendors</button>
-            <button class="nav-item" data-page="dashboard"><span class="icon">📊</span>Vendor Quotation</button>
-            <button class="nav-item" data-page="tasks"><span class="icon">📋</span>Tasks & Details</button>
-            <button class="nav-item" data-page="comparison"><span class="icon">📊</span>Comparison Tables</button>
-            <button class="nav-item" data-page="reports"><span class="icon">📑</span>Vendor Report</button>
-            <button class="nav-item" data-page="audit"><span class="icon">📜</span>Audit Log</button>
             <button class="nav-item" onclick="loadModule('modules/procurement-analytics.html','Procurement Analytics')"><span class="icon">📈</span>Analytics</button>
+        </div>
+
+        <!-- Module: Vendor Management -->
+        <div class="module-header" onclick="toggleModule('modVendor')"><span class="mod-icon">🏢</span>Vendor Management<span class="mod-check">✓</span></div>
+        <div class="module-children" id="modVendor">
+            <button class="nav-item" onclick="loadModule('modules/vendor-management.html','Vendor Management')"><span class="icon">🏢</span>Vendors</button>
+            <button class="nav-item" data-page="dashboard"><span class="icon">📊</span>Vendor Quotation Analysis</button>
+            <button class="nav-item" data-page="tasks"><span class="icon">📋</span>Task & Details</button>
+            <button class="nav-item" data-page="comparison"><span class="icon">📊</span>Comparison Tables</button>
+            <button class="nav-item" data-page="audit"><span class="icon">📜</span>Audit Log</button>
+            <button class="nav-item" data-page="reports"><span class="icon">📑</span>Vendor Report</button>
         </div>
 
         <!-- Module 2: Expense & Receipt -->
         <div class="module-header" onclick="toggleModule('mod2')"><span class="mod-icon">🧾</span>Expense & Receipt<span class="mod-check">✓</span></div>
         <div class="module-children" id="mod2">
             <button class="nav-item" onclick="loadModule('modules/expense-dashboard.html','Expense Dashboard')"><span class="icon">📈</span>Dashboard</button>
-            <button class="nav-item" onclick="loadModule('modules/expense-tasks.html','Expense Tasks')"><span class="icon">📋</span>Tasks<span class="badge">24</span></button>
+            <button class="nav-item" onclick="loadModule('modules/expense-tasks.html','Claim Tasks')"><span class="icon">📋</span>Claim Tasks<span class="badge">24</span></button>
             <button class="nav-item" onclick="loadModule('modules/expense-receipt-ocr.html','Receipt OCR')"><span class="icon">📷</span>Receipt OCR</button>
             <button class="nav-item" onclick="loadModule('modules/expense-approval.html','Expense Approval')"><span class="icon">✅</span>Approval</button>
             <button class="nav-item" onclick="loadModule('modules/expense-analytics.html','Expense Analytics')"><span class="icon">📊</span>Analytics</button>
@@ -766,7 +771,7 @@ select.form-input{cursor:pointer;}
 <div id="page-billing" class="page hidden">
     <div class="flex-between mb-16"><div><h2>Billing & Packages</h2><p class="text-sm text-muted">จัดการแพ็กเกจ, Modules, ดูประวัติการใช้งาน</p></div></div>
     <div class="kpi-grid">
-        <div class="kpi"><div class="kpi-label">Active Modules</div><div class="kpi-value" style="font-size:1.2rem;color:var(--purple);">3 / 5</div><div class="kpi-change up">Procurement & Quotation, Expense, Finance</div></div>
+        <div class="kpi"><div class="kpi-label">Active Modules</div><div class="kpi-value" style="font-size:1.2rem;color:var(--purple);">3 / 5</div><div class="kpi-change up">Procurement, Expense, Finance</div></div>
         <div class="kpi"><div class="kpi-label">AI Tokens Remaining</div><div class="kpi-value" style="font-size:1.4rem;color:var(--blue);">847,320</div><div class="kpi-change up">of 1,000,000</div></div>
         <div class="kpi"><div class="kpi-label">OCR Pages Used</div><div class="kpi-value" style="font-size:1.4rem;color:var(--green);">12,480</div><div class="kpi-change up">of 50,000/mo</div></div>
         <div class="kpi"><div class="kpi-label">Monthly Cost</div><div class="kpi-value" style="font-size:1.4rem;color:var(--orange);">฿89,700</div><div class="kpi-change up">3 modules</div></div>
@@ -775,7 +780,7 @@ select.form-input{cursor:pointer;}
     <h3 class="mb-12">Active Module Subscriptions</h3>
     <div class="grid-3 mb-16">
         <div class="card" style="border-top:3px solid var(--blue);">
-            <div class="flex-between"><span style="font-weight:700;">📋 Procurement & Quotation</span><span class="status status-active">Active</span></div>
+            <div class="flex-between"><span style="font-weight:700;">📋 Procurement</span><span class="status status-active">Active</span></div>
             <div class="text-sm text-muted mt-8">Plan: <strong>Enterprise</strong></div>
             <div class="text-sm text-muted">Usage: 247 tasks / month</div>
             <div class="text-sm text-muted">Next billing: 1 May 2026</div>
@@ -815,7 +820,7 @@ select.form-input{cursor:pointer;}
         </div>
         <div class="card"><div class="card-title">Total Monthly Summary</div>
             <div style="font-size:.82rem;line-height:2.2;color:var(--text2);">
-                <div class="flex-between" style="border-bottom:1px solid var(--border);padding:4px 0;"><span>📋 Procurement & Quotation (Enterprise)</span><span style="font-weight:700;">฿49,000</span></div>
+                <div class="flex-between" style="border-bottom:1px solid var(--border);padding:4px 0;"><span>📋 Procurement (Enterprise)</span><span style="font-weight:700;">฿49,000</span></div>
                 <div class="flex-between" style="border-bottom:1px solid var(--border);padding:4px 0;"><span>🧾 Expense & Receipt (Business)</span><span style="font-weight:700;">฿9,900</span></div>
                 <div class="flex-between" style="border-bottom:1px solid var(--border);padding:4px 0;"><span>🏦 Finance Doc Hub (Business)</span><span style="font-weight:700;">฿29,900</span></div>
                 <div class="flex-between" style="padding:8px 0;"><span style="font-weight:800;font-size:.92rem;">Total</span><span style="font-weight:800;font-size:1.1rem;color:var(--purple);">฿88,800/mo</span></div>
@@ -824,7 +829,7 @@ select.form-input{cursor:pointer;}
     </div>
     <div class="card mt-16"><div class="card-title">Payment History</div>
         <table class="data-table"><thead><tr><th>Date</th><th>Description</th><th>Amount</th><th>Status</th><th>Receipt</th></tr></thead><tbody>
-            <tr><td>1 Apr 2026</td><td>Procurement & Quotation — Enterprise</td><td class="num">฿49,000</td><td><span class="status status-complete">Paid</span></td><td><a class="link" onclick="showToast('📥','Downloading','receipt_apr2026.pdf')">Download</a></td></tr>
+            <tr><td>1 Apr 2026</td><td>Procurement — Enterprise</td><td class="num">฿49,000</td><td><span class="status status-complete">Paid</span></td><td><a class="link" onclick="showToast('📥','Downloading','receipt_apr2026.pdf')">Download</a></td></tr>
             <tr><td>1 Apr 2026</td><td>Finance Doc Hub — Business</td><td class="num">฿29,900</td><td><span class="status status-complete">Paid</span></td><td><a class="link">Download</a></td></tr>
             <tr><td>1 Apr 2026</td><td>Expense & Receipt — Business</td><td class="num">฿9,900</td><td><span class="status status-complete">Paid</span></td><td><a class="link">Download</a></td></tr>
             <tr><td>15 Mar 2026</td><td>Token Top-up — 1M Tokens</td><td class="num">฿16,500</td><td><span class="status status-complete">Paid</span></td><td><a class="link">Download</a></td></tr>

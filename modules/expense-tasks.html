@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Autopilot v2 - ANTS AI Solution Hub | Expense Tasks</title>
+<title>Autopilot v2 - ANTS AI Solution Hub | Claim Tasks</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -192,6 +192,15 @@ th:first-child,td:first-child{padding-left:16px;}
 /* Responsive */
 @media(max-width:1024px){.stats-strip{grid-template-columns:repeat(3,1fr);}.form-grid{grid-template-columns:1fr;}}
 @media(max-width:768px){.stats-strip{grid-template-columns:repeat(2,1fr);}.toolbar{flex-direction:column;align-items:stretch;}.toolbar-left,.toolbar-right{justify-content:flex-start;}}
+
+/* Expandable task rows */
+.task-row-detail{display:none;background:var(--bg2);padding:10px 12px 10px 44px;font-size:.75rem;color:var(--text2);border-bottom:1px solid var(--border);gap:24px;flex-wrap:wrap;}
+.task-row-detail.show{display:flex;}
+.task-detail-field{display:flex;flex-direction:column;gap:2px;}
+.task-detail-label{font-size:.62rem;color:var(--muted);font-weight:500;}
+.task-detail-value{font-weight:600;color:var(--text);}
+.expand-btn{background:none;border:none;cursor:pointer;color:var(--muted);font-size:.75rem;padding:2px 6px;border-radius:4px;transition:all .15s;}
+.expand-btn:hover{background:var(--bg3);color:var(--text);}
 </style>
 </head>
 <body>
@@ -208,7 +217,7 @@ th:first-child,td:first-child{padding-left:16px;}
     <nav class="breadcrumb">
       <a href="#">Autopilot v2</a><span class="sep">/</span>
       <a href="#">Expense & Receipt</a><span class="sep">/</span>
-      <span class="current">Tasks</span>
+      <span class="current">Claim Tasks</span>
     </nav>
   </div>
   <div class="user-bar">
@@ -326,15 +335,12 @@ th:first-child,td:first-child{padding-left:16px;}
       <thead>
         <tr>
           <th class="cb-cell"><input type="checkbox" id="selectAll" onchange="toggleSelectAll()"></th>
-          <th>Task ID</th>
-          <th>ผู้สร้าง</th>
-          <th>วันที่</th>
-          <th>หมวดหมู่</th>
-          <th>รายการ</th>
-          <th style="text-align:right;">จำนวนเงิน</th>
-          <th>ใบเสร็จ</th>
+          <th>Claim ID</th>
+          <th>ชื่อ Claim</th>
+          <th>ผู้ขอเบิก</th>
+          <th>วันที่ยื่น</th>
           <th>สถานะ</th>
-          <th>ผู้อนุมัติ</th>
+          <th style="width:40px;"></th>
         </tr>
       </thead>
       <tbody id="taskTableBody">
@@ -476,22 +482,57 @@ function renderTable() {
     const checked = selectedIds.has(t.id) ? 'checked' : '';
     const selCls = selectedIds.has(t.id) ? 'selected' : '';
     const initials = t.approver ? t.approver.split(' ').map(w=>w[0]).join('') : '-';
+
+    // Row 1: main visible row
     const tr = document.createElement('tr');
     tr.className = selCls;
     tr.innerHTML = `
       <td class="cb-cell"><input type="checkbox" ${checked} onchange="toggleSelect('${t.id}',this)" onclick="event.stopPropagation()"></td>
       <td><span class="task-id">${t.id}</span></td>
+      <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${t.title}">${t.title}</td>
       <td>${t.user}</td>
       <td>${formatDate(t.date)}</td>
-      <td><span class="cat-badge ${catCls}">${t.category}</span></td>
-      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${t.title}">${t.title}</td>
-      <td style="text-align:right;" class="amount">฿ ${t.amount.toLocaleString()}</td>
-      <td><span class="receipt-count"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg> ${t.receipts}</span></td>
       <td><span class="badge ${t.status}"><span class="badge-dot"></span>${statusTH[t.status]}</span></td>
-      <td>${t.approver ? `<div class="approver"><span class="approver-avatar">${initials}</span>${t.approver}</div>` : '<span style="color:var(--muted)">—</span>'}</td>
+      <td style="text-align:center;"><button class="expand-btn" id="expand-${t.id}" onclick="event.stopPropagation();toggleTaskDetail('${t.id}')">▼</button></td>
     `;
     tr.addEventListener('click', () => openDetail(t.id));
     tbody.appendChild(tr);
+
+    // Row 2: expandable detail row
+    const detailTr = document.createElement('tr');
+    detailTr.innerHTML = `
+      <td colspan="7" style="padding:0;border-bottom:1px solid var(--border);">
+        <div class="task-row-detail" id="detail-${t.id}">
+          <div class="task-detail-field">
+            <span class="task-detail-label">หมวดหมู่</span>
+            <span class="task-detail-value"><span class="cat-badge ${catCls}">${t.category}</span></span>
+          </div>
+          <div class="task-detail-field">
+            <span class="task-detail-label">จำนวนเงิน</span>
+            <span class="task-detail-value amount">฿ ${t.amount.toLocaleString()}</span>
+          </div>
+          <div class="task-detail-field">
+            <span class="task-detail-label">ใบเสร็จ</span>
+            <span class="task-detail-value"><span class="receipt-count"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg> ${t.receipts} ใบ</span></span>
+          </div>
+          <div class="task-detail-field">
+            <span class="task-detail-label">Policy</span>
+            <span class="task-detail-value">${t.status === 'rejected' ? '<span style="color:var(--red)">ไม่ผ่านนโยบาย</span>' : '<span style="color:var(--green)">ผ่านนโยบาย</span>'}</span>
+          </div>
+          <div class="task-detail-field">
+            <span class="task-detail-label">ผู้อนุมัติ</span>
+            <span class="task-detail-value">${t.approver ? `<div class="approver"><span class="approver-avatar">${initials}</span>${t.approver}</div>` : '<span style="color:var(--muted)">—</span>'}</span>
+          </div>
+          <div class="task-detail-field" style="margin-left:auto;display:flex;flex-direction:row;gap:6px;align-items:center;">
+            ${t.status === 'pending' ? `
+              <button class="action-btn" style="padding:4px 12px;font-size:12px;background:var(--green);color:#fff;border-color:var(--green);" onclick="event.stopPropagation();">อนุมัติ</button>
+              <button class="action-btn danger" style="padding:4px 12px;font-size:12px;" onclick="event.stopPropagation();">ปฏิเสธ</button>
+            ` : `<button class="action-btn" style="padding:4px 12px;font-size:12px;" onclick="event.stopPropagation();openDetail('${t.id}')">ดูรายละเอียด</button>`}
+          </div>
+        </div>
+      </td>
+    `;
+    tbody.appendChild(detailTr);
   });
 
   // Pagination
@@ -545,6 +586,19 @@ function updateBulkBar() {
   const count = selectedIds.size;
   document.getElementById('bulkCount').textContent = count;
   bar.classList.toggle('show', count > 0);
+}
+
+// Expandable row toggle
+function toggleTaskDetail(id) {
+  const detail = document.getElementById('detail-' + id);
+  const btn = document.getElementById('expand-' + id);
+  if (detail.classList.contains('show')) {
+    detail.classList.remove('show');
+    btn.textContent = '▼';
+  } else {
+    detail.classList.add('show');
+    btn.textContent = '▲';
+  }
 }
 
 // Filters
