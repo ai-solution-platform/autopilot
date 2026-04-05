@@ -33,25 +33,25 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
 /* KPI — 4 per row compact */
 .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
-.kpi{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:all .3s;}
+.kpi{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:all .3s;display:flex;align-items:center;gap:16px;}
 .kpi:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);transform:translateY(-2px);}
 .kpi::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
 .kpi:nth-child(1)::after{background:var(--blue);}
 .kpi:nth-child(2)::after{background:var(--green);}
 .kpi:nth-child(3)::after{background:var(--purple);}
 .kpi:nth-child(4)::after{background:var(--orange);}
-.kpi-top{display:flex;align-items:flex-start;justify-content:space-between;}
-.kpi-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;}
+.kpi-icon{width:44px;height:44px;min-width:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;}
 .kpi:nth-child(1) .kpi-icon{background:var(--blue-bg);color:var(--blue);}
 .kpi:nth-child(2) .kpi-icon{background:var(--green-bg);color:var(--green);}
 .kpi:nth-child(3) .kpi-icon{background:var(--purple-bg);color:var(--purple);}
 .kpi:nth-child(4) .kpi-icon{background:var(--orange-bg);color:var(--orange);}
-.kpi-label{font-size:.7rem;color:var(--muted);font-weight:500;}
-.kpi-value{font-size:1.6rem;font-weight:800;margin-top:2px;line-height:1;}
-.kpi-change{display:inline-flex;align-items:center;gap:3px;font-size:.65rem;font-weight:600;padding:2px 6px;border-radius:4px;margin-top:4px;}
+.kpi-body{flex:1;min-width:0;}
+.kpi-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+.kpi-value{font-size:1.7rem;font-weight:800;line-height:1;}
+.kpi-label{font-size:.72rem;color:var(--muted);font-weight:500;margin-top:2px;}
+.kpi-change{display:inline-flex;align-items:center;gap:3px;font-size:.65rem;font-weight:600;padding:2px 6px;border-radius:4px;white-space:nowrap;}
 .kpi-change.up{background:var(--green-bg);color:var(--green);}
 .kpi-change.down{background:var(--red-bg);color:var(--red);}
-.kpi-spark{width:60px;height:28px;}
 
 /* Tooltip for charts */
 .chart-tooltip{position:absolute;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:.72rem;box-shadow:0 4px 12px rgba(0,0,0,.1);pointer-events:none;z-index:100;display:none;}
@@ -277,43 +277,43 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
   <!-- KPI Cards — 4 per row compact -->
   <div class="kpi-grid" id="kpiGrid">
     <div class="kpi">
-      <div class="kpi-top">
-        <div>
-          <div class="kpi-label">PR เดือนนี้</div>
+      <div class="kpi-icon">📄</div>
+      <div class="kpi-body">
+        <div class="kpi-header">
           <div class="kpi-value" id="kpiPR">87</div>
-          <div class="kpi-change up">▲ 12% จากเดือนที่แล้ว</div>
+          <div class="kpi-change up">▲ 12%</div>
         </div>
-        <div class="kpi-icon">📄</div>
+        <div class="kpi-label">PR เดือนนี้</div>
       </div>
     </div>
     <div class="kpi">
-      <div class="kpi-top">
-        <div>
-          <div class="kpi-label">PO ออกแล้ว</div>
+      <div class="kpi-icon">📋</div>
+      <div class="kpi-body">
+        <div class="kpi-header">
           <div class="kpi-value" id="kpiPO">62</div>
           <div class="kpi-change up">▲ 8%</div>
         </div>
-        <div class="kpi-icon">📋</div>
+        <div class="kpi-label">PO ออกแล้ว</div>
       </div>
     </div>
     <div class="kpi">
-      <div class="kpi-top">
-        <div>
-          <div class="kpi-label">มูลค่ารวม</div>
-          <div class="kpi-value" style="font-size:1.4rem;">฿12.4M</div>
+      <div class="kpi-icon">💰</div>
+      <div class="kpi-body">
+        <div class="kpi-header">
+          <div class="kpi-value">฿12.4M</div>
           <div class="kpi-change up">▲ 15%</div>
         </div>
-        <div class="kpi-icon">💰</div>
+        <div class="kpi-label">มูลค่ารวม</div>
       </div>
     </div>
     <div class="kpi">
-      <div class="kpi-top">
-        <div>
-          <div class="kpi-label">ประหยัดจากการเปรียบเทียบ</div>
-          <div class="kpi-value" style="font-size:1.4rem;">฿1.8M</div>
-          <div class="kpi-change up">▲ ลดต้นทุน 14.5%</div>
+      <div class="kpi-icon">💲</div>
+      <div class="kpi-body">
+        <div class="kpi-header">
+          <div class="kpi-value">฿1.8M</div>
+          <div class="kpi-change up">▲ 14.5%</div>
         </div>
-        <div class="kpi-icon">💲</div>
+        <div class="kpi-label">ประหยัดจากการเปรียบเทียบ</div>
       </div>
     </div>
   </div>

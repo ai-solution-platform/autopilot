@@ -31,11 +31,18 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
 /* KPI */
 .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
-.kpi{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;box-shadow:var(--shadow);transition:all .2s;}
+.kpi{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;box-shadow:var(--shadow);transition:all .2s;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden;}
 .kpi:hover{box-shadow:0 4px 20px rgba(0,0,0,.08);transform:translateY(-2px);}
-.kpi-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;margin-bottom:6px;}
-.kpi-label{font-size:.68rem;color:var(--muted);font-weight:500;margin-bottom:2px;}
-.kpi-value{font-size:1.35rem;font-weight:800;line-height:1;margin-bottom:3px;}
+.kpi::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.kpi:nth-child(1)::after{background:var(--blue);}
+.kpi:nth-child(2)::after{background:var(--purple);}
+.kpi:nth-child(3)::after{background:#0891B2;}
+.kpi:nth-child(4)::after{background:var(--green);}
+.kpi-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.kpi-body{flex:1;min-width:0;}
+.kpi-header{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.kpi-value{font-size:1.5rem;font-weight:800;line-height:1;}
+.kpi-label{font-size:.7rem;color:var(--muted);font-weight:500;margin-top:3px;}
 .kpi-change{display:inline-flex;align-items:center;gap:3px;font-size:.65rem;font-weight:600;padding:2px 6px;border-radius:4px;}
 .kpi-change.up{background:var(--green-bg);color:var(--green);}
 .kpi-change.down{background:var(--red-bg);color:var(--red);}
@@ -145,32 +152,48 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
   <div class="kpi-grid">
     <div class="kpi animate-in delay-1">
       <div class="kpi-icon" style="background:var(--blue-bg);color:var(--blue);">&#3647;</div>
-      <div class="kpi-label">ยอดจัดซื้อรวม (Total Spend)</div>
-      <div class="kpi-value">&#3647;48.7M</div>
-      <div class="kpi-change up">&#9650; 12.3% vs ไตรมาสก่อน</div>
+      <div class="kpi-body">
+        <div class="kpi-header">
+          <div class="kpi-value">&#3647;48.7M</div>
+          <div class="kpi-change up">&#9650; 12.3%</div>
+        </div>
+        <div class="kpi-label">ยอดจัดซื้อรวม (Total Spend)</div>
+      </div>
     </div>
     <div class="kpi animate-in delay-2">
       <div class="kpi-icon" style="background:var(--purple-bg);color:var(--purple);">&#128203;</div>
-      <div class="kpi-label">จำนวน PO (PO Count)</div>
-      <div class="kpi-value">1,247</div>
-      <div class="kpi-change up">&#9650; 8.1%</div>
+      <div class="kpi-body">
+        <div class="kpi-header">
+          <div class="kpi-value">1,247</div>
+          <div class="kpi-change up">&#9650; 8.1%</div>
+        </div>
+        <div class="kpi-label">จำนวน PO (PO Count)</div>
+      </div>
     </div>
     <div class="kpi animate-in delay-3">
       <div class="kpi-icon" style="background:rgba(8,145,178,0.1);color:var(--cyan);">&#128178;</div>
-      <div class="kpi-label">มูลค่าเฉลี่ยต่อ PO</div>
-      <div class="kpi-value">&#3647;39,054</div>
-      <div class="kpi-change up">&#9650; 3.8%</div>
+      <div class="kpi-body">
+        <div class="kpi-header">
+          <div class="kpi-value">&#3647;39,054</div>
+          <div class="kpi-change up">&#9650; 3.8%</div>
+        </div>
+        <div class="kpi-label">มูลค่าเฉลี่ยต่อ PO</div>
+      </div>
     </div>
     <div class="kpi animate-in delay-4">
       <div class="kpi-icon" style="background:var(--green-bg);color:var(--green);">&#128101;</div>
-      <div class="kpi-label">จำนวน Vendor</div>
-      <div class="kpi-value">186</div>
-      <div class="kpi-change down">&#9660; 4.2% (รวม vendor)</div>
+      <div class="kpi-body">
+        <div class="kpi-header">
+          <div class="kpi-value">186</div>
+          <div class="kpi-change down">&#9660; 4.2%</div>
+        </div>
+        <div class="kpi-label">จำนวน Vendor</div>
+      </div>
     </div>
   </div>
 
   <!-- Row: Monthly Trend + Donut -->
-  <div class="grid-3-2 animate-in delay-2">
+  <div class="grid-2 animate-in delay-2">
     <div class="card">
       <div class="card-header">
         <div class="card-title">&#128200; แนวโน้มยอดจัดซื้อรายเดือน</div>

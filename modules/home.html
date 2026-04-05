@@ -313,6 +313,104 @@ body{font-size:12px;}
 .sidebar-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:16px;}
 .sidebar-card .card-header{margin-bottom:12px;}
 @keyframes toastIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* ===== Modal System ===== */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:10000;display:none;align-items:center;justify-content:center;animation:modalFadeIn .2s ease;}
+.modal-overlay.active{display:flex;}
+@keyframes modalFadeIn{from{opacity:0;}to{opacity:1;}}
+.modal{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;width:90%;max-width:600px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2);animation:modalSlideIn .3s ease;}
+.modal.modal-lg{max-width:800px;}
+.modal.modal-sm{max-width:440px;}
+@keyframes modalSlideIn{from{opacity:0;transform:translateY(20px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 16px;border-bottom:1px solid var(--border);}
+.modal-header h3{font-size:1.05rem;font-weight:700;display:flex;align-items:center;gap:8px;}
+.modal-close{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg2);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all .2s;}
+.modal-close:hover{background:var(--red-bg);color:var(--red);border-color:var(--red);}
+.modal-body{padding:24px;}
+.modal-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:flex-end;gap:10px;}
+.modal-body .form-group{margin-bottom:16px;}
+.modal-body .form-label{display:block;font-size:.78rem;font-weight:600;color:var(--text2);margin-bottom:6px;}
+.modal-body .form-input,.modal-body .form-select,.modal-body .form-textarea{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg2);color:var(--text);font-family:inherit;font-size:.82rem;outline:none;transition:border-color .2s;}
+.modal-body .form-input:focus,.modal-body .form-select:focus,.modal-body .form-textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+.modal-body .form-textarea{min-height:80px;resize:vertical;}
+.btn-modal-primary{padding:10px 24px;background:var(--grad);color:#fff;border:none;border-radius:10px;font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-modal-primary:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(37,99,235,.3);}
+.btn-modal-secondary{padding:10px 24px;background:var(--bg2);color:var(--text2);border:1px solid var(--border);border-radius:10px;font-family:inherit;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;}
+.btn-modal-secondary:hover{background:var(--bg3);}
+
+/* Wizard steps */
+.wizard-steps{display:flex;gap:0;margin-bottom:24px;border-bottom:2px solid var(--border);padding-bottom:0;}
+.wizard-step{flex:1;text-align:center;padding:12px 8px;font-size:.78rem;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;}
+.wizard-step.active{color:var(--blue);border-bottom-color:var(--blue);}
+.wizard-step.done{color:var(--green);border-bottom-color:var(--green);}
+.wizard-panel{display:none;}
+.wizard-panel.active{display:block;}
+
+/* Pricing table */
+.price-table{width:100%;border-collapse:separate;border-spacing:0;font-size:.78rem;}
+.price-table th{background:var(--bg3);padding:10px 12px;text-align:left;font-weight:700;font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
+.price-table th:first-child{border-radius:8px 0 0 0;}
+.price-table th:last-child{border-radius:0 8px 0 0;}
+.price-table td{padding:10px 12px;border-bottom:1px solid var(--border);}
+.price-table tr:last-child td{border-bottom:none;}
+.price-table .highlight{background:var(--blue-bg);font-weight:700;color:var(--blue);}
+
+/* Release detail content */
+.release-detail-tag{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:6px;font-size:.68rem;font-weight:600;margin-right:6px;margin-bottom:6px;}
+.release-detail-tag.new{background:var(--green-bg);color:var(--green);}
+.release-detail-tag.fix{background:var(--orange-bg);color:var(--orange);}
+.release-detail-tag.improve{background:var(--blue-bg);color:var(--blue);}
+
+/* Search/command palette */
+.cmd-palette-input{width:100%;padding:14px 18px;border:none;border-bottom:1px solid var(--border);background:transparent;color:var(--text);font-family:inherit;font-size:.95rem;outline:none;}
+.cmd-results{max-height:350px;overflow-y:auto;padding:8px;}
+.cmd-result-item{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:8px;cursor:pointer;transition:all .15s;font-size:.82rem;color:var(--text2);}
+.cmd-result-item:hover{background:var(--blue-bg);color:var(--blue);}
+.cmd-result-icon{width:32px;height:32px;border-radius:8px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+.cmd-result-item:hover .cmd-result-icon{background:var(--blue-bg);}
+
+/* Notification panel */
+.notif-panel{position:absolute;top:calc(100% + 8px);right:0;width:360px;background:var(--card-bg);border:1px solid var(--border);border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,.15);z-index:9999;display:none;max-height:480px;overflow:hidden;}
+.notif-panel.active{display:block;animation:modalSlideIn .2s ease;}
+.notif-panel-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);}
+.notif-panel-header h4{font-size:.88rem;font-weight:700;}
+.notif-list{max-height:380px;overflow-y:auto;}
+.notif-item{display:flex;align-items:flex-start;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;}
+.notif-item:hover{background:var(--bg2);}
+.notif-item.unread{background:var(--blue-bg);}
+.notif-item .notif-icon-wrap{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.notif-item .notif-content{flex:1;}
+.notif-item .notif-content p{font-size:.78rem;font-weight:500;color:var(--text2);line-height:1.4;}
+.notif-item .notif-content .notif-time{font-size:.65rem;color:var(--muted);margin-top:2px;}
+
+/* AI chat bubbles */
+.ai-chat-area{margin-top:10px;display:flex;flex-direction:column;gap:8px;max-height:200px;overflow-y:auto;padding-right:4px;}
+.ai-bubble{padding:10px 14px;border-radius:12px;font-size:.78rem;line-height:1.5;max-width:90%;animation:modalSlideIn .3s ease;}
+.ai-bubble.user{background:rgba(255,255,255,0.2);color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}
+.ai-bubble.bot{background:rgba(255,255,255,0.12);color:#fff;align-self:flex-start;border-bottom-left-radius:4px;}
+
+/* Searchable doc list */
+.doc-search-input{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg2);color:var(--text);font-family:inherit;font-size:.82rem;outline:none;margin-bottom:12px;}
+.doc-search-input:focus{border-color:var(--blue);}
+.doc-list-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;border:1px solid var(--border);margin-bottom:8px;cursor:pointer;transition:all .15s;font-size:.82rem;}
+.doc-list-item:hover{background:var(--blue-bg);border-color:var(--blue);color:var(--blue);}
+
+/* Video list */
+.video-item{display:flex;align-items:center;gap:14px;padding:12px;border:1px solid var(--border);border-radius:10px;margin-bottom:10px;cursor:pointer;transition:all .15s;}
+.video-item:hover{border-color:var(--blue);background:var(--blue-bg);}
+.video-thumb{width:80px;height:50px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;}
+.video-info h5{font-size:.82rem;font-weight:600;margin-bottom:2px;}
+.video-info span{font-size:.68rem;color:var(--muted);}
+
+/* Forum items */
+.forum-item{padding:12px;border:1px solid var(--border);border-radius:10px;margin-bottom:10px;cursor:pointer;transition:all .15s;}
+.forum-item:hover{border-color:var(--purple);background:var(--purple-bg);}
+.forum-item h5{font-size:.82rem;font-weight:600;margin-bottom:4px;}
+.forum-item .forum-meta{display:flex;gap:12px;font-size:.68rem;color:var(--muted);}
+
+/* Schedule detail */
+.schedule-detail-row{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:.82rem;}
+.schedule-detail-row .sd-label{color:var(--muted);font-weight:600;min-width:80px;font-size:.75rem;}
 </style>
 </head>
 <body>
@@ -337,14 +435,14 @@ ANTS AI Solution Hub
 </span>
 </div>
 <div class="header-actions">
-<div class="search-bar">
+<div class="search-bar" onclick="openModal('modal-search');setTimeout(function(){document.getElementById('cmd-search-input').focus();},100)" style="cursor:pointer;">
 <span class="search-icon">&#128269;</span>
-<input type="text" placeholder="ค้นหา module, เมนู, คำสั่ง...">
+<input type="text" placeholder="ค้นหา module, เมนู, คำสั่ง..." readonly style="cursor:pointer;">
 <span class="search-kbd">&#8984;K</span>
 </div>
-<div class="notif-bell" title="การแจ้งเตือน">
+<div class="notif-bell" title="การแจ้งเตือน" onclick="toggleNotifPanel(event)" style="position:relative;">
 &#128276;
-<span class="notif-badge">5</span>
+<span class="notif-badge" id="notif-badge-count">5</span>
 </div>
 </div>
 </div>
@@ -423,7 +521,7 @@ Login streak: 12 วันติดต่อกัน
 <h3>&#127881; โปรโมชั่นเดือนเมษายน — อัปเกรดเป็น Enterprise ลด 30%</h3>
 <p>รับส่วนลดพิเศษเมื่ออัปเกรดแพ็กเกจภายในวันที่ 30 เม.ย. 2569 พร้อม Onboarding ฟรี</p>
 </div>
-<button class="promo-btn">ดูรายละเอียดโปรฯ &#8594;</button>
+<button class="promo-btn" onclick="openModal('modal-promo')">ดูรายละเอียดโปรฯ &#8594;</button>
 </div>
 
 <!-- Main Layout: Content + Sidebar -->
@@ -451,21 +549,21 @@ Login streak: 12 วันติดต่อกัน
 <li><span class="check">&#11036;</span> Connect LINE Official Channel</li>
 <li><span class="check">&#11036;</span> Setup Approval Workflow</li>
 </ul>
-<button class="btn-primary" onclick="alert('Navigating to setup wizard...')">Complete Setup &#8594;</button>
+<button class="btn-primary" onclick="openModal('modal-setup')">Complete Setup &#8594;</button>
 </div>
 
 <!-- What's New -->
 <div class="card animate-in">
 <div class="card-header">
 <div class="card-title"><span class="icon">&#128640;</span> What's New</div>
-<a class="card-link" href="#">ดูทั้งหมด &#8594;</a>
+<a class="card-link" href="javascript:void(0)" onclick="openModal('modal-all-releases')">ดูทั้งหมด &#8594;</a>
 </div>
 <div class="release-item">
 <span class="release-version">v2.8.0</span>
 <div class="release-content">
 <h4>AI Anomaly Detection ในระบบ Expense</h4>
 <div class="release-date">5 เม.ย. 2569</div>
-<a class="release-link" href="#">ดูรายละเอียด &#8594;</a>
+<a class="release-link" href="javascript:void(0)" onclick="showReleaseDetail('v2.8.0','AI Anomaly Detection ในระบบ Expense','5 เม.ย. 2569','ระบบ AI จะวิเคราะห์รูปแบบค่าใช้จ่ายของทั้งองค์กรและตรวจจับรายการที่ผิดปกติโดยอัตโนมัติ เช่น ค่าใช้จ่ายที่สูงกว่าค่าเฉลี่ยของแผนกมากกว่า 200% รายการซ้ำซ้อน หรือรายการที่ไม่ตรงตามนโยบายบริษัท พร้อมแจ้งเตือนผ่าน LINE และ Email ทันที','new')">ดูรายละเอียด &#8594;</a>
 </div>
 </div>
 <div class="release-item">
@@ -473,7 +571,7 @@ Login streak: 12 วันติดต่อกัน
 <div class="release-content">
 <h4>3-Way Match อัตโนมัติ สำหรับ Procurement</h4>
 <div class="release-date">28 มี.ค. 2569</div>
-<a class="release-link" href="#">ดูรายละเอียด &#8594;</a>
+<a class="release-link" href="javascript:void(0)" onclick="showReleaseDetail('v2.7.5','3-Way Match อัตโนมัติ สำหรับ Procurement','28 มี.ค. 2569','ระบบจะจับคู่ Purchase Order (PO), Goods Receipt (GR) และ Invoice อัตโนมัติ ลดเวลาในการตรวจสอบเอกสารได้ถึง 90% รองรับการจับคู่แบบ partial match และแจ้งเตือนเมื่อพบความไม่ตรงกัน','improve')">ดูรายละเอียด &#8594;</a>
 </div>
 </div>
 <div class="release-item">
@@ -481,7 +579,7 @@ Login streak: 12 วันติดต่อกัน
 <div class="release-content">
 <h4>FX Rate Alert — แจ้งเตือนอัตราแลกเปลี่ยนทันที</h4>
 <div class="release-date">15 มี.ค. 2569</div>
-<a class="release-link" href="#">ดูรายละเอียด &#8594;</a>
+<a class="release-link" href="javascript:void(0)" onclick="showReleaseDetail('v2.7.0','FX Rate Alert — แจ้งเตือนอัตราแลกเปลี่ยนทันที','15 มี.ค. 2569','ตั้งค่าเกณฑ์การแจ้งเตือนเมื่ออัตราแลกเปลี่ยนเปลี่ยนแปลงเกินกว่าที่กำหนด รองรับหลายสกุลเงิน (USD, EUR, JPY, CNY) แจ้งเตือนผ่าน LINE, Email และ In-App Notification พร้อมกราฟแสดงแนวโน้ม','new')">ดูรายละเอียด &#8594;</a>
 </div>
 </div>
 </div>
@@ -490,10 +588,10 @@ Login streak: 12 วันติดต่อกัน
 <div class="card animate-in">
 <div class="card-header">
 <div class="card-title"><span class="icon">&#128240;</span> News & Blog</div>
-<a class="card-link" href="#">อ่านทั้งหมด &#8594;</a>
+<a class="card-link" href="javascript:void(0)" onclick="showToast('&#128240;','News','กำลังเปิดหน้า Blog ทั้งหมด...')">อ่านทั้งหมด &#8594;</a>
 </div>
 <div class="news-grid">
-<div class="news-card">
+<div class="news-card" onclick="showNewsDetail('เทรนด์ AI ในงาน Back Office 2026','AI & Automation','3 เม.ย. 2569','8 นาที','AI กำลังเปลี่ยนแปลงวิธีทำงานของ Back Office อย่างรวดเร็ว ตั้งแต่การจัดการค่าใช้จ่าย การอนุมัติเอกสาร ไปจนถึงการวิเคราะห์ข้อมูลการเงิน บทความนี้สรุป 5 เทรนด์สำคัญที่จะเปลี่ยนวิธีการทำงานในปี 2026\n\n1. AI-Powered Document Processing — ระบบ OCR และ NLP ที่แม่นยำขึ้น สามารถอ่านเอกสารภาษาไทยได้ถูกต้องกว่า 98%\n2. Predictive Analytics — คาดการณ์กระแสเงินสดและค่าใช้จ่ายล่วงหน้า 3-6 เดือน\n3. Automated Compliance — ตรวจสอบความถูกต้องของเอกสารตามกฎระเบียบอัตโนมัติ\n4. Conversational AI — ถามตอบข้อมูลทางการเงินด้วยภาษาธรรมชาติ\n5. Intelligent Workflow — ระบบปรับ Workflow อัตโนมัติตามพฤติกรรมการใช้งาน')">
 <div class="news-thumb" style="background:linear-gradient(135deg,#2563EB,#06B6D4);">
 <div class="thumb-overlay">
 <span class="thumb-tag">AI & Automation</span>
@@ -507,7 +605,7 @@ Login streak: 12 วันติดต่อกัน
 </div>
 </div>
 </div>
-<div class="news-card">
+<div class="news-card" onclick="showNewsDetail('วิธีลดเวลาอนุมัติเอกสาร 80% ด้วย Autopilot','Best Practices','28 มี.ค. 2569','5 นาที','หลายองค์กรใช้เวลาอนุมัติเอกสารนานหลายวัน Autopilot ช่วยลดเวลาลงได้ถึง 80% ด้วย 3 ขั้นตอนง่ายๆ\n\n1. ตั้งค่า Auto-routing — กำหนดเงื่อนไขให้เอกสารไปถึงผู้อนุมัติที่ถูกต้องโดยอัตโนมัติ\n2. ใช้ Mobile Approval — ผู้อนุมัติสามารถอนุมัติผ่าน LINE หรือ Mobile App ได้ทุกที่\n3. เปิดใช้ AI Pre-check — ให้ AI ตรวจสอบเอกสารเบื้องต้นก่อนส่งอนุมัติ ลดการถูกตีกลับ')">
 <div class="news-thumb" style="background:linear-gradient(135deg,#7C3AED,#EC4899);">
 <div class="thumb-overlay">
 <span class="thumb-tag">Best Practices</span>
@@ -521,7 +619,7 @@ Login streak: 12 วันติดต่อกัน
 </div>
 </div>
 </div>
-<div class="news-card">
+<div class="news-card" onclick="showNewsDetail('Case Study: บริษัท XYZ ประหยัด ฿2M/ปี','Case Study','20 มี.ค. 2569','12 นาที','บริษัท XYZ ผู้นำด้านการผลิตชิ้นส่วนอิเล็กทรอนิกส์ ใช้ Autopilot v2 มาเป็นเวลา 1 ปี สามารถประหยัดค่าใช้จ่ายได้กว่า 2 ล้านบาทต่อปี\n\nผลลัพธ์ที่ได้:\n- ลดเวลาทำงานของทีม Finance 60%\n- ลดข้อผิดพลาดในการกรอกข้อมูล 95%\n- เวลาอนุมัติเอกสารลดจาก 3 วันเหลือ 2 ชั่วโมง\n- ตรวจจับค่าใช้จ่ายผิดปกติได้ 47 รายการในปีแรก\n- ROI คืนทุนภายใน 3 เดือน')">
 <div class="news-thumb" style="background:linear-gradient(135deg,#059669,#10B981);">
 <div class="thumb-overlay">
 <span class="thumb-tag">Case Study</span>
@@ -535,7 +633,7 @@ Login streak: 12 วันติดต่อกัน
 </div>
 </div>
 </div>
-<div class="news-card">
+<div class="news-card" onclick="showNewsDetail('Roadmap Q2/2569 — ฟีเจอร์ใหม่ที่น่าจับตา','Product Update','15 มี.ค. 2569','6 นาที','ในไตรมาส 2 ของปี 2569 เราจะเปิดตัวฟีเจอร์ใหม่มากมาย:\n\n- HR & Payroll Module — จัดการ HR ครบวงจร\n- Contract Management — จัดการสัญญาและติดตามวันหมดอายุ\n- Business Intelligence — Dashboard แบบ Drag and Drop\n- Advanced AI Analytics — วิเคราะห์เชิงลึกด้วย AI\n- Multi-company Support — รองรับหลายบริษัทในระบบเดียว\n\nทุกฟีเจอร์จะเปิดให้ทดลองใช้ฟรี 14 วัน')">
 <div class="news-thumb" style="background:linear-gradient(135deg,#D97706,#F59E0B);">
 <div class="thumb-overlay">
 <span class="thumb-tag">Product Update</span>
@@ -556,7 +654,7 @@ Login streak: 12 วันติดต่อกัน
 <div class="card animate-in">
 <div class="card-header">
 <div class="card-title"><span class="icon">&#10024;</span> แนะนำ Module ใหม่</div>
-<a class="card-link" href="#">ดู Module ทั้งหมด &#8594;</a>
+<a class="card-link" href="javascript:void(0)" onclick="showToast('&#10024;','Module','กำลังเปิดหน้า Module ทั้งหมด...')">ดู Module ทั้งหมด &#8594;</a>
 </div>
 <div class="spotlight-grid">
 <div class="spotlight-card">
@@ -564,21 +662,21 @@ Login streak: 12 วันติดต่อกัน
 <div class="spotlight-icon">&#128188;</div>
 <h4>HR & Payroll</h4>
 <p>จัดการข้อมูลพนักงาน, ระบบลา, คำนวณเงินเดือน, ยื่นภาษี — ครบจบในที่เดียวพร้อม AI ช่วยวิเคราะห์</p>
-<button class="btn-upsell">ทดลองฟรี 14 วัน &#8594;</button>
+<button class="btn-upsell" onclick="openTrialModal('hr')">ทดลองฟรี 14 วัน &#8594;</button>
 </div>
 <div class="spotlight-card">
 <div class="coming-soon">COMING SOON</div>
 <div class="spotlight-icon" style="background:var(--cyan-bg);">&#128221;</div>
 <h4>Contract Management</h4>
 <p>จัดการสัญญา, ติดตามวันหมดอายุ, เตือนต่อสัญญาอัตโนมัติ, วิเคราะห์เงื่อนไขด้วย AI</p>
-<button class="btn-upsell">ทดลองฟรี 14 วัน &#8594;</button>
+<button class="btn-upsell" onclick="openTrialModal('contract')">ทดลองฟรี 14 วัน &#8594;</button>
 </div>
 <div class="spotlight-card">
 <div class="coming-soon">COMING SOON</div>
 <div class="spotlight-icon" style="background:var(--green-bg);">&#128202;</div>
 <h4>Business Intelligence</h4>
 <p>สร้าง Dashboard แบบ Drag & Drop, รวมข้อมูลจากทุก Module, AI สรุป Insight ให้อัตโนมัติ</p>
-<button class="btn-upsell">ทดลองฟรี 14 วัน &#8594;</button>
+<button class="btn-upsell" onclick="openTrialModal('bi')">ทดลองฟรี 14 วัน &#8594;</button>
 </div>
 </div>
 </div>
@@ -589,7 +687,7 @@ Login streak: 12 วันติดต่อกัน
 <h4>&#128176; Annual Plan Discount — ประหยัดสูงสุด 25%</h4>
 <p>เปลี่ยนจาก Monthly เป็น Annual Plan วันนี้ ประหยัดทันที พร้อมรับ Priority Support ฟรี</p>
 </div>
-<button class="promo-annual-btn">เปลี่ยนแพลน &#8594;</button>
+<button class="promo-annual-btn" onclick="openModal('modal-plan')">เปลี่ยนแพลน &#8594;</button>
 </div>
 
 <!-- Quick Links -->
@@ -598,27 +696,27 @@ Login streak: 12 วันติดต่อกัน
 <div class="card-title"><span class="icon">&#128279;</span> Quick Links</div>
 </div>
 <div class="quick-links">
-<a class="quick-link" href="#">
+<a class="quick-link" href="javascript:void(0)" onclick="openModal('modal-docs')">
 <span class="ql-icon">&#128214;</span>
 Documentation
 </a>
-<a class="quick-link" href="#">
+<a class="quick-link" href="javascript:void(0)" onclick="openModal('modal-api')">
 <span class="ql-icon">&#128268;</span>
 API Reference
 </a>
-<a class="quick-link" href="#">
+<a class="quick-link" href="javascript:void(0)" onclick="openModal('modal-support')">
 <span class="ql-icon">&#127384;</span>
 Support Center
 </a>
-<a class="quick-link" href="#">
+<a class="quick-link" href="javascript:void(0)" onclick="openModal('modal-forum')">
 <span class="ql-icon">&#128483;</span>
 Community Forum
 </a>
-<a class="quick-link" href="#">
+<a class="quick-link" href="javascript:void(0)" onclick="openModal('modal-videos')">
 <span class="ql-icon">&#127909;</span>
 Video Tutorials
 </a>
-<a class="quick-link" href="#">
+<a class="quick-link" href="javascript:void(0)" onclick="openModal('modal-contact')">
 <span class="ql-icon">&#128222;</span>
 Contact Sales
 </a>
@@ -634,7 +732,7 @@ Contact Sales
 <div class="sidebar-card">
 <div class="card-header">
 <div class="card-title" style="font-size:.88rem;"><span class="icon">&#128338;</span> Recent Activity</div>
-<a class="card-link" href="#">ดูทั้งหมด</a>
+<a class="card-link" href="javascript:void(0)" onclick="openModal('modal-activity')">ดูทั้งหมด</a>
 </div>
 <div class="activity-feed">
 <div class="activity-item">
@@ -702,19 +800,19 @@ Contact Sales
 <div class="card-title" style="font-size:.88rem;"><span class="icon">&#128197;</span> ตารางวันนี้</div>
 </div>
 <div style="display:flex;flex-direction:column;gap:8px;">
-<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--blue-bg);border-radius:8px;border-left:3px solid var(--blue);">
+<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--blue-bg);border-radius:8px;border-left:3px solid var(--blue);cursor:pointer;transition:all .15s;" onclick="showScheduleDetail('Standup Meeting — Finance Team','09:00 - 09:30','ห้องประชุม A ชั้น 3','สมชาย, วิภา, ณัฐ, ธนากาน','ประชุมอัปเดตสถานะงาน Finance Team ประจำวัน')" onmouseover="this.style.transform='translateX(2px)'" onmouseout="this.style.transform=''">
 <div style="font-size:.72rem;font-weight:700;color:var(--blue);white-space:nowrap;">09:00</div>
 <div style="font-size:.78rem;font-weight:600;">Standup Meeting — Finance Team</div>
 </div>
-<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--purple-bg);border-radius:8px;border-left:3px solid var(--purple);">
+<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--purple-bg);border-radius:8px;border-left:3px solid var(--purple);cursor:pointer;transition:all .15s;" onclick="showScheduleDetail('Review Procurement Q1 Report','11:00 - 12:00','ห้องประชุม B ชั้น 5','ธนากาน, กิตติ, พิมพ์','ทบทวนรายงาน Procurement ไตรมาส 1 และวางแผนไตรมาส 2')" onmouseover="this.style.transform='translateX(2px)'" onmouseout="this.style.transform=''">
 <div style="font-size:.72rem;font-weight:700;color:var(--purple);white-space:nowrap;">11:00</div>
 <div style="font-size:.78rem;font-weight:600;">Review Procurement Q1 Report</div>
 </div>
-<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--orange-bg);border-radius:8px;border-left:3px solid var(--orange);">
+<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--orange-bg);border-radius:8px;border-left:3px solid var(--orange);cursor:pointer;transition:all .15s;" onclick="showScheduleDetail('Vendor Onboarding — ABC Corp','14:30 - 15:30','Microsoft Teams (Online)','ธนากาน, ตัวแทน ABC Corp','แนะนำระบบ Autopilot ให้กับ Vendor ใหม่ ABC Corp พร้อมสร้าง Account')" onmouseover="this.style.transform='translateX(2px)'" onmouseout="this.style.transform=''">
 <div style="font-size:.72rem;font-weight:700;color:var(--orange);white-space:nowrap;">14:30</div>
 <div style="font-size:.78rem;font-weight:600;">Vendor Onboarding — ABC Corp</div>
 </div>
-<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--green-bg);border-radius:8px;border-left:3px solid var(--green);">
+<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--green-bg);border-radius:8px;border-left:3px solid var(--green);cursor:pointer;transition:all .15s;" onclick="showScheduleDetail('AI Module Demo — Sales Team','16:00 - 17:00','ห้องประชุมใหญ่ ชั้น 2','ธนากาน, ทีม Sales 8 คน','สาธิตการใช้งาน AI Module ให้ทีม Sales เพื่อเพิ่มประสิทธิภาพการขาย')" onmouseover="this.style.transform='translateX(2px)'" onmouseout="this.style.transform=''">
 <div style="font-size:.72rem;font-weight:700;color:var(--green);white-space:nowrap;">16:00</div>
 <div style="font-size:.78rem;font-weight:600;">AI Module Demo — Sales Team</div>
 </div>
@@ -727,23 +825,23 @@ Contact Sales
 <div class="card-title" style="font-size:.88rem;"><span class="icon">&#128230;</span> Active Modules</div>
 </div>
 <div style="display:flex;flex-direction:column;gap:6px;">
-<a href="expense-dashboard.html" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text);font-size:.78rem;font-weight:600;transition:all .2s;">
+<a href="javascript:void(0)" onclick="navigateModule('expense-dashboard.html','Expense Management')" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text);font-size:.78rem;font-weight:600;transition:all .2s;">
 <span style="font-size:1rem;">&#128176;</span> Expense Management
 <span style="margin-left:auto;font-size:.65rem;color:var(--green);font-weight:700;">Active</span>
 </a>
-<a href="procurement-dashboard.html" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text);font-size:.78rem;font-weight:600;transition:all .2s;">
+<a href="javascript:void(0)" onclick="navigateModule('procurement-dashboard.html','Procurement')" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text);font-size:.78rem;font-weight:600;transition:all .2s;">
 <span style="font-size:1rem;">&#128230;</span> Procurement
 <span style="margin-left:auto;font-size:.65rem;color:var(--green);font-weight:700;">Active</span>
 </a>
-<a href="finance-cases.html" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text);font-size:.78rem;font-weight:600;transition:all .2s;">
+<a href="javascript:void(0)" onclick="navigateModule('finance-cases.html','Finance & Accounting')" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text);font-size:.78rem;font-weight:600;transition:all .2s;">
 <span style="font-size:1rem;">&#127974;</span> Finance & Accounting
 <span style="margin-left:auto;font-size:.65rem;color:var(--green);font-weight:700;">Active</span>
 </a>
-<a href="logistics-tracking.html" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text);font-size:.78rem;font-weight:600;transition:all .2s;">
+<a href="javascript:void(0)" onclick="navigateModule('logistics-tracking.html','Logistics & Freight')" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text);font-size:.78rem;font-weight:600;transition:all .2s;">
 <span style="font-size:1rem;">&#128666;</span> Logistics & Freight
 <span style="margin-left:auto;font-size:.65rem;color:var(--green);font-weight:700;">Active</span>
 </a>
-<a href="sales-dashboard.html" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text);font-size:.78rem;font-weight:600;transition:all .2s;">
+<a href="javascript:void(0)" onclick="navigateModule('sales-dashboard.html','Sales & CRM')" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text);font-size:.78rem;font-weight:600;transition:all .2s;">
 <span style="font-size:1rem;">&#128200;</span> Sales & CRM
 <span style="margin-left:auto;font-size:.65rem;color:var(--green);font-weight:700;">Active</span>
 </a>
@@ -760,9 +858,10 @@ Contact Sales
 </div>
 </div>
 <p style="font-size:.78rem;opacity:.9;line-height:1.5;margin-bottom:12px;">ถามอะไรก็ได้เกี่ยวกับข้อมูลในระบบ เช่น "สรุปค่าใช้จ่ายเดือนนี้" หรือ "PO ที่ยังไม่อนุมัติมีกี่รายการ"</p>
+<div class="ai-chat-area" id="ai-chat-area"></div>
 <div style="display:flex;align-items:center;gap:8px;">
-<input type="text" placeholder="พิมพ์คำถามที่นี่..." style="flex:1;padding:8px 14px;border:1px solid rgba(255,255,255,0.3);border-radius:8px;background:rgba(255,255,255,0.15);color:#fff;font-family:inherit;font-size:.78rem;outline:none;backdrop-filter:blur(4px);" onfocus="this.style.borderColor='rgba(255,255,255,0.6)'" onblur="this.style.borderColor='rgba(255,255,255,0.3)'">
-<button style="padding:8px 14px;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);border-radius:8px;color:#fff;font-family:inherit;font-size:.82rem;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">&#10148;</button>
+<input type="text" id="ai-input" placeholder="พิมพ์คำถามที่นี่..." style="flex:1;padding:8px 14px;border:1px solid rgba(255,255,255,0.3);border-radius:8px;background:rgba(255,255,255,0.15);color:#fff;font-family:inherit;font-size:.78rem;outline:none;backdrop-filter:blur(4px);" onfocus="this.style.borderColor='rgba(255,255,255,0.6)'" onblur="this.style.borderColor='rgba(255,255,255,0.3)'" onkeydown="if(event.key==='Enter')sendAiMessage()">
+<button style="padding:8px 14px;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);border-radius:8px;color:#fff;font-family:inherit;font-size:.82rem;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'" onclick="sendAiMessage()">&#10148;</button>
 </div>
 </div>
 
@@ -803,6 +902,500 @@ Asia-Pacific (Singapore)
 </div>
 
 </div><!-- /page -->
+
+<!-- ===== ALL MODALS ===== -->
+
+<!-- 1. Setup Wizard Modal -->
+<div class="modal-overlay" id="modal-setup">
+<div class="modal modal-lg">
+<div class="modal-header">
+<h3>&#127919; ตั้งค่าระบบให้เสร็จสมบูรณ์</h3>
+<button class="modal-close" onclick="closeModal('modal-setup')">&times;</button>
+</div>
+<div class="wizard-steps">
+<div class="wizard-step active" data-step="1" onclick="goSetupStep(1)">&#9312; เชื่อมต่อ LINE OA</div>
+<div class="wizard-step" data-step="2" onclick="goSetupStep(2)">&#9313; ตั้งค่า Approval Workflow</div>
+</div>
+<div class="modal-body">
+<div class="wizard-panel active" id="setup-step-1">
+<h4 style="font-size:.88rem;font-weight:700;margin-bottom:4px;">เชื่อมต่อ LINE Official Account</h4>
+<p style="font-size:.75rem;color:var(--muted);margin-bottom:16px;">กรอกข้อมูล Channel จาก LINE Developers Console เพื่อเชื่อมต่อระบบแจ้งเตือนผ่าน LINE</p>
+<div class="form-group">
+<label class="form-label">Channel ID</label>
+<input class="form-input" type="text" id="line-channel-id" placeholder="เช่น 1657890234">
+</div>
+<div class="form-group">
+<label class="form-label">Channel Secret</label>
+<input class="form-input" type="password" id="line-channel-secret" placeholder="กรอก Channel Secret">
+</div>
+<div class="form-group">
+<label class="form-label">Channel Access Token (ไม่บังคับ)</label>
+<input class="form-input" type="text" id="line-access-token" placeholder="Long-lived access token">
+</div>
+<div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px;">
+<button class="btn-modal-primary" onclick="submitLineSetup()">บันทึกและดำเนินการต่อ &#8594;</button>
+</div>
+</div>
+<div class="wizard-panel" id="setup-step-2">
+<h4 style="font-size:.88rem;font-weight:700;margin-bottom:4px;">ตั้งค่า Approval Workflow</h4>
+<p style="font-size:.75rem;color:var(--muted);margin-bottom:16px;">กำหนดจำนวนระดับการอนุมัติและเพิ่มผู้อนุมัติในแต่ละระดับ</p>
+<div class="form-group">
+<label class="form-label">จำนวนระดับการอนุมัติ</label>
+<select class="form-select" id="approval-levels">
+<option value="1">1 ระดับ (ผู้อนุมัติเดียว)</option>
+<option value="2" selected>2 ระดับ (ผู้จัดการ + ผู้บริหาร)</option>
+<option value="3">3 ระดับ (หัวหน้างาน + ผู้จัดการ + ผู้บริหาร)</option>
+</select>
+</div>
+<div class="form-group">
+<label class="form-label">ผู้อนุมัติระดับ 1 (หัวหน้างาน)</label>
+<input class="form-input" type="text" id="approver-1" placeholder="ชื่อ หรือ อีเมล เช่น somchai@company.com">
+</div>
+<div class="form-group">
+<label class="form-label">ผู้อนุมัติระดับ 2 (ผู้จัดการ)</label>
+<input class="form-input" type="text" id="approver-2" placeholder="ชื่อ หรือ อีเมล">
+</div>
+<div class="form-group">
+<label class="form-label">วงเงินอนุมัติอัตโนมัติ (ไม่บังคับ)</label>
+<input class="form-input" type="number" id="auto-approve-limit" placeholder="เช่น 5000 (บาท)">
+</div>
+<div style="display:flex;justify-content:space-between;margin-top:20px;">
+<button class="btn-modal-secondary" onclick="goSetupStep(1)">&larr; ย้อนกลับ</button>
+<button class="btn-modal-primary" onclick="submitApprovalSetup()">&#9989; บันทึกการตั้งค่า</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 2. Promo Detail Modal -->
+<div class="modal-overlay" id="modal-promo">
+<div class="modal modal-lg">
+<div class="modal-header">
+<h3>&#127881; โปรโมชั่นเดือนเมษายน</h3>
+<button class="modal-close" onclick="closeModal('modal-promo')">&times;</button>
+</div>
+<div class="modal-body">
+<div style="background:linear-gradient(135deg,#FBBF24,#D97706);border-radius:12px;padding:20px;color:#fff;margin-bottom:20px;">
+<h4 style="font-size:1.1rem;font-weight:800;">อัปเกรดเป็น Enterprise ลด 30%</h4>
+<p style="font-size:.82rem;opacity:.9;margin-top:4px;">ใช้ได้ถึงวันที่ 30 เมษายน 2569 เท่านั้น! รวม Onboarding ฟรี + Priority Support 3 เดือน</p>
+</div>
+<h4 style="font-size:.88rem;font-weight:700;margin-bottom:12px;">เปรียบเทียบแพ็กเกจ</h4>
+<table class="price-table">
+<thead>
+<tr><th>ฟีเจอร์</th><th>Professional</th><th style="background:var(--blue-bg);color:var(--blue);">Enterprise &#9733;</th></tr>
+</thead>
+<tbody>
+<tr><td>จำนวน Module</td><td>3 modules</td><td class="highlight">ไม่จำกัด</td></tr>
+<tr><td>AI Tokens / เดือน</td><td>500K</td><td class="highlight">2M</td></tr>
+<tr><td>จำนวนผู้ใช้</td><td>10 คน</td><td class="highlight">ไม่จำกัด</td></tr>
+<tr><td>API Access</td><td>&#10060; ไม่รวม</td><td class="highlight">&#9989; เต็มรูปแบบ</td></tr>
+<tr><td>Priority Support</td><td>&#10060; ไม่รวม</td><td class="highlight">&#9989; 24/7</td></tr>
+<tr><td>Custom Workflow</td><td>5 workflows</td><td class="highlight">ไม่จำกัด</td></tr>
+<tr><td style="font-weight:700;">ราคา / เดือน</td><td style="font-weight:700;">&#3647;9,900</td><td class="highlight" style="font-size:.95rem;">&#3647;6,930 <span style="text-decoration:line-through;opacity:.5;font-size:.72rem;">&#3647;9,900</span></td></tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+<button class="btn-modal-secondary" onclick="closeModal('modal-promo')">ปิด</button>
+<button class="btn-modal-primary" onclick="closeModal('modal-promo');showToast('&#127881;','สำเร็จ','ส่งคำขออัปเกรดแล้ว ทีมงานจะติดต่อกลับภายใน 24 ชั่วโมง')">&#128640; ขออัปเกรดเลย</button>
+</div>
+</div>
+</div>
+
+<!-- 3. Release Notes Modal (reusable) -->
+<div class="modal-overlay" id="modal-release">
+<div class="modal">
+<div class="modal-header">
+<h3 id="release-modal-title">&#128640; Release Notes</h3>
+<button class="modal-close" onclick="closeModal('modal-release')">&times;</button>
+</div>
+<div class="modal-body" id="release-modal-body"></div>
+<div class="modal-footer">
+<button class="btn-modal-secondary" onclick="closeModal('modal-release')">ปิด</button>
+</div>
+</div>
+</div>
+
+<!-- 4. All Release Notes Modal -->
+<div class="modal-overlay" id="modal-all-releases">
+<div class="modal modal-lg">
+<div class="modal-header">
+<h3>&#128640; ประวัติการอัปเดตทั้งหมด</h3>
+<button class="modal-close" onclick="closeModal('modal-all-releases')">&times;</button>
+</div>
+<div class="modal-body">
+<div style="margin-bottom:16px;">
+<span class="release-detail-tag new">&#9989; ฟีเจอร์ใหม่</span>
+<span class="release-detail-tag improve">&#128736; ปรับปรุง</span>
+<span class="release-detail-tag fix">&#128295; แก้ไขบัก</span>
+</div>
+<div style="border-left:2px solid var(--border);padding-left:16px;">
+<div style="margin-bottom:20px;"><span class="pill pill-purple" style="margin-bottom:6px;display:inline-block;">v2.8.0</span> <span style="font-size:.72rem;color:var(--muted);">5 เม.ย. 2569</span><h4 style="font-size:.85rem;font-weight:700;margin:6px 0 4px;">AI Anomaly Detection ในระบบ Expense</h4><p style="font-size:.78rem;color:var(--text2);line-height:1.6;">ระบบ AI จะตรวจจับค่าใช้จ่ายที่ผิดปกติโดยอัตโนมัติ พร้อมแจ้งเตือนทันที</p></div>
+<div style="margin-bottom:20px;"><span class="pill pill-purple" style="margin-bottom:6px;display:inline-block;">v2.7.5</span> <span style="font-size:.72rem;color:var(--muted);">28 มี.ค. 2569</span><h4 style="font-size:.85rem;font-weight:700;margin:6px 0 4px;">3-Way Match อัตโนมัติ สำหรับ Procurement</h4><p style="font-size:.78rem;color:var(--text2);line-height:1.6;">จับคู่ PO, GR, Invoice อัตโนมัติ ลดเวลาตรวจสอบ 90%</p></div>
+<div style="margin-bottom:20px;"><span class="pill pill-purple" style="margin-bottom:6px;display:inline-block;">v2.7.0</span> <span style="font-size:.72rem;color:var(--muted);">15 มี.ค. 2569</span><h4 style="font-size:.85rem;font-weight:700;margin:6px 0 4px;">FX Rate Alert</h4><p style="font-size:.78rem;color:var(--text2);line-height:1.6;">แจ้งเตือนอัตราแลกเปลี่ยนเมื่อมีการเปลี่ยนแปลงเกินเกณฑ์ที่กำหนด</p></div>
+<div style="margin-bottom:20px;"><span class="pill pill-purple" style="margin-bottom:6px;display:inline-block;">v2.6.0</span> <span style="font-size:.72rem;color:var(--muted);">1 มี.ค. 2569</span><h4 style="font-size:.85rem;font-weight:700;margin:6px 0 4px;">Multi-currency Expense Report</h4><p style="font-size:.78rem;color:var(--text2);line-height:1.6;">รองรับการสร้างรายงานค่าใช้จ่ายหลายสกุลเงินในรายงานเดียว</p></div>
+<div><span class="pill pill-purple" style="margin-bottom:6px;display:inline-block;">v2.5.0</span> <span style="font-size:.72rem;color:var(--muted);">15 ก.พ. 2569</span><h4 style="font-size:.85rem;font-weight:700;margin:6px 0 4px;">Vendor Portal</h4><p style="font-size:.78rem;color:var(--text2);line-height:1.6;">เปิดใช้งาน Vendor Portal ให้ Vendor สามารถอัปเดตข้อมูลและส่งเอกสารได้เอง</p></div>
+</div>
+</div>
+<div class="modal-footer">
+<button class="btn-modal-secondary" onclick="closeModal('modal-all-releases')">ปิด</button>
+</div>
+</div>
+</div>
+
+<!-- 5. News Article Modal -->
+<div class="modal-overlay" id="modal-news">
+<div class="modal modal-lg">
+<div class="modal-header">
+<h3 id="news-modal-title">&#128240; บทความ</h3>
+<button class="modal-close" onclick="closeModal('modal-news')">&times;</button>
+</div>
+<div class="modal-body" id="news-modal-body"></div>
+<div class="modal-footer">
+<button class="btn-modal-secondary" onclick="closeModal('modal-news')">ปิด</button>
+</div>
+</div>
+</div>
+
+<!-- 6. Trial Activation Modal -->
+<div class="modal-overlay" id="modal-trial">
+<div class="modal">
+<div class="modal-header">
+<h3>&#10024; เปิดใช้งาน Module ทดลองฟรี 14 วัน</h3>
+<button class="modal-close" onclick="closeModal('modal-trial')">&times;</button>
+</div>
+<div class="modal-body">
+<p style="font-size:.78rem;color:var(--muted);margin-bottom:16px;">กรอกข้อมูลด้านล่างเพื่อเปิดใช้งาน Module ทดลองฟรี ไม่ต้องใส่บัตรเครดิต</p>
+<div class="form-group">
+<label class="form-label">ชื่อ-นามสกุล</label>
+<input class="form-input" type="text" id="trial-name" placeholder="ชื่อ-นามสกุล">
+</div>
+<div class="form-group">
+<label class="form-label">อีเมล</label>
+<input class="form-input" type="email" id="trial-email" placeholder="email@company.com">
+</div>
+<div class="form-group">
+<label class="form-label">บริษัท</label>
+<input class="form-input" type="text" id="trial-company" placeholder="ชื่อบริษัท">
+</div>
+<div class="form-group">
+<label class="form-label">Module ที่ต้องการทดลอง</label>
+<select class="form-select" id="trial-module">
+<option value="hr">HR & Payroll</option>
+<option value="contract">Contract Management</option>
+<option value="bi">Business Intelligence</option>
+</select>
+</div>
+</div>
+<div class="modal-footer">
+<button class="btn-modal-secondary" onclick="closeModal('modal-trial')">ยกเลิก</button>
+<button class="btn-modal-primary" onclick="submitTrial()">&#128640; เปิดใช้งานทดลอง</button>
+</div>
+</div>
+</div>
+
+<!-- 7. Plan Comparison Modal -->
+<div class="modal-overlay" id="modal-plan">
+<div class="modal modal-lg">
+<div class="modal-header">
+<h3>&#128176; เปรียบเทียบแพลน Monthly vs Annual</h3>
+<button class="modal-close" onclick="closeModal('modal-plan')">&times;</button>
+</div>
+<div class="modal-body">
+<table class="price-table">
+<thead>
+<tr><th>รายละเอียด</th><th>Monthly Plan</th><th style="background:var(--green-bg);color:var(--green);">Annual Plan &#9733;</th></tr>
+</thead>
+<tbody>
+<tr><td>ราคา Enterprise / เดือน</td><td>&#3647;9,900</td><td class="highlight" style="color:var(--green);">&#3647;7,425</td></tr>
+<tr><td>ราคารวมทั้งปี</td><td>&#3647;118,800</td><td class="highlight" style="color:var(--green);">&#3647;89,100</td></tr>
+<tr><td>ประหยัด</td><td>—</td><td class="highlight" style="color:var(--green);">&#3647;29,700 (25%)</td></tr>
+<tr><td>Priority Support</td><td>&#10060; ไม่รวม</td><td class="highlight" style="color:var(--green);">&#9989; ฟรี 12 เดือน</td></tr>
+<tr><td>เงื่อนไข</td><td>ยกเลิกได้ทุกเมื่อ</td><td style="font-size:.75rem;color:var(--text2);">ชำระล่วงหน้า 12 เดือน</td></tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+<button class="btn-modal-secondary" onclick="closeModal('modal-plan')">ปิด</button>
+<button class="btn-modal-primary" style="background:var(--green);" onclick="closeModal('modal-plan');showToast('&#128176;','สำเร็จ','ส่งคำขอเปลี่ยนแพลนแล้ว ทีมงานจะติดต่อกลับเร็วๆ นี้')">เปลี่ยนเป็น Annual Plan</button>
+</div>
+</div>
+</div>
+
+<!-- 8. Documentation Modal -->
+<div class="modal-overlay" id="modal-docs">
+<div class="modal modal-lg">
+<div class="modal-header">
+<h3>&#128214; เอกสารประกอบการใช้งาน</h3>
+<button class="modal-close" onclick="closeModal('modal-docs')">&times;</button>
+</div>
+<div class="modal-body">
+<input class="doc-search-input" type="text" placeholder="&#128269; ค้นหาเอกสาร..." oninput="filterDocs(this.value)">
+<div id="doc-list">
+<div class="doc-list-item" data-kw="เริ่มต้น getting started"><span>&#128214;</span> คู่มือเริ่มต้นใช้งาน (Getting Started)</div>
+<div class="doc-list-item" data-kw="expense ค่าใช้จ่าย"><span>&#128176;</span> คู่มือ Expense Management</div>
+<div class="doc-list-item" data-kw="procurement จัดซื้อ"><span>&#128230;</span> คู่มือ Procurement</div>
+<div class="doc-list-item" data-kw="finance บัญชี การเงิน"><span>&#127974;</span> คู่มือ Finance & Accounting</div>
+<div class="doc-list-item" data-kw="logistics ขนส่ง"><span>&#128666;</span> คู่มือ Logistics & Freight</div>
+<div class="doc-list-item" data-kw="sales ขาย crm"><span>&#128200;</span> คู่มือ Sales & CRM</div>
+<div class="doc-list-item" data-kw="ai assistant ผู้ช่วย"><span>&#129302;</span> คู่มือ AI Assistant</div>
+<div class="doc-list-item" data-kw="approval อนุมัติ workflow"><span>&#9989;</span> การตั้งค่า Approval Workflow</div>
+<div class="doc-list-item" data-kw="line integration เชื่อมต่อ"><span>&#128172;</span> การเชื่อมต่อ LINE OA</div>
+<div class="doc-list-item" data-kw="security ความปลอดภัย"><span>&#128274;</span> นโยบายความปลอดภัยข้อมูล</div>
+</div>
+</div>
+<div class="modal-footer">
+<button class="btn-modal-secondary" onclick="closeModal('modal-docs')">ปิด</button>
+</div>
+</div>
+</div>
+
+<!-- 9. API Reference Modal -->
+<div class="modal-overlay" id="modal-api">
+<div class="modal modal-lg">
+<div class="modal-header">
+<h3>&#128268; API Reference</h3>
+<button class="modal-close" onclick="closeModal('modal-api')">&times;</button>
+</div>
+<div class="modal-body">
+<p style="font-size:.78rem;color:var(--muted);margin-bottom:16px;">Autopilot v2 REST API สำหรับการเชื่อมต่อระบบภายนอก</p>
+<div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px;">
+<div style="font-size:.72rem;color:var(--muted);font-weight:600;margin-bottom:6px;">Base URL</div>
+<code style="font-size:.82rem;color:var(--blue);background:var(--blue-bg);padding:4px 10px;border-radius:6px;font-weight:600;">https://api.autopilot.ants.co.th/v2</code>
+</div>
+<div class="doc-list-item" onclick="showToast('&#128268;','API','เปิดหน้า Authentication docs')"><span>&#128274;</span> Authentication (OAuth 2.0 / API Key)</div>
+<div class="doc-list-item" onclick="showToast('&#128268;','API','เปิดหน้า Expense API docs')"><span>&#128176;</span> Expense API — สร้าง, ดึง, อัปเดต Expense</div>
+<div class="doc-list-item" onclick="showToast('&#128268;','API','เปิดหน้า Procurement API docs')"><span>&#128230;</span> Procurement API — PR, PO, GR endpoints</div>
+<div class="doc-list-item" onclick="showToast('&#128268;','API','เปิดหน้า Finance API docs')"><span>&#127974;</span> Finance API — Invoice, Payment, Journal</div>
+<div class="doc-list-item" onclick="showToast('&#128268;','API','เปิดหน้า Webhook docs')"><span>&#128268;</span> Webhooks — รับ Events แบบ Real-time</div>
+<div class="doc-list-item" onclick="showToast('&#128268;','API','เปิดหน้า Rate Limit docs')"><span>&#9200;</span> Rate Limits & Best Practices</div>
+</div>
+<div class="modal-footer">
+<button class="btn-modal-secondary" onclick="closeModal('modal-api')">ปิด</button>
+</div>
+</div>
+</div>
+
+<!-- 10. Support Center Modal -->
+<div class="modal-overlay" id="modal-support">
+<div class="modal">
+<div class="modal-header">
+<h3>&#127384; แจ้งปัญหา / ขอความช่วยเหลือ</h3>
+<button class="modal-close" onclick="closeModal('modal-support')">&times;</button>
+</div>
+<div class="modal-body">
+<div class="form-group">
+<label class="form-label">หัวข้อปัญหา</label>
+<select class="form-select" id="support-topic">
+<option value="bug">พบข้อผิดพลาด (Bug)</option>
+<option value="feature">ขอฟีเจอร์ใหม่</option>
+<option value="question">คำถามเกี่ยวกับการใช้งาน</option>
+<option value="billing">เรื่องการชำระเงิน</option>
+<option value="other">อื่นๆ</option>
+</select>
+</div>
+<div class="form-group">
+<label class="form-label">เรื่อง</label>
+<input class="form-input" type="text" id="support-subject" placeholder="สรุปปัญหาสั้นๆ">
+</div>
+<div class="form-group">
+<label class="form-label">รายละเอียด</label>
+<textarea class="form-textarea" id="support-detail" placeholder="อธิบายปัญหาหรือคำถามของคุณ..."></textarea>
+</div>
+<div class="form-group">
+<label class="form-label">ระดับความเร่งด่วน</label>
+<select class="form-select" id="support-priority">
+<option value="low">ต่ำ — ไม่กระทบการทำงาน</option>
+<option value="medium" selected>ปานกลาง — กระทบบางส่วน</option>
+<option value="high">สูง — ไม่สามารถใช้งานได้</option>
+</select>
+</div>
+</div>
+<div class="modal-footer">
+<button class="btn-modal-secondary" onclick="closeModal('modal-support')">ยกเลิก</button>
+<button class="btn-modal-primary" onclick="submitSupport()">&#128232; ส่ง Ticket</button>
+</div>
+</div>
+</div>
+
+<!-- 11. Community Forum Modal -->
+<div class="modal-overlay" id="modal-forum">
+<div class="modal modal-lg">
+<div class="modal-header">
+<h3>&#128483; Community Forum</h3>
+<button class="modal-close" onclick="closeModal('modal-forum')">&times;</button>
+</div>
+<div class="modal-body">
+<p style="font-size:.78rem;color:var(--muted);margin-bottom:16px;">กระทู้ยอดนิยมจาก Autopilot Community</p>
+<div class="forum-item" onclick="showToast('&#128483;','Forum','กำลังเปิดกระทู้...')"><h5>วิธี setup 3-Way Match ให้ตรงกับ flow ของบริษัท</h5><div class="forum-meta"><span>&#128100; สมชาย ว.</span><span>&#128172; 23 ตอบ</span><span>&#128064; 456 ดู</span></div></div>
+<div class="forum-item" onclick="showToast('&#128483;','Forum','กำลังเปิดกระทู้...')"><h5>แชร์ประสบการณ์ใช้ AI Anomaly Detection</h5><div class="forum-meta"><span>&#128100; วิภา ส.</span><span>&#128172; 15 ตอบ</span><span>&#128064; 312 ดู</span></div></div>
+<div class="forum-item" onclick="showToast('&#128483;','Forum','กำลังเปิดกระทู้...')"><h5>Tips: ลดเวลา Approval Process จาก 3 วันเหลือ 2 ชม.</h5><div class="forum-meta"><span>&#128100; กิตติ พ.</span><span>&#128172; 31 ตอบ</span><span>&#128064; 789 ดู</span></div></div>
+<div class="forum-item" onclick="showToast('&#128483;','Forum','กำลังเปิดกระทู้...')"><h5>ถาม-ตอบ: การเชื่อมต่อ LINE OA กับระบบแจ้งเตือน</h5><div class="forum-meta"><span>&#128100; ณัฐ ก.</span><span>&#128172; 12 ตอบ</span><span>&#128064; 198 ดู</span></div></div>
+<div class="forum-item" onclick="showToast('&#128483;','Forum','กำลังเปิดกระทู้...')"><h5>แนะนำ Workflow สำหรับบริษัทขนาดกลาง</h5><div class="forum-meta"><span>&#128100; พิมพ์ ร.</span><span>&#128172; 8 ตอบ</span><span>&#128064; 145 ดู</span></div></div>
+</div>
+<div class="modal-footer">
+<button class="btn-modal-secondary" onclick="closeModal('modal-forum')">ปิด</button>
+</div>
+</div>
+</div>
+
+<!-- 12. Video Tutorials Modal -->
+<div class="modal-overlay" id="modal-videos">
+<div class="modal modal-lg">
+<div class="modal-header">
+<h3>&#127909; Video Tutorials</h3>
+<button class="modal-close" onclick="closeModal('modal-videos')">&times;</button>
+</div>
+<div class="modal-body">
+<div class="video-item" onclick="showToast('&#127909;','Video','กำลังเปิดวิดีโอ...')"><div class="video-thumb" style="background:linear-gradient(135deg,#2563EB,#7C3AED);">&#9654;</div><div class="video-info"><h5>เริ่มต้นใช้งาน Autopilot v2 ใน 10 นาที</h5><span>&#9200; 10:25 &bull; &#128064; 2.3K views</span></div></div>
+<div class="video-item" onclick="showToast('&#127909;','Video','กำลังเปิดวิดีโอ...')"><div class="video-thumb" style="background:linear-gradient(135deg,#059669,#10B981);">&#9654;</div><div class="video-info"><h5>ตั้งค่า Expense Management แบบครบวงจร</h5><span>&#9200; 15:42 &bull; &#128064; 1.8K views</span></div></div>
+<div class="video-item" onclick="showToast('&#127909;','Video','กำลังเปิดวิดีโอ...')"><div class="video-thumb" style="background:linear-gradient(135deg,#D97706,#F59E0B);">&#9654;</div><div class="video-info"><h5>สร้าง Approval Workflow ด้วย Drag & Drop</h5><span>&#9200; 8:15 &bull; &#128064; 1.2K views</span></div></div>
+<div class="video-item" onclick="showToast('&#127909;','Video','กำลังเปิดวิดีโอ...')"><div class="video-thumb" style="background:linear-gradient(135deg,#7C3AED,#EC4899);">&#9654;</div><div class="video-info"><h5>ใช้ AI Assistant ให้เต็มประสิทธิภาพ</h5><span>&#9200; 12:30 &bull; &#128064; 980 views</span></div></div>
+<div class="video-item" onclick="showToast('&#127909;','Video','กำลังเปิดวิดีโอ...')"><div class="video-thumb" style="background:linear-gradient(135deg,#0891B2,#06B6D4);">&#9654;</div><div class="video-info"><h5>เชื่อมต่อ API กับระบบภายนอก (ERP, SAP)</h5><span>&#9200; 20:10 &bull; &#128064; 750 views</span></div></div>
+</div>
+<div class="modal-footer">
+<button class="btn-modal-secondary" onclick="closeModal('modal-videos')">ปิด</button>
+</div>
+</div>
+</div>
+
+<!-- 13. Contact Sales Modal -->
+<div class="modal-overlay" id="modal-contact">
+<div class="modal">
+<div class="modal-header">
+<h3>&#128222; ติดต่อทีม Sales</h3>
+<button class="modal-close" onclick="closeModal('modal-contact')">&times;</button>
+</div>
+<div class="modal-body">
+<div class="form-group">
+<label class="form-label">ชื่อ-นามสกุล</label>
+<input class="form-input" type="text" id="contact-name" placeholder="ชื่อ-นามสกุล">
+</div>
+<div class="form-group">
+<label class="form-label">อีเมล</label>
+<input class="form-input" type="email" id="contact-email" placeholder="email@company.com">
+</div>
+<div class="form-group">
+<label class="form-label">เบอร์โทรศัพท์</label>
+<input class="form-input" type="tel" id="contact-phone" placeholder="0xx-xxx-xxxx">
+</div>
+<div class="form-group">
+<label class="form-label">สิ่งที่สนใจ</label>
+<select class="form-select" id="contact-interest">
+<option value="demo">ขอ Demo</option>
+<option value="upgrade">สอบถามการอัปเกรด</option>
+<option value="enterprise">Enterprise Plan</option>
+<option value="custom">ปรับแต่งระบบตามความต้องการ</option>
+<option value="other">อื่นๆ</option>
+</select>
+</div>
+<div class="form-group">
+<label class="form-label">ข้อความเพิ่มเติม</label>
+<textarea class="form-textarea" id="contact-message" placeholder="รายละเอียดที่ต้องการสอบถาม..."></textarea>
+</div>
+</div>
+<div class="modal-footer">
+<button class="btn-modal-secondary" onclick="closeModal('modal-contact')">ยกเลิก</button>
+<button class="btn-modal-primary" onclick="submitContact()">&#128232; ส่งข้อความ</button>
+</div>
+</div>
+</div>
+
+<!-- 14. Full Activity Log Modal -->
+<div class="modal-overlay" id="modal-activity">
+<div class="modal modal-lg">
+<div class="modal-header">
+<h3>&#128338; ประวัติกิจกรรมทั้งหมด</h3>
+<button class="modal-close" onclick="closeModal('modal-activity')">&times;</button>
+</div>
+<div class="modal-body" style="max-height:500px;overflow-y:auto;">
+<div style="margin-bottom:8px;font-size:.75rem;font-weight:700;color:var(--muted);">วันนี้ — 5 เม.ย. 2569</div>
+<div class="activity-feed" style="max-height:none;">
+<div class="activity-item"><div class="activity-dot green"></div><div><div class="activity-text"><strong>สมชาย</strong> อนุมัติ EXP-0025</div><div class="activity-time">5 นาทีที่แล้ว</div></div></div>
+<div class="activity-item"><div class="activity-dot cyan"></div><div><div class="activity-text">ระบบ <strong>OCR</strong> สแกน 15 ใบเสร็จสำเร็จ</div><div class="activity-time">12 นาทีที่แล้ว</div></div></div>
+<div class="activity-item"><div class="activity-dot blue"></div><div><div class="activity-text"><strong>วิภา</strong> สร้าง PR-0089 มูลค่า &#3647;245,000</div><div class="activity-time">28 นาทีที่แล้ว</div></div></div>
+<div class="activity-item"><div class="activity-dot orange"></div><div><div class="activity-text"><strong>AI</strong> ตรวจพบค่าผิดปกติใน EXP-0023</div><div class="activity-time">45 นาทีที่แล้ว</div></div></div>
+<div class="activity-item"><div class="activity-dot purple"></div><div><div class="activity-text"><strong>ณัฐ</strong> ส่ง Quotation QT-0156 ให้ลูกค้า</div><div class="activity-time">1 ชั่วโมงที่แล้ว</div></div></div>
+<div class="activity-item"><div class="activity-dot green"></div><div><div class="activity-text"><strong>3-Way Match</strong> PO-0034 สำเร็จอัตโนมัติ</div><div class="activity-time">1.5 ชั่วโมงที่แล้ว</div></div></div>
+<div class="activity-item"><div class="activity-dot red"></div><div><div class="activity-text"><strong>FX Alert:</strong> USD/THB เปลี่ยนแปลง +0.8%</div><div class="activity-time">2 ชั่วโมงที่แล้ว</div></div></div>
+<div class="activity-item"><div class="activity-dot blue"></div><div><div class="activity-text"><strong>ธนากาน</strong> อัปโหลดเอกสาร INV-0078</div><div class="activity-time">3 ชั่วโมงที่แล้ว</div></div></div>
+</div>
+<div style="margin:16px 0 8px;font-size:.75rem;font-weight:700;color:var(--muted);">เมื่อวาน — 4 เม.ย. 2569</div>
+<div class="activity-feed" style="max-height:none;">
+<div class="activity-item"><div class="activity-dot green"></div><div><div class="activity-text"><strong>สมชาย</strong> อนุมัติ EXP-0022, EXP-0024</div><div class="activity-time">09:30</div></div></div>
+<div class="activity-item"><div class="activity-dot purple"></div><div><div class="activity-text"><strong>พิมพ์</strong> สร้าง PR-0088 มูลค่า &#3647;180,000</div><div class="activity-time">10:15</div></div></div>
+<div class="activity-item"><div class="activity-dot cyan"></div><div><div class="activity-text">ระบบ <strong>Auto-reconcile</strong> จับคู่ Invoice 12 รายการ</div><div class="activity-time">14:00</div></div></div>
+<div class="activity-item"><div class="activity-dot orange"></div><div><div class="activity-text"><strong>AI</strong> สรุปรายงานค่าใช้จ่ายประจำสัปดาห์</div><div class="activity-time">17:00</div></div></div>
+</div>
+</div>
+<div class="modal-footer">
+<button class="btn-modal-secondary" onclick="closeModal('modal-activity')">ปิด</button>
+</div>
+</div>
+</div>
+
+<!-- 15. Command Palette / Search Modal -->
+<div class="modal-overlay" id="modal-search" style="align-items:flex-start;padding-top:12vh;">
+<div class="modal" style="padding:0;overflow:hidden;">
+<input class="cmd-palette-input" type="text" placeholder="&#128269; ค้นหา module, เมนู, คำสั่ง..." id="cmd-search-input" oninput="filterCmdResults(this.value)">
+<div class="cmd-results" id="cmd-results">
+<div class="cmd-result-item" onclick="navigateModule('expense-dashboard.html','Expense Management')"><div class="cmd-result-icon">&#128176;</div><div><div style="font-weight:600;">Expense Management</div><div style="font-size:.68rem;color:var(--muted);">จัดการค่าใช้จ่าย</div></div></div>
+<div class="cmd-result-item" onclick="navigateModule('procurement-dashboard.html','Procurement')"><div class="cmd-result-icon">&#128230;</div><div><div style="font-weight:600;">Procurement</div><div style="font-size:.68rem;color:var(--muted);">จัดซื้อจัดจ้าง</div></div></div>
+<div class="cmd-result-item" onclick="navigateModule('finance-cases.html','Finance & Accounting')"><div class="cmd-result-icon">&#127974;</div><div><div style="font-weight:600;">Finance & Accounting</div><div style="font-size:.68rem;color:var(--muted);">การเงินและบัญชี</div></div></div>
+<div class="cmd-result-item" onclick="navigateModule('logistics-tracking.html','Logistics & Freight')"><div class="cmd-result-icon">&#128666;</div><div><div style="font-weight:600;">Logistics & Freight</div><div style="font-size:.68rem;color:var(--muted);">ขนส่งและโลจิสติกส์</div></div></div>
+<div class="cmd-result-item" onclick="navigateModule('sales-dashboard.html','Sales & CRM')"><div class="cmd-result-icon">&#128200;</div><div><div style="font-weight:600;">Sales & CRM</div><div style="font-size:.68rem;color:var(--muted);">ขายและ CRM</div></div></div>
+<div class="cmd-result-item" onclick="openModal('modal-docs');closeModal('modal-search')"><div class="cmd-result-icon">&#128214;</div><div><div style="font-weight:600;">Documentation</div><div style="font-size:.68rem;color:var(--muted);">เอกสารประกอบการใช้งาน</div></div></div>
+<div class="cmd-result-item" onclick="openModal('modal-api');closeModal('modal-search')"><div class="cmd-result-icon">&#128268;</div><div><div style="font-weight:600;">API Reference</div><div style="font-size:.68rem;color:var(--muted);">เอกสาร API</div></div></div>
+<div class="cmd-result-item" onclick="openModal('modal-support');closeModal('modal-search')"><div class="cmd-result-icon">&#127384;</div><div><div style="font-weight:600;">Support Center</div><div style="font-size:.68rem;color:var(--muted);">แจ้งปัญหาและขอความช่วยเหลือ</div></div></div>
+<div class="cmd-result-item" onclick="openModal('modal-setup');closeModal('modal-search')"><div class="cmd-result-icon">&#127919;</div><div><div style="font-weight:600;">Setup Wizard</div><div style="font-size:.68rem;color:var(--muted);">ตั้งค่าระบบ</div></div></div>
+</div>
+</div>
+</div>
+
+<!-- 16. Schedule Detail Modal -->
+<div class="modal-overlay" id="modal-schedule">
+<div class="modal modal-sm">
+<div class="modal-header">
+<h3 id="schedule-modal-title">&#128197; รายละเอียดนัดหมาย</h3>
+<button class="modal-close" onclick="closeModal('modal-schedule')">&times;</button>
+</div>
+<div class="modal-body" id="schedule-modal-body"></div>
+<div class="modal-footer">
+<button class="btn-modal-secondary" onclick="closeModal('modal-schedule')">ปิด</button>
+</div>
+</div>
+</div>
+
+<!-- Notification Panel (attached to bell) -->
+<div class="notif-panel" id="notif-panel">
+<div class="notif-panel-header">
+<h4>&#128276; การแจ้งเตือน</h4>
+<span style="font-size:.72rem;color:var(--blue);font-weight:600;cursor:pointer;" onclick="markAllRead()">อ่านทั้งหมด</span>
+</div>
+<div class="notif-list">
+<div class="notif-item unread" onclick="this.classList.remove('unread');updateNotifCount()">
+<div class="notif-icon-wrap" style="background:var(--orange-bg);color:var(--orange);">&#9200;</div>
+<div class="notif-content"><p><strong>Pending Approval:</strong> EXP-0026 รอการอนุมัติจากคุณ</p><div class="notif-time">2 นาทีที่แล้ว</div></div>
+</div>
+<div class="notif-item unread" onclick="this.classList.remove('unread');updateNotifCount()">
+<div class="notif-icon-wrap" style="background:var(--green-bg);color:var(--green);">&#9989;</div>
+<div class="notif-content"><p><strong>อนุมัติแล้ว:</strong> PR-0087 อนุมัติโดย สมชาย</p><div class="notif-time">15 นาทีที่แล้ว</div></div>
+</div>
+<div class="notif-item unread" onclick="this.classList.remove('unread');updateNotifCount()">
+<div class="notif-icon-wrap" style="background:var(--red-bg);color:var(--red);">&#128680;</div>
+<div class="notif-content"><p><strong>AI Alert:</strong> ค่าใช้จ่ายผิดปกติใน EXP-0023 (สูงกว่าปกติ 250%)</p><div class="notif-time">45 นาทีที่แล้ว</div></div>
+</div>
+<div class="notif-item unread" onclick="this.classList.remove('unread');updateNotifCount()">
+<div class="notif-icon-wrap" style="background:var(--blue-bg);color:var(--blue);">&#128640;</div>
+<div class="notif-content"><p><strong>อัปเดต:</strong> Autopilot v2.8.0 พร้อมใช้งานแล้ว</p><div class="notif-time">1 ชั่วโมงที่แล้ว</div></div>
+</div>
+<div class="notif-item unread" onclick="this.classList.remove('unread');updateNotifCount()">
+<div class="notif-icon-wrap" style="background:var(--purple-bg);color:var(--purple);">&#128172;</div>
+<div class="notif-content"><p><strong>ข้อความ:</strong> วิภา แสดงความคิดเห็นใน PR-0089</p><div class="notif-time">2 ชั่วโมงที่แล้ว</div></div>
+</div>
+</div>
+</div>
 
 <script>
 /* ---- Dark Mode Persistence ---- */
@@ -846,12 +1439,16 @@ onlineEl.innerHTML = n + '<span style="font-size:.85rem;font-weight:500;color:va
 }, 8000);
 })();
 
-/* ---- Search shortcut ---- */
+/* ---- Search shortcut (opens command palette) ---- */
 document.addEventListener('keydown', function(e){
 if((e.metaKey || e.ctrlKey) && e.key === 'k'){
 e.preventDefault();
-const input = document.querySelector('.search-bar input');
-if(input) input.focus();
+openModal('modal-search');
+setTimeout(function(){ document.getElementById('cmd-search-input').focus(); }, 100);
+}
+if(e.key === 'Escape'){
+closeAllModals();
+closeNotifPanel();
 }
 });
 
@@ -983,6 +1580,258 @@ document.documentElement.style.scrollBehavior = 'smooth';
   }, 15000);
 })();
 
+
+/* ===== Modal System Functions ===== */
+function openModal(id) {
+  document.getElementById(id).classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('active');
+  document.body.style.overflow = '';
+}
+function closeAllModals() {
+  document.querySelectorAll('.modal-overlay.active').forEach(function(m){ m.classList.remove('active'); });
+  document.body.style.overflow = '';
+}
+// Close modal on overlay click
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('modal-overlay')) {
+    e.target.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+});
+
+/* ===== Module Navigation via postMessage ===== */
+function navigateModule(url, title) {
+  closeAllModals();
+  if (window.parent && window.parent !== window) {
+    window.parent.postMessage({ type: 'navigate', module: url, title: title }, '*');
+  } else {
+    window.location.href = url;
+  }
+}
+
+/* ===== 1. Setup Wizard ===== */
+function goSetupStep(step) {
+  document.querySelectorAll('.wizard-step').forEach(function(s) { s.classList.remove('active','done'); });
+  document.querySelectorAll('.wizard-panel').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.wizard-step').forEach(function(s,i) {
+    if (i + 1 < step) s.classList.add('done');
+    if (i + 1 === step) s.classList.add('active');
+  });
+  var panel = document.getElementById('setup-step-' + step);
+  if (panel) panel.classList.add('active');
+}
+function submitLineSetup() {
+  var chId = document.getElementById('line-channel-id').value;
+  var chSecret = document.getElementById('line-channel-secret').value;
+  if (!chId || !chSecret) {
+    showToast('\u26A0\uFE0F', '\u0E01\u0E23\u0E38\u0E13\u0E32\u0E01\u0E23\u0E2D\u0E01\u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25', '\u0E01\u0E23\u0E38\u0E13\u0E32\u0E01\u0E23\u0E2D\u0E01 Channel ID \u0E41\u0E25\u0E30 Channel Secret');
+    return;
+  }
+  showToast('\u2705', '\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E21\u0E15\u0E48\u0E2D LINE OA \u0E2A\u0E33\u0E40\u0E23\u0E47\u0E08', '\u0E23\u0E30\u0E1A\u0E1A\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E21\u0E15\u0E48\u0E2D\u0E01\u0E31\u0E1A LINE Official Account \u0E40\u0E23\u0E35\u0E22\u0E1A\u0E23\u0E49\u0E2D\u0E22\u0E41\u0E25\u0E49\u0E27');
+  goSetupStep(2);
+}
+function submitApprovalSetup() {
+  var approver1 = document.getElementById('approver-1').value;
+  if (!approver1) {
+    showToast('\u26A0\uFE0F', '\u0E01\u0E23\u0E38\u0E13\u0E32\u0E01\u0E23\u0E2D\u0E01\u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25', '\u0E01\u0E23\u0E38\u0E13\u0E32\u0E23\u0E30\u0E1A\u0E38\u0E1C\u0E39\u0E49\u0E2D\u0E19\u0E38\u0E21\u0E31\u0E15\u0E34\u0E2D\u0E22\u0E48\u0E32\u0E07\u0E19\u0E49\u0E2D\u0E22 1 \u0E04\u0E19');
+    return;
+  }
+  closeModal('modal-setup');
+  showToast('\u{1F389}', '\u0E15\u0E31\u0E49\u0E07\u0E04\u0E48\u0E32\u0E40\u0E2A\u0E23\u0E47\u0E08\u0E2A\u0E21\u0E1A\u0E39\u0E23\u0E13\u0E4C!', '\u0E23\u0E30\u0E1A\u0E1A\u0E1E\u0E23\u0E49\u0E2D\u0E21\u0E43\u0E0A\u0E49\u0E07\u0E32\u0E19 100% \u0E41\u0E25\u0E49\u0E27');
+  // Update progress bar to 100%
+  var bar = document.querySelector('.progress-bar-fill');
+  if (bar) bar.style.width = '100%';
+  var label = document.querySelector('.progress-label');
+  if (label) label.textContent = 'Setup Progress: 100%';
+  var badge = document.querySelector('.card-badge');
+  if (badge) badge.textContent = '100% Complete';
+  // Mark remaining items as done
+  document.querySelectorAll('.checklist li:not(.done)').forEach(function(li) {
+    li.classList.add('done');
+    li.querySelector('.check').innerHTML = '\u2705';
+  });
+}
+
+/* ===== 3. Release Detail ===== */
+function showReleaseDetail(version, title, date, content, tagType) {
+  var tagClass = tagType === 'new' ? 'new' : tagType === 'fix' ? 'fix' : 'improve';
+  var tagLabel = tagType === 'new' ? '\u0E1F\u0E35\u0E40\u0E08\u0E2D\u0E23\u0E4C\u0E43\u0E2B\u0E21\u0E48' : tagType === 'fix' ? '\u0E41\u0E01\u0E49\u0E44\u0E02\u0E1A\u0E31\u0E01' : '\u0E1B\u0E23\u0E31\u0E1A\u0E1B\u0E23\u0E38\u0E07';
+  document.getElementById('release-modal-title').innerHTML = '\u{1F680} ' + version + ' — ' + title;
+  document.getElementById('release-modal-body').innerHTML =
+    '<div style="margin-bottom:12px;"><span class="pill pill-purple">' + version + '</span> <span style="font-size:.72rem;color:var(--muted);">' + date + '</span></div>' +
+    '<span class="release-detail-tag ' + tagClass + '">' + tagLabel + '</span>' +
+    '<div style="margin-top:16px;font-size:.82rem;color:var(--text2);line-height:1.8;">' + content.replace(/\n/g, '<br>') + '</div>';
+  openModal('modal-release');
+}
+
+/* ===== 4. News Detail ===== */
+function showNewsDetail(title, tag, date, readTime, content) {
+  document.getElementById('news-modal-title').innerHTML = '\u{1F4F0} ' + title;
+  document.getElementById('news-modal-body').innerHTML =
+    '<div style="margin-bottom:16px;display:flex;align-items:center;gap:12px;">' +
+    '<span class="pill pill-blue">' + tag + '</span>' +
+    '<span style="font-size:.72rem;color:var(--muted);">\u{1F4C5} ' + date + '</span>' +
+    '<span style="font-size:.72rem;color:var(--muted);">\u{1F551} ' + readTime + '</span>' +
+    '</div>' +
+    '<div style="font-size:.85rem;color:var(--text2);line-height:1.9;">' + content.replace(/\n/g, '<br>') + '</div>';
+  openModal('modal-news');
+}
+
+/* ===== 6. Trial Activation ===== */
+function openTrialModal(moduleName) {
+  document.getElementById('trial-module').value = moduleName;
+  openModal('modal-trial');
+}
+function submitTrial() {
+  var name = document.getElementById('trial-name').value;
+  var email = document.getElementById('trial-email').value;
+  if (!name || !email) {
+    showToast('\u26A0\uFE0F', '\u0E01\u0E23\u0E38\u0E13\u0E32\u0E01\u0E23\u0E2D\u0E01\u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25', '\u0E01\u0E23\u0E38\u0E13\u0E32\u0E01\u0E23\u0E2D\u0E01\u0E0A\u0E37\u0E48\u0E2D\u0E41\u0E25\u0E30\u0E2D\u0E35\u0E40\u0E21\u0E25');
+    return;
+  }
+  var moduleNames = { hr: 'HR & Payroll', contract: 'Contract Management', bi: 'Business Intelligence' };
+  var mod = document.getElementById('trial-module').value;
+  closeModal('modal-trial');
+  showToast('\u{1F680}', '\u0E40\u0E1B\u0E34\u0E14\u0E43\u0E0A\u0E49\u0E07\u0E32\u0E19\u0E17\u0E14\u0E25\u0E2D\u0E07\u0E2A\u0E33\u0E40\u0E23\u0E47\u0E08!', '\u0E40\u0E1B\u0E34\u0E14\u0E43\u0E0A\u0E49\u0E07\u0E32\u0E19 ' + (moduleNames[mod]||mod) + ' \u0E17\u0E14\u0E25\u0E2D\u0E07\u0E1F\u0E23\u0E35 14 \u0E27\u0E31\u0E19\u0E41\u0E25\u0E49\u0E27');
+  // Reset form
+  document.getElementById('trial-name').value = '';
+  document.getElementById('trial-email').value = '';
+  document.getElementById('trial-company').value = '';
+}
+
+/* ===== 10. Support Ticket ===== */
+function submitSupport() {
+  var subject = document.getElementById('support-subject').value;
+  var detail = document.getElementById('support-detail').value;
+  if (!subject || !detail) {
+    showToast('\u26A0\uFE0F', '\u0E01\u0E23\u0E38\u0E13\u0E32\u0E01\u0E23\u0E2D\u0E01\u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25', '\u0E01\u0E23\u0E38\u0E13\u0E32\u0E01\u0E23\u0E2D\u0E01\u0E40\u0E23\u0E37\u0E48\u0E2D\u0E07\u0E41\u0E25\u0E30\u0E23\u0E32\u0E22\u0E25\u0E30\u0E40\u0E2D\u0E35\u0E22\u0E14');
+    return;
+  }
+  closeModal('modal-support');
+  showToast('\u{1F4E8}', '\u0E2A\u0E48\u0E07 Ticket \u0E2A\u0E33\u0E40\u0E23\u0E47\u0E08!', 'Ticket #TK-' + (1000 + Math.floor(Math.random()*999)) + ' \u0E16\u0E39\u0E01\u0E2A\u0E23\u0E49\u0E32\u0E07\u0E41\u0E25\u0E49\u0E27 \u0E17\u0E35\u0E21\u0E07\u0E32\u0E19\u0E08\u0E30\u0E15\u0E34\u0E14\u0E15\u0E48\u0E2D\u0E01\u0E25\u0E31\u0E1A\u0E20\u0E32\u0E22\u0E43\u0E19 24 \u0E0A\u0E31\u0E48\u0E27\u0E42\u0E21\u0E07');
+  document.getElementById('support-subject').value = '';
+  document.getElementById('support-detail').value = '';
+}
+
+/* ===== 13. Contact Sales ===== */
+function submitContact() {
+  var name = document.getElementById('contact-name').value;
+  var email = document.getElementById('contact-email').value;
+  if (!name || !email) {
+    showToast('\u26A0\uFE0F', '\u0E01\u0E23\u0E38\u0E13\u0E32\u0E01\u0E23\u0E2D\u0E01\u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25', '\u0E01\u0E23\u0E38\u0E13\u0E32\u0E01\u0E23\u0E2D\u0E01\u0E0A\u0E37\u0E48\u0E2D\u0E41\u0E25\u0E30\u0E2D\u0E35\u0E40\u0E21\u0E25');
+    return;
+  }
+  closeModal('modal-contact');
+  showToast('\u{1F4E8}', '\u0E2A\u0E48\u0E07\u0E02\u0E49\u0E2D\u0E04\u0E27\u0E32\u0E21\u0E2A\u0E33\u0E40\u0E23\u0E47\u0E08!', '\u0E17\u0E35\u0E21 Sales \u0E08\u0E30\u0E15\u0E34\u0E14\u0E15\u0E48\u0E2D\u0E01\u0E25\u0E31\u0E1A\u0E20\u0E32\u0E22\u0E43\u0E19 1 \u0E27\u0E31\u0E19\u0E17\u0E33\u0E01\u0E32\u0E23');
+  document.getElementById('contact-name').value = '';
+  document.getElementById('contact-email').value = '';
+  document.getElementById('contact-phone').value = '';
+  document.getElementById('contact-message').value = '';
+}
+
+/* ===== 8. Docs Search Filter ===== */
+function filterDocs(query) {
+  var q = query.toLowerCase();
+  document.querySelectorAll('#doc-list .doc-list-item').forEach(function(item) {
+    var kw = (item.getAttribute('data-kw') || '') + ' ' + item.textContent;
+    item.style.display = kw.toLowerCase().indexOf(q) > -1 ? '' : 'none';
+  });
+}
+
+/* ===== 15. Command Palette Filter ===== */
+function filterCmdResults(query) {
+  var q = query.toLowerCase();
+  document.querySelectorAll('#cmd-results .cmd-result-item').forEach(function(item) {
+    item.style.display = item.textContent.toLowerCase().indexOf(q) > -1 ? '' : 'none';
+  });
+}
+
+/* ===== 10. Notification Panel ===== */
+function toggleNotifPanel(e) {
+  e.stopPropagation();
+  var panel = document.getElementById('notif-panel');
+  panel.classList.toggle('active');
+}
+function closeNotifPanel() {
+  document.getElementById('notif-panel').classList.remove('active');
+}
+function markAllRead() {
+  document.querySelectorAll('.notif-item.unread').forEach(function(item) { item.classList.remove('unread'); });
+  updateNotifCount();
+}
+function updateNotifCount() {
+  var count = document.querySelectorAll('.notif-item.unread').length;
+  var badge = document.getElementById('notif-badge-count');
+  if (badge) {
+    badge.textContent = count;
+    badge.style.display = count > 0 ? '' : 'none';
+  }
+}
+// Close notif panel when clicking outside
+document.addEventListener('click', function(e) {
+  var panel = document.getElementById('notif-panel');
+  var bell = document.querySelector('.notif-bell');
+  if (panel && panel.classList.contains('active') && !panel.contains(e.target) && !bell.contains(e.target)) {
+    closeNotifPanel();
+  }
+});
+// Position notif panel relative to bell
+(function(){
+  var bell = document.querySelector('.notif-bell');
+  if (bell) bell.appendChild(document.getElementById('notif-panel'));
+})();
+
+/* ===== 11. AI Assistant ===== */
+var aiResponses = {
+  '\u0E2A\u0E23\u0E38\u0E1B\u0E04\u0E48\u0E32\u0E43\u0E0A\u0E49\u0E08\u0E48\u0E32\u0E22': '\u{1F4CA} \u0E2A\u0E23\u0E38\u0E1B\u0E04\u0E48\u0E32\u0E43\u0E0A\u0E49\u0E08\u0E48\u0E32\u0E22\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49: \u0E23\u0E27\u0E21 \u0E3F1,245,000 \u0E08\u0E32\u0E01 23 \u0E23\u0E32\u0E22\u0E01\u0E32\u0E23 \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E02\u0E36\u0E49\u0E19 12% \u0E08\u0E32\u0E01\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E01\u0E48\u0E2D\u0E19 \u0E04\u0E48\u0E32\u0E43\u0E0A\u0E49\u0E08\u0E48\u0E32\u0E22\u0E2A\u0E39\u0E07\u0E2A\u0E38\u0E14\u0E04\u0E37\u0E2D\u0E2B\u0E21\u0E27\u0E14 IT Equipment \u0E3F320,000',
+  'po': '\u{1F4CB} PO \u0E17\u0E35\u0E48\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E2D\u0E19\u0E38\u0E21\u0E31\u0E15\u0E34\u0E21\u0E35 4 \u0E23\u0E32\u0E22\u0E01\u0E32\u0E23: PO-0035 (\u0E3F125,000), PO-0036 (\u0E3F89,000), PO-0037 (\u0E3F245,000), PO-0038 (\u0E3F67,000) \u0E23\u0E27\u0E21\u0E21\u0E39\u0E25\u0E04\u0E48\u0E32 \u0E3F526,000',
+  '\u0E2D\u0E19\u0E38\u0E21\u0E31\u0E15\u0E34': '\u{231B} \u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E23\u0E2D\u0E2D\u0E19\u0E38\u0E21\u0E31\u0E15\u0E34 8 \u0E23\u0E32\u0E22\u0E01\u0E32\u0E23: 2 Expense, 4 PR/PO, 2 Payment \u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E40\u0E23\u0E48\u0E07\u0E14\u0E48\u0E27\u0E19\u0E17\u0E35\u0E48\u0E2A\u0E38\u0E14\u0E04\u0E37\u0E2D EXP-0026 \u0E21\u0E39\u0E25\u0E04\u0E48\u0E32 \u0E3F45,000',
+  'vendor': '\u{1F4E6} Vendor \u0E17\u0E35\u0E48 Active \u0E21\u0E35 47 \u0E23\u0E32\u0E22 Top 5 \u0E15\u0E32\u0E21\u0E21\u0E39\u0E25\u0E04\u0E48\u0E32\u0E2A\u0E31\u0E48\u0E07\u0E0B\u0E37\u0E49\u0E2D: ABC Corp, XYZ Ltd, DEF Inc, GHI Trading, JKL Supply'
+};
+function sendAiMessage() {
+  var input = document.getElementById('ai-input');
+  var msg = input.value.trim();
+  if (!msg) return;
+  var chatArea = document.getElementById('ai-chat-area');
+  chatArea.style.display = 'flex';
+  // User bubble
+  var userBubble = document.createElement('div');
+  userBubble.className = 'ai-bubble user';
+  userBubble.textContent = msg;
+  chatArea.appendChild(userBubble);
+  input.value = '';
+  // Bot response after delay
+  setTimeout(function() {
+    var botBubble = document.createElement('div');
+    botBubble.className = 'ai-bubble bot';
+    var response = null;
+    var lc = msg.toLowerCase();
+    for (var key in aiResponses) {
+      if (lc.indexOf(key) > -1) { response = aiResponses[key]; break; }
+    }
+    if (!response) {
+      response = '\u{1F916} \u0E01\u0E33\u0E25\u0E31\u0E07\u0E1B\u0E23\u0E30\u0E21\u0E27\u0E25\u0E1C\u0E25\u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25\u0E43\u0E2B\u0E49\u0E04\u0E38\u0E13... \u0E04\u0E38\u0E13\u0E2A\u0E32\u0E21\u0E32\u0E23\u0E16\u0E16\u0E32\u0E21\u0E40\u0E01\u0E35\u0E48\u0E22\u0E27\u0E01\u0E31\u0E1A \u0E04\u0E48\u0E32\u0E43\u0E0A\u0E49\u0E08\u0E48\u0E32\u0E22, PO, \u0E01\u0E32\u0E23\u0E2D\u0E19\u0E38\u0E21\u0E31\u0E15\u0E34, \u0E2B\u0E23\u0E37\u0E2D Vendor \u0E44\u0E14\u0E49\u0E40\u0E25\u0E22\u0E04\u0E23\u0E31\u0E1A';
+    }
+    botBubble.textContent = response;
+    chatArea.appendChild(botBubble);
+    chatArea.scrollTop = chatArea.scrollHeight;
+  }, 800);
+  chatArea.scrollTop = chatArea.scrollHeight;
+}
+
+/* ===== 12. Schedule Detail ===== */
+function showScheduleDetail(title, time, location, attendees, desc) {
+  document.getElementById('schedule-modal-title').innerHTML = '\u{1F4C5} ' + title;
+  document.getElementById('schedule-modal-body').innerHTML =
+    '<div class="schedule-detail-row"><span class="sd-label">\u{231B} \u0E40\u0E27\u0E25\u0E32</span><span>' + time + '</span></div>' +
+    '<div class="schedule-detail-row"><span class="sd-label">\u{1F4CD} \u0E2A\u0E16\u0E32\u0E19\u0E17\u0E35\u0E48</span><span>' + location + '</span></div>' +
+    '<div class="schedule-detail-row"><span class="sd-label">\u{1F465} \u0E1C\u0E39\u0E49\u0E40\u0E02\u0E49\u0E32\u0E23\u0E48\u0E27\u0E21</span><span>' + attendees + '</span></div>' +
+    '<div style="margin-top:12px;padding:12px;background:var(--bg2);border-radius:8px;font-size:.82rem;color:var(--text2);line-height:1.6;">' + desc + '</div>';
+  openModal('modal-schedule');
+}
 
 function showToast(icon, title, msg) {
   const t = document.createElement('div');
