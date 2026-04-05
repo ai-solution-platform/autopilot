@@ -3,868 +3,1072 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Customer Feedback & Product Improvement | Autopilot v2</title>
+<title>Customer Feedback & Product Insights | Autopilot v2</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-:root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
-body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);}
+:root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--cyan-bg:#ECFEFF;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
+body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);--cyan-bg:rgba(8,145,178,0.15);}
 
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:var(--bg);color:var(--text);line-height:1.6;transition:background .3s,color .3s;}
 .container{max-width:1280px;margin:0 auto;padding:20px 24px 40px;}
 
-/* Dark mode toggle */
 .dark-toggle{position:fixed;top:16px;right:16px;z-index:1000;width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--card-bg);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:all .2s;}
 .dark-toggle:hover{transform:scale(1.1);box-shadow:0 4px 12px rgba(0,0,0,0.1);}
 
-/* Breadcrumb */
 .breadcrumb{font-size:0.78rem;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
 .breadcrumb a{color:var(--blue);text-decoration:none;}
 .breadcrumb a:hover{text-decoration:underline;}
-.breadcrumb span{color:var(--muted);}
 
-/* Page header */
-.page-header{margin-bottom:28px;}
+.page-header{margin-bottom:24px;}
 .page-title{font-size:1.65rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px;}
-.page-subtitle{font-size:0.95rem;color:var(--text2);font-weight:400;}
+.page-subtitle{font-size:0.92rem;color:var(--text2);font-weight:400;}
 
-/* Section titles */
+.tab-nav{display:flex;gap:4px;margin-bottom:24px;overflow-x:auto;border-bottom:2px solid var(--border);padding-bottom:0;}
+.tab-btn{padding:10px 18px;font-size:0.85rem;font-weight:600;border:none;background:none;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;white-space:nowrap;font-family:inherit;}
+.tab-btn:hover{color:var(--text);background:var(--bg2);border-radius:8px 8px 0 0;}
+.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);background:var(--blue-bg);border-radius:8px 8px 0 0;}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
 .section-title{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
 .section-title .icon{font-size:1.2rem;}
 
-/* KPI Cards */
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px;}
-.kpi-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);transition:all .2s;position:relative;overflow:hidden;}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
+.kpi-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);transition:all .2s;display:flex;align-items:center;gap:14px;}
 .kpi-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.08);}
-.kpi-card.blue{border-top:3px solid var(--blue);}
-.kpi-card.green{border-top:3px solid var(--green);}
-.kpi-card.purple{border-top:3px solid var(--purple);}
-.kpi-card.orange{border-top:3px solid var(--orange);}
-.kpi-label{font-size:0.78rem;color:var(--muted);font-weight:500;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.03em;}
+.kpi-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.kpi-icon.blue{background:var(--blue-bg);color:var(--blue);}
+.kpi-icon.green{background:var(--green-bg);color:var(--green);}
+.kpi-icon.purple{background:var(--purple-bg);color:var(--purple);}
+.kpi-icon.red{background:var(--red-bg);color:var(--red);}
+.kpi-icon.orange{background:var(--orange-bg);color:var(--orange);}
+.kpi-icon.cyan{background:var(--cyan-bg);color:var(--cyan);}
+.kpi-label{font-size:0.75rem;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.03em;}
 .kpi-value{font-size:1.5rem;font-weight:800;color:var(--text);line-height:1.2;}
-.kpi-sub{font-size:0.75rem;color:var(--muted);margin-top:4px;display:flex;align-items:center;gap:4px;}
-.kpi-sub .up{color:var(--green);font-weight:600;}
-.kpi-sub .tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:0.7rem;font-weight:600;}
-.tag-green{background:var(--green-bg);color:var(--green);}
-.tag-blue{background:var(--blue-bg);color:var(--blue);}
+.kpi-sub{font-size:0.72rem;color:var(--muted);margin-top:2px;}
 
-/* Feedback categories grid */
-.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:32px;}
-.cat-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);transition:all .2s;cursor:default;}
-.cat-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.08);}
-.cat-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
-.cat-name{font-weight:700;font-size:0.95rem;display:flex;align-items:center;gap:6px;}
-.cat-name .cat-icon{font-size:1.1rem;}
-.cat-badge{font-size:0.7rem;padding:2px 10px;border-radius:999px;font-weight:600;}
-.cat-stat{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
-.cat-stat-label{font-size:0.78rem;color:var(--muted);}
-.cat-stat-val{font-weight:700;font-size:0.9rem;}
-.cat-bar-bg{height:6px;background:var(--bg3);border-radius:999px;overflow:hidden;}
-.cat-bar-fill{height:100%;border-radius:999px;transition:width .6s ease;}
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;box-shadow:var(--shadow);margin-bottom:24px;}
+.card-title{font-size:1rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
 
-/* NPS Chart */
-.chart-section{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:32px;}
-.chart-container{position:relative;width:100%;height:280px;}
-.chart-container svg{width:100%;height:100%;}
-.chart-tooltip{position:absolute;background:var(--text);color:var(--bg);padding:6px 12px;border-radius:8px;font-size:0.78rem;font-weight:600;pointer-events:none;opacity:0;transition:opacity .15s;white-space:nowrap;z-index:10;}
-.chart-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--text);}
+.severity-table{width:100%;border-collapse:collapse;margin-top:12px;}
+.severity-table th,.severity-table td{padding:8px 14px;text-align:left;font-size:0.85rem;border-bottom:1px solid var(--border);}
+.severity-table th{color:var(--muted);font-weight:600;font-size:0.75rem;text-transform:uppercase;background:var(--bg2);}
+.severity-table tbody tr:hover{background:var(--bg2);}
 
-/* Feature requests table */
-.table-section{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:32px;}
-.table-header-bar{padding:18px 20px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.table-header-bar h3{font-size:1.05rem;font-weight:700;}
-.table-count{font-size:0.78rem;color:var(--muted);}
-table{width:100%;border-collapse:collapse;}
-thead th{padding:10px 16px;text-align:left;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);font-weight:600;background:var(--bg2);border-bottom:1px solid var(--border);}
-tbody td{padding:12px 16px;border-bottom:1px solid var(--border);font-size:0.88rem;}
-tbody tr:last-child td{border-bottom:none;}
-tbody tr:hover{background:var(--bg2);}
-.vote-count{font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px;}
-.vote-btn{width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:var(--bg2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.75rem;transition:all .15s;color:var(--muted);}
-.vote-btn:hover{background:var(--blue-bg);border-color:var(--blue);color:var(--blue);}
-.status-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;font-size:0.75rem;font-weight:600;white-space:nowrap;}
-.status-shipped{background:var(--green-bg);color:var(--green);}
-.status-progress{background:var(--blue-bg);color:var(--blue);}
-.status-planned{background:var(--purple-bg);color:var(--purple);}
-.status-declined{background:var(--red-bg);color:var(--red);}
-.rank-num{font-weight:700;color:var(--muted);font-size:0.85rem;}
+.badge{display:inline-flex;align-items:center;padding:2px 10px;border-radius:999px;font-size:0.72rem;font-weight:700;white-space:nowrap;}
+.badge-critical{background:var(--red-bg);color:var(--red);}
+.badge-high{background:var(--orange-bg);color:var(--orange);}
+.badge-medium{background:var(--blue-bg);color:var(--blue);}
+.badge-low{background:var(--bg3);color:var(--muted);}
+.badge-green{background:var(--green-bg);color:var(--green);}
+.badge-purple{background:var(--purple-bg);color:var(--purple);}
+.badge-blue{background:var(--blue-bg);color:var(--blue);}
+.badge-orange{background:var(--orange-bg);color:var(--orange);}
+.badge-cyan{background:var(--cyan-bg);color:var(--cyan);}
+.badge-s{background:var(--green-bg);color:var(--green);}
+.badge-m{background:var(--blue-bg);color:var(--blue);}
+.badge-l{background:var(--orange-bg);color:var(--orange);}
+.badge-xl{background:var(--red-bg);color:var(--red);}
 
-/* Testimonials */
-.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px;}
-.testimonial-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);transition:all .2s;position:relative;}
-.testimonial-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.08);}
-.testimonial-card::before{content:'\201C';position:absolute;top:12px;right:18px;font-size:3rem;color:var(--border);font-family:Georgia,serif;line-height:1;}
-.testimonial-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;color:#fff;margin-bottom:12px;}
-.testimonial-quote{font-size:0.9rem;color:var(--text2);line-height:1.7;margin-bottom:14px;font-style:italic;}
-.testimonial-author{font-weight:700;font-size:0.85rem;color:var(--text);}
-.testimonial-role{font-size:0.75rem;color:var(--muted);}
-.stars{color:#F59E0B;font-size:0.85rem;margin-bottom:10px;}
+.chart-section{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:24px;}
+.chart-container{position:relative;width:100%;overflow-x:auto;}
+.chart-container svg{width:100%;display:block;}
 
-/* Timeline */
-.timeline-section{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:24px 28px;box-shadow:var(--shadow);margin-bottom:32px;}
-.timeline{position:relative;padding-left:32px;}
-.timeline::before{content:'';position:absolute;left:11px;top:8px;bottom:8px;width:2px;background:linear-gradient(to bottom,var(--blue),var(--purple),var(--green));border-radius:2px;}
-.timeline-item{position:relative;padding-bottom:28px;}
-.timeline-item:last-child{padding-bottom:0;}
-.timeline-dot{position:absolute;left:-32px;top:3px;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;color:#fff;box-shadow:0 0 0 4px var(--bg);}
-.timeline-dot.active{background:var(--blue);}
-.timeline-dot.current{background:var(--purple);animation:pulse 2s infinite;}
-.timeline-dot.planned{background:var(--muted);}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 4px var(--bg);}50%{box-shadow:0 0 0 8px rgba(124,58,237,0.15);}}
-.timeline-label{font-size:0.75rem;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:2px;}
-.timeline-title{font-weight:700;font-size:0.95rem;color:var(--text);margin-bottom:2px;}
-.timeline-desc{font-size:0.82rem;color:var(--muted);}
-.timeline-tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:0.68rem;font-weight:600;margin-top:4px;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px;}
 
-/* Feedback form */
-.form-section{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);margin-bottom:20px;}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
-.form-group{display:flex;flex-direction:column;gap:6px;}
-.form-group.full{grid-column:1/-1;}
-.form-label{font-size:0.82rem;font-weight:600;color:var(--text);}
-.form-label .required{color:var(--red);}
-.form-select,.form-textarea{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:0.88rem;color:var(--text);font-family:inherit;transition:border-color .2s;outline:none;width:100%;}
-.form-select:focus,.form-textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,0.1);}
-.form-textarea{resize:vertical;min-height:100px;}
-.star-rating{display:flex;gap:4px;}
-.star-rating .star{font-size:1.5rem;cursor:pointer;color:var(--border);transition:color .15s;user-select:none;}
-.star-rating .star.active,.star-rating .star:hover{color:#F59E0B;}
-.star-rating:hover .star{color:var(--border);}
-.star-rating .star:hover,.star-rating .star:hover~.star-reverse{color:#F59E0B;}
-.star-rating:hover .star:hover,.star-rating:hover .star:hover~.star{color:var(--border);}
+.profile-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);transition:all .2s;}
+.profile-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.08);}
+.profile-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.profile-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;}
+.profile-score{font-size:2rem;font-weight:800;line-height:1;}
+.profile-meta{font-size:0.8rem;color:var(--muted);margin-bottom:8px;}
+.profile-list{list-style:none;padding:0;margin:0;}
+.profile-list li{font-size:0.82rem;color:var(--text2);padding:4px 0;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:6px;}
+.profile-list li:last-child{border-bottom:none;}
 
-.btn-submit{display:inline-flex;align-items:center;gap:8px;padding:11px 28px;border:none;border-radius:8px;background:var(--grad);color:#fff;font-weight:700;font-size:0.9rem;cursor:pointer;transition:all .2s;font-family:inherit;}
-.btn-submit:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(37,99,235,0.3);}
-.btn-submit:active{transform:translateY(0);}
+.filter-bar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center;}
+.filter-bar select,.filter-bar input{padding:7px 12px;border:1px solid var(--border);border-radius:8px;background:var(--card-bg);color:var(--text);font-size:0.82rem;font-family:inherit;}
+.filter-bar input{min-width:200px;}
+.summary-strip{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+.summary-strip .strip-item{font-size:0.82rem;font-weight:700;padding:4px 14px;border-radius:999px;}
 
-.form-actions{display:flex;align-items:center;gap:16px;}
-.form-note{font-size:0.75rem;color:var(--muted);}
+.issues-table{width:100%;border-collapse:collapse;}
+.issues-table th,.issues-table td{padding:10px 12px;text-align:left;font-size:0.82rem;border-bottom:1px solid var(--border);}
+.issues-table th{color:var(--muted);font-weight:600;font-size:0.72rem;text-transform:uppercase;background:var(--bg2);position:sticky;top:0;z-index:2;}
+.issues-table tbody tr:hover{background:var(--bg2);}
+.issues-table-wrap{max-height:600px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius);}
 
-/* Toast */
-.toast{position:fixed;bottom:24px;right:24px;background:var(--green);color:#fff;padding:14px 22px;border-radius:var(--radius);font-weight:600;font-size:0.88rem;box-shadow:0 8px 24px rgba(0,0,0,0.15);transform:translateY(100px);opacity:0;transition:all .3s;z-index:9999;display:flex;align-items:center;gap:8px;}
-.toast.show{transform:translateY(0);opacity:1;}
+.heatmap-table{width:100%;border-collapse:collapse;}
+.heatmap-table th,.heatmap-table td{padding:10px 14px;text-align:center;font-size:0.82rem;border:1px solid var(--border);}
+.heatmap-table th{background:var(--bg2);font-weight:600;color:var(--muted);font-size:0.75rem;}
+.heatmap-table td.module-name{text-align:left;font-weight:600;color:var(--text);}
 
-/* Satisfaction distribution */
-.sat-dist{display:flex;flex-direction:column;gap:12px;margin-bottom:20px;}
-.sat-row{display:flex;align-items:center;gap:12px;}
-.sat-label{width:52px;font-size:0.82rem;font-weight:600;color:var(--text);text-align:right;flex-shrink:0;}
-.sat-bar-bg{flex:1;height:24px;background:var(--bg3);border-radius:999px;overflow:hidden;}
-.sat-bar-fill{height:100%;border-radius:999px;transition:width .8s ease;}
-.sat-pct{width:40px;font-size:0.82rem;font-weight:700;color:var(--text);text-align:right;flex-shrink:0;}
-.sat-count{width:90px;font-size:0.75rem;color:var(--muted);flex-shrink:0;}
-.sat-summary{display:flex;gap:24px;padding-top:16px;border-top:1px solid var(--border);}
-.sat-summary-item{display:flex;flex-direction:column;align-items:center;gap:2px;}
-.sat-summary-val{font-size:1.3rem;font-weight:800;}
-.sat-summary-label{font-size:0.75rem;color:var(--muted);}
+.rec-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;box-shadow:var(--shadow);margin-bottom:12px;display:flex;gap:16px;align-items:flex-start;transition:all .2s;}
+.rec-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.08);}
+.rec-rank{width:36px;height:36px;border-radius:10px;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.9rem;flex-shrink:0;}
+.rec-body{flex:1;min-width:0;}
+.rec-title{font-weight:700;font-size:0.92rem;margin-bottom:4px;}
+.rec-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:6px;}
+.impact-bar-bg{height:6px;background:var(--bg3);border-radius:999px;overflow:hidden;width:120px;}
+.impact-bar-fill{height:100%;border-radius:999px;background:var(--grad);}
 
-/* Responsive */
-@media(max-width:1024px){
+.cross-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px;}
+.cross-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center;box-shadow:var(--shadow);}
+.cross-card .cross-icon{font-size:1.5rem;margin-bottom:6px;}
+.cross-card .cross-pct{font-size:1.3rem;font-weight:800;}
+.cross-card .cross-label{font-size:0.75rem;color:var(--muted);}
+
+.module-detail{display:none;margin-top:8px;padding:12px 16px;background:var(--bg2);border-radius:8px;font-size:0.82rem;}
+.module-detail.open{display:block;}
+.expand-btn{background:none;border:none;color:var(--blue);cursor:pointer;font-size:0.78rem;font-weight:600;font-family:inherit;padding:2px 0;}
+.expand-btn:hover{text-decoration:underline;}
+
+.feedback-form{max-width:700px;}
+.form-group{margin-bottom:18px;}
+.form-group label{display:block;font-weight:600;font-size:0.85rem;margin-bottom:6px;}
+.form-group select,.form-group input,.form-group textarea{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--card-bg);color:var(--text);font-size:0.88rem;font-family:inherit;transition:border-color .2s;}
+.form-group select:focus,.form-group input:focus,.form-group textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-bg);}
+.form-group textarea{min-height:120px;resize:vertical;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+
+.star-rating{display:flex;gap:4px;margin-bottom:4px;}
+.star-rating .star{font-size:1.6rem;cursor:pointer;color:var(--border);transition:color .15s;}
+.star-rating .star.active{color:#F59E0B;}
+.star-rating .star:hover{color:#F59E0B;}
+
+.drop-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:32px;text-align:center;color:var(--muted);font-size:0.85rem;cursor:pointer;transition:all .2s;}
+.drop-zone:hover,.drop-zone.dragover{border-color:var(--blue);background:var(--blue-bg);color:var(--blue);}
+.drop-zone input{display:none;}
+
+.btn-primary{padding:10px 28px;background:var(--grad);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:0.9rem;cursor:pointer;font-family:inherit;transition:all .2s;}
+.btn-primary:hover{opacity:0.9;transform:translateY(-1px);}
+
+.toast{position:fixed;bottom:24px;right:24px;background:var(--text);color:var(--bg);padding:12px 24px;border-radius:10px;font-size:0.85rem;font-weight:600;opacity:0;transform:translateY(20px);transition:all .3s;z-index:9999;pointer-events:none;}
+.toast.show{opacity:1;transform:translateY(0);}
+
+.findings-list{list-style:none;padding:0;}
+.findings-list li{padding:8px 0;border-bottom:1px solid var(--border);font-size:0.85rem;color:var(--text2);display:flex;align-items:flex-start;gap:8px;}
+.findings-list li:last-child{border-bottom:none;}
+.findings-list li::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--blue);flex-shrink:0;margin-top:8px;}
+
+.quick-wins-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
+.qw-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;display:flex;gap:10px;align-items:flex-start;}
+.qw-num{width:28px;height:28px;border-radius:8px;background:var(--green-bg);color:var(--green);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.78rem;flex-shrink:0;}
+
+.anim-in{opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s;}
+.anim-in.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:900px){
   .kpi-grid{grid-template-columns:repeat(2,1fr);}
-  .cat-grid{grid-template-columns:repeat(2,1fr);}
-  .testimonials-grid{grid-template-columns:repeat(2,1fr);}
+  .grid-2,.quick-wins-grid{grid-template-columns:1fr;}
+  .grid-3{grid-template-columns:1fr;}
+  .cross-grid{grid-template-columns:repeat(2,1fr);}
+  .form-row{grid-template-columns:1fr;}
+  .tab-nav{gap:2px;}
+  .tab-btn{padding:8px 12px;font-size:0.78rem;}
 }
-@media(max-width:640px){
+@media(max-width:600px){
   .kpi-grid{grid-template-columns:1fr;}
-  .cat-grid{grid-template-columns:1fr;}
-  .testimonials-grid{grid-template-columns:1fr;}
-  .form-grid{grid-template-columns:1fr;}
-  .form-group.full{grid-column:1;}
+  .cross-grid{grid-template-columns:1fr 1fr;}
 }
 </style>
 </head>
 <body>
-
-<button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode">&#127769;</button>
+<button class="dark-toggle" onclick="toggleDark()" title="Dark Mode">🌙</button>
+<div class="toast" id="toast"></div>
 
 <div class="container">
-
   <!-- Breadcrumb -->
   <div class="breadcrumb">
-    <a href="#">Autopilot v2</a>
-    <span>/</span>
-    <span>Customer Feedback</span>
+    <a href="#">Autopilot v2</a> <span>/</span> <span>Customer Feedback</span>
   </div>
 
-  <!-- Page Header -->
+  <!-- Header -->
   <div class="page-header">
-    <h1 class="page-title">&#127919; Customer Feedback & Product Improvement</h1>
-    <p class="page-subtitle">&#128172; &#3648;&#3626;&#3637;&#3618;&#3591;&#3592;&#3634;&#3585;&#3621;&#3641;&#3585;&#3588;&#3657;&#3634;&#3585;&#3623;&#3656;&#3634; 500,000+ &#3619;&#3634;&#3618; &mdash; &#3586;&#3633;&#3610;&#3648;&#3588;&#3621;&#3639;&#3656;&#3629;&#3609;&#3585;&#3634;&#3619;&#3614;&#3633;&#3602;&#3609;&#3634;&#3612;&#3621;&#3636;&#3605;&#3616;&#3633;&#3603;&#3601;&#3660;</p>
+    <h1 class="page-title">Customer Feedback & Product Insights</h1>
+    <p class="page-subtitle">รายงานผลทดสอบจากผู้ใช้จำลอง 4,000 คน — ขับเคลื่อนการพัฒนาผลิตภัณฑ์ | ข้อมูล ณ เม.ย. พ.ศ. 2569</p>
   </div>
 
-  <!-- KPI Cards -->
-  <div class="kpi-grid">
-    <div class="kpi-card blue">
-      <div class="kpi-label">&#128100; Total Users</div>
-      <div class="kpi-value" id="kpi-users">0</div>
-      <div class="kpi-sub"><span class="up">&#9650; 18% MoM</span></div>
-    </div>
-    <div class="kpi-card green">
-      <div class="kpi-label">&#128200; NPS Score</div>
-      <div class="kpi-value" id="kpi-nps">0</div>
-      <div class="kpi-sub"><span class="tag tag-green">Excellent</span></div>
-    </div>
-    <div class="kpi-card purple">
-      <div class="kpi-label">&#11088; Satisfaction</div>
-      <div class="kpi-value"><span id="kpi-sat">0</span>/5.0 &#9733;</div>
-      <div class="kpi-sub"><span class="tag tag-blue">&#3604;&#3637;&#3648;&#3618;&#3637;&#3656;&#3618;&#3617;</span></div>
-    </div>
-    <div class="kpi-card orange">
-      <div class="kpi-label">&#128172; Response Rate</div>
-      <div class="kpi-value"><span id="kpi-rate">0</span>%</div>
-      <div class="kpi-sub">&#3592;&#3634;&#3585; survey &#3607;&#3633;&#3657;&#3591;&#3627;&#3617;&#3604;</div>
-    </div>
+  <!-- Tab Navigation -->
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('overview')">📊 Overview</button>
+    <button class="tab-btn" onclick="switchTab('agegroup')">👥 Age Group Analysis</button>
+    <button class="tab-btn" onclick="switchTab('modules')">📦 Module Insights</button>
+    <button class="tab-btn" onclick="switchTab('issues')">🐛 Issue Tracker</button>
+    <button class="tab-btn" onclick="switchTab('recommendations')">📈 Recommendations</button>
+    <button class="tab-btn" onclick="switchTab('submit')">✉️ Submit Feedback</button>
   </div>
 
-  <!-- Feedback Categories -->
-  <div class="section-title"><span class="icon">&#128202;</span> &#3627;&#3617;&#3623;&#3604;&#3627;&#3617;&#3641;&#3656; Feedback &#3605;&#3634;&#3617;&#3611;&#3619;&#3632;&#3648;&#3616;&#3607;</div>
-  <div class="cat-grid">
-    <!-- UI/UX -->
-    <div class="cat-card">
-      <div class="cat-header">
-        <span class="cat-name"><span class="cat-icon">&#127912;</span> UI/UX</span>
-        <span class="cat-badge" style="background:var(--blue-bg);color:var(--blue);">78% &#3648;&#3594;&#3636;&#3591;&#3610;&#3623;&#3585;</span>
-      </div>
-      <div class="cat-stat">
-        <span class="cat-stat-label">&#3592;&#3635;&#3609;&#3623;&#3609; Feedback</span>
-        <span class="cat-stat-val">45,230</span>
-      </div>
-      <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:78%;background:var(--blue);"></div></div>
-    </div>
-    <!-- Performance -->
-    <div class="cat-card">
-      <div class="cat-header">
-        <span class="cat-name"><span class="cat-icon">&#9889;</span> Performance</span>
-        <span class="cat-badge" style="background:var(--green-bg);color:var(--green);">85% &#3648;&#3594;&#3636;&#3591;&#3610;&#3623;&#3585;</span>
-      </div>
-      <div class="cat-stat">
-        <span class="cat-stat-label">&#3592;&#3635;&#3609;&#3623;&#3609; Feedback</span>
-        <span class="cat-stat-val">32,100</span>
-      </div>
-      <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:85%;background:var(--green);"></div></div>
-    </div>
-    <!-- Features -->
-    <div class="cat-card">
-      <div class="cat-header">
-        <span class="cat-name"><span class="cat-icon">&#128161;</span> Features</span>
-        <span class="cat-badge" style="background:var(--purple-bg);color:var(--purple);">71% &#3648;&#3594;&#3636;&#3591;&#3610;&#3623;&#3585;</span>
-      </div>
-      <div class="cat-stat">
-        <span class="cat-stat-label">&#3592;&#3635;&#3609;&#3623;&#3609; Feedback</span>
-        <span class="cat-stat-val">67,800</span>
-      </div>
-      <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:71%;background:var(--purple);"></div></div>
-      <div style="margin-top:6px;font-size:0.7rem;color:var(--orange);font-weight:600;">&#128293; &#3617;&#3637;&#3588;&#3635;&#3586;&#3629;&#3617;&#3634;&#3585;&#3607;&#3637;&#3656;&#3626;&#3640;&#3604;</div>
-    </div>
-    <!-- Support -->
-    <div class="cat-card">
-      <div class="cat-header">
-        <span class="cat-name"><span class="cat-icon">&#127897;&#65039;</span> Support</span>
-        <span class="cat-badge" style="background:var(--green-bg);color:var(--green);">92% &#3648;&#3594;&#3636;&#3591;&#3610;&#3623;&#3585;</span>
-      </div>
-      <div class="cat-stat">
-        <span class="cat-stat-label">&#3592;&#3635;&#3609;&#3623;&#3609; Feedback</span>
-        <span class="cat-stat-val">18,500</span>
-      </div>
-      <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:92%;background:var(--green);"></div></div>
-    </div>
-    <!-- Integration -->
-    <div class="cat-card">
-      <div class="cat-header">
-        <span class="cat-name"><span class="cat-icon">&#128268;</span> Integration</span>
-        <span class="cat-badge" style="background:var(--orange-bg);color:var(--orange);">68% &#3648;&#3594;&#3636;&#3591;&#3610;&#3623;&#3585;</span>
-      </div>
-      <div class="cat-stat">
-        <span class="cat-stat-label">&#3592;&#3635;&#3609;&#3623;&#3609; Feedback</span>
-        <span class="cat-stat-val">12,300</span>
-      </div>
-      <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:68%;background:var(--orange);"></div></div>
-    </div>
-    <!-- Pricing -->
-    <div class="cat-card">
-      <div class="cat-header">
-        <span class="cat-name"><span class="cat-icon">&#128176;</span> Pricing</span>
-        <span class="cat-badge" style="background:var(--orange-bg);color:var(--orange);">61% &#3648;&#3594;&#3636;&#3591;&#3610;&#3623;&#3585;</span>
-      </div>
-      <div class="cat-stat">
-        <span class="cat-stat-label">&#3592;&#3635;&#3609;&#3623;&#3609; Feedback</span>
-        <span class="cat-stat-val">8,900</span>
-      </div>
-      <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:61%;background:var(--red);"></div></div>
-    </div>
-  </div>
-
-  <!-- NPS Trend Chart -->
-  <div class="chart-section">
-    <div class="section-title" style="margin-bottom:20px;"><span class="icon">&#128200;</span> NPS Score Trend (&#3619;&#3634;&#3618;&#3648;&#3604;&#3639;&#3629;&#3609;)</div>
-    <div class="chart-container" id="npsChart">
-      <div class="chart-tooltip" id="chartTooltip"></div>
-      <svg viewBox="0 0 700 260" preserveAspectRatio="xMidYMid meet">
-        <!-- Grid lines -->
-        <defs>
-          <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="var(--blue)" stop-opacity="0.2"/>
-            <stop offset="100%" stop-color="var(--blue)" stop-opacity="0.02"/>
-          </linearGradient>
-          <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stop-color="#2563EB"/>
-            <stop offset="100%" stop-color="#7C3AED"/>
-          </linearGradient>
-        </defs>
-        <!-- Y axis labels -->
-        <text x="30" y="38" fill="var(--muted)" font-size="11" text-anchor="end" font-family="Inter,sans-serif">80</text>
-        <text x="30" y="88" fill="var(--muted)" font-size="11" text-anchor="end" font-family="Inter,sans-serif">70</text>
-        <text x="30" y="138" fill="var(--muted)" font-size="11" text-anchor="end" font-family="Inter,sans-serif">60</text>
-        <text x="30" y="188" fill="var(--muted)" font-size="11" text-anchor="end" font-family="Inter,sans-serif">50</text>
-        <text x="30" y="238" fill="var(--muted)" font-size="11" text-anchor="end" font-family="Inter,sans-serif">40</text>
-        <!-- Grid lines -->
-        <line x1="45" y1="33" x2="680" y2="33" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4,4"/>
-        <line x1="45" y1="83" x2="680" y2="83" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4,4"/>
-        <line x1="45" y1="133" x2="680" y2="133" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4,4"/>
-        <line x1="45" y1="183" x2="680" y2="183" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4,4"/>
-        <line x1="45" y1="233" x2="680" y2="233" stroke="var(--border)" stroke-width="0.5"/>
-        <!-- Area -->
-        <path d="M100,108 L216,88 L332,78 L448,58 L564,48 L680,38 L680,233 L100,233 Z" fill="url(#areaGrad)"/>
-        <!-- Line -->
-        <path d="M100,108 L216,88 L332,78 L448,58 L564,48 L680,38" fill="none" stroke="url(#lineGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-        <!-- Data points -->
-        <circle cx="100" cy="108" r="6" fill="var(--blue)" stroke="#fff" stroke-width="2" class="chart-dot" data-month="ม.ค. 2026" data-val="65"/>
-        <circle cx="216" cy="88" r="6" fill="var(--blue)" stroke="#fff" stroke-width="2" class="chart-dot" data-month="ก.พ. 2026" data-val="67"/>
-        <circle cx="332" cy="78" r="6" fill="var(--blue)" stroke="#fff" stroke-width="2" class="chart-dot" data-month="มี.ค. 2026" data-val="68"/>
-        <circle cx="448" cy="58" r="6" fill="var(--blue)" stroke="#fff" stroke-width="2" class="chart-dot" data-month="เม.ย. 2026" data-val="70"/>
-        <circle cx="564" cy="48" r="6" fill="var(--blue)" stroke="#fff" stroke-width="2" class="chart-dot" data-month="พ.ค. 2026" data-val="71"/>
-        <circle cx="680" cy="38" r="6" fill="var(--purple)" stroke="#fff" stroke-width="2" class="chart-dot" data-month="มิ.ย. 2026" data-val="72"/>
-        <!-- X axis labels -->
-        <text x="100" y="253" fill="var(--muted)" font-size="11" text-anchor="middle" font-family="Noto Sans Thai,sans-serif">ม.ค.</text>
-        <text x="216" y="253" fill="var(--muted)" font-size="11" text-anchor="middle" font-family="Noto Sans Thai,sans-serif">ก.พ.</text>
-        <text x="332" y="253" fill="var(--muted)" font-size="11" text-anchor="middle" font-family="Noto Sans Thai,sans-serif">มี.ค.</text>
-        <text x="448" y="253" fill="var(--muted)" font-size="11" text-anchor="middle" font-family="Noto Sans Thai,sans-serif">เม.ย.</text>
-        <text x="564" y="253" fill="var(--muted)" font-size="11" text-anchor="middle" font-family="Noto Sans Thai,sans-serif">พ.ค.</text>
-        <text x="680" y="253" fill="var(--muted)" font-size="11" text-anchor="middle" font-family="Noto Sans Thai,sans-serif">มิ.ย.</text>
-      </svg>
-    </div>
-  </div>
-
-  <!-- Top Feature Requests -->
-  <div class="table-section">
-    <div class="table-header-bar">
-      <h3>&#128640; Top Feature Requests (&#3588;&#3635;&#3586;&#3629;&#3618;&#3629;&#3604;&#3609;&#3636;&#3618;&#3617;)</h3>
-      <span class="table-count">&#3607;&#3633;&#3657;&#3591;&#3627;&#3617;&#3604; 10 &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;</span>
-    </div>
-    <table>
-      <thead>
-        <tr>
-          <th style="width:50px;">&#3621;&#3635;&#3604;&#3633;&#3610;</th>
-          <th>Feature</th>
-          <th style="width:160px;">Votes</th>
-          <th style="width:130px;">&#3626;&#3606;&#3634;&#3609;&#3632;</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><span class="rank-num">#1</span></td>
-          <td><strong>Dark Mode Toggle</strong><br><span style="font-size:0.78rem;color:var(--muted);">&#3619;&#3629;&#3591;&#3619;&#3633;&#3610;&#3650;&#3627;&#3617;&#3604;&#3617;&#3639;&#3604;&#3626;&#3635;&#3627;&#3619;&#3633;&#3610;&#3585;&#3634;&#3619;&#3651;&#3594;&#3657;&#3591;&#3634;&#3609;&#3605;&#3629;&#3609;&#3585;&#3621;&#3634;&#3591;&#3588;&#3639;&#3609;</span></td>
-          <td><div class="vote-count"><button class="vote-btn" onclick="vote(this)">&#9650;</button> <span>12,340</span></div></td>
-          <td><span class="status-badge status-shipped">&#9989; Shipped</span></td>
-        </tr>
-        <tr>
-          <td><span class="rank-num">#2</span></td>
-          <td><strong>Multi-language Support</strong><br><span style="font-size:0.78rem;color:var(--muted);">&#3619;&#3629;&#3591;&#3619;&#3633;&#3610;&#3627;&#3621;&#3634;&#3618;&#3616;&#3634;&#3625;&#3634; &#3652;&#3607;&#3618;/&#3629;&#3633;&#3591;&#3585;&#3620;&#3625;/&#3592;&#3637;&#3609;</span></td>
-          <td><div class="vote-count"><button class="vote-btn" onclick="vote(this)">&#9650;</button> <span>8,920</span></div></td>
-          <td><span class="status-badge status-progress">&#128260; In Progress</span></td>
-        </tr>
-        <tr>
-          <td><span class="rank-num">#3</span></td>
-          <td><strong>Mobile App</strong><br><span style="font-size:0.78rem;color:var(--muted);">&#3649;&#3629;&#3611;&#3617;&#3639;&#3629;&#3606;&#3639;&#3629;&#3626;&#3635;&#3627;&#3619;&#3633;&#3610; iOS &#3649;&#3621;&#3632; Android</span></td>
-          <td><div class="vote-count"><button class="vote-btn" onclick="vote(this)">&#9650;</button> <span>7,650</span></div></td>
-          <td><span class="status-badge status-planned">&#128203; Planned</span></td>
-        </tr>
-        <tr>
-          <td><span class="rank-num">#4</span></td>
-          <td><strong>API Webhooks</strong><br><span style="font-size:0.78rem;color:var(--muted);">&#3648;&#3594;&#3639;&#3656;&#3629;&#3617;&#3605;&#3656;&#3629;&#3619;&#3632;&#3610;&#3610;&#3616;&#3634;&#3618;&#3609;&#3629;&#3585;&#3612;&#3656;&#3634;&#3609; API</span></td>
-          <td><div class="vote-count"><button class="vote-btn" onclick="vote(this)">&#9650;</button> <span>6,200</span></div></td>
-          <td><span class="status-badge status-planned">&#128203; Planned</span></td>
-        </tr>
-        <tr>
-          <td><span class="rank-num">#5</span></td>
-          <td><strong>Bulk Document Upload</strong><br><span style="font-size:0.78rem;color:var(--muted);">&#3629;&#3633;&#3614;&#3650;&#3627;&#3621;&#3604;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;&#3607;&#3637;&#3621;&#3632;&#3592;&#3635;&#3609;&#3623;&#3609;&#3617;&#3634;&#3585;</span></td>
-          <td><div class="vote-count"><button class="vote-btn" onclick="vote(this)">&#9650;</button> <span>5,890</span></div></td>
-          <td><span class="status-badge status-shipped">&#9989; Shipped</span></td>
-        </tr>
-        <tr>
-          <td><span class="rank-num">#6</span></td>
-          <td><strong>Custom Report Builder</strong><br><span style="font-size:0.78rem;color:var(--muted);">&#3626;&#3619;&#3657;&#3634;&#3591;&#3619;&#3634;&#3618;&#3591;&#3634;&#3609;&#3649;&#3610;&#3610;&#3585;&#3635;&#3627;&#3609;&#3604;&#3648;&#3629;&#3591;</span></td>
-          <td><div class="vote-count"><button class="vote-btn" onclick="vote(this)">&#9650;</button> <span>5,100</span></div></td>
-          <td><span class="status-badge status-progress">&#128260; In Progress</span></td>
-        </tr>
-        <tr>
-          <td><span class="rank-num">#7</span></td>
-          <td><strong>Slack Integration</strong><br><span style="font-size:0.78rem;color:var(--muted);">&#3649;&#3592;&#3657;&#3591;&#3648;&#3605;&#3639;&#3629;&#3609;&#3612;&#3656;&#3634;&#3609; Slack &#3650;&#3604;&#3618;&#3605;&#3619;&#3591;</span></td>
-          <td><div class="vote-count"><button class="vote-btn" onclick="vote(this)">&#9650;</button> <span>4,800</span></div></td>
-          <td><span class="status-badge status-planned">&#128203; Planned</span></td>
-        </tr>
-        <tr>
-          <td><span class="rank-num">#8</span></td>
-          <td><strong>AI Auto-categorization</strong><br><span style="font-size:0.78rem;color:var(--muted);">AI &#3592;&#3633;&#3604;&#3627;&#3617;&#3623;&#3604;&#3627;&#3617;&#3641;&#3656;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;&#3629;&#3633;&#3605;&#3650;&#3609;&#3617;&#3633;&#3605;&#3636;</span></td>
-          <td><div class="vote-count"><button class="vote-btn" onclick="vote(this)">&#9650;</button> <span>4,200</span></div></td>
-          <td><span class="status-badge status-shipped">&#9989; Shipped</span></td>
-        </tr>
-        <tr>
-          <td><span class="rank-num">#9</span></td>
-          <td><strong>Offline Mode</strong><br><span style="font-size:0.78rem;color:var(--muted);">&#3651;&#3594;&#3657;&#3591;&#3634;&#3609;&#3652;&#3604;&#3657;&#3650;&#3604;&#3618;&#3652;&#3617;&#3656;&#3605;&#3657;&#3629;&#3591;&#3605;&#3656;&#3629;&#3629;&#3636;&#3609;&#3648;&#3607;&#3629;&#3619;&#3660;&#3648;&#3609;&#3655;&#3605;</span></td>
-          <td><div class="vote-count"><button class="vote-btn" onclick="vote(this)">&#9650;</button> <span>3,900</span></div></td>
-          <td><span class="status-badge status-declined">&#10060; Declined</span></td>
-        </tr>
-        <tr>
-          <td><span class="rank-num">#10</span></td>
-          <td><strong>2FA Authentication</strong><br><span style="font-size:0.78rem;color:var(--muted);">&#3618;&#3639;&#3609;&#3618;&#3633;&#3609;&#3605;&#3633;&#3623;&#3605;&#3609; 2 &#3594;&#3633;&#3657;&#3609;</span></td>
-          <td><div class="vote-count"><button class="vote-btn" onclick="vote(this)">&#9650;</button> <span>3,500</span></div></td>
-          <td><span class="status-badge status-shipped">&#9989; Shipped</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- User Testimonials -->
-  <div class="section-title"><span class="icon">&#128172;</span> &#3648;&#3626;&#3637;&#3618;&#3591;&#3592;&#3634;&#3585;&#3612;&#3641;&#3657;&#3651;&#3594;&#3657;&#3591;&#3634;&#3609;&#3592;&#3619;&#3636;&#3591;</div>
-  <div class="testimonials-grid">
-    <div class="testimonial-card">
-      <div class="testimonial-avatar" style="background:linear-gradient(135deg,#2563EB,#3B82F6);">&#3626;&#3594;</div>
-      <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-      <div class="testimonial-quote">"&#3621;&#3604;&#3648;&#3623;&#3621;&#3634;&#3607;&#3635;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619; 70% &#3607;&#3637;&#3617; finance &#3607;&#3635;&#3591;&#3634;&#3609;&#3652;&#3604;&#3657;&#3648;&#3619;&#3655;&#3623;&#3586;&#3638;&#3657;&#3609;&#3617;&#3634;&#3585;"</div>
-      <div class="testimonial-author">&#3626;&#3617;&#3594;&#3634;&#3618; &#3585;.</div>
-      <div class="testimonial-role">CFO, Manufacturing</div>
-    </div>
-    <div class="testimonial-card">
-      <div class="testimonial-avatar" style="background:linear-gradient(135deg,#7C3AED,#A855F7);">&#3626;&#3623;</div>
-      <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-      <div class="testimonial-quote">"&#3619;&#3632;&#3610;&#3610; OCR &#3649;&#3617;&#3656;&#3609;&#3618;&#3635;&#3617;&#3634;&#3585; &#3586;&#3657;&#3629;&#3617;&#3641;&#3621;&#3606;&#3641;&#3585;&#3605;&#3657;&#3629;&#3591; 99%"</div>
-      <div class="testimonial-author">&#3626;&#3640;&#3623;&#3619;&#3619;&#3603;&#3634; &#3607;.</div>
-      <div class="testimonial-role">Operations Manager</div>
-    </div>
-    <div class="testimonial-card">
-      <div class="testimonial-avatar" style="background:linear-gradient(135deg,#059669,#10B981);">&#3603;&#3600;</div>
-      <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-      <div class="testimonial-quote">"3-Way Match &#3594;&#3656;&#3623;&#3618;&#3621;&#3604;&#3586;&#3657;&#3629;&#3612;&#3636;&#3604;&#3614;&#3621;&#3634;&#3604;&#3651;&#3609;&#3585;&#3634;&#3619;&#3592;&#3656;&#3634;&#3618;&#3648;&#3591;&#3636;&#3609;&#3652;&#3604;&#3657;&#3626;&#3640;&#3604;&#3618;&#3629;&#3604;"</div>
-      <div class="testimonial-author">&#3603;&#3633;&#3600;&#3614;&#3591;&#3625;&#3660; &#3626;.</div>
-      <div class="testimonial-role">Procurement Lead</div>
-    </div>
-  </div>
-
-  <!-- Satisfaction Distribution -->
-  <div class="chart-section">
-    <div class="section-title" style="margin-bottom:20px;"><span class="icon">&#128202;</span> การกระจายคะแนนความพึงพอใจ</div>
-    <div class="sat-dist">
-      <div class="sat-row">
-        <span class="sat-label">5 ดาว</span>
-        <div class="sat-bar-bg">
-          <div class="sat-bar-fill" style="width:52%;background:var(--green);"></div>
+  <!-- ========== TAB: OVERVIEW ========== -->
+  <div class="tab-content active" id="tab-overview">
+    <!-- KPI Row -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-icon blue">👥</div>
+        <div>
+          <div class="kpi-label">ผู้ใช้จำลองทั้งหมด</div>
+          <div class="kpi-value" data-count="4000">0</div>
+          <div class="kpi-sub">Simulation test</div>
         </div>
-        <span class="sat-pct">52%</span>
-        <span class="sat-count">266,680 คน</span>
       </div>
-      <div class="sat-row">
-        <span class="sat-label">4 ดาว</span>
-        <div class="sat-bar-bg">
-          <div class="sat-bar-fill" style="width:28%;background:var(--blue);"></div>
+      <div class="kpi-card">
+        <div class="kpi-icon green">⭐</div>
+        <div>
+          <div class="kpi-label">คะแนนความพึงพอใจรวม</div>
+          <div class="kpi-value" data-count="3.18" data-decimals="2">0</div>
+          <div class="kpi-sub">จาก 5.00 คะแนน</div>
         </div>
-        <span class="sat-pct">28%</span>
-        <span class="sat-count">143,597 คน</span>
       </div>
-      <div class="sat-row">
-        <span class="sat-label">3 ดาว</span>
-        <div class="sat-bar-bg">
-          <div class="sat-bar-fill" style="width:12%;background:var(--orange);"></div>
+      <div class="kpi-card">
+        <div class="kpi-icon red">🔴</div>
+        <div>
+          <div class="kpi-label">ปัญหาระดับวิกฤต</div>
+          <div class="kpi-value" data-count="14">0</div>
+          <div class="kpi-sub">Critical severity</div>
         </div>
-        <span class="sat-pct">12%</span>
-        <span class="sat-count">61,542 คน</span>
       </div>
-      <div class="sat-row">
-        <span class="sat-label">2 ดาว</span>
-        <div class="sat-bar-bg">
-          <div class="sat-bar-fill" style="width:5%;background:var(--red);"></div>
+      <div class="kpi-card">
+        <div class="kpi-icon orange">📋</div>
+        <div>
+          <div class="kpi-label">ปัญหาทั้งหมดที่พบ</div>
+          <div class="kpi-value" data-count="171">0</div>
+          <div class="kpi-sub">จากทุกโมดูล</div>
         </div>
-        <span class="sat-pct">5%</span>
-        <span class="sat-count">25,642 คน</span>
-      </div>
-      <div class="sat-row">
-        <span class="sat-label">1 ดาว</span>
-        <div class="sat-bar-bg">
-          <div class="sat-bar-fill" style="width:3%;background:var(--red);"></div>
-        </div>
-        <span class="sat-pct">3%</span>
-        <span class="sat-count">15,386 คน</span>
       </div>
     </div>
-    <div class="sat-summary">
-      <div class="sat-summary-item">
-        <span class="sat-summary-val" style="color:var(--green);">80%</span>
-        <span class="sat-summary-label">ให้ 4-5 ดาว</span>
+
+    <!-- Executive Summary -->
+    <div class="card anim-in">
+      <div class="card-title">📝 Executive Summary — ข้อค้นพบหลัก 7 ประการ</div>
+      <ul class="findings-list">
+        <li><strong>Navigation complexity</strong> เป็นปัญหาที่รายงานมากที่สุด กระทบผู้ใช้ 2,847 คน (71.2%) ต้องใช้เฉลี่ย 4.7 คลิกเข้าถึงฟีเจอร์ (เทียบกับ benchmark 2.3 คลิก)</li>
+        <li><strong>Thai/English mixing</strong> ในป้ายกำกับ UI สร้างความสับสนให้ผู้ใช้ 2,193 คน (54.8%) ปัญหาฟอนต์ภาษาไทยพบมากในโมดูล Procurement และ Finance Doc Hub</li>
+        <li><strong>Mobile responsiveness</strong> ได้รับคะแนน "แย่" หรือ "แย่มาก" จาก 1,634 คน (40.9%) โดย Group A มีความไม่พอใจสูงสุด (67.3%)</li>
+        <li><strong>Performance degradation</strong> เมื่อทำงานกับข้อมูลเกิน 500 แถว ถูกรายงานจาก 1,891 คน (47.3%)</li>
+        <li><strong>Missing bulk operations</strong> สร้างความหงุดหงิดให้ 1,456 คน (36.4%) โดยเฉพาะใน Procurement และ Expense</li>
+        <li><strong>ไม่มี Undo/Redo</strong> ในทุกโมดูล ถูก flag เป็นปัญหาวิกฤตจาก 1,723 คน (43.1%) มีเหตุข้อมูลสูญหาย 312 ราย</li>
+        <li><strong>Accessibility deficiencies</strong> ถูกระบุจาก 847 คน (21.2%) Group D ประสบปัญหามากที่สุด — ฟอนต์เล็ก, contrast ต่ำ, ไม่มี keyboard navigation</li>
+      </ul>
+
+      <table class="severity-table" style="margin-top:16px;">
+        <thead><tr><th>ระดับความรุนแรง</th><th>จำนวน</th><th>% ของปัญหาทั้งหมด</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge badge-critical">Critical</span></td><td>14</td><td>8.2%</td></tr>
+          <tr><td><span class="badge badge-high">High</span></td><td>37</td><td>21.6%</td></tr>
+          <tr><td><span class="badge badge-medium">Medium</span></td><td>68</td><td>39.8%</td></tr>
+          <tr><td><span class="badge badge-low">Low</span></td><td>52</td><td>30.4%</td></tr>
+          <tr style="font-weight:700;"><td>รวม</td><td>171</td><td>100%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Satisfaction by Group - SVG Bar Chart -->
+    <div class="chart-section anim-in">
+      <div class="card-title">📊 คะแนนความพึงพอใจแยกตามกลุ่มอายุ</div>
+      <div class="chart-container">
+        <svg viewBox="0 0 700 200" style="max-height:200px;">
+          <defs>
+            <linearGradient id="barOrange" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#F59E0B"/><stop offset="100%" stop-color="#D97706"/></linearGradient>
+            <linearGradient id="barGreen" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#10B981"/><stop offset="100%" stop-color="#059669"/></linearGradient>
+            <linearGradient id="barBlue" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#3B82F6"/><stop offset="100%" stop-color="#2563EB"/></linearGradient>
+            <linearGradient id="barRed" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#F87171"/><stop offset="100%" stop-color="#DC2626"/></linearGradient>
+          </defs>
+          <!-- Group A -->
+          <text x="8" y="32" fill="var(--text2)" font-size="12" font-weight="600">Group A (21-26)</text>
+          <rect x="150" y="18" width="0" height="24" rx="4" fill="url(#barOrange)" class="bar-anim" data-width="304"/>
+          <text x="460" y="35" fill="var(--orange)" font-size="13" font-weight="700">3.04</text>
+          <!-- Group B -->
+          <text x="8" y="78" fill="var(--text2)" font-size="12" font-weight="600">Group B (26-35)</text>
+          <rect x="150" y="64" width="0" height="24" rx="4" fill="url(#barGreen)" class="bar-anim" data-width="341"/>
+          <text x="497" y="81" fill="var(--green)" font-size="13" font-weight="700">3.41</text>
+          <!-- Group C -->
+          <text x="8" y="124" fill="var(--text2)" font-size="12" font-weight="600">Group C (35-45)</text>
+          <rect x="150" y="110" width="0" height="24" rx="4" fill="url(#barBlue)" class="bar-anim" data-width="322"/>
+          <text x="478" y="127" fill="var(--blue)" font-size="13" font-weight="700">3.22</text>
+          <!-- Group D -->
+          <text x="8" y="170" fill="var(--text2)" font-size="12" font-weight="600">Group D (45+)</text>
+          <rect x="150" y="156" width="0" height="24" rx="4" fill="url(#barRed)" class="bar-anim" data-width="297"/>
+          <text x="453" y="173" fill="var(--red)" font-size="13" font-weight="700">2.97</text>
+          <!-- Scale -->
+          <line x1="150" y1="190" x2="650" y2="190" stroke="var(--border)" stroke-width="1"/>
+          <text x="150" y="200" fill="var(--muted)" font-size="9">0</text>
+          <text x="250" y="200" fill="var(--muted)" font-size="9">1</text>
+          <text x="350" y="200" fill="var(--muted)" font-size="9">2</text>
+          <text x="450" y="200" fill="var(--muted)" font-size="9">3</text>
+          <text x="550" y="200" fill="var(--muted)" font-size="9">4</text>
+          <text x="640" y="200" fill="var(--muted)" font-size="9">5</text>
+        </svg>
       </div>
-      <div class="sat-summary-item">
-        <span class="sat-summary-val" style="color:var(--orange);">12%</span>
-        <span class="sat-summary-label">ให้ 3 ดาว (ปานกลาง)</span>
+    </div>
+
+    <!-- Cross-Module Issues -->
+    <div class="section-title anim-in"><span class="icon">🔗</span> ปัญหาที่พบข้ามโมดูล (Cross-Module Issues)</div>
+    <div class="cross-grid anim-in">
+      <div class="cross-card">
+        <div class="cross-icon">🧭</div>
+        <div class="cross-pct" style="color:var(--red);">71.2%</div>
+        <div class="cross-label">Navigation<br>2,847 คน</div>
       </div>
-      <div class="sat-summary-item">
-        <span class="sat-summary-val" style="color:var(--red);">8%</span>
-        <span class="sat-summary-label">ให้ 1-2 ดาว</span>
+      <div class="cross-card">
+        <div class="cross-icon">⚡</div>
+        <div class="cross-pct" style="color:var(--orange);">47.3%</div>
+        <div class="cross-label">Performance<br>1,891 คน</div>
+      </div>
+      <div class="cross-card">
+        <div class="cross-icon">📱</div>
+        <div class="cross-pct" style="color:var(--orange);">40.9%</div>
+        <div class="cross-label">Mobile<br>1,634 คน</div>
+      </div>
+      <div class="cross-card">
+        <div class="cross-icon">♿</div>
+        <div class="cross-pct" style="color:var(--blue);">21.2%</div>
+        <div class="cross-label">Accessibility<br>847 คน</div>
+      </div>
+      <div class="cross-card">
+        <div class="cross-icon">🌐</div>
+        <div class="cross-pct" style="color:var(--orange);">54.8%</div>
+        <div class="cross-label">Localization<br>2,193 คน</div>
+      </div>
+    </div>
+
+    <!-- Top 10 Critical Issues Table -->
+    <div class="card anim-in">
+      <div class="card-title">🚨 Top 10 ปัญหาวิกฤตที่กระทบมากที่สุด</div>
+      <div style="overflow-x:auto;">
+        <table class="severity-table">
+          <thead>
+            <tr><th>Issue ID</th><th>โมดูล</th><th>รายละเอียด</th><th>ผู้ใช้ที่ได้รับผลกระทบ</th><th>ระดับ</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>CROSS-001</td><td>Cross-Module</td><td>Navigation ลึกเกิน 4+ คลิก</td><td>2,847 (71.2%)</td><td><span class="badge badge-critical">Critical</span></td></tr>
+            <tr><td>CN-001</td><td>Connectors</td><td>Connector setup ซับซ้อนเกินไปสำหรับ non-technical users</td><td>2,567 (64.2%)</td><td><span class="badge badge-critical">Critical</span></td></tr>
+            <tr><td>EX-001</td><td>Expense & Receipt</td><td>OCR อ่านใบเสร็จภาษาไทยผิดพลาดสูง (~67%)</td><td>2,456 (61.4%)</td><td><span class="badge badge-critical">Critical</span></td></tr>
+            <tr><td>CROSS-002</td><td>Cross-Module</td><td>ไม่มี global search ข้ามโมดูล</td><td>2,456 (61.4%)</td><td><span class="badge badge-critical">Critical</span></td></tr>
+            <tr><td>PR-001</td><td>Procurement</td><td>สร้าง PR ต้องกรอกหลายหน้า ไม่มี draft save</td><td>2,134 (53.4%)</td><td><span class="badge badge-critical">Critical</span></td></tr>
+            <tr><td>SY-004</td><td>System</td><td>ไม่รองรับ LINE Official Account</td><td>2,134 (53.4%)</td><td><span class="badge badge-critical">Critical</span></td></tr>
+            <tr><td>CN-002</td><td>Connectors</td><td>ไม่มี pre-built connectors สำหรับระบบไทย</td><td>1,891 (47.3%)</td><td><span class="badge badge-critical">Critical</span></td></tr>
+            <tr><td>VM-001</td><td>Vendor Mgmt</td><td>เปรียบเทียบ Vendor โหลดนาน 8-12 วินาที</td><td>1,891 (47.3%)</td><td><span class="badge badge-critical">Critical</span></td></tr>
+            <tr><td>SY-001</td><td>System</td><td>Permission system ซับซ้อน ไม่มี role template</td><td>1,891 (47.3%)</td><td><span class="badge badge-critical">Critical</span></td></tr>
+            <tr><td>CROSS-007</td><td>Cross-Module</td><td>ไม่มี Undo/Redo ทุกโมดูล</td><td>1,723 (43.1%)</td><td><span class="badge badge-critical">Critical</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- NPS Trend Chart -->
+    <div class="chart-section anim-in">
+      <div class="card-title">📈 NPS Trend — แนวโน้มคะแนนรายสัปดาห์ (ช่วงทดสอบ)</div>
+      <div class="chart-container">
+        <svg viewBox="0 0 700 220" style="max-height:220px;">
+          <!-- Grid -->
+          <line x1="60" y1="20" x2="60" y2="180" stroke="var(--border)" stroke-width="1"/>
+          <line x1="60" y1="180" x2="680" y2="180" stroke="var(--border)" stroke-width="1"/>
+          <line x1="60" y1="140" x2="680" y2="140" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4"/>
+          <line x1="60" y1="100" x2="680" y2="100" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4"/>
+          <line x1="60" y1="60" x2="680" y2="60" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4"/>
+          <!-- Y labels -->
+          <text x="50" y="184" fill="var(--muted)" font-size="10" text-anchor="end">2.5</text>
+          <text x="50" y="144" fill="var(--muted)" font-size="10" text-anchor="end">3.0</text>
+          <text x="50" y="104" fill="var(--muted)" font-size="10" text-anchor="end">3.5</text>
+          <text x="50" y="64" fill="var(--muted)" font-size="10" text-anchor="end">4.0</text>
+          <!-- Week labels -->
+          <text x="140" y="198" fill="var(--muted)" font-size="10" text-anchor="middle">สัปดาห์ 1</text>
+          <text x="295" y="198" fill="var(--muted)" font-size="10" text-anchor="middle">สัปดาห์ 2</text>
+          <text x="450" y="198" fill="var(--muted)" font-size="10" text-anchor="middle">สัปดาห์ 3</text>
+          <text x="605" y="198" fill="var(--muted)" font-size="10" text-anchor="middle">สัปดาห์ 4</text>
+          <!-- Lines -->
+          <polyline points="140,130 295,110 450,105 605,95" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="140,150 295,140 450,138 605,130" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="140,155 295,148 450,142 605,140" fill="none" stroke="var(--orange)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="140,168 295,160 450,158 605,155" fill="none" stroke="var(--red)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Dots -->
+          <circle cx="605" cy="95" r="4" fill="var(--green)"/><circle cx="605" cy="130" r="4" fill="var(--blue)"/>
+          <circle cx="605" cy="140" r="4" fill="var(--orange)"/><circle cx="605" cy="155" r="4" fill="var(--red)"/>
+          <!-- Legend -->
+          <rect x="180" y="208" width="12" height="3" rx="1" fill="var(--green)"/><text x="196" y="212" fill="var(--muted)" font-size="9">Group B</text>
+          <rect x="260" y="208" width="12" height="3" rx="1" fill="var(--blue)"/><text x="276" y="212" fill="var(--muted)" font-size="9">Group C</text>
+          <rect x="340" y="208" width="12" height="3" rx="1" fill="var(--orange)"/><text x="356" y="212" fill="var(--muted)" font-size="9">Group A</text>
+          <rect x="420" y="208" width="12" height="3" rx="1" fill="var(--red)"/><text x="436" y="212" fill="var(--muted)" font-size="9">Group D</text>
+        </svg>
       </div>
     </div>
   </div>
 
-  <!-- Recent Feedback Activity -->
-  <div class="table-section">
-    <div class="table-header-bar">
-      <h3>&#128172; กิจกรรม Feedback ล่าสุด</h3>
-      <span class="table-count">อัพเดทแบบ real-time</span>
-    </div>
-    <table>
-      <thead>
-        <tr>
-          <th style="width:120px;">เวลา</th>
-          <th>ผู้ใช้งาน</th>
-          <th>หมวดหมู่</th>
-          <th>คะแนน</th>
-          <th>ข้อความ</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="font-size:0.78rem;color:var(--muted);">2 นาทีที่แล้ว</td>
-          <td><strong>วิชัย พ.</strong></td>
-          <td><span class="cat-badge" style="background:var(--blue-bg);color:var(--blue);">UI/UX</span></td>
-          <td style="color:#F59E0B;">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
-          <td style="font-size:0.82rem;color:var(--text2);">Dashboard ใหม่ใช้งานง่ายมาก ดีไซน์สวย</td>
-        </tr>
-        <tr>
-          <td style="font-size:0.78rem;color:var(--muted);">8 นาทีที่แล้ว</td>
-          <td><strong>ปิยะ ล.</strong></td>
-          <td><span class="cat-badge" style="background:var(--green-bg);color:var(--green);">Performance</span></td>
-          <td style="color:#F59E0B;">&#9733;&#9733;&#9733;&#9733;&#9734;</td>
-          <td style="font-size:0.82rem;color:var(--text2);">โหลดเร็วขึ้นจากเดิมมาก แต่ยังติดบ้างตอน peak</td>
-        </tr>
-        <tr>
-          <td style="font-size:0.78rem;color:var(--muted);">15 นาทีที่แล้ว</td>
-          <td><strong>สุภาพร จ.</strong></td>
-          <td><span class="cat-badge" style="background:var(--purple-bg);color:var(--purple);">Features</span></td>
-          <td style="color:#F59E0B;">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
-          <td style="font-size:0.82rem;color:var(--text2);">ขอฟีเจอร์ export เป็น PDF หลายรูปแบบ</td>
-        </tr>
-        <tr>
-          <td style="font-size:0.78rem;color:var(--muted);">22 นาทีที่แล้ว</td>
-          <td><strong>อรุณ ค.</strong></td>
-          <td><span class="cat-badge" style="background:var(--green-bg);color:var(--green);">Support</span></td>
-          <td style="color:#F59E0B;">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
-          <td style="font-size:0.82rem;color:var(--text2);">ทีม support ตอบเร็วมาก แก้ปัญหาได้ภายใน 10 นาที</td>
-        </tr>
-        <tr>
-          <td style="font-size:0.78rem;color:var(--muted);">35 นาทีที่แล้ว</td>
-          <td><strong>กมลชนก ว.</strong></td>
-          <td><span class="cat-badge" style="background:var(--orange-bg);color:var(--orange);">Integration</span></td>
-          <td style="color:#F59E0B;">&#9733;&#9733;&#9733;&#9734;&#9734;</td>
-          <td style="font-size:0.82rem;color:var(--text2);">อยากให้เชื่อมต่อกับ SAP ได้โดยตรง</td>
-        </tr>
-        <tr>
-          <td style="font-size:0.78rem;color:var(--muted);">42 นาทีที่แล้ว</td>
-          <td><strong>ธนา ม.</strong></td>
-          <td><span class="cat-badge" style="background:var(--purple-bg);color:var(--purple);">Features</span></td>
-          <td style="color:#F59E0B;">&#9733;&#9733;&#9733;&#9733;&#9734;</td>
-          <td style="font-size:0.82rem;color:var(--text2);">Bulk upload ทำงานได้ดีมาก ลดเวลาเยอะ</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Product Improvement Timeline -->
-  <div class="timeline-section">
-    <div class="section-title" style="margin-bottom:20px;"><span class="icon">&#128197;</span> Product Improvement Timeline</div>
-    <div class="timeline">
-      <div class="timeline-item">
-        <div class="timeline-dot active">&#10003;</div>
-        <div class="timeline-label">Q1 2026</div>
-        <div class="timeline-title">&#3648;&#3611;&#3636;&#3604;&#3605;&#3633;&#3623; Autopilot v2.0</div>
-        <div class="timeline-desc">&#3614;&#3619;&#3657;&#3629;&#3617; 6 &#3650;&#3617;&#3604;&#3641;&#3621;&#3627;&#3621;&#3633;&#3585; &mdash; Expense, Procurement, Sales, Logistics, Finance, Analytics</div>
-        <span class="timeline-tag" style="background:var(--green-bg);color:var(--green);">&#9989; &#3648;&#3626;&#3619;&#3655;&#3592;&#3626;&#3617;&#3610;&#3641;&#3619;&#3603;&#3660;</span>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot current">&#9679;</div>
-        <div class="timeline-label">Q2 2026</div>
-        <div class="timeline-title">Dark Mode & Multi-language</div>
-        <div class="timeline-desc">&#3614;&#3633;&#3602;&#3609;&#3634;&#3605;&#3634;&#3617; feedback &#3586;&#3629;&#3591;&#3612;&#3641;&#3657;&#3651;&#3594;&#3657;&#3591;&#3634;&#3609; &mdash; &#3619;&#3629;&#3591;&#3619;&#3633;&#3610; Dark Mode &#3649;&#3621;&#3632;&#3627;&#3621;&#3634;&#3618;&#3616;&#3634;&#3625;&#3634;</div>
-        <span class="timeline-tag" style="background:var(--blue-bg);color:var(--blue);">&#128260; &#3585;&#3635;&#3621;&#3633;&#3591;&#3604;&#3635;&#3648;&#3609;&#3636;&#3609;&#3585;&#3634;&#3619;</span>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot planned">3</div>
-        <div class="timeline-label">Q3 2026</div>
-        <div class="timeline-title">Mobile App & API Webhooks</div>
-        <div class="timeline-desc">&#3649;&#3629;&#3611;&#3617;&#3639;&#3629;&#3606;&#3639;&#3629;&#3626;&#3635;&#3627;&#3619;&#3633;&#3610; iOS/Android &#3649;&#3621;&#3632; Webhook API &#3626;&#3635;&#3627;&#3619;&#3633;&#3610;&#3648;&#3594;&#3639;&#3656;&#3629;&#3617;&#3605;&#3656;&#3629;&#3619;&#3632;&#3610;&#3610;&#3616;&#3634;&#3618;&#3609;&#3629;&#3585;</div>
-        <span class="timeline-tag" style="background:var(--purple-bg);color:var(--purple);">&#128203; &#3623;&#3634;&#3591;&#3649;&#3612;&#3609;</span>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot planned">4</div>
-        <div class="timeline-label">Q4 2026</div>
-        <div class="timeline-title">AI Auto-insights & Custom Reports</div>
-        <div class="timeline-desc">&#3619;&#3632;&#3610;&#3610; AI &#3623;&#3636;&#3648;&#3588;&#3619;&#3634;&#3632;&#3627;&#3660;&#3586;&#3657;&#3629;&#3617;&#3641;&#3621;&#3629;&#3633;&#3605;&#3650;&#3609;&#3617;&#3633;&#3605;&#3636; &#3649;&#3621;&#3632;&#3626;&#3619;&#3657;&#3634;&#3591;&#3619;&#3634;&#3618;&#3591;&#3634;&#3609;&#3649;&#3610;&#3610;&#3585;&#3635;&#3627;&#3609;&#3604;&#3648;&#3629;&#3591;</div>
-        <span class="timeline-tag" style="background:var(--purple-bg);color:var(--purple);">&#128203; &#3623;&#3634;&#3591;&#3649;&#3612;&#3609;</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Feedback Submission Form -->
-  <div class="form-section">
-    <div class="section-title" style="margin-bottom:20px;"><span class="icon">&#9997;&#65039;</span> &#3626;&#3656;&#3591; Feedback &#3586;&#3629;&#3591;&#3588;&#3640;&#3603;</div>
-    <p style="font-size:0.85rem;color:var(--text2);margin-bottom:18px;">&#3648;&#3619;&#3634;&#3651;&#3627;&#3657;&#3588;&#3623;&#3634;&#3617;&#3626;&#3635;&#3588;&#3633;&#3597;&#3585;&#3633;&#3610;&#3607;&#3640;&#3585;&#3588;&#3623;&#3634;&#3617;&#3588;&#3636;&#3604;&#3648;&#3627;&#3655;&#3609;&#3586;&#3629;&#3591;&#3588;&#3640;&#3603; &#3607;&#3640;&#3585; feedback &#3592;&#3632;&#3606;&#3641;&#3585;&#3609;&#3635;&#3652;&#3611;&#3614;&#3636;&#3592;&#3634;&#3619;&#3603;&#3634;&#3648;&#3614;&#3639;&#3656;&#3629;&#3614;&#3633;&#3602;&#3609;&#3634;&#3612;&#3621;&#3636;&#3605;&#3616;&#3633;&#3603;&#3601;&#3660;</p>
-    <form id="feedbackForm" onsubmit="submitFeedback(event)">
-      <div class="form-grid">
-        <div class="form-group">
-          <label class="form-label">&#3627;&#3617;&#3623;&#3604;&#3627;&#3617;&#3641;&#3656; <span class="required">*</span></label>
-          <select class="form-select" required>
-            <option value="">&#3648;&#3621;&#3639;&#3629;&#3585;&#3627;&#3617;&#3623;&#3604;&#3627;&#3617;&#3641;&#3656;...</option>
-            <option value="uiux">UI/UX</option>
-            <option value="performance">Performance</option>
-            <option value="features">Features</option>
-            <option value="support">Support</option>
-            <option value="integration">Integration</option>
-            <option value="pricing">Pricing</option>
-            <option value="other">&#3629;&#3639;&#3656;&#3609;&#3654;</option>
-          </select>
+  <!-- ========== TAB: AGE GROUP ANALYSIS ========== -->
+  <div class="tab-content" id="tab-agegroup">
+    <div class="section-title"><span class="icon">👥</span> โปรไฟล์กลุ่มผู้ใช้ 4 กลุ่ม</div>
+    <div class="grid-2">
+      <!-- Group A -->
+      <div class="profile-card">
+        <div class="profile-header">
+          <div class="profile-icon" style="background:var(--orange-bg);">🎓</div>
+          <div>
+            <div style="font-weight:700;">Group A (21-26 ปี)</div>
+            <div class="profile-meta">New Graduates, Junior Staff | 1,000 คน</div>
+          </div>
+          <div class="profile-score" style="color:var(--orange);margin-left:auto;">3.04</div>
         </div>
-        <div class="form-group">
-          <label class="form-label">&#3651;&#3627;&#3657;&#3588;&#3632;&#3649;&#3609;&#3609; <span class="required">*</span></label>
-          <div class="star-rating" id="starRating">
-            <span class="star" data-val="1" onclick="setRating(1)">&#9733;</span>
-            <span class="star" data-val="2" onclick="setRating(2)">&#9733;</span>
-            <span class="star" data-val="3" onclick="setRating(3)">&#9733;</span>
-            <span class="star" data-val="4" onclick="setRating(4)">&#9733;</span>
-            <span class="star" data-val="5" onclick="setRating(5)">&#9733;</span>
+        <ul class="profile-list">
+          <li>🖥️ <strong>Tech Comfort:</strong> สูงมาก | อุปกรณ์หลัก: Mobile (54%)</li>
+          <li>🛠️ <strong>เครื่องมือ:</strong> Excel, Google Sheets, mobile apps</li>
+          <li>💬 <em>"ระบบนี้ใช้บนมือถือไม่ได้เลย ต้องมานั่งเปิดคอมทุกครั้ง"</em></li>
+          <li>💬 <em>"UI ดูเหมือนเว็บราชการ ไม่มี animation ไม่มี smooth transition"</em></li>
+          <li>💬 <em>"สร้าง PR ต้องกด 5 ครั้ง ผ่าน 5 หน้า ทำไมไม่มี Quick Create"</em></li>
+        </ul>
+      </div>
+      <!-- Group B -->
+      <div class="profile-card">
+        <div class="profile-header">
+          <div class="profile-icon" style="background:var(--green-bg);">💼</div>
+          <div>
+            <div style="font-weight:700;">Group B (26-35 ปี)</div>
+            <div class="profile-meta">Junior-to-Mid Level | 1,000 คน</div>
+          </div>
+          <div class="profile-score" style="color:var(--green);margin-left:auto;">3.41</div>
+        </div>
+        <ul class="profile-list">
+          <li>🖥️ <strong>Tech Comfort:</strong> สูง | อุปกรณ์หลัก: Laptop (47%)</li>
+          <li>🛠️ <strong>เครื่องมือ:</strong> Excel, basic ERP, SaaS tools</li>
+          <li>💬 <em>"ทุกวันต้องสร้าง PO 20-30 ใบ ถ้า upload CSV ได้ก็ประหยัดเวลา 2 ชม."</em></li>
+          <li>💬 <em>"ใช้ Google Sheets, Slack, Trello ทุกวัน แต่ ANTS ไม่ connect กับอะไรเลย"</em></li>
+          <li>💬 <em>"Export ได้แค่ PDF ทำอะไรต่อไม่ได้ ต้องการ Excel, CSV"</em></li>
+        </ul>
+      </div>
+      <!-- Group C -->
+      <div class="profile-card">
+        <div class="profile-header">
+          <div class="profile-icon" style="background:var(--blue-bg);">👔</div>
+          <div>
+            <div style="font-weight:700;">Group C (35-45 ปี)</div>
+            <div class="profile-meta">Senior Staff, Managers | 1,000 คน</div>
+          </div>
+          <div class="profile-score" style="color:var(--blue);margin-left:auto;">3.22</div>
+        </div>
+        <ul class="profile-list">
+          <li>🖥️ <strong>Tech Comfort:</strong> ปานกลาง | อุปกรณ์หลัก: Desktop (62%)</li>
+          <li>🛠️ <strong>เครื่องมือ:</strong> SAP, Oracle, established ERP</li>
+          <li>💬 <em>"Report แสดงแค่ summary ไม่สามารถ drill-down ถึง transaction level ได้"</em></li>
+          <li>💬 <em>"ใบกำกับภาษีที่ออกจากระบบไม่ตรงตามรูปแบบที่กรมสรรพากรกำหนด"</em></li>
+          <li>💬 <em>"ลาป่วย 3 วัน เอกสาร 27 รายการค้างอนุมัติ มอบหมายแทนไม่ได้"</em></li>
+        </ul>
+      </div>
+      <!-- Group D -->
+      <div class="profile-card">
+        <div class="profile-header">
+          <div class="profile-icon" style="background:var(--red-bg);">🏆</div>
+          <div>
+            <div style="font-weight:700;">Group D (45+ ปี)</div>
+            <div class="profile-meta">Executives, Directors | 1,000 คน</div>
+          </div>
+          <div class="profile-score" style="color:var(--red);margin-left:auto;">2.97</div>
+        </div>
+        <ul class="profile-list">
+          <li>🖥️ <strong>Tech Comfort:</strong> ต่ำ-ปานกลาง | อุปกรณ์หลัก: Desktop (71%)</li>
+          <li>🛠️ <strong>เครื่องมือ:</strong> Excel, กระดาษ/ลายเซ็น</li>
+          <li>💬 <em>"ระบบมีปุ่มเยอะมาก ไม่รู้จะกดตรงไหน แค่อยากดูว่าเดือนนี้จ่ายเท่าไหร่"</em></li>
+          <li>💬 <em>"ตัวหนังสือในตารางเล็กมาก ต้องเอาหน้าจ่อจอ ขยายก็ layout เพี้ยน"</em></li>
+          <li>💬 <em>"เจอคำว่า Dashboard, Pipeline, Analytics ไม่เข้าใจเลย ทำไมไม่เขียนเป็นไทย"</em></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Satisfaction Distribution Stacked Bar -->
+    <div class="chart-section anim-in">
+      <div class="card-title">⭐ การกระจายคะแนนความพึงพอใจ (1-5 ดาว) ตามกลุ่ม</div>
+      <div class="chart-container">
+        <svg viewBox="0 0 750 220" style="max-height:220px;">
+          <defs>
+            <linearGradient id="s5"><stop offset="0%" stop-color="#059669"/><stop offset="100%" stop-color="#10B981"/></linearGradient>
+            <linearGradient id="s4"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#3B82F6"/></linearGradient>
+            <linearGradient id="s3"><stop offset="0%" stop-color="#7C3AED"/><stop offset="100%" stop-color="#8B5CF6"/></linearGradient>
+            <linearGradient id="s2"><stop offset="0%" stop-color="#D97706"/><stop offset="100%" stop-color="#F59E0B"/></linearGradient>
+            <linearGradient id="s1"><stop offset="0%" stop-color="#DC2626"/><stop offset="100%" stop-color="#F87171"/></linearGradient>
+          </defs>
+          <!-- Group A: 5★8.2% 4★16.1% 3★28.7% 2★33.4% 1★13.6% -->
+          <text x="8" y="32" fill="var(--text2)" font-size="11" font-weight="600">Group A</text>
+          <rect x="100" y="18" width="41" height="22" rx="2" fill="url(#s5)"/><text x="121" y="33" fill="#fff" font-size="8" text-anchor="middle">8.2%</text>
+          <rect x="141" y="18" width="80.5" height="22" rx="0" fill="url(#s4)"/><text x="181" y="33" fill="#fff" font-size="8" text-anchor="middle">16.1%</text>
+          <rect x="221.5" y="18" width="143.5" height="22" rx="0" fill="url(#s3)"/><text x="293" y="33" fill="#fff" font-size="8" text-anchor="middle">28.7%</text>
+          <rect x="365" y="18" width="167" height="22" rx="0" fill="url(#s2)"/><text x="449" y="33" fill="#fff" font-size="8" text-anchor="middle">33.4%</text>
+          <rect x="532" y="18" width="68" height="22" rx="2" fill="url(#s1)"/><text x="566" y="33" fill="#fff" font-size="8" text-anchor="middle">13.6%</text>
+
+          <!-- Group B: 5★11.4% 4★23.8% 3★30.2% 2★21.3% 1★13.3% -->
+          <text x="8" y="78" fill="var(--text2)" font-size="11" font-weight="600">Group B</text>
+          <rect x="100" y="64" width="57" height="22" rx="2" fill="url(#s5)"/><text x="128" y="79" fill="#fff" font-size="8" text-anchor="middle">11.4%</text>
+          <rect x="157" y="64" width="119" height="22" rx="0" fill="url(#s4)"/><text x="216" y="79" fill="#fff" font-size="8" text-anchor="middle">23.8%</text>
+          <rect x="276" y="64" width="151" height="22" rx="0" fill="url(#s3)"/><text x="352" y="79" fill="#fff" font-size="8" text-anchor="middle">30.2%</text>
+          <rect x="427" y="64" width="106.5" height="22" rx="0" fill="url(#s2)"/><text x="480" y="79" fill="#fff" font-size="8" text-anchor="middle">21.3%</text>
+          <rect x="533.5" y="64" width="66.5" height="22" rx="2" fill="url(#s1)"/><text x="567" y="79" fill="#fff" font-size="8" text-anchor="middle">13.3%</text>
+
+          <!-- Group C: 5★9.7% 4★18.9% 3★34.1% 2★21.6% 1★15.7% -->
+          <text x="8" y="124" fill="var(--text2)" font-size="11" font-weight="600">Group C</text>
+          <rect x="100" y="110" width="48.5" height="22" rx="2" fill="url(#s5)"/><text x="124" y="125" fill="#fff" font-size="8" text-anchor="middle">9.7%</text>
+          <rect x="148.5" y="110" width="94.5" height="22" rx="0" fill="url(#s4)"/><text x="196" y="125" fill="#fff" font-size="8" text-anchor="middle">18.9%</text>
+          <rect x="243" y="110" width="170.5" height="22" rx="0" fill="url(#s3)"/><text x="328" y="125" fill="#fff" font-size="8" text-anchor="middle">34.1%</text>
+          <rect x="413.5" y="110" width="108" height="22" rx="0" fill="url(#s2)"/><text x="468" y="125" fill="#fff" font-size="8" text-anchor="middle">21.6%</text>
+          <rect x="521.5" y="110" width="78.5" height="22" rx="2" fill="url(#s1)"/><text x="561" y="125" fill="#fff" font-size="8" text-anchor="middle">15.7%</text>
+
+          <!-- Group D: 5★6.3% 4★15.2% 3★24.8% 2★33.1% 1★20.6% -->
+          <text x="8" y="170" fill="var(--text2)" font-size="11" font-weight="600">Group D</text>
+          <rect x="100" y="156" width="31.5" height="22" rx="2" fill="url(#s5)"/><text x="116" y="171" fill="#fff" font-size="8" text-anchor="middle">6.3%</text>
+          <rect x="131.5" y="156" width="76" height="22" rx="0" fill="url(#s4)"/><text x="170" y="171" fill="#fff" font-size="8" text-anchor="middle">15.2%</text>
+          <rect x="207.5" y="156" width="124" height="22" rx="0" fill="url(#s3)"/><text x="270" y="171" fill="#fff" font-size="8" text-anchor="middle">24.8%</text>
+          <rect x="331.5" y="156" width="165.5" height="22" rx="0" fill="url(#s2)"/><text x="414" y="171" fill="#fff" font-size="8" text-anchor="middle">33.1%</text>
+          <rect x="497" y="156" width="103" height="22" rx="2" fill="url(#s1)"/><text x="549" y="171" fill="#fff" font-size="8" text-anchor="middle">20.6%</text>
+
+          <!-- Legend -->
+          <rect x="160" y="200" width="14" height="10" rx="2" fill="url(#s5)"/><text x="178" y="209" fill="var(--muted)" font-size="9">5 ดาว</text>
+          <rect x="230" y="200" width="14" height="10" rx="2" fill="url(#s4)"/><text x="248" y="209" fill="var(--muted)" font-size="9">4 ดาว</text>
+          <rect x="300" y="200" width="14" height="10" rx="2" fill="url(#s3)"/><text x="318" y="209" fill="var(--muted)" font-size="9">3 ดาว</text>
+          <rect x="370" y="200" width="14" height="10" rx="2" fill="url(#s2)"/><text x="388" y="209" fill="var(--muted)" font-size="9">2 ดาว</text>
+          <rect x="440" y="200" width="14" height="10" rx="2" fill="url(#s1)"/><text x="458" y="209" fill="var(--muted)" font-size="9">1 ดาว</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== TAB: MODULE INSIGHTS ========== -->
+  <div class="tab-content" id="tab-modules">
+    <div class="section-title"><span class="icon">📦</span> Module Satisfaction Heatmap (คะแนนเฉลี่ยแยกตามกลุ่มอายุ)</div>
+    <div class="card" style="overflow-x:auto;">
+      <table class="heatmap-table" id="heatmapTable">
+        <thead>
+          <tr><th style="text-align:left;">โมดูล</th><th>Group A</th><th>Group B</th><th>Group C</th><th>Group D</th><th>Overall</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="module-name">Home Dashboard <button class="expand-btn" onclick="toggleModuleDetail('md-hd')">+ รายละเอียด</button></td><td>3.00</td><td>3.43</td><td>3.23</td><td>2.70</td><td><strong>3.09</strong></td></tr>
+          <tr><td colspan="6"><div class="module-detail" id="md-hd">
+            <table class="severity-table"><thead><tr><th>Metric</th><th>A</th><th>B</th><th>C</th><th>D</th><th>Overall</th></tr></thead>
+            <tbody><tr><td>Usability</td><td>3.1</td><td>3.6</td><td>3.3</td><td>2.8</td><td>3.20</td></tr><tr><td>Visual Design</td><td>2.9</td><td>3.4</td><td>3.0</td><td>2.6</td><td>2.98</td></tr><tr><td>Info Density</td><td>2.7</td><td>3.2</td><td>3.5</td><td>2.4</td><td>2.95</td></tr><tr><td>Load Perf</td><td>3.3</td><td>3.5</td><td>3.1</td><td>3.0</td><td>3.23</td></tr></tbody></table>
+            <p style="margin-top:8px;color:var(--red);font-weight:600;">Top Issues:</p>
+            <ul style="margin:4px 0 0 16px;font-size:0.8rem;"><li>Dashboard ไม่สามารถ customize ได้ (46.2%)</li><li>Widget แสดงตัวเลขไม่มี context (30.9%)</li><li>ไม่มี Quick Action buttons (39.2%)</li></ul>
+          </div></td></tr>
+          <tr><td class="module-name">Procurement <button class="expand-btn" onclick="toggleModuleDetail('md-pr')">+ รายละเอียด</button></td><td>2.80</td><td>3.20</td><td>3.14</td><td>2.50</td><td><strong>2.91</strong></td></tr>
+          <tr><td colspan="6"><div class="module-detail" id="md-pr">
+            <table class="severity-table"><thead><tr><th>Metric</th><th>A</th><th>B</th><th>C</th><th>D</th><th>Overall</th></tr></thead>
+            <tbody><tr><td>PR/PO Creation</td><td>2.8</td><td>3.3</td><td>3.1</td><td>2.5</td><td>2.93</td></tr><tr><td>3-Way Match</td><td>2.6</td><td>3.1</td><td>3.4</td><td>2.3</td><td>2.85</td></tr><tr><td>Approval Workflow</td><td>2.9</td><td>3.2</td><td>3.0</td><td>2.7</td><td>2.95</td></tr><tr><td>Analytics</td><td>3.0</td><td>3.4</td><td>3.3</td><td>2.6</td><td>3.08</td></tr></tbody></table>
+            <p style="margin-top:8px;color:var(--red);font-weight:600;">Top Issues:</p>
+            <ul style="margin:4px 0 0 16px;font-size:0.8rem;"><li>PR creation ต้องกรอก 5 หน้า ไม่มี draft save [Critical]</li><li>ไม่สามารถสร้าง PO จาก PR ได้โดยตรง [Critical]</li><li>ไม่มี Bulk PO Creation (24.7%)</li></ul>
+          </div></td></tr>
+          <tr><td class="module-name">Vendor Management <button class="expand-btn" onclick="toggleModuleDetail('md-vm')">+ รายละเอียด</button></td><td>2.70</td><td>3.12</td><td>3.20</td><td>2.44</td><td><strong>2.87</strong></td></tr>
+          <tr><td colspan="6"><div class="module-detail" id="md-vm">
+            <p style="color:var(--red);font-weight:600;">Top Issues:</p>
+            <ul style="margin:4px 0 0 16px;font-size:0.8rem;"><li>เปรียบเทียบ Vendor โหลดนาน 8-12 วินาที [Critical]</li><li>Quotation Analysis ไม่รองรับไฟล์ภาษาไทย [Critical]</li><li>ไม่มีระบบให้คะแนน Vendor อัตโนมัติ (28.1%)</li></ul>
+          </div></td></tr>
+          <tr><td class="module-name">Expense & Receipt <button class="expand-btn" onclick="toggleModuleDetail('md-ex')">+ รายละเอียด</button></td><td>2.86</td><td>3.22</td><td>3.02</td><td>2.50</td><td><strong>2.90</strong></td></tr>
+          <tr><td colspan="6"><div class="module-detail" id="md-ex">
+            <p style="color:var(--red);font-weight:600;">Top Issues:</p>
+            <ul style="margin:4px 0 0 16px;font-size:0.8rem;"><li>OCR อ่านใบเสร็จภาษาไทยผิดพลาด ~67% [Critical]</li><li>ไม่สามารถ upload ใบเสร็จหลายใบพร้อมกัน (44.7%)</li><li>Approval workflow ไม่ยืดหยุ่น ไม่มี delegation (30.9%)</li></ul>
+          </div></td></tr>
+          <tr><td class="module-name">Finance Doc Hub <button class="expand-btn" onclick="toggleModuleDetail('md-fd')">+ รายละเอียด</button></td><td>2.80</td><td>3.16</td><td>3.10</td><td>2.52</td><td><strong>2.90</strong></td></tr>
+          <tr><td colspan="6"><div class="module-detail" id="md-fd">
+            <p style="color:var(--red);font-weight:600;">Top Issues:</p>
+            <ul style="margin:4px 0 0 16px;font-size:0.8rem;"><li>เอกสารแนบไม่จัดกลุ่มตามประเภท (39.2%)</li><li>ไม่มี checklist/template สำหรับ verification (28.1%)</li><li>ไม่สามารถ annotate บน PDF ได้ (33.6%)</li></ul>
+          </div></td></tr>
+          <tr><td class="module-name">Logistics FX <button class="expand-btn" onclick="toggleModuleDetail('md-lg')">+ รายละเอียด</button></td><td>2.80</td><td>3.20</td><td>3.05</td><td>2.45</td><td><strong>2.88</strong></td></tr>
+          <tr><td colspan="6"><div class="module-detail" id="md-lg">
+            <p style="color:var(--red);font-weight:600;">Top Issues:</p>
+            <ul style="margin:4px 0 0 16px;font-size:0.8rem;"><li>Freight OCR ไม่รองรับเอกสารขนส่งไทย [Critical]</li><li>Cost Calculator ไม่รองรับอัตราค่าขนส่งไทย (30.9%)</li><li>ไม่มี real-time shipment tracking (36.4%)</li></ul>
+          </div></td></tr>
+          <tr><td class="module-name">Sales Doc Gen <button class="expand-btn" onclick="toggleModuleDetail('md-sd')">+ รายละเอียด</button></td><td>3.13</td><td>3.48</td><td>3.28</td><td>2.78</td><td><strong>3.17</strong></td></tr>
+          <tr><td colspan="6"><div class="module-detail" id="md-sd">
+            <p style="color:var(--red);font-weight:600;">Top Issues:</p>
+            <ul style="margin:4px 0 0 16px;font-size:0.8rem;"><li>Template ไม่รองรับรูปแบบเอกสารไทย [Critical]</li><li>Pipeline ไม่มี drag-and-drop (30.9%)</li><li>ไม่ auto-generate เอกสารจาก Pipeline (27.2%)</li></ul>
+          </div></td></tr>
+          <tr><td class="module-name">Connectors <button class="expand-btn" onclick="toggleModuleDetail('md-cn')">+ รายละเอียด</button></td><td>2.40</td><td>2.98</td><td>2.60</td><td>1.58</td><td><strong>2.39</strong></td></tr>
+          <tr><td colspan="6"><div class="module-detail" id="md-cn">
+            <table class="severity-table"><thead><tr><th>Metric</th><th>A</th><th>B</th><th>C</th><th>D</th><th>Overall</th></tr></thead>
+            <tbody><tr><td>API Dashboard</td><td>2.7</td><td>3.3</td><td>2.9</td><td>1.8</td><td>2.68</td></tr><tr><td>Connector Hub</td><td>2.5</td><td>3.1</td><td>2.7</td><td>1.6</td><td>2.48</td></tr><tr><td>Documentation</td><td>2.3</td><td>2.8</td><td>2.5</td><td>1.5</td><td>2.28</td></tr><tr><td>Setup Ease</td><td>2.1</td><td>2.7</td><td>2.3</td><td>1.4</td><td>2.13</td></tr></tbody></table>
+            <p style="margin-top:8px;color:var(--red);font-weight:600;">Top Issues:</p>
+            <ul style="margin:4px 0 0 16px;font-size:0.8rem;"><li>Setup ซับซ้อนเกินไป สำหรับ non-technical [Critical] (64.2%)</li><li>ไม่มี pre-built connectors สำหรับระบบไทย [Critical] (47.3%)</li><li>API errors ไม่ human-readable (36.4%)</li></ul>
+          </div></td></tr>
+          <tr><td class="module-name">Customer Feedback <button class="expand-btn" onclick="toggleModuleDetail('md-cf')">+ รายละเอียด</button></td><td>2.90</td><td>3.30</td><td>3.15</td><td>2.60</td><td><strong>2.99</strong></td></tr>
+          <tr><td colspan="6"><div class="module-detail" id="md-cf">
+            <p style="color:var(--red);font-weight:600;">Top Issues:</p>
+            <ul style="margin:4px 0 0 16px;font-size:0.8rem;"><li>ไม่มี Thai sentiment analysis [Critical] (39.2%)</li><li>Survey builder ไม่มี conditional logic (28.1%)</li><li>ไม่ integrate กับ CRM/ticket system (23.4%)</li></ul>
+          </div></td></tr>
+          <tr><td class="module-name">System <button class="expand-btn" onclick="toggleModuleDetail('md-sy')">+ รายละเอียด</button></td><td>2.73</td><td>3.08</td><td>2.88</td><td>2.38</td><td><strong>2.77</strong></td></tr>
+          <tr><td colspan="6"><div class="module-detail" id="md-sy">
+            <table class="severity-table"><thead><tr><th>Metric</th><th>A</th><th>B</th><th>C</th><th>D</th><th>Overall</th></tr></thead>
+            <tbody><tr><td>User Mgmt</td><td>3.0</td><td>3.3</td><td>3.1</td><td>2.6</td><td>3.00</td></tr><tr><td>Channel Config</td><td>2.8</td><td>3.1</td><td>2.9</td><td>2.3</td><td>2.78</td></tr><tr><td>Billing</td><td>2.6</td><td>3.0</td><td>2.8</td><td>2.4</td><td>2.70</td></tr><tr><td>Settings</td><td>2.5</td><td>2.9</td><td>2.7</td><td>2.2</td><td>2.58</td></tr></tbody></table>
+            <p style="margin-top:8px;color:var(--red);font-weight:600;">Top Issues:</p>
+            <ul style="margin:4px 0 0 16px;font-size:0.8rem;"><li>Permission system ซับซ้อน ไม่มี role template [Critical] (47.3%)</li><li>ไม่รองรับ LINE Official Account [Critical] (53.4%)</li><li>Settings ไม่มี search function (39.2%)</li></ul>
+          </div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ========== TAB: ISSUE TRACKER ========== -->
+  <div class="tab-content" id="tab-issues">
+    <div class="section-title"><span class="icon">🐛</span> Issue Tracker — ปัญหาทั้งหมด 171 รายการ</div>
+
+    <!-- Filter bar -->
+    <div class="filter-bar">
+      <select id="filterSeverity" onchange="filterIssues()">
+        <option value="all">ทุกระดับ</option>
+        <option value="Critical">Critical</option>
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option>
+      </select>
+      <select id="filterModule" onchange="filterIssues()">
+        <option value="all">ทุกโมดูล</option>
+        <option value="Cross-Module">Cross-Module</option>
+        <option value="Home Dashboard">Home Dashboard</option>
+        <option value="Procurement">Procurement</option>
+        <option value="Vendor Management">Vendor Mgmt</option>
+        <option value="Expense & Receipt">Expense & Receipt</option>
+        <option value="Finance Doc Hub">Finance Doc Hub</option>
+        <option value="Logistics FX">Logistics FX</option>
+        <option value="Sales Doc Gen">Sales Doc Gen</option>
+        <option value="Connectors">Connectors</option>
+        <option value="Customer Feedback">Customer Feedback</option>
+        <option value="System">System</option>
+      </select>
+      <input type="text" id="filterSearch" placeholder="ค้นหา Issue ID หรือรายละเอียด..." oninput="filterIssues()"/>
+    </div>
+
+    <!-- Summary strip -->
+    <div class="summary-strip">
+      <span class="strip-item badge-critical">14 Critical</span>
+      <span class="strip-item badge-high">37 High</span>
+      <span class="strip-item badge-medium">68 Medium</span>
+      <span class="strip-item badge-low">52 Low</span>
+    </div>
+
+    <!-- Issues Table -->
+    <div class="issues-table-wrap">
+      <table class="issues-table" id="issuesTable">
+        <thead>
+          <tr><th>Issue ID</th><th>โมดูล</th><th>รายละเอียด</th><th>ผู้ใช้</th><th>ระดับ</th><th>กลุ่มหลัก</th><th>สถานะ</th></tr>
+        </thead>
+        <tbody id="issuesBody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ========== TAB: RECOMMENDATIONS ========== -->
+  <div class="tab-content" id="tab-recommendations">
+    <div class="section-title"><span class="icon">📈</span> Top 20 คำแนะนำจัดลำดับตาม Impact</div>
+
+    <div id="recCards"></div>
+
+    <!-- Quick Wins -->
+    <div class="section-title" style="margin-top:28px;"><span class="icon">⚡</span> Quick Wins — ทำได้ใน 1-2 Sprint</div>
+    <div class="quick-wins-grid">
+      <div class="qw-card"><div class="qw-num">1</div><div><strong>เพิ่ม progress indicators</strong> สำหรับทุก operation > 2 วินาที <span class="badge badge-s">S</span> — ลดปัญหา "app crashed" 67.8%</div></div>
+      <div class="qw-card"><div class="qw-num">2</div><div><strong>เพิ่ม search bar ในหน้า Settings</strong> <span class="badge badge-s">S</span> — ช่วยผู้ใช้ 1,567 คน</div></div>
+      <div class="qw-card"><div class="qw-num">3</div><div><strong>เพิ่ม breadcrumb navigation</strong> ทุกโมดูล <span class="badge badge-s">S</span> — ช่วยผู้ใช้ 1,891 คน</div></div>
+      <div class="qw-card"><div class="qw-num">4</div><div><strong>เพิ่ม พ.ศ. toggle</strong> สำหรับแสดงวันที่ <span class="badge badge-s">S</span> — ช่วยผู้ใช้ 1,891 คน</div></div>
+      <div class="qw-card"><div class="qw-num">5</div><div><strong>จัดหมวดหมู่ Notifications</strong> / เพิ่ม filter <span class="badge badge-s">S</span> — ช่วยผู้ใช้ 1,089 คน</div></div>
+      <div class="qw-card"><div class="qw-num">6</div><div><strong>เปิด multi-file upload</strong> สำหรับใบเสร็จ <span class="badge badge-s">S</span> — ช่วยผู้ใช้ 1,789 คน</div></div>
+      <div class="qw-card"><div class="qw-num">7</div><div><strong>แก้ Thai Baht symbol</strong> ให้สม่ำเสมอทุกโมดูล <span class="badge badge-s">S</span> — ช่วยผู้ใช้ 987 คน</div></div>
+      <div class="qw-card"><div class="qw-num">8</div><div><strong>แก้ Dark mode</strong> สำหรับ 4 โมดูลที่เหลือ <span class="badge badge-m">M</span> — ช่วยผู้ใช้ 1,234 คน</div></div>
+    </div>
+
+    <!-- Effort Definition -->
+    <div class="card">
+      <div class="card-title">📏 นิยามระดับ Effort</div>
+      <table class="severity-table">
+        <thead><tr><th>ขนาด</th><th>ระยะเวลา</th><th>ทีม</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge badge-s">S (Small)</span></td><td>1-2 สัปดาห์</td><td>1-2 developers</td></tr>
+          <tr><td><span class="badge badge-m">M (Medium)</span></td><td>2-4 สัปดาห์</td><td>2-3 developers</td></tr>
+          <tr><td><span class="badge badge-l">L (Large)</span></td><td>1-2 เดือน</td><td>3-5 developers</td></tr>
+          <tr><td><span class="badge badge-xl">XL (Extra Large)</span></td><td>2-4 เดือน</td><td>5+ developers, cross-functional</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ========== TAB: SUBMIT FEEDBACK ========== -->
+  <div class="tab-content" id="tab-submit">
+    <div class="section-title"><span class="icon">✉️</span> ส่ง Feedback ของคุณ</div>
+    <div class="card">
+      <form class="feedback-form" onsubmit="submitFeedback(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>หมวดหมู่</label>
+            <select id="fbCategory" required>
+              <option value="">-- เลือกหมวดหมู่ --</option>
+              <option>UI/UX</option><option>Performance</option><option>Features</option>
+              <option>Support</option><option>Integration</option><option>Pricing</option>
+              <option>Accessibility</option><option>Mobile</option><option>Localization</option><option>อื่นๆ</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>โมดูล</label>
+            <select id="fbModule" required>
+              <option value="">-- เลือกโมดูล --</option>
+              <option>Home Dashboard</option><option>Procurement</option><option>Vendor Management</option>
+              <option>Expense & Receipt</option><option>Finance Doc Hub</option><option>Logistics FX</option>
+              <option>Sales Doc Gen</option><option>Connectors</option><option>Customer Feedback</option><option>System</option>
+            </select>
           </div>
         </div>
-        <div class="form-group full">
-          <label class="form-label">&#3588;&#3623;&#3634;&#3617;&#3588;&#3636;&#3604;&#3648;&#3627;&#3655;&#3609; / &#3586;&#3657;&#3629;&#3648;&#3626;&#3609;&#3629;&#3649;&#3609;&#3632; <span class="required">*</span></label>
-          <textarea class="form-textarea" placeholder="&#3585;&#3619;&#3640;&#3603;&#3634;&#3629;&#3608;&#3636;&#3610;&#3634;&#3618;&#3611;&#3619;&#3632;&#3626;&#3610;&#3585;&#3634;&#3619;&#3603;&#3660;&#3585;&#3634;&#3619;&#3651;&#3594;&#3657;&#3591;&#3634;&#3609; &#3627;&#3619;&#3639;&#3629;&#3626;&#3636;&#3656;&#3591;&#3607;&#3637;&#3656;&#3629;&#3618;&#3634;&#3585;&#3651;&#3627;&#3657;&#3611;&#3619;&#3633;&#3610;&#3611;&#3619;&#3640;&#3591;..." required></textarea>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>ประเภท Feedback</label>
+            <select id="fbType" required>
+              <option value="">-- เลือกประเภท --</option>
+              <option>Bug Report</option><option>Feature Request</option><option>General Feedback</option><option>Complaint</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>ระดับความสำคัญ</label>
+            <select id="fbPriority" required>
+              <option value="">-- เลือกระดับ --</option>
+              <option>Critical</option><option>High</option><option>Medium</option><option>Low</option>
+            </select>
+          </div>
         </div>
-      </div>
-      <div class="form-actions">
-        <button type="submit" class="btn-submit">&#128640; &#3626;&#3656;&#3591; Feedback</button>
-        <span class="form-note">&#3588;&#3635;&#3605;&#3629;&#3610;&#3586;&#3629;&#3591;&#3588;&#3640;&#3603;&#3592;&#3632;&#3606;&#3641;&#3585;&#3648;&#3585;&#3655;&#3610;&#3648;&#3611;&#3655;&#3609;&#3588;&#3623;&#3634;&#3617;&#3621;&#3633;&#3610;</span>
-      </div>
-    </form>
-  </div>
 
-  <!-- Key Metrics Summary -->
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px;">
-    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);text-align:center;">
-      <div style="font-size:2rem;margin-bottom:6px;">&#128200;</div>
-      <div style="font-size:1.5rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">184,830</div>
-      <div style="font-size:0.78rem;color:var(--muted);margin-top:2px;">Feedback ทั้งหมดที่ได้รับ</div>
-      <div style="font-size:0.72rem;color:var(--green);font-weight:600;margin-top:4px;">&#9650; 24% จากเดือนก่อน</div>
-    </div>
-    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);text-align:center;">
-      <div style="font-size:2rem;margin-bottom:6px;">&#9889;</div>
-      <div style="font-size:1.5rem;font-weight:800;color:var(--green);">2.4 ชม.</div>
-      <div style="font-size:0.78rem;color:var(--muted);margin-top:2px;">เวลาตอบกลับเฉลี่ย</div>
-      <div style="font-size:0.72rem;color:var(--green);font-weight:600;margin-top:4px;">&#9660; 35% จากเดือนก่อน</div>
-    </div>
-    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);text-align:center;">
-      <div style="font-size:2rem;margin-bottom:6px;">&#9989;</div>
-      <div style="font-size:1.5rem;font-weight:800;color:var(--blue);">87%</div>
-      <div style="font-size:0.78rem;color:var(--muted);margin-top:2px;">Feedback ที่ดำเนินการแล้ว</div>
-      <div style="font-size:0.72rem;color:var(--green);font-weight:600;margin-top:4px;">&#9650; 12% จากเดือนก่อน</div>
-    </div>
-  </div>
+        <div class="form-group">
+          <label>คะแนนความพึงพอใจ</label>
+          <div class="star-rating" id="starRating">
+            <span class="star" data-val="1" onclick="setRating(1)">★</span>
+            <span class="star" data-val="2" onclick="setRating(2)">★</span>
+            <span class="star" data-val="3" onclick="setRating(3)">★</span>
+            <span class="star" data-val="4" onclick="setRating(4)">★</span>
+            <span class="star" data-val="5" onclick="setRating(5)">★</span>
+          </div>
+          <div id="ratingText" style="font-size:0.78rem;color:var(--muted);">เลือกคะแนน 1-5 ดาว</div>
+        </div>
 
-  <!-- Footer info -->
-  <div style="text-align:center;padding:24px 0 8px;border-top:1px solid var(--border);margin-top:16px;">
-    <div style="font-size:0.82rem;color:var(--muted);margin-bottom:4px;">
-      &#128274; ข้อมูล Feedback ทั้งหมดถูกเก็บรักษาเป็นความลับและใช้เพื่อการพัฒนาผลิตภัณฑ์เท่านั้น
-    </div>
-    <div style="font-size:0.72rem;color:var(--muted);">
-      Autopilot v2 &mdash; Customer Feedback Module &mdash; อัพเดทล่าสุด: 5 เมษายน 2569
+        <div class="form-group">
+          <label>รายละเอียด Feedback (ไทย/อังกฤษ)</label>
+          <textarea id="fbDetail" placeholder="กรุณาอธิบายปัญหาหรือข้อเสนอแนะอย่างละเอียด..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>แนบไฟล์ (ลากวางหรือคลิก)</label>
+          <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+            <input type="file" id="fileInput" multiple onchange="handleFiles(this.files)"/>
+            📎 ลากไฟล์มาวางที่นี่ หรือคลิกเพื่อเลือกไฟล์<br>
+            <span style="font-size:0.75rem;">รองรับ: PNG, JPG, PDF, XLSX (สูงสุด 10MB/ไฟล์)</span>
+          </div>
+          <div id="fileList" style="margin-top:8px;font-size:0.8rem;color:var(--text2);"></div>
+        </div>
+
+        <button type="submit" class="btn-primary">📤 ส่ง Feedback</button>
+      </form>
     </div>
   </div>
-
-</div><!-- /container -->
-
-<!-- Toast notification -->
-<div class="toast" id="toast">&#9989; &#3586;&#3629;&#3610;&#3588;&#3640;&#3603;&#3626;&#3635;&#3627;&#3619;&#3633;&#3610; feedback! &#3648;&#3619;&#3634;&#3592;&#3632;&#3609;&#3635;&#3652;&#3611;&#3614;&#3633;&#3602;&#3609;&#3634;&#3605;&#3656;&#3629;&#3652;&#3611;</div>
+</div>
 
 <script>
-/* ============================
-   Dark Mode Toggle
-   ============================ */
+// ===== Data =====
+const issuesData = [
+  {id:'CROSS-001',module:'Cross-Module',desc:'Navigation ลึกเกิน 4+ คลิก (เฉลี่ย 4.7 คลิก)',users:2847,pct:'71.2%',severity:'Critical',groups:'A, D',status:'Open'},
+  {id:'CN-001',module:'Connectors',desc:'Connector setup ซับซ้อนเกินไปสำหรับ non-technical users',users:2567,pct:'64.2%',severity:'Critical',groups:'D, C',status:'Open'},
+  {id:'EX-001',module:'Expense & Receipt',desc:'OCR อ่านใบเสร็จภาษาไทยผิดพลาดสูง (~67% accuracy)',users:2456,pct:'61.4%',severity:'Critical',groups:'D, A',status:'In Progress'},
+  {id:'CROSS-002',module:'Cross-Module',desc:'ไม่มี global search ข้ามโมดูล',users:2456,pct:'61.4%',severity:'Critical',groups:'A, B',status:'Open'},
+  {id:'PR-001',module:'Procurement',desc:'สร้าง PR ต้องกรอกข้อมูลหลายหน้า ไม่มี draft save',users:2134,pct:'53.4%',severity:'Critical',groups:'A, B',status:'In Progress'},
+  {id:'SY-004',module:'System',desc:'ไม่รองรับ LINE Official Account integration',users:2134,pct:'53.4%',severity:'Critical',groups:'A, B',status:'Open'},
+  {id:'CN-002',module:'Connectors',desc:'ไม่มี pre-built connectors สำหรับระบบที่นิยมในไทย',users:1891,pct:'47.3%',severity:'Critical',groups:'C, B',status:'Open'},
+  {id:'VM-001',module:'Vendor Management',desc:'เปรียบเทียบ Vendor ใช้เวลาโหลดนาน 8-12 วินาที',users:1891,pct:'47.3%',severity:'Critical',groups:'D, C',status:'In Progress'},
+  {id:'SY-001',module:'System',desc:'Permission system ซับซ้อนเกินไป ไม่มี role template',users:1891,pct:'47.3%',severity:'Critical',groups:'D, C',status:'Open'},
+  {id:'CROSS-007',module:'Cross-Module',desc:'ไม่มี Undo/Redo ในทุกโมดูล',users:1723,pct:'43.1%',severity:'Critical',groups:'B, A',status:'Open'},
+  {id:'LG-001',module:'Logistics FX',desc:'Freight OCR ไม่รองรับเอกสารขนส่งไทย',users:1678,pct:'42.0%',severity:'Critical',groups:'B, C',status:'Open'},
+  {id:'SD-001',module:'Sales Doc Gen',desc:'Template ไม่รองรับรูปแบบเอกสารธุรกิจไทย',users:1567,pct:'39.2%',severity:'Critical',groups:'C, D',status:'Open'},
+  {id:'CF-001',module:'Customer Feedback',desc:'ไม่มี Thai sentiment analysis',users:1567,pct:'39.2%',severity:'Critical',groups:'C, B',status:'Open'},
+  {id:'CROSS-017',module:'Cross-Module',desc:'34 elements ไม่สามารถเข้าถึงด้วย keyboard',users:1234,pct:'30.9%',severity:'Critical',groups:'D, C',status:'Open'},
+  {id:'PR-002',module:'Procurement',desc:'ไม่สามารถสร้าง PO จาก PR ได้โดยตรง',users:1456,pct:'36.4%',severity:'Critical',groups:'C, B',status:'Open'},
+  {id:'VM-002',module:'Vendor Management',desc:'Quotation Analysis ไม่รองรับไฟล์ภาษาไทย (TIS-620)',users:934,pct:'23.4%',severity:'Critical',groups:'C, B',status:'Open'},
+  {id:'CROSS-003',module:'Cross-Module',desc:'Help documentation เป็นภาษาอังกฤษเท่านั้น',users:2456,pct:'61.4%',severity:'High',groups:'D, C',status:'Open'},
+  {id:'CROSS-004',module:'Cross-Module',desc:'ป้ายกำกับ Thai/English ปะปนไม่สม่ำเสมอ',users:2193,pct:'54.8%',severity:'High',groups:'D, C',status:'Open'},
+  {id:'CROSS-005',module:'Cross-Module',desc:'Initial page load > 4.8 วินาที',users:2134,pct:'53.4%',severity:'High',groups:'D, C',status:'In Progress'},
+  {id:'CROSS-006',module:'Cross-Module',desc:'ไม่มีตัวเลือกแสดงวันที่แบบ พ.ศ.',users:1891,pct:'47.3%',severity:'High',groups:'D, C',status:'Open'},
+  {id:'HD-001',module:'Home Dashboard',desc:'Dashboard ไม่สามารถ customize ได้ตามความต้องการ',users:1847,pct:'46.2%',severity:'High',groups:'B, C',status:'Open'},
+  {id:'EX-002',module:'Expense & Receipt',desc:'ไม่สามารถ upload ใบเสร็จหลายใบพร้อมกันได้',users:1789,pct:'44.7%',severity:'High',groups:'A, B',status:'Open'},
+  {id:'CROSS-009',module:'Cross-Module',desc:'Error messages เป็นภาษาอังกฤษเท่านั้น',users:1678,pct:'42.0%',severity:'High',groups:'D, C',status:'Open'},
+  {id:'PR-003',module:'Procurement',desc:'3-Way Match แสดงผลเปรียบเทียบซับซ้อนเกินไป',users:1678,pct:'42.0%',severity:'High',groups:'D, C',status:'Open'},
+  {id:'CROSS-011',module:'Cross-Module',desc:'ไม่มี breadcrumb navigation',users:1891,pct:'47.3%',severity:'High',groups:'D, A',status:'Open'},
+  {id:'CROSS-010',module:'Cross-Module',desc:'Charts/graphs อ่านไม่ได้บนหน้าจอ < 768px',users:1567,pct:'39.2%',severity:'High',groups:'A, B',status:'Open'},
+  {id:'HD-004',module:'Home Dashboard',desc:'ไม่มี Quick Action buttons สำหรับงานที่ทำบ่อย',users:1567,pct:'39.2%',severity:'High',groups:'A, B',status:'Open'},
+  {id:'SY-003',module:'System',desc:'Settings page ไม่มี search function',users:1567,pct:'39.2%',severity:'High',groups:'A, B',status:'Open'},
+  {id:'FD-001',module:'Finance Doc Hub',desc:'เอกสารแนบแสดงเป็นรายการยาว ไม่จัดกลุ่มตามประเภท',users:1567,pct:'39.2%',severity:'High',groups:'D, C',status:'Open'},
+  {id:'CROSS-012',module:'Cross-Module',desc:'Tables overflow บนมือถือ ไม่มี scroll indicator',users:1634,pct:'40.9%',severity:'High',groups:'A, B',status:'Open'},
+  {id:'CROSS-013',module:'Cross-Module',desc:'ไม่มี offline capability',users:1456,pct:'36.4%',severity:'High',groups:'A, B',status:'Open'},
+  {id:'CN-003',module:'Connectors',desc:'API error ไม่แสดง human-readable message',users:1456,pct:'36.4%',severity:'High',groups:'A, C',status:'Open'},
+  {id:'LG-003',module:'Logistics FX',desc:'ไม่มี real-time shipment tracking',users:1456,pct:'36.4%',severity:'High',groups:'A, B',status:'Open'},
+  {id:'FD-003',module:'Finance Doc Hub',desc:'ไม่สามารถ annotate หรือ comment บน PDF ได้',users:1345,pct:'33.6%',severity:'High',groups:'C, B',status:'Open'},
+  {id:'SY-002',module:'System',desc:'Billing page ไม่แสดงรายละเอียดค่าใช้จ่ายที่เข้าใจง่าย',users:1345,pct:'33.6%',severity:'High',groups:'D, C',status:'Open'},
+  {id:'PR-005',module:'Procurement',desc:'Analytics export ได้แค่ PDF ไม่มี Excel/CSV',users:1312,pct:'32.8%',severity:'High',groups:'C, B',status:'Open'},
+  {id:'EX-003',module:'Expense & Receipt',desc:'Approval workflow ไม่ยืดหยุ่น ไม่มี delegation',users:1234,pct:'30.9%',severity:'High',groups:'C, D',status:'Open'},
+  {id:'SD-002',module:'Sales Doc Gen',desc:'Pipeline view ไม่มี drag-and-drop สำหรับเปลี่ยนสถานะ',users:1234,pct:'30.9%',severity:'High',groups:'A, B',status:'Open'},
+  {id:'LG-002',module:'Logistics FX',desc:'Cost Calculator ไม่รองรับอัตราค่าขนส่งแบบไทย',users:1234,pct:'30.9%',severity:'High',groups:'C, B',status:'Open'},
+  {id:'HD-002',module:'Home Dashboard',desc:'Widget แสดงตัวเลขโดยไม่มี trend context',users:1234,pct:'30.9%',severity:'High',groups:'D, C',status:'Open'},
+  {id:'VM-003',module:'Vendor Management',desc:'ไม่มีระบบให้คะแนน Vendor อัตโนมัติ',users:1123,pct:'28.1%',severity:'High',groups:'B, C',status:'Open'},
+  {id:'CF-002',module:'Customer Feedback',desc:'Survey builder ไม่มี conditional logic/branching',users:1123,pct:'28.1%',severity:'High',groups:'B, A',status:'Open'},
+  {id:'FD-002',module:'Finance Doc Hub',desc:'Verification workflow ไม่มี checklist/template',users:1123,pct:'28.1%',severity:'High',groups:'B, C',status:'Open'},
+  {id:'SD-003',module:'Sales Doc Gen',desc:'ไม่สามารถ auto-generate เอกสารจาก Pipeline ได้',users:1089,pct:'27.2%',severity:'High',groups:'B, A',status:'Open'},
+  {id:'PR-004',module:'Procurement',desc:'ไม่มีฟังก์ชัน Bulk PO Creation',users:987,pct:'24.7%',severity:'High',groups:'B, C',status:'Open'},
+  {id:'CN-004',module:'Connectors',desc:'ไม่มี connection health monitoring แบบ real-time',users:987,pct:'24.7%',severity:'High',groups:'B, C',status:'Open'},
+  {id:'SY-005',module:'System',desc:'ไม่มี audit log สำหรับ admin actions',users:876,pct:'21.9%',severity:'High',groups:'C, D',status:'Open'},
+  {id:'CF-003',module:'Customer Feedback',desc:'ไม่ integrate กับ CRM/ticket system',users:934,pct:'23.4%',severity:'High',groups:'B, C',status:'Open'},
+  {id:'EX-004',module:'Expense & Receipt',desc:'ไม่มี Policy Engine ตรวจสอบค่าใช้จ่ายอัตโนมัติ',users:1067,pct:'26.7%',severity:'High',groups:'C, B',status:'Open'},
+  {id:'CROSS-008',module:'Cross-Module',desc:'ไม่มี recently visited items',users:1678,pct:'42.0%',severity:'Medium',groups:'A, B',status:'Open'},
+  {id:'CROSS-014',module:'Cross-Module',desc:'Thai font kerning/rendering issues',users:1456,pct:'36.4%',severity:'Medium',groups:'D, C',status:'Open'},
+  {id:'CROSS-015',module:'Cross-Module',desc:'ไม่มีตัวเลือกเปลี่ยนประเภทกราฟ',users:1456,pct:'36.4%',severity:'Medium',groups:'C, B',status:'Open'},
+  {id:'CROSS-016',module:'Cross-Module',desc:'Dark mode ไม่สม่ำเสมอใน 4 โมดูล',users:1234,pct:'30.9%',severity:'Medium',groups:'A, B',status:'Open'},
+  {id:'CROSS-018',module:'Cross-Module',desc:'Thai word segmentation ใน search ไม่ถูกต้อง',users:1234,pct:'30.9%',severity:'Medium',groups:'A, B',status:'Open'},
+  {id:'CROSS-019',module:'Cross-Module',desc:'ไม่มี interactive tooltips บนกราฟ',users:1123,pct:'28.1%',severity:'Medium',groups:'D, C',status:'Open'},
+  {id:'HD-005',module:'Home Dashboard',desc:'Notifications ปะปน ไม่จัดหมวดหมู่',users:1089,pct:'27.2%',severity:'Medium',groups:'C, D',status:'Open'},
+  {id:'CROSS-020',module:'Cross-Module',desc:'Data grouping ได้แค่ daily/monthly',users:1089,pct:'27.2%',severity:'Medium',groups:'C, B',status:'Open'},
+  {id:'FD-005',module:'Finance Doc Hub',desc:'Thai keyword search ค้นหาไม่แม่นยำ',users:1034,pct:'25.9%',severity:'Medium',groups:'A, B',status:'Open'},
+  {id:'EX-005',module:'Expense & Receipt',desc:'Analytics ไม่แสดง breakdown ตามประเภทค่าใช้จ่าย',users:892,pct:'22.3%',severity:'Medium',groups:'D, C',status:'Open'},
+  {id:'VM-004',module:'Vendor Management',desc:'Tasks ไม่เชื่อมโยงกับ Timeline โปรเจค',users:876,pct:'21.9%',severity:'Medium',groups:'C, B',status:'Open'},
+  {id:'CROSS-021',module:'Cross-Module',desc:'Dropdown menus ถูกตัดบนมือถือ',users:876,pct:'21.9%',severity:'Medium',groups:'A, B',status:'Open'},
+  {id:'CROSS-022',module:'Cross-Module',desc:'Thai sorting order ไม่ถูกต้อง',users:876,pct:'21.9%',severity:'Medium',groups:'D, C',status:'Open'},
+  {id:'LG-004',module:'Logistics FX',desc:'ไม่มี Cost-per-unit analysis',users:845,pct:'21.1%',severity:'Medium',groups:'C, B',status:'Open'},
+  {id:'CROSS-023',module:'Cross-Module',desc:'Exported charts สูญเสียคุณภาพใน PDF',users:845,pct:'21.1%',severity:'Medium',groups:'C, D',status:'Open'},
+  {id:'CF-004',module:'Customer Feedback',desc:'Reporting ไม่มี trend analysis ข้าม period',users:789,pct:'19.7%',severity:'Medium',groups:'D, C',status:'Open'},
+  {id:'SD-004',module:'Sales Doc Gen',desc:'Analytics ขาด Conversion Rate analysis',users:756,pct:'18.9%',severity:'Medium',groups:'D, B',status:'Open'},
+  {id:'FD-004',module:'Finance Doc Hub',desc:'Dashboard ไม่ update real-time (batch 1 ชม.)',users:756,pct:'18.9%',severity:'Medium',groups:'C, B',status:'Open'},
+  {id:'HD-003',module:'Home Dashboard',desc:'กราฟ Dashboard อ่านยากบนมือถือ',users:743,pct:'18.6%',severity:'Medium',groups:'A, B',status:'Open'},
+  {id:'VM-005',module:'Vendor Management',desc:'Audit Report ไม่สามารถ filter ช่วงเวลาเองได้',users:678,pct:'17.0%',severity:'Medium',groups:'C, B',status:'Open'},
+  {id:'CROSS-024',module:'Cross-Module',desc:'Pinch-to-zoom ถูกปิดในบางโมดูล',users:678,pct:'17.0%',severity:'Medium',groups:'D, A',status:'Open'},
+  {id:'CROSS-025',module:'Cross-Module',desc:'ไม่รองรับตัวเลขไทย (๐-๙)',users:567,pct:'14.2%',severity:'Low',groups:'D, C',status:'Open'},
+  {id:'LG-003b',module:'Logistics FX',desc:'Province names แสดงเป็น romanized แทนภาษาไทย',users:580,pct:'14.5%',severity:'Low',groups:'D, C',status:'Open'},
+];
+
+const recsData = [
+  {rank:1,title:'Implement global search with Thai language support',issues:'CROSS-002, FD-005, CROSS-018',effort:'L',impact:9.5,users:'2,456+'},
+  {rank:2,title:'Improve Thai OCR accuracy to >90%',issues:'EX-001, LG-001, VM-002',effort:'XL',impact:9.3,users:'2,456+'},
+  {rank:3,title:'Flatten navigation architecture (4.7 -> 2.5 clicks)',issues:'CROSS-001, HD-004, CROSS-008, CROSS-011',effort:'L',impact:9.2,users:'2,847'},
+  {rank:4,title:'Add LINE Official Account integration',issues:'SY-004',effort:'L',impact:9.0,users:'2,134'},
+  {rank:5,title:'Implement auto-save and undo/redo',issues:'CROSS-007, PR-001',effort:'M',impact:8.8,users:'1,723+'},
+  {rank:6,title:'Create Thai localization package',issues:'CROSS-004, CROSS-006, CROSS-009, CROSS-003',effort:'XL',impact:8.7,users:'2,193+'},
+  {rank:7,title:'Build pre-built Thai system connectors',issues:'CN-001, CN-002',effort:'XL',impact:8.5,users:'2,567'},
+  {rank:8,title:'Implement role-based permission templates',issues:'SY-001',effort:'M',impact:8.3,users:'1,891'},
+  {rank:9,title:'Add batch/bulk operations across modules',issues:'PR-004, EX-002',effort:'L',impact:8.2,users:'1,789+'},
+  {rank:10,title:'Optimize performance for large datasets',issues:'VM-001, CROSS-005',effort:'L',impact:8.0,users:'2,134'},
+  {rank:11,title:'Build PR-to-PO direct conversion flow',issues:'PR-002',effort:'M',impact:7.8,users:'1,456'},
+  {rank:12,title:'Make all modules mobile-responsive',issues:'CROSS-010, CROSS-012, HD-003',effort:'XL',impact:7.7,users:'1,634+'},
+  {rank:13,title:'Add customizable dashboard',issues:'HD-001, HD-002',effort:'L',impact:7.5,users:'1,847'},
+  {rank:14,title:'Implement Thai sentiment analysis',issues:'CF-001',effort:'L',impact:7.3,users:'1,567'},
+  {rank:15,title:'Add flexible approval workflows',issues:'EX-003',effort:'L',impact:7.2,users:'1,234'},
+  {rank:16,title:'Create Thai document templates',issues:'SD-001',effort:'M',impact:7.0,users:'1,567'},
+  {rank:17,title:'Fix WCAG accessibility issues',issues:'CROSS-017',effort:'L',impact:6.8,users:'1,234+'},
+  {rank:18,title:'Add PDF annotation and document markup',issues:'FD-003',effort:'M',impact:6.7,users:'1,345'},
+  {rank:19,title:'Implement expense policy engine',issues:'EX-004',effort:'L',impact:6.5,users:'1,067'},
+  {rank:20,title:'Add connection health monitoring & alerts',issues:'CN-004',effort:'M',impact:6.3,users:'987'},
+];
+
+// ===== Tab Switching =====
+function switchTab(tabName) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+tabName).classList.add('active');
+  // Find matching button
+  const labels = {overview:0,agegroup:1,modules:2,issues:3,recommendations:4,submit:5};
+  document.querySelectorAll('.tab-btn')[labels[tabName]].classList.add('active');
+  // Trigger animations
+  setTimeout(()=>observeAnimations(),100);
+}
+
+// ===== Dark Mode =====
 function toggleDark(){
   document.body.classList.toggle('dark');
-  const d=document.body.classList.contains('dark');
-  localStorage.setItem('darkMode',d);
-  document.querySelector('.dark-toggle').textContent=d?'\u2600\uFE0F':'\uD83C\uDF19';
+  const isDark = document.body.classList.contains('dark');
+  localStorage.setItem('darkMode', isDark);
+  document.querySelector('.dark-toggle').textContent = isDark ? '☀️' : '🌙';
+  showToast(isDark ? 'เปิด Dark Mode' : 'ปิด Dark Mode');
 }
-if(localStorage.getItem('darkMode')==='true'){
-  document.body.classList.add('dark');
-  document.addEventListener('DOMContentLoaded',function(){
-    document.querySelector('.dark-toggle').textContent='\u2600\uFE0F';
-  });
-}
-
-/* ============================
-   KPI Counter Animation
-   ============================ */
-function animateCount(el,target,decimals,suffix){
-  const duration=1200;
-  const start=performance.now();
-  const initial=0;
-  function update(now){
-    const elapsed=now-start;
-    const progress=Math.min(elapsed/duration,1);
-    const eased=1-Math.pow(1-progress,3);
-    const current=initial+(target-initial)*eased;
-    if(decimals>0){
-      el.textContent=current.toFixed(decimals)+(suffix||'');
-    }else{
-      el.textContent=Math.round(current).toLocaleString()+(suffix||'');
-    }
-    if(progress<1) requestAnimationFrame(update);
+(function(){
+  if(localStorage.getItem('darkMode')==='true'){
+    document.body.classList.add('dark');
+    document.querySelector('.dark-toggle').textContent='☀️';
   }
-  requestAnimationFrame(update);
+})();
+
+// ===== Toast =====
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
 }
 
-document.addEventListener('DOMContentLoaded',function(){
-  animateCount(document.getElementById('kpi-users'),512847,0,'');
-  animateCount(document.getElementById('kpi-nps'),72,0,'');
-  animateCount(document.getElementById('kpi-sat'),4.6,1,'');
-  animateCount(document.getElementById('kpi-rate'),94.2,1,'');
-});
-
-/* ============================
-   NPS Chart Tooltips
-   ============================ */
-document.addEventListener('DOMContentLoaded',function(){
-  const dots=document.querySelectorAll('.chart-dot');
-  const tooltip=document.getElementById('chartTooltip');
-  const chartContainer=document.getElementById('npsChart');
-
-  dots.forEach(function(dot){
-    dot.style.cursor='pointer';
-    dot.style.transition='r 0.15s';
-
-    dot.addEventListener('mouseenter',function(e){
-      const month=dot.getAttribute('data-month');
-      const val=dot.getAttribute('data-val');
-      tooltip.innerHTML=month+' &mdash; NPS: <strong>'+val+'</strong>';
-      tooltip.style.opacity='1';
-
-      const svgRect=dot.closest('svg').getBoundingClientRect();
-      const containerRect=chartContainer.getBoundingClientRect();
-      const cx=parseFloat(dot.getAttribute('cx'));
-      const cy=parseFloat(dot.getAttribute('cy'));
-
-      const svgViewBox=dot.closest('svg').viewBox.baseVal;
-      const scaleX=svgRect.width/svgViewBox.width;
-      const scaleY=svgRect.height/svgViewBox.height;
-
-      const posX=(svgRect.left-containerRect.left)+cx*scaleX;
-      const posY=(svgRect.top-containerRect.top)+cy*scaleY;
-
-      tooltip.style.left=(posX-tooltip.offsetWidth/2)+'px';
-      tooltip.style.top=(posY-tooltip.offsetHeight-14)+'px';
-
-      dot.setAttribute('r','9');
-    });
-
-    dot.addEventListener('mouseleave',function(){
-      tooltip.style.opacity='0';
-      dot.setAttribute('r','6');
-    });
+// ===== KPI Counter Animation =====
+function animateCounters(){
+  document.querySelectorAll('.kpi-value[data-count]').forEach(el=>{
+    const target=parseFloat(el.dataset.count);
+    const decimals=parseInt(el.dataset.decimals)||0;
+    const duration=1200;
+    const start=performance.now();
+    function tick(now){
+      const p=Math.min((now-start)/duration,1);
+      const eased=1-Math.pow(1-p,3);
+      el.textContent=decimals>0?(target*eased).toFixed(decimals):Math.floor(target*eased).toLocaleString();
+      if(p<1)requestAnimationFrame(tick);
+      else el.textContent=decimals>0?target.toFixed(decimals):target.toLocaleString();
+    }
+    requestAnimationFrame(tick);
   });
-});
-
-/* ============================
-   Vote Button
-   ============================ */
-function vote(btn){
-  const countEl=btn.nextElementSibling;
-  const current=parseInt(countEl.textContent.replace(/,/g,''));
-  countEl.textContent=(current+1).toLocaleString();
-  btn.style.color='var(--blue)';
-  btn.style.background='var(--blue-bg)';
-  btn.disabled=true;
-  btn.style.cursor='default';
 }
 
-/* ============================
-   Star Rating
-   ============================ */
-let currentRating=0;
+// ===== Bar Chart Animation =====
+function animateBars(){
+  document.querySelectorAll('.bar-anim').forEach(bar=>{
+    const w=bar.dataset.width;
+    setTimeout(()=>{bar.setAttribute('width',w);bar.style.transition='width 0.8s ease';},200);
+  });
+}
 
+// ===== Issues Table Rendering =====
+function renderIssues(data){
+  const tbody=document.getElementById('issuesBody');
+  tbody.innerHTML='';
+  data.forEach(i=>{
+    const sevClass='badge-'+i.severity.toLowerCase();
+    const statusClass=i.status==='In Progress'?'badge-blue':i.status==='Resolved'?'badge-green':'badge-orange';
+    tbody.innerHTML+=`<tr data-severity="${i.severity}" data-module="${i.module}">
+      <td style="font-weight:700;white-space:nowrap;">${i.id}</td>
+      <td><span class="badge badge-purple" style="font-size:0.7rem;">${i.module}</span></td>
+      <td>${i.desc}</td>
+      <td style="white-space:nowrap;">${i.users.toLocaleString()} (${i.pct})</td>
+      <td><span class="badge ${sevClass}">${i.severity}</span></td>
+      <td style="white-space:nowrap;">${i.groups}</td>
+      <td><span class="badge ${statusClass}">${i.status}</span></td>
+    </tr>`;
+  });
+}
+
+function filterIssues(){
+  const sev=document.getElementById('filterSeverity').value;
+  const mod=document.getElementById('filterModule').value;
+  const q=document.getElementById('filterSearch').value.toLowerCase();
+  let filtered=issuesData.filter(i=>{
+    if(sev!=='all'&&i.severity!==sev)return false;
+    if(mod!=='all'&&i.module!==mod)return false;
+    if(q&&!i.id.toLowerCase().includes(q)&&!i.desc.toLowerCase().includes(q))return false;
+    return true;
+  });
+  renderIssues(filtered);
+}
+
+// ===== Recommendations Rendering =====
+function renderRecs(){
+  const container=document.getElementById('recCards');
+  container.innerHTML='';
+  recsData.forEach(r=>{
+    const effortClass='badge-'+r.effort.toLowerCase();
+    const barW=Math.round(r.impact*10)+'%';
+    container.innerHTML+=`<div class="rec-card anim-in">
+      <div class="rec-rank">${r.rank}</div>
+      <div class="rec-body">
+        <div class="rec-title">${r.title}</div>
+        <div class="rec-meta">
+          <span class="badge ${effortClass}">${r.effort}</span>
+          <span style="font-size:0.78rem;color:var(--muted);">Issues: ${r.issues}</span>
+          <span style="font-size:0.78rem;color:var(--muted);">| ${r.users} users</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:0.72rem;color:var(--muted);">Impact</span>
+          <div class="impact-bar-bg"><div class="impact-bar-fill" style="width:${barW};"></div></div>
+          <span style="font-size:0.78rem;font-weight:700;">${r.impact}/10</span>
+        </div>
+      </div>
+    </div>`;
+  });
+}
+
+// ===== Module Detail Toggle =====
+function toggleModuleDetail(id){
+  const el=document.getElementById(id);
+  el.classList.toggle('open');
+  // Update button text
+  const btn=el.parentElement.parentElement.previousElementSibling.querySelector('.expand-btn');
+  if(btn)btn.textContent=el.classList.contains('open')?'- ซ่อน':'+ รายละเอียด';
+}
+
+// ===== Heatmap Coloring =====
+function colorHeatmap(){
+  const table=document.getElementById('heatmapTable');
+  if(!table)return;
+  table.querySelectorAll('tbody td').forEach(td=>{
+    if(td.classList.contains('module-name'))return;
+    if(td.colSpan>1)return;
+    const v=parseFloat(td.textContent);
+    if(isNaN(v))return;
+    if(v>=3.3)td.style.background='var(--green-bg)';
+    else if(v>=3.0)td.style.background='var(--blue-bg)';
+    else if(v>=2.7)td.style.background='var(--orange-bg)';
+    else td.style.background='var(--red-bg)';
+  });
+}
+
+// ===== Star Rating =====
+let currentRating=0;
 function setRating(val){
   currentRating=val;
-  const stars=document.querySelectorAll('#starRating .star');
-  stars.forEach(function(star){
-    const sv=parseInt(star.getAttribute('data-val'));
-    star.classList.toggle('active',sv<=val);
+  document.querySelectorAll('#starRating .star').forEach(s=>{
+    s.classList.toggle('active',parseInt(s.dataset.val)<=val);
   });
+  const labels=['','แย่มาก','ไม่พอใจ','พอใช้','ดี','ดีมาก'];
+  document.getElementById('ratingText').textContent=labels[val]+' ('+val+'/5)';
 }
 
-// Hover effect for stars
-document.addEventListener('DOMContentLoaded',function(){
-  const stars=document.querySelectorAll('#starRating .star');
-  stars.forEach(function(star){
-    star.addEventListener('mouseenter',function(){
-      const val=parseInt(star.getAttribute('data-val'));
-      stars.forEach(function(s){
-        const sv=parseInt(s.getAttribute('data-val'));
-        s.style.color=sv<=val?'#F59E0B':'var(--border)';
-      });
-    });
+// ===== File Upload =====
+function handleFiles(files){
+  const list=document.getElementById('fileList');
+  list.innerHTML='';
+  Array.from(files).forEach(f=>{
+    list.innerHTML+=`<div>📄 ${f.name} (${(f.size/1024).toFixed(1)} KB)</div>`;
   });
-  document.getElementById('starRating').addEventListener('mouseleave',function(){
-    stars.forEach(function(s){
-      const sv=parseInt(s.getAttribute('data-val'));
-      s.style.color=sv<=currentRating?'#F59E0B':'var(--border)';
-    });
+}
+// Drag & Drop
+(function(){
+  const dz=document.getElementById('dropZone');
+  if(!dz)return;
+  ['dragenter','dragover'].forEach(e=>dz.addEventListener(e,ev=>{ev.preventDefault();dz.classList.add('dragover');}));
+  ['dragleave','drop'].forEach(e=>dz.addEventListener(e,ev=>{ev.preventDefault();dz.classList.remove('dragover');}));
+  dz.addEventListener('drop',ev=>{
+    const fi=document.getElementById('fileInput');
+    fi.files=ev.dataTransfer.files;
+    handleFiles(ev.dataTransfer.files);
   });
-});
+})();
 
-/* ============================
-   Feedback Form Submit
-   ============================ */
+// ===== Submit Feedback =====
 function submitFeedback(e){
   e.preventDefault();
-  if(currentRating===0){
-    alert('\u0E01\u0E23\u0E38\u0E13\u0E32\u0E43\u0E2B\u0E49\u0E04\u0E30\u0E41\u0E19\u0E19\u0E01\u0E48\u0E2D\u0E19\u0E2A\u0E48\u0E07');
-    return;
-  }
-  const toast=document.getElementById('toast');
-  toast.classList.add('show');
-  setTimeout(function(){toast.classList.remove('show');},3000);
+  if(currentRating===0){showToast('กรุณาเลือกคะแนนดาว');return;}
+  if(!document.getElementById('fbDetail').value.trim()){showToast('กรุณากรอกรายละเอียด');return;}
+  showToast('ส่ง Feedback สำเร็จ! ขอบคุณสำหรับข้อเสนอแนะ');
   e.target.reset();
   currentRating=0;
-  document.querySelectorAll('#starRating .star').forEach(function(s){
-    s.classList.remove('active');
-    s.style.color='var(--border)';
-  });
+  document.querySelectorAll('#starRating .star').forEach(s=>s.classList.remove('active'));
+  document.getElementById('ratingText').textContent='เลือกคะแนน 1-5 ดาว';
+  document.getElementById('fileList').innerHTML='';
 }
 
-/* ============================
-   Intersection Observer for animations
-   ============================ */
-document.addEventListener('DOMContentLoaded',function(){
-  const observer=new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      if(entry.isIntersecting){
-        entry.target.style.opacity='1';
-        entry.target.style.transform='translateY(0)';
-      }
-    });
+// ===== Intersection Observer for scroll animations =====
+function observeAnimations(){
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
   },{threshold:0.1});
+  document.querySelectorAll('.anim-in:not(.visible)').forEach(el=>obs.observe(el));
+}
 
-  document.querySelectorAll('.cat-card,.testimonial-card,.timeline-item,.chart-section,.table-section,.form-section').forEach(function(el){
-    el.style.opacity='0';
-    el.style.transform='translateY(20px)';
-    el.style.transition='opacity 0.5s ease, transform 0.5s ease';
-    observer.observe(el);
-  });
+// ===== Init =====
+document.addEventListener('DOMContentLoaded',()=>{
+  animateCounters();
+  animateBars();
+  renderIssues(issuesData);
+  renderRecs();
+  colorHeatmap();
+  observeAnimations();
 });
 </script>
 </body>
