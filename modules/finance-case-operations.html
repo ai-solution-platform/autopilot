@@ -247,7 +247,7 @@ tr.selected{background:var(--blue-bg);}
 </head>
 <body>
 <!-- Dark Mode Toggle -->
-<button class="dark-toggle" onclick="document.body.classList.toggle('dark');this.textContent=document.body.classList.contains('dark')?'\u2600\uFE0F':'\uD83C\uDF19';" title="Dark Mode">\uD83C\uDF19</button>
+<button class="dark-toggle" onclick="document.body.classList.toggle('dark');this.textContent=document.body.classList.contains('dark')?'&#9728;&#65039;':'&#127769;';" title="Dark Mode">&#127769;</button>
 
 <!-- Top Nav -->
 <nav class="top-nav">
@@ -263,11 +263,11 @@ tr.selected{background:var(--blue-bg);}
     </div>
   </div>
   <div class="user-area">
-    <button class="notif-btn" title="Notifications">
-      \uD83D\uDD14
+    <button class="notif-btn" title="การแจ้งเตือน">
+      &#128276;
       <span class="notif-badge">5</span>
     </button>
-    <div class="avatar" title="Somchai P.">SP</div>
+    <div class="avatar" title="สมชาย พ.">SP</div>
   </div>
 </nav>
 
@@ -279,20 +279,20 @@ tr.selected{background:var(--blue-bg);}
     <div class="greeting">
       <div class="avatar-lg">SP</div>
       <div class="info">
-        <h2>\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E\u0E34\u0E17\u0E31\u0E01\u0E29\u0E4C\u0E2A\u0E34\u0E19</h2>
-        <p>\u0E2B\u0E31\u0E27\u0E2B\u0E19\u0E49\u0E32\u0E17\u0E35\u0E21\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D &bull; \u0E1D\u0E48\u0E32\u0E22 Finance Operations &bull; \u0E2D\u0E2D\u0E19\u0E44\u0E25\u0E19\u0E4C</p>
+        <h2>สมชาย พิทักษ์สิน</h2>
+        <p>หัวหน้าทีมสินเชื่อ &bull; ฝ่าย Finance Operations &bull; ออนไลน์</p>
       </div>
     </div>
     <div class="team-info">
-      <div class="team-stat"><strong>18</strong>\u0E40\u0E04\u0E2A\u0E17\u0E35\u0E48\u0E23\u0E31\u0E1A\u0E1C\u0E34\u0E14\u0E0A\u0E2D\u0E1A</div>
-      <div class="team-stat"><strong>5</strong>\u0E43\u0E01\u0E25\u0E49\u0E04\u0E23\u0E1A SLA</div>
-      <div class="team-stat"><strong>3</strong>\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E04\u0E49\u0E32\u0E07</div>
+      <div class="team-stat"><strong>18</strong>เคสที่รับผิดชอบ</div>
+      <div class="team-stat"><strong>5</strong>ใกล้ครบ SLA</div>
+      <div class="team-stat"><strong>3</strong>เอกสารค้าง</div>
       <div class="team-member-avatars">
-        <div class="mini-avatar" style="background:var(--blue);" title="\u0E2A\u0E21\u0E0A\u0E32\u0E22">SP</div>
-        <div class="mini-avatar" style="background:var(--purple);" title="\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32">SN</div>
-        <div class="mini-avatar" style="background:var(--green);" title="\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C">PW</div>
-        <div class="mini-avatar" style="background:var(--orange);" title="\u0E01\u0E32\u0E19\u0E14\u0E32">KD</div>
-        <div class="mini-avatar" style="background:var(--cyan);" title="\u0E19\u0E20\u0E32">NP</div>
+        <div class="mini-avatar" style="background:var(--blue);" title="สมชาย">SP</div>
+        <div class="mini-avatar" style="background:var(--purple);" title="สุนิสา">SN</div>
+        <div class="mini-avatar" style="background:var(--green);" title="ประวิทย์">PW</div>
+        <div class="mini-avatar" style="background:var(--orange);" title="กานดา">KD</div>
+        <div class="mini-avatar" style="background:var(--cyan);" title="นภา">NP</div>
       </div>
     </div>
   </div>
@@ -300,71 +300,71 @@ tr.selected{background:var(--blue-bg);}
   <!-- View Toggle -->
   <div class="view-toggle-row">
     <div class="view-tabs">
-      <button class="view-tab active" onclick="switchView(this,'my')">\uD83D\uDCC1 \u0E40\u0E04\u0E2A\u0E02\u0E2D\u0E07\u0E09\u0E31\u0E19 <span class="count">8</span></button>
-      <button class="view-tab" onclick="switchView(this,'team')">\uD83D\uDC65 \u0E40\u0E04\u0E2A\u0E17\u0E35\u0E21 <span class="count">18</span></button>
-      <button class="view-tab" onclick="switchView(this,'all')">\uD83C\uDF10 \u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14 <span class="count">47</span></button>
+      <button class="view-tab active" onclick="switchView(this,'my')">&#128193; เคสของฉัน <span class="count">8</span></button>
+      <button class="view-tab" onclick="switchView(this,'team')">&#128101; เคสทีม <span class="count">18</span></button>
+      <button class="view-tab" onclick="switchView(this,'all')">&#127760; ทั้งหมด <span class="count">47</span></button>
     </div>
     <div class="view-actions">
-      <button class="btn btn-outline btn-sm" onclick="exportCases()">\uD83D\uDCE4 Export CSV</button>
-      <button class="btn btn-primary" onclick="openCreateModal()">\u2795 \u0E2A\u0E23\u0E49\u0E32\u0E07\u0E40\u0E04\u0E2A\u0E43\u0E2B\u0E21\u0E48</button>
+      <button class="btn btn-outline btn-sm" onclick="exportCases()">&#128228; Export CSV</button>
+      <button class="btn btn-primary" onclick="openCreateModal()">&#10133; สร้างเคสใหม่</button>
     </div>
   </div>
 
   <!-- KPI Strip -->
   <div class="kpi-strip">
-    <div class="kpi-mini"><div class="kpi-val">47</div><div class="kpi-label">\u0E40\u0E04\u0E2A\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14</div></div>
-    <div class="kpi-mini"><div class="kpi-val">12</div><div class="kpi-label">\u0E23\u0E2D\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23</div></div>
-    <div class="kpi-mini"><div class="kpi-val">5</div><div class="kpi-label">\u0E43\u0E01\u0E25\u0E49\u0E04\u0E23\u0E1A SLA</div></div>
-    <div class="kpi-mini"><div class="kpi-val">8</div><div class="kpi-label">\u0E2D\u0E19\u0E38\u0E21\u0E31\u0E15\u0E34\u0E41\u0E25\u0E49\u0E27</div></div>
-    <div class="kpi-mini"><div class="kpi-val">3</div><div class="kpi-label">\u0E1B\u0E0F\u0E34\u0E40\u0E2A\u0E18</div></div>
+    <div class="kpi-mini"><div class="kpi-val">47</div><div class="kpi-label">เคสทั้งหมด</div></div>
+    <div class="kpi-mini"><div class="kpi-val">12</div><div class="kpi-label">รอเอกสาร</div></div>
+    <div class="kpi-mini"><div class="kpi-val">5</div><div class="kpi-label">ใกล้ครบ SLA</div></div>
+    <div class="kpi-mini"><div class="kpi-val">8</div><div class="kpi-label">อนุมัติแล้ว</div></div>
+    <div class="kpi-mini"><div class="kpi-val">3</div><div class="kpi-label">ปฏิเสธ</div></div>
   </div>
 
   <!-- Filter Bar -->
   <div class="filter-bar">
     <div class="search-wrap">
-      <input type="text" class="search-input" id="searchInput" placeholder="\u0E04\u0E49\u0E19\u0E2B\u0E32 Case ID, \u0E0A\u0E37\u0E48\u0E2D\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32..." oninput="filterCases()">
+      <input type="text" class="search-input" id="searchInput" placeholder="ค้นหา Case ID, ชื่อลูกค้า..." oninput="filterCases()">
     </div>
     <select id="filterStatus" onchange="filterCases()">
-      <option value="">\u0E2A\u0E16\u0E32\u0E19\u0E30\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14</option>
-      <option value="New">\u0E43\u0E2B\u0E21\u0E48</option>
-      <option value="In Progress">\u0E01\u0E33\u0E25\u0E31\u0E07\u0E14\u0E33\u0E40\u0E19\u0E34\u0E19\u0E01\u0E32\u0E23</option>
-      <option value="Pending Docs">\u0E23\u0E2D\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23</option>
-      <option value="Under Review">\u0E01\u0E33\u0E25\u0E31\u0E07\u0E15\u0E23\u0E27\u0E08\u0E2A\u0E2D\u0E1A</option>
-      <option value="Approved">\u0E2D\u0E19\u0E38\u0E21\u0E31\u0E15\u0E34</option>
-      <option value="Rejected">\u0E1B\u0E0F\u0E34\u0E40\u0E2A\u0E18</option>
+      <option value="">สถานะทั้งหมด</option>
+      <option value="New">ใหม่</option>
+      <option value="In Progress">กำลังดำเนินการ</option>
+      <option value="Pending Docs">รอเอกสาร</option>
+      <option value="Under Review">กำลังตรวจสอบ</option>
+      <option value="Approved">อนุมัติ</option>
+      <option value="Rejected">ปฏิเสธ</option>
     </select>
     <select id="filterType" onchange="filterCases()">
-      <option value="">\u0E1B\u0E23\u0E30\u0E40\u0E20\u0E17\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14</option>
-      <option value="\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16">\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16</option>
-      <option value="\u0E01\u0E39\u0E49\u0E1A\u0E49\u0E32\u0E19">\u0E01\u0E39\u0E49\u0E1A\u0E49\u0E32\u0E19</option>
-      <option value="\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E2A\u0E48\u0E27\u0E19\u0E1A\u0E38\u0E04\u0E04\u0E25">\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E2A\u0E48\u0E27\u0E19\u0E1A\u0E38\u0E04\u0E04\u0E25</option>
+      <option value="">ประเภททั้งหมด</option>
+      <option value="สินเชื่อรถ">สินเชื่อรถ</option>
+      <option value="กู้บ้าน">กู้บ้าน</option>
+      <option value="สินเชื่อส่วนบุคคล">สินเชื่อส่วนบุคคล</option>
       <option value="Refinance">Refinance</option>
     </select>
     <select id="filterSLA" onchange="filterCases()">
-      <option value="">SLA \u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14</option>
-      <option value="green">\u0E1B\u0E01\u0E15\u0E34</option>
-      <option value="orange">\u0E43\u0E01\u0E25\u0E49\u0E04\u0E23\u0E1A</option>
-      <option value="red">\u0E40\u0E01\u0E34\u0E19\u0E01\u0E33\u0E2B\u0E19\u0E14</option>
+      <option value="">SLA ทั้งหมด</option>
+      <option value="green">ปกติ</option>
+      <option value="orange">ใกล้ครบ</option>
+      <option value="red">เกินกำหนด</option>
     </select>
     <select id="filterOfficer" onchange="filterCases()">
-      <option value="">\u0E40\u0E08\u0E49\u0E32\u0E2B\u0E19\u0E49\u0E32\u0E17\u0E35\u0E48\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14</option>
-      <option value="\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.">\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.</option>
-      <option value="\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32 \u0E01.">\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32 \u0E01.</option>
-      <option value="\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C \u0E2A.">\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C \u0E2A.</option>
-      <option value="\u0E01\u0E32\u0E19\u0E14\u0E32 \u0E27.">\u0E01\u0E32\u0E19\u0E14\u0E32 \u0E27.</option>
-      <option value="\u0E19\u0E20\u0E32 \u0E23.">\u0E19\u0E20\u0E32 \u0E23.</option>
+      <option value="">เจ้าหน้าที่ทั้งหมด</option>
+      <option value="สมชาย พ.">สมชาย พ.</option>
+      <option value="สุนิสา ก.">สุนิสา ก.</option>
+      <option value="ประวิทย์ ส.">ประวิทย์ ส.</option>
+      <option value="กานดา ว.">กานดา ว.</option>
+      <option value="นภา ร.">นภา ร.</option>
     </select>
     <input type="date" id="filterDate" onchange="filterCases()" style="padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:12px;background:var(--bg2);color:var(--text);font-family:inherit;">
   </div>
 
   <!-- Bulk Actions Bar -->
   <div class="bulk-bar" id="bulkBar">
-    <span class="sel-count" id="selCount">0</span> \u0E40\u0E04\u0E2A\u0E17\u0E35\u0E48\u0E40\u0E25\u0E37\u0E2D\u0E01
-    <button class="btn btn-sm btn-outline" onclick="bulkAssign()">\uD83D\uDC64 \u0E21\u0E2D\u0E1A\u0E2B\u0E21\u0E32\u0E22\u0E40\u0E08\u0E49\u0E32\u0E2B\u0E19\u0E49\u0E32\u0E17\u0E35\u0E48</button>
-    <button class="btn btn-sm btn-outline" onclick="bulkPriority()">\u26A1 \u0E40\u0E1B\u0E25\u0E35\u0E48\u0E22\u0E19\u0E25\u0E33\u0E14\u0E31\u0E1A\u0E04\u0E27\u0E32\u0E21\u0E2A\u0E33\u0E04\u0E31\u0E0D</button>
-    <button class="btn btn-sm btn-outline" onclick="exportCases()">\uD83D\uDCE4 Export</button>
+    <span class="sel-count" id="selCount">0</span> เคสที่เลือก
+    <button class="btn btn-sm btn-outline" onclick="bulkAssign()">&#128100; มอบหมายเจ้าหน้าที่</button>
+    <button class="btn btn-sm btn-outline" onclick="bulkPriority()">&#9889; เปลี่ยนลำดับความสำคัญ</button>
+    <button class="btn btn-sm btn-outline" onclick="exportCases()">&#128228; Export</button>
     <div style="flex:1;"></div>
-    <button class="btn btn-sm btn-outline" onclick="clearSelection()">\u2716 \u0E22\u0E01\u0E40\u0E25\u0E34\u0E01</button>
+    <button class="btn btn-sm btn-outline" onclick="clearSelection()">&#10006; ยกเลิก</button>
   </div>
 
   <!-- Case Table -->
@@ -373,15 +373,15 @@ tr.selected{background:var(--blue-bg);}
       <thead>
         <tr>
           <th style="width:36px;"><input type="checkbox" class="chk" id="selectAll" onchange="toggleSelectAll()"></th>
-          <th onclick="sortTable(1)">Case ID \u2195</th>
-          <th onclick="sortTable(2)">\u0E0A\u0E37\u0E48\u0E2D\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32 \u2195</th>
-          <th onclick="sortTable(3)">\u0E1B\u0E23\u0E30\u0E40\u0E20\u0E17\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D \u2195</th>
-          <th>\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E04\u0E23\u0E1A\u0E16\u0E49\u0E27\u0E19</th>
+          <th onclick="sortTable(1)">Case ID &#8597;</th>
+          <th onclick="sortTable(2)">ชื่อลูกค้า &#8597;</th>
+          <th onclick="sortTable(3)">ประเภทสินเชื่อ &#8597;</th>
+          <th>เอกสารครบถ้วน</th>
           <th>SLA</th>
-          <th onclick="sortTable(6)">\u0E40\u0E08\u0E49\u0E32\u0E2B\u0E19\u0E49\u0E32\u0E17\u0E35\u0E48 \u2195</th>
-          <th>\u0E25\u0E33\u0E14\u0E31\u0E1A</th>
-          <th onclick="sortTable(8)">\u0E2A\u0E16\u0E32\u0E19\u0E30 \u2195</th>
-          <th>\u0E01\u0E32\u0E23\u0E14\u0E33\u0E40\u0E19\u0E34\u0E19\u0E01\u0E32\u0E23</th>
+          <th onclick="sortTable(6)">เจ้าหน้าที่ &#8597;</th>
+          <th>ลำดับ</th>
+          <th onclick="sortTable(8)">สถานะ &#8597;</th>
+          <th>การดำเนินการ</th>
         </tr>
       </thead>
       <tbody id="caseTableBody"></tbody>
@@ -390,7 +390,7 @@ tr.selected{background:var(--blue-bg);}
 
   <!-- Pagination -->
   <div class="pagination">
-    <div class="page-info" id="pageInfo">\u0E41\u0E2A\u0E14\u0E07 1-10 \u0E08\u0E32\u0E01 18 \u0E40\u0E04\u0E2A</div>
+    <div class="page-info" id="pageInfo">แสดง 1-10 จาก 18 เคส</div>
     <div class="page-btns" id="pageBtns"></div>
   </div>
 
@@ -400,72 +400,72 @@ tr.selected{background:var(--blue-bg);}
 <div class="modal-overlay" id="createModal">
   <div class="modal modal-md">
     <div class="modal-header">
-      <h3>\u2795 \u0E2A\u0E23\u0E49\u0E32\u0E07\u0E40\u0E04\u0E2A\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E43\u0E2B\u0E21\u0E48</h3>
-      <button class="modal-close" onclick="closeModal('createModal')">\u2716</button>
+      <h3>&#10133; สร้างเคสสินเชื่อใหม่</h3>
+      <button class="modal-close" onclick="closeModal('createModal')">&#10006;</button>
     </div>
     <div class="modal-body">
       <div class="form-grid">
         <div class="form-group">
-          <label>\u0E0A\u0E37\u0E48\u0E2D\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32</label>
-          <input type="text" id="newCustName" placeholder="\u0E01\u0E23\u0E38\u0E13\u0E32\u0E01\u0E23\u0E2D\u0E01\u0E0A\u0E37\u0E48\u0E2D-\u0E19\u0E32\u0E21\u0E2A\u0E01\u0E38\u0E25">
+          <label>ชื่อลูกค้า</label>
+          <input type="text" id="newCustName" placeholder="กรุณากรอกชื่อ-นามสกุล">
         </div>
         <div class="form-group">
-          <label>\u0E40\u0E25\u0E02\u0E1A\u0E31\u0E15\u0E23\u0E1B\u0E23\u0E30\u0E0A\u0E32\u0E0A\u0E19</label>
+          <label>เลขบัตรประชาชน</label>
           <input type="text" id="newCustId" placeholder="X-XXXX-XXXXX-XX-X">
         </div>
         <div class="form-group">
-          <label>\u0E1B\u0E23\u0E30\u0E40\u0E20\u0E17\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D</label>
+          <label>ประเภทสินเชื่อ</label>
           <select id="newCaseType">
-            <option value="\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16">\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16</option>
-            <option value="\u0E01\u0E39\u0E49\u0E1A\u0E49\u0E32\u0E19">\u0E01\u0E39\u0E49\u0E1A\u0E49\u0E32\u0E19</option>
-            <option value="\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E2A\u0E48\u0E27\u0E19\u0E1A\u0E38\u0E04\u0E04\u0E25">\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E2A\u0E48\u0E27\u0E19\u0E1A\u0E38\u0E04\u0E04\u0E25</option>
+            <option value="สินเชื่อรถ">สินเชื่อรถ</option>
+            <option value="กู้บ้าน">กู้บ้าน</option>
+            <option value="สินเชื่อส่วนบุคคล">สินเชื่อส่วนบุคคล</option>
             <option value="Refinance">Refinance</option>
           </select>
         </div>
         <div class="form-group">
-          <label>\u0E25\u0E33\u0E14\u0E31\u0E1A\u0E04\u0E27\u0E32\u0E21\u0E2A\u0E33\u0E04\u0E31\u0E0D</label>
+          <label>ลำดับความสำคัญ</label>
           <select id="newPriority">
-            <option value="High">\u0E2A\u0E39\u0E07 (High)</option>
-            <option value="Medium" selected>\u0E01\u0E25\u0E32\u0E07 (Medium)</option>
-            <option value="Low">\u0E15\u0E48\u0E33 (Low)</option>
+            <option value="High">สูง (High)</option>
+            <option value="Medium" selected>กลาง (Medium)</option>
+            <option value="Low">ต่ำ (Low)</option>
           </select>
         </div>
         <div class="form-group">
-          <label>\u0E40\u0E08\u0E49\u0E32\u0E2B\u0E19\u0E49\u0E32\u0E17\u0E35\u0E48\u0E23\u0E31\u0E1A\u0E1C\u0E34\u0E14\u0E0A\u0E2D\u0E1A</label>
+          <label>เจ้าหน้าที่รับผิดชอบ</label>
           <select id="newOfficer">
-            <option value="\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.">\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.</option>
-            <option value="\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32 \u0E01.">\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32 \u0E01.</option>
-            <option value="\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C \u0E2A.">\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C \u0E2A.</option>
-            <option value="\u0E01\u0E32\u0E19\u0E14\u0E32 \u0E27.">\u0E01\u0E32\u0E19\u0E14\u0E32 \u0E27.</option>
-            <option value="\u0E19\u0E20\u0E32 \u0E23.">\u0E19\u0E20\u0E32 \u0E23.</option>
+            <option value="สมชาย พ.">สมชาย พ.</option>
+            <option value="สุนิสา ก.">สุนิสา ก.</option>
+            <option value="ประวิทย์ ส.">ประวิทย์ ส.</option>
+            <option value="กานดา ว.">กานดา ว.</option>
+            <option value="นภา ร.">นภา ร.</option>
           </select>
         </div>
         <div class="form-group">
-          <label>\u0E27\u0E07\u0E40\u0E07\u0E34\u0E19\u0E02\u0E2D\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D (\u0E1A\u0E32\u0E17)</label>
+          <label>วงเงินขอสินเชื่อ (บาท)</label>
           <input type="number" id="newAmount" placeholder="0.00">
         </div>
         <div class="form-group full">
-          <label>\u0E2B\u0E21\u0E32\u0E22\u0E40\u0E2B\u0E15\u0E38</label>
-          <textarea id="newNote" placeholder="\u0E23\u0E32\u0E22\u0E25\u0E30\u0E40\u0E2D\u0E35\u0E22\u0E14\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E15\u0E34\u0E21..."></textarea>
+          <label>หมายเหตุ</label>
+          <textarea id="newNote" placeholder="รายละเอียดเพิ่มเติม..."></textarea>
         </div>
         <div class="form-group full">
-          <label>\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E40\u0E1A\u0E37\u0E49\u0E2D\u0E07\u0E15\u0E49\u0E19\u0E17\u0E35\u0E48\u0E15\u0E49\u0E2D\u0E07\u0E01\u0E32\u0E23</label>
+          <label>เอกสารเบื้องต้นที่ต้องการ</label>
           <div class="checklist">
-            <label><input type="checkbox" checked> \u0E2A\u0E33\u0E40\u0E19\u0E32\u0E1A\u0E31\u0E15\u0E23\u0E1B\u0E23\u0E30\u0E0A\u0E32\u0E0A\u0E19</label>
-            <label><input type="checkbox" checked> \u0E17\u0E30\u0E40\u0E1A\u0E35\u0E22\u0E19\u0E1A\u0E49\u0E32\u0E19</label>
-            <label><input type="checkbox" checked> \u0E2A\u0E25\u0E34\u0E1B\u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19 3 \u0E40\u0E14\u0E37\u0E2D\u0E19</label>
-            <label><input type="checkbox"> \u0E2B\u0E19\u0E31\u0E07\u0E2A\u0E37\u0E2D\u0E23\u0E31\u0E1A\u0E23\u0E2D\u0E07\u0E01\u0E32\u0E23\u0E17\u0E33\u0E07\u0E32\u0E19</label>
-            <label><input type="checkbox"> \u0E2A\u0E33\u0E40\u0E19\u0E32\u0E42\u0E09\u0E19\u0E14\u0E17\u0E35\u0E48\u0E14\u0E34\u0E19</label>
-            <label><input type="checkbox"> \u0E23\u0E39\u0E1B\u0E16\u0E48\u0E32\u0E22\u0E2B\u0E19\u0E49\u0E32\u0E23\u0E16 / \u0E2B\u0E25\u0E31\u0E01\u0E1B\u0E23\u0E30\u0E01\u0E31\u0E19</label>
-            <label><input type="checkbox"> \u0E43\u0E1A\u0E40\u0E2A\u0E19\u0E2D\u0E23\u0E32\u0E04\u0E32\u0E08\u0E32\u0E01 Dealer</label>
-            <label><input type="checkbox"> \u0E2A\u0E31\u0E0D\u0E0D\u0E32\u0E0B\u0E37\u0E49\u0E2D\u0E02\u0E32\u0E22</label>
+            <label><input type="checkbox" checked> สำเนาบัตรประชาชน</label>
+            <label><input type="checkbox" checked> ทะเบียนบ้าน</label>
+            <label><input type="checkbox" checked> สลิปเงินเดือน 3 เดือน</label>
+            <label><input type="checkbox"> หนังสือรับรองการทำงาน</label>
+            <label><input type="checkbox"> สำเนาโฉนดที่ดิน</label>
+            <label><input type="checkbox"> รูปถ่ายหน้ารถ / หลักประกัน</label>
+            <label><input type="checkbox"> ใบเสนอราคาจาก Dealer</label>
+            <label><input type="checkbox"> สัญญาซื้อขาย</label>
           </div>
         </div>
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('createModal')">\u0E22\u0E01\u0E40\u0E25\u0E34\u0E01</button>
-      <button class="btn btn-primary" onclick="createCase()">\u0E2A\u0E23\u0E49\u0E32\u0E07\u0E40\u0E04\u0E2A</button>
+      <button class="btn btn-outline" onclick="closeModal('createModal')">ยกเลิก</button>
+      <button class="btn btn-primary" onclick="createCase()">สร้างเคส</button>
     </div>
   </div>
 </div>
@@ -474,11 +474,11 @@ tr.selected{background:var(--blue-bg);}
 <div class="modal-overlay" id="detailModal">
   <div class="modal modal-lg">
     <div class="modal-header">
-      <h3 id="detailTitle">\uD83D\uDCC4 \u0E23\u0E32\u0E22\u0E25\u0E30\u0E40\u0E2D\u0E35\u0E22\u0E14\u0E40\u0E04\u0E2A</h3>
+      <h3 id="detailTitle">&#128196; รายละเอียดเคส</h3>
       <div style="display:flex;gap:8px;align-items:center;">
-        <a id="detailDeepLink" href="finance-case-detail.html" class="btn btn-sm btn-outline" target="_blank">\u0E14\u0E39\u0E23\u0E32\u0E22\u0E25\u0E30\u0E40\u0E2D\u0E35\u0E22\u0E14\u0E40\u0E15\u0E47\u0E21 \u2197</a>
-        <a id="detailVerifyLink" href="finance-verification.html" class="btn btn-sm btn-green" target="_blank">\u0E15\u0E23\u0E27\u0E08\u0E2A\u0E2D\u0E1A\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23</a>
-        <button class="modal-close" onclick="closeModal('detailModal')">\u2716</button>
+        <a id="detailDeepLink" href="finance-case-detail.html" class="btn btn-sm btn-outline" target="_blank">ดูรายละเอียดเต็ม &#8599;</a>
+        <a id="detailVerifyLink" href="finance-verification.html" class="btn btn-sm btn-green" target="_blank">ตรวจสอบเอกสาร</a>
+        <button class="modal-close" onclick="closeModal('detailModal')">&#10006;</button>
       </div>
     </div>
     <div class="modal-body" id="detailBody">
@@ -491,24 +491,24 @@ tr.selected{background:var(--blue-bg);}
 <div class="modal-overlay" id="assignModal">
   <div class="modal modal-sm">
     <div class="modal-header">
-      <h3>\uD83D\uDC64 \u0E21\u0E2D\u0E1A\u0E2B\u0E21\u0E32\u0E22\u0E40\u0E08\u0E49\u0E32\u0E2B\u0E19\u0E49\u0E32\u0E17\u0E35\u0E48</h3>
-      <button class="modal-close" onclick="closeModal('assignModal')">\u2716</button>
+      <h3>&#128100; มอบหมายเจ้าหน้าที่</h3>
+      <button class="modal-close" onclick="closeModal('assignModal')">&#10006;</button>
     </div>
     <div class="modal-body">
       <div class="form-group">
-        <label>\u0E40\u0E25\u0E37\u0E2D\u0E01\u0E40\u0E08\u0E49\u0E32\u0E2B\u0E19\u0E49\u0E32\u0E17\u0E35\u0E48</label>
+        <label>เลือกเจ้าหน้าที่</label>
         <select id="bulkAssignOfficer">
-          <option value="\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.">\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.</option>
-          <option value="\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32 \u0E01.">\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32 \u0E01.</option>
-          <option value="\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C \u0E2A.">\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C \u0E2A.</option>
-          <option value="\u0E01\u0E32\u0E19\u0E14\u0E32 \u0E27.">\u0E01\u0E32\u0E19\u0E14\u0E32 \u0E27.</option>
-          <option value="\u0E19\u0E20\u0E32 \u0E23.">\u0E19\u0E20\u0E32 \u0E23.</option>
+          <option value="สมชาย พ.">สมชาย พ.</option>
+          <option value="สุนิสา ก.">สุนิสา ก.</option>
+          <option value="ประวิทย์ ส.">ประวิทย์ ส.</option>
+          <option value="กานดา ว.">กานดา ว.</option>
+          <option value="นภา ร.">นภา ร.</option>
         </select>
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('assignModal')">\u0E22\u0E01\u0E40\u0E25\u0E34\u0E01</button>
-      <button class="btn btn-primary" onclick="confirmBulkAssign()">\u0E22\u0E37\u0E19\u0E22\u0E31\u0E19</button>
+      <button class="btn btn-outline" onclick="closeModal('assignModal')">ยกเลิก</button>
+      <button class="btn btn-primary" onclick="confirmBulkAssign()">ยืนยัน</button>
     </div>
   </div>
 </div>
@@ -517,95 +517,95 @@ tr.selected{background:var(--blue-bg);}
 <div class="modal-overlay" id="priorityModal">
   <div class="modal modal-sm">
     <div class="modal-header">
-      <h3>\u26A1 \u0E40\u0E1B\u0E25\u0E35\u0E48\u0E22\u0E19\u0E25\u0E33\u0E14\u0E31\u0E1A\u0E04\u0E27\u0E32\u0E21\u0E2A\u0E33\u0E04\u0E31\u0E0D</h3>
-      <button class="modal-close" onclick="closeModal('priorityModal')">\u2716</button>
+      <h3>&#9889; เปลี่ยนลำดับความสำคัญ</h3>
+      <button class="modal-close" onclick="closeModal('priorityModal')">&#10006;</button>
     </div>
     <div class="modal-body">
       <div class="form-group">
-        <label>\u0E40\u0E25\u0E37\u0E2D\u0E01\u0E25\u0E33\u0E14\u0E31\u0E1A</label>
+        <label>เลือกลำดับ</label>
         <select id="bulkPriorityLevel">
-          <option value="High">\u0E2A\u0E39\u0E07 (High)</option>
-          <option value="Medium">\u0E01\u0E25\u0E32\u0E07 (Medium)</option>
-          <option value="Low">\u0E15\u0E48\u0E33 (Low)</option>
+          <option value="High">สูง (High)</option>
+          <option value="Medium">กลาง (Medium)</option>
+          <option value="Low">ต่ำ (Low)</option>
         </select>
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('priorityModal')">\u0E22\u0E01\u0E40\u0E25\u0E34\u0E01</button>
-      <button class="btn btn-primary" onclick="confirmBulkPriority()">\u0E22\u0E37\u0E19\u0E22\u0E31\u0E19</button>
+      <button class="btn btn-outline" onclick="closeModal('priorityModal')">ยกเลิก</button>
+      <button class="btn btn-primary" onclick="confirmBulkPriority()">ยืนยัน</button>
     </div>
   </div>
 </div>
 
 <script>
 // ==================== MOCK DATA ====================
-const officers = ['\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.','\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32 \u0E01.','\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C \u0E2A.','\u0E01\u0E32\u0E19\u0E14\u0E32 \u0E27.','\u0E19\u0E20\u0E32 \u0E23.'];
-const caseTypes = ['\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16','\u0E01\u0E39\u0E49\u0E1A\u0E49\u0E32\u0E19','\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E2A\u0E48\u0E27\u0E19\u0E1A\u0E38\u0E04\u0E04\u0E25','Refinance'];
+const officers = ['สมชาย พ.','สุนิสา ก.','ประวิทย์ ส.','กานดา ว.','นภา ร.'];
+const caseTypes = ['สินเชื่อรถ','กู้บ้าน','สินเชื่อส่วนบุคคล','Refinance'];
 const statuses = ['New','In Progress','Pending Docs','Under Review','Approved','Rejected'];
-const statusTH = {'New':'\u0E43\u0E2B\u0E21\u0E48','In Progress':'\u0E01\u0E33\u0E25\u0E31\u0E07\u0E14\u0E33\u0E40\u0E19\u0E34\u0E19\u0E01\u0E32\u0E23','Pending Docs':'\u0E23\u0E2D\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23','Under Review':'\u0E01\u0E33\u0E25\u0E31\u0E07\u0E15\u0E23\u0E27\u0E08\u0E2A\u0E2D\u0E1A','Approved':'\u0E2D\u0E19\u0E38\u0E21\u0E31\u0E15\u0E34','Rejected':'\u0E1B\u0E0F\u0E34\u0E40\u0E2A\u0E18'};
+const statusTH = {'New':'ใหม่','In Progress':'กำลังดำเนินการ','Pending Docs':'รอเอกสาร','Under Review':'กำลังตรวจสอบ','Approved':'อนุมัติ','Rejected':'ปฏิเสธ'};
 const statusClass = {'New':'badge-new','In Progress':'badge-progress','Pending Docs':'badge-pending','Under Review':'badge-review','Approved':'badge-approved','Rejected':'badge-rejected'};
 const priorities = ['High','Medium','Low'];
 
 const mockCases = [
-  {id:'FN-2026-0001',name:'\u0E2A\u0E21\u0E28\u0E31\u0E01\u0E14\u0E34\u0E4C \u0E23\u0E38\u0E48\u0E07\u0E40\u0E23\u0E37\u0E2D\u0E07',type:'\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16',docPct:85,sla:'green',slaHours:48,officer:'\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.',priority:'High',status:'Under Review',date:'2026-04-03'},
-  {id:'FN-2026-0002',name:'\u0E27\u0E34\u0E20\u0E32\u0E27\u0E14\u0E35 \u0E2A\u0E38\u0E02\u0E2A\u0E21\u0E1A\u0E39\u0E23\u0E13\u0E4C',type:'\u0E01\u0E39\u0E49\u0E1A\u0E49\u0E32\u0E19',docPct:60,sla:'orange',slaHours:12,officer:'\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32 \u0E01.',priority:'High',status:'Pending Docs',date:'2026-04-02'},
-  {id:'FN-2026-0003',name:'\u0E1B\u0E23\u0E30\u0E22\u0E38\u0E17\u0E18 \u0E08\u0E34\u0E15\u0E23\u0E07\u0E32\u0E21',type:'\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E2A\u0E48\u0E27\u0E19\u0E1A\u0E38\u0E04\u0E04\u0E25',docPct:100,sla:'green',slaHours:72,officer:'\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C \u0E2A.',priority:'Medium',status:'Approved',date:'2026-03-28'},
-  {id:'FN-2026-0004',name:'\u0E01\u0E31\u0E19\u0E22\u0E32 \u0E41\u0E01\u0E49\u0E27\u0E21\u0E13\u0E35',type:'Refinance',docPct:40,sla:'red',slaHours:-5,officer:'\u0E01\u0E32\u0E19\u0E14\u0E32 \u0E27.',priority:'High',status:'Pending Docs',date:'2026-03-30'},
-  {id:'FN-2026-0005',name:'\u0E19\u0E23\u0E32\u0E18\u0E34\u0E1B \u0E40\u0E08\u0E23\u0E34\u0E0D\u0E1C\u0E25',type:'\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16',docPct:90,sla:'green',slaHours:96,officer:'\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.',priority:'Low',status:'Approved',date:'2026-03-25'},
-  {id:'FN-2026-0006',name:'\u0E2D\u0E23\u0E38\u0E13 \u0E28\u0E23\u0E35\u0E2A\u0E21\u0E1A\u0E31\u0E15\u0E34',type:'\u0E01\u0E39\u0E49\u0E1A\u0E49\u0E32\u0E19',docPct:30,sla:'red',slaHours:-18,officer:'\u0E19\u0E20\u0E32 \u0E23.',priority:'High',status:'In Progress',date:'2026-04-01'},
-  {id:'FN-2026-0007',name:'\u0E1E\u0E34\u0E21\u0E25\u0E1E\u0E23\u0E23\u0E13 \u0E17\u0E2D\u0E07\u0E14\u0E35',type:'\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E2A\u0E48\u0E27\u0E19\u0E1A\u0E38\u0E04\u0E04\u0E25',docPct:70,sla:'orange',slaHours:8,officer:'\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32 \u0E01.',priority:'Medium',status:'In Progress',date:'2026-04-04'},
-  {id:'FN-2026-0008',name:'\u0E28\u0E38\u0E20\u0E0A\u0E31\u0E22 \u0E1E\u0E07\u0E29\u0E4C\u0E17\u0E2D\u0E07',type:'\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16',docPct:20,sla:'green',slaHours:120,officer:'\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C \u0E2A.',priority:'Low',status:'New',date:'2026-04-05'},
-  {id:'FN-2026-0009',name:'\u0E18\u0E19\u0E32\u0E20\u0E23\u0E13\u0E4C \u0E40\u0E25\u0E34\u0E28\u0E0A\u0E31\u0E22',type:'Refinance',docPct:55,sla:'orange',slaHours:16,officer:'\u0E01\u0E32\u0E19\u0E14\u0E32 \u0E27.',priority:'Medium',status:'Pending Docs',date:'2026-04-03'},
-  {id:'FN-2026-0010',name:'\u0E2D\u0E23\u0E34\u0E22\u0E32 \u0E27\u0E31\u0E12\u0E19\u0E28\u0E34\u0E23\u0E34',type:'\u0E01\u0E39\u0E49\u0E1A\u0E49\u0E32\u0E19',docPct:95,sla:'green',slaHours:36,officer:'\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.',priority:'Medium',status:'Under Review',date:'2026-04-02'},
-  {id:'FN-2026-0011',name:'\u0E1B\u0E34\u0E22\u0E30\u0E19\u0E31\u0E19\u0E17\u0E4C \u0E08\u0E31\u0E19\u0E17\u0E23\u0E4C\u0E2A\u0E38\u0E27\u0E23\u0E23\u0E13',type:'\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16',docPct:50,sla:'orange',slaHours:6,officer:'\u0E19\u0E20\u0E32 \u0E23.',priority:'High',status:'In Progress',date:'2026-04-04'},
-  {id:'FN-2026-0012',name:'\u0E2A\u0E34\u0E23\u0E34\u0E25\u0E31\u0E01\u0E29\u0E13\u0E4C \u0E1B\u0E23\u0E30\u0E40\u0E2A\u0E23\u0E34\u0E10\u0E28\u0E34\u0E25\u0E1B\u0E4C',type:'\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E2A\u0E48\u0E27\u0E19\u0E1A\u0E38\u0E04\u0E04\u0E25',docPct:100,sla:'green',slaHours:200,officer:'\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32 \u0E01.',priority:'Low',status:'Approved',date:'2026-03-20'},
-  {id:'FN-2026-0013',name:'\u0E13\u0E31\u0E10\u0E0A\u0E32 \u0E28\u0E23\u0E35\u0E2A\u0E38\u0E27\u0E23\u0E23\u0E13',type:'\u0E01\u0E39\u0E49\u0E1A\u0E49\u0E32\u0E19',docPct:15,sla:'green',slaHours:144,officer:'\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C \u0E2A.',priority:'Low',status:'New',date:'2026-04-05'},
-  {id:'FN-2026-0014',name:'\u0E27\u0E23\u0E40\u0E0A\u0E29\u0E10\u0E4C \u0E40\u0E01\u0E37\u0E49\u0E2D\u0E01\u0E39\u0E25',type:'Refinance',docPct:80,sla:'green',slaHours:60,officer:'\u0E01\u0E32\u0E19\u0E14\u0E32 \u0E27.',priority:'Medium',status:'Under Review',date:'2026-04-01'},
-  {id:'FN-2026-0015',name:'\u0E2A\u0E38\u0E20\u0E32\u0E20\u0E23\u0E13\u0E4C \u0E08\u0E31\u0E19\u0E17\u0E23\u0E4C\u0E17\u0E2D\u0E07',type:'\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16',docPct:45,sla:'red',slaHours:-2,officer:'\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.',priority:'High',status:'Pending Docs',date:'2026-04-03'},
-  {id:'FN-2026-0016',name:'\u0E01\u0E34\u0E15\u0E15\u0E34\u0E20\u0E31\u0E17\u0E23 \u0E04\u0E33\u0E21\u0E39\u0E25',type:'\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E2A\u0E48\u0E27\u0E19\u0E1A\u0E38\u0E04\u0E04\u0E25',docPct:65,sla:'orange',slaHours:10,officer:'\u0E19\u0E20\u0E32 \u0E23.',priority:'Medium',status:'In Progress',date:'2026-04-04'},
-  {id:'FN-2026-0017',name:'\u0E0A\u0E19\u0E32\u0E01\u0E32\u0E19\u0E15\u0E4C \u0E1E\u0E34\u0E1E\u0E31\u0E12\u0E19\u0E4C\u0E01\u0E38\u0E25',type:'\u0E01\u0E39\u0E49\u0E1A\u0E49\u0E32\u0E19',docPct:100,sla:'green',slaHours:180,officer:'\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32 \u0E01.',priority:'Low',status:'Rejected',date:'2026-03-15'},
-  {id:'FN-2026-0018',name:'\u0E1E\u0E23\u0E0A\u0E31\u0E22 \u0E2A\u0E38\u0E02\u0E40\u0E01\u0E29\u0E21',type:'\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16',docPct:10,sla:'green',slaHours:168,officer:'\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C \u0E2A.',priority:'Low',status:'New',date:'2026-04-05'},
+  {id:'FN-2026-0001',name:'สมศักดิ์ รุ่งเรือง',type:'สินเชื่อรถ',docPct:85,sla:'green',slaHours:48,officer:'สมชาย พ.',priority:'High',status:'Under Review',date:'2026-04-03'},
+  {id:'FN-2026-0002',name:'วิภาวดี สุขสมบูรณ์',type:'กู้บ้าน',docPct:60,sla:'orange',slaHours:12,officer:'สุนิสา ก.',priority:'High',status:'Pending Docs',date:'2026-04-02'},
+  {id:'FN-2026-0003',name:'ประยุทธ จิตรงาม',type:'สินเชื่อส่วนบุคคล',docPct:100,sla:'green',slaHours:72,officer:'ประวิทย์ ส.',priority:'Medium',status:'Approved',date:'2026-03-28'},
+  {id:'FN-2026-0004',name:'กัญญา แก้วมณี',type:'Refinance',docPct:40,sla:'red',slaHours:-5,officer:'กานดา ว.',priority:'High',status:'Pending Docs',date:'2026-03-30'},
+  {id:'FN-2026-0005',name:'นราธิป เจริญผล',type:'สินเชื่อรถ',docPct:90,sla:'green',slaHours:96,officer:'สมชาย พ.',priority:'Low',status:'Approved',date:'2026-03-25'},
+  {id:'FN-2026-0006',name:'อรุณ ศรีสมบัติ',type:'กู้บ้าน',docPct:30,sla:'red',slaHours:-18,officer:'นภา ร.',priority:'High',status:'In Progress',date:'2026-04-01'},
+  {id:'FN-2026-0007',name:'พิมลพรรณ ทองดี',type:'สินเชื่อส่วนบุคคล',docPct:70,sla:'orange',slaHours:8,officer:'สุนิสา ก.',priority:'Medium',status:'In Progress',date:'2026-04-04'},
+  {id:'FN-2026-0008',name:'ศุภชัย พงษ์ทอง',type:'สินเชื่อรถ',docPct:20,sla:'green',slaHours:120,officer:'ประวิทย์ ส.',priority:'Low',status:'New',date:'2026-04-05'},
+  {id:'FN-2026-0009',name:'ธนาภรณ์ เลิศชัย',type:'Refinance',docPct:55,sla:'orange',slaHours:16,officer:'กานดา ว.',priority:'Medium',status:'Pending Docs',date:'2026-04-03'},
+  {id:'FN-2026-0010',name:'อริยา วัฒนศิริ',type:'กู้บ้าน',docPct:95,sla:'green',slaHours:36,officer:'สมชาย พ.',priority:'Medium',status:'Under Review',date:'2026-04-02'},
+  {id:'FN-2026-0011',name:'ปิยะนันท์ จันทร์สุวรรณ',type:'สินเชื่อรถ',docPct:50,sla:'orange',slaHours:6,officer:'นภา ร.',priority:'High',status:'In Progress',date:'2026-04-04'},
+  {id:'FN-2026-0012',name:'สิริลักษณ์ ประเสริฐศิลป์',type:'สินเชื่อส่วนบุคคล',docPct:100,sla:'green',slaHours:200,officer:'สุนิสา ก.',priority:'Low',status:'Approved',date:'2026-03-20'},
+  {id:'FN-2026-0013',name:'ณัฐชา ศรีสุวรรณ',type:'กู้บ้าน',docPct:15,sla:'green',slaHours:144,officer:'ประวิทย์ ส.',priority:'Low',status:'New',date:'2026-04-05'},
+  {id:'FN-2026-0014',name:'วรเชษฐ์ เกื้อกูล',type:'Refinance',docPct:80,sla:'green',slaHours:60,officer:'กานดา ว.',priority:'Medium',status:'Under Review',date:'2026-04-01'},
+  {id:'FN-2026-0015',name:'สุภาภรณ์ จันทร์ทอง',type:'สินเชื่อรถ',docPct:45,sla:'red',slaHours:-2,officer:'สมชาย พ.',priority:'High',status:'Pending Docs',date:'2026-04-03'},
+  {id:'FN-2026-0016',name:'กิตติภัทร คำมูล',type:'สินเชื่อส่วนบุคคล',docPct:65,sla:'orange',slaHours:10,officer:'นภา ร.',priority:'Medium',status:'In Progress',date:'2026-04-04'},
+  {id:'FN-2026-0017',name:'ชนากานต์ พิพัฒน์กุล',type:'กู้บ้าน',docPct:100,sla:'green',slaHours:180,officer:'สุนิสา ก.',priority:'Low',status:'Rejected',date:'2026-03-15'},
+  {id:'FN-2026-0018',name:'พรชัย สุขเกษม',type:'สินเชื่อรถ',docPct:10,sla:'green',slaHours:168,officer:'ประวิทย์ ส.',priority:'Low',status:'New',date:'2026-04-05'},
 ];
 
 // Document templates per case type
 const docTemplates = {
-  '\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16': {
-    '\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32': ['\u0E2A\u0E33\u0E40\u0E19\u0E32\u0E1A\u0E31\u0E15\u0E23\u0E1B\u0E23\u0E30\u0E0A\u0E32\u0E0A\u0E19','\u0E17\u0E30\u0E40\u0E1A\u0E35\u0E22\u0E19\u0E1A\u0E49\u0E32\u0E19','\u0E2A\u0E25\u0E34\u0E1B\u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19 3 \u0E40\u0E14\u0E37\u0E2D\u0E19','\u0E2B\u0E19\u0E31\u0E07\u0E2A\u0E37\u0E2D\u0E23\u0E31\u0E1A\u0E23\u0E2D\u0E07\u0E01\u0E32\u0E23\u0E17\u0E33\u0E07\u0E32\u0E19'],
-    'Dealer': ['\u0E43\u0E1A\u0E40\u0E2A\u0E19\u0E2D\u0E23\u0E32\u0E04\u0E32','\u0E23\u0E39\u0E1B\u0E16\u0E48\u0E32\u0E22\u0E23\u0E16','\u0E2A\u0E31\u0E0D\u0E0D\u0E32\u0E0B\u0E37\u0E49\u0E2D\u0E02\u0E32\u0E22','\u0E2A\u0E33\u0E40\u0E19\u0E32\u0E17\u0E30\u0E40\u0E1A\u0E35\u0E22\u0E19\u0E23\u0E16'],
-    '\u0E18\u0E19\u0E32\u0E04\u0E32\u0E23': ['\u0E1C\u0E25\u0E15\u0E23\u0E27\u0E08\u0E40\u0E04\u0E23\u0E14\u0E34\u0E15','\u0E23\u0E32\u0E22\u0E07\u0E32\u0E19\u0E1B\u0E23\u0E30\u0E40\u0E21\u0E34\u0E19\u0E23\u0E32\u0E04\u0E32','\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E2D\u0E19\u0E38\u0E21\u0E31\u0E15\u0E34\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D']
+  'สินเชื่อรถ': {
+    'เอกสารลูกค้า': ['สำเนาบัตรประชาชน','ทะเบียนบ้าน','สลิปเงินเดือน 3 เดือน','หนังสือรับรองการทำงาน'],
+    'Dealer': ['ใบเสนอราคา','รูปถ่ายรถ','สัญญาซื้อขาย','สำเนาทะเบียนรถ'],
+    'ธนาคาร': ['ผลตรวจเครดิต','รายงานประเมินราคา','เอกสารอนุมัติสินเชื่อ']
   },
-  '\u0E01\u0E39\u0E49\u0E1A\u0E49\u0E32\u0E19': {
-    '\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32': ['\u0E2A\u0E33\u0E40\u0E19\u0E32\u0E1A\u0E31\u0E15\u0E23\u0E1B\u0E23\u0E30\u0E0A\u0E32\u0E0A\u0E19','\u0E17\u0E30\u0E40\u0E1A\u0E35\u0E22\u0E19\u0E1A\u0E49\u0E32\u0E19','\u0E2A\u0E25\u0E34\u0E1B\u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19 6 \u0E40\u0E14\u0E37\u0E2D\u0E19','\u0E2B\u0E19\u0E31\u0E07\u0E2A\u0E37\u0E2D\u0E23\u0E31\u0E1A\u0E23\u0E2D\u0E07\u0E01\u0E32\u0E23\u0E17\u0E33\u0E07\u0E32\u0E19','\u0E2A\u0E33\u0E40\u0E19\u0E32\u0E42\u0E09\u0E19\u0E14\u0E17\u0E35\u0E48\u0E14\u0E34\u0E19'],
-    'Dealer': ['\u0E2A\u0E31\u0E0D\u0E0D\u0E32\u0E08\u0E30\u0E0B\u0E37\u0E49\u0E2D','\u0E43\u0E1A\u0E1B\u0E23\u0E30\u0E40\u0E21\u0E34\u0E19\u0E23\u0E32\u0E04\u0E32\u0E17\u0E35\u0E48\u0E14\u0E34\u0E19','\u0E41\u0E1C\u0E19\u0E1C\u0E31\u0E07\u0E1A\u0E49\u0E32\u0E19'],
-    '\u0E18\u0E19\u0E32\u0E04\u0E32\u0E23': ['\u0E1C\u0E25\u0E15\u0E23\u0E27\u0E08\u0E40\u0E04\u0E23\u0E14\u0E34\u0E15','\u0E23\u0E32\u0E22\u0E07\u0E32\u0E19\u0E1B\u0E23\u0E30\u0E40\u0E21\u0E34\u0E19\u0E23\u0E32\u0E04\u0E32\u0E17\u0E35\u0E48\u0E14\u0E34\u0E19','\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E2D\u0E19\u0E38\u0E21\u0E31\u0E15\u0E34\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D','\u0E2B\u0E19\u0E31\u0E07\u0E2A\u0E37\u0E2D\u0E04\u0E49\u0E33\u0E1B\u0E23\u0E30\u0E01\u0E31\u0E19']
+  'กู้บ้าน': {
+    'เอกสารลูกค้า': ['สำเนาบัตรประชาชน','ทะเบียนบ้าน','สลิปเงินเดือน 6 เดือน','หนังสือรับรองการทำงาน','สำเนาโฉนดที่ดิน'],
+    'Dealer': ['สัญญาจะซื้อ','ใบประเมินราคาที่ดิน','แผนผังบ้าน'],
+    'ธนาคาร': ['ผลตรวจเครดิต','รายงานประเมินราคาที่ดิน','เอกสารอนุมัติสินเชื่อ','หนังสือค้ำประกัน']
   },
-  '\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E2A\u0E48\u0E27\u0E19\u0E1A\u0E38\u0E04\u0E04\u0E25': {
-    '\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32': ['\u0E2A\u0E33\u0E40\u0E19\u0E32\u0E1A\u0E31\u0E15\u0E23\u0E1B\u0E23\u0E30\u0E0A\u0E32\u0E0A\u0E19','\u0E17\u0E30\u0E40\u0E1A\u0E35\u0E22\u0E19\u0E1A\u0E49\u0E32\u0E19','\u0E2A\u0E25\u0E34\u0E1B\u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19 3 \u0E40\u0E14\u0E37\u0E2D\u0E19'],
+  'สินเชื่อส่วนบุคคล': {
+    'เอกสารลูกค้า': ['สำเนาบัตรประชาชน','ทะเบียนบ้าน','สลิปเงินเดือน 3 เดือน'],
     'Dealer': [],
-    '\u0E18\u0E19\u0E32\u0E04\u0E32\u0E23': ['\u0E1C\u0E25\u0E15\u0E23\u0E27\u0E08\u0E40\u0E04\u0E23\u0E14\u0E34\u0E15','\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E2D\u0E19\u0E38\u0E21\u0E31\u0E15\u0E34\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D']
+    'ธนาคาร': ['ผลตรวจเครดิต','เอกสารอนุมัติสินเชื่อ']
   },
   'Refinance': {
-    '\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32': ['\u0E2A\u0E33\u0E40\u0E19\u0E32\u0E1A\u0E31\u0E15\u0E23\u0E1B\u0E23\u0E30\u0E0A\u0E32\u0E0A\u0E19','\u0E17\u0E30\u0E40\u0E1A\u0E35\u0E22\u0E19\u0E1A\u0E49\u0E32\u0E19','\u0E2A\u0E25\u0E34\u0E1B\u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19 6 \u0E40\u0E14\u0E37\u0E2D\u0E19','\u0E2A\u0E31\u0E0D\u0E0D\u0E32\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E40\u0E14\u0E34\u0E21'],
-    'Dealer': ['\u0E43\u0E1A\u0E1B\u0E34\u0E14\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E40\u0E14\u0E34\u0E21','\u0E43\u0E1A\u0E40\u0E2A\u0E19\u0E2D\u0E23\u0E32\u0E04\u0E32\u0E43\u0E2B\u0E21\u0E48'],
-    '\u0E18\u0E19\u0E32\u0E04\u0E32\u0E23': ['\u0E1C\u0E25\u0E15\u0E23\u0E27\u0E08\u0E40\u0E04\u0E23\u0E14\u0E34\u0E15','\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E2D\u0E19\u0E38\u0E21\u0E31\u0E15\u0E34 Refinance']
+    'เอกสารลูกค้า': ['สำเนาบัตรประชาชน','ทะเบียนบ้าน','สลิปเงินเดือน 6 เดือน','สัญญาสินเชื่อเดิม'],
+    'Dealer': ['ใบปิดสินเชื่อเดิม','ใบเสนอราคาใหม่'],
+    'ธนาคาร': ['ผลตรวจเครดิต','เอกสารอนุมัติ Refinance']
   }
 };
 
 // Activity log templates
 const activityTemplates = [
-  {time:'05 \u0E40\u0E21.\u0E22. 09:30',text:'<strong>\u0E2A\u0E21\u0E0A\u0E32\u0E22</strong> \u0E2A\u0E23\u0E49\u0E32\u0E07\u0E40\u0E04\u0E2A\u0E43\u0E2B\u0E21\u0E48',cls:''},
-  {time:'05 \u0E40\u0E21.\u0E22. 10:15',text:'<strong>\u0E23\u0E30\u0E1A\u0E1A</strong> \u0E2A\u0E48\u0E07\u0E41\u0E08\u0E49\u0E07\u0E40\u0E15\u0E37\u0E2D\u0E19\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32\u0E43\u0E2B\u0E49\u0E2A\u0E48\u0E07\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23',cls:'purple'},
-  {time:'04 \u0E40\u0E21.\u0E22. 14:00',text:'\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32\u0E2A\u0E48\u0E07\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23 <strong>\u0E2A\u0E33\u0E40\u0E19\u0E32\u0E1A\u0E31\u0E15\u0E23\u0E1B\u0E23\u0E30\u0E0A\u0E32\u0E0A\u0E19</strong>',cls:'green'},
-  {time:'04 \u0E40\u0E21.\u0E22. 15:30',text:'<strong>\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32</strong> \u0E15\u0E23\u0E27\u0E08\u0E2A\u0E2D\u0E1A\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E40\u0E23\u0E35\u0E22\u0E1A\u0E23\u0E49\u0E2D\u0E22',cls:'green'},
-  {time:'03 \u0E40\u0E21.\u0E22. 11:00',text:'\u0E2A\u0E16\u0E32\u0E19\u0E30\u0E40\u0E1B\u0E25\u0E35\u0E48\u0E22\u0E19\u0E40\u0E1B\u0E47\u0E19 <strong>\u0E01\u0E33\u0E25\u0E31\u0E07\u0E15\u0E23\u0E27\u0E08\u0E2A\u0E2D\u0E1A</strong>',cls:'orange'},
-  {time:'02 \u0E40\u0E21.\u0E22. 09:00',text:'Dealer \u0E2A\u0E48\u0E07\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23 <strong>\u0E43\u0E1A\u0E40\u0E2A\u0E19\u0E2D\u0E23\u0E32\u0E04\u0E32</strong>',cls:'green'},
+  {time:'5 เม.ย. 2569 09:30',text:'<strong>สมชาย</strong> สร้างเคสใหม่',cls:''},
+  {time:'5 เม.ย. 2569 10:15',text:'<strong>ระบบ</strong> ส่งแจ้งเตือนลูกค้าให้ส่งเอกสาร',cls:'purple'},
+  {time:'4 เม.ย. 2569 14:00',text:'ลูกค้าส่งเอกสาร <strong>สำเนาบัตรประชาชน</strong>',cls:'green'},
+  {time:'4 เม.ย. 2569 15:30',text:'<strong>สุนิสา</strong> ตรวจสอบเอกสารเรียบร้อย',cls:'green'},
+  {time:'3 เม.ย. 2569 11:00',text:'สถานะเปลี่ยนเป็น <strong>กำลังตรวจสอบ</strong>',cls:'orange'},
+  {time:'2 เม.ย. 2569 09:00',text:'Dealer ส่งเอกสาร <strong>ใบเสนอราคา</strong>',cls:'green'},
 ];
 
 // Collaboration notes templates
 const noteTemplates = [
-  {author:'\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.',time:'10:30',body:'\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32\u0E22\u0E31\u0E07\u0E02\u0E32\u0E14\u0E2A\u0E25\u0E34\u0E1B\u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E17\u0E35\u0E48 3 <span class="tag">@\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32</span> \u0E0A\u0E48\u0E27\u0E22\u0E15\u0E34\u0E14\u0E15\u0E32\u0E21\u0E14\u0E49\u0E27\u0E22'},
-  {author:'\u0E2A\u0E38\u0E19\u0E34\u0E2A\u0E32 \u0E01.',time:'11:15',body:'\u0E15\u0E34\u0E14\u0E15\u0E48\u0E2D\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32\u0E41\u0E25\u0E49\u0E27 \u0E08\u0E30\u0E2A\u0E48\u0E07\u0E20\u0E32\u0E22\u0E43\u0E19\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49'},
-  {author:'\u0E1B\u0E23\u0E30\u0E27\u0E34\u0E17\u0E22\u0E4C \u0E2A.',time:'14:00',body:'\u0E15\u0E23\u0E27\u0E08\u0E2A\u0E2D\u0E1A\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E40\u0E23\u0E35\u0E22\u0E1A\u0E23\u0E49\u0E2D\u0E22\u0E41\u0E25\u0E49\u0E27 <span class="tag">@\u0E01\u0E32\u0E19\u0E14\u0E32</span> \u0E2A\u0E48\u0E07\u0E15\u0E48\u0E2D\u0E18\u0E19\u0E32\u0E04\u0E32\u0E23\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22'},
+  {author:'สมชาย พ.',time:'10:30',body:'ลูกค้ายังขาดสลิปเงินเดือนที่ 3 <span class="tag">@สุนิสา</span> ช่วยติดตามด้วย'},
+  {author:'สุนิสา ก.',time:'11:15',body:'ติดต่อลูกค้าแล้ว จะส่งภายในวันนี้'},
+  {author:'ประวิทย์ ส.',time:'14:00',body:'ตรวจสอบเอกสารเรียบร้อยแล้ว <span class="tag">@กานดา</span> ส่งต่อธนาคารได้เลย'},
 ];
 
 // ==================== STATE ====================
@@ -625,7 +625,7 @@ function renderTable() {
 
   tbody.innerHTML = page.map(c => {
     const pctColor = c.docPct >= 80 ? 'var(--green)' : c.docPct >= 50 ? 'var(--orange)' : 'var(--red)';
-    const slaText = c.slaHours >= 0 ? c.slaHours + ' \u0E0A\u0E21.' : Math.abs(c.slaHours) + ' \u0E0A\u0E21. \u0E40\u0E01\u0E34\u0E19';
+    const slaText = c.slaHours >= 0 ? c.slaHours + ' ชม.' : Math.abs(c.slaHours) + ' ชม. เกิน';
     const priClass = c.priority === 'High' ? 'priority-high' : c.priority === 'Medium' ? 'priority-medium' : 'priority-low';
     const priIcon = c.priority === 'High' ? '\u25B2' : c.priority === 'Medium' ? '\u25CF' : '\u25BC';
     const checked = selectedIds.has(c.id) ? 'checked' : '';
@@ -642,9 +642,9 @@ function renderTable() {
       <td><span class="priority ${priClass}">${priIcon} ${c.priority}</span></td>
       <td><span class="badge ${statusClass[c.status]}">${statusTH[c.status]}</span></td>
       <td><div class="case-actions">
-        <button class="act-btn" title="\u0E14\u0E39\u0E23\u0E32\u0E22\u0E25\u0E30\u0E40\u0E2D\u0E35\u0E22\u0E14" onclick="openDetail('${c.id}')">\uD83D\uDC41</button>
-        <button class="act-btn" title="\u0E15\u0E23\u0E27\u0E08\u0E2A\u0E2D\u0E1A\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23" onclick="window.open('finance-verification.html','_blank')">\u2705</button>
-        <button class="act-btn" title="\u0E14\u0E39\u0E40\u0E04\u0E2A\u0E40\u0E15\u0E47\u0E21" onclick="window.open('finance-case-detail.html?id=${c.id}','_blank')">\u2197</button>
+        <button class="act-btn" title="ดูรายละเอียด" onclick="openDetail('${c.id}')">&#128065;</button>
+        <button class="act-btn" title="ตรวจสอบเอกสาร" onclick="window.open('finance-verification.html','_blank')">&#9989;</button>
+        <button class="act-btn" title="ดูเคสเต็ม" onclick="window.open('finance-case-detail.html?id=${c.id}','_blank')">&#8599;</button>
       </div></td>
     </tr>`;
   }).join('');
@@ -652,17 +652,17 @@ function renderTable() {
   // Page info
   const total = filteredCases.length;
   const showing = Math.min(end, total);
-  document.getElementById('pageInfo').textContent = `\u0E41\u0E2A\u0E14\u0E07 ${start+1}-${showing} \u0E08\u0E32\u0E01 ${total} \u0E40\u0E04\u0E2A`;
+  document.getElementById('pageInfo').textContent = `แสดง ${start+1}-${showing} จาก ${total} เคส`;
 
   // Pagination buttons
   const totalPages = Math.ceil(total / pageSize);
   const pageBtns = document.getElementById('pageBtns');
   let btns = '';
-  btns += `<button class="page-btn" onclick="goPage(${Math.max(1,currentPage-1)})" ${currentPage===1?'disabled':''}>\u25C0</button>`;
+  btns += `<button class="page-btn" onclick="goPage(${Math.max(1,currentPage-1)})" ${currentPage===1?'disabled':''}>&#9664;</button>`;
   for (let i = 1; i <= totalPages; i++) {
     btns += `<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
   }
-  btns += `<button class="page-btn" onclick="goPage(${Math.min(totalPages,currentPage+1)})" ${currentPage===totalPages?'disabled':''}>\u25B6</button>`;
+  btns += `<button class="page-btn" onclick="goPage(${Math.min(totalPages,currentPage+1)})" ${currentPage===totalPages?'disabled':''}>&#9654;</button>`;
   pageBtns.innerHTML = btns;
 
   // Select all checkbox
@@ -704,7 +704,6 @@ function filterCases() {
 // ==================== SORT ====================
 function sortTable(col) {
   if (sortCol === col) { sortDir *= -1; } else { sortCol = col; sortDir = 1; }
-
   filteredCases.sort((a, b) => {
     let va, vb;
     switch(col) {
@@ -776,7 +775,7 @@ function openCreateModal() { openModal('createModal'); }
 // ==================== CREATE CASE ====================
 function createCase() {
   const name = document.getElementById('newCustName').value.trim();
-  if (!name) { alert('\u0E01\u0E23\u0E38\u0E13\u0E32\u0E01\u0E23\u0E2D\u0E01\u0E0A\u0E37\u0E48\u0E2D\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32'); return; }
+  if (!name) { alert('กรุณากรอกชื่อลูกค้า'); return; }
 
   const newId = 'FN-2026-' + String(mockCases.length + 1).padStart(4, '0');
   const newCase = {
@@ -802,7 +801,7 @@ function createCase() {
   document.getElementById('newAmount').value = '';
   document.getElementById('newNote').value = '';
 
-  showToast(`\u0E2A\u0E23\u0E49\u0E32\u0E07\u0E40\u0E04\u0E2A ${newId} \u0E2A\u0E33\u0E40\u0E23\u0E47\u0E08`);
+  showToast(`สร้างเคส ${newId} สำเร็จ`);
 }
 
 // ==================== CASE DETAIL ====================
@@ -810,10 +809,10 @@ function openDetail(id) {
   const c = mockCases.find(x => x.id === id);
   if (!c) return;
 
-  document.getElementById('detailTitle').innerHTML = `\uD83D\uDCC4 ${c.id} — ${c.name}`;
+  document.getElementById('detailTitle').innerHTML = `&#128196; ${c.id} — ${c.name}`;
   document.getElementById('detailDeepLink').href = `finance-case-detail.html?id=${c.id}`;
 
-  const template = docTemplates[c.type] || docTemplates['\u0E2A\u0E34\u0E19\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E23\u0E16'];
+  const template = docTemplates[c.type] || docTemplates['สินเชื่อรถ'];
 
   // Generate doc tree with random statuses based on docPct
   function genDocTree(folders) {
@@ -821,14 +820,14 @@ function openDetail(id) {
     for (const [folder, docs] of Object.entries(folders)) {
       if (docs.length === 0) continue;
       html += `<div class="doc-folder">
-        <div class="doc-folder-name">\uD83D\uDCC1 ${folder} (${docs.length})</div>
+        <div class="doc-folder-name">&#128193; ${folder} (${docs.length})</div>
         <div class="doc-items">`;
       docs.forEach((doc, i) => {
         const rand = Math.random() * 100;
         let icon, statusText;
-        if (rand < c.docPct) { icon = '\u2705'; statusText = '\u0E44\u0E14\u0E49\u0E23\u0E31\u0E1A\u0E41\u0E25\u0E49\u0E27'; }
-        else if (rand < c.docPct + 15) { icon = '\u23F3'; statusText = '\u0E23\u0E2D\u0E14\u0E33\u0E40\u0E19\u0E34\u0E19\u0E01\u0E32\u0E23'; }
-        else { icon = '\u274C'; statusText = '\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E44\u0E14\u0E49\u0E23\u0E31\u0E1A'; }
+        if (rand < c.docPct) { icon = '\u2705'; statusText = 'ได้รับแล้ว'; }
+        else if (rand < c.docPct + 15) { icon = '\u23F3'; statusText = 'รอดำเนินการ'; }
+        else { icon = '\u274C'; statusText = 'ยังไม่ได้รับ'; }
         html += `<div class="doc-item"><span>${doc}</span><span class="doc-status" title="${statusText}">${icon}</span></div>`;
       });
       html += '</div></div>';
@@ -840,14 +839,14 @@ function openDetail(id) {
   // SLA Timer
   const slaClass = c.sla;
   const slaDisplay = c.slaHours >= 0
-    ? `${Math.floor(c.slaHours/24)} \u0E27\u0E31\u0E19 ${c.slaHours%24} \u0E0A\u0E31\u0E48\u0E27\u0E42\u0E21\u0E07`
-    : `\u0E40\u0E01\u0E34\u0E19\u0E01\u0E33\u0E2B\u0E19\u0E14 ${Math.abs(Math.floor(c.slaHours/24))} \u0E27\u0E31\u0E19 ${Math.abs(c.slaHours)%24} \u0E0A\u0E31\u0E48\u0E27\u0E42\u0E21\u0E07`;
+    ? `${Math.floor(c.slaHours/24)} วัน ${c.slaHours%24} ชั่วโมง`
+    : `เกินกำหนด ${Math.abs(Math.floor(c.slaHours/24))} วัน ${Math.abs(c.slaHours)%24} ชั่วโมง`;
 
   // Routing flow
   const stages = [
-    {label:'\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32',icon:'\uD83D\uDC64'},
-    {label:'Dealer',icon:'\uD83C\uDFE2'},
-    {label:'\u0E18\u0E19\u0E32\u0E04\u0E32\u0E23',icon:'\uD83C\uDFE6'}
+    {label:'ลูกค้า',icon:'&#128100;'},
+    {label:'Dealer',icon:'&#127970;'},
+    {label:'ธนาคาร',icon:'&#127974;'}
   ];
   const statusIdx = {'New':0,'In Progress':0,'Pending Docs':1,'Under Review':2,'Approved':2,'Rejected':2};
   const activeIdx = statusIdx[c.status] || 0;
@@ -865,23 +864,23 @@ function openDetail(id) {
     <!-- Case Info Bar -->
     <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px;">
       <div style="flex:1;min-width:200px;">
-        <div style="font-size:11px;color:var(--muted);">\u0E1B\u0E23\u0E30\u0E40\u0E20\u0E17</div>
+        <div style="font-size:11px;color:var(--muted);">ประเภท</div>
         <div style="font-size:14px;font-weight:600;">${c.type}</div>
       </div>
       <div style="flex:1;min-width:120px;">
-        <div style="font-size:11px;color:var(--muted);">\u0E2A\u0E16\u0E32\u0E19\u0E30</div>
+        <div style="font-size:11px;color:var(--muted);">สถานะ</div>
         <span class="badge ${statusClass[c.status]}">${statusTH[c.status]}</span>
       </div>
       <div style="flex:1;min-width:120px;">
-        <div style="font-size:11px;color:var(--muted);">\u0E25\u0E33\u0E14\u0E31\u0E1A</div>
+        <div style="font-size:11px;color:var(--muted);">ลำดับ</div>
         <span class="priority" style="color:${pColor};font-weight:700;">${c.priority}</span>
       </div>
       <div style="flex:1;min-width:120px;">
-        <div style="font-size:11px;color:var(--muted);">\u0E40\u0E08\u0E49\u0E32\u0E2B\u0E19\u0E49\u0E32\u0E17\u0E35\u0E48</div>
+        <div style="font-size:11px;color:var(--muted);">เจ้าหน้าที่</div>
         <div style="font-size:14px;font-weight:600;">${c.officer}</div>
       </div>
       <div style="flex:1;min-width:120px;">
-        <div style="font-size:11px;color:var(--muted);">\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\u0E04\u0E23\u0E1A</div>
+        <div style="font-size:11px;color:var(--muted);">เอกสารครบ</div>
         <div class="progress-cell" style="margin-top:4px;">
           <div class="progress-bar" style="height:8px;"><div class="fill" style="width:${c.docPct}%;background:${c.docPct>=80?'var(--green)':c.docPct>=50?'var(--orange)':'var(--red)'};"></div></div>
           <span class="progress-pct" style="color:${c.docPct>=80?'var(--green)':c.docPct>=50?'var(--orange)':'var(--red)'};">${c.docPct}%</span>
@@ -891,26 +890,26 @@ function openDetail(id) {
 
     <!-- Multi-party Routing -->
     <div class="detail-section full-width" style="margin-bottom:20px;">
-      <h4>\uD83D\uDD04 \u0E01\u0E32\u0E23\u0E2A\u0E48\u0E07\u0E15\u0E48\u0E2D\u0E23\u0E30\u0E2B\u0E27\u0E48\u0E32\u0E07\u0E1D\u0E48\u0E32\u0E22 (Multi-party Routing)</h4>
+      <h4>&#128260; การส่งต่อระหว่างฝ่าย (Multi-party Routing)</h4>
       <div class="routing-flow">${routingHTML}</div>
     </div>
 
     <div class="detail-grid">
       <!-- Document Tree -->
       <div class="detail-section">
-        <h4>\uD83D\uDCC2 \u0E04\u0E25\u0E31\u0E07\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23 (Document Inventory)</h4>
+        <h4>&#128194; คลังเอกสาร (Document Inventory)</h4>
         ${genDocTree(template)}
       </div>
 
       <!-- SLA Timer + Activity -->
       <div class="detail-section">
-        <h4>\u23F0 SLA Countdown</h4>
+        <h4>&#9200; SLA Countdown</h4>
         <div class="sla-timer-box ${slaClass}" style="margin-bottom:16px;">
           <div class="timer-value" id="slaTimer_${c.id}">${slaDisplay}</div>
-          <div class="timer-label">\u0E40\u0E27\u0E25\u0E32\u0E04\u0E07\u0E40\u0E2B\u0E25\u0E37\u0E2D SLA</div>
+          <div class="timer-label">เวลาคงเหลือ SLA</div>
         </div>
 
-        <h4 style="margin-top:16px;">\uD83D\uDCCB \u0E1B\u0E23\u0E30\u0E27\u0E31\u0E15\u0E34\u0E01\u0E34\u0E08\u0E01\u0E23\u0E23\u0E21 (Activity Log)</h4>
+        <h4 style="margin-top:16px;">&#128203; ประวัติกิจกรรม (Activity Log)</h4>
         <div class="timeline" style="margin-top:10px;">
           ${activityTemplates.map(a => `<div class="timeline-item ${a.cls}"><div class="tl-time">${a.time}</div><div class="tl-text">${a.text}</div></div>`).join('')}
         </div>
@@ -918,24 +917,24 @@ function openDetail(id) {
 
       <!-- Collaboration Notes -->
       <div class="detail-section full-width">
-        <h4>\uD83D\uDCAC \u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E04\u0E27\u0E32\u0E21\u0E23\u0E48\u0E27\u0E21\u0E21\u0E37\u0E2D (Collaboration Notes)</h4>
+        <h4>&#128172; บันทึกความร่วมมือ (Collaboration Notes)</h4>
         <div class="notes-list" id="notesList_${c.id}">
           ${noteTemplates.map(n => `<div class="note-item"><span class="note-author">${n.author}</span><span class="note-time">${n.time}</span><div class="note-body">${n.body}</div></div>`).join('')}
         </div>
         <div class="note-input-wrap">
-          <input type="text" id="noteInput_${c.id}" placeholder="\u0E1E\u0E34\u0E21\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01... \u0E43\u0E0A\u0E49 @ \u0E40\u0E1E\u0E37\u0E48\u0E2D tag \u0E1C\u0E39\u0E49\u0E43\u0E0A\u0E49" onkeypress="if(event.key==='Enter')addNote('${c.id}')">
-          <button class="btn btn-sm btn-primary" onclick="addNote('${c.id}')">\u0E2A\u0E48\u0E07</button>
+          <input type="text" id="noteInput_${c.id}" placeholder="พิมบันทึก... ใช้ @ เพื่อ tag ผู้ใช้" onkeypress="if(event.key==='Enter')addNote('${c.id}')">
+          <button class="btn btn-sm btn-primary" onclick="addNote('${c.id}')">ส่ง</button>
         </div>
       </div>
     </div>
 
     <!-- Quick Actions -->
     <div style="display:flex;gap:8px;margin-top:20px;justify-content:flex-end;flex-wrap:wrap;">
-      <button class="btn btn-sm btn-outline" onclick="changeStatus('${c.id}','In Progress')">\u25B6 \u0E40\u0E23\u0E34\u0E48\u0E21\u0E14\u0E33\u0E40\u0E19\u0E34\u0E19\u0E01\u0E32\u0E23</button>
-      <button class="btn btn-sm btn-green" onclick="window.open('finance-verification.html','_blank')">\u2705 \u0E15\u0E23\u0E27\u0E08\u0E2A\u0E2D\u0E1A\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23</button>
-      <button class="btn btn-sm btn-purple" onclick="changeStatus('${c.id}','Under Review')">\uD83D\uDD0D \u0E2A\u0E48\u0E07\u0E15\u0E23\u0E27\u0E08\u0E2A\u0E2D\u0E1A</button>
-      <button class="btn btn-sm btn-primary" onclick="changeStatus('${c.id}','Approved')">\u2714 \u0E2D\u0E19\u0E38\u0E21\u0E31\u0E15\u0E34</button>
-      <button class="btn btn-sm btn-red" onclick="changeStatus('${c.id}','Rejected')">\u2716 \u0E1B\u0E0F\u0E34\u0E40\u0E2A\u0E18</button>
+      <button class="btn btn-sm btn-outline" onclick="changeStatus('${c.id}','In Progress')">&#9654; เริ่มดำเนินการ</button>
+      <button class="btn btn-sm btn-green" onclick="window.open('finance-verification.html','_blank')">&#9989; ตรวจสอบเอกสาร</button>
+      <button class="btn btn-sm btn-purple" onclick="changeStatus('${c.id}','Under Review')">&#128269; ส่งตรวจสอบ</button>
+      <button class="btn btn-sm btn-primary" onclick="changeStatus('${c.id}','Approved')">&#10004; อนุมัติ</button>
+      <button class="btn btn-sm btn-red" onclick="changeStatus('${c.id}','Rejected')">&#10006; ปฏิเสธ</button>
     </div>
   `;
 
@@ -955,7 +954,7 @@ function addNote(caseId) {
   const now = new Date();
   const timeStr = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
 
-  const noteHTML = `<div class="note-item"><span class="note-author">\u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E1E.</span><span class="note-time">${timeStr}</span><div class="note-body">${formatted}</div></div>`;
+  const noteHTML = `<div class="note-item"><span class="note-author">สมชาย พ.</span><span class="note-time">${timeStr}</span><div class="note-body">${formatted}</div></div>`;
   notesList.insertAdjacentHTML('beforeend', noteHTML);
   notesList.scrollTop = notesList.scrollHeight;
   input.value = '';
@@ -970,7 +969,7 @@ function changeStatus(caseId, newStatus) {
     if (newStatus === 'Rejected') { c.sla = 'red'; }
     renderTable();
     closeModal('detailModal');
-    showToast(`${caseId} \u0E40\u0E1B\u0E25\u0E35\u0E48\u0E22\u0E19\u0E2A\u0E16\u0E32\u0E19\u0E30\u0E40\u0E1B\u0E47\u0E19 ${statusTH[newStatus]}`);
+    showToast(`${caseId} เปลี่ยนสถานะเป็น ${statusTH[newStatus]}`);
   }
 }
 
@@ -987,7 +986,7 @@ function confirmBulkAssign() {
   selectedIds.clear();
   renderTable();
   closeModal('assignModal');
-  showToast(`\u0E21\u0E2D\u0E1A\u0E2B\u0E21\u0E32\u0E22\u0E40\u0E08\u0E49\u0E32\u0E2B\u0E19\u0E49\u0E32\u0E17\u0E35\u0E48\u0E40\u0E1B\u0E47\u0E19 ${officer} \u0E2A\u0E33\u0E40\u0E23\u0E47\u0E08`);
+  showToast(`มอบหมายเจ้าหน้าที่เป็น ${officer} สำเร็จ`);
 }
 
 function confirmBulkPriority() {
@@ -999,7 +998,7 @@ function confirmBulkPriority() {
   selectedIds.clear();
   renderTable();
   closeModal('priorityModal');
-  showToast(`\u0E40\u0E1B\u0E25\u0E35\u0E48\u0E22\u0E19\u0E25\u0E33\u0E14\u0E31\u0E1A\u0E40\u0E1B\u0E47\u0E19 ${priority} \u0E2A\u0E33\u0E40\u0E23\u0E47\u0E08`);
+  showToast(`เปลี่ยนลำดับเป็น ${priority} สำเร็จ`);
 }
 
 // ==================== EXPORT ====================
@@ -1013,7 +1012,7 @@ function exportCases() {
   a.download = 'finance-cases-export.csv';
   a.click();
   URL.revokeObjectURL(url);
-  showToast('\u0E2A\u0E48\u0E07\u0E2D\u0E2D\u0E01 CSV \u0E2A\u0E33\u0E40\u0E23\u0E47\u0E08');
+  showToast('ส่งออก CSV สำเร็จ');
 }
 
 // ==================== TOAST ====================

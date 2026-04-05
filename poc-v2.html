@@ -282,17 +282,24 @@ select.form-input{cursor:pointer;}
         <div><div class="logo-text">Autopilot v2</div><div class="logo-sub">ANTS — AI Solution Hub</div></div>
     </div>
 
+    <div class="nav-section"><div class="nav-label">Home</div>
+        <button class="nav-item active" onclick="loadModule('modules/home.html','Home')"><span class="icon">🏠</span>Home</button>
+    </div>
+
     <div class="nav-section"><div class="nav-label">Active Modules</div>
         <!-- Module 1: Procurement & Quotation (merged) -->
         <div class="module-header" onclick="toggleModule('mod1')"><span class="mod-icon">📋</span>Procurement & Quotation<span class="mod-check">✓</span></div>
         <div class="module-children" id="mod1">
-            <button class="nav-item active" onclick="loadModule('modules/procurement-dashboard.html','Procurement Dashboard')"><span class="icon">📈</span>Dashboard</button>
+            <button class="nav-item" onclick="loadModule('modules/procurement-dashboard.html','Procurement Dashboard')"><span class="icon">📈</span>Dashboard</button>
             <button class="nav-item" onclick="loadModule('modules/procurement-prpo.html','PR / PO')"><span class="icon">📄</span>PR / PO</button>
-            <button class="nav-item" onclick="loadModule('modules/sales-quotation-builder.html','Quotation Builder')"><span class="icon">📝</span>Quotation Builder</button>
             <button class="nav-item" onclick="loadModule('modules/procurement-matching.html','3-Way Match')"><span class="icon">🔗</span>3-Way Match</button>
             <button class="nav-item" onclick="loadModule('modules/vendor-management.html','Vendor Management')"><span class="icon">🏢</span>Vendors</button>
+            <button class="nav-item" data-page="dashboard"><span class="icon">📊</span>Vendor Quotation</button>
+            <button class="nav-item" data-page="tasks"><span class="icon">📋</span>Tasks & Details</button>
+            <button class="nav-item" data-page="comparison"><span class="icon">📊</span>Comparison Tables</button>
+            <button class="nav-item" data-page="reports"><span class="icon">📑</span>Vendor Report</button>
             <button class="nav-item" data-page="audit"><span class="icon">📜</span>Audit Log</button>
-            <button class="nav-item" onclick="loadModule('modules/procurement-analytics.html','Procurement Analytics')"><span class="icon">📊</span>Analytics</button>
+            <button class="nav-item" onclick="loadModule('modules/procurement-analytics.html','Procurement Analytics')"><span class="icon">📈</span>Analytics</button>
         </div>
 
         <!-- Module 2: Expense & Receipt -->
@@ -1448,6 +1455,9 @@ buildDonut('donutChannel',[{label:'Upload',val:562,color:'#2563EB'},{label:'Emai
 
 buildLineChart('lineAccuracy',[{label:'W1',v:96.2},{label:'W2',v:97.1},{label:'W3',v:96.8},{label:'W4',v:97.5},{label:'W5',v:98.0},{label:'W6',v:97.8},{label:'W7',v:98.3},{label:'W8',v:98.7}],'#7C3AED','%','');
 buildLineChart('lineCost',[{label:'Nov',v:180},{label:'Dec',v:220},{label:'Jan',v:310},{label:'Feb',v:380},{label:'Mar',v:420},{label:'Apr',v:490}],'#059669','','฿');
+
+// Auto-load Home on startup
+loadModule('modules/home.html','Home');
 </script>
 </body>
 </html>

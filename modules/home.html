@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home — Autopilot v2 | ANTS AI Solution Hub</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
+:root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--cyan-bg:#ECFEFF;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
+body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);--cyan-bg:rgba(8,145,178,0.15);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;}
+::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+/* Dark mode toggle */
+.dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:all .2s;}
+.dark-toggle:hover{transform:scale(1.1);}
+
+.page{max-width:1320px;margin:0 auto;padding:24px;}
+
+/* Breadcrumb */
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--muted);margin-bottom:12px;}
+.breadcrumb a{color:var(--blue);text-decoration:none;font-weight:500;}
+.breadcrumb a:hover{text-decoration:underline;}
+.breadcrumb .sep{color:var(--border);}
+
+/* Welcome Banner */
+.welcome-banner{background:var(--grad);border-radius:16px;padding:32px 36px;color:#fff;margin-bottom:24px;position:relative;overflow:hidden;}
+.welcome-banner::before{content:'';position:absolute;top:-40%;right:-5%;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,0.07);}
+.welcome-banner::after{content:'';position:absolute;bottom:-50%;right:10%;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.05);}
+.welcome-row{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1;flex-wrap:wrap;gap:16px;}
+.welcome-left{display:flex;align-items:center;gap:16px;}
+.welcome-avatar{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:800;border:2px solid rgba(255,255,255,0.4);flex-shrink:0;}
+.welcome-text h1{font-size:1.4rem;font-weight:800;margin-bottom:2px;}
+.welcome-text p{font-size:.82rem;opacity:.85;font-weight:400;}
+.welcome-meta{display:flex;align-items:center;gap:16px;margin-top:8px;}
+.welcome-meta .meta-item{display:flex;align-items:center;gap:5px;font-size:.72rem;opacity:.8;font-weight:500;}
+.welcome-meta .meta-icon{font-size:.8rem;}
+.welcome-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+.welcome-plan{background:rgba(255,255,255,0.18);padding:4px 14px;border-radius:20px;font-size:.72rem;font-weight:700;letter-spacing:.5px;backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.2);}
+.welcome-date{font-size:.72rem;opacity:.7;text-align:right;}
+
+/* Quick Stats Row */
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px;}
+.stat-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);transition:all .25s;position:relative;overflow:hidden;cursor:default;}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.08);}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.stat-card:nth-child(1)::before{background:var(--blue);}
+.stat-card:nth-child(2)::before{background:var(--purple);}
+.stat-card:nth-child(3)::before{background:var(--orange);}
+.stat-card:nth-child(4)::before{background:var(--cyan);}
+.stat-card:nth-child(5)::before{background:var(--green);}
+.stat-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;margin-bottom:10px;}
+.stat-card:nth-child(1) .stat-icon{background:var(--blue-bg);color:var(--blue);}
+.stat-card:nth-child(2) .stat-icon{background:var(--purple-bg);color:var(--purple);}
+.stat-card:nth-child(3) .stat-icon{background:var(--orange-bg);color:var(--orange);}
+.stat-card:nth-child(4) .stat-icon{background:var(--cyan-bg);color:var(--cyan);}
+.stat-card:nth-child(5) .stat-icon{background:var(--green-bg);color:var(--green);}
+.stat-label{font-size:.72rem;color:var(--muted);font-weight:500;margin-bottom:4px;}
+.stat-value{font-size:1.35rem;font-weight:800;line-height:1.2;}
+.stat-sub{font-size:.68rem;color:var(--muted);margin-top:4px;}
+
+/* Main Layout */
+.main-layout{display:grid;grid-template-columns:1fr 340px;gap:20px;}
+
+/* Cards */
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:20px;}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.card-title{font-size:.95rem;font-weight:700;display:flex;align-items:center;gap:8px;}
+.card-title .icon{font-size:1.1rem;}
+.card-badge{font-size:.68rem;font-weight:600;padding:2px 10px;border-radius:12px;background:var(--blue-bg);color:var(--blue);}
+.card-link{font-size:.75rem;font-weight:600;color:var(--blue);text-decoration:none;cursor:pointer;}
+.card-link:hover{text-decoration:underline;}
+
+/* Onboarding */
+.onboarding-card{border:1px solid var(--blue);border-left:4px solid var(--blue);background:var(--blue-bg);}
+body.dark .onboarding-card{background:var(--blue-bg);border-color:var(--blue);}
+.progress-bar-track{width:100%;height:10px;background:var(--bg3);border-radius:6px;overflow:hidden;margin-bottom:12px;}
+.progress-bar-fill{height:100%;border-radius:6px;background:var(--grad);transition:width .6s ease;}
+.progress-label{font-size:.8rem;font-weight:700;color:var(--blue);margin-bottom:8px;}
+.checklist{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+.checklist li{display:flex;align-items:center;gap:8px;font-size:.82rem;font-weight:500;color:var(--text2);}
+.checklist li.done{color:var(--muted);text-decoration:line-through;opacity:.7;}
+.checklist li .check{font-size:.9rem;flex-shrink:0;}
+.btn-primary{display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:var(--grad);color:#fff;border:none;border-radius:10px;font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 12px rgba(37,99,235,0.25);}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,0.35);}
+.btn-outline{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:transparent;color:var(--blue);border:1.5px solid var(--blue);border-radius:10px;font-family:inherit;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;}
+.btn-outline:hover{background:var(--blue-bg);}
+
+/* What's New */
+.release-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+.release-item:last-child{border-bottom:none;padding-bottom:0;}
+.release-version{font-size:.68rem;font-weight:700;background:var(--purple-bg);color:var(--purple);padding:3px 10px;border-radius:8px;white-space:nowrap;flex-shrink:0;margin-top:2px;}
+.release-content h4{font-size:.82rem;font-weight:600;margin-bottom:2px;}
+.release-content .release-date{font-size:.7rem;color:var(--muted);}
+.release-content .release-link{font-size:.72rem;color:var(--blue);text-decoration:none;font-weight:600;cursor:pointer;}
+.release-content .release-link:hover{text-decoration:underline;}
+
+/* News / Blog */
+.news-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.news-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all .25s;cursor:pointer;}
+.news-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.08);}
+.news-thumb{height:110px;position:relative;}
+.news-thumb .thumb-overlay{position:absolute;inset:0;display:flex;align-items:flex-end;padding:12px;}
+.news-thumb .thumb-tag{font-size:.65rem;font-weight:700;background:rgba(0,0,0,.5);color:#fff;padding:2px 8px;border-radius:6px;backdrop-filter:blur(4px);}
+.news-body{padding:14px;}
+.news-body h4{font-size:.82rem;font-weight:700;margin-bottom:6px;line-height:1.4;}
+.news-body .news-meta{display:flex;align-items:center;gap:12px;font-size:.68rem;color:var(--muted);}
+.news-body .news-meta span{display:flex;align-items:center;gap:3px;}
+
+/* Module Spotlight */
+.spotlight-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.spotlight-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:18px;text-align:center;transition:all .25s;position:relative;overflow:hidden;}
+.spotlight-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.08);}
+.spotlight-card .coming-soon{position:absolute;top:10px;right:-28px;transform:rotate(45deg);background:var(--orange);color:#fff;font-size:.58rem;font-weight:700;padding:2px 32px;letter-spacing:.5px;}
+.spotlight-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 12px;background:var(--purple-bg);}
+.spotlight-card h4{font-size:.88rem;font-weight:700;margin-bottom:4px;}
+.spotlight-card p{font-size:.72rem;color:var(--muted);margin-bottom:12px;line-height:1.5;}
+.btn-upsell{display:inline-flex;align-items:center;gap:4px;padding:7px 16px;background:var(--purple);color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:.72rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-upsell:hover{opacity:.9;transform:translateY(-1px);}
+
+/* Promo Banner */
+.promo-banner{background:linear-gradient(135deg,#FBBF24,#F59E0B,#D97706);border-radius:14px;padding:22px 28px;color:#fff;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;position:relative;overflow:hidden;}
+.promo-banner::before{content:'';position:absolute;right:-20px;top:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.12);}
+.promo-banner .promo-text h3{font-size:1rem;font-weight:800;margin-bottom:2px;}
+.promo-banner .promo-text p{font-size:.78rem;opacity:.9;}
+.promo-btn{padding:10px 22px;background:#fff;color:#D97706;border:none;border-radius:10px;font-family:inherit;font-size:.8rem;font-weight:800;cursor:pointer;transition:all .2s;flex-shrink:0;}
+.promo-btn:hover{transform:scale(1.03);box-shadow:0 4px 12px rgba(0,0,0,0.15);}
+
+/* Annual Discount Card */
+.annual-card{background:var(--green-bg);border:1px solid var(--green);border-radius:var(--radius);padding:16px;display:flex;align-items:center;gap:14px;margin-bottom:20px;}
+.annual-icon{width:44px;height:44px;border-radius:12px;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+.annual-content h4{font-size:.82rem;font-weight:700;color:var(--green);margin-bottom:2px;}
+.annual-content p{font-size:.72rem;color:var(--text2);}
+
+/* Activity Feed (Sidebar) */
+.activity-feed{display:flex;flex-direction:column;gap:0;}
+.activity-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);position:relative;}
+.activity-item:last-child{border-bottom:none;}
+.activity-dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0;}
+.activity-dot.blue{background:var(--blue);}
+.activity-dot.green{background:var(--green);}
+.activity-dot.orange{background:var(--orange);}
+.activity-dot.purple{background:var(--purple);}
+.activity-dot.cyan{background:var(--cyan);}
+.activity-dot.red{background:var(--red);}
+.activity-text{font-size:.78rem;font-weight:500;color:var(--text2);line-height:1.4;}
+.activity-text strong{color:var(--text);font-weight:600;}
+.activity-time{font-size:.65rem;color:var(--muted);margin-top:2px;}
+
+/* Quick Links Grid */
+.quick-links{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.quick-link{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:.78rem;font-weight:600;transition:all .2s;cursor:pointer;}
+.quick-link:hover{background:var(--blue-bg);border-color:var(--blue);color:var(--blue);transform:translateY(-1px);}
+.quick-link .ql-icon{width:32px;height:32px;border-radius:8px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;transition:all .2s;}
+.quick-link:hover .ql-icon{background:var(--blue-bg);}
+
+/* System Health Footer */
+.system-health{display:flex;align-items:center;justify-content:center;gap:24px;padding:16px;margin-top:24px;border-top:1px solid var(--border);flex-wrap:wrap;}
+.health-item{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--muted);font-weight:500;}
+.health-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse-health 2s infinite;}
+@keyframes pulse-health{0%,100%{opacity:1;}50%{opacity:.5;}}
+.health-label{font-weight:600;color:var(--text2);}
+
+/* Responsive */
+@media(max-width:1024px){
+.main-layout{grid-template-columns:1fr;}
+.stats-row{grid-template-columns:repeat(3,1fr);}
+}
+@media(max-width:768px){
+.stats-row{grid-template-columns:repeat(2,1fr);}
+.news-grid{grid-template-columns:1fr;}
+.spotlight-grid{grid-template-columns:1fr;}
+.quick-links{grid-template-columns:repeat(2,1fr);}
+.welcome-row{flex-direction:column;align-items:flex-start;}
+.welcome-right{align-items:flex-start;}
+}
+@media(max-width:480px){
+.stats-row{grid-template-columns:1fr;}
+.quick-links{grid-template-columns:1fr;}
+.page{padding:16px;}
+}
+
+/* Tooltip */
+.tooltip-container{position:relative;display:inline-block;}
+.tooltip-container .tooltip-text{visibility:hidden;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:6px 12px;border-radius:8px;font-size:.7rem;font-weight:600;white-space:nowrap;opacity:0;transition:all .2s;z-index:100;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,.2);}
+.tooltip-container .tooltip-text::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--text);}
+.tooltip-container:hover .tooltip-text{visibility:visible;opacity:1;}
+
+/* Loading skeleton */
+.skeleton{background:linear-gradient(90deg,var(--bg3) 25%,var(--bg2) 50%,var(--bg3) 75%);background-size:200% 100%;animation:skeleton-shimmer 1.5s infinite;border-radius:6px;}
+@keyframes skeleton-shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+
+/* Pill badges */
+.pill{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:.68rem;font-weight:600;}
+.pill.pill-blue{background:var(--blue-bg);color:var(--blue);}
+.pill.pill-green{background:var(--green-bg);color:var(--green);}
+.pill.pill-orange{background:var(--orange-bg);color:var(--orange);}
+.pill.pill-purple{background:var(--purple-bg);color:var(--purple);}
+.pill.pill-red{background:var(--red-bg);color:var(--red);}
+.pill.pill-cyan{background:var(--cyan-bg);color:var(--cyan);}
+
+/* Status indicator */
+.status-online{display:inline-flex;align-items:center;gap:5px;font-size:.72rem;font-weight:600;color:var(--green);}
+.status-online::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse-health 2s infinite;}
+
+/* Module card hover effects */
+.sidebar-card a:hover{
+border-color:var(--blue) !important;
+background:var(--blue-bg) !important;
+transform:translateX(2px);
+}
+
+/* Focus visible styles for accessibility */
+*:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:4px;}
+button:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
+a:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:4px;}
+input:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
+
+/* Transition utility */
+.transition-all{transition:all .25s ease;}
+
+/* Gradient text utility */
+.gradient-text{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+/* Card hover lift */
+.card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.06);}
+
+/* Sidebar schedule item hover */
+.sidebar-card > div > div[style*="display:flex"]:hover{
+transform:translateX(2px);
+transition:transform .2s ease;
+}
+
+/* Badge count animation */
+@keyframes badge-pop{0%{transform:scale(1);}50%{transform:scale(1.3);}100%{transform:scale(1);}}
+
+/* Scrollbar for sidebar activity feed */
+.activity-feed{max-height:420px;overflow-y:auto;padding-right:4px;}
+.activity-feed::-webkit-scrollbar{width:3px;}
+.activity-feed::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+
+/* Print styles */
+@media print{
+.dark-toggle,.search-bar,.notif-bell,.header-actions{display:none !important;}
+.welcome-banner{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.promo-banner,.promo-annual{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+body{font-size:12px;}
+.page{max-width:100%;padding:12px;}
+}
+
+/* High contrast mode support */
+@media(prefers-contrast:high){
+.card{border-width:2px;}
+.stat-card{border-width:2px;}
+.stat-card::before{height:5px;}
+}
+
+/* Reduced motion support */
+@media(prefers-reduced-motion:reduce){
+*{animation-duration:0s !important;transition-duration:0s !important;}
+}
+
+/* Animations */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.animate-in{animation:fadeInUp .4s ease both;}
+.animate-in:nth-child(1){animation-delay:0s;}
+.animate-in:nth-child(2){animation-delay:.05s;}
+.animate-in:nth-child(3){animation-delay:.1s;}
+.animate-in:nth-child(4){animation-delay:.15s;}
+.animate-in:nth-child(5){animation-delay:.2s;}
+
+/* Notification Bell */
+.notif-bell{position:relative;width:36px;height:36px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.9rem;transition:all .2s;}
+.notif-bell:hover{background:var(--blue-bg);border-color:var(--blue);}
+.notif-badge{position:absolute;top:-2px;right:-2px;width:16px;height:16px;border-radius:50%;background:var(--red);color:#fff;font-size:.58rem;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid var(--card-bg);}
+
+/* Search Bar */
+.search-bar{display:flex;align-items:center;gap:8px;padding:8px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;width:280px;transition:all .2s;}
+.search-bar:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,0.1);}
+.search-bar input{border:none;background:transparent;outline:none;font-family:inherit;font-size:.82rem;color:var(--text);width:100%;}
+.search-bar input::placeholder{color:var(--muted);}
+.search-bar .search-icon{color:var(--muted);font-size:.85rem;flex-shrink:0;}
+.search-kbd{font-size:.62rem;font-weight:600;color:var(--muted);background:var(--bg3);padding:2px 6px;border-radius:4px;border:1px solid var(--border);flex-shrink:0;}
+
+/* User Bar */
+.user-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
+.user-info{display:flex;align-items:center;gap:12px;}
+.header-actions{display:flex;align-items:center;gap:8px;}
+.brand-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;background:var(--grad);color:#fff;border-radius:20px;font-size:.68rem;font-weight:700;letter-spacing:.3px;}
+
+/* Token Bar */
+.token-bar{display:flex;align-items:center;gap:8px;margin-top:4px;}
+.token-track{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;}
+.token-fill{height:100%;border-radius:3px;background:var(--cyan);transition:width .5s ease;}
+.token-text{font-size:.65rem;color:var(--muted);font-weight:600;white-space:nowrap;}
+
+/* Dismiss onboarding */
+.dismiss-btn{position:absolute;top:12px;right:12px;width:24px;height:24px;border-radius:50%;border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.dismiss-btn:hover{background:var(--bg3);color:var(--text);}
+
+/* Section divider */
+.section-gap{margin-bottom:20px;}
+
+/* Promo annual inline */
+.promo-annual{background:linear-gradient(135deg,var(--green),#10B981);border-radius:12px;padding:16px 20px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.promo-annual h4{font-size:.88rem;font-weight:700;}
+.promo-annual p{font-size:.72rem;opacity:.85;}
+.promo-annual-btn{padding:8px 18px;background:#fff;color:var(--green);border:none;border-radius:8px;font-family:inherit;font-size:.75rem;font-weight:700;cursor:pointer;transition:all .2s;flex-shrink:0;}
+.promo-annual-btn:hover{transform:scale(1.03);}
+
+/* Sidebar specific */
+.sidebar-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:16px;}
+.sidebar-card .card-header{margin-bottom:12px;}
+</style>
+</head>
+<body>
+
+<button class="dark-toggle" onclick="document.body.classList.toggle('dark');this.textContent=document.body.classList.contains('dark')?'&#9728;':'&#9790;'" title="Toggle dark mode">&#9790;</button>
+
+<div class="page">
+
+<!-- Breadcrumb -->
+<div class="breadcrumb">
+<a href="#">Autopilot v2</a>
+<span class="sep">/</span>
+<span>Home</span>
+</div>
+
+<!-- User Bar -->
+<div class="user-bar">
+<div class="user-info">
+<span class="brand-tag">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+ANTS AI Solution Hub
+</span>
+</div>
+<div class="header-actions">
+<div class="search-bar">
+<span class="search-icon">&#128269;</span>
+<input type="text" placeholder="ค้นหา module, เมนู, คำสั่ง...">
+<span class="search-kbd">&#8984;K</span>
+</div>
+<div class="notif-bell" title="การแจ้งเตือน">
+&#128276;
+<span class="notif-badge">5</span>
+</div>
+</div>
+</div>
+
+<!-- Welcome Banner -->
+<div class="welcome-banner animate-in">
+<div class="welcome-row">
+<div class="welcome-left">
+<div class="welcome-avatar">ธ</div>
+<div class="welcome-text">
+<h1>สวัสดี, ธนากาน &#128075;</h1>
+<p>ยินดีต้อนรับกลับเข้าสู่ Autopilot v2 — ANTS AI Solution Hub</p>
+<div class="welcome-meta">
+<div class="meta-item">
+<span class="meta-icon">&#127970;</span>
+ANTS Intelligence Co., Ltd.
+</div>
+<div class="meta-item">
+<span class="meta-icon">&#128293;</span>
+Login streak: 12 วันติดต่อกัน
+</div>
+<div class="meta-item">
+<span class="meta-icon">&#128336;</span>
+เข้าใช้งานล่าสุด: 4 เม.ย. 2569, 17:42 น.
+</div>
+</div>
+</div>
+</div>
+<div class="welcome-right">
+<div class="welcome-plan">&#9733; Enterprise Plan</div>
+<div class="welcome-date">วันเสาร์ที่ 5 เมษายน 2569</div>
+</div>
+</div>
+</div>
+
+<!-- Quick Stats Row -->
+<div class="stats-row">
+<div class="stat-card animate-in">
+<div class="stat-icon">&#128230;</div>
+<div class="stat-label">Active Modules</div>
+<div class="stat-value">5</div>
+<div class="stat-sub">Expense, Procurement, Finance, Logistics, Sales</div>
+</div>
+<div class="stat-card animate-in">
+<div class="stat-icon">&#128203;</div>
+<div class="stat-label">Tasks Today</div>
+<div class="stat-value">12</div>
+<div class="stat-sub">3 urgent, 9 normal</div>
+</div>
+<div class="stat-card animate-in">
+<div class="stat-icon">&#9200;</div>
+<div class="stat-label">Pending Approvals</div>
+<div class="stat-value" style="color:var(--orange);">8</div>
+<div class="stat-sub">2 expense, 4 PR/PO, 2 payment</div>
+</div>
+<div class="stat-card animate-in">
+<div class="stat-icon">&#129302;</div>
+<div class="stat-label">AI Tokens Remaining</div>
+<div class="stat-value">847K</div>
+<div class="token-bar">
+<div class="token-track"><div class="token-fill" style="width:84.7%;"></div></div>
+<span class="token-text">/ 1M</span>
+</div>
+</div>
+<div class="stat-card animate-in">
+<div class="stat-icon">&#128101;</div>
+<div class="stat-label">Team Online</div>
+<div class="stat-value">14<span style="font-size:.85rem;font-weight:500;color:var(--muted);">/22</span></div>
+<div class="stat-sub">63.6% active now</div>
+</div>
+</div>
+
+<!-- Promo Banner -->
+<div class="promo-banner animate-in">
+<div class="promo-text">
+<h3>&#127881; โปรโมชั่นเดือนเมษายน — อัปเกรดเป็น Enterprise ลด 30%</h3>
+<p>รับส่วนลดพิเศษเมื่ออัปเกรดแพ็กเกจภายในวันที่ 30 เม.ย. 2569 พร้อม Onboarding ฟรี</p>
+</div>
+<button class="promo-btn">ดูรายละเอียดโปรฯ &#8594;</button>
+</div>
+
+<!-- Main Layout: Content + Sidebar -->
+<div class="main-layout">
+
+<!-- Left Column -->
+<div class="main-content">
+
+<!-- Onboarding / Getting Started -->
+<div class="card onboarding-card animate-in" style="position:relative;" id="onboarding-card">
+<button class="dismiss-btn" onclick="document.getElementById('onboarding-card').style.display='none'" title="ปิด">&#10005;</button>
+<div class="card-header">
+<div class="card-title"><span class="icon">&#127919;</span> Getting Started</div>
+<span class="card-badge">85% Complete</span>
+</div>
+<div class="progress-label">Setup Progress: 85%</div>
+<div class="progress-bar-track">
+<div class="progress-bar-fill" style="width:85%;"></div>
+</div>
+<ul class="checklist">
+<li class="done"><span class="check">&#9989;</span> Create Account</li>
+<li class="done"><span class="check">&#9989;</span> Setup Company Profile</li>
+<li class="done"><span class="check">&#9989;</span> Activate First Module</li>
+<li class="done"><span class="check">&#9989;</span> Import Vendors</li>
+<li><span class="check">&#11036;</span> Connect LINE Official Channel</li>
+<li><span class="check">&#11036;</span> Setup Approval Workflow</li>
+</ul>
+<button class="btn-primary" onclick="alert('Navigating to setup wizard...')">Complete Setup &#8594;</button>
+</div>
+
+<!-- What's New -->
+<div class="card animate-in">
+<div class="card-header">
+<div class="card-title"><span class="icon">&#128640;</span> What's New</div>
+<a class="card-link" href="#">ดูทั้งหมด &#8594;</a>
+</div>
+<div class="release-item">
+<span class="release-version">v2.8.0</span>
+<div class="release-content">
+<h4>AI Anomaly Detection ในระบบ Expense</h4>
+<div class="release-date">5 เม.ย. 2569</div>
+<a class="release-link" href="#">ดูรายละเอียด &#8594;</a>
+</div>
+</div>
+<div class="release-item">
+<span class="release-version">v2.7.5</span>
+<div class="release-content">
+<h4>3-Way Match อัตโนมัติ สำหรับ Procurement</h4>
+<div class="release-date">28 มี.ค. 2569</div>
+<a class="release-link" href="#">ดูรายละเอียด &#8594;</a>
+</div>
+</div>
+<div class="release-item">
+<span class="release-version">v2.7.0</span>
+<div class="release-content">
+<h4>FX Rate Alert — แจ้งเตือนอัตราแลกเปลี่ยนทันที</h4>
+<div class="release-date">15 มี.ค. 2569</div>
+<a class="release-link" href="#">ดูรายละเอียด &#8594;</a>
+</div>
+</div>
+</div>
+
+<!-- News & Blog -->
+<div class="card animate-in">
+<div class="card-header">
+<div class="card-title"><span class="icon">&#128240;</span> News & Blog</div>
+<a class="card-link" href="#">อ่านทั้งหมด &#8594;</a>
+</div>
+<div class="news-grid">
+<div class="news-card">
+<div class="news-thumb" style="background:linear-gradient(135deg,#2563EB,#06B6D4);">
+<div class="thumb-overlay">
+<span class="thumb-tag">AI & Automation</span>
+</div>
+</div>
+<div class="news-body">
+<h4>เทรนด์ AI ในงาน Back Office 2026</h4>
+<div class="news-meta">
+<span>&#128197; 3 เม.ย. 2569</span>
+<span>&#128337; 8 นาที</span>
+</div>
+</div>
+</div>
+<div class="news-card">
+<div class="news-thumb" style="background:linear-gradient(135deg,#7C3AED,#EC4899);">
+<div class="thumb-overlay">
+<span class="thumb-tag">Best Practices</span>
+</div>
+</div>
+<div class="news-body">
+<h4>วิธีลดเวลาอนุมัติเอกสาร 80% ด้วย Autopilot</h4>
+<div class="news-meta">
+<span>&#128197; 28 มี.ค. 2569</span>
+<span>&#128337; 5 นาที</span>
+</div>
+</div>
+</div>
+<div class="news-card">
+<div class="news-thumb" style="background:linear-gradient(135deg,#059669,#10B981);">
+<div class="thumb-overlay">
+<span class="thumb-tag">Case Study</span>
+</div>
+</div>
+<div class="news-body">
+<h4>Case Study: บริษัท XYZ ประหยัด &#3647;2M/ปี</h4>
+<div class="news-meta">
+<span>&#128197; 20 มี.ค. 2569</span>
+<span>&#128337; 12 นาที</span>
+</div>
+</div>
+</div>
+<div class="news-card">
+<div class="news-thumb" style="background:linear-gradient(135deg,#D97706,#F59E0B);">
+<div class="thumb-overlay">
+<span class="thumb-tag">Product Update</span>
+</div>
+</div>
+<div class="news-body">
+<h4>Roadmap Q2/2569 — ฟีเจอร์ใหม่ที่น่าจับตา</h4>
+<div class="news-meta">
+<span>&#128197; 15 มี.ค. 2569</span>
+<span>&#128337; 6 นาที</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Module Spotlight / Upsell -->
+<div class="card animate-in">
+<div class="card-header">
+<div class="card-title"><span class="icon">&#10024;</span> แนะนำ Module ใหม่</div>
+<a class="card-link" href="#">ดู Module ทั้งหมด &#8594;</a>
+</div>
+<div class="spotlight-grid">
+<div class="spotlight-card">
+<div class="coming-soon">COMING SOON</div>
+<div class="spotlight-icon">&#128188;</div>
+<h4>HR & Payroll</h4>
+<p>จัดการข้อมูลพนักงาน, ระบบลา, คำนวณเงินเดือน, ยื่นภาษี — ครบจบในที่เดียวพร้อม AI ช่วยวิเคราะห์</p>
+<button class="btn-upsell">ทดลองฟรี 14 วัน &#8594;</button>
+</div>
+<div class="spotlight-card">
+<div class="coming-soon">COMING SOON</div>
+<div class="spotlight-icon" style="background:var(--cyan-bg);">&#128221;</div>
+<h4>Contract Management</h4>
+<p>จัดการสัญญา, ติดตามวันหมดอายุ, เตือนต่อสัญญาอัตโนมัติ, วิเคราะห์เงื่อนไขด้วย AI</p>
+<button class="btn-upsell">ทดลองฟรี 14 วัน &#8594;</button>
+</div>
+<div class="spotlight-card">
+<div class="coming-soon">COMING SOON</div>
+<div class="spotlight-icon" style="background:var(--green-bg);">&#128202;</div>
+<h4>Business Intelligence</h4>
+<p>สร้าง Dashboard แบบ Drag & Drop, รวมข้อมูลจากทุก Module, AI สรุป Insight ให้อัตโนมัติ</p>
+<button class="btn-upsell">ทดลองฟรี 14 วัน &#8594;</button>
+</div>
+</div>
+</div>
+
+<!-- Annual Discount -->
+<div class="promo-annual animate-in">
+<div>
+<h4>&#128176; Annual Plan Discount — ประหยัดสูงสุด 25%</h4>
+<p>เปลี่ยนจาก Monthly เป็น Annual Plan วันนี้ ประหยัดทันที พร้อมรับ Priority Support ฟรี</p>
+</div>
+<button class="promo-annual-btn">เปลี่ยนแพลน &#8594;</button>
+</div>
+
+<!-- Quick Links -->
+<div class="card animate-in" style="margin-top:20px;">
+<div class="card-header">
+<div class="card-title"><span class="icon">&#128279;</span> Quick Links</div>
+</div>
+<div class="quick-links">
+<a class="quick-link" href="#">
+<span class="ql-icon">&#128214;</span>
+Documentation
+</a>
+<a class="quick-link" href="#">
+<span class="ql-icon">&#128268;</span>
+API Reference
+</a>
+<a class="quick-link" href="#">
+<span class="ql-icon">&#127384;</span>
+Support Center
+</a>
+<a class="quick-link" href="#">
+<span class="ql-icon">&#128483;</span>
+Community Forum
+</a>
+<a class="quick-link" href="#">
+<span class="ql-icon">&#127909;</span>
+Video Tutorials
+</a>
+<a class="quick-link" href="#">
+<span class="ql-icon">&#128222;</span>
+Contact Sales
+</a>
+</div>
+</div>
+
+</div><!-- /main-content -->
+
+<!-- Right Sidebar -->
+<div class="sidebar">
+
+<!-- Recent Activity Feed -->
+<div class="sidebar-card">
+<div class="card-header">
+<div class="card-title" style="font-size:.88rem;"><span class="icon">&#128338;</span> Recent Activity</div>
+<a class="card-link" href="#">ดูทั้งหมด</a>
+</div>
+<div class="activity-feed">
+<div class="activity-item">
+<div class="activity-dot green"></div>
+<div>
+<div class="activity-text"><strong>สมชาย</strong> อนุมัติ EXP-0025</div>
+<div class="activity-time">5 นาทีที่แล้ว</div>
+</div>
+</div>
+<div class="activity-item">
+<div class="activity-dot cyan"></div>
+<div>
+<div class="activity-text">ระบบ <strong>OCR</strong> สแกน 15 ใบเสร็จสำเร็จ</div>
+<div class="activity-time">12 นาทีที่แล้ว</div>
+</div>
+</div>
+<div class="activity-item">
+<div class="activity-dot blue"></div>
+<div>
+<div class="activity-text"><strong>วิภา</strong> สร้าง PR-0089 มูลค่า &#3647;245,000</div>
+<div class="activity-time">28 นาทีที่แล้ว</div>
+</div>
+</div>
+<div class="activity-item">
+<div class="activity-dot orange"></div>
+<div>
+<div class="activity-text"><strong>AI</strong> ตรวจพบค่าผิดปกติใน EXP-0023</div>
+<div class="activity-time">45 นาทีที่แล้ว</div>
+</div>
+</div>
+<div class="activity-item">
+<div class="activity-dot purple"></div>
+<div>
+<div class="activity-text"><strong>ณัฐ</strong> ส่ง Quotation QT-0156 ให้ลูกค้า</div>
+<div class="activity-time">1 ชั่วโมงที่แล้ว</div>
+</div>
+</div>
+<div class="activity-item">
+<div class="activity-dot green"></div>
+<div>
+<div class="activity-text"><strong>3-Way Match</strong> PO-0034 สำเร็จอัตโนมัติ</div>
+<div class="activity-time">1.5 ชั่วโมงที่แล้ว</div>
+</div>
+</div>
+<div class="activity-item">
+<div class="activity-dot red"></div>
+<div>
+<div class="activity-text"><strong>FX Alert:</strong> USD/THB เปลี่ยนแปลง +0.8%</div>
+<div class="activity-time">2 ชั่วโมงที่แล้ว</div>
+</div>
+</div>
+<div class="activity-item">
+<div class="activity-dot blue"></div>
+<div>
+<div class="activity-text"><strong>ธนากาน</strong> อัปโหลดเอกสาร INV-0078</div>
+<div class="activity-time">3 ชั่วโมงที่แล้ว</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Today's Schedule -->
+<div class="sidebar-card">
+<div class="card-header">
+<div class="card-title" style="font-size:.88rem;"><span class="icon">&#128197;</span> ตารางวันนี้</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;">
+<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--blue-bg);border-radius:8px;border-left:3px solid var(--blue);">
+<div style="font-size:.72rem;font-weight:700;color:var(--blue);white-space:nowrap;">09:00</div>
+<div style="font-size:.78rem;font-weight:600;">Standup Meeting — Finance Team</div>
+</div>
+<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--purple-bg);border-radius:8px;border-left:3px solid var(--purple);">
+<div style="font-size:.72rem;font-weight:700;color:var(--purple);white-space:nowrap;">11:00</div>
+<div style="font-size:.78rem;font-weight:600;">Review Procurement Q1 Report</div>
+</div>
+<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--orange-bg);border-radius:8px;border-left:3px solid var(--orange);">
+<div style="font-size:.72rem;font-weight:700;color:var(--orange);white-space:nowrap;">14:30</div>
+<div style="font-size:.78rem;font-weight:600;">Vendor Onboarding — ABC Corp</div>
+</div>
+<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--green-bg);border-radius:8px;border-left:3px solid var(--green);">
+<div style="font-size:.72rem;font-weight:700;color:var(--green);white-space:nowrap;">16:00</div>
+<div style="font-size:.78rem;font-weight:600;">AI Module Demo — Sales Team</div>
+</div>
+</div>
+</div>
+
+<!-- Active Modules Quick Nav -->
+<div class="sidebar-card">
+<div class="card-header">
+<div class="card-title" style="font-size:.88rem;"><span class="icon">&#128230;</span> Active Modules</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;">
+<a href="expense-dashboard.html" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text);font-size:.78rem;font-weight:600;transition:all .2s;">
+<span style="font-size:1rem;">&#128176;</span> Expense Management
+<span style="margin-left:auto;font-size:.65rem;color:var(--green);font-weight:700;">Active</span>
+</a>
+<a href="procurement-dashboard.html" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text);font-size:.78rem;font-weight:600;transition:all .2s;">
+<span style="font-size:1rem;">&#128230;</span> Procurement
+<span style="margin-left:auto;font-size:.65rem;color:var(--green);font-weight:700;">Active</span>
+</a>
+<a href="finance-cases.html" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text);font-size:.78rem;font-weight:600;transition:all .2s;">
+<span style="font-size:1rem;">&#127974;</span> Finance & Accounting
+<span style="margin-left:auto;font-size:.65rem;color:var(--green);font-weight:700;">Active</span>
+</a>
+<a href="logistics-tracking.html" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text);font-size:.78rem;font-weight:600;transition:all .2s;">
+<span style="font-size:1rem;">&#128666;</span> Logistics & Freight
+<span style="margin-left:auto;font-size:.65rem;color:var(--green);font-weight:700;">Active</span>
+</a>
+<a href="sales-dashboard.html" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text);font-size:.78rem;font-weight:600;transition:all .2s;">
+<span style="font-size:1rem;">&#128200;</span> Sales & CRM
+<span style="margin-left:auto;font-size:.65rem;color:var(--green);font-weight:700;">Active</span>
+</a>
+</div>
+</div>
+
+<!-- AI Assistant Teaser -->
+<div class="sidebar-card" style="background:var(--grad);border:none;color:#fff;">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+<div style="width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:1.2rem;">&#129302;</div>
+<div>
+<div style="font-size:.88rem;font-weight:700;">ANTS AI Assistant</div>
+<div style="font-size:.68rem;opacity:.8;">Powered by GPT-4o + Claude</div>
+</div>
+</div>
+<p style="font-size:.78rem;opacity:.9;line-height:1.5;margin-bottom:12px;">ถามอะไรก็ได้เกี่ยวกับข้อมูลในระบบ เช่น "สรุปค่าใช้จ่ายเดือนนี้" หรือ "PO ที่ยังไม่อนุมัติมีกี่รายการ"</p>
+<div style="display:flex;align-items:center;gap:8px;">
+<input type="text" placeholder="พิมพ์คำถามที่นี่..." style="flex:1;padding:8px 14px;border:1px solid rgba(255,255,255,0.3);border-radius:8px;background:rgba(255,255,255,0.15);color:#fff;font-family:inherit;font-size:.78rem;outline:none;backdrop-filter:blur(4px);" onfocus="this.style.borderColor='rgba(255,255,255,0.6)'" onblur="this.style.borderColor='rgba(255,255,255,0.3)'">
+<button style="padding:8px 14px;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);border-radius:8px;color:#fff;font-family:inherit;font-size:.82rem;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">&#10148;</button>
+</div>
+</div>
+
+</div><!-- /sidebar -->
+
+</div><!-- /main-layout -->
+
+<!-- System Health Footer -->
+<div class="system-health">
+<div class="health-item">
+<div class="health-dot"></div>
+<span class="health-label">API Status:</span>
+Online
+</div>
+<div class="health-item">
+<span class="health-label">Uptime:</span>
+99.97%
+</div>
+<div class="health-item">
+<span class="health-label">Last Incident:</span>
+45 days ago
+</div>
+<div class="health-item">
+<span class="health-label">Version:</span>
+v2.8.0
+</div>
+<div class="health-item">
+<span class="health-label">Region:</span>
+Asia-Pacific (Singapore)
+</div>
+</div>
+
+<!-- Footer -->
+<div style="text-align:center;padding:20px 0 10px;font-size:.68rem;color:var(--muted);">
+&copy; 2569 ANTS Intelligence Co., Ltd. — Autopilot v2 | ANTS AI Solution Hub
+<br>
+<span style="font-size:.62rem;">All rights reserved. Built with &#10084;&#65039; in Bangkok, Thailand.</span>
+</div>
+
+</div><!-- /page -->
+
+<script>
+/* ---- Dark Mode Persistence ---- */
+(function(){
+const saved = localStorage.getItem('autopilot-dark');
+if(saved === 'true') document.body.classList.add('dark');
+const btn = document.querySelector('.dark-toggle');
+if(btn) btn.textContent = document.body.classList.contains('dark') ? '\u2600' : '\u263E';
+const origClick = btn.onclick;
+btn.onclick = function(){
+document.body.classList.toggle('dark');
+this.textContent = document.body.classList.contains('dark') ? '\u2600' : '\u263E';
+localStorage.setItem('autopilot-dark', document.body.classList.contains('dark'));
+};
+})();
+
+/* ---- Animate on Scroll ---- */
+(function(){
+const observer = new IntersectionObserver(function(entries){
+entries.forEach(function(e){
+if(e.isIntersecting){
+e.target.style.opacity = '1';
+e.target.style.transform = 'translateY(0)';
+}
+});
+},{threshold:0.1});
+document.querySelectorAll('.card, .stat-card, .sidebar-card, .promo-banner, .promo-annual').forEach(function(el){
+el.style.opacity = '0';
+el.style.transform = 'translateY(16px)';
+el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+observer.observe(el);
+});
+})();
+
+/* ---- Simulated live counters ---- */
+(function(){
+const onlineEl = document.querySelectorAll('.stat-value')[4];
+if(!onlineEl) return;
+setInterval(function(){
+const n = 12 + Math.floor(Math.random()*6);
+onlineEl.innerHTML = n + '<span style="font-size:.85rem;font-weight:500;color:var(--muted);">/22</span>';
+}, 8000);
+})();
+
+/* ---- Search shortcut ---- */
+document.addEventListener('keydown', function(e){
+if((e.metaKey || e.ctrlKey) && e.key === 'k'){
+e.preventDefault();
+const input = document.querySelector('.search-bar input');
+if(input) input.focus();
+}
+});
+
+/* ---- Hover glow on sidebar module links ---- */
+document.querySelectorAll('.sidebar-card a').forEach(function(a){
+a.addEventListener('mouseenter', function(){
+this.style.borderColor = 'var(--blue)';
+this.style.background = 'var(--blue-bg)';
+});
+a.addEventListener('mouseleave', function(){
+this.style.borderColor = 'var(--border)';
+this.style.background = 'var(--bg2)';
+});
+});
+
+/* ---- Token usage warning color ---- */
+(function(){
+const fill = document.querySelector('.token-fill');
+if(!fill) return;
+const pct = parseFloat(fill.style.width);
+if(pct < 20) fill.style.background = 'var(--red)';
+else if(pct < 40) fill.style.background = 'var(--orange)';
+})();
+
+/* ---- Progress bar animation on load ---- */
+(function(){
+const bar = document.querySelector('.progress-bar-fill');
+if(!bar){return;}
+const target = bar.style.width;
+bar.style.width = '0%';
+setTimeout(function(){ bar.style.width = target; }, 300);
+})();
+
+/* ---- Notification badge pulse ---- */
+(function(){
+const badge = document.querySelector('.notif-badge');
+if(!badge) return;
+setInterval(function(){
+badge.style.transform = 'scale(1.3)';
+setTimeout(function(){ badge.style.transform = 'scale(1)'; }, 200);
+}, 5000);
+})();
+
+/* ---- Console welcome ---- */
+console.log('%c Autopilot v2 — ANTS AI Solution Hub ', 'background:linear-gradient(135deg,#2563EB,#7C3AED);color:#fff;font-size:14px;padding:8px 16px;border-radius:8px;font-weight:bold;');
+console.log('%c Home Page loaded successfully ', 'color:#059669;font-weight:bold;');
+
+/* ---- Greeting based on time of day ---- */
+(function(){
+  var h = new Date().getHours();
+  var greeting = '';
+  if(h < 6) greeting = 'ดึกแล้วนะ';
+  else if(h < 12) greeting = 'สวัสดีตอนเช้า';
+  else if(h < 17) greeting = 'สวัสดีตอนบ่าย';
+  else if(h < 21) greeting = 'สวัสดีตอนเย็น';
+  else greeting = 'สวัสดีตอนค่ำ';
+  var welcomeH1 = document.querySelector('.welcome-text h1');
+  if(welcomeH1){
+    welcomeH1.innerHTML = greeting + ', ธนากาน \uD83D\uDC4B';
+  }
+})();
+
+/* ---- Update current date in welcome ---- */
+(function(){
+  var months = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+  var days = ['วันอาทิตย์','วันจันทร์','วันอังคาร','วันพุธ','วันพฤหัสบดี','วันศุกร์','วันเสาร์'];
+  var now = new Date();
+  var thaiYear = now.getFullYear() + 543;
+  var dateStr = days[now.getDay()] + 'ที่ ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + thaiYear;
+  var dateEl = document.querySelector('.welcome-date');
+  if(dateEl) dateEl.textContent = dateStr;
+})();
+
+/* ---- Keyboard navigation for quick links ---- */
+document.querySelectorAll('.quick-link').forEach(function(link, i){
+  link.setAttribute('tabindex', '0');
+  link.addEventListener('keydown', function(e){
+    if(e.key === 'Enter' || e.key === ' '){
+      e.preventDefault();
+      this.click();
+    }
+  });
+});
+
+/* ---- Auto-hide onboarding after completion ---- */
+(function(){
+  var dismissed = localStorage.getItem('autopilot-onboarding-dismissed');
+  if(dismissed === 'true'){
+    var card = document.getElementById('onboarding-card');
+    if(card) card.style.display = 'none';
+  }
+  var dismissBtn = document.querySelector('#onboarding-card .dismiss-btn');
+  if(dismissBtn){
+    dismissBtn.addEventListener('click', function(){
+      localStorage.setItem('autopilot-onboarding-dismissed', 'true');
+    });
+  }
+})();
+
+/* ---- Smooth scroll behavior ---- */
+document.documentElement.style.scrollBehavior = 'smooth';
+
+/* ---- Activity feed auto-refresh simulation ---- */
+(function(){
+  var activities = [
+    {dot:'green', text:'<strong>สมชาย</strong> อนุมัติ EXP-0026', time:'เมื่อสักครู่'},
+    {dot:'cyan', text:'ระบบ <strong>OCR</strong> สแกน 8 ใบเสร็จเพิ่ม', time:'เมื่อสักครู่'},
+    {dot:'blue', text:'<strong>พิมพ์</strong> สร้าง PR-0090 มูลค่า \u0E3F180,000', time:'เมื่อสักครู่'},
+    {dot:'orange', text:'<strong>AI</strong> วิเคราะห์แนวโน้มค่าใช้จ่ายเสร็จ', time:'เมื่อสักครู่'},
+    {dot:'purple', text:'<strong>กิตติ</strong> อัปเดต Quotation QT-0157', time:'เมื่อสักครู่'}
+  ];
+  var actFeed = document.querySelector('.activity-feed');
+  if(!actFeed) return;
+  var idx = 0;
+  setInterval(function(){
+    var act = activities[idx % activities.length];
+    var newItem = document.createElement('div');
+    newItem.className = 'activity-item';
+    newItem.style.opacity = '0';
+    newItem.style.transition = 'opacity 0.4s ease';
+    newItem.innerHTML = '<div class="activity-dot ' + act.dot + '"></div><div><div class="activity-text">' + act.text + '</div><div class="activity-time">' + act.time + '</div></div>';
+    actFeed.insertBefore(newItem, actFeed.firstChild);
+    setTimeout(function(){ newItem.style.opacity = '1'; }, 50);
+    /* Keep max 10 items */
+    while(actFeed.children.length > 10){
+      actFeed.removeChild(actFeed.lastChild);
+    }
+    idx++;
+  }, 15000);
+})();
+</script>
+
+</body>
+</html>
