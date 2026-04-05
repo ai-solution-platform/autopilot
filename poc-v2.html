@@ -16,7 +16,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .app-layout{display:flex;min-height:100vh;}
 .sidebar{width:var(--sidebar-w);background:var(--white);border-right:1px solid var(--border);position:fixed;top:0;left:0;bottom:0;z-index:50;display:flex;flex-direction:column;overflow-y:auto;transition:transform .25s ease,width .25s ease;}
 .sidebar.collapsed{transform:translateX(-100%);}
-.main-wrap{margin-left:var(--sidebar-w);flex:1;min-height:100vh;display:flex;flex-direction:column;transition:margin-left .25s ease;}
+.main-wrap{margin-left:var(--sidebar-w);flex:1;min-height:100vh;display:flex;flex-direction:column;transition:margin-left .25s ease;overflow-x:hidden;}
 .main-wrap.expanded{margin-left:0;}
 .header{height:var(--header-h);background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:40;}
 .main{flex:1;padding:24px;overflow-y:auto;}
@@ -32,7 +32,8 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .nav-item .badge.warn{background:var(--orange);}.nav-item .badge.green{background:var(--green);}
 .sidebar-footer{margin-top:auto;padding:12px;border-top:1px solid var(--border);}
 .plan-badge{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--purple-l);border-radius:10px;font-size:.72rem;color:var(--purple);font-weight:600;}
-.module-frame{width:calc(100% + 48px);margin:-24px;border:none;height:calc(100vh - var(--header-h));display:block;background:var(--bg);}
+.module-frame{width:100%;margin:0;border:none;height:calc(100vh - var(--header-h));display:block;background:var(--bg);}
+.main.has-module{padding:0;}
 .module-frame.hidden{display:none;}
 .connector-section .nav-item{font-size:.72rem;opacity:.85;}
 .connector-section .nav-item:hover{opacity:1;}
@@ -317,13 +318,13 @@ select.form-input{cursor:pointer;}
         <div><div class="logo-text">Autopilot v2</div><div class="logo-sub">ANTS — AI Solution Hub</div></div>
     </div>
 
+    <div class="nav-section"><div class="nav-label">Home</div>
+        <button class="nav-item active" onclick="loadModule('modules/home.html','Home')"><span class="icon">🏠</span>Home</button>
+    </div>
+
     <div class="recent-visited" id="recentVisitedSection" style="display:none;">
         <div class="nav-label">🕐 เข้าล่าสุด</div>
         <div id="recentVisitedList"></div>
-    </div>
-
-    <div class="nav-section"><div class="nav-label">Home</div>
-        <button class="nav-item active" onclick="loadModule('modules/home.html','Home')"><span class="icon">🏠</span>Home</button>
     </div>
 
     <div class="nav-section"><div class="nav-label">Active Modules</div>
@@ -1188,6 +1189,7 @@ function loadModule(url, title){
     frame.classList.remove('hidden');
     frame.src=url;
     currentModuleUrl=url;
+    document.getElementById('mainContent').classList.add('has-module');
     // Update header
     document.getElementById('headerTitle').textContent=title||'Module';
     // Update active states
@@ -1307,6 +1309,7 @@ function showPage(page,extra){
     // Hide iframe when showing internal pages
     document.getElementById('moduleFrame').classList.add('hidden');
     document.getElementById('moduleFrame').src='about:blank';
+    document.getElementById('mainContent').classList.remove('has-module');
     // Hide breadcrumb for internal pages
     document.getElementById('breadcrumbBar').style.display='none';
     document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
