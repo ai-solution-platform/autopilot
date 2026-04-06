@@ -1222,7 +1222,7 @@ function toggleDark(){
   document.body.classList.toggle('dark');
   const d=document.body.classList.contains('dark');
   localStorage.setItem('darkMode',d);
-  document.querySelector('.dark-toggle').textContent=d?'\u2600\uFE0F':'\uD83C\uDF19';
+  var btn=document.querySelector('.dark-toggle');if(btn)btn.textContent=d?'\u2600\uFE0F':'\uD83C\uDF19';
 }
 if(localStorage.getItem('darkMode')==='true'){
   document.body.classList.add('dark');
