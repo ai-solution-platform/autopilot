@@ -2,8 +2,8 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Procurement Analytics Dashboard | Autopilot v2 by ANTS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>แดชบอร์ดวิเคราะห์การจัดซื้อ | Autopilot v2 by ANTS</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
 
@@ -175,10 +175,29 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
   .kpi-grid{grid-template-columns:repeat(2,1fr);}
   .charts-grid,.bottom-grid{grid-template-columns:1fr 1fr;}
 }
+@media(max-width:768px){
+  .page-wrap{padding:16px;}
+  .kpi{padding:12px;}
+  .kpi-value{font-size:1.2rem;}
+  .card{padding:16px;}
+  .card-header{flex-wrap:wrap;gap:8px;}
+  .user-context{flex-direction:column;align-items:flex-start;}
+  .view-toggle{width:100%;justify-content:center;}
+  .page-header{flex-direction:column;align-items:flex-start;}
+  .page-actions{width:100%;flex-wrap:wrap;}
+  .page-actions .btn{flex:1;min-width:0;justify-content:center;}
+  .chart-area svg{max-width:100%;height:auto;}
+  .chart-legend{gap:8px;font-size:.65rem;}
+  .chart-tooltip{font-size:.68rem;}
+  select,input{max-width:100%;}
+}
 @media(max-width:600px){
   .kpi-grid{grid-template-columns:1fr 1fr;}
   .charts-grid,.bottom-grid{grid-template-columns:1fr;}
-  .page-wrap{padding:16px;}
+  .page-wrap{padding:12px;}
+  .kpi-value{font-size:1rem;}
+  .kpi-label{font-size:.62rem;}
+  .card-header h3{font-size:.82rem;}
 }
 @keyframes toastIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 </style>
@@ -198,7 +217,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
     <span class="sep">/</span>
     <a href="#">Procurement & Quotation</a>
     <span class="sep">/</span>
-    <span>Dashboard</span>
+    <span>แดชบอร์ด</span>
   </div>
 
   <!-- User Context Bar -->
@@ -207,7 +226,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
       <div class="user-avatar">PN</div>
       <div>
         <div class="user-name">พีระพงศ์ ณ สงขลา</div>
-        <div class="user-role">Procurement Manager</div>
+        <div class="user-role">ผู้จัดการฝ่ายจัดซื้อ</div>
         <div class="user-team">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
           ทีมจัดซื้อ
@@ -226,7 +245,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
     <div class="page-title-area">
       <h1>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-        Procurement Analytics Dashboard
+        แดชบอร์ดวิเคราะห์การจัดซื้อ
       </h1>
       <div class="page-subtitle">ภาพรวมวิเคราะห์การจัดซื้อจัดจ้าง &mdash; ข้อมูลเรียลไทม์</div>
     </div>
@@ -237,7 +256,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
       </div>
       <div class="live-badge">
         <span class="live-dot"></span>
-        Live
+        ข้อมูลสด
       </div>
     </div>
   </div>

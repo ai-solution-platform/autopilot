@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>Expense Analytics Dashboard — Autopilot v2 | ANTS AI Solution Hub</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
@@ -134,7 +134,40 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .trend-val{font-size:.58rem;font-weight:700;color:var(--text2);position:absolute;top:-14px;left:50%;transform:translateX(-50%);white-space:nowrap;}
 .trend-spacer{flex:1;}
 
-@media(max-width:768px){.kpi-strip{grid-template-columns:repeat(2,1fr);}.charts-grid{grid-template-columns:1fr;}.category-grid{grid-template-columns:1fr;}.dept-chart .dept-name{min-width:60px;}.compliance-widget{flex-direction:column;}}
+@media(max-width:768px){
+  .page{padding:16px;}
+  .kpi-strip{grid-template-columns:repeat(2,1fr);}
+  .kpi-item{padding:10px 12px;}
+  .kpi-value{font-size:1rem;}
+  .charts-grid{grid-template-columns:1fr;}
+  .category-grid{grid-template-columns:repeat(2,1fr);}
+  .dept-chart .dept-name{min-width:60px;}
+  .compliance-widget{flex-direction:column;}
+  .card{padding:16px;}
+  .card-header{flex-wrap:wrap;gap:8px;}
+  .user-bar{flex-direction:column;align-items:flex-start;}
+  .header-actions{width:100%;flex-wrap:wrap;}
+  .header-actions .btn{flex:1;min-width:0;justify-content:center;}
+  .period-selector{flex-wrap:wrap;}
+  .budget-row{flex-direction:column;align-items:flex-start;gap:6px;}
+  .budget-label{min-width:auto;}
+  .budget-values{text-align:left;min-width:auto;}
+  .cat-card{padding:10px;}
+  .cat-amount{font-size:.95rem;}
+  .dept-row{flex-wrap:wrap;}
+  .chart-area svg{max-width:100%;height:auto;}
+}
+@media(max-width:480px){
+  .page{padding:12px;}
+  .kpi-strip{grid-template-columns:1fr;}
+  .kpi-item{border-right:none;border-bottom:1px solid var(--border);}
+  .kpi-item:last-child{border-bottom:none;}
+  .category-grid{grid-template-columns:1fr;}
+  .card-title{font-size:.85rem;}
+  .cat-name{font-size:.72rem;}
+  .dept-bars{height:18px;}
+  .budget-track{height:22px;}
+}
 </style>
 </head>
 <body>

@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>Vendor Management | Autopilot v2 by ANTS</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -280,13 +280,40 @@ tr:last-child td{border-bottom:none;}
 
 /* Responsive */
 @media(max-width:768px){
+  .page-wrap{padding:16px;}
   .kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .kpi{padding:12px;}
+  .kpi-value{font-size:1.2rem;}
   .scoring-panel{grid-template-columns:repeat(2,1fr);}
   .form-grid{grid-template-columns:1fr;}
   .detail-grid{grid-template-columns:repeat(2,1fr);}
   .filter-bar{flex-direction:column;}
   .filter-bar input,.filter-bar select{min-width:100%;width:100%;}
   .page-header{flex-direction:column;align-items:flex-start;}
+  .page-actions{width:100%;flex-wrap:wrap;}
+  .page-actions .btn{flex:1;min-width:0;justify-content:center;}
+  .user-context{flex-direction:column;align-items:flex-start;}
+  .view-toggle{width:100%;}
+  .card{padding:16px;}
+  .card-header{flex-wrap:wrap;gap:8px;}
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  table{min-width:600px;}
+  .audit-date-filter{flex-direction:column;align-items:stretch;}
+  .audit-date-filter input[type="date"]{width:100%;}
+  .btn{padding:7px 14px;font-size:.75rem;}
+  .btn-primary{width:100%;justify-content:center;}
+}
+@media(max-width:480px){
+  .page-wrap{padding:12px;}
+  .kpi-grid{grid-template-columns:1fr;}
+  .scoring-panel{grid-template-columns:1fr;}
+  .detail-grid{grid-template-columns:1fr;}
+  .kpi-value{font-size:1rem;}
+  .kpi-label{font-size:.62rem;}
+  .card-header h3{font-size:.82rem;}
+  .risk-gauge{flex-direction:column;align-items:flex-start;}
+  .risk-gauge .level{text-align:left;}
+  .trend-item{padding:10px;}
 }
 </style>
 </head>
@@ -297,7 +324,7 @@ tr:last-child td{border-bottom:none;}
 <div class="page-wrap">
   <!-- Breadcrumb -->
   <div class="breadcrumb">
-    <a href="#">Autopilot v2</a> <span>/</span> <a href="#">System</a> <span>/</span> <span>Vendor Management</span>
+    <a href="#">Autopilot v2</a> <span>/</span> <a href="#">System</a> <span>/</span> <span>จัดการผู้ขาย</span>
   </div>
 
   <!-- User Context -->
@@ -306,7 +333,7 @@ tr:last-child td{border-bottom:none;}
       <div class="user-avatar">SP</div>
       <div>
         <div class="user-name">สมปอง พิทักษ์ธรรม</div>
-        <div class="user-role">Procurement Manager</div>
+        <div class="user-role">ผู้จัดการฝ่ายจัดซื้อ</div>
         <div class="user-team">&#128101; ฝ่ายจัดซื้อ-จัดจ้าง</div>
       </div>
     </div>
@@ -321,12 +348,12 @@ tr:last-child td{border-bottom:none;}
   <div class="page-header">
     <div class="page-title-area">
       <h1>&#127970; ระบบจัดการ Vendor</h1>
-      <div class="page-subtitle">Vendor Management System -- ฐานข้อมูล Vendor กลาง ใช้ร่วมกับทุกโมดูล</div>
+      <div class="page-subtitle">ระบบจัดการผู้ขาย -- ฐานข้อมูลผู้ขายกลาง ใช้ร่วมกับทุกโมดูล</div>
     </div>
     <div class="page-actions">
       <span class="load-time-badge" id="loadTimeBadge">&#9889; โหลดใน 1.2 วินาที</span>
       <span class="live-badge"><span class="live-dot"></span> ข้อมูลล่าสุด</span>
-      <button class="btn btn-secondary" onclick="exportCSV()">&#128229; Export CSV</button>
+      <button class="btn btn-secondary" onclick="exportCSV()">&#128229; ส่งออก CSV</button>
       <button class="btn btn-primary" onclick="openAddModal()">&#10133; เพิ่ม Vendor ใหม่</button>
     </div>
   </div>
@@ -335,7 +362,7 @@ tr:last-child td{border-bottom:none;}
   <div class="kpi-grid">
     <div class="kpi">
       <div class="kpi-top">
-        <div><div class="kpi-label">Vendor ทั้งหมด (Active)</div><div class="kpi-value" id="kpi-active">0</div></div>
+        <div><div class="kpi-label">ผู้ขายทั้งหมด (ใช้งาน)</div><div class="kpi-value" id="kpi-active">0</div></div>
         <div class="kpi-icon">&#127970;</div>
       </div>
       <div class="kpi-change up">&#9650; +3 เดือนนี้</div>
@@ -438,7 +465,7 @@ tr:last-child td{border-bottom:none;}
         <div class="risk-item"><span>&#128994; Vendor ส่งมอบตรงเวลา</span><span class="risk-low" style="font-weight:700;">18 ราย</span></div>
         <div class="risk-item"><span>&#128992; Vendor มีปัญหาคุณภาพเล็กน้อย</span><span class="risk-med" style="font-weight:700;">5 ราย</span></div>
         <div class="risk-item"><span>&#128308; Vendor เสี่ยงผิดสัญญา</span><span class="risk-high" style="font-weight:700;">2 ราย</span></div>
-        <div class="risk-item"><span>&#128310; Vendor Blacklisted</span><span class="risk-high" style="font-weight:700;">1 ราย</span></div>
+        <div class="risk-item"><span>&#128310; ผู้ขายขึ้นบัญชีดำ</span><span class="risk-high" style="font-weight:700;">1 ราย</span></div>
       </div>
     </div>
 
@@ -482,10 +509,10 @@ tr:last-child td{border-bottom:none;}
       </select>
       <select id="filterStatus" onchange="filterVendors()">
         <option value="">ทุกสถานะ</option>
-        <option value="Active">Active</option>
-        <option value="Inactive">Inactive</option>
-        <option value="Blacklisted">Blacklisted</option>
-        <option value="Pending Verification">Pending Verification</option>
+        <option value="Active">ใช้งาน</option>
+        <option value="Inactive">ไม่ใช้งาน</option>
+        <option value="Blacklisted">บัญชีดำ</option>
+        <option value="Pending Verification">รอยืนยัน</option>
       </select>
       <select id="filterRating" onchange="filterVendors()">
         <option value="">ทุกคะแนน</option>
@@ -963,10 +990,10 @@ function renderTable(){
       <td>${v.contact}</td>
       <td>${v.phone}</td>
       <td><span class="badge ${catColors[v.category]||'badge-muted'}">${v.category}</span></td>
-      <td><span class="status ${statusCls}">${v.status==='Pending Verification'?'Pending':v.status}</span></td>
+      <td><span class="status ${statusCls}">${v.status==='Active'?'ใช้งาน':v.status==='Inactive'?'ไม่ใช้งาน':v.status==='Blacklisted'?'บัญชีดำ':v.status==='Pending Verification'?'รอยืนยัน':v.status}</span></td>
       <td><span class="stars">${stars}</span></td>
       <td style="text-align:center;">${v.totalOrders}</td>
-      <td>Net ${v.paymentTerms}d</td>
+      <td>เครดิต ${v.paymentTerms} วัน</td>
       <td><div class="module-badges">${modBadges||'<span style="color:var(--muted);font-size:.65rem;">-</span>'}</div></td>
       <td>
         <button class="btn btn-xs btn-secondary" onclick="event.stopPropagation();openEdit(${v.id})">&#9998;</button>
@@ -1121,7 +1148,8 @@ function openDetail(id){
 
   // Badges
   const statusCls = v.status==='Active'?'status-active':v.status==='Inactive'?'status-inactive':v.status==='Blacklisted'?'status-blacklisted':'status-pending';
-  let badges = `<span class="status ${statusCls}">${v.status}</span>`;
+  const statusThaiMap = {'Active':'ใช้งาน','Inactive':'ไม่ใช้งาน','Blacklisted':'บัญชีดำ','Pending Verification':'รอยืนยัน'};
+  let badges = `<span class="status ${statusCls}">${statusThaiMap[v.status]||v.status}</span>`;
   v.modules.forEach(m=>{
     if(m==='quotation') badges += '<span class="badge badge-blue">Linked: Quotation</span>';
     if(m==='procurement') badges += '<span class="badge badge-purple">Linked: Procurement</span>';

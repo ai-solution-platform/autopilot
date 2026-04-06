@@ -913,6 +913,315 @@ body {
 
   </div><!-- end two-col -->
 
+  <!-- API Rate Limit Reset Countdown & Upgrade CTA -->
+  <div class="section-card fade-up" style="margin-bottom:16px;margin-top:24px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <div class="section-title">⏱ Rate Limit Reset Countdown</div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="font-size:.72rem;color:var(--muted);">รีเซ็ตใน: <span id="rateLimitCountdown" style="font-weight:800;color:var(--blue);font-size:.85rem;">00:47</span></div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;">
+      <div style="padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg2);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <span style="font-size:.72rem;color:var(--muted);font-weight:600;">Thai OCR</span>
+          <span style="font-size:.65rem;font-weight:700;color:var(--green);">720/1K</span>
+        </div>
+        <div style="height:8px;border-radius:4px;background:var(--bg3);overflow:hidden;margin-bottom:4px;"><div style="width:72%;height:100%;background:var(--green);border-radius:4px;transition:width 1s;"></div></div>
+        <div style="font-size:.6rem;color:var(--muted);">รีเซ็ตใน <span class="countdown-val">47</span> วินาที</div>
+      </div>
+      <div style="padding:12px;border:1px solid rgba(220,38,38,0.3);border-radius:var(--radius-sm);background:var(--bg2);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <span style="font-size:.72rem;color:var(--muted);font-weight:600;">Passport OCR</span>
+          <span style="font-size:.65rem;font-weight:700;color:var(--red);">940/1K</span>
+        </div>
+        <div style="height:8px;border-radius:4px;background:var(--bg3);overflow:hidden;margin-bottom:4px;"><div style="width:94%;height:100%;background:var(--red);border-radius:4px;transition:width 1s;animation:pulse 2s infinite;"></div></div>
+        <div style="font-size:.6rem;color:var(--red);font-weight:600;">ใกล้ถึงขีดจำกัด!</div>
+      </div>
+      <div style="padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg2);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <span style="font-size:.72rem;color:var(--muted);font-weight:600;">eKYC</span>
+          <span style="font-size:.65rem;font-weight:700;color:var(--orange);">810/1K</span>
+        </div>
+        <div style="height:8px;border-radius:4px;background:var(--bg3);overflow:hidden;margin-bottom:4px;"><div style="width:81%;height:100%;background:var(--orange);border-radius:4px;transition:width 1s;"></div></div>
+        <div style="font-size:.6rem;color:var(--muted);">รีเซ็ตใน <span class="countdown-val">47</span> วินาที</div>
+      </div>
+      <div style="padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg2);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <span style="font-size:.72rem;color:var(--muted);font-weight:600;">Google Vision</span>
+          <span style="font-size:.65rem;font-weight:700;color:var(--blue);">580/1K</span>
+        </div>
+        <div style="height:8px;border-radius:4px;background:var(--bg3);overflow:hidden;margin-bottom:4px;"><div style="width:58%;height:100%;background:var(--blue);border-radius:4px;transition:width 1s;"></div></div>
+        <div style="font-size:.6rem;color:var(--muted);">รีเซ็ตใน <span class="countdown-val">47</span> วินาที</div>
+      </div>
+    </div>
+    <!-- Upgrade CTA -->
+    <div style="padding:14px 18px;background:linear-gradient(135deg,rgba(124,58,237,0.08),rgba(37,99,235,0.08));border:1px solid rgba(124,58,237,0.2);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:space-between;">
+      <div>
+        <div style="font-weight:700;font-size:.82rem;color:var(--purple);">Passport OCR ใกล้ถึงขีดจำกัด (94%)</div>
+        <div style="font-size:.68rem;color:var(--text-dim);">อัปเกรดเป็นแพลน Enterprise เพื่อเพิ่มโควต้าเป็น 10,000 req/min</div>
+      </div>
+      <button style="padding:8px 20px;background:linear-gradient(135deg,#2563EB,#7C3AED);color:white;border:none;border-radius:var(--radius-sm);font-size:.72rem;font-weight:700;cursor:pointer;font-family:inherit;">อัปเกรดแพลน</button>
+    </div>
+  </div>
+
+  <!-- Response Time Histogram -->
+  <div class="section-card fade-up" style="margin-bottom:16px;">
+    <div class="section-title">📊 Response Time Distribution (Histogram)</div>
+    <div style="height:160px;">
+      <svg viewBox="0 0 700 140" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+        <line x1="50" y1="120" x2="680" y2="120" stroke="var(--border)" stroke-width="0.5"/>
+        <line x1="50" y1="80" x2="680" y2="80" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3"/>
+        <line x1="50" y1="40" x2="680" y2="40" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3"/>
+        <text x="45" y="43" text-anchor="end" fill="var(--muted)" font-size="8">40%</text>
+        <text x="45" y="83" text-anchor="end" fill="var(--muted)" font-size="8">20%</text>
+        <text x="45" y="123" text-anchor="end" fill="var(--muted)" font-size="8">0%</text>
+        <rect x="80" y="88" width="80" height="32" rx="3" fill="#059669" opacity="0.8"/>
+        <rect x="180" y="48" width="80" height="72" rx="3" fill="#2563EB" opacity="0.8"/>
+        <rect x="280" y="28" width="80" height="92" rx="3" fill="#2563EB"/>
+        <rect x="380" y="68" width="80" height="52" rx="3" fill="#D97706" opacity="0.8"/>
+        <rect x="480" y="96" width="80" height="24" rx="3" fill="#EA580C" opacity="0.8"/>
+        <rect x="580" y="108" width="80" height="12" rx="3" fill="#DC2626" opacity="0.8"/>
+        <text x="120" y="83" text-anchor="middle" fill="var(--text)" font-size="9" font-weight="700">16%</text>
+        <text x="220" y="43" text-anchor="middle" fill="white" font-size="9" font-weight="700">36%</text>
+        <text x="320" y="23" text-anchor="middle" fill="var(--blue)" font-size="9" font-weight="700">46%</text>
+        <text x="420" y="63" text-anchor="middle" fill="var(--text)" font-size="9" font-weight="700">26%</text>
+        <text x="520" y="91" text-anchor="middle" fill="var(--text)" font-size="9" font-weight="700">12%</text>
+        <text x="620" y="103" text-anchor="middle" fill="var(--text)" font-size="9" font-weight="700">6%</text>
+        <text x="120" y="134" text-anchor="middle" fill="var(--muted)" font-size="8">&lt;50ms</text>
+        <text x="220" y="134" text-anchor="middle" fill="var(--muted)" font-size="8">50-100ms</text>
+        <text x="320" y="134" text-anchor="middle" fill="var(--muted)" font-size="8">100-200ms</text>
+        <text x="420" y="134" text-anchor="middle" fill="var(--muted)" font-size="8">200-500ms</text>
+        <text x="520" y="134" text-anchor="middle" fill="var(--muted)" font-size="8">500ms-1s</text>
+        <text x="620" y="134" text-anchor="middle" fill="var(--muted)" font-size="8">&gt;1s</text>
+      </svg>
+    </div>
+    <div style="text-align:center;font-size:.68rem;color:var(--text-dim);margin-top:4px;">82% ของ API calls ตอบกลับภายใน 200ms | p50: 112ms | p95: 456ms | p99: 890ms</div>
+  </div>
+
+  <!-- Webhook Monitoring -->
+  <div class="section-card fade-up" style="margin-bottom:16px;">
+    <div class="section-title">🔌 Webhook Monitoring</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;">
+      <div style="text-align:center;padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg2);">
+        <div style="font-size:.65rem;color:var(--muted);">Active Webhooks</div>
+        <div style="font-size:1.4rem;font-weight:800;color:var(--blue);">6</div>
+      </div>
+      <div style="text-align:center;padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg2);">
+        <div style="font-size:.65rem;color:var(--muted);">Delivery Success</div>
+        <div style="font-size:1.4rem;font-weight:800;color:var(--green);">98.7%</div>
+      </div>
+      <div style="text-align:center;padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg2);">
+        <div style="font-size:.65rem;color:var(--muted);">Failed (Retry Queue)</div>
+        <div style="font-size:1.4rem;font-weight:800;color:var(--red);">3</div>
+      </div>
+    </div>
+    <table class="data-table" style="margin-bottom:16px;">
+      <thead>
+        <tr><th>Webhook URL</th><th>Event</th><th>สถานะ</th><th>สำเร็จ</th><th>ล้มเหลว</th><th>Last Delivery</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code style="font-size:.65rem;background:rgba(8,145,178,0.1);color:var(--cyan);padding:2px 6px;border-radius:4px;">https://erp.company.com/hook</code></td>
+          <td style="font-size:.7rem;">invoice.created</td>
+          <td><span style="color:var(--green);font-weight:600;">Active</span></td>
+          <td style="font-weight:700;">1,234</td>
+          <td>2</td>
+          <td style="font-size:.68rem;color:var(--muted);">30 วินาทีที่แล้ว</td>
+        </tr>
+        <tr>
+          <td><code style="font-size:.65rem;background:rgba(8,145,178,0.1);color:var(--cyan);padding:2px 6px;border-radius:4px;">https://api.peakaccount.com/wh</code></td>
+          <td style="font-size:.7rem;">payment.received</td>
+          <td><span style="color:var(--orange);font-weight:600;">Retrying</span></td>
+          <td style="font-weight:700;">876</td>
+          <td style="color:var(--red);font-weight:700;">12</td>
+          <td style="font-size:.68rem;color:var(--orange);">retry 2/3</td>
+        </tr>
+        <tr>
+          <td><code style="font-size:.65rem;background:rgba(8,145,178,0.1);color:var(--cyan);padding:2px 6px;border-radius:4px;">https://dwh.company.com/ingest</code></td>
+          <td style="font-size:.7rem;">data.sync</td>
+          <td><span style="color:var(--green);font-weight:600;">Active</span></td>
+          <td style="font-weight:700;">3,456</td>
+          <td>0</td>
+          <td style="font-size:.68rem;color:var(--muted);">15 วินาทีที่แล้ว</td>
+        </tr>
+        <tr>
+          <td><code style="font-size:.65rem;background:rgba(8,145,178,0.1);color:var(--cyan);padding:2px 6px;border-radius:4px;">https://slack.com/api/hook/xyz</code></td>
+          <td style="font-size:.7rem;">error.alert</td>
+          <td><span style="color:var(--green);font-weight:600;">Active</span></td>
+          <td style="font-weight:700;">89</td>
+          <td>0</td>
+          <td style="font-size:.68rem;color:var(--muted);">5 นาทีที่แล้ว</td>
+        </tr>
+        <tr>
+          <td><code style="font-size:.65rem;background:rgba(8,145,178,0.1);color:var(--cyan);padding:2px 6px;border-radius:4px;">https://line.notify.bot/push</code></td>
+          <td style="font-size:.7rem;">ocr.completed</td>
+          <td><span style="color:var(--green);font-weight:600;">Active</span></td>
+          <td style="font-weight:700;">2,145</td>
+          <td>1</td>
+          <td style="font-size:.68rem;color:var(--muted);">1 นาทีที่แล้ว</td>
+        </tr>
+        <tr>
+          <td><code style="font-size:.65rem;background:rgba(8,145,178,0.1);color:var(--cyan);padding:2px 6px;border-radius:4px;">https://app.company.com/notify</code></td>
+          <td style="font-size:.7rem;">verification.done</td>
+          <td><span style="color:var(--red);font-weight:600;">Failed</span></td>
+          <td style="font-weight:700;">567</td>
+          <td style="color:var(--red);font-weight:700;">23</td>
+          <td style="font-size:.68rem;color:var(--red);">ล้มเหลว 8 นาที</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- Failed Retry Queue -->
+    <div style="padding:12px;background:var(--red-bg);border:1px solid rgba(220,38,38,0.2);border-radius:var(--radius-sm);">
+      <div style="font-weight:700;font-size:.75rem;color:var(--red);margin-bottom:8px;">🔄 Failed Webhook Retry Queue (3 รายการ)</div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--card-bg);border-radius:6px;font-size:.7rem;">
+          <div><strong>PEAK webhook</strong> — payment.received #4821</div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="color:var(--orange);font-weight:600;">Retry 2/3</span>
+            <button style="padding:3px 10px;border:1px solid var(--border);border-radius:4px;background:var(--bg2);font-size:.62rem;cursor:pointer;font-family:inherit;color:var(--blue);font-weight:600;" onclick="retryWebhook(this)">ลองใหม่</button>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--card-bg);border-radius:6px;font-size:.7rem;">
+          <div><strong>PEAK webhook</strong> — payment.received #4819</div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="color:var(--orange);font-weight:600;">Retry 3/3</span>
+            <button style="padding:3px 10px;border:1px solid var(--border);border-radius:4px;background:var(--bg2);font-size:.62rem;cursor:pointer;font-family:inherit;color:var(--blue);font-weight:600;" onclick="retryWebhook(this)">ลองใหม่</button>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--card-bg);border-radius:6px;font-size:.7rem;">
+          <div><strong>App notify</strong> — verification.done #V-3390</div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="color:var(--red);font-weight:600;">Failed</span>
+            <button style="padding:3px 10px;border:1px solid var(--border);border-radius:4px;background:var(--bg2);font-size:.62rem;cursor:pointer;font-family:inherit;color:var(--blue);font-weight:600;" onclick="retryWebhook(this)">ลองใหม่</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- API Key Management -->
+  <div class="section-card fade-up" style="margin-bottom:16px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <div class="section-title">🔑 API Key Management</div>
+      <button style="padding:6px 16px;background:linear-gradient(135deg,#2563EB,#7C3AED);color:white;border:none;border-radius:var(--radius-sm);font-size:.72rem;font-weight:700;cursor:pointer;font-family:inherit;" onclick="generateApiKey()">+ สร้าง Key ใหม่</button>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr><th>Key Name</th><th>API Key</th><th>สิทธิ์</th><th>Calls (30d)</th><th>สร้างเมื่อ</th><th>สถานะ</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Production</strong></td>
+          <td><code style="font-size:.65rem;background:var(--bg2);padding:3px 8px;border-radius:4px;color:var(--text-dim);">ap_prod_****3f8a</code></td>
+          <td><span style="font-size:.65rem;padding:2px 6px;background:rgba(5,150,105,0.15);color:var(--green);border-radius:4px;font-weight:600;">Full Access</span></td>
+          <td style="font-weight:700;">189,420</td>
+          <td style="font-size:.68rem;color:var(--muted);">15 ม.ค. 2569</td>
+          <td><span style="color:var(--green);font-weight:600;">Active</span></td>
+          <td>
+            <button style="padding:2px 8px;border:1px solid var(--border);border-radius:4px;background:var(--bg2);font-size:.6rem;cursor:pointer;font-family:inherit;color:var(--muted);margin-right:4px;" onclick="copyApiKey('ap_prod_xxxx3f8a')">คัดลอก</button>
+            <button style="padding:2px 8px;border:1px solid rgba(220,38,38,0.3);border-radius:4px;background:rgba(220,38,38,0.1);font-size:.6rem;cursor:pointer;font-family:inherit;color:var(--red);" onclick="revokeApiKey('Production')">เพิกถอน</button>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Staging</strong></td>
+          <td><code style="font-size:.65rem;background:var(--bg2);padding:3px 8px;border-radius:4px;color:var(--text-dim);">ap_stg_****7b2e</code></td>
+          <td><span style="font-size:.65rem;padding:2px 6px;background:rgba(37,99,235,0.15);color:var(--blue);border-radius:4px;font-weight:600;">Read/Write</span></td>
+          <td style="font-weight:700;">42,180</td>
+          <td style="font-size:.68rem;color:var(--muted);">20 ก.พ. 2569</td>
+          <td><span style="color:var(--green);font-weight:600;">Active</span></td>
+          <td>
+            <button style="padding:2px 8px;border:1px solid var(--border);border-radius:4px;background:var(--bg2);font-size:.6rem;cursor:pointer;font-family:inherit;color:var(--muted);margin-right:4px;" onclick="copyApiKey('ap_stg_xxxx7b2e')">คัดลอก</button>
+            <button style="padding:2px 8px;border:1px solid rgba(220,38,38,0.3);border-radius:4px;background:rgba(220,38,38,0.1);font-size:.6rem;cursor:pointer;font-family:inherit;color:var(--red);" onclick="revokeApiKey('Staging')">เพิกถอน</button>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Testing</strong></td>
+          <td><code style="font-size:.65rem;background:var(--bg2);padding:3px 8px;border-radius:4px;color:var(--text-dim);">ap_test_****1d9c</code></td>
+          <td><span style="font-size:.65rem;padding:2px 6px;background:rgba(217,119,6,0.15);color:var(--orange);border-radius:4px;font-weight:600;">Read Only</span></td>
+          <td style="font-weight:700;">16,230</td>
+          <td style="font-size:.68rem;color:var(--muted);">1 มี.ค. 2569</td>
+          <td><span style="color:var(--green);font-weight:600;">Active</span></td>
+          <td>
+            <button style="padding:2px 8px;border:1px solid var(--border);border-radius:4px;background:var(--bg2);font-size:.6rem;cursor:pointer;font-family:inherit;color:var(--muted);margin-right:4px;" onclick="copyApiKey('ap_test_xxxx1d9c')">คัดลอก</button>
+            <button style="padding:2px 8px;border:1px solid rgba(220,38,38,0.3);border-radius:4px;background:rgba(220,38,38,0.1);font-size:.6rem;cursor:pointer;font-family:inherit;color:var(--red);" onclick="revokeApiKey('Testing')">เพิกถอน</button>
+          </td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--muted);">Partner (revoked)</strong></td>
+          <td><code style="font-size:.65rem;background:var(--bg2);padding:3px 8px;border-radius:4px;color:var(--text-dim);text-decoration:line-through;">ap_part_****9e4f</code></td>
+          <td><span style="font-size:.65rem;padding:2px 6px;background:var(--bg2);color:var(--muted);border-radius:4px;font-weight:600;">Read/Write</span></td>
+          <td style="color:var(--muted);">8,340</td>
+          <td style="font-size:.68rem;color:var(--muted);">10 ธ.ค. 2568</td>
+          <td><span style="color:var(--red);font-weight:600;">Revoked</span></td>
+          <td><span style="font-size:.6rem;color:var(--muted);">5 มี.ค. 2569</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="margin-top:12px;padding:12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);">
+      <div style="font-weight:700;font-size:.75rem;margin-bottom:8px;">📊 Key Usage Stats (30 วัน)</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+        <div style="text-align:center;padding:8px;background:var(--card-bg);border-radius:6px;">
+          <div style="font-size:.62rem;color:var(--muted);">Total Calls</div>
+          <div style="font-size:1rem;font-weight:800;color:var(--blue);">247,830</div>
+        </div>
+        <div style="text-align:center;padding:8px;background:var(--card-bg);border-radius:6px;">
+          <div style="font-size:.62rem;color:var(--muted);">Active Keys</div>
+          <div style="font-size:1rem;font-weight:800;color:var(--green);">3</div>
+        </div>
+        <div style="text-align:center;padding:8px;background:var(--card-bg);border-radius:6px;">
+          <div style="font-size:.62rem;color:var(--muted);">Revoked Keys</div>
+          <div style="font-size:1rem;font-weight:800;color:var(--red);">1</div>
+        </div>
+        <div style="text-align:center;padding:8px;background:var(--card-bg);border-radius:6px;">
+          <div style="font-size:.62rem;color:var(--muted);">Avg Calls/Key</div>
+          <div style="font-size:1rem;font-weight:800;color:var(--purple);">82,610</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Enhanced Error Trend — Granular Hourly with Per-Connector Lines -->
+  <div class="section-card fade-up" style="margin-bottom:16px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+      <div class="section-title">📉 Error Trend (รายชั่วโมง) — แยกตาม Connector</div>
+      <div style="display:flex;gap:6px;">
+        <button style="padding:3px 10px;font-size:.62rem;border:1px solid var(--blue);border-radius:4px;background:rgba(37,99,235,0.15);color:var(--blue);cursor:pointer;font-weight:600;font-family:inherit;">24h</button>
+        <button style="padding:3px 10px;font-size:.62rem;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--muted);cursor:pointer;font-family:inherit;">7d</button>
+        <button style="padding:3px 10px;font-size:.62rem;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--muted);cursor:pointer;font-family:inherit;">30d</button>
+      </div>
+    </div>
+    <div style="height:160px;">
+      <svg viewBox="0 0 700 140" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+        <line x1="40" y1="120" x2="680" y2="120" stroke="var(--border)" stroke-width="0.5"/>
+        <line x1="40" y1="80" x2="680" y2="80" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3"/>
+        <line x1="40" y1="40" x2="680" y2="40" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3"/>
+        <text x="35" y="43" text-anchor="end" fill="var(--muted)" font-size="7">20</text>
+        <text x="35" y="83" text-anchor="end" fill="var(--muted)" font-size="7">10</text>
+        <text x="35" y="123" text-anchor="end" fill="var(--muted)" font-size="7">0</text>
+        <!-- Passport OCR errors (red) -->
+        <polyline points="60,60 87,55 114,52 141,58 168,50 195,48 222,54 249,60 276,56 303,52 330,58 357,62 384,65 411,58 438,55 465,60 492,65 519,68 546,72 573,70 600,68 627,65 654,62 680,58" fill="none" stroke="#DC2626" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- eKYC errors (orange) -->
+        <polyline points="60,90 87,88 114,92 141,86 168,84 195,88 222,90 249,86 276,82 303,88 330,92 357,88 384,85 411,90 438,92 465,88 492,85 519,90 546,92 573,88 600,85 627,88 654,90 680,88" fill="none" stroke="#EA580C" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- Gov Doc errors (yellow) -->
+        <polyline points="60,100 87,98 114,102 141,96 168,98 195,100 222,96 249,98 276,100 303,96 330,98 357,100 384,98 411,96 438,100 465,98 492,96 519,100 546,98 573,100 600,98 627,96 654,98 680,100" fill="none" stroke="#D97706" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- X labels -->
+        <text x="60" y="134" text-anchor="middle" fill="var(--muted)" font-size="7">00:00</text>
+        <text x="168" y="134" text-anchor="middle" fill="var(--muted)" font-size="7">04:00</text>
+        <text x="276" y="134" text-anchor="middle" fill="var(--muted)" font-size="7">08:00</text>
+        <text x="384" y="134" text-anchor="middle" fill="var(--muted)" font-size="7">12:00</text>
+        <text x="492" y="134" text-anchor="middle" fill="var(--muted)" font-size="7">16:00</text>
+        <text x="600" y="134" text-anchor="middle" fill="var(--muted)" font-size="7">20:00</text>
+        <text x="680" y="134" text-anchor="middle" fill="var(--muted)" font-size="7">23:00</text>
+      </svg>
+    </div>
+    <div style="display:flex;gap:16px;justify-content:center;margin-top:6px;font-size:.68rem;">
+      <div style="display:flex;align-items:center;gap:4px;"><span style="width:12px;height:3px;background:#DC2626;border-radius:2px;display:inline-block;"></span> Passport OCR</div>
+      <div style="display:flex;align-items:center;gap:4px;"><span style="width:12px;height:3px;background:#EA580C;border-radius:2px;display:inline-block;"></span> eKYC</div>
+      <div style="display:flex;align-items:center;gap:4px;"><span style="width:12px;height:3px;background:#D97706;border-radius:2px;display:inline-block;"></span> Gov Doc Parser</div>
+    </div>
+  </div>
+
   <!-- Connection Health Status Section -->
   <div class="section-card fade-up" style="margin-top:24px;">
     <div class="section-title">🟢 สถานะการเชื่อมต่อ (Connection Health)</div>
@@ -1254,6 +1563,63 @@ if(localStorage.getItem('darkMode') === 'true'){
     var t = document.querySelector('.dark-toggle');
     if(t) t.textContent = '\u2600\uFE0F';
   });
+}
+
+// =======================
+// Rate Limit Countdown
+// =======================
+var rateLimitSeconds = 47;
+function updateRateLimitCountdown() {
+  rateLimitSeconds--;
+  if (rateLimitSeconds <= 0) rateLimitSeconds = 60;
+  var mins = Math.floor(rateLimitSeconds / 60);
+  var secs = rateLimitSeconds % 60;
+  var display = (mins < 10 ? '0' : '') + mins + ':' + (secs < 10 ? '0' : '') + secs;
+  var el = document.getElementById('rateLimitCountdown');
+  if (el) el.textContent = display;
+  document.querySelectorAll('.countdown-val').forEach(function(s) { s.textContent = rateLimitSeconds; });
+}
+setInterval(updateRateLimitCountdown, 1000);
+
+// =======================
+// Real-time Counter Simulation
+// =======================
+setInterval(function() {
+  var cps = document.getElementById('callsPerSec');
+  if (cps) cps.textContent = Math.floor(35 + Math.random() * 15);
+  var sr = document.getElementById('successRate');
+  if (sr) sr.textContent = (98.5 + Math.random() * 1.2).toFixed(1) + '%';
+}, 2000);
+
+// =======================
+// API Key Management
+// =======================
+function generateApiKey() {
+  var name = prompt('ชื่อ API Key ใหม่:');
+  if (name) {
+    alert('API Key "' + name + '" ถูกสร้างเรียบร้อย!\n\nKey: ap_new_' + Math.random().toString(36).substr(2,8) + '\n\nกรุณาคัดลอก Key นี้ไว้ คุณจะไม่สามารถดู Key เต็มได้อีก');
+  }
+}
+
+function copyApiKey(key) {
+  navigator.clipboard.writeText(key).then(function() {
+    alert('คัดลอก API Key แล้ว!');
+  });
+}
+
+function revokeApiKey(name) {
+  if (confirm('ต้องการเพิกถอน API Key "' + name + '" หรือไม่?\n\nการดำเนินการนี้ไม่สามารถย้อนกลับได้ และ API calls ที่ใช้ Key นี้จะหยุดทำงานทันที')) {
+    alert('API Key "' + name + '" ถูกเพิกถอนเรียบร้อย');
+  }
+}
+
+function retryWebhook(btn) {
+  btn.textContent = 'กำลังลอง...';
+  btn.style.color = 'var(--orange)';
+  setTimeout(function() {
+    btn.textContent = 'สำเร็จ!';
+    btn.style.color = 'var(--green)';
+  }, 1500);
 }
 </script>
 

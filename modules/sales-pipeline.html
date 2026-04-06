@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>Sales Pipeline | Autopilot v2 by ANTS</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap');
@@ -105,7 +105,33 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
 @keyframes toastIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 @media(max-width:1200px){.kanban-board{grid-template-columns:repeat(3,1fr);}.grid-2{grid-template-columns:1fr;}}
-@media(max-width:768px){.kpi-grid{grid-template-columns:repeat(2,1fr);}.kanban-board{grid-template-columns:1fr 1fr;}}
+@media(max-width:768px){
+  .container{padding:16px;}
+  .kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .kpi-card{padding:12px;}
+  .kpi-value{font-size:1.1rem;}
+  .kanban-board{grid-template-columns:1fr 1fr;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .kanban-col{min-width:200px;}
+  .card{padding:16px;}
+  .card-header{flex-wrap:wrap;gap:8px;}
+  .filter-bar{flex-wrap:wrap;}
+  .filter-btn{padding:6px 12px;font-size:.75rem;}
+  .header{padding:10px 16px;flex-wrap:wrap;gap:8px;}
+  .wl-row{flex-wrap:wrap;}
+  .wl-label{min-width:60px;font-size:.72rem;}
+  .timeline-item{padding:8px 0;}
+  .deal-card{padding:10px;}
+  .deal-card .dc-value{font-size:.78rem;}
+}
+@media(max-width:480px){
+  .container{padding:12px;}
+  .kpi-grid{grid-template-columns:1fr;}
+  .kanban-board{grid-template-columns:1fr;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;}
+  .kanban-col{min-width:280px;scroll-snap-align:start;}
+  .kpi-value{font-size:.95rem;}
+  .kpi-label{font-size:.65rem;}
+  .filter-btn{flex:1;min-width:0;justify-content:center;}
+}
 </style>
 </head>
 <body>

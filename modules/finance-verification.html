@@ -214,10 +214,10 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 <nav class="header">
     <div class="header-brand">
         <div class="logo">A2</div>
-        <h1>Verification Queue</h1>
+        <h1>คิวตรวจสอบเอกสาร</h1>
     </div>
     <div class="header-breadcrumb">
-        <a href="#">Autopilot v2</a> / <a href="finance-cases.html">Finance Doc Hub</a> / <span style="color:var(--text);font-weight:500;">Verification Queue</span>
+        <a href="#">Autopilot v2</a> / <a href="finance-cases.html">Finance Doc Hub</a> / <span style="color:var(--text);font-weight:500;">คิวตรวจสอบ</span>
     </div>
     <div class="header-user">
         <span style="font-size:0.78rem;color:var(--text2);">&#128994; ปรีชา ม. | Senior Officer | 6 เม.ย. พ.ศ. 2569</span>
@@ -249,42 +249,42 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
         <div class="stat-card">
             <div class="stat-icon" style="background:var(--red-bg);">&#128680;</div>
             <div class="stat-value" style="color:var(--red);">2</div>
-            <div class="stat-label">ตรวจไม่ผ่าน / Escalated</div>
+            <div class="stat-label">ตรวจไม่ผ่าน / ส่งต่อ</div>
             <div class="stat-sub">ต้อง Senior ตรวจ</div>
         </div>
     </div>
 
     <!-- 5 Pre-built Verification Checklist Templates -->
-    <div style="font-size:0.72rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-bottom:10px;">&#128203; Checklist Templates (เลือกแม่แบบตรวจสอบ)</div>
+    <div style="font-size:0.72rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-bottom:10px;">&#128203; แม่แบบรายการตรวจสอบ (เลือกแม่แบบตรวจสอบ)</div>
     <div class="template-selector">
         <div class="template-card active" onclick="selectTemplate(this,'invoice')">
             <div class="tc-badge" style="background:var(--blue-bg);color:var(--blue);">8 รายการ</div>
             <div class="tc-icon">&#128203;</div>
-            <div class="tc-name">Invoice Review</div>
+            <div class="tc-name">ตรวจใบแจ้งหนี้</div>
             <div class="tc-items">ตรวจใบแจ้งหนี้</div>
         </div>
         <div class="template-card" onclick="selectTemplate(this,'tax')">
             <div class="tc-badge" style="background:var(--orange-bg);color:var(--orange);">10 รายการ</div>
             <div class="tc-icon">&#128176;</div>
-            <div class="tc-name">Tax Document</div>
+            <div class="tc-name">เอกสารภาษี</div>
             <div class="tc-items">ตรวจเอกสารภาษี</div>
         </div>
         <div class="template-card" onclick="selectTemplate(this,'payment')">
             <div class="tc-badge" style="background:var(--green-bg);color:var(--green);">7 รายการ</div>
             <div class="tc-icon">&#128179;</div>
-            <div class="tc-name">Payment Voucher</div>
+            <div class="tc-name">ใบสำคัญจ่าย</div>
             <div class="tc-items">ตรวจใบสำคัญจ่าย</div>
         </div>
         <div class="template-card" onclick="selectTemplate(this,'receipt')">
             <div class="tc-badge" style="background:var(--purple-bg);color:var(--purple);">6 รายการ</div>
             <div class="tc-icon">&#129534;</div>
-            <div class="tc-name">Receipt Validation</div>
+            <div class="tc-name">ตรวจใบเสร็จ</div>
             <div class="tc-items">ตรวจใบเสร็จ</div>
         </div>
         <div class="template-card" onclick="selectTemplate(this,'contract')">
             <div class="tc-badge" style="background:rgba(8,145,178,0.12);color:var(--cyan);">9 รายการ</div>
             <div class="tc-icon">&#128221;</div>
-            <div class="tc-name">Contract Review</div>
+            <div class="tc-name">ตรวจสัญญา</div>
             <div class="tc-items">ตรวจสัญญา</div>
         </div>
     </div>
@@ -295,7 +295,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
             <button class="filter-tab active" onclick="filterQueue(this,'all')">&#128203; ทั้งหมด <span class="count">12</span></button>
             <button class="filter-tab" onclick="filterQueue(this,'my')">&#128100; ของฉัน <span class="count">4</span></button>
             <button class="filter-tab" onclick="filterQueue(this,'unassigned')">&#10067; ยังไม่มีคนรับ <span class="count">2</span></button>
-            <button class="filter-tab" onclick="filterQueue(this,'escalated')">&#128680; Escalated <span class="count" style="background:var(--red);color:#fff;">1</span></button>
+            <button class="filter-tab" onclick="filterQueue(this,'escalated')">&#128680; ส่งต่อ <span class="count" style="background:var(--red);color:#fff;">1</span></button>
         </div>
     </div>
 
@@ -304,7 +304,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
         <div>
             <div class="queue-card">
                 <div class="queue-header">
-                    <h3>&#128203; Verification Queue</h3>
+                    <h3>&#128203; คิวตรวจสอบเอกสาร</h3>
                     <span style="font-size:0.72rem;color:var(--muted);">&#128338; อัปเดตล่าสุด: 14:32 น.</span>
                 </div>
                 <table class="queue-table">
@@ -315,7 +315,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
                             <th>ประเภท</th>
                             <th>ผู้ตรวจ</th>
                             <th>สถานะ</th>
-                            <th>Checklist</th>
+                            <th>รายการตรวจ</th>
                             <th>ดำเนินการ</th>
                         </tr>
                     </thead>
@@ -381,7 +381,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
                             <td style="font-size:0.72rem;color:var(--blue);font-weight:600;">FN-0840</td>
                             <td><span class="doc-type-badge badge-invoice">&#128203; Invoice</span></td>
                             <td><div class="verifier-cell"><div class="v-avatar" style="background:#DC2626;">&#3608;&#3611;</div><span style="font-size:0.72rem;">ธนากร ป.</span></div></td>
-                            <td><span class="status-pill status-escalated">&#128680; Escalated</span></td>
+                            <td><span class="status-pill status-escalated">&#128680; ส่งต่อ</span></td>
                             <td>
                                 <div class="completion-bar">
                                     <div class="cb-bar"><div class="cb-fill" style="width:88%;background:var(--red);"></div></div>
@@ -439,7 +439,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
             <!-- Verification Checklist (from selected template) -->
             <div class="checklist-panel" id="checklistPanel">
-                <div class="card-title">&#9989; Invoice Review Checklist</div>
+                <div class="card-title">&#9989; รายการตรวจสอบใบแจ้งหนี้</div>
                 <div class="checklist-progress">
                     <span class="progress-text" id="progressText">5/8 (62%)</span>
                     <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:62%;"></div></div>

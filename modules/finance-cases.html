@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>Finance Doc Hub | Document Dashboard | Autopilot v2 by ANTS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -262,11 +262,31 @@ tbody tr:hover{background:var(--blue-bg);}
   .charts-grid,.bottom-grid,.summary-grid{grid-template-columns:1fr;}
   .closing-steps{grid-template-columns:repeat(3,1fr);}
 }
+@media(max-width:768px){
+  .main-content{padding:16px;}
+  .top-nav{padding:10px 16px;}
+  .top-nav .breadcrumb{display:none;}
+  .user-context{flex-direction:column;align-items:flex-start;padding:10px 14px;}
+  .user-context .team-info{flex-wrap:wrap;gap:12px;}
+  .kpi-card{padding:12px 14px;}
+  .kpi-card .kpi-value{font-size:1.4rem;}
+  .toolbar-row{flex-direction:column;align-items:stretch;}
+  .toolbar-actions{width:100%;justify-content:flex-start;flex-wrap:wrap;}
+  .view-tabs{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .filter-chips{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap;padding-bottom:4px;}
+  .filter-chip{flex-shrink:0;}
+  .btn{padding:7px 14px;font-size:.78rem;}
+  .btn-primary{width:100%;justify-content:center;}
+  select,input{max-width:100%;}
+}
 @media(max-width:640px){
   .kpi-grid,.doc-group-grid{grid-template-columns:1fr;}
   .top-nav{padding:10px 16px;}
-  .main-content{padding:16px;}
+  .main-content{padding:12px;}
   .closing-steps{grid-template-columns:1fr 1fr;}
+  .kpi-card .kpi-value{font-size:1.2rem;}
+  .kpi-card .kpi-label{font-size:.7rem;}
+  .btn-sm{padding:5px 10px;font-size:.7rem;}
 }
 @media print{
   .dark-toggle,.top-nav .notif-btn,.toolbar-actions,.batch-toolbar{display:none !important;}
@@ -275,7 +295,7 @@ tbody tr:hover{background:var(--blue-bg);}
 </style>
 </head>
 <body>
-<button class="dark-toggle" onclick="toggleDark()" title="Toggle Dark Mode">&#9789;</button>
+<button class="dark-toggle" onclick="toggleDark()" title="สลับโหมดมืด/สว่าง">&#9789;</button>
 
 <!-- Top Nav -->
 <nav class="top-nav">
@@ -286,7 +306,7 @@ tbody tr:hover{background:var(--blue-bg);}
   <div class="breadcrumb">
     <a href="#">Autopilot v2</a><span class="sep">/</span>
     <a href="#">Finance Doc Hub</a><span class="sep">/</span>
-    <strong style="color:var(--text)">Dashboard</strong>
+    <strong style="color:var(--text)">แดชบอร์ด</strong>
   </div>
   <div class="user-area">
     <button class="notif-btn" title="การแจ้งเตือน">&#128276;<span class="notif-badge">7</span></button>
@@ -301,7 +321,7 @@ tbody tr:hover{background:var(--blue-bg);}
       <div class="avatar-lg">SP</div>
       <div class="info">
         <h2>สวัสดีครับ สมปอง</h2>
-        <p>Finance Operations A | Senior Officer | 6 เม.ย. พ.ศ. 2569</p>
+        <p>ฝ่ายปฏิบัติการการเงิน A | เจ้าหน้าที่อาวุโส | 6 เม.ย. พ.ศ. 2569</p>
       </div>
     </div>
     <div class="team-info">
@@ -351,7 +371,7 @@ tbody tr:hover{background:var(--blue-bg);}
     <div class="view-tabs">
       <button class="view-tab active" onclick="switchView(this,'list')">&#128196; รายการ <span class="count">47</span></button>
       <button class="view-tab" onclick="switchView(this,'group')">&#128194; จัดกลุ่ม</button>
-      <button class="view-tab" onclick="switchView(this,'kanban')">&#128202; Kanban</button>
+      <button class="view-tab" onclick="switchView(this,'kanban')">&#128202; บอร์ดคัมบัง</button>
     </div>
     <div class="toolbar-actions">
       <button class="btn btn-outline btn-sm" onclick="toggleClosing()">&#128197; ปิดบัญชีรายเดือน</button>
@@ -580,8 +600,8 @@ tbody tr:hover{background:var(--blue-bg);}
       <div class="card-header">
         <h3>&#128100; งานต่อเจ้าหน้าที่</h3>
       </div>
-      <div class="officer-row"><div class="officer-avatar" style="background:#2563EB;">ปม</div><div class="officer-info"><div class="officer-name">ปรีชา ม.</div><div class="officer-role">Senior Officer</div></div><div class="officer-count">12</div></div>
-      <div class="officer-row"><div class="officer-avatar" style="background:#7C3AED;">สก</div><div class="officer-info"><div class="officer-name">สมศักดิ์ ก.</div><div class="officer-role">Senior Officer</div></div><div class="officer-count">10</div></div>
+      <div class="officer-row"><div class="officer-avatar" style="background:#2563EB;">ปม</div><div class="officer-info"><div class="officer-name">ปรีชา ม.</div><div class="officer-role">เจ้าหน้าที่อาวุโส</div></div><div class="officer-count">12</div></div>
+      <div class="officer-row"><div class="officer-avatar" style="background:#7C3AED;">สก</div><div class="officer-info"><div class="officer-name">สมศักดิ์ ก.</div><div class="officer-role">เจ้าหน้าที่อาวุโส</div></div><div class="officer-count">10</div></div>
       <div class="officer-row"><div class="officer-avatar" style="background:#059669;">วพ</div><div class="officer-info"><div class="officer-name">วิภา พ.</div><div class="officer-role">Officer</div></div><div class="officer-count">9</div></div>
       <div class="officer-row"><div class="officer-avatar" style="background:#D97706;">นส</div><div class="officer-info"><div class="officer-name">นิตยา ส.</div><div class="officer-role">Officer</div></div><div class="officer-count">8</div></div>
       <div class="officer-row"><div class="officer-avatar" style="background:#DC2626;">ธป</div><div class="officer-info"><div class="officer-name">ธนากร ป.</div><div class="officer-role">Junior Officer</div></div><div class="officer-count">8</div></div>
@@ -666,7 +686,7 @@ tbody tr:hover{background:var(--blue-bg);}
     <div style="font-size:0.85rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;">&#129302; คำแนะนำจาก AI วิเคราะห์</div>
     <div class="ai-insight-item">
       <div class="ai-insight-icon">&#128680;</div>
-      <div class="ai-insight-text"><strong>เคส FN-2569-0845 เกินกำหนด SLA 2 ชั่วโมง</strong> - แนะนำให้ escalate ถึง Senior Officer เพื่อเร่งตรวจสอบใบกำกับภาษีอิเล็กทรอนิกส์ตามรูปแบบกรมสรรพากร<br><span style="font-size:0.6rem;padding:1px 6px;border-radius:4px;font-weight:600;background:var(--red-bg);color:var(--red);margin-top:4px;display:inline-block;">เร่งด่วน</span></div>
+      <div class="ai-insight-text"><strong>เคส FN-2569-0845 เกินกำหนด SLA 2 ชั่วโมง</strong> - แนะนำให้ escalate ถึง เจ้าหน้าที่อาวุโส เพื่อเร่งตรวจสอบใบกำกับภาษีอิเล็กทรอนิกส์ตามรูปแบบกรมสรรพากร<br><span style="font-size:0.6rem;padding:1px 6px;border-radius:4px;font-weight:600;background:var(--red-bg);color:var(--red);margin-top:4px;display:inline-block;">เร่งด่วน</span></div>
     </div>
     <div class="ai-insight-item">
       <div class="ai-insight-icon">&#128200;</div>

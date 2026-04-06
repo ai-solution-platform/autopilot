@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>Team Analytics | Finance Doc Hub | Autopilot v2 by ANTS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -131,10 +131,32 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
 svg text{font-family:'Inter','Noto Sans Thai',sans-serif;}
 
+@media(max-width:768px){
+  .dashboard{padding:16px;}
+  .header{padding:10px 16px;}
+  .header-breadcrumb{display:none;}
+  .kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .kpi-card{padding:12px 14px;}
+  .kpi-value{font-size:1.2rem;}
+  .panel{padding:14px;}
+  .panel-title{font-size:.8rem;}
+  .chart-container{height:200px;}
+  .chart-container-sm{height:160px;}
+  .realtime-bar{flex-direction:column;align-items:flex-start;gap:8px;}
+  .realtime-right{width:100%;flex-wrap:wrap;}
+  .realtime-right button{flex:1;justify-content:center;}
+  .data-table{font-size:.75rem;}
+  .data-table thead th,.data-table tbody td{padding:8px;}
+  .process-stat{flex-wrap:wrap;}
+  .process-bar-wrap{width:80px;}
+}
 @media(max-width:640px){
   .kpi-grid{grid-template-columns:1fr;}
-  .dashboard{padding:16px;}
+  .dashboard{padding:12px;}
   .heatmap-grid{grid-template-columns:80px repeat(5,1fr);}
+  .kpi-value{font-size:1rem;}
+  .kpi-label{font-size:.62rem;}
+  .chart-container{height:180px;}
 }
 @media print{
   .dark-toggle,.export-bar,.realtime-bar{display:none !important;}

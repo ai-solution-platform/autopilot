@@ -100,7 +100,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .template-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;cursor:pointer;transition:all .2s;}
 .template-card:hover{border-color:var(--blue);background:var(--blue-bg);}
 .template-card.matched{border-color:var(--green);background:var(--green-bg);}
-.template-card.matched::after{content:'MATCHED';position:absolute;top:6px;right:6px;font-size:.55rem;font-weight:800;background:var(--green);color:#fff;padding:2px 6px;border-radius:4px;}
+.template-card.matched::after{content:'ตรงกัน';position:absolute;top:6px;right:6px;font-size:.55rem;font-weight:800;background:var(--green);color:#fff;padding:2px 6px;border-radius:4px;}
 .template-card{position:relative;}
 .template-logo{font-size:1.5rem;margin-bottom:6px;}
 .template-name{font-size:.75rem;font-weight:700;}
@@ -226,13 +226,42 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 <div class="page">
   <div class="breadcrumb">
     <a href="#">ANTS Autopilot</a> <span>/</span>
-    <a href="expense-dashboard.html">Expense & Receipt</a> <span>/</span>
-    <span>Scan Receipt / New Claim</span>
+    <a href="expense-dashboard.html">ค่าใช้จ่ายและใบเสร็จ</a> <span>/</span>
+    <span>สแกนใบเสร็จ / สร้างเคลมใหม่</span>
   </div>
 
   <div class="page-title">
-    <h1>&#128247; Receipt OCR Scanner</h1>
-    <p>สแกนใบเสร็จอัตโนมัติด้วย AI - รองรับภาษาไทย 94.2% accuracy | Batch Upload | PromptPay QR</p>
+    <h1>&#128247; ระบบสแกนใบเสร็จอัตโนมัติ</h1>
+    <p>สแกนใบเสร็จอัตโนมัติด้วย AI - รองรับภาษาไทย ความแม่นยำ 94.2% | อัปโหลดหลายไฟล์ | PromptPay QR</p>
+  </div>
+
+  <!-- CROSS-032: Multi-Currency Receipt Support -->
+  <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px 20px;margin-bottom:16px;box-shadow:var(--shadow);" role="region" aria-label="เลือกสกุลเงินใบเสร็จ">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:1.1rem;">&#128177;</span>
+        <div>
+          <div style="font-size:.82rem;font-weight:700;">สกุลเงินใบเสร็จ</div>
+          <div style="font-size:.68rem;color:var(--muted);">เลือกสกุลเงินของใบเสร็จที่จะสแกน</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <select id="receiptCurrency" class="form-select" onchange="updateExchangeRate()" style="width:auto;padding:6px 12px;font-size:.78rem;font-weight:600;" aria-label="เลือกสกุลเงิน">
+          <option value="THB" selected>&#127481;&#127469; THB — บาท</option>
+          <option value="USD">&#127482;&#127480; USD — ดอลลาร์</option>
+          <option value="EUR">&#127466;&#127482; EUR — ยูโร</option>
+          <option value="JPY">&#127471;&#127477; JPY — เยน</option>
+          <option value="CNY">&#127464;&#127475; CNY — หยว���</option>
+        </select>
+        <div id="exchangeRateDisplay" style="display:none;padding:6px 12px;background:var(--blue-bg);border:1px solid var(--blue);border-radius:8px;font-size:.72rem;font-weight:600;color:var(--blue);">
+          <span id="fxRateText">1 USD = 34.95 THB</span>
+          <span style="font-size:.6rem;color:var(--muted);margin-left:4px;">(BOT)</span>
+        </div>
+        <div id="convertedAmountDisplay" style="display:none;padding:6px 12px;background:var(--green-bg);border:1px solid var(--green);border-radius:8px;font-size:.72rem;font-weight:600;color:var(--green);">
+          &#8776; <span id="convertedText">&#3647;0.00</span>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- OCR Accuracy Banner EX-001 -->
@@ -243,8 +272,8 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
         <div class="accuracy-label">ความแม่นยำ OCR</div>
       </div>
       <div>
-        <div style="font-size:.78rem;font-weight:600;color:var(--green);">Thai Receipt Engine v3.2</div>
-        <div class="accuracy-sub">ปรับปรุงล่าสุด: 1 เม.ย. 2569 | รองรับ Template 47 ร้านค้า</div>
+        <div style="font-size:.78rem;font-weight:600;color:var(--green);">ระบบอ่านใบเสร็จไทย v3.2</div>
+        <div class="accuracy-sub">ปรับปรุงล่าสุด: 1 เม.ย. 2569 | รองรับเทมเพลต 47 ร้านค้า</div>
       </div>
     </div>
     <div>
@@ -255,8 +284,8 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
   <!-- Mode Toggle -->
   <div class="mode-toggle">
-    <button class="mode-btn active" onclick="setMode(this,'new')">&#10133; สร้าง Claim ใหม่</button>
-    <button class="mode-btn" onclick="setMode(this,'attach')">&#128206; แนบกับ Claim ที่มี</button>
+    <button class="mode-btn active" onclick="setMode(this,'new')">&#10133; สร้างเคลมใหม่</button>
+    <button class="mode-btn" onclick="setMode(this,'attach')">&#128206; แนบกับเคลมที่มี</button>
     <button class="mode-btn" onclick="setMode(this,'advance')">&#128176; สำรองจ่ายล่วงหน้า</button>
     <button class="mode-btn" onclick="setMode(this,'eslip')">&#127974; อ่าน e-Slip</button>
     <button class="mode-btn" onclick="setMode(this,'promptpay')">&#128178; PromptPay QR</button>
@@ -264,7 +293,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
   <!-- Attach to Existing Section -->
   <div class="attach-section" id="attachSection" style="display:none;">
-    <h4>&#128206; เลือก Claim ที่ต้องการแนบใบเสร็จ</h4>
+    <h4>&#128206; เลือกเคลมที่ต้องการแนบใบเสร็จ</h4>
     <div class="attach-options">
       <button class="attach-chip" onclick="selectAttach(this,'EX-0025')">EX-0025 — ค่าเดินทาง &#3647;12,500</button>
       <button class="attach-chip" onclick="selectAttach(this,'EX-0022')">EX-0022 — ค่า Grab/Taxi &#3647;2,350</button>
@@ -275,7 +304,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
   <!-- Advance Payment Section CROSS-030 -->
   <div class="card" id="advanceSection" style="display:none;">
-    <div class="card-title">&#128176; แบบฟอร์มสำรองจ่ายล่วงหน้า (Advance Payment)</div>
+    <div class="card-title">&#128176; แบบฟอร์มสำรองจ่ายล่วงหน้า</div>
     <div class="form-grid">
       <div class="form-group">
         <label class="form-label">วัตถุประสงค์ *</label>
@@ -335,7 +364,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
   <!-- PromptPay QR Section EX-010 -->
   <div class="card" id="promptpaySection" style="display:none;">
-    <div class="card-title">&#128178; PromptPay QR Payment</div>
+    <div class="card-title">&#128178; ชำระเงินผ่าน PromptPay QR</div>
     <p style="font-size:.78rem;color:var(--muted);margin-bottom:14px;">สร้าง QR Code สำหรับจ่ายเงินผ่าน PromptPay หรือสแกน QR เพื่อยืนยันการชำระ</p>
     <div class="qr-container">
       <div class="qr-box">
@@ -391,7 +420,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
     <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
       <div class="upload-icon">&#128194;</div>
       <div class="upload-title">ลากไฟล์วางที่นี่ หรือคลิกเพื่อเลือก</div>
-      <div class="upload-subtitle">รองรับหลายไฟล์พร้อมกัน (Batch OCR) — สูงสุด 20 ไฟล์</div>
+      <div class="upload-subtitle">รองรับหลายไฟล์พร้อมกัน — สูงสุด 20 ไฟล์</div>
       <div class="upload-formats">
         <span class="format-tag">JPG</span>
         <span class="format-tag">PNG</span>
@@ -424,7 +453,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
         <button class="file-remove" onclick="this.closest('.file-item').remove()">&#10005;</button>
       </div>
       <div style="margin-top:10px;display:flex;gap:8px;">
-        <button class="btn btn-primary" onclick="startBatchOCR()">&#9881; เริ่ม Batch OCR ทั้งหมด</button>
+        <button class="btn btn-primary" onclick="startBatchOCR()">&#9881; เริ่ม สแกนทั้งหมด (Batch OCR)</button>
         <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()">&#10133; เพิ่มไฟล์</button>
       </div>
     </div>
@@ -433,42 +462,42 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
   <!-- Batch OCR Progress EX-002 -->
   <div class="batch-progress" id="batchProgress">
     <div class="batch-header">
-      <div class="batch-title">&#9881; กำลังประมวลผล Batch OCR...</div>
+      <div class="batch-title">&#9881; กำลังประมวลผลสแกนทั้งหมด...</div>
       <div class="batch-count">2 / 3 ไฟล์</div>
     </div>
     <div class="progress-bar"><div class="progress-fill" style="width:66%"></div></div>
     <div class="batch-steps">
       <span class="batch-step done">&#9989; อัปโหลด</span>
-      <span class="batch-step done">&#9989; Pre-process</span>
-      <span class="batch-step active">&#9881; Thai OCR Engine</span>
-      <span class="batch-step pending">&#128338; Template Match</span>
-      <span class="batch-step pending">&#128338; Validate</span>
+      <span class="batch-step done">&#9989; เตรียมข้อมูล</span>
+      <span class="batch-step active">&#9881; เอนจิน OCR ไทย</span>
+      <span class="batch-step pending">&#128338; จับคู่เทมเพลต</span>
+      <span class="batch-step pending">&#128338; ตรวจสอบ</span>
     </div>
   </div>
 
   <!-- Template Matching Section EX-001 -->
   <div class="template-section">
-    <div class="template-title">&#127981; Thai Receipt Templates (Auto-detect)</div>
+    <div class="template-title">&#127981; เทมเพลตใบเสร็จไทย (ตรวจจับอัตโนมัติ)</div>
     <div class="template-grid">
       <div class="template-card matched">
         <div class="template-logo">&#127978;</div>
         <div class="template-name">7-Eleven</div>
-        <div class="template-acc">Accuracy: 96.8%</div>
+        <div class="template-acc">ความแม่นยำ: 96.8%</div>
       </div>
       <div class="template-card">
         <div class="template-logo">&#127963;</div>
         <div class="template-name">Makro</div>
-        <div class="template-acc">Accuracy: 95.1%</div>
+        <div class="template-acc">ความแม่นยำ: 95.1%</div>
       </div>
       <div class="template-card">
         <div class="template-logo">&#128722;</div>
         <div class="template-name">Lotus's</div>
-        <div class="template-acc">Accuracy: 94.5%</div>
+        <div class="template-acc">ความแม่นยำ: 94.5%</div>
       </div>
       <div class="template-card">
         <div class="template-logo">&#127980;</div>
         <div class="template-name">Big C</div>
-        <div class="template-acc">Accuracy: 93.9%</div>
+        <div class="template-acc">ความแม่นยำ: 93.9%</div>
       </div>
     </div>
   </div>
@@ -491,7 +520,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
     <!-- Confidence Score OCR Fields EX-001 -->
     <div class="card">
-      <div class="card-title">&#128203; ผลการอ่าน OCR — พร้อม Confidence Score</div>
+      <div class="card-title">&#128203; ผลการอ่าน OCR — พร้อมคะแนนความเชื่อมั่น</div>
       <div class="fields-grid">
         <div class="field high-conf">
           <div class="field-label">ชื่อร้านค้า</div>
@@ -567,26 +596,26 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
     <!-- OCR Complete CTA -->
     <div class="ocr-complete-cta">
-      <div class="cta-text">&#9989; OCR อ่านสำเร็จ — พร้อมสร้าง Expense Claim</div>
+      <div class="cta-text">&#9989; OCR อ่านสำเร็จ — พร้อมสร้างเคลมค่าใช้จ่าย</div>
       <div class="cta-buttons">
         <button class="btn btn-secondary">&#128190; บันทึกร่าง</button>
-        <button class="btn btn-green" onclick="showClaimForm()">&#128228; สร้าง Claim ส่งอนุมัติ</button>
+        <button class="btn btn-green" onclick="showClaimForm()">&#128228; สร้างเคลมส่งอนุมัติ</button>
       </div>
     </div>
 
     <!-- Claim Form -->
     <div class="claim-form" id="claimForm">
       <div class="card">
-        <div class="card-title">&#128221; รายละเอียด Expense Claim</div>
+        <div class="card-title">&#128221; รายละเอียดเคลมค่าใช้จ่าย</div>
         <div class="form-grid">
           <div class="form-group"><label class="form-label">หมวดค่าใช้จ่าย *</label>
             <select class="form-input form-select"><option>เลือกหมวด...</option><option selected>ค่าอาหาร/เครื่องดื่ม</option><option>ค่าเดินทาง</option><option>ค่าที่พัก</option><option>อุปกรณ์สำนักงาน</option><option>ค่าบริการ IT</option></select>
           </div>
-          <div class="form-group"><label class="form-label">โครงการ / Cost Center</label>
-            <select class="form-input form-select"><option>เลือกโครงการ...</option><option selected>PRJ-2569-042 Marketing Q1</option><option>PRJ-2569-038 Office Ops</option></select>
+          <div class="form-group"><label class="form-label">โครงการ / ศูนย์ต้นทุน</label>
+            <select class="form-input form-select"><option>เลือกโครงการ...</option><option selected>PRJ-2569-042 การตลาด Q1</option><option>PRJ-2569-038 ปฏิบัติการสำนักงาน</option></select>
           </div>
           <div class="form-group" style="grid-column:1/-1;"><label class="form-label">หมายเหตุ</label>
-            <textarea class="form-input form-textarea" placeholder="เช่น เลี้ยงทีมหลังประชุม Q1 Review">เลี้ยงอาหารทีม Marketing หลังประชุม Sprint Review</textarea>
+            <textarea class="form-input form-textarea" placeholder="เช่น เลี้ยงทีมหลังประชุม Q1">เลี้ยงอาหารทีม การตลาด หลังประชุม สรุปงาน Sprint</textarea>
           </div>
         </div>
         <div class="action-row">
@@ -603,11 +632,11 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
         <table class="history-table">
           <thead>
             <tr>
-              <th>Claim</th>
+              <th>เคลม</th>
               <th>ร้านค้า</th>
               <th>ยอดเงิน</th>
-              <th>Confidence</th>
-              <th>Template</th>
+              <th>ความเชื่อมั่น</th>
+              <th>เทมเพลต</th>
               <th>สถานะ</th>
               <th>วันที่สแกน</th>
             </tr>
@@ -627,7 +656,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
               <td>Grab Taxi</td>
               <td style="font-weight:700;font-family:'Inter';">&#3647;385.00</td>
               <td><span class="field-confidence conf-high">95.1%</span></td>
-              <td><span style="font-size:.68rem;font-weight:600;padding:2px 8px;border-radius:4px;background:var(--blue-bg);color:var(--blue);">Digital</span></td>
+              <td><span style="font-size:.68rem;font-weight:600;padding:2px 8px;border-radius:4px;background:var(--blue-bg);color:var(--blue);">ดิจิทัล</span></td>
               <td><span class="status status-pending">&#9679; รออนุมัติ</span></td>
               <td>4 เม.ย. 2569</td>
             </tr>
@@ -694,6 +723,38 @@ if(dz){
   dz.addEventListener('drop',()=>{document.getElementById('fileQueue').style.display='block';});
 }
 document.getElementById('fileInput')?.addEventListener('change',()=>{document.getElementById('fileQueue').style.display='block';});
+
+// ═══ CROSS-032: Multi-Currency Exchange Rate ═══
+var fxRates={THB:1,USD:34.95,EUR:38.02,JPY:0.2338,CNY:4.83};
+function updateExchangeRate(){
+    var cur=document.getElementById('receiptCurrency').value;
+    var fxDiv=document.getElementById('exchangeRateDisplay');
+    var convDiv=document.getElementById('convertedAmountDisplay');
+    var rateText=document.getElementById('fxRateText');
+    if(cur==='THB'){
+        fxDiv.style.display='none';
+        convDiv.style.display='none';
+    }else{
+        fxDiv.style.display='inline-block';
+        convDiv.style.display='inline-block';
+        var rate=fxRates[cur]||1;
+        rateText.textContent='1 '+cur+' = '+rate.toFixed(2)+' THB';
+        // Demo conversion assuming sample amount
+        var sampleAmount=1250;
+        document.getElementById('convertedText').textContent='\u0E3F'+(sampleAmount*rate).toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2});
+    }
+}
+
+// ═══ CROSS-017: Accessibility ═══
+(function(){
+    document.querySelectorAll('.mode-btn,.btn,.attach-chip,.bank-chip,.template-card').forEach(function(el){
+        el.setAttribute('tabindex','0');
+        el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click();}});
+    });
+    var s=document.createElement('style');
+    s.textContent='.mode-btn:focus-visible,.btn:focus-visible,.attach-chip:focus-visible,.bank-chip:focus-visible{outline:2px solid var(--blue,#2563EB);outline-offset:2px;}';
+    document.head.appendChild(s);
+})();
 </script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>Home — Autopilot v2 | ANTS AI Solution Hub</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
@@ -212,15 +212,66 @@ body.dark .onboarding-card{background:var(--blue-bg);border-color:var(--blue);}
 
 /* Responsive */
 @media(max-width:1200px){.main-layout{grid-template-columns:1fr;}.stats-row{grid-template-columns:repeat(3,1fr);}}
-@media(max-width:768px){.stats-row{grid-template-columns:repeat(2,1fr);}.quick-actions{flex-direction:column;}.module-grid{grid-template-columns:1fr 1fr;}.news-grid{grid-template-columns:1fr;}.summary-grid{grid-template-columns:1fr;}}
-@media(max-width:480px){.stats-row{grid-template-columns:1fr;}.module-grid{grid-template-columns:1fr;}}
+@media(max-width:768px){
+  .page{padding:16px;}
+  .stats-row{grid-template-columns:repeat(2,1fr);}
+  .quick-actions{flex-direction:column;}
+  .quick-actions .qa-btn{width:100%;justify-content:center;}
+  .module-grid{grid-template-columns:1fr 1fr;}
+  .news-grid{grid-template-columns:1fr;}
+  .summary-grid{grid-template-columns:1fr;}
+  .welcome-banner{padding:20px;border-radius:12px;}
+  .welcome-row{flex-direction:column;align-items:flex-start;}
+  .welcome-right{align-items:flex-start;}
+  .welcome-text h1{font-size:1.15rem;}
+  .welcome-avatar{width:44px;height:44px;font-size:1.2rem;}
+  .card{padding:16px;}
+  .card-header{flex-wrap:wrap;gap:8px;}
+  .notif-tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .notif-tab{white-space:nowrap;padding:8px 12px;font-size:.72rem;}
+  .stat-card{padding:14px;}
+  .stat-value{font-size:1.15rem;}
+  .role-bar{flex-direction:column;align-items:flex-start;}
+  .role-selector{width:100%;}
+  .role-select{width:100%;}
+  .customize-btn{width:100%;justify-content:center;}
+  .modal-box{width:95%;margin:20px auto;}
+  .chart-area svg{max-width:100%;height:auto;}
+}
+@media(max-width:480px){
+  .page{padding:12px;}
+  .stats-row{grid-template-columns:1fr;}
+  .module-grid{grid-template-columns:1fr;}
+  .welcome-text h1{font-size:1rem;}
+  .welcome-meta{flex-wrap:wrap;gap:8px;}
+  .stat-value{font-size:1rem;}
+  .stat-label{font-size:.68rem;}
+  .card-title{font-size:.85rem;}
+  .qa-btn{font-size:.78rem;padding:8px 14px;}
+}
 </style>
 </head>
 <body>
 
-<button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode">&#9790;</button>
+<button class="dark-toggle" onclick="toggleDark()" title="สลับโหมดมืด/สว่าง">&#9790;</button>
 
 <div class="page">
+
+<!-- CROSS-013: Offline Status Indicator -->
+<div id="homeOfflineIndicator" role="status" aria-label="สถานะการเชื่อมต่อ" style="display:none;background:var(--red-bg,#FEF2F2);border:1px solid var(--red,#DC2626);border-radius:10px;padding:10px 16px;margin-bottom:12px;align-items:center;gap:8px;font-size:.78rem;font-weight:600;color:var(--red,#DC2626);">
+    <span>&#128225;</span> คุณกำลังออฟไลน์ — แสดงข้อมูลจากแคชล่าสุด
+    <span style="margin-left:auto;font-size:.65rem;padding:2px 8px;background:var(--red,#DC2626);color:#fff;border-radius:4px;">OFFLINE</span>
+</div>
+
+<!-- CROSS-033: Training Mode Banner -->
+<div id="homeTrainingBanner" role="alert" aria-label="โหมดฝึกหัด" style="display:none;background:linear-gradient(135deg,#D97706,#F59E0B);border-radius:10px;padding:12px 20px;margin-bottom:12px;color:#fff;font-size:.82rem;font-weight:600;align-items:center;gap:10px;">
+    <span style="font-size:1.2rem;">&#127891;</span>
+    <div>
+        <div>โหมดฝึกหัด (Training Mode) — ข้อมูลทั้งหมดเป็นตัวอย่าง</div>
+        <div style="font-size:.68rem;opacity:.85;font-weight:400;margin-top:2px;">การกระทำทั้งหมดจะไม่ส่งผลต่อระบบจริง | คลิก Settings เพื่อปิดโหมดนี้</div>
+    </div>
+    <span style="margin-left:auto;padding:3px 10px;border:1px solid rgba(255,255,255,.4);border-radius:6px;font-size:.65rem;font-weight:700;">SANDBOX</span>
+</div>
 
 <!-- Breadcrumb -->
 <div class="breadcrumb">
@@ -239,13 +290,13 @@ body.dark .onboarding-card{background:var(--blue-bg);border-color:var(--blue);}
 <p>&#3618;&#3636;&#3609;&#3604;&#3637;&#3605;&#3657;&#3629;&#3609;&#3619;&#3633;&#3610;&#3585;&#3621;&#3633;&#3610;&#3648;&#3586;&#3657;&#3634;&#3626;&#3641;&#3656; Autopilot v2 — ANTS AI Solution Hub</p>
 <div class="welcome-meta">
 <div class="meta-item"><span class="meta-icon">&#127970;</span> ANTS Intelligence Co., Ltd.</div>
-<div class="meta-item"><span class="meta-icon">&#128293;</span> Login streak: 12 &#3623;&#3633;&#3609;&#3605;&#3636;&#3604;&#3605;&#3656;&#3629;&#3585;&#3633;&#3609;</div>
+<div class="meta-item"><span class="meta-icon">&#128293;</span> เข้าใช้งานติดต่อกัน: 12 &#3623;&#3633;&#3609;&#3605;&#3636;&#3604;&#3605;&#3656;&#3629;&#3585;&#3633;&#3609;</div>
 <div class="meta-item"><span class="meta-icon">&#128336;</span> &#3648;&#3586;&#3657;&#3634;&#3651;&#3594;&#3657;&#3591;&#3634;&#3609;&#3621;&#3656;&#3634;&#3626;&#3640;&#3604;: 5 &#3648;&#3617;.&#3618;. 2569, 17:42 &#3609;.</div>
 </div>
 </div>
 </div>
 <div class="welcome-right">
-<div class="welcome-plan">&#9733; Enterprise Plan</div>
+<div class="welcome-plan">&#9733; แพ็กเกจองค์กร</div>
 <div class="welcome-date">&#3623;&#3633;&#3609;&#3592;&#3633;&#3609;&#3607;&#3619;&#3660;&#3607;&#3637;&#3656; 6 &#3648;&#3617;&#3625;&#3634;&#3618;&#3609; &#3614;.&#3624;. 2569</div>
 </div>
 </div>
@@ -256,24 +307,28 @@ body.dark .onboarding-card{background:var(--blue-bg);border-color:var(--blue);}
 <div class="role-selector">
 <label>&#128100; &#3617;&#3640;&#3617;&#3617;&#3629;&#3591;:</label>
 <select class="role-select" id="roleSelect" onchange="switchRole(this.value)">
-<option value="manager">Manager View</option>
-<option value="staff">Staff View</option>
-<option value="executive">Executive View</option>
+<option value="manager">มุมมองผู้จัดการ</option>
+<option value="staff">มุมมองพนักงาน</option>
+<option value="executive">มุมมองผู้บริหาร</option>
 </select>
 </div>
 <button class="customize-btn" id="customizeBtn" onclick="toggleEditMode()">
 &#9881;&#65039; &#3611;&#3619;&#3633;&#3610;&#3649;&#3605;&#3656;&#3591; Dashboard
 </button>
+<!-- CROSS-042: Guided Tour Start Button -->
+<button class="customize-btn" onclick="homeGuidedTour()" aria-label="เริ่มทัวร์แนะนำ" style="border-color:var(--purple,#7C3AED);color:var(--purple,#7C3AED);">
+&#127919; ทัวร์แนะนำ
+</button>
 </div>
 
 <!-- Quick Action Buttons -->
 <div class="quick-actions">
-<button class="qa-btn" onclick="showToast('&#128203;','Quick Action','&#3626;&#3619;&#3657;&#3634;&#3591;&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634;&#3651;&#3627;&#3617;&#3656;...')"><span class="qa-icon">&#128203;</span> &#3626;&#3619;&#3657;&#3634;&#3591;&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634;</button>
-<button class="qa-btn" onclick="showToast('&#128230;','Quick Action','&#3648;&#3614;&#3636;&#3656;&#3617; Expense &#3651;&#3627;&#3617;&#3656;...')"><span class="qa-icon">&#128230;</span> &#3648;&#3614;&#3636;&#3656;&#3617;&#3588;&#3656;&#3634;&#3651;&#3594;&#3657;&#3592;&#3656;&#3634;&#3618;</button>
-<button class="qa-btn" onclick="showToast('&#9989;','Quick Action','&#3648;&#3611;&#3636;&#3604;&#3627;&#3609;&#3657;&#3634;&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;...')"><span class="qa-icon">&#9989;</span> &#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;&#3619;&#3634;&#3618;&#3585;&#3634;&#3619;</button>
-<button class="qa-btn" onclick="showToast('&#128202;','Quick Action','&#3648;&#3611;&#3636;&#3604;&#3619;&#3634;&#3618;&#3591;&#3634;&#3609;...')"><span class="qa-icon">&#128202;</span> &#3604;&#3641;&#3619;&#3634;&#3618;&#3591;&#3634;&#3609;</button>
-<button class="qa-btn" onclick="showToast('&#128176;','Quick Action','&#3648;&#3611;&#3636;&#3604; Pipeline...')"><span class="qa-icon">&#128176;</span> Sales Pipeline</button>
-<button class="qa-btn" onclick="showToast('&#128101;','Quick Action','&#3648;&#3611;&#3636;&#3604; Vendor...')"><span class="qa-icon">&#128101;</span> &#3592;&#3633;&#3604;&#3585;&#3634;&#3619; Vendor</button>
+<button class="qa-btn" onclick="showToast('&#128203;','การดำเนินการด่วน','&#3626;&#3619;&#3657;&#3634;&#3591;&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634;&#3651;&#3627;&#3617;&#3656;...')"><span class="qa-icon">&#128203;</span> &#3626;&#3619;&#3657;&#3634;&#3591;&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634;</button>
+<button class="qa-btn" onclick="showToast('&#128230;','การดำเนินการด่วน','&#3648;&#3614;&#3636;&#3656;&#3617; Expense &#3651;&#3627;&#3617;&#3656;...')"><span class="qa-icon">&#128230;</span> &#3648;&#3614;&#3636;&#3656;&#3617;&#3588;&#3656;&#3634;&#3651;&#3594;&#3657;&#3592;&#3656;&#3634;&#3618;</button>
+<button class="qa-btn" onclick="showToast('&#9989;','การดำเนินการด่วน','&#3648;&#3611;&#3636;&#3604;&#3627;&#3609;&#3657;&#3634;&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;...')"><span class="qa-icon">&#9989;</span> &#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;&#3619;&#3634;&#3618;&#3585;&#3634;&#3619;</button>
+<button class="qa-btn" onclick="showToast('&#128202;','การดำเนินการด่วน','&#3648;&#3611;&#3636;&#3604;&#3619;&#3634;&#3618;&#3591;&#3634;&#3609;...')"><span class="qa-icon">&#128202;</span> &#3604;&#3641;&#3619;&#3634;&#3618;&#3591;&#3634;&#3609;</button>
+<button class="qa-btn" onclick="showToast('&#128176;','การดำเนินการด่วน','เปิดท่อส่งการขาย...')"><span class="qa-icon">&#128176;</span> ท่อส่งการขาย</button>
+<button class="qa-btn" onclick="showToast('&#128101;','การดำเนินการด่วน','&#3648;&#3611;&#3636;&#3604; Vendor...')"><span class="qa-icon">&#128101;</span> &#3592;&#3633;&#3604;&#3585;&#3634;&#3619; Vendor</button>
 </div>
 
 <!-- Quick Stats Row with Trend Arrows + KPI Alert -->
@@ -281,21 +336,21 @@ body.dark .onboarding-card{background:var(--blue-bg);border-color:var(--blue);}
 <div class="stat-card animate-in" draggable="false">
 <span class="drag-handle">&#9776;</span>
 <div class="stat-icon">&#128230;</div>
-<div class="stat-label">Active Modules</div>
+<div class="stat-label">โมดูลที่ใช้งาน</div>
 <div class="stat-value">5 <span class="trend up">&#8593; +1</span></div>
-<div class="stat-sub">Expense, Procurement, Finance, Logistics, Sales</div>
+<div class="stat-sub">ค่าใช้จ่าย, จัดซื้อ, การเงิน, โลจิสติกส์, ขาย</div>
 </div>
 <div class="stat-card animate-in" draggable="false">
 <span class="drag-handle">&#9776;</span>
 <div class="stat-icon">&#128203;</div>
-<div class="stat-label">Tasks Today</div>
+<div class="stat-label">งานวันนี้</div>
 <div class="stat-value">12 <span class="trend up">&#8593; +15%</span></div>
-<div class="stat-sub">3 urgent, 9 normal</div>
+<div class="stat-sub">3 เร่งด่วน, 9 ปกติ</div>
 </div>
 <div class="stat-card animate-in alert-active" draggable="false">
 <span class="drag-handle">&#9776;</span>
 <div class="stat-icon">&#9200;</div>
-<div class="stat-label">Pending Approvals</div>
+<div class="stat-label">รออนุมัติ</div>
 <div class="stat-value" style="color:var(--orange);">8 <span class="trend down">&#8593; +33%</span></div>
 <div class="stat-sub">&#9888;&#65039; &#3648;&#3585;&#3636;&#3609;&#3648;&#3585;&#3603;&#3601;&#3660;&#3607;&#3637;&#3656;&#3605;&#3633;&#3657;&#3591;&#3652;&#3623;&#3657; (5 &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;)</div>
 </div>
@@ -312,9 +367,9 @@ body.dark .onboarding-card{background:var(--blue-bg);border-color:var(--blue);}
 <div class="stat-card animate-in" draggable="false">
 <span class="drag-handle">&#9776;</span>
 <div class="stat-icon">&#128101;</div>
-<div class="stat-label">Team Online</div>
+<div class="stat-label">ทีมออนไลน์</div>
 <div class="stat-value">14<span style="font-size:.85rem;font-weight:500;color:var(--muted);">/22</span> <span class="trend up">&#8593; +4</span></div>
-<div class="stat-sub">63.6% active now</div>
+<div class="stat-sub">63.6% ออนไลน์ขณะนี้</div>
 </div>
 </div>
 
@@ -358,10 +413,10 @@ body.dark .onboarding-card{background:var(--blue-bg);border-color:var(--blue);}
 <div class="card onboarding-card animate-in" id="onboarding-card">
 <button class="dismiss-btn" onclick="document.getElementById('onboarding-card').style.display='none'" title="&#3611;&#3636;&#3604;">&#10005;</button>
 <div class="card-header">
-<div class="card-title"><span class="icon">&#127919;</span> Getting Started</div>
-<span class="card-badge">85% Complete</span>
+<div class="card-title"><span class="icon">&#127919;</span> เริ่มต้นใช้งาน</div>
+<span class="card-badge">สำเร็จ 85%</span>
 </div>
-<div class="progress-label">Setup Progress: 85%</div>
+<div class="progress-label">ความคืบหน้าการตั้งค่า: 85%</div>
 <div class="progress-bar-track">
 <div class="progress-bar-fill" style="width:85%;"></div>
 </div>
@@ -380,7 +435,7 @@ body.dark .onboarding-card{background:var(--blue-bg);border-color:var(--blue);}
 <div class="card animate-in">
 <div class="card-header">
 <div class="card-title"><span class="icon">&#128276;</span> &#3585;&#3634;&#3619;&#3649;&#3592;&#3657;&#3591;&#3648;&#3605;&#3639;&#3629;&#3609;</div>
-<a class="card-link" href="javascript:void(0)" onclick="showToast('&#128276;','Notifications','&#3648;&#3611;&#3636;&#3604;&#3585;&#3634;&#3619;&#3649;&#3592;&#3657;&#3591;&#3648;&#3605;&#3639;&#3629;&#3609;&#3607;&#3633;&#3657;&#3591;&#3627;&#3617;&#3604;...')">&#3604;&#3641;&#3607;&#3633;&#3657;&#3591;&#3627;&#3617;&#3604; &#8594;</a>
+<a class="card-link" href="javascript:void(0)" onclick="showToast('&#128276;','การแจ้งเตือน','&#3648;&#3611;&#3636;&#3604;&#3585;&#3634;&#3619;&#3649;&#3592;&#3657;&#3591;&#3648;&#3605;&#3639;&#3629;&#3609;&#3607;&#3633;&#3657;&#3591;&#3627;&#3617;&#3604;...')">&#3604;&#3641;&#3607;&#3633;&#3657;&#3591;&#3627;&#3617;&#3604; &#8594;</a>
 </div>
 
 <!-- Notification Tabs -->
@@ -485,7 +540,7 @@ body.dark .onboarding-card{background:var(--blue-bg);border-color:var(--blue);}
 <!-- What's New -->
 <div class="card animate-in">
 <div class="card-header">
-<div class="card-title"><span class="icon">&#128640;</span> What's New</div>
+<div class="card-title"><span class="icon">&#128640;</span> มีอะไรใหม่</div>
 <a class="card-link" href="javascript:void(0)">&#3604;&#3641;&#3607;&#3633;&#3657;&#3591;&#3627;&#3617;&#3604; &#8594;</a>
 </div>
 <div class="release-item">
@@ -519,27 +574,27 @@ body.dark .onboarding-card{background:var(--blue-bg);border-color:var(--blue);}
 <div class="module-grid">
 <a class="module-link" href="#">
 <div class="ml-icon" style="background:var(--blue-bg);color:var(--blue);">&#128176;</div>
-Sales Doc Gen
+สร้างเอกสารขาย
 </a>
 <a class="module-link" href="#">
 <div class="ml-icon" style="background:var(--purple-bg);color:var(--purple);">&#128230;</div>
-Expense
+ค่าใช้จ่าย
 </a>
 <a class="module-link" href="#">
 <div class="ml-icon" style="background:var(--green-bg);color:var(--green);">&#128722;</div>
-Procurement
+จัดซื้อจัดจ้าง
 </a>
 <a class="module-link" href="#">
 <div class="ml-icon" style="background:var(--orange-bg);color:var(--orange);">&#128178;</div>
-Finance
+การเงิน
 </a>
 <a class="module-link" href="#">
 <div class="ml-icon" style="background:var(--cyan-bg);color:var(--cyan);">&#128666;</div>
-Logistics
+โลจิสติกส์
 </a>
 <a class="module-link" href="#">
 <div class="ml-icon" style="background:var(--red-bg);color:var(--red);">&#128202;</div>
-Analytics
+วิเคราะห์ข้อมูล
 </a>
 </div>
 </div>
@@ -547,18 +602,18 @@ Analytics
 <!-- News Grid -->
 <div class="card animate-in">
 <div class="card-header">
-<div class="card-title"><span class="icon">&#128240;</span> News & Blog</div>
+<div class="card-title"><span class="icon">&#128240;</span> ข่าวสารและบทความ</div>
 </div>
 <div class="news-grid">
-<div class="news-card" onclick="showToast('&#128240;','Blog','&#3648;&#3611;&#3636;&#3604;&#3610;&#3607;&#3588;&#3623;&#3634;&#3617;...')">
-<div class="news-thumb" style="background:linear-gradient(135deg,#2563EB,#06B6D4);"><span class="thumb-tag">AI & Automation</span></div>
+<div class="news-card" onclick="showToast('&#128240;','บทความ','&#3648;&#3611;&#3636;&#3604;&#3610;&#3607;&#3588;&#3623;&#3634;&#3617;...')">
+<div class="news-thumb" style="background:linear-gradient(135deg,#2563EB,#06B6D4);"><span class="thumb-tag">AI และระบบอัตโนมัติ</span></div>
 <div class="news-body">
 <h4>&#3648;&#3607;&#3619;&#3609;&#3604;&#3660; AI &#3651;&#3609;&#3591;&#3634;&#3609; Back Office 2026</h4>
 <p>3 &#3648;&#3617;.&#3618;. 2569 | 8 &#3609;&#3634;&#3607;&#3637;</p>
 </div>
 </div>
-<div class="news-card" onclick="showToast('&#128240;','Blog','&#3648;&#3611;&#3636;&#3604;&#3610;&#3607;&#3588;&#3623;&#3634;&#3617;...')">
-<div class="news-thumb" style="background:linear-gradient(135deg,#7C3AED,#EC4899);"><span class="thumb-tag">Best Practices</span></div>
+<div class="news-card" onclick="showToast('&#128240;','บทความ','&#3648;&#3611;&#3636;&#3604;&#3610;&#3607;&#3588;&#3623;&#3634;&#3617;...')">
+<div class="news-thumb" style="background:linear-gradient(135deg,#7C3AED,#EC4899);"><span class="thumb-tag">แนวปฏิบัติที่ดี</span></div>
 <div class="news-body">
 <h4>&#3623;&#3636;&#3608;&#3637;&#3621;&#3604;&#3648;&#3623;&#3621;&#3634;&#3611;&#3636;&#3604;&#3591;&#3610; 50% &#3604;&#3657;&#3623;&#3618; Autopilot</h4>
 <p>1 &#3648;&#3617;.&#3618;. 2569 | 5 &#3609;&#3634;&#3607;&#3637;</p>
@@ -598,29 +653,29 @@ Analytics
 <div class="card-title"><span class="icon">&#128337;</span> &#3648;&#3586;&#3657;&#3634;&#3594;&#3617;&#3621;&#3656;&#3634;&#3626;&#3640;&#3604;</div>
 </div>
 <div class="recent-list">
-<div class="recent-item" onclick="showToast('&#128337;','Navigate','&#3648;&#3611;&#3636;&#3604;&#3627;&#3609;&#3657;&#3634; Sales Pipeline...')">
+<div class="recent-item" onclick="showToast('&#128337;','นำทาง','&#3648;&#3611;&#3636;&#3604;&#3627;&#3609;&#3657;&#3634; Sales Pipeline...')">
 <div class="ri-icon" style="background:var(--blue-bg);color:var(--blue);">&#128176;</div>
-<span>Sales Pipeline</span>
+<span>ท่อส่งการขาย (Sales Pipeline)</span>
 <span class="ri-time">5 &#3609;&#3634;&#3607;&#3637;&#3607;&#3637;&#3656;&#3649;&#3621;&#3657;&#3623;</span>
 </div>
-<div class="recent-item" onclick="showToast('&#128337;','Navigate','&#3648;&#3611;&#3636;&#3604;&#3627;&#3609;&#3657;&#3634; &#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634; QT-0156...')">
+<div class="recent-item" onclick="showToast('&#128337;','นำทาง','&#3648;&#3611;&#3636;&#3604;&#3627;&#3609;&#3657;&#3634; &#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634; QT-0156...')">
 <div class="ri-icon" style="background:var(--green-bg);color:var(--green);">&#128203;</div>
 <span>&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634; QT-0156</span>
 <span class="ri-time">12 &#3609;&#3634;&#3607;&#3637;&#3607;&#3637;&#3656;&#3649;&#3621;&#3657;&#3623;</span>
 </div>
-<div class="recent-item" onclick="showToast('&#128337;','Navigate','&#3648;&#3611;&#3636;&#3604;&#3627;&#3609;&#3657;&#3634; Expense Report...')">
+<div class="recent-item" onclick="showToast('&#128337;','นำทาง','&#3648;&#3611;&#3636;&#3604;&#3627;&#3609;&#3657;&#3634; Expense Report...')">
 <div class="ri-icon" style="background:var(--purple-bg);color:var(--purple);">&#128230;</div>
-<span>Expense Report &#3617;&#3637;.&#3588;. 69</span>
+<span>รายงานค่าใช้จ่าย มี.ค. 69</span>
 <span class="ri-time">1 &#3594;&#3617;.</span>
 </div>
-<div class="recent-item" onclick="showToast('&#128337;','Navigate','&#3648;&#3611;&#3636;&#3604;&#3627;&#3609;&#3657;&#3634; Analytics...')">
+<div class="recent-item" onclick="showToast('&#128337;','นำทาง','&#3648;&#3611;&#3636;&#3604;&#3627;&#3609;&#3657;&#3634; Analytics...')">
 <div class="ri-icon" style="background:var(--orange-bg);color:var(--orange);">&#128202;</div>
-<span>Sales Analytics</span>
+<span>วิเคราะห์การขาย</span>
 <span class="ri-time">2 &#3594;&#3617;.</span>
 </div>
-<div class="recent-item" onclick="showToast('&#128337;','Navigate','&#3648;&#3611;&#3636;&#3604;&#3627;&#3609;&#3657;&#3634; Product Catalog...')">
+<div class="recent-item" onclick="showToast('&#128337;','นำทาง','&#3648;&#3611;&#3636;&#3604;&#3627;&#3609;&#3657;&#3634; Product Catalog...')">
 <div class="ri-icon" style="background:var(--cyan-bg);color:var(--cyan);">&#128722;</div>
-<span>Product Catalog</span>
+<span>แคตตาล็อกสินค้า</span>
 <span class="ri-time">3 &#3594;&#3617;.</span>
 </div>
 </div>
@@ -633,7 +688,7 @@ Analytics
 </div>
 <div class="alert-config">
 <div class="alert-row">
-<span class="a-name">Pending Approvals</span>
+<span class="a-name">รออนุมัติ</span>
 <select onchange="showToast('&#9881;&#65039;','Alert','&#3610;&#3633;&#3609;&#3607;&#3638;&#3585;&#3648;&#3585;&#3603;&#3601;&#3660;&#3649;&#3621;&#3657;&#3623;')">
 <option>&#3617;&#3634;&#3585;&#3585;&#3623;&#3656;&#3634;</option>
 <option selected>&#3617;&#3634;&#3585;&#3585;&#3623;&#3656;&#3634; 5</option>
@@ -667,23 +722,23 @@ Analytics
 <div style="display:flex;flex-direction:column;gap:8px;">
 <div style="display:flex;align-items:center;gap:10px;font-size:.82rem;">
 <div style="width:28px;height:28px;border-radius:50%;background:#2563EB;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;">&#3626;&#3617;</div>
-<div style="flex:1;">&#3626;&#3617;&#3594;&#3634;&#3618; &#3585;. <span style="color:var(--green);font-size:.68rem;">&#9679; Online</span></div>
-<span style="font-size:.68rem;color:var(--muted);">5 tasks</span>
+<div style="flex:1;">&#3626;&#3617;&#3594;&#3634;&#3618; &#3585;. <span style="color:var(--green);font-size:.68rem;">&#9679; ออนไลน์</span></div>
+<span style="font-size:.68rem;color:var(--muted);">5 งาน</span>
 </div>
 <div style="display:flex;align-items:center;gap:10px;font-size:.82rem;">
 <div style="width:28px;height:28px;border-radius:50%;background:#7C3AED;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;">&#3626;&#3623;</div>
-<div style="flex:1;">&#3626;&#3640;&#3623;&#3619;&#3619;&#3603;&#3634; &#3607;. <span style="color:var(--green);font-size:.68rem;">&#9679; Online</span></div>
-<span style="font-size:.68rem;color:var(--muted);">3 tasks</span>
+<div style="flex:1;">&#3626;&#3640;&#3623;&#3619;&#3619;&#3603;&#3634; &#3607;. <span style="color:var(--green);font-size:.68rem;">&#9679; ออนไลน์</span></div>
+<span style="font-size:.68rem;color:var(--muted);">3 งาน</span>
 </div>
 <div style="display:flex;align-items:center;gap:10px;font-size:.82rem;">
 <div style="width:28px;height:28px;border-radius:50%;background:#059669;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;">&#3603;&#3600;</div>
-<div style="flex:1;">&#3603;&#3633;&#3600;&#3614;&#3591;&#3625;&#3660; &#3626;. <span style="color:var(--muted);font-size:.68rem;">&#9679; Away</span></div>
-<span style="font-size:.68rem;color:var(--muted);">2 tasks</span>
+<div style="flex:1;">&#3603;&#3633;&#3600;&#3614;&#3591;&#3625;&#3660; &#3626;. <span style="color:var(--muted);font-size:.68rem;">&#9679; ไม่อยู่</span></div>
+<span style="font-size:.68rem;color:var(--muted);">2 งาน</span>
 </div>
 <div style="display:flex;align-items:center;gap:10px;font-size:.82rem;">
 <div style="width:28px;height:28px;border-radius:50%;background:#D97706;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;">&#3614;&#3619;</div>
-<div style="flex:1;">&#3614;&#3619;&#3607;&#3636;&#3614;&#3618;&#3660; &#3619;. <span style="color:var(--green);font-size:.68rem;">&#9679; Online</span></div>
-<span style="font-size:.68rem;color:var(--muted);">4 tasks</span>
+<div style="flex:1;">&#3614;&#3619;&#3607;&#3636;&#3614;&#3618;&#3660; &#3619;. <span style="color:var(--green);font-size:.68rem;">&#9679; ออนไลน์</span></div>
+<span style="font-size:.68rem;color:var(--muted);">4 งาน</span>
 </div>
 </div>
 </div>
@@ -702,7 +757,7 @@ Analytics
 <p style="font-size:.82rem;color:var(--text2);margin-bottom:16px;">&#3619;&#3632;&#3610;&#3610;&#3592;&#3632;&#3649;&#3592;&#3657;&#3591;&#3648;&#3605;&#3639;&#3629;&#3609;&#3648;&#3617;&#3639;&#3656;&#3629; KPI &#3606;&#3638;&#3591;&#3648;&#3585;&#3603;&#3601;&#3660;&#3607;&#3637;&#3656;&#3605;&#3633;&#3657;&#3591;&#3652;&#3623;&#3657; &#3614;&#3619;&#3657;&#3629;&#3617;&#3649;&#3592;&#3657;&#3591;&#3612;&#3656;&#3634;&#3609; LINE, Email &#3649;&#3621;&#3632; In-App</p>
 <div class="alert-config">
 <div class="alert-row">
-<span class="a-name">Pending Approvals &#3648;&#3585;&#3636;&#3609;</span>
+<span class="a-name">รออนุมัติ เกิน</span>
 <input type="number" value="5" min="1" max="50">
 </div>
 <div class="alert-row">
@@ -731,11 +786,11 @@ function toggleEditMode(){
   if(document.body.classList.contains('edit-mode')){
     btn.innerHTML='&#9989; &#3610;&#3633;&#3609;&#3607;&#3638;&#3585;&#3585;&#3634;&#3619;&#3605;&#3633;&#3657;&#3591;&#3588;&#3656;&#3634;';
     document.querySelectorAll('.stat-card').forEach(function(c){c.setAttribute('draggable','true');});
-    showToast('&#9881;&#65039;','Edit Mode','&#3588;&#3640;&#3603;&#3626;&#3634;&#3617;&#3634;&#3619;&#3606;&#3621;&#3634;&#3585; Widget &#3648;&#3614;&#3639;&#3656;&#3629;&#3592;&#3633;&#3604;&#3648;&#3619;&#3637;&#3618;&#3591;&#3651;&#3627;&#3617;&#3656;&#3652;&#3604;&#3657;');
+    showToast('&#9881;&#65039;','โหมดแก้ไข','&#3588;&#3640;&#3603;&#3626;&#3634;&#3617;&#3634;&#3619;&#3606;&#3621;&#3634;&#3585; Widget &#3648;&#3614;&#3639;&#3656;&#3629;&#3592;&#3633;&#3604;&#3648;&#3619;&#3637;&#3618;&#3591;&#3651;&#3627;&#3617;&#3656;&#3652;&#3604;&#3657;');
   }else{
     btn.innerHTML='&#9881;&#65039; &#3611;&#3619;&#3633;&#3610;&#3649;&#3605;&#3656;&#3591; Dashboard';
     document.querySelectorAll('.stat-card').forEach(function(c){c.setAttribute('draggable','false');});
-    showToast('&#9989;','&#3610;&#3633;&#3609;&#3607;&#3638;&#3585;&#3649;&#3621;&#3657;&#3623;','Layout Dashboard &#3652;&#3604;&#3657;&#3619;&#3633;&#3610;&#3585;&#3634;&#3619;&#3610;&#3633;&#3609;&#3607;&#3638;&#3585;');
+    showToast('&#9989;','&#3610;&#3633;&#3609;&#3607;&#3638;&#3585;&#3649;&#3621;&#3657;&#3623;','เค้าโครงแดชบอร์ด &#3652;&#3604;&#3657;&#3619;&#3633;&#3610;&#3585;&#3634;&#3619;&#3610;&#3633;&#3609;&#3607;&#3638;&#3585;');
   }
 }
 
@@ -743,10 +798,10 @@ function switchRole(role){
   var mw=document.getElementById('manager-widget');
   if(role==='staff'){
     mw.style.display='none';
-    showToast('&#128100;','Staff View','&#3649;&#3626;&#3604;&#3591;&#3586;&#3657;&#3629;&#3617;&#3641;&#3621;&#3626;&#3635;&#3627;&#3619;&#3633;&#3610; Staff');
+    showToast('&#128100;','มุมมองพนักงาน','แสดงข้อมูลสำหรับพนักงาน');
   }else{
     mw.style.display='';
-    showToast('&#128100;',role==='executive'?'Executive View':'Manager View','&#3648;&#3611;&#3621;&#3637;&#3656;&#3618;&#3609;&#3617;&#3640;&#3617;&#3617;&#3629;&#3591;&#3649;&#3621;&#3657;&#3623;');
+    showToast('&#128100;',role==='executive'?'มุมมองผู้บริหาร':'มุมมองผู้จัดการ','เปลี่ยนมุมมองแล้ว');
   }
 }
 
@@ -796,6 +851,70 @@ document.querySelectorAll('.stat-card').forEach(function(card){
   });
   card.addEventListener('dragend',function(){this.style.opacity='1';});
 });
+
+// ═══ CROSS-013: Offline Detection ═══
+(function(){
+    function updateOfflineStatus(){
+        var ind=document.getElementById('homeOfflineIndicator');
+        if(ind){ind.style.display=navigator.onLine?'none':'flex';}
+    }
+    window.addEventListener('offline',updateOfflineStatus);
+    window.addEventListener('online',updateOfflineStatus);
+    updateOfflineStatus();
+})();
+
+// ═══ CROSS-033: Training Mode Check ═══
+(function(){
+    // Check parent frame for training mode
+    try{
+        if(window.parent && window.parent.document.body.classList.contains('training-mode')){
+            var b=document.getElementById('homeTrainingBanner');
+            if(b) b.style.display='flex';
+        }
+    }catch(e){}
+})();
+
+// ═══ CROSS-042: Home Guided Tour ═══
+function homeGuidedTour(){
+    var steps=[
+        {sel:'.welcome-banner',msg:'&#127968; แบนเนอร์ต้อนรับ แสดงข้อมูลโปรไฟล์และสถิติการเข้าใช้งาน'},
+        {sel:'.role-bar',msg:'&#128100; เปลี่ยนมุมมองตามบทบาท เช่น ผู้จัดการ, พนักงาน, ผู้บริหาร'},
+        {sel:'.quick-actions',msg:'&#9889; ปุ่มดำเนินการด่วน เข้าถึงงานที่ใช้บ่อยได้ทันที'},
+        {sel:'.stats-row',msg:'&#128200; สถิติภาพรวม แสดง KPI หลักแบบเรียลไทม์'},
+        {sel:'.main-layout',msg:'&#128203; เนื้อหาหลัก แสดงสรุปรายวัน การแจ้งเตือน และกิจกรรมล่าสุด'}
+    ];
+    var idx=0;
+    var overlay=document.createElement('div');
+    overlay.style.cssText='position:fixed;inset:0;z-index:99998;background:rgba(0,0,0,.5);';
+    document.body.appendChild(overlay);
+    var tip=document.createElement('div');
+    tip.style.cssText='position:fixed;z-index:99999;background:var(--card-bg,#fff);border:2px solid var(--blue,#2563EB);border-radius:12px;padding:16px;max-width:320px;box-shadow:0 12px 40px rgba(0,0,0,.2);font-family:inherit;color:var(--text,#0F172A);';
+    tip.setAttribute('role','dialog');
+    tip.setAttribute('aria-label','ทัวร์แนะนำ');
+    document.body.appendChild(tip);
+    function show(i){
+        if(i>=steps.length){overlay.remove();tip.remove();showToast('&#127881;','ทัวร์เสร็จสิ้น','คุณพร้อมใช้งานแล้ว!');return;}
+        var el=document.querySelector(steps[i].sel);
+        var r=el?el.getBoundingClientRect():{top:100,left:100,width:200,height:40};
+        tip.innerHTML='<div style="font-size:.82rem;margin-bottom:10px;">'+steps[i].msg+'</div><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:.65rem;color:var(--muted,#64748B);">'+(i+1)+'/'+steps.length+'</span><div><button onclick="this.closest(\'div\').closest(\'div\').closest(\'div\').remove();document.querySelector(\'div[style*=inset]\').remove();" style="padding:3px 10px;border:1px solid var(--border,#E2E8F0);border-radius:6px;background:none;cursor:pointer;font-size:.7rem;font-family:inherit;margin-right:6px;">ข้าม</button><button onclick="homeGuidedTourNext()" style="padding:3px 10px;border:none;border-radius:6px;background:var(--grad,linear-gradient(135deg,#2563EB,#7C3AED));color:#fff;cursor:pointer;font-size:.7rem;font-weight:700;font-family:inherit;">'+(i<steps.length-1?'ถัดไป &#8594;':'เสร็จสิ้น &#10003;')+'</button></div></div>';
+        tip.style.top=Math.min(r.bottom+10,window.innerHeight-140)+'px';
+        tip.style.left=Math.min(Math.max(r.left,8),window.innerWidth-340)+'px';
+        idx=i;
+    }
+    window.homeGuidedTourNext=function(){show(idx+1);};
+    show(0);
+}
+
+// ═══ CROSS-017: Accessibility enhancements ═══
+(function(){
+    document.querySelectorAll('.qa-btn,.stat-card,.customize-btn').forEach(function(el){
+        el.setAttribute('tabindex','0');
+        el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click();}});
+    });
+    var s=document.createElement('style');
+    s.textContent='.qa-btn:focus-visible,.customize-btn:focus-visible,.stat-card:focus-visible{outline:2px solid var(--blue,#2563EB);outline-offset:2px;}';
+    document.head.appendChild(s);
+})();
 </script>
 </body>
 </html>

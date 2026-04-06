@@ -94,8 +94,8 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
 <div class="app-header">
 <a href="#">Autopilot v2</a><span class="sep">/</span>
-<a href="#">Sales Doc Gen</a><span class="sep">/</span>
-<span class="current">Quotation Builder</span>
+<a href="#">สร้างเอกสารขาย</a><span class="sep">/</span>
+<span class="current">สร้างใบเสนอราคา</span>
 </div>
 
 <div class="container">
@@ -174,6 +174,27 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 <option value="0">&#3648;&#3591;&#3636;&#3609;&#3626;&#3604;</option>
 </select>
 </div>
+<!-- CROSS-032: Multi-Currency Quotation -->
+<div class="form-group">
+<label class="form-label">&#128177; &#3626;&#3585;&#3640;&#3621;&#3648;&#3591;&#3636;&#3609;&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634;</label>
+<select class="form-select" id="quoteCurrency" onchange="updateQuoteFx()" aria-label="เลือกสกุลเงินใบเสนอราคา">
+<option value="THB" selected>&#127481;&#127469; THB — &#3610;&#3634;&#3607;&#3652;&#3607;&#3618;</option>
+<option value="USD">&#127482;&#127480; USD — &#3604;&#3629;&#3621;&#3621;&#3634;&#3619;&#3660;</option>
+<option value="EUR">&#127466;&#127482; EUR — &#3618;&#3641;&#3650;&#3619;</option>
+<option value="JPY">&#127471;&#127477; JPY — &#3648;&#3618;&#3609;</option>
+<option value="CNY">&#127464;&#127475; CNY — &#3627;&#3618;&#3623;&#3609;</option>
+<option value="GBP">&#127468;&#127463; GBP — &#3611;&#3629;&#3609;&#3604;&#3660;</option>
+</select>
+</div>
+<div class="form-group" id="fxRateGroup" style="display:none;">
+<label class="form-label">&#128200; &#3629;&#3633;&#3605;&#3619;&#3634;&#3649;&#3621;&#3585;&#3648;&#3611;&#3621;&#3637;&#3656;&#3618;&#3609; (&#3605;&#3656;&#3629; 1 &#3627;&#3609;&#3656;&#3623;&#3618;)</label>
+<div style="display:flex;gap:8px;align-items:center;">
+<input class="form-input" id="fxRateInput" type="number" step="0.01" value="34.95" style="width:140px;" oninput="recalcTotals()" aria-label="อัตราแลกเปลี่ยน">
+<span style="font-size:.78rem;color:var(--muted);" id="fxRateLabel">THB/USD</span>
+<button class="btn-outline" style="padding:4px 10px;font-size:.68rem;border-radius:6px;border:1px solid var(--blue);background:none;color:var(--blue);cursor:pointer;font-family:inherit;font-weight:600;" onclick="showToast('&#128260;','อัตราแลกเปลี่ยน','&#3629;&#3633;&#3611;&#3648;&#3604;&#3605;&#3629;&#3633;&#3605;&#3619;&#3634;&#3649;&#3621;&#3585;&#3648;&#3611;&#3621;&#3637;&#3656;&#3618;&#3609;&#3621;&#3656;&#3634;&#3626;&#3640;&#3604;&#3649;&#3621;&#3657;&#3623;')" aria-label="อัปเดตอัตราแลกเปลี่ยน">&#128260; &#3629;&#3633;&#3611;&#3648;&#3604;&#3605;</button>
+</div>
+<div style="font-size:.62rem;color:var(--muted);margin-top:4px;">&#3629;&#3657;&#3634;&#3591;&#3629;&#3636;&#3591;: BOT Reference Rate &#3623;&#3633;&#3609;&#3607;&#3637;&#3656; 6 &#3648;&#3617;.&#3618;. 2569</div>
+</div>
 <div class="form-group">
 <label class="form-label">&#3627;&#3633;&#3585; &#3603; &#3607;&#3637;&#3656;&#3592;&#3656;&#3634;&#3618;</label>
 <select class="form-select" id="whtSelect" onchange="recalcTotals()">
@@ -208,7 +229,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 </tr>
 <tr>
 <td style="text-align:center;color:var(--muted);">2</td>
-<td><input type="text" value="&#3610;&#3619;&#3636;&#3585;&#3634;&#3619; Implementation & Setup" oninput="recalcTotals()"></td>
+<td><input type="text" value="บริการติดตั้งและตั้งค่าระบบ" oninput="recalcTotals()"></td>
 <td><input type="number" value="1" min="1" style="text-align:right;" oninput="recalcTotals()"></td>
 <td><input type="number" value="80000" min="0" style="text-align:right;" oninput="recalcTotals()"></td>
 <td class="num" style="font-weight:600;">&#3647;80,000</td>
@@ -216,7 +237,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 </tr>
 <tr>
 <td style="text-align:center;color:var(--muted);">3</td>
-<td><input type="text" value="&#3588;&#3656;&#3634; Training &#3612;&#3641;&#3657;&#3651;&#3594;&#3657;&#3591;&#3634;&#3609; (5 &#3623;&#3633;&#3609;)" oninput="recalcTotals()"></td>
+<td><input type="text" value="ค่าอบรมผู้ใช้งาน (5 &#3623;&#3633;&#3609;)" oninput="recalcTotals()"></td>
 <td><input type="number" value="1" min="1" style="text-align:right;" oninput="recalcTotals()"></td>
 <td><input type="number" value="25000" min="0" style="text-align:right;" oninput="recalcTotals()"></td>
 <td class="num" style="font-weight:600;">&#3647;25,000</td>
@@ -243,7 +264,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 <h3>&#9997;&#65039; &#3621;&#3634;&#3618;&#3648;&#3595;&#3655;&#3609;&#3612;&#3641;&#3657;&#3648;&#3626;&#3609;&#3629;</h3>
 <span class="badge badge-blue">e-Signature</span>
 </div>
-<div class="sig-area" onclick="showToast('&#9997;&#65039;','e-Signature','&#3648;&#3611;&#3636;&#3604;&#3627;&#3609;&#3657;&#3634;&#3605;&#3656;&#3634;&#3591;&#3621;&#3634;&#3618;&#3648;&#3595;&#3655;&#3609;&#3629;&#3636;&#3648;&#3621;&#3655;&#3585;&#3607;&#3619;&#3629;&#3609;&#3636;&#3585;&#3626;&#3660;...')">
+<div class="sig-area" onclick="showToast('&#9997;&#65039;','ลายเซ็นอิเล็กทรอนิกส์','&#3648;&#3611;&#3636;&#3604;&#3627;&#3609;&#3657;&#3634;&#3605;&#3656;&#3634;&#3591;&#3621;&#3634;&#3618;&#3648;&#3595;&#3655;&#3609;&#3629;&#3636;&#3648;&#3621;&#3655;&#3585;&#3607;&#3619;&#3629;&#3609;&#3636;&#3585;&#3626;&#3660;...')">
 <div class="sig-icon">&#9997;&#65039;</div>
 <div class="sig-label">&#3621;&#3634;&#3618;&#3648;&#3595;&#3655;&#3609;&#3629;&#3636;&#3648;&#3621;&#3655;&#3585;&#3607;&#3619;&#3629;&#3609;&#3636;&#3585;&#3626;&#3660;&#3612;&#3641;&#3657;&#3648;&#3626;&#3609;&#3629;</div>
 <div class="sig-sub">&#3588;&#3621;&#3636;&#3585;&#3648;&#3614;&#3639;&#3656;&#3629;&#3648;&#3595;&#3655;&#3609;&#3594;&#3639;&#3656;&#3629;&#3627;&#3619;&#3639;&#3629;&#3623;&#3634;&#3604;&#3621;&#3634;&#3618;&#3648;&#3595;&#3655;&#3609;</div>
@@ -259,7 +280,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 <h3>&#9997;&#65039; &#3621;&#3634;&#3618;&#3648;&#3595;&#3655;&#3609;&#3612;&#3641;&#3657;&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;</h3>
 <span class="badge badge-green">&#3621;&#3641;&#3585;&#3588;&#3657;&#3634;</span>
 </div>
-<div class="sig-area" onclick="showToast('&#9997;&#65039;','e-Signature','&#3626;&#3656;&#3591;&#3621;&#3636;&#3591;&#3585;&#3660;&#3651;&#3627;&#3657;&#3621;&#3641;&#3585;&#3588;&#3657;&#3634;&#3648;&#3595;&#3655;&#3609;&#3594;&#3639;&#3656;&#3629;...')">
+<div class="sig-area" onclick="showToast('&#9997;&#65039;','ลายเซ็นอิเล็กทรอนิกส์','&#3626;&#3656;&#3591;&#3621;&#3636;&#3591;&#3585;&#3660;&#3651;&#3627;&#3657;&#3621;&#3641;&#3585;&#3588;&#3657;&#3634;&#3648;&#3595;&#3655;&#3609;&#3594;&#3639;&#3656;&#3629;...')">
 <div class="sig-icon">&#128228;</div>
 <div class="sig-label">&#3626;&#3656;&#3591;&#3651;&#3627;&#3657;&#3621;&#3641;&#3585;&#3588;&#3657;&#3634;&#3648;&#3595;&#3655;&#3609;&#3629;&#3636;&#3648;&#3621;&#3655;&#3585;&#3607;&#3619;&#3629;&#3609;&#3636;&#3585;&#3626;&#3660;</div>
 <div class="sig-sub">&#3626;&#3656;&#3591;&#3621;&#3636;&#3591;&#3585;&#3660;&#3648;&#3595;&#3655;&#3609;&#3612;&#3656;&#3634;&#3609; Email &#3627;&#3619;&#3639;&#3629; LINE</div>
@@ -274,15 +295,37 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 <!-- Action Buttons -->
 <div class="btn-row">
 <button class="btn-primary" onclick="showToast('&#128190;','&#3610;&#3633;&#3609;&#3607;&#3638;&#3585;&#3649;&#3621;&#3657;&#3623;','&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634; QT-2569-0158 &#3610;&#3633;&#3609;&#3607;&#3638;&#3585;&#3626;&#3635;&#3648;&#3619;&#3655;&#3592;')">&#128190; &#3610;&#3633;&#3609;&#3607;&#3638;&#3585;&#3649;&#3610;&#3610;&#3619;&#3656;&#3634;&#3591;</button>
-<button class="btn-outline" onclick="showToast('&#128424;','&#3626;&#3656;&#3591;&#3651;&#3627;&#3657;&#3621;&#3641;&#3585;&#3588;&#3657;&#3634;','&#3626;&#3656;&#3591;&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634;&#3612;&#3656;&#3634;&#3609; Email...')">&#128424; &#3626;&#3656;&#3591; Email</button>
-<button class="btn-outline" onclick="showToast('&#128196;','PDF','&#3585;&#3635;&#3621;&#3633;&#3591;&#3626;&#3619;&#3657;&#3634;&#3591; PDF...')">&#128196; Export PDF</button>
-<button class="btn-green" onclick="showToast('&#128228;','LINE','&#3626;&#3656;&#3591;&#3612;&#3656;&#3634;&#3609; LINE Official...')">&#128228; &#3626;&#3656;&#3591;&#3612;&#3656;&#3634;&#3609; LINE</button>
+<button class="btn-outline" onclick="showToast('&#128424;','ส่งอีเมล','ส่งใบเสนอราคาผ่านอีเมล...')">&#128424; &#3626;&#3656;&#3591;อีเมล</button>
+<button class="btn-outline" onclick="showToast('&#128196;','ส่งออก PDF','กำลังสร้าง PDF...')">&#128196; ส่งออก PDF</button>
+<button class="btn-green" onclick="showToast('&#128228;','ส่ง LINE','ส่งผ่าน LINE Official...')">&#128228; &#3626;&#3656;&#3591;&#3612;&#3656;&#3634;&#3609; LINE</button>
+<!-- CROSS-041: Batch Export Button -->
+<button class="btn-outline" onclick="showToast('&#128230;','ส่งออกทั้งหมด','กำลังส่งออกใบเสนอราคาทั้งหมดเป็น Excel...')" aria-label="ส่งออกใบเสนอราคาทั้งหมดเป็น Excel" style="border-color:var(--purple);color:var(--purple);">&#128230; ส่งออกทั้งหมด (Excel)</button>
 </div>
 
 </div>
 
 <script>
-function formatThai(n){return '฿'+n.toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2});}
+// ═══ CROSS-032: Multi-Currency ═══
+var quoteFxRates={THB:1,USD:34.95,EUR:38.02,JPY:0.2338,CNY:4.83,GBP:44.18};
+var quoteCurrSymbols={THB:'\u0E3F',USD:'$',EUR:'\u20AC',JPY:'\u00A5',CNY:'\u00A5',GBP:'\u00A3'};
+function updateQuoteFx(){
+    var cur=document.getElementById('quoteCurrency').value;
+    var grp=document.getElementById('fxRateGroup');
+    if(cur==='THB'){grp.style.display='none';}
+    else{
+        grp.style.display='';
+        document.getElementById('fxRateInput').value=quoteFxRates[cur]||1;
+        document.getElementById('fxRateLabel').textContent='THB/'+cur;
+    }
+    recalcTotals();
+}
+function getCurrSymbol(){var cur=document.getElementById('quoteCurrency').value;return quoteCurrSymbols[cur]||'\u0E3F';}
+
+function formatThai(n){
+    var cur=document.getElementById('quoteCurrency')?document.getElementById('quoteCurrency').value:'THB';
+    var sym=quoteCurrSymbols[cur]||'\u0E3F';
+    return sym+n.toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
 
 function recalcTotals(){
   var rows=document.querySelectorAll('#itemBody tr');
@@ -328,6 +371,27 @@ function showToast(icon,title,msg){
   document.body.appendChild(t);
   setTimeout(function(){t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(function(){t.remove();},300);},3000);
 }
+
+// ═══ CROSS-017: Accessibility ═══
+(function(){
+    document.querySelectorAll('.btn-primary,.btn-outline,.btn-green,.remove-btn,.sig-area').forEach(function(el){
+        el.setAttribute('tabindex','0');
+        if(!el.getAttribute('aria-label')){
+            var txt=el.textContent.trim().substring(0,40);
+            if(txt) el.setAttribute('aria-label',txt);
+        }
+        el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click();}});
+    });
+    document.querySelectorAll('.form-input,.form-select,.form-textarea').forEach(function(el){
+        if(!el.getAttribute('aria-label')){
+            var label=el.closest('.form-group');
+            if(label){var lbl=label.querySelector('.form-label');if(lbl)el.setAttribute('aria-label',lbl.textContent.trim());}
+        }
+    });
+    var s=document.createElement('style');
+    s.textContent='.btn-primary:focus-visible,.btn-outline:focus-visible,.btn-green:focus-visible,.sig-area:focus-visible,.form-input:focus-visible,.form-select:focus-visible{outline:2px solid var(--blue,#2563EB);outline-offset:2px;}';
+    document.head.appendChild(s);
+})();
 </script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>Sales Dashboard — Autopilot v2 | ANTS AI Solution Hub</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
@@ -99,7 +99,35 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 
 @keyframes toastIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 @media(max-width:1024px){.kpi-grid{grid-template-columns:repeat(2,1fr);}.grid-2,.grid-3{grid-template-columns:1fr;}.template-grid{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:600px){.kpi-grid{grid-template-columns:1fr;}.template-grid{grid-template-columns:1fr;}}
+@media(max-width:768px){
+  .container{padding:16px;}
+  .kpi-card{padding:14px;}
+  .kpi-value{font-size:1.15rem;}
+  .card{padding:16px;}
+  .card-header{flex-wrap:wrap;gap:8px;}
+  .template-card{padding:14px;}
+  .template-card .t-icon{font-size:1.5rem;}
+  .template-card .t-name{font-size:.78rem;}
+  .wht-row{flex-direction:column;gap:6px;}
+  .wht-row label{min-width:auto;}
+  .wht-row input,.wht-row select{width:100%;}
+  .funnel-stage{flex-wrap:wrap;gap:6px;}
+  .funnel-label{min-width:70px;font-size:.72rem;}
+  .funnel-bar{height:26px;font-size:.7rem;}
+  .forecast-row{flex-wrap:wrap;}
+  .forecast-month{min-width:60px;font-size:.75rem;}
+  .deal-item{flex-wrap:wrap;gap:8px;}
+  .app-header{padding:10px 16px;flex-wrap:wrap;gap:8px;}
+  .btn-primary{width:100%;justify-content:center;}
+}
+@media(max-width:600px){
+  .container{padding:12px;}
+  .kpi-grid{grid-template-columns:1fr;}
+  .template-grid{grid-template-columns:1fr;}
+  .kpi-value{font-size:1rem;}
+  .kpi-label{font-size:.65rem;}
+  .card-header h3{font-size:.85rem;}
+}
 </style>
 </head>
 <body>

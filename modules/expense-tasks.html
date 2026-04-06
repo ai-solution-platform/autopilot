@@ -2,8 +2,8 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Autopilot v2 - ANTS AI Solution Hub | Claim Tasks</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Autopilot v2 — ANTS AI Solution Hub | งานเคลมค่าใช้จ่าย</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--cyan-bg:#ECFEFF;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
@@ -143,7 +143,37 @@ tr:hover td{background:var(--bg2);}
 .bulk-info{font-size:13px;font-weight:500;color:var(--blue);}
 .bulk-actions{display:flex;gap:8px;}
 
-@media(max-width:768px){.stats-strip{grid-template-columns:repeat(2,1fr);}.advance-grid{grid-template-columns:1fr;}.perdiem-form{grid-template-columns:1fr;}.tab-nav{flex-wrap:wrap;}.tab-btn{min-width:50%;}}
+@media(max-width:768px){
+  .main-content{padding:16px;}
+  .stats-strip{grid-template-columns:repeat(2,1fr);}
+  .stat-card{padding:12px;gap:8px;}
+  .stat-info .stat-val{font-size:16px;}
+  .advance-grid{grid-template-columns:1fr;}
+  .perdiem-form{grid-template-columns:1fr;}
+  .tab-nav{flex-wrap:wrap;border-radius:10px;}
+  .tab-btn{min-width:50%;font-size:.78rem;padding:10px 12px;}
+  .toolbar{flex-direction:column;align-items:stretch;}
+  .toolbar-left,.toolbar-right{width:100%;}
+  .search-box{min-width:100%;width:100%;}
+  .action-btn{width:100%;justify-content:center;}
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  table{min-width:650px;}
+  th,td{padding:8px 10px;font-size:.75rem;}
+  .card{padding:16px;}
+  .delegation-banner{flex-direction:column;text-align:center;}
+  .overdue-alert{flex-direction:column;text-align:center;}
+  .app-header{padding:0 16px;}
+  .bulk-bar{flex-direction:column;gap:8px;}
+  .bulk-actions{width:100%;justify-content:center;}
+}
+@media(max-width:480px){
+  .main-content{padding:12px;}
+  .stats-strip{grid-template-columns:1fr;}
+  .tab-btn{min-width:100%;}
+  th:nth-child(n+5),td:nth-child(n+5){display:none;}
+  .stat-info .stat-val{font-size:14px;}
+  .stat-info .stat-label{font-size:11px;}
+}
 </style>
 </head>
 <body>
@@ -153,7 +183,7 @@ tr:hover td{background:var(--bg2);}
 <header class="app-header">
   <div class="app-logo">&#9889; ANTS Autopilot v2</div>
   <div class="breadcrumb">
-    <a href="#">Expense</a><span class="sep">/</span><span class="current">Claim Tasks</span>
+    <a href="#">ค่าใช้จ่าย</a><span class="sep">/</span><span class="current">งานเคลม</span>
   </div>
   <div class="user-bar">
     <span class="user-name">สมชาย ใจดี</span>
@@ -168,7 +198,7 @@ tr:hover td{background:var(--bg2);}
       <span class="delegation-icon">&#128101;</span>
       <div>
         <div class="delegation-text">&#9888; คุณธนา (ผู้จัดการ) ลาพักร้อน 5-12 เม.ย. 2569 — มอบหมายอนุมัติให้ คุณสมชาย</div>
-        <div class="delegation-sub">คุณมีสิทธิ์อนุมัติ Expense Claim แทนชั่วคราว (ไม่เกิน &#3647;50,000/รายการ)</div>
+        <div class="delegation-sub">คุณมีสิทธิ์อนุมัติเคลมค่าใช้จ่ายแทนชั่วคราว (ไม่เกิน &#3647;50,000/รายการ)</div>
       </div>
     </div>
     <button class="delegation-action" onclick="alert('ดูรายละเอียดการมอบหมาย')">&#128064; ดูรายละเอียด</button>
@@ -176,9 +206,9 @@ tr:hover td{background:var(--bg2);}
 
   <!-- Tab Navigation -->
   <div class="tab-nav">
-    <button class="tab-btn active" onclick="switchTab(this,'claims')">&#128203; Expense Claims <span class="badge">12</span></button>
+    <button class="tab-btn active" onclick="switchTab(this,'claims')">&#128203; เคลมค่าใช้จ่าย <span class="badge">12</span></button>
     <button class="tab-btn" onclick="switchTab(this,'advance')">&#128176; สำรองจ่าย <span class="badge">3</span></button>
-    <button class="tab-btn" onclick="switchTab(this,'perdiem')">&#128197; Per Diem</button>
+    <button class="tab-btn" onclick="switchTab(this,'perdiem')">&#128197; เบี้ยเลี้ยง</button>
     <button class="tab-btn" onclick="switchTab(this,'settlement')">&#128176; เคลียร์เงิน <span class="badge">2</span></button>
   </div>
 
@@ -188,7 +218,7 @@ tr:hover td{background:var(--bg2);}
     <div class="stats-strip">
       <div class="stat-card">
         <div class="stat-icon blue">&#128203;</div>
-        <div class="stat-info"><div class="stat-val">12</div><div class="stat-label">Claims ทั้งหมด</div></div>
+        <div class="stat-info"><div class="stat-val">12</div><div class="stat-label">เคลมทั้งหมด</div></div>
       </div>
       <div class="stat-card">
         <div class="stat-icon orange">&#128338;</div>
@@ -213,13 +243,13 @@ tr:hover td{background:var(--bg2);}
       <div class="toolbar-left">
         <div class="search-box">
           <span>&#128269;</span>
-          <input placeholder="ค้นหา Claim, ร้านค้า, หมวด...">
+          <input placeholder="ค้นหาเคลม, ร้านค้า, หมวด...">
         </div>
         <button class="action-btn">&#128336; ตัวกรอง</button>
       </div>
       <div class="toolbar-right">
         <a href="expense-receipt-ocr.html" class="action-btn scan">&#128247; สแกนใบเสร็จ</a>
-        <button class="action-btn primary">&#10133; สร้าง Claim</button>
+        <button class="action-btn primary">&#10133; สร้างเคลม</button>
       </div>
     </div>
 
@@ -228,11 +258,11 @@ tr:hover td{background:var(--bg2);}
       <table>
         <thead><tr>
           <th><input type="checkbox"></th>
-          <th>Claim ID</th>
+          <th>รหัสเคลม</th>
           <th>รายละเอียด</th>
           <th>หมวด</th>
           <th>ยอดเงิน</th>
-          <th>Policy</th>
+          <th>นโยบาย</th>
           <th>สถานะ</th>
           <th>วันที่</th>
         </tr></thead>
@@ -348,7 +378,7 @@ tr:hover td{background:var(--bg2);}
           <div class="advance-id">ADV-0013</div>
           <span class="status status-approved">&#9989; อนุมัติแล้ว</span>
         </div>
-        <div class="advance-detail">สำรองจ่ายค่าวัสดุ Event — งาน Tech Conference 2569</div>
+        <div class="advance-detail">สำรองจ่ายค่าวัสดุงานอีเวนต์ — งาน งานประชุมเทคโนโลยี 2569</div>
         <div class="advance-amount" style="color:var(--green);">&#3647;25,000.00</div>
         <div class="advance-progress">
           <div class="advance-progress-label"><span>เคลียร์แล้ว</span><span>&#3647;0 / &#3647;25,000</span></div>
@@ -403,15 +433,15 @@ tr:hover td{background:var(--bg2);}
   <!-- ===== TAB 3: Per Diem Calculator EX-011 ===== -->
   <div class="tab-content" id="tab-perdiem">
     <div class="card">
-      <div class="card-title">&#128197; เครื่องคำนวณ Per Diem (เบี้ยเลี้ยงเดินทาง)</div>
+      <div class="card-title">&#128197; เครื่องคำนวณเบี้ยเลี้ยงเดินทาง</div>
       <p style="font-size:.78rem;color:var(--muted);margin-bottom:16px;">คำนวณตามอัตราราชการไทย พ.ศ. 2569 — ปรับตามระดับตำแหน่งและปลายทาง</p>
 
       <div class="perdiem-form">
         <div class="form-group">
           <label class="form-label">ประเภทการเดินทาง</label>
           <select class="form-select" onchange="updatePerDiem()">
-            <option selected>ในประเทศ (Domestic)</option>
-            <option>ต่างประเทศ (International)</option>
+            <option selected>ในประเทศ</option>
+            <option>ต่างประเทศ</option>
           </select>
         </div>
         <div class="form-group">
@@ -426,10 +456,10 @@ tr:hover td{background:var(--bg2);}
         <div class="form-group">
           <label class="form-label">ระดับตำแหน่ง</label>
           <select class="form-select">
-            <option>C-Level / VP</option>
-            <option>Director / AVP</option>
-            <option selected>Manager / Senior</option>
-            <option>Officer / Staff</option>
+            <option>ผู้บริหารระดับสูง (C-Level / VP)</option>
+            <option>ผู้อำนวยการ (Director / AVP)</option>
+            <option selected>ผู้จัดการ / อาวุโส (Manager / Senior)</option>
+            <option>เจ้าหน้าที่ / พนักงาน (Officer / Staff)</option>
           </select>
         </div>
         <div class="form-group">
@@ -446,16 +476,16 @@ tr:hover td{background:var(--bg2);}
         </div>
       </div>
 
-      <button class="btn btn-primary" style="margin-bottom:16px;">&#128170; คำนวณ Per Diem</button>
+      <button class="btn btn-primary" style="margin-bottom:16px;">&#128170; คำนวณเบี้ยเลี้ยง</button>
 
       <!-- Rate Table -->
-      <div style="font-size:.82rem;font-weight:700;margin-bottom:10px;">&#128200; อัตราค่าเบี้ยเลี้ยง (ในประเทศ — อัตราราชการ 2569)</div>
+      <div style="font-size:.82rem;font-weight:700;margin-bottom:10px;">&#128200; อัตราเบี้ยเลี้ยง (ในประเทศ — อัตราราชการ 2569)</div>
       <div style="overflow-x:auto;">
         <table class="perdiem-table">
           <thead><tr><th>รายการ</th><th>อัตรา/วัน</th><th>จำนวน</th><th>รวม</th></tr></thead>
           <tbody>
             <tr><td>&#127860; ค่าอาหาร (3 มื้อ)</td><td style="font-family:'Inter';">&#3647;800</td><td>3 วัน</td><td style="font-weight:700;font-family:'Inter';">&#3647;2,400</td></tr>
-            <tr><td>&#127962; ค่าที่พัก (Manager)</td><td style="font-family:'Inter';">&#3647;1,500</td><td>2 คืน</td><td style="font-weight:700;font-family:'Inter';">&#3647;3,000</td></tr>
+            <tr><td>&#127962; ค่าที่พัก (ผู้จัดการ)</td><td style="font-family:'Inter';">&#3647;1,500</td><td>2 คืน</td><td style="font-weight:700;font-family:'Inter';">&#3647;3,000</td></tr>
             <tr><td>&#128661; ค่าพาหนะ (เหมาจ่าย)</td><td style="font-family:'Inter';">&#3647;600</td><td>3 วัน</td><td style="font-weight:700;font-family:'Inter';">&#3647;1,800</td></tr>
             <tr><td>&#128176; เบี้ยเลี้ยงเดินทาง</td><td style="font-family:'Inter';">&#3647;270</td><td>3 วัน</td><td style="font-weight:700;font-family:'Inter';">&#3647;810</td></tr>
             <tr class="perdiem-total"><td colspan="3" style="text-align:right;font-size:.88rem;">&#128178; รวมทั้งหมด</td><td style="font-size:1.1rem;font-family:'Inter';">&#3647;8,010</td></tr>
@@ -470,7 +500,7 @@ tr:hover td{background:var(--bg2);}
 
     <!-- Per Diem Rates Reference -->
     <div class="card">
-      <div class="card-title">&#128214; อัตราอ้างอิง Per Diem — ต่างประเทศ (บางประเทศ)</div>
+      <div class="card-title">&#128214; อัตราอ้างอิงเบี้ยเลี้ยง — ต่างประเทศ (บางประเทศ)</div>
       <div style="overflow-x:auto;">
         <table class="perdiem-table">
           <thead><tr><th>ประเทศ</th><th>ค่าอาหาร/วัน</th><th>ค่าที่พัก/คืน</th><th>เบี้ยเลี้ยง/วัน</th><th>สกุลเงิน</th></tr></thead>
@@ -514,7 +544,7 @@ tr:hover td{background:var(--bg2);}
             </tr>
             <tr>
               <td style="font-weight:700;color:var(--blue);font-family:'Inter';">ADV-0013</td>
-              <td>สำรองจ่ายค่าวัสดุ Event</td>
+              <td>สำรองจ่ายค่าวัสดุงานอีเวนต์</td>
               <td class="amount-cell">&#3647;25,000</td>
               <td style="font-weight:700;font-family:'Inter';">—</td>
               <td style="font-weight:700;font-family:'Inter';">—</td>
