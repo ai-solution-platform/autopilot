@@ -1831,8 +1831,146 @@ body.training-mode .header{border-bottom:2px solid var(--orange);}
             <button class="btn btn-primary btn-sm mt-8" onclick="saveAllUserPrefs()">💾 บันทึกการตั้งค่าส่วนตัว</button>
         </div>
 
+        <!-- Data Backup & Restore Self-Service -->
+        <div class="card settings-card" data-settings-keywords="backup restore สำรองข้อมูล กู้คืน export zip retention" role="region" aria-label="สำรองข้อมูลและกู้คืน" style="grid-column:1/-1;">
+            <div class="card-title">💾 สำรองข้อมูล & กู้คืน (Backup & Restore)</div>
+            <div style="font-size:.78rem;color:var(--muted);margin-bottom:16px;">จัดการการสำรองข้อมูลอัตโนมัติและกู้คืนเมื่อต้องการ</div>
+
+            <!-- Backup Schedule -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+              <div style="border:1px solid var(--border);border-radius:10px;padding:16px;">
+                <div style="font-size:.82rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;">📅 ตั้งค่าตารางการสำรอง</div>
+                <div class="form-group">
+                  <label class="form-label">ความถี่การสำรอง</label>
+                  <div style="display:flex;gap:4px;background:var(--bg);padding:3px;border-radius:8px;border:1px solid var(--border);">
+                    <button onclick="setBackupSchedule('daily',this)" id="bkDaily" style="flex:1;padding:8px;border-radius:6px;font-size:.75rem;font-weight:600;cursor:pointer;border:none;background:var(--blue);color:#fff;font-family:inherit;transition:all .2s;">รายวัน</button>
+                    <button onclick="setBackupSchedule('weekly',this)" id="bkWeekly" style="flex:1;padding:8px;border-radius:6px;font-size:.75rem;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--muted);font-family:inherit;transition:all .2s;">รายสัปดาห์</button>
+                    <button onclick="setBackupSchedule('manual',this)" id="bkManual" style="flex:1;padding:8px;border-radius:6px;font-size:.75rem;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--muted);font-family:inherit;transition:all .2s;">Manual</button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">เวลาสำรอง (สำหรับอัตโนมัติ)</label>
+                  <input class="form-input" type="time" value="02:00" style="width:140px;">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">นโยบายเก็บรักษา (Retention Policy)</label>
+                  <div style="display:flex;gap:4px;background:var(--bg);padding:3px;border-radius:8px;border:1px solid var(--border);">
+                    <button onclick="setRetention(30,this)" class="ret-btn" style="flex:1;padding:8px;border-radius:6px;font-size:.75rem;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--muted);font-family:inherit;transition:all .2s;">30 วัน</button>
+                    <button onclick="setRetention(60,this)" class="ret-btn active" style="flex:1;padding:8px;border-radius:6px;font-size:.75rem;font-weight:600;cursor:pointer;border:none;background:var(--purple);color:#fff;font-family:inherit;transition:all .2s;">60 วัน</button>
+                    <button onclick="setRetention(90,this)" class="ret-btn" style="flex:1;padding:8px;border-radius:6px;font-size:.75rem;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--muted);font-family:inherit;transition:all .2s;">90 วัน</button>
+                  </div>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:12px;">
+                  <button class="btn btn-primary btn-sm" onclick="showToast('💾','Backup','เริ่มสำรองข้อมูลเดี๋ยวนี้...');setTimeout(function(){showToast('✅','Backup','สำรองข้อมูลสำเร็จ — ขนาด 2.6 GB')},2000)">💾 สำรองข้อมูลเดี๋ยวนี้</button>
+                  <button class="btn btn-outline btn-sm" onclick="showToast('📦','Export','กำลังส่งออกข้อมูลทั้งหมดเป็น ZIP...');setTimeout(function(){showToast('✅','Export','ดาวน์โหลด autopilot-backup-2026-04-06.zip')},3000)">📦 Export ทั้งหมดเป็น ZIP</button>
+                </div>
+              </div>
+
+              <!-- Backup Status -->
+              <div style="border:1px solid var(--border);border-radius:10px;padding:16px;">
+                <div style="font-size:.82rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;">📊 สถานะการสำรองข้อมูล</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+                  <div style="padding:10px;background:var(--green-bg);border-radius:8px;text-align:center;">
+                    <div style="font-size:.65rem;color:var(--muted);margin-bottom:2px;">สำรองล่าสุด</div>
+                    <div style="font-size:.85rem;font-weight:800;color:var(--green);">6 เม.ย. 02:00</div>
+                  </div>
+                  <div style="padding:10px;background:var(--blue-bg);border-radius:8px;text-align:center;">
+                    <div style="font-size:.65rem;color:var(--muted);margin-bottom:2px;">ขนาดทั้งหมด</div>
+                    <div style="font-size:.85rem;font-weight:800;color:var(--blue);">14.8 GB</div>
+                  </div>
+                  <div style="padding:10px;background:var(--purple-bg);border-radius:8px;text-align:center;">
+                    <div style="font-size:.65rem;color:var(--muted);margin-bottom:2px;">จำนวน Backup</div>
+                    <div style="font-size:.85rem;font-weight:800;color:var(--purple);">47 ครั้ง</div>
+                  </div>
+                  <div style="padding:10px;background:var(--orange-bg);border-radius:8px;text-align:center;">
+                    <div style="font-size:.65rem;color:var(--muted);margin-bottom:2px;">เก็บรักษา</div>
+                    <div style="font-size:.85rem;font-weight:800;color:var(--orange);">60 วัน</div>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--green-bg);border-radius:6px;font-size:.72rem;color:var(--green);font-weight:600;">
+                  <span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;"></span>
+                  ระบบสำรองข้อมูลอัตโนมัติทำงานปกติ — สำรองทุกวัน 02:00 น.
+                </div>
+              </div>
+            </div>
+
+            <!-- Backup History Table -->
+            <div style="border:1px solid var(--border);border-radius:10px;padding:16px;">
+              <div style="font-size:.82rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;">
+                <span>📋 ประวัติการสำรองข้อมูล</span>
+                <span style="font-size:.65rem;color:var(--muted);">แสดง 7 รายการล่าสุด</span>
+              </div>
+              <div style="overflow-x:auto;">
+                <table style="width:100%;border-collapse:collapse;font-size:.78rem;">
+                  <thead>
+                    <tr style="border-bottom:2px solid var(--border);">
+                      <th style="padding:8px 10px;text-align:left;font-size:.68rem;font-weight:700;color:var(--muted);">วันที่/เวลา</th>
+                      <th style="padding:8px 10px;text-align:left;font-size:.68rem;font-weight:700;color:var(--muted);">ประเภท</th>
+                      <th style="padding:8px 10px;text-align:left;font-size:.68rem;font-weight:700;color:var(--muted);">ขนาด</th>
+                      <th style="padding:8px 10px;text-align:left;font-size:.68rem;font-weight:700;color:var(--muted);">สถานะ</th>
+                      <th style="padding:8px 10px;text-align:right;font-size:.68rem;font-weight:700;color:var(--muted);">จัดการ</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style="border-bottom:1px solid var(--border);">
+                      <td style="padding:8px 10px;">6 เม.ย. 2569, 02:00</td>
+                      <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:4px;">อัตโนมัติ</span></td>
+                      <td style="padding:8px 10px;font-family:'Inter',sans-serif;font-weight:600;">2.6 GB</td>
+                      <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:4px;">สำเร็จ</span></td>
+                      <td style="padding:8px 10px;text-align:right;"><button class="btn btn-outline btn-sm" style="padding:3px 10px;font-size:.65rem;" onclick="if(confirm('ต้องการกู้คืนข้อมูลจาก 6 เม.ย. 2569 02:00 น. หรือไม่?\n\nข้อมูลปัจจุบันจะถูกแทนที่ด้วยข้อมูลสำรองนี้')){showToast('🔄','Restore','กำลังกู้คืนข้อมูล...');setTimeout(function(){showToast('✅','Restore','กู้คืนข้อมูลสำเร็จ!')},3000)}">🔄 กู้คืน</button></td>
+                    </tr>
+                    <tr style="border-bottom:1px solid var(--border);">
+                      <td style="padding:8px 10px;">5 เม.ย. 2569, 02:00</td>
+                      <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:4px;">อัตโนมัติ</span></td>
+                      <td style="padding:8px 10px;font-family:'Inter',sans-serif;font-weight:600;">2.5 GB</td>
+                      <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:4px;">สำเร็จ</span></td>
+                      <td style="padding:8px 10px;text-align:right;"><button class="btn btn-outline btn-sm" style="padding:3px 10px;font-size:.65rem;" onclick="if(confirm('ต้องการกู้คืนข้อมูลจาก 5 เม.ย. 2569 หรือไม่?')){showToast('🔄','Restore','กำลังกู้คืนข้อมูล...')}">🔄 กู้ค���น</button></td>
+                    </tr>
+                    <tr style="border-bottom:1px solid var(--border);">
+                      <td style="padding:8px 10px;">4 เม.ย. 2569, 02:00</td>
+                      <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:4px;">อัตโนมัติ</span></td>
+                      <td style="padding:8px 10px;font-family:'Inter',sans-serif;font-weight:600;">2.4 GB</td>
+                      <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:4px;">สำเร็จ</span></td>
+                      <td style="padding:8px 10px;text-align:right;"><button class="btn btn-outline btn-sm" style="padding:3px 10px;font-size:.65rem;" onclick="if(confirm('ต้องการกู้คืนข้อมูลจาก 4 เม.ย. 2569 หรือไม่?')){showToast('🔄','Restore','กำลังกู้คืนข้อมูล...')}">🔄 กู��คืน</button></td>
+                    </tr>
+                    <tr style="border-bottom:1px solid var(--border);">
+                      <td style="padding:8px 10px;">3 เม.ย. 2569, 14:30</td>
+                      <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--purple-bg);color:var(--purple);padding:2px 8px;border-radius:4px;">Manual</span></td>
+                      <td style="padding:8px 10px;font-family:'Inter',sans-serif;font-weight:600;">2.4 GB</td>
+                      <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:4px;">สำเร็��</span></td>
+                      <td style="padding:8px 10px;text-align:right;"><button class="btn btn-outline btn-sm" style="padding:3px 10px;font-size:.65rem;" onclick="if(confirm('ต้องการกู้คืนข้อมูลจาก 3 เม.ย. 2569 หรือไม่?')){showToast('🔄','Restore','กำลังกู้คืนข้อมูล...')}">🔄 กู้คืน</button></td>
+                    </tr>
+                    <tr style="border-bottom:1px solid var(--border);">
+                      <td style="padding:8px 10px;">3 เ���.ย. 2569, 02:00</td>
+                      <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:4px;">อัตโนมัติ</span></td>
+                      <td style="padding:8px 10px;font-family:'Inter',sans-serif;font-weight:600;">2.3 GB</td>
+                      <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:4px;">สำเร็จ</span></td>
+                      <td style="padding:8px 10px;text-align:right;"><button class="btn btn-outline btn-sm" style="padding:3px 10px;font-size:.65rem;" onclick="if(confirm('ต้องการกู้คืนข้อมูลจาก 3 เม.ย. 2569 02:00 หรือไม่?')){showToast('🔄','Restore','กำลังกู้คืนข้อมูล...')}">🔄 กู้ค���น</button></td>
+                    </tr>
+                    <tr style="border-bottom:1px solid var(--border);">
+                      <td style="padding:8px 10px;">2 เม.ย. 2569, 02:00</td>
+                      <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:4px;">อัตโ��มัติ</span></td>
+                      <td style="padding:8px 10px;font-family:'Inter',sans-serif;font-weight:600;">2.3 GB</td>
+                      <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--red-bg);color:var(--red);padding:2px 8px;border-radius:4px;">ล้มเหลว</span></td>
+                      <td style="padding:8px 10px;text-align:right;font-size:.65rem;color:var(--muted);">Disk full — แก้ไขแล้ว</td>
+                    </tr>
+                    <tr>
+                      <td style="padding:8px 10px;">1 เม.ย. 2569, 02:00</td>
+                      <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:4px;">อัตโนมัติ</span></td>
+                      <td style="padding:8px 10px;font-family:'Inter',sans-serif;font-weight:600;">2.2 GB</td>
+                      <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:4px;">สำเร��จ</span></td>
+                      <td style="padding:8px 10px;text-align:right;"><button class="btn btn-outline btn-sm" style="padding:3px 10px;font-size:.65rem;" onclick="if(confirm('ต้องการกู้คืนข้อมูลจาก 1 เม.ย. 2569 หรือไม่?')){showToast('🔄','Restore','กำลังกู้คืนข้อมูล...')}">🔄 กู้คืน</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <button class="btn btn-primary btn-sm mt-12" onclick="showToast('💾','Backup','บันทึกการตั้งค่าสำรองข้อมูลแล้ว')">💾 บันทึกการตั้งค่า</button>
+        </div>
+
         <!-- CROSS-036: Approval Delegation System Enhancement -->
-        <div class="card settings-card" data-settings-keywords="approval delegation proxy มอบหมาย อนุมัติ ตัวแทน" role="region" aria-label="ระบบมอบหมายอนุมัติ">
+        <div class="card settings-card" data-settings-keywords="approval delegation proxy มอบหมาย อนุมัติ ตัวแทน" role="region" aria-label="���ะบบมอบหมายอนุมัติ">
             <div class="card-title">&#128101; มอบหมายการอนุมัติ (Approval Delegation)</div>
             <div style="font-size:.78rem;color:var(--muted);margin-bottom:12px;">มอบหมายสิทธิ์อนุมัติให้ผู้อื่นเมื่อไม่อยู่ หรือตั้งค่าระบบอัตโนมัติ</div>
             <div style="border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px;">
@@ -2496,6 +2634,18 @@ function filterSettings(q){
         const keywords=(card.dataset.settingsKeywords||'')+' '+(card.textContent||'');
         card.style.display=!query||keywords.toLowerCase().includes(query)?'':'none';
     });
+}
+
+// ═══ BACKUP & RESTORE FUNCTIONS ═══
+function setBackupSchedule(type, btn) {
+    document.querySelectorAll('#bkDaily,#bkWeekly,#bkManual').forEach(function(b){b.style.background='transparent';b.style.color='var(--muted)';b.style.fontWeight='500';});
+    btn.style.background='var(--blue)';btn.style.color='#fff';btn.style.fontWeight='600';
+    showToast('📅','Backup Schedule','เปลี่ยนตารางสำรองเป็น: ' + (type==='daily'?'รายวัน':type==='weekly'?'รายสัปดาห์':'Manual'));
+}
+function setRetention(days, btn) {
+    document.querySelectorAll('.ret-btn').forEach(function(b){b.style.background='transparent';b.style.color='var(--muted)';b.style.fontWeight='500';b.classList.remove('active');});
+    btn.style.background='var(--purple)';btn.style.color='#fff';btn.style.fontWeight='600';btn.classList.add('active');
+    showToast('📦','Retention','เปลี่ยนนโยบายเก็บรักษาเป็น ' + days + ' วัน');
 }
 
 // ═══ ROLE TEMPLATE SELECTION ═══

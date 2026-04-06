@@ -309,10 +309,10 @@ h1,h2,h3,h4,h5,h6,.card-title{text-rendering:optimizeLegibility;}
   <!-- Header -->
   <div class="page-header">
     <div class="breadcrumb">
-      <a href="../pitching-v2.html">Autopilot v2</a>
-      <span>/</span>
-      <a href="../pitching-v2.html">Logistics FX</a>
-      <span>/</span>
+      <a href="#" onclick="event.preventDefault();window.parent.postMessage({action:'navigate',target:'home'},'*')">&#127968; &#3627;&#3609;&#3657;&#3634;&#3627;&#3621;&#3633;&#3585;</a>
+      <span>&gt;</span>
+      <a href="#" onclick="event.preventDefault();window.parent.postMessage({action:'navigate',target:'logistics'},'*')">Logistics FX</a>
+      <span>&gt;</span>
       <span>Landed Cost Calculator</span>
     </div>
     <div class="page-title-row">
@@ -1932,6 +1932,13 @@ document.getElementById('comparePrevModal').addEventListener('click', function(e
 document.getElementById('shareModal').addEventListener('click', function(e) {
   if (e.target === this) closeShareModal();
 });
+
 </script>
+
+<!-- Footer -->
+<div style="font-size:.68rem;color:var(--muted,#64748B);text-align:center;padding:12px;border-top:1px solid var(--border,#E2E8F0);margin-top:24px;">
+  ANTS Autopilot v2.0 | &copy; 2569 ANTS AI Solution Hub | Build: Wave 6
+</div>
+
 </body>
 </html>

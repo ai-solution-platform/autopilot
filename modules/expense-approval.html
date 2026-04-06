@@ -137,8 +137,8 @@ tr:hover td{background:var(--bg2);}
 
 <div class="page">
   <div class="breadcrumb">
-    <a href="#">ANTS Autopilot</a> <span>/</span>
-    <a href="expense-dashboard.html">Expense & Receipt</a> <span>/</span>
+    <a href="#" onclick="event.preventDefault();window.parent.postMessage({action:'navigate',target:'home'},'*')">&#127968; &#3627;&#3609;&#3657;&#3634;&#3627;&#3621;&#3633;&#3585;</a> <span>&gt;</span>
+    <a href="#" onclick="event.preventDefault();window.parent.postMessage({action:'navigate',target:'expense-dashboard'},'*')">Expense &amp; Receipt</a> <span>&gt;</span>
     <span>Approval Queue</span>
   </div>
 
@@ -498,5 +498,11 @@ function showConfirm(type){
 }
 function hideConfirm(){document.getElementById('confirmDialog').classList.remove('show');}
 </script>
+
+<!-- Footer -->
+<div style="font-size:.68rem;color:var(--muted);text-align:center;padding:12px;border-top:1px solid var(--border);margin-top:24px;">
+  ANTS Autopilot v2.0 | &copy; 2569 ANTS AI Solution Hub | Build: Wave 6
+</div>
+
 </body>
 </html>

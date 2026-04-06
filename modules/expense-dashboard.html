@@ -137,6 +137,13 @@ h1,h2,h3,h4,h5,h6,.card-title,.stat-value{text-rendering:optimizeLegibility;}
 .trend-val{font-size:.58rem;font-weight:700;color:var(--text2);position:absolute;top:-14px;left:50%;transform:translateX(-50%);white-space:nowrap;}
 .trend-spacer{flex:1;}
 
+/* Empty State */
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 24px;text-align:center;}
+.empty-state svg{width:120px;height:120px;margin-bottom:20px;opacity:.7;}
+.empty-state-title{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:6px;}
+.empty-state-msg{font-size:.82rem;color:var(--muted);margin-bottom:16px;max-width:320px;line-height:1.6;}
+.empty-state .btn{font-family:inherit;}
+
 @media(max-width:768px){
   .page{padding:16px;}
   .kpi-strip{grid-template-columns:repeat(2,1fr);}
@@ -545,6 +552,29 @@ function setPeriod(btn){document.querySelectorAll('.period-btn').forEach(b=>b.cl
 function toggleDrill(el){el.classList.toggle('expanded');}
 // SPRINT-6: Offline Detection
 (function(){function u(){var i=document.getElementById('offlineIndicator');if(i)i.style.display=navigator.onLine?'none':'flex';}window.addEventListener('offline',u);window.addEventListener('online',u);u();})();
+
+// Empty State Component
+function showEmptyState(containerId, message, actionLabel, actionFn) {
+  var el = document.getElementById(containerId);
+  if (!el) return;
+  el.innerHTML = '<div class="empty-state">' +
+    '<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+    '<rect x="20" y="30" width="80" height="60" rx="8" stroke="var(--border)" stroke-width="2" fill="var(--bg2)"/>' +
+    '<path d="M40 55h40M40 65h25" stroke="var(--muted)" stroke-width="2" stroke-linecap="round"/>' +
+    '<circle cx="60" cy="45" r="8" stroke="var(--blue)" stroke-width="2" fill="var(--blue-bg)"/>' +
+    '<path d="M57 45l2 2 4-4" stroke="var(--blue)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '</svg>' +
+    '<div class="empty-state-title">' + (message || '\u0E44\u0E21\u0E48\u0E21\u0E35\u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25') + '</div>' +
+    '<div class="empty-state-msg">\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E43\u0E19\u0E0A\u0E48\u0E27\u0E07\u0E40\u0E27\u0E25\u0E32\u0E19\u0E35\u0E49 \u0E25\u0E2D\u0E07\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E43\u0E2B\u0E21\u0E48\u0E2B\u0E23\u0E37\u0E2D\u0E1B\u0E23\u0E31\u0E1A\u0E15\u0E31\u0E27\u0E01\u0E23\u0E2D\u0E07</div>' +
+    (actionLabel ? '<button class="btn btn-primary" onclick="' + (actionFn || '') + '">' + actionLabel + '</button>' : '') +
+    '</div>';
+}
 </script>
+
+<!-- Footer -->
+<div style="font-size:.68rem;color:var(--muted);text-align:center;padding:12px;border-top:1px solid var(--border);margin-top:24px;">
+  ANTS Autopilot v2.0 | &copy; 2569 ANTS AI Solution Hub | Build: Wave 6
+</div>
+
 </body>
 </html>
