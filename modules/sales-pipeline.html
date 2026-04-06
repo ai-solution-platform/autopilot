@@ -458,6 +458,78 @@ function showToast(icon,title,msg){
   document.body.appendChild(t);
   setTimeout(function(){t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(function(){t.remove();},300);},3000);
 }
+
+// ============ TOUCH SUPPORT FOR MOBILE DRAG-DROP ============
+(function(){
+  var touchCard=null;
+  var touchClone=null;
+  var touchStartX=0,touchStartY=0;
+  var touchOffsetX=0,touchOffsetY=0;
+  var lastDropTarget=null;
+
+  function getTouchTarget(x,y){
+    var bodies=document.querySelectorAll('.kanban-col-body');
+    for(var i=0;i<bodies.length;i++){
+      var r=bodies[i].getBoundingClientRect();
+      if(x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom){return bodies[i];}
+    }
+    return null;
+  }
+
+  document.querySelectorAll('.deal-card').forEach(function(card){
+    card.addEventListener('touchstart',function(e){
+      if(e.touches.length!==1)return;
+      var touch=e.touches[0];
+      touchCard=card;
+      var rect=card.getBoundingClientRect();
+      touchOffsetX=touch.clientX-rect.left;
+      touchOffsetY=touch.clientY-rect.top;
+      touchStartX=touch.clientX;
+      touchStartY=touch.clientY;
+
+      // Create floating clone
+      touchClone=card.cloneNode(true);
+      touchClone.style.cssText='position:fixed;z-index:10000;pointer-events:none;opacity:0.85;width:'+rect.width+'px;transform:rotate(2deg);box-shadow:0 8px 32px rgba(0,0,0,.2);border:2px solid var(--blue);border-radius:10px;left:'+(touch.clientX-touchOffsetX)+'px;top:'+(touch.clientY-touchOffsetY)+'px;transition:none;';
+      document.body.appendChild(touchClone);
+      card.style.opacity='0.3';
+    },{passive:true});
+
+    card.addEventListener('touchmove',function(e){
+      if(!touchCard||!touchClone)return;
+      e.preventDefault();
+      var touch=e.touches[0];
+      touchClone.style.left=(touch.clientX-touchOffsetX)+'px';
+      touchClone.style.top=(touch.clientY-touchOffsetY)+'px';
+
+      // Highlight drop target
+      var target=getTouchTarget(touch.clientX,touch.clientY);
+      if(lastDropTarget&&lastDropTarget!==target){lastDropTarget.classList.remove('drag-over');}
+      if(target){target.classList.add('drag-over');lastDropTarget=target;}
+    },{passive:false});
+
+    card.addEventListener('touchend',function(e){
+      if(!touchCard)return;
+      if(touchClone){touchClone.remove();touchClone=null;}
+      touchCard.style.opacity='1';
+
+      if(lastDropTarget){
+        lastDropTarget.classList.remove('drag-over');
+        var hint=lastDropTarget.querySelector('.drag-hint');
+        lastDropTarget.insertBefore(touchCard,hint);
+        var stage=lastDropTarget.closest('.kanban-col').getAttribute('data-stage');
+        showToast('\u2705','\u0e22\u0e49\u0e32\u0e22 Stage','\u0e22\u0e49\u0e32\u0e22\u0e14\u0e35\u0e25\u0e44\u0e1b Stage: '+stage+' \u0e2a\u0e33\u0e40\u0e23\u0e47\u0e08');
+        lastDropTarget=null;
+      }
+      touchCard=null;
+    },{passive:true});
+
+    card.addEventListener('touchcancel',function(){
+      if(touchClone){touchClone.remove();touchClone=null;}
+      if(touchCard){touchCard.style.opacity='1';touchCard=null;}
+      if(lastDropTarget){lastDropTarget.classList.remove('drag-over');lastDropTarget=null;}
+    },{passive:true});
+  });
+})();
 </script>
 </body>
 </html>

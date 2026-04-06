@@ -265,9 +265,46 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
   .card-title{font-size:.85rem;}
   .btn-sm{padding:4px 10px;font-size:.7rem;}
 }
+/* Loading Skeleton & Page Transition */
+@keyframes skeletonPulse{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+.skeleton-overlay{position:fixed;inset:0;z-index:9998;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .5s,visibility .5s;}
+.skeleton-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+.skeleton-bar{height:14px;border-radius:6px;background:linear-gradient(90deg,var(--bg3) 25%,var(--border) 50%,var(--bg3) 75%);background-size:200% 100%;animation:skeletonPulse 1.5s ease infinite;}
+.skeleton-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;width:100%;max-width:1200px;padding:0 24px;}
+.skeleton-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;gap:10px;}
+.skeleton-table{width:100%;max-width:1200px;padding:0 24px;}
+.skeleton-table-row{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
+.skeleton-table-row .skeleton-bar{flex:1;}
+.page-wrap,.page-wrap>*{animation:fadeInUp .5s ease both;}
+.page-wrap>*:nth-child(2){animation-delay:.05s;}
+.page-wrap>*:nth-child(3){animation-delay:.1s;}
+.page-wrap>*:nth-child(4){animation-delay:.15s;}
+.page-wrap>*:nth-child(5){animation-delay:.2s;}
 </style>
 </head>
 <body>
+
+<!-- Loading Skeleton Overlay -->
+<div class="skeleton-overlay" id="skeletonOverlay">
+  <div style="width:100%;max-width:1200px;padding:0 24px;">
+    <div class="skeleton-bar" style="width:200px;height:20px;margin-bottom:24px;"></div>
+  </div>
+  <div class="skeleton-grid">
+    <div class="skeleton-card"><div class="skeleton-bar" style="width:40%;height:10px;"></div><div class="skeleton-bar" style="width:70%;height:22px;"></div><div class="skeleton-bar" style="width:55%;height:10px;"></div></div>
+    <div class="skeleton-card"><div class="skeleton-bar" style="width:40%;height:10px;"></div><div class="skeleton-bar" style="width:70%;height:22px;"></div><div class="skeleton-bar" style="width:55%;height:10px;"></div></div>
+    <div class="skeleton-card"><div class="skeleton-bar" style="width:40%;height:10px;"></div><div class="skeleton-bar" style="width:70%;height:22px;"></div><div class="skeleton-bar" style="width:55%;height:10px;"></div></div>
+    <div class="skeleton-card"><div class="skeleton-bar" style="width:40%;height:10px;"></div><div class="skeleton-bar" style="width:70%;height:22px;"></div><div class="skeleton-bar" style="width:55%;height:10px;"></div></div>
+  </div>
+  <div class="skeleton-table">
+    <div class="skeleton-bar" style="width:160px;height:16px;margin:24px 0 12px;"></div>
+    <div class="skeleton-table-row"><div class="skeleton-bar" style="flex:.5;"></div><div class="skeleton-bar"></div><div class="skeleton-bar" style="flex:1.5;"></div><div class="skeleton-bar" style="flex:.7;"></div><div class="skeleton-bar" style="flex:.5;"></div></div>
+    <div class="skeleton-table-row"><div class="skeleton-bar" style="flex:.5;"></div><div class="skeleton-bar"></div><div class="skeleton-bar" style="flex:1.5;"></div><div class="skeleton-bar" style="flex:.7;"></div><div class="skeleton-bar" style="flex:.5;"></div></div>
+    <div class="skeleton-table-row"><div class="skeleton-bar" style="flex:.5;"></div><div class="skeleton-bar"></div><div class="skeleton-bar" style="flex:1.5;"></div><div class="skeleton-bar" style="flex:.7;"></div><div class="skeleton-bar" style="flex:.5;"></div></div>
+    <div class="skeleton-table-row"><div class="skeleton-bar" style="flex:.5;"></div><div class="skeleton-bar"></div><div class="skeleton-bar" style="flex:1.5;"></div><div class="skeleton-bar" style="flex:.7;"></div><div class="skeleton-bar" style="flex:.5;"></div></div>
+    <div class="skeleton-table-row"><div class="skeleton-bar" style="flex:.5;"></div><div class="skeleton-bar"></div><div class="skeleton-bar" style="flex:1.5;"></div><div class="skeleton-bar" style="flex:.7;"></div><div class="skeleton-bar" style="flex:.5;"></div></div>
+  </div>
+</div>
 
 <button class="dark-toggle" onclick="toggleDark()">🌙</button>
 
@@ -1411,6 +1448,12 @@ setTimeout(checkDraftRestore,500);
 
 // Render department budget summary
 renderDeptBudgetSummary();
+
+// Hide loading skeleton after initial render
+setTimeout(function(){
+  var overlay=document.getElementById('skeletonOverlay');
+  if(overlay) overlay.classList.add('hidden');
+},600);
 </script>
 
 </body>

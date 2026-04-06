@@ -258,6 +258,121 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 </div>
 </div>
 
+<!-- Template Preview: ใบวางบิล (Billing Note) -->
+<div class="card" id="tplBillingNote">
+<div class="card-header">
+<h3>&#128195; ตัวอย่างเทมเพลต — ใบวางบิล (Billing Note)</h3>
+<span class="badge badge-blue">Thai Format</span>
+</div>
+<div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px;font-size:.82rem;">
+<div style="text-align:center;margin-bottom:16px;">
+<div style="font-size:1.1rem;font-weight:800;">บริษัท ANTS Intelligence จำกัด</div>
+<div style="font-size:.75rem;color:var(--muted);">123/45 ถ.สุขุมวิท แขวงคลองตันเหนือ เขตคลองเตย กรุงเทพฯ 10110</div>
+<div style="font-size:.75rem;color:var(--muted);">เลขประจำตัวผู้เสียภาษี: 0-1234-56789-01-2 | โทร: 02-123-4567</div>
+<div style="font-size:1rem;font-weight:800;color:var(--purple);margin-top:10px;">ใบวางบิล / Billing Note</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+<div style="padding:10px;background:var(--card-bg);border-radius:6px;border:1px solid var(--border);">
+<div style="font-size:.68rem;color:var(--muted);margin-bottom:2px;">เลขที่ใบวางบิล</div>
+<div style="font-weight:600;">BN-2569-0089</div>
+</div>
+<div style="padding:10px;background:var(--card-bg);border-radius:6px;border:1px solid var(--border);">
+<div style="font-size:.68rem;color:var(--muted);margin-bottom:2px;">วันที่วางบิล</div>
+<div style="font-weight:600;">6 เมษายน พ.ศ. 2569</div>
+</div>
+<div style="padding:10px;background:var(--card-bg);border-radius:6px;border:1px solid var(--border);">
+<div style="font-size:.68rem;color:var(--muted);margin-bottom:2px;">ลูกค้า</div>
+<div style="font-weight:600;">บริษัท ABC Corporation จำกัด</div>
+</div>
+<div style="padding:10px;background:var(--card-bg);border-radius:6px;border:1px solid var(--border);">
+<div style="font-size:.68rem;color:var(--muted);margin-bottom:2px;">กำหนดชำระ</div>
+<div style="font-weight:600;color:var(--orange);">20 เมษายน พ.ศ. 2569</div>
+</div>
+</div>
+<div style="font-size:.75rem;font-weight:700;margin-bottom:6px;color:var(--text2);">รายการใบแจ้งหนี้ที่วางบิล:</div>
+<table style="width:100%;border-collapse:collapse;font-size:.78rem;margin-bottom:12px;">
+<thead><tr style="background:var(--bg3);"><th style="padding:8px;text-align:left;font-weight:600;">เลขที่ Invoice</th><th style="padding:8px;text-align:left;">รายละเ��ียด</th><th style="padding:8px;text-align:right;">วันที่</th><th style="padding:8px;text-align:right;">จำนวนเงิน</th></tr></thead>
+<tbody>
+<tr><td style="padding:8px;border-bottom:1px solid var(--border);color:var(--blue);font-weight:600;">INV-2569-0301</td><td style="padding:8px;border-bottom:1px solid var(--border);">ระบบ CRM Enterprise - งวดที่ 1</td><td style="padding:8px;text-align:right;border-bottom:1px solid var(--border);">15 มี.ค. 69</td><td style="padding:8px;text-align:right;border-bottom:1px solid var(--border);">&#3647;150,000.00</td></tr>
+<tr><td style="padding:8px;border-bottom:1px solid var(--border);color:var(--blue);font-weight:600;">INV-2569-0315</td><td style="padding:8px;border-bottom:1px solid var(--border);">บริการ Implementation</td><td style="padding:8px;text-align:right;border-bottom:1px solid var(--border);">28 มี.���. 69</td><td style="padding:8px;text-align:right;border-bottom:1px solid var(--border);">&#3647;80,000.00</td></tr>
+<tr><td style="padding:8px;border-bottom:1px solid var(--border);color:var(--blue);font-weight:600;">INV-2569-0322</td><td style="padding:8px;border-bottom:1px solid var(--border);">ค่า Training 5 วัน</td><td style="padding:8px;text-align:right;border-bottom:1px solid var(--border);">2 เม.ย. 69</td><td style="padding:8px;text-align:right;border-bottom:1px solid var(--border);">&#3647;25,000.00</td></tr>
+</tbody>
+</table>
+<div style="display:flex;justify-content:flex-end;">
+<div style="min-width:240px;">
+<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.78rem;"><span>รวมก่อน VAT</span><span style="font-weight:600;">&#3647;255,000.00</span></div>
+<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.78rem;"><span>VAT 7%</span><span style="font-weight:600;">&#3647;17,850.00</span></div>
+<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.78rem;"><span>หัก ณ ที่จ่าย 3%</span><span style="font-weight:600;color:var(--red);">-&#3647;7,650.00</span></div>
+<div style="display:flex;justify-content:space-between;padding:6px 0;font-size:.88rem;font-weight:800;border-top:2px solid var(--text);margin-top:4px;"><span>ยอดเรียก���ก็บ</span><span style="color:var(--purple);">&#3647;265,200.00</span></div>
+</div>
+</div>
+<div style="margin-top:12px;padding:10px;background:var(--orange-bg);border:1px solid rgba(217,119,6,.2);border-radius:8px;font-size:.72rem;color:var(--orange);font-weight:600;">&#9888; กรุณาชำระภายในวันที่ 20 เมษายน 2569 — โอนเข้าบัญชี ธ.กรุงเทพ 123-4-56789-0</div>
+</div>
+</div>
+
+<!-- Template Preview: ใบเสร็จรับเงิน (Official Receipt) -->
+<div class="card" id="tplReceipt">
+<div class="card-header">
+<h3>&#127183; ตัวอย่างเทมเพลต — ใบเสร็จรับเงิน (Official Receipt)</h3>
+<span class="badge badge-green">e-Tax Ready</span>
+</div>
+<div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px;font-size:.82rem;">
+<div style="text-align:center;margin-bottom:16px;">
+<div style="font-size:1.1rem;font-weight:800;">บริษัท ANTS Intelligence จำกัด</div>
+<div style="font-size:.75rem;color:var(--muted);">123/45 ถ.สุขุมวิท แขวงคลองตันเหนือ ���ขตคลองเตย ก��ุงเทพฯ 10110</div>
+<div style="font-size:.75rem;color:var(--muted);">เล��ประจำตัวผู้เ���ียภาษี: 0-1234-56789-01-2 | โทร: 02-123-4567</div>
+<div style="font-size:1rem;font-weight:800;color:var(--green);margin-top:10px;">ใบเ���ร็จรับเงิน / Official Receipt</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+<div style="padding:10px;background:var(--card-bg);border-radius:6px;border:1px solid var(--border);">
+<div style="font-size:.68rem;color:var(--muted);margin-bottom:2px;">เลขที่ใบเสร็จ</div>
+<div style="font-weight:600;">RC-2569-0245</div>
+</div>
+<div style="padding:10px;background:var(--card-bg);border-radius:6px;border:1px solid var(--border);">
+<div style="font-size:.68rem;color:var(--muted);margin-bottom:2px;">วันที่ออกใบเสร็จ</div>
+<div style="font-weight:600;">6 เมษายน พ.ศ. 2569</div>
+</div>
+<div style="padding:10px;background:var(--card-bg);border-radius:6px;border:1px solid var(--border);">
+<div style="font-size:.68rem;color:var(--muted);margin-bottom:2px;">ได้รับเงินจาก</div>
+<div style="font-weight:600;">บริษัท XYZ Trading จำกัด</div>
+</div>
+<div style="padding:10px;background:var(--card-bg);border-radius:6px;border:1px solid var(--border);">
+<div style="font-size:.68rem;color:var(--muted);margin-bottom:2px;">อ้างอิงใบแจ้ง��นี้</div>
+<div style="font-weight:600;color:var(--blue);">INV-2569-0298</div>
+</div>
+</div>
+<table style="width:100%;border-collapse:collapse;font-size:.78rem;margin-bottom:12px;">
+<thead><tr style="background:var(--bg3);"><th style="padding:8px;text-align:left;font-weight:600;">รายการ</th><th style="padding:8px;text-align:right;">จำนวน</th><th style="padding:8px;text-align:right;">ราคา/หน่วย</th><th style="padding:8px;text-align:right;">รวม</th></tr></thead>
+<tbody>
+<tr><td style="padding:8px;border-bottom:1px solid var(--border);">CRM + Automation Package</td><td style="padding:8px;text-align:right;border-bottom:1px solid var(--border);">1</td><td style="padding:8px;text-align:right;border-bottom:1px solid var(--border);">&#3647;180,000.00</td><td style="padding:8px;text-align:right;border-bottom:1px solid var(--border);">&#3647;180,000.00</td></tr>
+<tr><td style="padding:8px;border-bottom:1px solid var(--border);">บริการติดตั้งและ Training</td><td style="padding:8px;text-align:right;border-bottom:1px solid var(--border);">1</td><td style="padding:8px;text-align:right;border-bottom:1px solid var(--border);">&#3647;45,000.00</td><td style="padding:8px;text-align:right;border-bottom:1px solid var(--border);">&#3647;45,000.00</td></tr>
+</tbody>
+</table>
+<div style="display:flex;justify-content:flex-end;">
+<div style="min-width:240px;">
+<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.78rem;"><span>รวมก่อน VAT</span><span style="font-weight:600;">&#3647;225,000.00</span></div>
+<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.78rem;"><span>VAT 7%</span><span style="font-weight:600;">&#3647;15,750.00</span></div>
+<div style="display:flex;justify-content:space-between;padding:6px 0;font-size:.88rem;font-weight:800;border-top:2px solid var(--text);margin-top:4px;"><span>รวมทั้งสิ้น</span><span style="color:var(--green);">&#3647;240,750.00</span></div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+<div style="padding:10px;background:var(--green-bg);border:1px solid rgba(5,150,105,.2);border-radius:8px;">
+<div style="font-size:.68rem;color:var(--muted);margin-bottom:2px;">วิธีช���ระ</div>
+<div style="font-size:.78rem;font-weight:600;color:var(--green);">&#9989; โอนเงินผ่านธนาคาร</div>
+<div style="font-size:.68rem;color:var(--muted);">Ref: TRF-20690406-001</div>
+</div>
+<div style="padding:10px;background:var(--blue-bg);border:1px solid rgba(37,99,235,.2);border-radius:8px;">
+<div style="font-size:.68rem;color:var(--muted);margin-bottom:2px;">e-Tax Invoice</div>
+<div style="font-size:.78rem;font-weight:600;color:var(--blue);">&#128274; ลงลายเซ็นอิเล็กทรอนิกส์แล้ว</div>
+<div style="font-size:.68rem;color:var(--muted);">SHA-256: a3f8...c9d2</div>
+</div>
+</div>
+<div style="margin-top:12px;text-align:center;padding:10px;border-top:1px dashed var(--border);font-size:.72rem;color:var(--muted);">
+(สองแสนสี่หมื่นเจ็ดร้อยห้าสิบบาทถ้วน) — เอกสารนี้ออกโดยระบบอิเล็กทรอนิก��์ ถูกต้องตามกฎหมาย
+</div>
+</div>
+</div>
+
 <div class="grid-2">
 <!-- WHT Calculator -->
 <div class="card">

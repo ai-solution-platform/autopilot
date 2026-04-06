@@ -174,9 +174,55 @@ tr:hover td{background:var(--bg2);}
   .stat-info .stat-val{font-size:14px;}
   .stat-info .stat-label{font-size:11px;}
 }
+/* Loading Skeleton & Page Transition */
+@keyframes skeletonPulse{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+.skeleton-overlay{position:fixed;inset:0;z-index:9998;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .5s,visibility .5s;}
+.skeleton-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+.skeleton-bar{height:14px;border-radius:6px;background:linear-gradient(90deg,var(--bg3) 25%,var(--border) 50%,var(--bg3) 75%);background-size:200% 100%;animation:skeletonPulse 1.5s ease infinite;}
+.skeleton-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;width:100%;max-width:1400px;padding:0 24px;}
+.skeleton-card-sm{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;gap:8px;}
+.skeleton-table-area{width:100%;max-width:1400px;padding:0 24px;}
+.skeleton-row{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
+.skeleton-row .skeleton-bar{flex:1;}
+.main-content>*{animation:fadeInUp .5s ease both;}
+.main-content>*:nth-child(2){animation-delay:.05s;}
+.main-content>*:nth-child(3){animation-delay:.1s;}
+.main-content>*:nth-child(4){animation-delay:.15s;}
+
+/* Bulk Toolbar */
+.bulk-toolbar{position:fixed;bottom:0;left:0;right:0;z-index:500;background:var(--card-bg);border-top:2px solid var(--blue);padding:12px 24px;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 -4px 24px rgba(0,0,0,.12);transform:translateY(100%);transition:transform .3s ease;font-size:.82rem;}
+.bulk-toolbar.visible{transform:translateY(0);}
+.bulk-toolbar .bulk-count{font-weight:700;color:var(--blue);padding:4px 12px;background:var(--blue-bg);border-radius:8px;}
+.bulk-toolbar .bulk-btn{padding:7px 16px;border-radius:8px;font-size:.78rem;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--card-bg);color:var(--text2);font-family:inherit;display:inline-flex;align-items:center;gap:5px;transition:all .2s;}
+.bulk-toolbar .bulk-btn:hover{border-color:var(--blue);color:var(--blue);}
+.bulk-toolbar .bulk-btn.approve{background:var(--green);color:#fff;border-color:var(--green);}
+.bulk-toolbar .bulk-btn.approve:hover{opacity:.9;}
+.bulk-toolbar .bulk-btn.reject{background:var(--red-bg);color:var(--red);border-color:var(--red);}
+.bulk-toolbar .bulk-btn.cancel{color:var(--muted);}
 </style>
 </head>
 <body>
+
+<!-- Loading Skeleton -->
+<div class="skeleton-overlay" id="skeletonOverlay">
+  <div style="width:100%;max-width:1400px;padding:0 24px;"><div class="skeleton-bar" style="width:180px;height:20px;margin-bottom:20px;"></div></div>
+  <div class="skeleton-grid">
+    <div class="skeleton-card-sm"><div class="skeleton-bar" style="width:30%;height:10px;"></div><div class="skeleton-bar" style="width:60%;height:18px;"></div></div>
+    <div class="skeleton-card-sm"><div class="skeleton-bar" style="width:30%;height:10px;"></div><div class="skeleton-bar" style="width:60%;height:18px;"></div></div>
+    <div class="skeleton-card-sm"><div class="skeleton-bar" style="width:30%;height:10px;"></div><div class="skeleton-bar" style="width:60%;height:18px;"></div></div>
+    <div class="skeleton-card-sm"><div class="skeleton-bar" style="width:30%;height:10px;"></div><div class="skeleton-bar" style="width:60%;height:18px;"></div></div>
+    <div class="skeleton-card-sm"><div class="skeleton-bar" style="width:30%;height:10px;"></div><div class="skeleton-bar" style="width:60%;height:18px;"></div></div>
+  </div>
+  <div class="skeleton-table-area">
+    <div class="skeleton-bar" style="width:140px;height:16px;margin:20px 0 10px;"></div>
+    <div class="skeleton-row"><div class="skeleton-bar" style="flex:.3;"></div><div class="skeleton-bar"></div><div class="skeleton-bar" style="flex:1.5;"></div><div class="skeleton-bar" style="flex:.7;"></div><div class="skeleton-bar" style="flex:.5;"></div></div>
+    <div class="skeleton-row"><div class="skeleton-bar" style="flex:.3;"></div><div class="skeleton-bar"></div><div class="skeleton-bar" style="flex:1.5;"></div><div class="skeleton-bar" style="flex:.7;"></div><div class="skeleton-bar" style="flex:.5;"></div></div>
+    <div class="skeleton-row"><div class="skeleton-bar" style="flex:.3;"></div><div class="skeleton-bar"></div><div class="skeleton-bar" style="flex:1.5;"></div><div class="skeleton-bar" style="flex:.7;"></div><div class="skeleton-bar" style="flex:.5;"></div></div>
+    <div class="skeleton-row"><div class="skeleton-bar" style="flex:.3;"></div><div class="skeleton-bar"></div><div class="skeleton-bar" style="flex:1.5;"></div><div class="skeleton-bar" style="flex:.7;"></div><div class="skeleton-bar" style="flex:.5;"></div></div>
+  </div>
+</div>
+
 <button class="dark-toggle" onclick="toggleDark()">&#9790;</button>
 
 <!-- Header -->
@@ -559,6 +605,16 @@ tr:hover td{background:var(--bg2);}
   </div>
 </div>
 
+<!-- Bulk Toolbar -->
+<div class="bulk-toolbar" id="bulkToolbar">
+  <span>&#9745; เลือกแล้ว <span class="bulk-count" id="bulkCount">0</span> รายการ</span>
+  <button class="bulk-btn approve" onclick="bulkApprove()">&#9989; อนุมัติทั้งหมด</button>
+  <button class="bulk-btn reject" onclick="bulkReject()">&#10060; ปฏิเสธ</button>
+  <button class="bulk-btn" onclick="bulkExport()">&#128230; ส่งออก Excel</button>
+  <button class="bulk-btn" onclick="bulkAssign()">&#128101; มอบหมาย</button>
+  <button class="bulk-btn cancel" onclick="bulkClear()">&#10006; ยกเลิก</button>
+</div>
+
 <script>
 function toggleDark(){document.body.classList.toggle('dark');}
 function switchTab(btn,id){
@@ -568,6 +624,48 @@ function switchTab(btn,id){
   document.getElementById('tab-'+id).classList.add('active');
 }
 function updatePerDiem(){}
+
+// Multi-select bulk operations
+function updateBulkToolbar(){
+  var checked=document.querySelectorAll('tbody input[type=checkbox]:checked').length;
+  var toolbar=document.getElementById('bulkToolbar');
+  document.getElementById('bulkCount').textContent=checked;
+  if(checked>0){toolbar.classList.add('visible');}else{toolbar.classList.remove('visible');}
+}
+function toggleSelectAll(cb){
+  document.querySelectorAll('tbody input[type=checkbox]').forEach(function(c){c.checked=cb.checked;});
+  updateBulkToolbar();
+}
+// Attach listeners to existing checkboxes
+document.querySelectorAll('thead input[type=checkbox]').forEach(function(cb){
+  cb.addEventListener('change',function(){toggleSelectAll(this);});
+});
+document.querySelectorAll('tbody input[type=checkbox]').forEach(function(cb){
+  cb.addEventListener('change',updateBulkToolbar);
+});
+
+function showExpToast(msg,type){
+  var t=document.createElement('div');
+  var bg=type==='success'?'var(--green)':type==='error'?'var(--red)':'var(--blue)';
+  t.style.cssText='position:fixed;bottom:80px;right:24px;background:'+bg+';color:#fff;padding:12px 20px;border-radius:10px;font-size:.82rem;font-weight:600;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.15);font-family:inherit;animation:fadeInUp .3s ease;';
+  t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(function(){t.remove();},3000);
+}
+function bulkApprove(){showExpToast('อนุมัติ '+document.getElementById('bulkCount').textContent+' รายการสำเร็จ','success');bulkClear();}
+function bulkReject(){showExpToast('ปฏิเสธ '+document.getElementById('bulkCount').textContent+' รายการ','error');bulkClear();}
+function bulkExport(){showExpToast('กำลังส่งออก Excel...','info');}
+function bulkAssign(){showExpToast('มอบหมายงานสำเร็จ','success');bulkClear();}
+function bulkClear(){
+  document.querySelectorAll('input[type=checkbox]').forEach(function(c){c.checked=false;});
+  document.getElementById('bulkToolbar').classList.remove('visible');
+}
+
+// Hide loading skeleton
+setTimeout(function(){
+  var overlay=document.getElementById('skeletonOverlay');
+  if(overlay) overlay.classList.add('hidden');
+},500);
 </script>
 </body>
 </html>

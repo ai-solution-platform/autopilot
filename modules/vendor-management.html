@@ -214,9 +214,25 @@ tr:last-child td{border-bottom:none;}
 /* Loading Skeleton */
 .skeleton{background:linear-gradient(90deg,var(--bg3) 25%,var(--bg2) 50%,var(--bg3) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:6px;}
 @keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
 .skeleton-row{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
 .skeleton-cell{height:14px;border-radius:4px;}
 .skeleton-cell.w20{width:20%}.skeleton-cell.w30{width:30%}.skeleton-cell.w15{width:15%}.skeleton-cell.w10{width:10%}
+/* Full-page skeleton overlay */
+.page-skeleton-overlay{position:fixed;inset:0;z-index:9998;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .5s,visibility .5s;}
+.page-skeleton-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+.skel-bar{height:14px;border-radius:6px;background:linear-gradient(90deg,var(--bg3) 25%,var(--border) 50%,var(--bg3) 75%);background-size:200% 100%;animation:shimmer 1.5s ease infinite;}
+.skel-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;width:100%;max-width:1400px;padding:0 24px;}
+.skel-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;gap:10px;}
+.skel-table{width:100%;max-width:1400px;padding:0 24px;}
+.skel-trow{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
+.skel-trow .skel-bar{flex:1;}
+.page-wrap>*{animation:fadeInUp .45s ease both;}
+.page-wrap>*:nth-child(2){animation-delay:.04s;}
+.page-wrap>*:nth-child(3){animation-delay:.08s;}
+.page-wrap>*:nth-child(4){animation-delay:.12s;}
+.page-wrap>*:nth-child(5){animation-delay:.16s;}
+.page-wrap>*:nth-child(6){animation-delay:.2s;}
 
 /* Load Time Badge */
 .load-time-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;background:var(--green-bg);border:1px solid rgba(5,150,105,.2);border-radius:20px;font-size:.68rem;color:var(--green);font-weight:600;}
@@ -318,6 +334,24 @@ tr:last-child td{border-bottom:none;}
 </style>
 </head>
 <body>
+
+<!-- Full-page Loading Skeleton -->
+<div class="page-skeleton-overlay" id="pageSkeleton">
+  <div style="width:100%;max-width:1400px;padding:0 24px;"><div class="skel-bar" style="width:200px;height:20px;margin-bottom:20px;"></div></div>
+  <div class="skel-grid">
+    <div class="skel-card"><div class="skel-bar" style="width:40%;height:10px;"></div><div class="skel-bar" style="width:65%;height:22px;"></div><div class="skel-bar" style="width:50%;height:10px;"></div></div>
+    <div class="skel-card"><div class="skel-bar" style="width:40%;height:10px;"></div><div class="skel-bar" style="width:65%;height:22px;"></div><div class="skel-bar" style="width:50%;height:10px;"></div></div>
+    <div class="skel-card"><div class="skel-bar" style="width:40%;height:10px;"></div><div class="skel-bar" style="width:65%;height:22px;"></div><div class="skel-bar" style="width:50%;height:10px;"></div></div>
+    <div class="skel-card"><div class="skel-bar" style="width:40%;height:10px;"></div><div class="skel-bar" style="width:65%;height:22px;"></div><div class="skel-bar" style="width:50%;height:10px;"></div></div>
+  </div>
+  <div class="skel-table">
+    <div class="skel-bar" style="width:150px;height:16px;margin:24px 0 12px;"></div>
+    <div class="skel-trow"><div class="skel-bar" style="flex:.5;"></div><div class="skel-bar" style="flex:1.5;"></div><div class="skel-bar"></div><div class="skel-bar" style="flex:.7;"></div><div class="skel-bar" style="flex:.5;"></div></div>
+    <div class="skel-trow"><div class="skel-bar" style="flex:.5;"></div><div class="skel-bar" style="flex:1.5;"></div><div class="skel-bar"></div><div class="skel-bar" style="flex:.7;"></div><div class="skel-bar" style="flex:.5;"></div></div>
+    <div class="skel-trow"><div class="skel-bar" style="flex:.5;"></div><div class="skel-bar" style="flex:1.5;"></div><div class="skel-bar"></div><div class="skel-bar" style="flex:.7;"></div><div class="skel-bar" style="flex:.5;"></div></div>
+    <div class="skel-trow"><div class="skel-bar" style="flex:.5;"></div><div class="skel-bar" style="flex:1.5;"></div><div class="skel-bar"></div><div class="skel-bar" style="flex:.7;"></div><div class="skel-bar" style="flex:.5;"></div></div>
+  </div>
+</div>
 
 <button class="dark-toggle" onclick="document.body.classList.toggle('dark');this.textContent=document.body.classList.contains('dark')?'&#9728;':'&#9790;'">&#9790;</button>
 
@@ -1691,6 +1725,9 @@ function resetAuditDateFilter(){
     renderTrendSparklines();
     const loadTime = ((performance.now()-startTime)/1000).toFixed(1);
     document.getElementById('loadTimeBadge').innerHTML = '&#9889; โหลดใน '+loadTime+' วินาที';
+    // Hide full-page skeleton
+    var ps=document.getElementById('pageSkeleton');
+    if(ps) ps.classList.add('hidden');
   }, 400);
 })();
 </script>
