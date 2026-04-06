@@ -410,6 +410,7 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
     <button class="tab" onclick="switchTab('linked')">🔗 งานจากใบเสนอราคา</button>
     <button class="tab" onclick="switchTab('approval')" style="position:relative;">✅ อนุมัติ<span class="tab-badge">4</span></button>
     <button class="tab" onclick="switchTab('advance')" style="position:relative;">💰 สำรองจ่าย<span class="tab-badge">3</span></button>
+    <button class="tab" onclick="switchTab('bom')">&#128295; BOM</button>
   </div>
 
   <!-- PR Tab -->
@@ -557,6 +558,116 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
           </thead>
           <tbody id="advanceTableBody"></tbody>
         </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOM (Bill of Materials) Tab -->
+  <div id="tab-bom" class="tab-content">
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-header">
+        <div class="card-title">&#128295; Bill of Materials (BOM) &#8212; รายการวัสดุประกอบ</div>
+        <div style="display:flex;gap:8px;">
+          <select id="bomTemplateSelect" style="padding:6px 12px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:.78rem;background:var(--card-bg);color:var(--text);cursor:pointer;">
+            <option value="">&#128203; เลือก BOM Template...</option>
+            <option value="server">Server Rack Assembly (SRV-001)</option>
+            <option value="workstation">Workstation Setup (WS-001)</option>
+            <option value="network">Network Infrastructure (NET-001)</option>
+          </select>
+          <button class="btn btn-outline btn-sm" onclick="loadBOMTemplate()">&#128229; โหลด Template</button>
+          <button class="btn btn-outline btn-sm" onclick="saveBOMTemplate()">&#128190; บันทึก Template</button>
+        </div>
+      </div>
+
+      <!-- BOM Info -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px;">
+        <div style="padding:12px;background:var(--blue-bg);border-radius:8px;">
+          <div style="font-size:.68rem;font-weight:600;color:var(--blue);text-transform:uppercase;">BOM ID</div>
+          <div style="font-size:.92rem;font-weight:800;margin-top:2px;">BOM-2569-0042</div>
+        </div>
+        <div style="padding:12px;background:var(--green-bg);border-radius:8px;">
+          <div style="font-size:.68rem;font-weight:600;color:var(--green);text-transform:uppercase;">ผลิตภัณฑ์หลัก</div>
+          <div style="font-size:.92rem;font-weight:800;margin-top:2px;">Server Rack Assembly</div>
+        </div>
+        <div style="padding:12px;background:var(--purple-bg);border-radius:8px;">
+          <div style="font-size:.68rem;font-weight:600;color:var(--purple);text-transform:uppercase;">จำนวนที่ต้องการ</div>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
+            <input type="number" id="bomMultiplier" value="5" min="1" max="999" style="width:70px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-family:'Inter';font-size:.88rem;font-weight:800;text-align:center;background:var(--card-bg);color:var(--text);" onchange="updateBOMQuantities()">
+            <span style="font-size:.72rem;color:var(--muted);">ชุด</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOM Tree View -->
+      <div style="margin-bottom:16px;">
+        <div style="font-size:.78rem;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;">&#127795; โครงสร้าง BOM (Tree View)</div>
+        <div id="bomTree" style="font-size:.8rem;">
+          <div style="padding:10px 14px;background:var(--grad);color:#fff;border-radius:8px 8px 0 0;font-weight:700;display:flex;align-items:center;gap:8px;">
+            &#128295; Server Rack Assembly (SRV-001) <span style="margin-left:auto;font-size:.7rem;opacity:.8;">x <span class="bom-qty-mult">5</span></span>
+          </div>
+          <div style="border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;overflow:hidden;">
+            <div style="display:flex;align-items:center;padding:10px 14px 10px 30px;border-bottom:1px solid var(--border);background:var(--card-bg);">
+              <span style="color:var(--blue);margin-right:8px;">&#9500;&#9472;</span>
+              <span style="font-weight:600;">&#128187; Server (Dell PowerEdge R750)</span>
+              <span style="margin-left:auto;font-size:.75rem;color:var(--text2);font-family:'Inter';">2 x <span class="bom-qty-mult">5</span> = <span class="bom-total" data-base="2">10</span></span>
+              <span style="margin-left:12px;font-size:.75rem;font-weight:700;color:var(--blue);font-family:'Inter';">&#3647;285,000/ea</span>
+            </div>
+            <div style="display:flex;align-items:center;padding:8px 14px 8px 56px;border-bottom:1px solid var(--border);background:var(--bg2);font-size:.75rem;color:var(--muted);">
+              <span style="margin-right:8px;">&#9500;&#9472;</span>RAM DDR5 64GB (x4) <span style="margin-left:auto;font-family:'Inter';">8 x <span class="bom-qty-mult">5</span> = <span class="bom-total" data-base="8">40</span></span>
+            </div>
+            <div style="display:flex;align-items:center;padding:8px 14px 8px 56px;border-bottom:1px solid var(--border);background:var(--bg2);font-size:.75rem;color:var(--muted);">
+              <span style="margin-right:8px;">&#9492;&#9472;</span>SSD NVMe 2TB (x2) <span style="margin-left:auto;font-family:'Inter';">4 x <span class="bom-qty-mult">5</span> = <span class="bom-total" data-base="4">20</span></span>
+            </div>
+            <div style="display:flex;align-items:center;padding:10px 14px 10px 30px;border-bottom:1px solid var(--border);background:var(--card-bg);">
+              <span style="color:var(--green);margin-right:8px;">&#9500;&#9472;</span>
+              <span style="font-weight:600;">&#128268; Network Switch (Cisco 48-Port)</span>
+              <span style="margin-left:auto;font-size:.75rem;color:var(--text2);font-family:'Inter';">1 x <span class="bom-qty-mult">5</span> = <span class="bom-total" data-base="1">5</span></span>
+              <span style="margin-left:12px;font-size:.75rem;font-weight:700;color:var(--blue);font-family:'Inter';">&#3647;45,000/ea</span>
+            </div>
+            <div style="display:flex;align-items:center;padding:10px 14px 10px 30px;border-bottom:1px solid var(--border);background:var(--card-bg);">
+              <span style="color:var(--orange);margin-right:8px;">&#9500;&#9472;</span>
+              <span style="font-weight:600;">&#128268; UPS (APC 3000VA)</span>
+              <span style="margin-left:auto;font-size:.75rem;color:var(--text2);font-family:'Inter';">1 x <span class="bom-qty-mult">5</span> = <span class="bom-total" data-base="1">5</span></span>
+              <span style="margin-left:12px;font-size:.75rem;font-weight:700;color:var(--blue);font-family:'Inter';">&#3647;32,000/ea</span>
+            </div>
+            <div style="display:flex;align-items:center;padding:10px 14px 10px 30px;border-bottom:1px solid var(--border);background:var(--card-bg);">
+              <span style="color:var(--purple);margin-right:8px;">&#9500;&#9472;</span>
+              <span style="font-weight:600;">&#128230; Rack Cabinet (42U)</span>
+              <span style="margin-left:auto;font-size:.75rem;color:var(--text2);font-family:'Inter';">1 x <span class="bom-qty-mult">5</span> = <span class="bom-total" data-base="1">5</span></span>
+              <span style="margin-left:12px;font-size:.75rem;font-weight:700;color:var(--blue);font-family:'Inter';">&#3647;18,500/ea</span>
+            </div>
+            <div style="display:flex;align-items:center;padding:10px 14px 10px 30px;border-bottom:1px solid var(--border);background:var(--card-bg);">
+              <span style="color:var(--cyan,#0891B2);margin-right:8px;">&#9500;&#9472;</span>
+              <span style="font-weight:600;">&#128268; สาย Patch Cord Cat6a</span>
+              <span style="margin-left:auto;font-size:.75rem;color:var(--text2);font-family:'Inter';">20 x <span class="bom-qty-mult">5</span> = <span class="bom-total" data-base="20">100</span></span>
+              <span style="margin-left:12px;font-size:.75rem;font-weight:700;color:var(--blue);font-family:'Inter';">&#3647;150/ea</span>
+            </div>
+            <div style="display:flex;align-items:center;padding:10px 14px 10px 30px;background:var(--card-bg);">
+              <span style="color:var(--red);margin-right:8px;">&#9492;&#9472;</span>
+              <span style="font-weight:600;">&#128295; ค่าติดตั้ง + Configuration</span>
+              <span style="margin-left:auto;font-size:.75rem;color:var(--text2);font-family:'Inter';">1 x <span class="bom-qty-mult">5</span> = <span class="bom-total" data-base="1">5</span></span>
+              <span style="margin-left:12px;font-size:.75rem;font-weight:700;color:var(--blue);font-family:'Inter';">&#3647;25,000/ea</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOM Cost Summary -->
+      <div style="padding:14px;background:linear-gradient(135deg,var(--blue-bg),var(--purple-bg));border:1px solid var(--blue);border-radius:var(--radius);margin-bottom:16px;">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:center;">
+          <div><div style="font-size:.68rem;color:var(--muted);">รายการทั้งหมด</div><div style="font-size:1.2rem;font-weight:800;" id="bomTotalItems">7</div></div>
+          <div><div style="font-size:.68rem;color:var(--muted);">ชิ้นส่วนรวม</div><div style="font-size:1.2rem;font-weight:800;color:var(--blue);" id="bomTotalParts">170</div></div>
+          <div><div style="font-size:.68rem;color:var(--muted);">มูลค่าต่อชุด</div><div style="font-size:1.2rem;font-weight:800;color:var(--purple);font-family:'Inter';" id="bomUnitCost">&#3647;690,500</div></div>
+          <div><div style="font-size:.68rem;color:var(--muted);">มูลค่ารวม (<span class="bom-qty-mult">5</span> ชุด)</div><div style="font-size:1.2rem;font-weight:800;color:var(--green);font-family:'Inter';" id="bomGrandTotal">&#3647;3,452,500</div></div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="generatePRFromBOM()">&#128196; สร้างใบขอซื้อ (PR) จาก BOM</button>
+        <button class="btn btn-success btn-sm" onclick="showToast('ส่งขออนุมัติ BOM เรียบร้อย')">&#9989; ส่งขออนุมัติ</button>
+        <button class="btn btn-outline btn-sm" onclick="showToast('Export BOM เป็น Excel สำเร็จ')">&#128229; Export Excel</button>
+        <button class="btn btn-outline btn-sm" onclick="showToast('พิมพ์ BOM...')">&#128424; พิมพ์</button>
       </div>
     </div>
   </div>
@@ -1010,7 +1121,38 @@ function switchTab(tabId){
     if(tabId==='linked'&&t.textContent.includes('Quotation'))t.classList.add('active');
     if(tabId==='approval'&&t.textContent.includes('อนุมัติ'))t.classList.add('active');
     if(tabId==='advance'&&t.textContent.includes('สำรองจ่าย'))t.classList.add('active');
+    if(tabId==='bom'&&t.textContent.includes('BOM'))t.classList.add('active');
   });
+}
+
+// ============ BOM FUNCTIONS ============
+function updateBOMQuantities(){
+  var mult=parseInt(document.getElementById('bomMultiplier').value)||1;
+  document.querySelectorAll('.bom-qty-mult').forEach(function(el){el.textContent=mult;});
+  document.querySelectorAll('.bom-total').forEach(function(el){
+    var base=parseInt(el.getAttribute('data-base'))||1;
+    el.textContent=(base*mult).toLocaleString();
+  });
+  var baseParts=[2,8,4,1,1,1,20,1];
+  var totalParts=baseParts.reduce(function(s,v){return s+v*mult;},0);
+  document.getElementById('bomTotalParts').textContent=totalParts.toLocaleString();
+  var unitCost=690500;
+  document.getElementById('bomUnitCost').textContent='\u0E3F'+unitCost.toLocaleString();
+  document.getElementById('bomGrandTotal').textContent='\u0E3F'+(unitCost*mult).toLocaleString();
+}
+function generatePRFromBOM(){
+  var mult=parseInt(document.getElementById('bomMultiplier').value)||1;
+  showToast('สร้างใบขอซื้อ (PR) จาก BOM สำเร็จ \u2014 7 รายการ x '+mult+' ชุด = \u0E3F'+(690500*mult).toLocaleString());
+  switchTab('pr');
+}
+function loadBOMTemplate(){
+  var sel=document.getElementById('bomTemplateSelect').value;
+  if(!sel){showToast('กรุณาเลือก Template ก่อน');return;}
+  showToast('โหลด Template: '+sel+' สำเร็จ');
+}
+function saveBOMTemplate(){
+  var name=prompt('ตั้งชื่อ BOM Template:','BOM-Custom-001');
+  if(name) showToast('บันทึก Template "'+name+'" เรียบร้อยแล้ว');
 }
 
 // ============ MODAL ============

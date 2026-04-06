@@ -309,7 +309,7 @@ tr:last-child td{border-bottom:none;}
 /* ===== MULTI-CARRIER TRACKING ===== */
 .multi-carrier{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:20px;box-shadow:var(--sh);}
 .multi-carrier h3{font-size:.92rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
-.multi-carrier-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.multi-carrier-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
 .carrier-track-card{border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;transition:all .2s;cursor:pointer;position:relative;overflow:hidden;}
 .carrier-track-card:hover{border-color:var(--blue);box-shadow:var(--sh2);transform:translateY(-2px);}
 .carrier-track-card .carrier-name{font-size:.82rem;font-weight:700;margin-bottom:2px;}
@@ -567,6 +567,226 @@ tr:last-child td{border-bottom:none;}
       <input type="text" class="track-input" placeholder="เลข Tracking EMS" value="">
       <button class="track-btn" onclick="showToast('กรุณากรอกเลข Tracking ไปรษณีย์ไทย')">&#128269; ติดตาม</button>
       <div class="carrier-status online">&#128994; API เชื่อมต่อแล้ว</div>
+    </div>
+    <div class="carrier-track-card">
+      <div class="carrier-logo">&#129413;</div>
+      <div class="carrier-name">Ninja Van</div>
+      <div class="carrier-name-th">นินจา แวน</div>
+      <input type="text" class="track-input" placeholder="เลข Tracking Ninja Van" value="">
+      <button class="track-btn" style="background:var(--red);opacity:.7;" onclick="showToast('&#128680; Ninja Van API Offline &#8212; ไม่สามารถติดตามได้ขณะนี้')">&#128269; ติดตาม</button>
+      <div class="carrier-status" style="background:rgba(220,38,38,.1);color:var(--red);">&#128308; API Offline</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SPRINT-4: Thai Logistics Provider API Configuration ===== -->
+<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:20px;box-shadow:var(--sh);">
+  <h3 style="font-size:.92rem;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px;">&#128268; ตั้งค่า API ผู้ให้บริการขนส่งไทย (Carrier API Configuration)</h3>
+  <p style="font-size:.72rem;color:var(--muted);margin-bottom:16px;">จัดการการเชื่อมต่อ API, Webhook และรูปแบบเลข Tracking สำหรับผู้ให้บริการขนส่งแต่ละราย</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+    <!-- Kerry Express -->
+    <div style="border:1px solid var(--border);border-radius:12px;padding:16px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--green);"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:1.4rem;">&#128230;</span>
+          <div>
+            <div style="font-size:.85rem;font-weight:700;">Kerry Express</div>
+            <div style="font-size:.65rem;color:var(--muted);">เคอรี่ เอ็กซ์เพรส</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="width:10px;height:10px;border-radius:50%;background:var(--green);display:inline-block;box-shadow:0 0 6px var(--green);"></span>
+          <span style="font-size:.68rem;font-weight:700;color:var(--green);">Online</span>
+        </div>
+      </div>
+      <div style="margin-bottom:8px;"><label style="font-size:.68rem;font-weight:600;color:var(--muted);display:block;margin-bottom:3px;">API Endpoint</label><input style="width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.7rem;background:var(--bg2);color:var(--text);" value="https://api.kerryexpress.com/v2/tracking" readonly></div>
+      <div style="margin-bottom:8px;"><label style="font-size:.68rem;font-weight:600;color:var(--muted);display:block;margin-bottom:3px;">API Key</label><input type="password" style="width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.7rem;background:var(--bg2);color:var(--text);" value="kex_prod_a8f3k2m7"></div>
+      <div style="margin-bottom:8px;"><label style="font-size:.68rem;font-weight:600;color:var(--muted);display:block;margin-bottom:3px;">Webhook URL</label><input style="width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.7rem;background:var(--bg2);color:var(--text);" value="https://api.autopilot.ai/webhook/kerry"></div>
+      <div style="margin-bottom:8px;"><label style="font-size:.68rem;font-weight:600;color:var(--muted);display:block;margin-bottom:3px;">รูปแบบเลข Tracking</label>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <input style="flex:1;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.7rem;background:var(--bg2);color:var(--text);" value="KEX-YYMMDDNNNNN" readonly>
+          <span style="font-size:.6rem;font-weight:700;background:var(--green-l);color:var(--green);padding:3px 8px;border-radius:4px;white-space:nowrap;">&#9989; Valid</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:10px;">
+        <button class="btn btn-sm btn-green" onclick="showToast('&#9989; ทดสอบ Kerry API สำเร็จ &#8212; 38ms','success')">&#128268; ทดสอบ</button>
+        <button class="btn btn-sm btn-secondary" onclick="showToast('บันทึกการตั้งค่า Kerry แล้ว','success')">&#128190; บันทึก</button>
+      </div>
+    </div>
+
+    <!-- Flash Express -->
+    <div style="border:1px solid var(--border);border-radius:12px;padding:16px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--green);"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:1.4rem;">&#9889;</span>
+          <div>
+            <div style="font-size:.85rem;font-weight:700;">Flash Express</div>
+            <div style="font-size:.65rem;color:var(--muted);">แฟลช เอ็กซ์เพรส</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="width:10px;height:10px;border-radius:50%;background:var(--green);display:inline-block;box-shadow:0 0 6px var(--green);"></span>
+          <span style="font-size:.68rem;font-weight:700;color:var(--green);">Online</span>
+        </div>
+      </div>
+      <div style="margin-bottom:8px;"><label style="font-size:.68rem;font-weight:600;color:var(--muted);display:block;margin-bottom:3px;">API Endpoint</label><input style="width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.7rem;background:var(--bg2);color:var(--text);" value="https://open.flashexpress.co.th/api/v3" readonly></div>
+      <div style="margin-bottom:8px;"><label style="font-size:.68rem;font-weight:600;color:var(--muted);display:block;margin-bottom:3px;">API Key</label><input type="password" style="width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.7rem;background:var(--bg2);color:var(--text);" value="flash_k9p2r5t8w1"></div>
+      <div style="margin-bottom:8px;"><label style="font-size:.68rem;font-weight:600;color:var(--muted);display:block;margin-bottom:3px;">Webhook URL</label><input style="width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.7rem;background:var(--bg2);color:var(--text);" value="https://api.autopilot.ai/webhook/flash"></div>
+      <div style="margin-bottom:8px;"><label style="font-size:.68rem;font-weight:600;color:var(--muted);display:block;margin-bottom:3px;">รูปแบบเลข Tracking</label>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <input style="flex:1;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.7rem;background:var(--bg2);color:var(--text);" value="TH[0-9]{14}" readonly>
+          <span style="font-size:.6rem;font-weight:700;background:var(--green-l);color:var(--green);padding:3px 8px;border-radius:4px;white-space:nowrap;">&#9989; Valid</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:10px;">
+        <button class="btn btn-sm btn-green" onclick="showToast('&#9989; ทดสอบ Flash API สำเร็จ &#8212; 52ms','success')">&#128268; ทดสอบ</button>
+        <button class="btn btn-sm btn-secondary" onclick="showToast('บันทึกการตั้งค่า Flash แล้ว','success')">&#128190; บันทึก</button>
+      </div>
+    </div>
+
+    <!-- J&T Express -->
+    <div style="border:1px solid var(--border);border-radius:12px;padding:16px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--orange);"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:1.4rem;">&#128230;</span>
+          <div>
+            <div style="font-size:.85rem;font-weight:700;">J&amp;T Express</div>
+            <div style="font-size:.65rem;color:var(--muted);">เจแอนด์ที เอ็กซ์เพรส</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="width:10px;height:10px;border-radius:50%;background:var(--orange);display:inline-block;box-shadow:0 0 6px var(--orange);animation:livePulse 1.5s infinite;"></span>
+          <span style="font-size:.68rem;font-weight:700;color:var(--orange);">Slow</span>
+        </div>
+      </div>
+      <div style="margin-bottom:8px;"><label style="font-size:.68rem;font-weight:600;color:var(--muted);display:block;margin-bottom:3px;">API Endpoint</label><input style="width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.7rem;background:var(--bg2);color:var(--text);" value="https://api.jtexpress.co.th/api/v1" readonly></div>
+      <div style="margin-bottom:8px;"><label style="font-size:.68rem;font-weight:600;color:var(--muted);display:block;margin-bottom:3px;">API Key</label><input type="password" style="width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.7rem;background:var(--bg2);color:var(--text);" value="jt_live_m5n8q2w6"></div>
+      <div style="margin-bottom:8px;"><label style="font-size:.68rem;font-weight:600;color:var(--muted);display:block;margin-bottom:3px;">Webhook URL</label><input style="width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.7rem;background:var(--bg2);color:var(--text);" value="https://api.autopilot.ai/webhook/jnt"></div>
+      <div style="margin-bottom:8px;"><label style="font-size:.68rem;font-weight:600;color:var(--muted);display:block;margin-bottom:3px;">รูปแบบเลข Tracking</label>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <input style="flex:1;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.7rem;background:var(--bg2);color:var(--text);" value="[0-9]{13}" readonly>
+          <span style="font-size:.6rem;font-weight:700;background:var(--green-l);color:var(--green);padding:3px 8px;border-radius:4px;white-space:nowrap;">&#9989; Valid</span>
+        </div>
+      </div>
+      <div style="padding:6px 10px;background:var(--orange-l);border-radius:6px;font-size:.68rem;color:var(--orange);font-weight:600;margin-bottom:8px;">&#9888;&#65039; API Response Time: 890ms (ช้ากว่าปกติ &#8212; ปกติ &lt;200ms)</div>
+      <div style="display:flex;gap:6px;margin-top:10px;">
+        <button class="btn btn-sm btn-green" onclick="showToast('&#9888; ทดสอบ J&T API &#8212; 890ms (ช้า)','warning')">&#128268; ทดสอบ</button>
+        <button class="btn btn-sm btn-secondary" onclick="showToast('บันทึกการตั้งค่า J&T แล้ว','success')">&#128190; บันทึก</button>
+      </div>
+    </div>
+
+    <!-- Thailand Post -->
+    <div style="border:1px solid var(--border);border-radius:12px;padding:16px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--green);"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:1.4rem;">&#128235;</span>
+          <div>
+            <div style="font-size:.85rem;font-weight:700;">Thailand Post</div>
+            <div style="font-size:.65rem;color:var(--muted);">ไปรษณีย์ไทย</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="width:10px;height:10px;border-radius:50%;background:var(--green);display:inline-block;box-shadow:0 0 6px var(--green);"></span>
+          <span style="font-size:.68rem;font-weight:700;color:var(--green);">Online</span>
+        </div>
+      </div>
+      <div style="margin-bottom:8px;"><label style="font-size:.68rem;font-weight:600;color:var(--muted);display:block;margin-bottom:3px;">API Endpoint</label><input style="width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.7rem;background:var(--bg2);color:var(--text);" value="https://trackapi.thailandpost.co.th/post/v1" readonly></div>
+      <div style="margin-bottom:8px;"><label style="font-size:.68rem;font-weight:600;color:var(--muted);display:block;margin-bottom:3px;">API Token</label><input type="password" style="width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.7rem;background:var(--bg2);color:var(--text);" value="thpost_token_p4q7"></div>
+      <div style="margin-bottom:8px;"><label style="font-size:.68rem;font-weight:600;color:var(--muted);display:block;margin-bottom:3px;">Webhook URL</label><input style="width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.7rem;background:var(--bg2);color:var(--text);" value="https://api.autopilot.ai/webhook/thpost"></div>
+      <div style="margin-bottom:8px;"><label style="font-size:.68rem;font-weight:600;color:var(--muted);display:block;margin-bottom:3px;">รูปแบบเลข Tracking</label>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <input style="flex:1;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.7rem;background:var(--bg2);color:var(--text);" value="E[A-Z][0-9]{9}TH (EMS)" readonly>
+          <span style="font-size:.6rem;font-weight:700;background:var(--green-l);color:var(--green);padding:3px 8px;border-radius:4px;white-space:nowrap;">&#9989; Valid</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:10px;">
+        <button class="btn btn-sm btn-green" onclick="showToast('&#9989; ทดสอบ Thailand Post API สำเร็จ &#8212; 125ms','success')">&#128268; ทดสอบ</button>
+        <button class="btn btn-sm btn-secondary" onclick="showToast('บันทึกการตั้งค่า Thailand Post แล้ว','success')">&#128190; บันทึก</button>
+      </div>
+    </div>
+
+    <!-- Ninja Van -->
+    <div style="border:1px solid var(--border);border-radius:12px;padding:16px;position:relative;overflow:hidden;grid-column:1/-1;">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--red);"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:1.4rem;">&#129413;</span>
+          <div>
+            <div style="font-size:.85rem;font-weight:700;">Ninja Van</div>
+            <div style="font-size:.65rem;color:var(--muted);">นินจา แวน</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="width:10px;height:10px;border-radius:50%;background:var(--red);display:inline-block;box-shadow:0 0 6px var(--red);"></span>
+          <span style="font-size:.68rem;font-weight:700;color:var(--red);">Offline</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+        <div><label style="font-size:.68rem;font-weight:600;color:var(--muted);display:block;margin-bottom:3px;">API Endpoint</label><input style="width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.7rem;background:var(--bg2);color:var(--text);" value="https://api.ninjavan.co/th/v2" readonly></div>
+        <div><label style="font-size:.68rem;font-weight:600;color:var(--muted);display:block;margin-bottom:3px;">Client ID</label><input type="password" style="width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.7rem;background:var(--bg2);color:var(--text);" value="nv_client_x3y7z1"></div>
+        <div><label style="font-size:.68rem;font-weight:600;color:var(--muted);display:block;margin-bottom:3px;">Webhook URL</label><input style="width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.7rem;background:var(--bg2);color:var(--text);" value="https://api.autopilot.ai/webhook/ninjavan"></div>
+        <div><label style="font-size:.68rem;font-weight:600;color:var(--muted);display:block;margin-bottom:3px;">รูปแบบเลข Tracking</label>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <input style="flex:1;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.7rem;background:var(--bg2);color:var(--text);" value="NV[A-Z]{2}TH[0-9]{10}" readonly>
+            <span style="font-size:.6rem;font-weight:700;background:var(--red-l);color:var(--red);padding:3px 8px;border-radius:4px;white-space:nowrap;">&#10060; ตรวจสอบ</span>
+          </div>
+        </div>
+      </div>
+      <div style="padding:8px 12px;background:var(--red-l);border:1px solid var(--red);border-radius:8px;font-size:.72rem;color:var(--red);font-weight:600;margin-bottom:8px;">
+        &#128680; API Disconnected &#8212; ตรวจพบปัญหาตั้งแต่ 6 เม.ย. 2569 12:30 น. | ข้อผิดพลาด: Connection Timeout
+      </div>
+      <div style="display:flex;gap:6px;margin-top:10px;">
+        <button class="btn btn-sm btn-danger" onclick="showToast('&#128680; ทดสอบ Ninja Van API ล้มเหลว &#8212; Connection Timeout')">&#128268; ทดสอบใหม่</button>
+        <button class="btn btn-sm btn-secondary" onclick="showToast('บันทึกการตั้งค่า Ninja Van แล้ว','success')">&#128190; บันทึก</button>
+        <button class="btn btn-sm btn-outline" onclick="showToast('ส่งรายงานปัญหาไปยังทีม Ninja Van แล้ว','success')">&#128232; แจ้งปัญหา</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tracking Number Validator -->
+  <div style="border:1px solid var(--border);border-radius:10px;padding:16px;margin-top:16px;">
+    <div style="font-size:.78rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;">&#128270; ตรวจสอบเลข Tracking (Validator)</div>
+    <div style="display:flex;gap:8px;margin-bottom:12px;">
+      <input id="trackValidateInput" type="text" style="flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-family:'Inter',monospace;font-size:.82rem;background:var(--bg2);color:var(--text);" placeholder="กรอกเลข Tracking เพื่อตรวจสอบรูปแบบและผู้ให้บริการ..." value="KEX-2569040612345">
+      <button class="btn btn-primary btn-sm" onclick="validateTrackingNumber()">&#128269; ตรวจสอบ</button>
+    </div>
+    <div id="trackValidateResult" style="padding:10px 14px;background:var(--green-l);border:1px solid var(--green);border-radius:8px;font-size:.78rem;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:1rem;">&#9989;</span>
+        <div>
+          <div style="font-weight:700;color:var(--green);">รูปแบบถูกต้อง &#8212; Kerry Express</div>
+          <div style="font-size:.68rem;color:var(--muted);margin-top:2px;">Pattern: KEX-YYMMDDNNNNN | สถานะ API: &#128994; Online | สามารถติดตามได้ทันที</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- API Status Summary -->
+  <div style="border:1px solid var(--border);border-radius:10px;padding:16px;margin-top:16px;">
+    <div style="font-size:.78rem;font-weight:700;margin-bottom:12px;">&#128202; สรุปสถานะ API ทั้งหมด</div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:6px;padding:6px 14px;background:var(--bg2);border-radius:8px;font-size:.75rem;">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;"></span>
+        <strong>3</strong> <span style="color:var(--muted);">Online</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;padding:6px 14px;background:var(--bg2);border-radius:8px;font-size:.75rem;">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--orange);display:inline-block;"></span>
+        <strong>1</strong> <span style="color:var(--muted);">Slow</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;padding:6px 14px;background:var(--bg2);border-radius:8px;font-size:.75rem;">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block;"></span>
+        <strong>1</strong> <span style="color:var(--muted);">Offline</span>
+      </div>
+      <div style="margin-left:auto;font-size:.68rem;color:var(--muted);display:flex;align-items:center;gap:6px;">
+        &#128339; อัปเดตล่าสุด: 6 เม.ย. 2569, 14:45 น.
+        <button class="btn btn-sm btn-secondary" onclick="showToast('&#128260; รีเฟรชสถานะ API ทั้งหมด...','success')" style="padding:4px 10px;">&#128260; รีเฟรช</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1606,6 +1826,35 @@ generateQR();
 /* ============================================================
    INIT
 ============================================================ */
+/* ============================================================
+   TRACKING NUMBER VALIDATOR
+============================================================ */
+function validateTrackingNumber(){
+  var input = document.getElementById('trackValidateInput');
+  var result = document.getElementById('trackValidateResult');
+  var val = (input.value||'').trim();
+  if(!val){result.innerHTML='<span style="color:var(--muted);">กรุณากรอกเลข Tracking</span>';result.style.background='var(--bg2)';result.style.borderColor='var(--border)';return;}
+  var carriers=[
+    {name:'Kerry Express',pattern:/^KEX-/,status:'Online',color:'var(--green)'},
+    {name:'Flash Express',pattern:/^TH\d{14}$/,status:'Online',color:'var(--green)'},
+    {name:'J&T Express',pattern:/^\d{13}$/,status:'Slow',color:'var(--orange)'},
+    {name:'Thailand Post',pattern:/^E[A-Z]\d{9}TH$/,status:'Online',color:'var(--green)'},
+    {name:'Ninja Van',pattern:/^NV[A-Z]{2}TH/,status:'Offline',color:'var(--red)'}
+  ];
+  var found=null;
+  for(var i=0;i<carriers.length;i++){if(carriers[i].pattern.test(val)){found=carriers[i];break;}}
+  if(found){
+    var icon=found.status==='Online'?'\u2705':found.status==='Slow'?'\u26A0\uFE0F':'\u274C';
+    result.style.background=found.status==='Online'?'var(--green-l)':found.status==='Slow'?'var(--orange-l)':'var(--red-l)';
+    result.style.borderColor=found.color;
+    result.innerHTML='<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:1rem;">'+icon+'</span><div><div style="font-weight:700;color:'+found.color+';">\u0E23\u0E39\u0E1B\u0E41\u0E1A\u0E1A\u0E16\u0E39\u0E01\u0E15\u0E49\u0E2D\u0E07 \u2014 '+found.name+'</div><div style="font-size:.68rem;color:var(--muted);margin-top:2px;">\u0E2A\u0E16\u0E32\u0E19\u0E30 API: '+found.status+'</div></div></div>';
+  } else {
+    result.style.background='var(--red-l)';result.style.borderColor='var(--red)';
+    result.innerHTML='<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:1rem;">\u274C</span><div><div style="font-weight:700;color:var(--red);">\u0E44\u0E21\u0E48\u0E1E\u0E1A\u0E1C\u0E39\u0E49\u0E43\u0E2B\u0E49\u0E1A\u0E23\u0E34\u0E01\u0E32\u0E23\u0E17\u0E35\u0E48\u0E15\u0E23\u0E07\u0E01\u0E31\u0E1A\u0E23\u0E39\u0E1B\u0E41\u0E1A\u0E1A\u0E19\u0E35\u0E49</div><div style="font-size:.68rem;color:var(--muted);margin-top:2px;">\u0E01\u0E23\u0E38\u0E13\u0E32\u0E15\u0E23\u0E27\u0E08\u0E2A\u0E2D\u0E1A\u0E40\u0E25\u0E02 Tracking \u0E2D\u0E35\u0E01\u0E04\u0E23\u0E31\u0E49\u0E07</div></div></div>';
+  }
+  showToast('\u0E15\u0E23\u0E27\u0E08\u0E2A\u0E2D\u0E1A\u0E40\u0E25\u0E02 Tracking: '+val,'success');
+}
+
 renderAll();
 </script>
 </body>

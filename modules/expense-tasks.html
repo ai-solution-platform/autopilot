@@ -201,6 +201,25 @@ tr:hover td{background:var(--bg2);}
 .bulk-toolbar .bulk-btn.approve:hover{opacity:.9;}
 .bulk-toolbar .bulk-btn.reject{background:var(--red-bg);color:var(--red);border-color:var(--red);}
 .bulk-toolbar .bulk-btn.cancel{color:var(--muted);}
+
+/* Mileage Calculator */
+.mileage-section{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-top:20px;}
+.mileage-form{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:14px;align-items:end;margin-bottom:16px;}
+.mileage-form .form-group{display:flex;flex-direction:column;gap:4px;}
+.mileage-form label{font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.3px;}
+.mileage-form select,.mileage-form input{padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:.82rem;background:var(--card-bg);color:var(--text);}
+.mileage-form select:focus,.mileage-form input:focus{outline:none;border-color:var(--blue);}
+.mileage-result{padding:16px;background:linear-gradient(135deg,var(--blue-bg),var(--purple-bg));border:1px solid var(--blue);border-radius:var(--radius);margin-bottom:16px;}
+.mileage-result .result-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;font-size:.82rem;}
+.mileage-result .result-row:not(:last-child){border-bottom:1px solid rgba(37,99,235,.15);}
+.mileage-result .result-label{color:var(--text2);font-weight:500;}
+.mileage-result .result-value{font-weight:700;font-family:'Inter',sans-serif;}
+.mileage-result .result-total{font-size:1.1rem;color:var(--blue);font-weight:800;}
+.trip-log-table{width:100%;border-collapse:collapse;font-size:.78rem;}
+.trip-log-table th{background:var(--bg2);padding:8px 12px;text-align:left;font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid var(--border);}
+.trip-log-table td{padding:8px 12px;border-bottom:1px solid var(--border);}
+.trip-log-table tr:hover td{background:var(--bg2);}
+@media(max-width:768px){.mileage-form{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -572,6 +591,122 @@ tr:hover td{background:var(--bg2);}
     </div>
   </div>
 
+    <!-- ── Mileage / Travel Calculator ── -->
+    <div class="mileage-section">
+      <div class="card-title">&#128663; เครื่องคำนวณค่าเดินทาง / Mileage Calculator</div>
+      <div style="font-size:.72rem;color:var(--muted);margin-bottom:14px;">คำนวณค่าชดเชยระยะทางตามนโยบายบริษัท (ใช้ระยะทางจังหวัดสู่จังหวัด)</div>
+
+      <div class="mileage-form">
+        <div class="form-group">
+          <label>&#128205; จังหวัดต้นทาง</label>
+          <select id="mileageFrom">
+            <option value="กรุงเทพฯ">กรุงเทพมหานคร</option>
+            <option value="เชียงใหม่">เชียงใหม่</option>
+            <option value="นครราชสีมา">นครราชสีมา</option>
+            <option value="ขอนแก่น">ขอนแก่น</option>
+            <option value="ภูเก็ต">ภูเก็ต</option>
+            <option value="ชลบุรี">ชลบุรี</option>
+            <option value="สงขลา">สงขลา</option>
+            <option value="อุดรธานี">อุดรธานี</option>
+            <option value="เชียงราย">เชียงราย</option>
+            <option value="สุราษฎร์ธานี">สุราษฎร์ธานี</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>&#128205; จังหวัดปลายทา���</label>
+          <select id="mileageTo">
+            <option value="เชียงใหม่">เช��ยงใหม่</option>
+            <option value="กรุงเทพฯ">กรุงเทพมหานคร</option>
+            <option value="นครราชสีมา">นครราชสีมา</option>
+            <option value="ขอนแก่น">ขอนแก่น</option>
+            <option value="ภูเก็ต">ภูเก็ต</option>
+            <option value="ชลบุรี">ชลบุรี</option>
+            <option value="สงขลา">สงขลา</option>
+            <option value="อุดรธานี">��ุดรธานี</option>
+            <option value="เชียงราย">เชียง��าย</option>
+            <option value="สุราษฎร์ธ��นี">สุราษฎร์ธานี</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>&#128663; ประเภทรถ</label>
+          <select id="vehicleType">
+            <option value="4">&#128663; รถยนต์ส่วนตัว (4 บาท/กม.)</option>
+            <option value="2">&#127949; รถจักรยานยนต์ (2 บาท/กม.)</option>
+            <option value="0">&#128656; รถบริษัท (0 บาท/กม.)</option>
+          </select>
+        </div>
+        <button style="padding:8px 18px;border-radius:8px;border:none;background:var(--grad);color:#fff;font-size:.82rem;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;box-shadow:0 4px 12px rgba(37,99,235,.2);" onclick="calcMileage()">&#128170; คำนวณ</button>
+      </div>
+
+      <!-- Result -->
+      <div class="mileage-result" id="mileageResult">
+        <div class="result-row"><span class="result-label">&#128205; เส้นทา���</span><span class="result-value" id="mileageRoute">กรุงเทพฯ &#10132; เชียงใหม่</span></div>
+        <div class="result-row"><span class="result-label">&#128207; ระยะทาง</span><span class="result-value" id="mileageDist">688 กม.</span></div>
+        <div class="result-row"><span class="result-label">&#128663; ประเภทรถ</span><span class="result-value" id="mileageVehicle">รถยนต์ส่วนตัว (4 บาท/กม.)</span></div>
+        <div class="result-row"><span class="result-label">&#128338; เวลาประมาณ</span><span class="result-value" id="mileageTime">~7 ชม.</span></div>
+        <div class="result-row" style="padding-top:10px;border-top:2px solid rgba(37,99,235,.2);"><span class="result-label" style="font-size:.92rem;font-weight:700;">&#128178; ค่าชดเชยเดินทาง</span><span class="result-value result-total" id="mileageAmount">&#3647;2,752</span></div>
+      </div>
+
+      <!-- Trip Log History -->
+      <div style="margin-top:16px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <div style="font-size:.82rem;font-weight:700;">&#128203; ประวัติบันทึกการเดินทาง</div>
+          <button style="padding:5px 14px;border-radius:6px;font-size:.72rem;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--card-bg);color:var(--text2);font-family:inherit;" onclick="addTripLog()">+ เพิ่มลงบันทึก</button>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="trip-log-table">
+            <thead><tr>
+              <th>วันที่</th>
+              <th>เส้นทาง</th>
+              <th>ระยะทาง</th>
+              <th>ประเภทรถ</th>
+              <th>ค่าชดเชย</th>
+              <th>สถานะ</th>
+            </tr></thead>
+            <tbody id="tripLogBody">
+              <tr>
+                <td>5 เม.ย. 2569</td>
+                <td>กร��งเทพฯ &#10132; นครราชสีมา</td>
+                <td style="font-family:'Inter';">259 กม.</td>
+                <td>รถยนต์ส่วนตัว</td>
+                <td style="font-weight:700;font-family:'Inter';color:var(--blue);">&#3647;1,036</td>
+                <td><span class="status status-approved">&#9989; อนุมัติ</span></td>
+              </tr>
+              <tr>
+                <td>3 เม.ย. 2569</td>
+                <td>กรุงเทพฯ &#10132; ชลบุรี</td>
+                <td style="font-family:'Inter';">82 กม.</td>
+                <td>รถยนต์ส��วนตัว</td>
+                <td style="font-weight:700;font-family:'Inter';color:var(--blue);">&#3647;328</td>
+                <td><span class="status status-approved">&#9989; อนุมัติ</span></td>
+              </tr>
+              <tr>
+                <td>1 เม.ย. 2569</td>
+                <td>กรุงเทพฯ &#10132; ขอนแก่น</td>
+                <td style="font-family:'Inter';">449 กม.</td>
+                <td>รถจักรยานยนต์</td>
+                <td style="font-weight:700;font-family:'Inter';color:var(--blue);">&#3647;898</td>
+                <td><span class="status status-pending">&#9679; รออนุมัติ</span></td>
+              </tr>
+              <tr>
+                <td>28 มี.ค. 2569</td>
+                <td>กรุ��เทพฯ &#10132; ภูเก็ต</td>
+                <td style="font-family:'Inter';">862 กม.</td>
+                <td>รถบริษัท</td>
+                <td style="font-weight:700;font-family:'Inter';color:var(--muted);">&#3647;0</td>
+                <td><span class="status status-approved">&#9989; อนุม���ติ</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="margin-top:10px;padding:10px 14px;background:var(--bg2);border-radius:8px;font-size:.78rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+          <span>&#128200; รวมเดือน เม.ย. 2569: <strong style="font-family:'Inter';">4 เที่ยว | 1,652 กม.</strong></span>
+          <span>&#128178; ค่าชดเชยรวม: <strong style="color:var(--blue);font-family:'Inter';">&#3647;2,262</strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ===== TAB 4: Settlement Tracking ===== -->
   <div class="tab-content" id="tab-settlement">
     <div class="card">
@@ -739,6 +874,57 @@ setTimeout(function(){
     }
   }catch(e){}
 })();
+
+// ═══ MILEAGE / TRAVEL CALCULATOR ═══
+var DISTANCE_TABLE={
+  'กรุงเทพฯ':{'เชียงใหม่':688,'นครราชสีมา':259,'ขอนแก่น':449,'ภูเก็ต':862,'ชลบุรี':82,'สงขลา':950,'อุดรธานี':564,'เชียงราย':785,'สุราษฎร์ธานี':644},
+  'เชียงใหม่':{'กรุงเทพฯ':688,'นครราชสีมา':580,'ขอนแก่น':630,'ภูเก็ต':1520,'ชลบุรี':750,'สงขลา':1600,'อุดรธานี':615,'เชียงราย':195,'สุราษฎร์ธานี':1290},
+  'นครราชสีมา':{'กรุงเทพฯ':259,'เชียงใหม่':580,'ขอนแก่น':191,'ภูเก็ต':1100,'ชลบุรี':270,'สงขลา':1180,'อุดรธานี':305,'เชียงราย':680,'สุราษฎร์ธานี':890},
+  'ขอนแก่น':{'กรุงเทพฯ':449,'เชียงใหม่':630,'นครราชสีมา':191,'ภูเก็ต':1290,'ชลบุรี':460,'สงขลา':1370,'อุดรธานี':115,'เชียงราย':730,'สุราษฎร์ธานี':1080},
+  'ภูเก็ต':{'กรุงเทพฯ':862,'เชียงใหม่':1520,'นครราชสีมา':1100,'ขอนแก่น':1290,'ชลบุรี':930,'สงขลา':580,'อุดรธานี':1400,'เชียงราย':1620,'สุราษฎร์ธานี':290},
+  'ชลบุรี':{'กรุงเทพฯ':82,'เชียงใหม่':750,'นครราชสีมา':270,'ขอนแก่น':460,'ภูเก็ต':930,'สงขลา':1010,'อุดรธานี':580,'เชียงราย':850,'สุราษฎร์ธานี':710},
+  'สงขลา':{'กรุงเทพฯ':950,'เชียงใหม่':1600,'นครราชสีมา':1180,'ขอนแก่น':1370,'ภูเก็ต':580,'ชลบุรี':1010,'อุดรธานี':1480,'เชียงราย':1700,'สุราษฎร์ธานี':340},
+  'อุดรธานี':{'กรุงเทพฯ':564,'เชียงใหม่':615,'นครราชสีมา':305,'ขอนแก่น':115,'ภูเก็ต':1400,'ชลบุรี':580,'สงขลา':1480,'เชียงราย':550,'สุราษฎร์ธานี':1190},
+  'เชียงราย':{'กรุงเทพฯ':785,'เชียงใหม่':195,'นครราชสีมา':680,'ขอนแก่น':730,'ภูเก็ต':1620,'ชลบุรี':850,'สงขลา':1700,'อุดรธานี':550,'สุราษฎร์ธานี':1400},
+  'สุราษฎร์ธานี':{'กรุงเทพฯ':644,'เชียงใหม่':1290,'นครราชสีมา':890,'ขอนแก่น':1080,'ภูเก็ต':290,'ชลบุรี':710,'สงขลา':340,'อุดรธานี':1190,'เชียงราย':1400}
+};
+
+function calcMileage(){
+  var from=document.getElementById('mileageFrom').value;
+  var to=document.getElementById('mileageTo').value;
+  var rate=parseFloat(document.getElementById('vehicleType').value);
+  var vehicleNames={'4':'รถยนต์ส่วนตัว (4 บาท/กม.)','2':'รถจักรยานยนต์ (2 บาท/กม.)','0':'รถบริษัท (0 บาท/กม.)'};
+
+  if(from===to){alert('กรุณาเลือกจังหวัดต้นทางและปลายทางที่ต่างกัน');return;}
+  var dist=0;
+  if(DISTANCE_TABLE[from]&&DISTANCE_TABLE[from][to]){dist=DISTANCE_TABLE[from][to];}
+  else if(DISTANCE_TABLE[to]&&DISTANCE_TABLE[to][from]){dist=DISTANCE_TABLE[to][from];}
+  else{dist=Math.floor(Math.random()*500)+100;}
+
+  var amount=dist*rate;
+  var hours=Math.round(dist/90);
+
+  document.getElementById('mileageRoute').textContent=from+' \u2794 '+to;
+  document.getElementById('mileageDist').textContent=dist.toLocaleString()+' กม.';
+  document.getElementById('mileageVehicle').textContent=vehicleNames[String(rate)];
+  document.getElementById('mileageTime').textContent='~'+hours+' ชม.';
+  document.getElementById('mileageAmount').textContent='\u0E3F'+amount.toLocaleString();
+}
+
+function addTripLog(){
+  var from=document.getElementById('mileageFrom').value;
+  var to=document.getElementById('mileageTo').value;
+  var rate=parseFloat(document.getElementById('vehicleType').value);
+  var vehicleNames={'4':'รถยนต์ส่วนตัว','2':'รถจักรยานยนต์','0':'รถบริษัท'};
+  if(from===to){alert('กรุณาคำนวณระยะทางก่อน');return;}
+  var dist=DISTANCE_TABLE[from]&&DISTANCE_TABLE[from][to]?DISTANCE_TABLE[from][to]:0;
+  if(!dist&&DISTANCE_TABLE[to]&&DISTANCE_TABLE[to][from])dist=DISTANCE_TABLE[to][from];
+  var amount=dist*rate;
+  var tr=document.createElement('tr');
+  tr.innerHTML='<td>6 เม.ย. 2569</td><td>'+from+' \u2794 '+to+'</td><td style="font-family:Inter;">'+dist+' กม.</td><td>'+vehicleNames[String(rate)]+'</td><td style="font-weight:700;font-family:Inter;color:var(--blue);">\u0E3F'+amount.toLocaleString()+'</td><td><span class="status status-draft">\u25CF ร่าง</span></td>';
+  document.getElementById('tripLogBody').prepend(tr);
+  alert('เพิ่มบันทึกการเดินทาง: '+from+' \u2794 '+to+' ('+dist+' กม.) สำเร็จ');
+}
 
 // ═══ SPRINT-6: Service Worker Registration (PWA-ready, commented out) ═══
 /*

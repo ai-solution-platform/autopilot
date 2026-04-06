@@ -295,6 +295,22 @@ tr:last-child td{border-bottom:none;}
 .audit-date-filter input[type="date"]{padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:.75rem;background:var(--bg);color:var(--text);font-family:inherit;}
 .audit-date-filter input[type="date"]:focus{outline:none;border-color:var(--blue);}
 
+/* Enhanced Vendor Rating */
+.vendor-enhanced-section{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+@media(max-width:768px){.vendor-enhanced-section{grid-template-columns:1fr;}}
+.vendor-enhanced-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);}
+.vendor-enhanced-card h3{font-size:.92rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:6px;}
+.compare-vendor-select{padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:.75rem;background:var(--bg);color:var(--text);font-family:inherit;}
+.compare-vendor-select:focus{outline:none;border-color:var(--blue);}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;}
+@media(max-width:600px){.compare-grid{grid-template-columns:1fr;}}
+.compare-card{border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;transition:all .2s;}
+.compare-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.06);}
+.compare-card .name{font-size:.82rem;font-weight:700;margin-bottom:6px;}
+.compare-card .metrics{display:grid;grid-template-columns:1fr 1fr;gap:6px;text-align:left;}
+.compare-card .metric{font-size:.68rem;color:var(--muted);}
+.compare-card .metric .val{font-weight:700;color:var(--text);font-family:'Inter',sans-serif;}
+
 /* Responsive */
 @media(max-width:768px){
   .page-wrap{padding:16px;}
@@ -511,6 +527,70 @@ tr:last-child td{border-bottom:none;}
         <!-- Populated by JS -->
       </div>
     </div>
+  </div>
+
+  <!-- Enhanced Vendor Rating Section -->
+  <div class="vendor-enhanced-section">
+
+    <!-- Vendor Scorecard with Radar Chart -->
+    <div class="vendor-enhanced-card">
+      <h3>&#128202; Vendor Scorecard (Radar)</h3>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <span style="font-size:.72rem;color:var(--muted);">เลือก Vendor:</span>
+        <select class="compare-vendor-select" id="radarVendorSelect" onchange="updateRadarChart()">
+          <option value="0">VEN-001 สยามเทค โซลูชัน</option>
+          <option value="1">VEN-002 โปรเฟสชันนัล</option>
+          <option value="2">VEN-003 เอ็นจิเนียริ่ง</option>
+          <option value="3">VEN-004 โกลบอล ซัพพลาย</option>
+          <option value="4">VEN-005 ดิจิทัล เซอร์วิส</option>
+        </select>
+      </div>
+      <div id="radarChartWrap" style="position:relative;">
+        <svg id="radarChart" viewBox="0 0 300 280" style="width:100%;height:auto;max-height:260px;"></svg>
+      </div>
+    </div>
+
+    <!-- Vendor Comparison Side-by-Side -->
+    <div class="vendor-enhanced-card">
+      <h3>&#128203; เปรียบเทียบ Vendor</h3>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
+        <select class="compare-vendor-select" id="compareVendor1" onchange="updateComparison()">
+          <option value="0">VEN-001 สยามเทค</option>
+          <option value="1">VEN-002 โปรเฟสชันนัล</option>
+          <option value="2">VEN-003 เอ็นจิเนียริ่ง</option>
+          <option value="3" selected>VEN-004 โกลบอล</option>
+          <option value="4">VEN-005 ดิจิทัล</option>
+        </select>
+        <span style="font-size:.72rem;color:var(--muted);font-weight:600;">VS</span>
+        <select class="compare-vendor-select" id="compareVendor2" onchange="updateComparison()">
+          <option value="0" selected>VEN-001 สยามเทค</option>
+          <option value="1">VEN-002 โปรเฟสชันนัล</option>
+          <option value="2">VEN-003 เอ็นจิเนียริ่ง</option>
+          <option value="3">VEN-004 โกลบอล</option>
+          <option value="4">VEN-005 ดิจิทัล</option>
+        </select>
+      </div>
+      <div class="compare-grid" id="compareGrid"></div>
+    </div>
+
+    <!-- Vendor Performance Trend (Line Chart) -->
+    <div class="vendor-enhanced-card">
+      <h3>&#128200; แนวโน้มผลงาน Vendor (6 เดือน)</h3>
+      <div id="vendorTrendChartWrap" style="position:relative;">
+        <svg id="vendorTrendChart" viewBox="0 0 400 200" style="width:100%;height:auto;max-height:220px;"></svg>
+      </div>
+      <div style="display:flex;gap:12px;margin-top:8px;justify-content:center;flex-wrap:wrap;" id="trendLegend"></div>
+    </div>
+
+    <!-- Vendor Risk Matrix (Scatter) -->
+    <div class="vendor-enhanced-card">
+      <h3>&#9888; Vendor Risk Matrix</h3>
+      <div style="font-size:.68rem;color:var(--muted);margin-bottom:8px;">แกน X: ความน่าจะเป็น (Likelihood) | แกน Y: ผลกระทบ (Impact)</div>
+      <div id="riskMatrixWrap" style="position:relative;">
+        <svg id="riskMatrixChart" viewBox="0 0 340 260" style="width:100%;height:auto;max-height:260px;"></svg>
+      </div>
+    </div>
+
   </div>
 
   <!-- TIS-620 Encoding Notice -->
@@ -1715,6 +1795,194 @@ function resetAuditDateFilter(){
   showToast('ล้างตัวกรองวันที่แล้ว','success');
 }
 
+// ============ ENHANCED VENDOR RATING ============
+var vendorScoreData = [
+  { name:'สยามเทค โซลูชัน', code:'VEN-001', quality:92, delivery:88, price:75, service:90, innovation:82, compliance:95, rating:4.7, orders:45, ontime:88, risk:{likelihood:20,impact:15} },
+  { name:'โปรเฟสชันนัล', code:'VEN-002', quality:78, delivery:72, price:88, service:74, innovation:65, compliance:80, rating:3.8, orders:28, ontime:72, risk:{likelihood:45,impact:40} },
+  { name:'เอ็นจิเนียริ่ง', code:'VEN-003', quality:85, delivery:90, price:70, service:82, innovation:78, compliance:88, rating:4.2, orders:36, ontime:90, risk:{likelihood:25,impact:30} },
+  { name:'โกลบอล ซัพพลาย', code:'VEN-004', quality:68, delivery:60, price:92, service:65, innovation:55, compliance:72, rating:3.2, orders:52, ontime:60, risk:{likelihood:65,impact:55} },
+  { name:'ดิจิทัล เซอร์วิส', code:'VEN-005', quality:88, delivery:85, price:80, service:92, innovation:90, compliance:85, rating:4.5, orders:31, ontime:85, risk:{likelihood:15,impact:20} },
+];
+
+// Radar Chart
+function updateRadarChart() {
+  var idx = parseInt(document.getElementById('radarVendorSelect').value);
+  var v = vendorScoreData[idx];
+  var svg = document.getElementById('radarChart');
+  var cx = 150, cy = 135, r = 95;
+  var dims = [
+    { label:'คุณภาพ', val: v.quality },
+    { label:'ส่งมอบ', val: v.delivery },
+    { label:'ราคา', val: v.price },
+    { label:'บริการ', val: v.service },
+    { label:'นวัตกรรม', val: v.innovation },
+    { label:'กฎระเบียบ', val: v.compliance }
+  ];
+  var n = dims.length;
+  var html = '';
+
+  // Background rings
+  [0.2, 0.4, 0.6, 0.8, 1.0].forEach(function(scale) {
+    var pts = [];
+    for (var i = 0; i < n; i++) {
+      var angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+      pts.push((cx + r * scale * Math.cos(angle)).toFixed(1) + ',' + (cy + r * scale * Math.sin(angle)).toFixed(1));
+    }
+    html += '<polygon points="' + pts.join(' ') + '" fill="none" stroke="var(--border)" stroke-width="0.5" />';
+  });
+
+  // Axis lines + labels
+  for (var i = 0; i < n; i++) {
+    var angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+    var x2 = cx + r * Math.cos(angle);
+    var y2 = cy + r * Math.sin(angle);
+    html += '<line x1="' + cx + '" y1="' + cy + '" x2="' + x2.toFixed(1) + '" y2="' + y2.toFixed(1) + '" stroke="var(--border)" stroke-width="0.5" />';
+    var lx = cx + (r + 18) * Math.cos(angle);
+    var ly = cy + (r + 18) * Math.sin(angle);
+    html += '<text x="' + lx.toFixed(1) + '" y="' + (ly + 4).toFixed(1) + '" text-anchor="middle" font-size="9" fill="var(--muted)" font-family="Noto Sans Thai">' + dims[i].label + '</text>';
+  }
+
+  // Data polygon
+  var dataPts = [];
+  for (var i = 0; i < n; i++) {
+    var angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+    var valR = r * (dims[i].val / 100);
+    dataPts.push((cx + valR * Math.cos(angle)).toFixed(1) + ',' + (cy + valR * Math.sin(angle)).toFixed(1));
+  }
+  html += '<polygon points="' + dataPts.join(' ') + '" fill="rgba(37,99,235,0.15)" stroke="#2563EB" stroke-width="2" />';
+
+  // Data dots with values
+  for (var i = 0; i < n; i++) {
+    var angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+    var valR = r * (dims[i].val / 100);
+    var dx = cx + valR * Math.cos(angle);
+    var dy = cy + valR * Math.sin(angle);
+    html += '<circle cx="' + dx.toFixed(1) + '" cy="' + dy.toFixed(1) + '" r="4" fill="#2563EB" stroke="#fff" stroke-width="2" />';
+    html += '<text x="' + dx.toFixed(1) + '" y="' + (dy - 8).toFixed(1) + '" text-anchor="middle" font-size="8" font-weight="700" fill="var(--blue)" font-family="Inter">' + dims[i].val + '</text>';
+  }
+
+  // Vendor name
+  html += '<text x="' + cx + '" y="18" text-anchor="middle" font-size="10" font-weight="700" fill="var(--text)" font-family="Noto Sans Thai">' + v.code + ' ' + v.name + ' (' + v.rating.toFixed(1) + '&#11088;)</text>';
+
+  svg.innerHTML = html;
+}
+
+// Vendor Comparison
+function updateComparison() {
+  var i1 = parseInt(document.getElementById('compareVendor1').value);
+  var i2 = parseInt(document.getElementById('compareVendor2').value);
+  var v1 = vendorScoreData[i1], v2 = vendorScoreData[i2];
+  var grid = document.getElementById('compareGrid');
+  function card(v, isWinner) {
+    var border = isWinner ? 'border-color:var(--green);' : '';
+    return '<div class="compare-card" style="' + border + '">' +
+      (isWinner ? '<div style="font-size:.6rem;font-weight:700;color:var(--green);margin-bottom:4px;">&#127942; ดีกว่า</div>' : '') +
+      '<div class="name">' + v.code + '</div>' +
+      '<div style="font-size:.72rem;color:var(--muted);margin-bottom:8px;">' + v.name + '</div>' +
+      '<div class="metrics">' +
+      '<div class="metric">&#11088; คะแนน<br><span class="val">' + v.rating.toFixed(1) + '/5.0</span></div>' +
+      '<div class="metric">&#128666; ส่งตรงเวลา<br><span class="val">' + v.ontime + '%</span></div>' +
+      '<div class="metric">&#128221; คุณภาพ<br><span class="val">' + v.quality + '%</span></div>' +
+      '<div class="metric">&#128176; ราคา<br><span class="val">' + v.price + '/100</span></div>' +
+      '<div class="metric">&#128736; บริการ<br><span class="val">' + v.service + '%</span></div>' +
+      '<div class="metric">&#128202; ออเดอร์<br><span class="val">' + v.orders + ' รายการ</span></div>' +
+      '</div></div>';
+  }
+  var score1 = v1.quality + v1.delivery + v1.service + v1.price;
+  var score2 = v2.quality + v2.delivery + v2.service + v2.price;
+  grid.innerHTML = card(v1, score1 >= score2) + card(v2, score2 > score1);
+}
+
+// Vendor Performance Trend Line Chart
+function renderVendorTrendLine() {
+  var svg = document.getElementById('vendorTrendChart');
+  var months = ['พ.ย.','ธ.ค.','ม.ค.','ก.พ.','มี.ค.','เม.ย.'];
+  var colors = ['#2563EB','#059669','#7C3AED','#D97706','#0891B2'];
+  var W = 400, H = 200, padL = 35, padR = 15, padT = 15, padB = 30;
+  var chartW = W - padL - padR, chartH = H - padT - padB;
+  var html = '';
+
+  // Grid
+  for (var g = 0; g <= 5; g++) {
+    var gy = padT + (g / 5) * chartH;
+    var gv = (5 - g).toFixed(0);
+    html += '<line x1="' + padL + '" y1="' + gy + '" x2="' + (W - padR) + '" y2="' + gy + '" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3"/>';
+    html += '<text x="' + (padL - 5) + '" y="' + (gy + 3) + '" text-anchor="end" font-size="8" fill="var(--muted)" font-family="Inter">' + gv + '</text>';
+  }
+  months.forEach(function(m, i) {
+    var x = padL + (i / (months.length - 1)) * chartW;
+    html += '<text x="' + x + '" y="' + (H - 5) + '" text-anchor="middle" font-size="8" fill="var(--muted)" font-family="Noto Sans Thai">' + m + '</text>';
+  });
+
+  var legendHtml = '';
+  vendorScoreData.forEach(function(v, vi) {
+    // Generate trend data
+    var pts = [];
+    var base = v.rating - 0.3;
+    for (var m = 0; m < 6; m++) {
+      base += (Math.random() - 0.35) * 0.3;
+      base = Math.max(1, Math.min(5, base));
+      pts.push(base);
+    }
+    pts[5] = v.rating; // end at current
+
+    var coords = pts.map(function(p, i) {
+      var x = padL + (i / 5) * chartW;
+      var y = padT + (1 - (p - 1) / 4) * chartH;
+      return { x: x, y: y };
+    });
+
+    html += '<polyline points="' + coords.map(function(c) { return c.x.toFixed(1) + ',' + c.y.toFixed(1); }).join(' ') + '" fill="none" stroke="' + colors[vi] + '" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>';
+    coords.forEach(function(c) {
+      html += '<circle cx="' + c.x.toFixed(1) + '" cy="' + c.y.toFixed(1) + '" r="2.5" fill="' + colors[vi] + '" stroke="var(--card-bg)" stroke-width="1.5"/>';
+    });
+
+    legendHtml += '<div style="display:flex;align-items:center;gap:4px;font-size:.68rem;color:var(--text2);"><div style="width:8px;height:8px;border-radius:50%;background:' + colors[vi] + ';flex-shrink:0;"></div>' + v.code + '</div>';
+  });
+
+  svg.innerHTML = html;
+  document.getElementById('trendLegend').innerHTML = legendHtml;
+}
+
+// Vendor Risk Matrix (Scatter)
+function renderRiskMatrix() {
+  var svg = document.getElementById('riskMatrixChart');
+  var W = 340, H = 260, padL = 40, padR = 20, padT = 20, padB = 35;
+  var chartW = W - padL - padR, chartH = H - padT - padB;
+  var html = '';
+
+  // Background quadrants
+  html += '<rect x="' + padL + '" y="' + padT + '" width="' + (chartW / 2) + '" height="' + (chartH / 2) + '" fill="var(--green-bg)" opacity="0.3"/>';
+  html += '<rect x="' + (padL + chartW / 2) + '" y="' + padT + '" width="' + (chartW / 2) + '" height="' + (chartH / 2) + '" fill="var(--orange-bg)" opacity="0.3"/>';
+  html += '<rect x="' + padL + '" y="' + (padT + chartH / 2) + '" width="' + (chartW / 2) + '" height="' + (chartH / 2) + '" fill="var(--blue-bg)" opacity="0.3"/>';
+  html += '<rect x="' + (padL + chartW / 2) + '" y="' + (padT + chartH / 2) + '" width="' + (chartW / 2) + '" height="' + (chartH / 2) + '" fill="var(--red-bg)" opacity="0.3"/>';
+
+  // Quadrant labels
+  html += '<text x="' + (padL + chartW * 0.25) + '" y="' + (padT + 14) + '" text-anchor="middle" font-size="7" fill="var(--green)" font-weight="700" font-family="Noto Sans Thai">ผลกระทบสูง / เสี่ยงต่ำ</text>';
+  html += '<text x="' + (padL + chartW * 0.75) + '" y="' + (padT + 14) + '" text-anchor="middle" font-size="7" fill="var(--orange)" font-weight="700" font-family="Noto Sans Thai">&#9888; เสี่ยงสูง-ผลกระทบสูง</text>';
+  html += '<text x="' + (padL + chartW * 0.25) + '" y="' + (padT + chartH - 4) + '" text-anchor="middle" font-size="7" fill="var(--blue)" font-weight="700" font-family="Noto Sans Thai">ความเสี่ยงต่ำ</text>';
+  html += '<text x="' + (padL + chartW * 0.75) + '" y="' + (padT + chartH - 4) + '" text-anchor="middle" font-size="7" fill="var(--red)" font-weight="700" font-family="Noto Sans Thai">&#9888; เสี่ยงสูง-ผลกระทบต่ำ</text>';
+
+  // Axes
+  html += '<line x1="' + padL + '" y1="' + (padT + chartH) + '" x2="' + (W - padR) + '" y2="' + (padT + chartH) + '" stroke="var(--border)" stroke-width="1"/>';
+  html += '<line x1="' + padL + '" y1="' + padT + '" x2="' + padL + '" y2="' + (padT + chartH) + '" stroke="var(--border)" stroke-width="1"/>';
+  html += '<text x="' + (padL + chartW / 2) + '" y="' + (H - 5) + '" text-anchor="middle" font-size="8" fill="var(--muted)" font-family="Noto Sans Thai">ความน่าจะเป็น (Likelihood) →</text>';
+  html += '<text x="12" y="' + (padT + chartH / 2) + '" text-anchor="middle" font-size="8" fill="var(--muted)" font-family="Noto Sans Thai" transform="rotate(-90,12,' + (padT + chartH / 2) + ')">ผลกระทบ (Impact) →</text>';
+
+  // Plot vendors
+  var colors = ['#2563EB', '#059669', '#7C3AED', '#D97706', '#0891B2'];
+  vendorScoreData.forEach(function(v, i) {
+    var x = padL + (v.risk.likelihood / 100) * chartW;
+    var y = padT + chartH - (v.risk.impact / 100) * chartH;
+    var riskLevel = (v.risk.likelihood + v.risk.impact) / 2;
+    var dotR = 8 + (riskLevel / 100) * 8;
+    html += '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + dotR.toFixed(1) + '" fill="' + colors[i] + '" opacity="0.6" stroke="' + colors[i] + '" stroke-width="1.5"/>';
+    html += '<text x="' + x.toFixed(1) + '" y="' + (y - dotR - 3).toFixed(1) + '" text-anchor="middle" font-size="7.5" font-weight="700" fill="var(--text)" font-family="Noto Sans Thai">' + v.code + '</text>';
+  });
+
+  svg.innerHTML = html;
+}
+
 // ============ VIRTUAL SCROLLING INIT ============
 // Simulate loading with skeleton then render
 (function(){
@@ -1724,6 +1992,11 @@ function resetAuditDateFilter(){
     filterVendors();
     updateVendorScoring();
     renderTrendSparklines();
+    // Enhanced vendor charts
+    updateRadarChart();
+    updateComparison();
+    renderVendorTrendLine();
+    renderRiskMatrix();
     const loadTime = ((performance.now()-startTime)/1000).toFixed(1);
     document.getElementById('loadTimeBadge').innerHTML = '&#9889; โหลดใน '+loadTime+' วินาที';
     // Hide full-page skeleton

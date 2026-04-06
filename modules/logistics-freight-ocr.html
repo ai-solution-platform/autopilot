@@ -1761,18 +1761,24 @@ h1,h2,h3,h4,h5,h6,.card-title{text-rendering:optimizeLegibility;}
     </div>
   </div>
 
-  <!-- Logistics-specific Field Extraction -->
+  <!-- Logistics-specific Field Extraction with Thai Units -->
   <div class="logistics-fields" id="logiFieldsSection">
-    <h3>&#128666; ข้อมูลเฉพาะทาง Logistics (สกัดอัตโนมัติ)</h3>
+    <h3>&#128666; ข้อมูลเฉพาะทาง Logistics (สกัดอัตโนมัติ) — หน่วยไทย</h3>
     <div class="logi-field-grid">
       <div class="logi-field"><div class="label">Tracking Number</div><input class="value-editable" value="KEX-2569040612345"></div>
-      <div class="logi-field"><div class="label">น้ำหนักรวม (กก.)</div><input class="value-editable" value="12.5"></div>
-      <div class="logi-field"><div class="label">ขนาด (กว้าง x ยาว x สูง ซม.)</div><input class="value-editable" value="40 x 30 x 25"></div>
-      <div class="logi-field"><div class="label">จำนวนกล่อง</div><input class="value-editable" value="3"></div>
-      <div class="logi-field"><div class="label">น้ำหนักเชิงปริมาตร (กก.)</div><input class="value-editable" value="10.0"></div>
-      <div class="logi-field"><div class="label">ประเภทบริการ</div><input class="value-editable" value="Express (1-2 วัน)"></div>
+      <div class="logi-field"><div class="label">ผู้ให้บริการขนส่ง (Thai Carrier)</div><input class="value-editable" value="Kerry Express (Thailand) PCL."></div>
+      <div class="logi-field"><div class="label">ประเภทบริการ</div><input class="value-editable" value="ด่วนพิเศษ (Express 1-2 วัน)"></div>
+      <div class="logi-field"><div class="label">น้ำหนักจริง (กิโลกรัม / กก.)</div><input class="value-editable" value="12.5 กก."></div>
+      <div class="logi-field"><div class="label">น้ำหนักเชิงปริมาตร (กก.)</div><input class="value-editable" value="10.0 กก."></div>
+      <div class="logi-field"><div class="label">น้ำหนักคิดค่าบริการ (กก.)</div><input class="value-editable" value="12.5 กก. (ใช้น้ำหนักจริง)"></div>
+      <div class="logi-field"><div class="label">กว้าง (เซนติเมตร / ซม.)</div><input class="value-editable" value="40 ซม."></div>
+      <div class="logi-field"><div class="label">ยาว (เซนติเมตร / ซม.)</div><input class="value-editable" value="30 ซม."></div>
+      <div class="logi-field"><div class="label">สูง (เซนติเมตร / ซม.)</div><input class="value-editable" value="25 ซม."></div>
+      <div class="logi-field"><div class="label">จำนวนกล่อง/หีบห่อ</div><input class="value-editable" value="3 กล่อง"></div>
+      <div class="logi-field"><div class="label">ปริมาตรรวม (ลูกบาศก์เมตร / ลบ.ม.)</div><input class="value-editable" value="0.030 ลบ.ม."></div>
       <div class="logi-field"><div class="label">Incoterm</div><input class="value-editable" value="CIF Bangkok"></div>
-      <div class="logi-field"><div class="label">HS Code</div><input class="value-editable" value="8471.30.10"></div>
+      <div class="logi-field"><div class="label">HS Code</div><input class="value-editable" value="8471.30.10 — เครื่องประมวลผลข้อมูล"></div>
+      <div class="logi-field"><div class="label">จังหวัดต้นทาง</div><input class="value-editable" value="ชลบุรี (นิคมอมตะนคร)"></div>
       <div class="logi-field"><div class="label">จังหวัดปลายทาง</div><input class="value-editable" value="กรุงเทพมหานคร"></div>
     </div>
   </div>
@@ -1811,10 +1817,31 @@ h1,h2,h3,h4,h5,h6,.card-title{text-rendering:optimizeLegibility;}
     </div>
   </div>
 
-  <!-- Batch Document Processing -->
+  <!-- Batch Document Processing (Enhanced Queue UI) -->
   <div class="batch-section" id="batchSection">
-    <h3>&#128230; ประมวลผลเอกสารแบบ Batch (Batch Processing)</h3>
-    <div style="font-size:.72rem;color:var(--text-dim);margin-bottom:12px;">อัพโหลดหลายเอกสารพร้อมกันเพื่อ OCR ทีเดียว -- รองรับสูงสุด 50 ไฟล์ต่อครั้ง</div>
+    <h3>&#128230; คิวประมวลผลเอกสารแบบ Batch (Batch Processing Queue)</h3>
+    <div style="font-size:.72rem;color:var(--text-dim);margin-bottom:12px;">อัพโหลดหลายเอกสารพร้อมกัน -- รองรับสูงสุด 50 ไฟล์ต่อครั้ง | รองรับใบตราส่ง ใบขนส่ง ใบกำกับการขนส่ง</div>
+
+    <!-- Batch Summary Stats -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;">
+      <div style="text-align:center;padding:10px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;">
+        <div style="font-size:1.2rem;font-weight:800;color:var(--blue);font-family:'Inter',sans-serif;">8</div>
+        <div style="font-size:.65rem;color:var(--text-dim);font-weight:600;">ทั้งหมดในคิว</div>
+      </div>
+      <div style="text-align:center;padding:10px;background:rgba(5,150,105,.05);border:1px solid rgba(5,150,105,.2);border-radius:8px;">
+        <div style="font-size:1.2rem;font-weight:800;color:var(--green);font-family:'Inter',sans-serif;">2</div>
+        <div style="font-size:.65rem;color:var(--green);font-weight:600;">เสร็จสิ้น</div>
+      </div>
+      <div style="text-align:center;padding:10px;background:rgba(37,99,235,.05);border:1px solid rgba(37,99,235,.2);border-radius:8px;">
+        <div style="font-size:1.2rem;font-weight:800;color:var(--blue);font-family:'Inter',sans-serif;">1</div>
+        <div style="font-size:.65rem;color:var(--blue);font-weight:600;">กำลังดำเนินการ</div>
+      </div>
+      <div style="text-align:center;padding:10px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;">
+        <div style="font-size:1.2rem;font-weight:800;color:var(--text-dim);font-family:'Inter',sans-serif;">5</div>
+        <div style="font-size:.65rem;color:var(--text-dim);font-weight:600;">รอคิว</div>
+      </div>
+    </div>
+
     <div class="batch-queue" id="batchQueue">
       <div class="batch-item">
         <span>&#128196;</span>
@@ -1843,6 +1870,24 @@ h1,h2,h3,h4,h5,h6,.card-title{text-rendering:optimizeLegibility;}
       <div class="batch-item">
         <span>&#128196;</span>
         <span class="doc-name">Kerry_Delivery_Note.pdf</span>
+        <div class="batch-progress"><div class="fill" style="width:0%"></div></div>
+        <span class="batch-status queued">&#128339; รอคิว</span>
+      </div>
+      <div class="batch-item">
+        <span>&#128196;</span>
+        <span class="doc-name">Kerry_ใบขนส่ง_2569-0456.pdf</span>
+        <div class="batch-progress"><div class="fill" style="width:0%"></div></div>
+        <span class="batch-status queued">&#128339; รอคิว</span>
+      </div>
+      <div class="batch-item">
+        <span>&#128196;</span>
+        <span class="doc-name">Flash_ใบกำกับการขนส่ง_789.pdf</span>
+        <div class="batch-progress"><div class="fill" style="width:0%"></div></div>
+        <span class="batch-status queued">&#128339; รอคิว</span>
+      </div>
+      <div class="batch-item">
+        <span>&#128196;</span>
+        <span class="doc-name">SCG_ใบตราส่ง_2569.pdf</span>
         <div class="batch-progress"><div class="fill" style="width:0%"></div></div>
         <span class="batch-status queued">&#128339; รอคิว</span>
       </div>

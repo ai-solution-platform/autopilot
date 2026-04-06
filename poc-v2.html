@@ -1730,6 +1730,107 @@ body.training-mode .header{border-bottom:2px solid var(--orange);}
             <button class="btn btn-primary btn-sm mt-12" onclick="showToast('🔐','Security','บันทึกการตั้งค่าความปลอดภัยแล้ว')">💾 บันทึกการตั้งค่า 2FA/SSO</button>
         </div>
 
+        <!-- User Preferences Panel -->
+        <div class="card settings-card" data-settings-keywords="user preferences language date format number theme accent color ผู้ใช้ ภาษา รูปแบบวันที่ พ.ศ. ค.ศ. ธีม สี" role="region" aria-label="การตั้งค่าส่วนตัว" style="grid-column:1/-1;">
+            <div class="card-title">👤 การตั้งค่าส่วนตัว (User Preferences)</div>
+            <div style="font-size:.78rem;color:var(--muted);margin-bottom:16px;">ปรับแต่งการแสดงผลและการทำงานตามความต้องการของคุณ</div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+              <!-- Left column -->
+              <div>
+                <!-- Language Preference -->
+                <div style="margin-bottom:14px;">
+                  <div style="font-size:.75rem;font-weight:700;color:var(--muted);margin-bottom:8px;">🌐 ภาษาที่แสดงผล</div>
+                  <div style="display:flex;gap:4px;background:var(--bg);padding:3px;border-radius:8px;border:1px solid var(--border);">
+                    <button id="langTh" onclick="setUserPrefLang('th')" style="flex:1;padding:8px;border-radius:6px;font-size:.78rem;font-weight:600;cursor:pointer;border:none;background:var(--blue-l);color:var(--blue);font-family:inherit;transition:all .2s;">🇹🇭 ไทย</button>
+                    <button id="langEn" onclick="setUserPrefLang('en')" style="flex:1;padding:8px;border-radius:6px;font-size:.78rem;font-weight:500;cursor:pointer;border:none;background:none;color:var(--muted);font-family:inherit;transition:all .2s;">🇬🇧 English</button>
+                  </div>
+                </div>
+
+                <!-- Date Format -->
+                <div style="margin-bottom:14px;">
+                  <div style="font-size:.75rem;font-weight:700;color:var(--muted);margin-bottom:8px;">📅 รูปแบบวันที่</div>
+                  <div style="display:flex;gap:4px;background:var(--bg);padding:3px;border-radius:8px;border:1px solid var(--border);">
+                    <button id="dateBE" onclick="setUserPrefDate('be')" style="flex:1;padding:8px;border-radius:6px;font-size:.78rem;font-weight:600;cursor:pointer;border:none;background:var(--purple-l);color:var(--purple);font-family:inherit;transition:all .2s;">พ.ศ. (2569)</button>
+                    <button id="dateAD" onclick="setUserPrefDate('ad')" style="flex:1;padding:8px;border-radius:6px;font-size:.78rem;font-weight:500;cursor:pointer;border:none;background:none;color:var(--muted);font-family:inherit;transition:all .2s;">ค.ศ. (2026)</button>
+                  </div>
+                </div>
+
+                <!-- Number Format -->
+                <div style="margin-bottom:14px;">
+                  <div style="font-size:.75rem;font-weight:700;color:var(--muted);margin-bottom:8px;">🔢 รูปแบบตัวเลข</div>
+                  <div style="display:flex;gap:4px;background:var(--bg);padding:3px;border-radius:8px;border:1px solid var(--border);">
+                    <button id="numTh" onclick="setUserPrefNum('th')" style="flex:1;padding:8px;border-radius:6px;font-size:.78rem;font-weight:600;cursor:pointer;border:none;background:var(--green-l);color:var(--green);font-family:inherit;transition:all .2s;">Thai: 1,234.56</button>
+                    <button id="numInt" onclick="setUserPrefNum('int')" style="flex:1;padding:8px;border-radius:6px;font-size:.78rem;font-weight:500;cursor:pointer;border:none;background:none;color:var(--muted);font-family:inherit;transition:all .2s;">Int'l: 1.234,56</button>
+                  </div>
+                </div>
+
+                <!-- Default Module -->
+                <div style="margin-bottom:14px;">
+                  <div style="font-size:.75rem;font-weight:700;color:var(--muted);margin-bottom:8px;">🏠 โมดูลเริ่มต้นเมื่อล็อกอิน</div>
+                  <select class="form-input" id="defaultModuleSelect" style="width:100%;" onchange="setUserPrefModule(this.value)">
+                    <option value="home" selected>🏠 Home Dashboard</option>
+                    <option value="procurement">📋 Procurement</option>
+                    <option value="sales">💼 Sales</option>
+                    <option value="expense">🧾 Expense</option>
+                    <option value="finance">🏦 Finance</option>
+                    <option value="logistics">🚚 Logistics</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Right column -->
+              <div>
+                <!-- Theme Accent Color -->
+                <div style="margin-bottom:14px;">
+                  <div style="font-size:.75rem;font-weight:700;color:var(--muted);margin-bottom:8px;">🎨 สีธีมหลัก (Accent Color)</div>
+                  <div style="display:flex;gap:8px;flex-wrap:wrap;" id="accentColorPicker">
+                    <button onclick="setAccentColor('#2563EB','blue')" class="accent-swatch active" data-color="blue" style="width:36px;height:36px;border-radius:10px;border:3px solid var(--blue);background:#2563EB;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:800;">&#10003;</button>
+                    <button onclick="setAccentColor('#7C3AED','purple')" class="accent-swatch" data-color="purple" style="width:36px;height:36px;border-radius:10px;border:3px solid transparent;background:#7C3AED;cursor:pointer;transition:all .2s;"></button>
+                    <button onclick="setAccentColor('#059669','green')" class="accent-swatch" data-color="green" style="width:36px;height:36px;border-radius:10px;border:3px solid transparent;background:#059669;cursor:pointer;transition:all .2s;"></button>
+                    <button onclick="setAccentColor('#DC2626','red')" class="accent-swatch" data-color="red" style="width:36px;height:36px;border-radius:10px;border:3px solid transparent;background:#DC2626;cursor:pointer;transition:all .2s;"></button>
+                    <button onclick="setAccentColor('#D97706','amber')" class="accent-swatch" data-color="amber" style="width:36px;height:36px;border-radius:10px;border:3px solid transparent;background:#D97706;cursor:pointer;transition:all .2s;"></button>
+                    <button onclick="setAccentColor('#0891B2','teal')" class="accent-swatch" data-color="teal" style="width:36px;height:36px;border-radius:10px;border:3px solid transparent;background:#0891B2;cursor:pointer;transition:all .2s;"></button>
+                  </div>
+                  <div style="font-size:.65rem;color:var(--muted);margin-top:6px;" id="accentLabel">เลือก: น้ำเงิน (ค่าเริ่มต้น)</div>
+                </div>
+
+                <!-- Notification Preferences per Category -->
+                <div style="margin-bottom:14px;">
+                  <div style="font-size:.75rem;font-weight:700;color:var(--muted);margin-bottom:8px;">🔔 การแจ้งเตือนตามหมวดหมู่</div>
+                  <div style="display:flex;flex-direction:column;gap:6px;" id="notifPrefsCategories">
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 10px;border-radius:6px;background:var(--bg);font-size:.78rem;">
+                      <span>📋 การจัดซื้อ (PR/PO)</span>
+                      <label class="toggle-switch"><input type="checkbox" checked onchange="saveNotifPref('procurement',this.checked)"><span class="toggle-slider"></span></label>
+                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 10px;border-radius:6px;background:var(--bg);font-size:.78rem;">
+                      <span>✅ การอนุมัติ</span>
+                      <label class="toggle-switch"><input type="checkbox" checked onchange="saveNotifPref('approval',this.checked)"><span class="toggle-slider"></span></label>
+                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 10px;border-radius:6px;background:var(--bg);font-size:.78rem;">
+                      <span>🧾 ค่าใช้จ่าย</span>
+                      <label class="toggle-switch"><input type="checkbox" checked onchange="saveNotifPref('expense',this.checked)"><span class="toggle-slider"></span></label>
+                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 10px;border-radius:6px;background:var(--bg);font-size:.78rem;">
+                      <span>🏦 การเงิน</span>
+                      <label class="toggle-switch"><input type="checkbox" onchange="saveNotifPref('finance',this.checked)"><span class="toggle-slider"></span></label>
+                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 10px;border-radius:6px;background:var(--bg);font-size:.78rem;">
+                      <span>🚚 โลจิสติกส์</span>
+                      <label class="toggle-switch"><input type="checkbox" onchange="saveNotifPref('logistics',this.checked)"><span class="toggle-slider"></span></label>
+                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 10px;border-radius:6px;background:var(--bg);font-size:.78rem;">
+                      <span>🤖 AI Insights</span>
+                      <label class="toggle-switch"><input type="checkbox" checked onchange="saveNotifPref('ai',this.checked)"><span class="toggle-slider"></span></label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn btn-primary btn-sm mt-8" onclick="saveAllUserPrefs()">💾 บันทึกการตั้งค่าส่วนตัว</button>
+        </div>
+
         <!-- CROSS-036: Approval Delegation System Enhancement -->
         <div class="card settings-card" data-settings-keywords="approval delegation proxy มอบหมาย อนุมัติ ตัวแทน" role="region" aria-label="ระบบมอบหมายอนุมัติ">
             <div class="card-title">&#128101; มอบหมายการอนุมัติ (Approval Delegation)</div>
@@ -3245,6 +3346,192 @@ window.addEventListener('online',function(){
     var style=document.createElement('style');
     style.textContent='.nav-item:focus-visible,.header-btn:focus-visible,.btn:focus-visible,.toggle-switch input:focus-visible+.toggle-slider{outline:2px solid var(--blue,#2563EB);outline-offset:2px;border-radius:8px;} :focus:not(:focus-visible){outline:none;}';
     document.head.appendChild(style);
+})();
+
+// ═══ USER PREFERENCES ═══
+var userPrefs = { lang: 'th', dateFormat: 'be', numFormat: 'th', defaultModule: 'home', accentColor: '#2563EB', accentName: 'blue', notifPrefs: {} };
+
+function loadUserPrefsFromStorage() {
+  try {
+    var stored = JSON.parse(localStorage.getItem('autopilot_user_prefs'));
+    if (stored) userPrefs = Object.assign(userPrefs, stored);
+  } catch(e){}
+}
+loadUserPrefsFromStorage();
+
+function setUserPrefLang(lang) {
+  userPrefs.lang = lang;
+  document.getElementById('langTh').style.background = lang === 'th' ? 'var(--blue-l)' : 'none';
+  document.getElementById('langTh').style.color = lang === 'th' ? 'var(--blue)' : 'var(--muted)';
+  document.getElementById('langTh').style.fontWeight = lang === 'th' ? '600' : '500';
+  document.getElementById('langEn').style.background = lang === 'en' ? 'var(--blue-l)' : 'none';
+  document.getElementById('langEn').style.color = lang === 'en' ? 'var(--blue)' : 'var(--muted)';
+  document.getElementById('langEn').style.fontWeight = lang === 'en' ? '600' : '500';
+}
+
+function setUserPrefDate(fmt) {
+  userPrefs.dateFormat = fmt;
+  document.getElementById('dateBE').style.background = fmt === 'be' ? 'var(--purple-l)' : 'none';
+  document.getElementById('dateBE').style.color = fmt === 'be' ? 'var(--purple)' : 'var(--muted)';
+  document.getElementById('dateBE').style.fontWeight = fmt === 'be' ? '600' : '500';
+  document.getElementById('dateAD').style.background = fmt === 'ad' ? 'var(--purple-l)' : 'none';
+  document.getElementById('dateAD').style.color = fmt === 'ad' ? 'var(--purple)' : 'var(--muted)';
+  document.getElementById('dateAD').style.fontWeight = fmt === 'ad' ? '600' : '500';
+}
+
+function setUserPrefNum(fmt) {
+  userPrefs.numFormat = fmt;
+  document.getElementById('numTh').style.background = fmt === 'th' ? 'var(--green-l)' : 'none';
+  document.getElementById('numTh').style.color = fmt === 'th' ? 'var(--green)' : 'var(--muted)';
+  document.getElementById('numTh').style.fontWeight = fmt === 'th' ? '600' : '500';
+  document.getElementById('numInt').style.background = fmt === 'int' ? 'var(--green-l)' : 'none';
+  document.getElementById('numInt').style.color = fmt === 'int' ? 'var(--green)' : 'var(--muted)';
+  document.getElementById('numInt').style.fontWeight = fmt === 'int' ? '600' : '500';
+}
+
+function setUserPrefModule(mod) { userPrefs.defaultModule = mod; }
+
+function setAccentColor(color, name) {
+  userPrefs.accentColor = color;
+  userPrefs.accentName = name;
+  var labels = { blue:'น้ำเงิน (ค่าเริ่มต้น)', purple:'ม่วง', green:'เขียว', red:'แดง', amber:'ส้มทอง', teal:'เขียวน้ำทะเล' };
+  document.getElementById('accentLabel').textContent = 'เลือก: ' + (labels[name] || name);
+  document.querySelectorAll('.accent-swatch').forEach(function(btn) {
+    var isActive = btn.getAttribute('data-color') === name;
+    btn.style.borderColor = isActive ? color : 'transparent';
+    btn.innerHTML = isActive ? '&#10003;' : '';
+    btn.style.color = '#fff';
+    btn.style.fontSize = '.7rem';
+    btn.style.fontWeight = '800';
+  });
+}
+
+function saveNotifPref(cat, val) { userPrefs.notifPrefs[cat] = val; }
+
+function saveAllUserPrefs() {
+  try { localStorage.setItem('autopilot_user_prefs', JSON.stringify(userPrefs)); } catch(e){}
+  showToast('✅','User Preferences','บันทึกการตั้งค่าส่วนตัวเรียบร้อย');
+}
+
+// ═══ MULTI-TAB CONFLICT RESOLUTION ═══
+var tabId = 'tab_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+var multiTabChannel = null;
+var activeTabs = {};
+
+(function initMultiTab() {
+  try {
+    multiTabChannel = new BroadcastChannel('autopilot_v2_tabs');
+  } catch(e) { return; }
+
+  // Register this tab
+  activeTabs[tabId] = { id: tabId, opened: Date.now(), lastActive: Date.now() };
+  broadcastTabEvent('tab_open', { tabId: tabId });
+
+  // Add multi-tab indicator
+  var indicator = document.createElement('div');
+  indicator.id = 'multiTabIndicator';
+  indicator.style.cssText = 'position:fixed;bottom:12px;left:12px;z-index:9999;display:none;align-items:center;gap:6px;padding:6px 12px;background:var(--white,#fff);border:1px solid var(--border,#E2E8F0);border-radius:8px;font-size:.68rem;color:var(--muted,#64748B);box-shadow:0 2px 8px rgba(0,0,0,.1);font-family:inherit;';
+  indicator.innerHTML = '<span style="width:8px;height:8px;border-radius:50%;background:var(--orange,#D97706);animation:pulse 2s infinite;"></span> <span id="multiTabCount">1</span> แท็บเปิดอยู่';
+  document.body.appendChild(indicator);
+
+  // Conflict resolution dialog
+  var conflictBanner = document.createElement('div');
+  conflictBanner.id = 'conflictBanner';
+  conflictBanner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;display:none;padding:12px 24px;background:var(--orange-l,#FFFBEB);border-bottom:2px solid var(--orange,#D97706);font-size:.78rem;font-weight:600;color:var(--orange,#D97706);font-family:inherit;';
+  conflictBanner.innerHTML = '<div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">' +
+    '<div style="display:flex;align-items:center;gap:8px;">⚠️ <span id="conflictMsg">แท็บอื่นได้แก้ไขข้อมูลนี้แล้ว</span></div>' +
+    '<div style="display:flex;gap:6px;">' +
+    '<button onclick="resolveConflict(\'merge\')" style="padding:5px 12px;border-radius:6px;border:none;background:var(--blue,#2563EB);color:#fff;font-size:.72rem;font-weight:700;cursor:pointer;font-family:inherit;">🔀 รวมข้อมูล</button>' +
+    '<button onclick="resolveConflict(\'overwrite\')" style="padding:5px 12px;border-radius:6px;border:none;background:var(--orange,#D97706);color:#fff;font-size:.72rem;font-weight:700;cursor:pointer;font-family:inherit;">📝 เขียนทับ</button>' +
+    '<button onclick="resolveConflict(\'discard\')" style="padding:5px 12px;border-radius:6px;border:1px solid var(--border,#E2E8F0);background:var(--white,#fff);color:var(--text2,#334155);font-size:.72rem;font-weight:600;cursor:pointer;font-family:inherit;">🗑️ ยกเลิกของฉัน</button>' +
+    '<button onclick="dismissConflict()" style="padding:5px 12px;border-radius:6px;border:1px solid var(--border,#E2E8F0);background:none;color:var(--muted,#64748B);font-size:.72rem;cursor:pointer;font-family:inherit;">&#10005;</button>' +
+    '</div></div>';
+  document.body.appendChild(conflictBanner);
+
+  // Listen for messages
+  multiTabChannel.onmessage = function(e) {
+    var data = e.data;
+    if (data.type === 'tab_open') {
+      activeTabs[data.payload.tabId] = { id: data.payload.tabId, opened: Date.now() };
+      broadcastTabEvent('tab_ack', { tabId: tabId });
+      updateTabIndicator();
+    } else if (data.type === 'tab_ack') {
+      activeTabs[data.payload.tabId] = { id: data.payload.tabId, opened: Date.now() };
+      updateTabIndicator();
+    } else if (data.type === 'tab_close') {
+      delete activeTabs[data.payload.tabId];
+      updateTabIndicator();
+    } else if (data.type === 'data_changed') {
+      if (data.payload.tabId !== tabId) {
+        showConflictBanner(data.payload.description || 'แท็บอื่นได้แก้ไขข้อมูล');
+      }
+    }
+  };
+
+  // Update on activity
+  setInterval(function() {
+    activeTabs[tabId] = { id: tabId, lastActive: Date.now() };
+  }, 5000);
+
+  // Cleanup on close
+  window.addEventListener('beforeunload', function() {
+    broadcastTabEvent('tab_close', { tabId: tabId });
+  });
+
+  updateTabIndicator();
+})();
+
+function broadcastTabEvent(type, payload) {
+  if (multiTabChannel) {
+    try { multiTabChannel.postMessage({ type: type, payload: payload }); } catch(e){}
+  }
+}
+
+function updateTabIndicator() {
+  var count = Object.keys(activeTabs).length;
+  var indicator = document.getElementById('multiTabIndicator');
+  if (indicator) {
+    if (count > 1) {
+      indicator.style.display = 'flex';
+      document.getElementById('multiTabCount').textContent = count;
+    } else {
+      indicator.style.display = 'none';
+    }
+  }
+}
+
+function showConflictBanner(msg) {
+  var banner = document.getElementById('conflictBanner');
+  if (banner) {
+    document.getElementById('conflictMsg').textContent = msg;
+    banner.style.display = 'block';
+  }
+}
+
+function dismissConflict() {
+  var banner = document.getElementById('conflictBanner');
+  if (banner) banner.style.display = 'none';
+}
+
+function resolveConflict(action) {
+  var labels = { merge: '🔀 กำลังรวมข้อมูล...', overwrite: '📝 เขียนทับข้อมูลเรียบร้อย', discard: '🗑️ ยกเลิกการเปลี่ยนแปลงของฉัน' };
+  showToast('✅', 'Conflict Resolved', labels[action] || 'ดำเนินการเรียบร้อย');
+  dismissConflict();
+  broadcastTabEvent('conflict_resolved', { tabId: tabId, action: action });
+}
+
+// Simulate conflict when saving settings (trigger for demo)
+var origShowToast = window.showToast;
+var saveCount = 0;
+(function hookSettingsSaves() {
+  document.addEventListener('click', function(e) {
+    if (e.target && e.target.closest && e.target.closest('.settings-card') && e.target.tagName === 'BUTTON') {
+      saveCount++;
+      if (saveCount > 0 && Object.keys(activeTabs).length > 1) {
+        broadcastTabEvent('data_changed', { tabId: tabId, description: 'แท็บอื่นได้แก้ไข Settings' });
+      }
+    }
+  });
 })();
 
 // Auto-load Home on startup

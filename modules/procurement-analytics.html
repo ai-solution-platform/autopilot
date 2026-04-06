@@ -119,17 +119,81 @@ h1,h2,h3,h4,h5,h6,.card-title{text-rendering:optimizeLegibility;}
 .animate-in{animation:fadeUp .4s ease both;}
 .delay-1{animation-delay:.05s;}.delay-2{animation-delay:.1s;}.delay-3{animation-delay:.15s;}.delay-4{animation-delay:.2s;}.delay-5{animation-delay:.25s;}.delay-6{animation-delay:.3s;}
 
-/* Print-friendly layout */
+/* Print-friendly layout — Comprehensive */
 @media print{
-  body{background:#fff!important;color:#000!important;font-size:12px!important;}
-  .dark-toggle,.page-actions,.btn,.filter-bar,.svg-tooltip{display:none!important;}
-  .page-wrap{max-width:100%;padding:10px;}
-  .card{break-inside:avoid;box-shadow:none!important;border:1px solid #ccc!important;margin-bottom:12px;}
-  .kpi{break-inside:avoid;box-shadow:none!important;}
-  .grid-2,.grid-3-2{grid-template-columns:1fr!important;}
-  .kpi-grid{grid-template-columns:repeat(2,1fr)!important;}
-  svg{max-width:100%!important;}
+  /* Reset for print */
+  body{background:#fff!important;color:#000!important;font-size:11px!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+  *{box-shadow:none!important;text-shadow:none!important;}
+
+  /* Hide interactive / non-print elements */
+  .dark-toggle,.page-actions,.btn,.filter-bar,.svg-tooltip,
+  .dept-filter-bar,.export-dropdown,.filter-tag,
+  button,select,input,.btn-primary,.btn-outline,.btn-sm,
+  #printPreviewBtn{display:none!important;}
+
+  /* Show print-only elements */
+  .print-only{display:block!important;}
+
+  /* Page layout */
+  .page-wrap{max-width:100%!important;padding:8px!important;margin:0!important;}
+
+  /* Print header with logo placeholder & date */
+  .print-header{display:flex!important;align-items:center;justify-content:space-between;padding:12px 0;margin-bottom:16px;border-bottom:3px solid #000;}
+  .print-header .print-logo{width:120px;height:40px;border:2px solid #666;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#666;border-radius:4px;}
+  .print-header .print-title{text-align:center;flex:1;}
+  .print-header .print-title h2{font-size:16px;font-weight:800;margin-bottom:2px;}
+  .print-header .print-title p{font-size:10px;color:#666;}
+  .print-header .print-date{text-align:right;font-size:10px;color:#666;}
+
+  /* Cards */
+  .card{break-inside:avoid!important;page-break-inside:avoid!important;border:1px solid #ccc!important;margin-bottom:10px!important;padding:12px!important;}
+  .card-title{font-size:12px!important;color:#000!important;}
+
+  /* KPI */
+  .kpi{break-inside:avoid!important;page-break-inside:avoid!important;border:1px solid #ccc!important;}
+  .kpi-grid{grid-template-columns:repeat(2,1fr)!important;gap:8px!important;}
+  .kpi-value{font-size:14px!important;color:#000!important;}
+  .kpi-label{color:#333!important;font-size:9px!important;}
+  .kpi-change{border:1px solid #ccc!important;}
+  .kpi::after{display:none!important;}
+
+  /* Grid layout for print */
+  .grid-2,.grid-3-2{grid-template-columns:1fr!important;gap:10px!important;}
+
+  /* Tables */
+  .data-table{font-size:9px!important;}
+  .data-table th{background:#f0f0f0!important;color:#000!important;border-bottom:2px solid #000!important;}
+  .data-table td{border-bottom:1px solid #ccc!important;color:#333!important;}
+
+  /* SVG Charts */
+  svg{max-width:100%!important;page-break-inside:avoid!important;}
+
+  /* Status badges */
+  .status{border:1px solid #999!important;}
+
+  /* Page break controls */
+  .card.page-break-before{page-break-before:always!important;}
+  .card.page-break-after{page-break-after:always!important;}
+  .kpi-grid{page-break-after:auto!important;}
+  .grid-2:nth-child(n+3){page-break-before:always!important;}
+
+  /* Footer on each page */
+  @page{margin:15mm 12mm;@bottom-center{content:"Autopilot v2 by ANTS \2014 Procurement Analytics";font-size:8px;color:#999;}}
+
+  /* Funnel & chart sections */
+  .funnel-step{break-inside:avoid!important;}
+  .savings-row{break-inside:avoid!important;}
+
+  /* Score bars */
+  .score-bar{border:1px solid #ccc!important;}
+  .score-fill{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+
+  /* Stars */
+  .star-on{color:#F59E0B!important;-webkit-print-color-adjust:exact!important;}
 }
+
+/* Print-only elements hidden on screen */
+.print-only{display:none!important;}
 
 /* Department Filter */
 .dept-filter-bar{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
@@ -157,6 +221,20 @@ h1,h2,h3,h4,h5,h6,.card-title{text-rendering:optimizeLegibility;}
 <button class="dark-toggle" onclick="toggleDark()">&#127769;</button>
 
 <div class="page-wrap">
+  <!-- Print-only header (hidden on screen, shown when printing) -->
+  <div class="print-header print-only" style="display:none;">
+    <div class="print-logo">COMPANY<br>LOGO</div>
+    <div class="print-title">
+      <h2>Procurement Analytics Report</h2>
+      <p>รายงานวิเคราะห์การจัดซื้อ &#8212; Q1/2569 (ม.ค. - มี.ค. 2569)</p>
+    </div>
+    <div class="print-date">
+      วันที่พิมพ์: 6 เมษายน 2569<br>
+      ผู้พิมพ์: ระบบ Autopilot v2<br>
+      หน้า: <span class="page-num"></span>
+    </div>
+  </div>
+
   <!-- Breadcrumb -->
   <div class="breadcrumb">
     <a href="#">Autopilot v2</a> <span>/</span>
@@ -196,6 +274,7 @@ h1,h2,h3,h4,h5,h6,.card-title{text-rendering:optimizeLegibility;}
         </div>
       </div>
       <button class="btn btn-outline btn-sm" onclick="window.print()">&#128424; พิมพ์รายงาน</button>
+      <button class="btn btn-outline btn-sm" id="printPreviewBtn" onclick="togglePrintPreview()">&#128065; ตัวอย่างก่อนพิมพ์</button>
       <button class="btn btn-primary btn-sm">&#128260; รีเฟรชข้อมูล</button>
     </div>
   </div>
@@ -587,6 +666,48 @@ function showAnalyticsToast(msg){
   document.getElementById('analyticsToastMsg').textContent=msg;
   t.style.display='flex';
   setTimeout(()=>{t.style.display='none';},3000);
+}
+
+// ============ PRINT PREVIEW ============
+function togglePrintPreview(){
+  var body=document.body;
+  var btn=document.getElementById('printPreviewBtn');
+  if(body.classList.contains('print-preview-mode')){
+    body.classList.remove('print-preview-mode');
+    body.style.background='';
+    btn.innerHTML='&#128065; ตัวอย่างก่อนพิมพ์';
+    // Restore hidden elements
+    document.querySelectorAll('.print-preview-hidden').forEach(function(el){
+      el.style.display='';
+      el.classList.remove('print-preview-hidden');
+    });
+    document.querySelectorAll('.print-only').forEach(function(el){el.style.display='none';});
+    showAnalyticsToast('ออกจากโหมดตัวอย่างก่อนพิมพ์');
+  }else{
+    body.classList.add('print-preview-mode');
+    body.style.background='#e5e5e5';
+    btn.innerHTML='&#10060; ออกจากโหมดพิมพ์';
+    // Show print header
+    document.querySelectorAll('.print-only').forEach(function(el){el.style.display='flex';});
+    // Hide interactive elements
+    var hideSelectors='.dark-toggle,.dept-filter-bar,.filter-tag,.export-dropdown';
+    document.querySelectorAll(hideSelectors).forEach(function(el){
+      if(el.style.display!=='none'){
+        el.classList.add('print-preview-hidden');
+        el.style.display='none';
+      }
+    });
+    var pageWrap=document.querySelector('.page-wrap');
+    if(pageWrap){
+      pageWrap.style.maxWidth='800px';
+      pageWrap.style.background='#fff';
+      pageWrap.style.padding='24px 32px';
+      pageWrap.style.margin='20px auto';
+      pageWrap.style.boxShadow='0 4px 20px rgba(0,0,0,.15)';
+      pageWrap.style.borderRadius='4px';
+    }
+    showAnalyticsToast('โหมดตัวอย่างก่อนพิมพ์ \u2014 กด "พิมพ์รายงาน" เพื่อพิมพ์');
+  }
 }
 
 // ============ EXPORT TOGGLE (Enhanced) ============

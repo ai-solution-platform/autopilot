@@ -207,6 +207,36 @@ h1,h2,h3,h4,h5,h6,.card-title{text-rendering:optimizeLegibility;}
   .dark-toggle,.header-user,.compact-actions,.pdf-annotation-bar{display:none !important;}
   body{background:#fff !important;color:#000 !important;}
 }
+
+/* 3-Way Matching Section */
+.matching-section{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-top:24px;}
+.matching-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
+.matching-header h3{font-size:0.92rem;font-weight:700;display:flex;align-items:center;gap:8px;}
+.match-score-ring{display:inline-flex;align-items:center;gap:10px;}
+.match-score-ring .ring{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:800;border:4px solid var(--green);background:var(--green-bg);color:var(--green);}
+.match-score-ring .ring.partial{border-color:var(--orange);background:var(--orange-bg);color:var(--orange);}
+.match-score-ring .ring.mismatch{border-color:var(--red);background:var(--red-bg);color:var(--red);}
+.match-score-ring .score-label{font-size:0.72rem;color:var(--muted);}
+.match-table{width:100%;border-collapse:collapse;font-size:0.78rem;margin-bottom:16px;}
+.match-table thead th{background:var(--bg2);padding:10px 12px;text-align:left;font-size:0.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;border-bottom:2px solid var(--border);}
+.match-table tbody td{padding:10px 12px;border-bottom:1px solid var(--border);}
+.match-table .field-name{font-weight:600;color:var(--text);}
+.match-cell{padding:6px 10px;border-radius:6px;font-size:0.75rem;}
+.match-cell.match{background:var(--green-bg);color:var(--green);}
+.match-cell.mismatch{background:var(--red-bg);color:var(--red);}
+.match-cell.partial{background:var(--orange-bg);color:var(--orange);}
+.match-status-icon{margin-right:4px;}
+.match-actions{display:flex;gap:6px;flex-wrap:wrap;}
+.match-actions button{padding:5px 12px;border-radius:6px;font-size:0.7rem;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--card-bg);color:var(--text2);font-family:inherit;transition:all 0.2s;}
+.match-actions button:hover{border-color:var(--blue);color:var(--blue);}
+.match-actions button.resolve{background:var(--orange-bg);color:var(--orange);border-color:var(--orange);}
+.match-actions button.resolve:hover{background:var(--orange);color:#fff;}
+.match-legend{display:flex;gap:16px;margin-top:12px;font-size:0.7rem;color:var(--muted);}
+.match-legend span{display:flex;align-items:center;gap:4px;}
+.match-legend .dot{width:10px;height:10px;border-radius:3px;}
+.match-legend .dot.green{background:var(--green);}
+.match-legend .dot.red{background:var(--red);}
+.match-legend .dot.yellow{background:var(--orange);}
 </style>
 </head>
 <body>
@@ -557,9 +587,148 @@ h1,h2,h3,h4,h5,h6,.card-title{text-rendering:optimizeLegibility;}
     </div>
 </div>
 
+<!-- ══════════════════════════════════════════════════════════════
+     3-WAY MATCHING: PO vs GR vs Invoice
+     ══════════════════════════════════════════════════════════════ -->
+<div class="container" style="padding-top:0;">
+  <div class="matching-section" id="threeWayMatchSection">
+    <div class="matching-header">
+      <h3>&#128260; 3-Way Matching: PO vs GR vs Invoice</h3>
+      <div class="match-score-ring">
+        <div class="ring" id="matchRing">78%</div>
+        <div>
+          <div style="font-size:0.85rem;font-weight:700;" id="matchScoreLabel">Match Score</div>
+          <div class="score-label">5 จาก 8 ฟิลด์ตรงกัน</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Document Reference Cards -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;">
+      <div style="padding:12px;background:var(--blue-bg);border:1px solid var(--blue);border-radius:8px;">
+        <div style="font-size:0.68rem;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;">&#128203; ใบสั่งซื้อ (PO)</div>
+        <div style="font-size:0.92rem;font-weight:800;margin-top:4px;">PO-2569-0847</div>
+        <div style="font-size:0.7rem;color:var(--muted);margin-top:2px;">วันที่: 15 มี.ค. 2569 | บจ. สยามพัฒนา จำกัด</div>
+      </div>
+      <div style="padding:12px;background:var(--green-bg);border:1px solid var(--green);border-radius:8px;">
+        <div style="font-size:0.68rem;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1px;">&#128230; ใบรับสินค้า (GR)</div>
+        <div style="font-size:0.92rem;font-weight:800;margin-top:4px;">GR-2569-0412</div>
+        <div style="font-size:0.7rem;color:var(--muted);margin-top:2px;">วันที่: 28 มี.ค. 2569 | คลังสินค้า กรุงเทพฯ</div>
+      </div>
+      <div style="padding:12px;background:var(--purple-bg);border:1px solid var(--purple);border-radius:8px;">
+        <div style="font-size:0.68rem;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:1px;">&#129534; ใบแจ้งหนี้ (Invoice)</div>
+        <div style="font-size:0.92rem;font-weight:800;margin-top:4px;">INV-2569-0142</div>
+        <div style="font-size:0.7rem;color:var(--muted);margin-top:2px;">วันที่: 1 เม.ย. 2569 | &#3647;245,000.00</div>
+      </div>
+    </div>
+
+    <!-- Comparison Table -->
+    <div style="overflow-x:auto;">
+      <table class="match-table" id="matchTable">
+        <thead>
+          <tr>
+            <th>ฟิลด์</th>
+            <th>PO (ใบสั่งซื้อ)</th>
+            <th>GR (ใบรับสินค้า)</th>
+            <th>Invoice (ใบแจ้งหนี้)</th>
+            <th>สถานะ</th>
+            <th>ดำเนินการ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="field-name">&#128179; ผู้ขาย (Vendor)</td>
+            <td>บจ. สยามพัฒนา จำกัด</td>
+            <td>บจ. สยามพัฒนา จำกัด</td>
+            <td>บจ. สยามพัฒนา จำกัด</td>
+            <td><span class="match-cell match"><span class="match-status-icon">&#9989;</span> ตรงกัน</span></td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td class="field-name">&#128230; จำนวนสินค้า</td>
+            <td style="font-family:'Inter';">100 ชิ้น</td>
+            <td style="font-family:'Inter';font-weight:700;color:var(--red);">95 ชิ้น</td>
+            <td style="font-family:'Inter';">100 ชิ้น</td>
+            <td><span class="match-cell mismatch"><span class="match-status-icon">&#10060;</span> ไม่ตรง</span></td>
+            <td><div class="match-actions"><button class="resolve" onclick="resolveDiscrepancy('qty')">&#9888; แก้ไขส่วนต่าง</button></div></td>
+          </tr>
+          <tr>
+            <td class="field-name">&#128176; ราคาต่อหน่วย</td>
+            <td style="font-family:'Inter';">&#3647;2,450.00</td>
+            <td style="font-family:'Inter';">-</td>
+            <td style="font-family:'Inter';">&#3647;2,450.00</td>
+            <td><span class="match-cell match"><span class="match-status-icon">&#9989;</span> ตรงกัน</span></td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td class="field-name">&#128178; มูลค่ารวม</td>
+            <td style="font-family:'Inter';">&#3647;245,000.00</td>
+            <td style="font-family:'Inter';font-weight:700;color:var(--orange);">&#3647;232,750.00</td>
+            <td style="font-family:'Inter';">&#3647;245,000.00</td>
+            <td><span class="match-cell partial"><span class="match-status-icon">&#9888;</span> บางส่วน</span></td>
+            <td><div class="match-actions"><button class="resolve" onclick="resolveDiscrepancy('amount')">&#9888; แก้ไขส่วนต่าง</button></div></td>
+          </tr>
+          <tr>
+            <td class="field-name">&#128197; วันที่ส่งของ</td>
+            <td>28 มี.ค. 2569</td>
+            <td>28 มี.ค. 2569</td>
+            <td>28 มี.ค. 2569</td>
+            <td><span class="match-cell match"><span class="match-status-icon">&#9989;</span> ตรงกัน</span></td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td class="field-name">&#127970; สถานที่ส่ง</td>
+            <td>คลังสินค้า กรุงเทพฯ</td>
+            <td>คลังสินค้า กรุงเทพฯ</td>
+            <td>คลังสินค้า กรุงเทพฯ</td>
+            <td><span class="match-cell match"><span class="match-status-icon">&#9989;</span> ตรงกัน</span></td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td class="field-name">&#128176; ภาษี VAT 7%</td>
+            <td style="font-family:'Inter';">&#3647;17,150.00</td>
+            <td>-</td>
+            <td style="font-family:'Inter';">&#3647;17,150.00</td>
+            <td><span class="match-cell match"><span class="match-status-icon">&#9989;</span> ตรงกัน</span></td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td class="field-name">&#128221; เงื่อนไขชำระ</td>
+            <td>Net 30 วัน</td>
+            <td>-</td>
+            <td style="font-weight:700;color:var(--red);">Net 45 วัน</td>
+            <td><span class="match-cell mismatch"><span class="match-status-icon">&#10060;</span> ไม่ตรง</span></td>
+            <td><div class="match-actions"><button class="resolve" onclick="resolveDiscrepancy('terms')">&#9888; แก้ไขส่วนต่าง</button></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Summary Actions -->
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:12px;padding-top:14px;border-top:1px solid var(--border);">
+      <div class="match-legend">
+        <span><span class="dot green"></span> ตรงกันทั้ง 3 เอกสาร</span>
+        <span><span class="dot yellow"></span> ตรงบางส่วน (ส่วนต่างเล็กน้อย)</span>
+        <span><span class="dot red"></span> ไม่ตรง (ต้องตรวจสอบ)</span>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button style="padding:8px 16px;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;border:none;background:var(--green);color:#fff;font-family:inherit;" onclick="showToast('อนุมัติ 3-Way Matching สำเร็จ','success')">&#9989; อนุมัติ Matching</button>
+        <button style="padding:8px 16px;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--card-bg);color:var(--text2);font-family:inherit;" onclick="showToast('ส่งไปตรวจสอบเพิ่มเติม','info')">&#128680; ส่งตรวจสอบเพิ่ม</button>
+        <button style="padding:8px 16px;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;border:1px solid var(--red);background:var(--red-bg);color:var(--red);font-family:inherit;" onclick="showToast('ปฏิเสธ 3-Way Matching','warning')">&#10060; ปฏิเสธ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
+function resolveDiscrepancy(field){
+  const labels = {qty:'จำนวนสินค้า',amount:'มูลค่ารวม',terms:'เงื่อนไขชำระเงิน'};
+  const msg = 'เปิดหน้าแก้ไขส่วนต่าง: ' + (labels[field]||field);
+  showToast(msg, 'info');
+}
+
 function selectTemplate(el, type){
     document.querySelectorAll('.template-card').forEach(t=>t.classList.remove('active'));
     el.classList.add('active');

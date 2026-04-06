@@ -450,6 +450,39 @@ body {
     <p>แดชบอร์ดวิเคราะห์การใช้งาน API ทั้งหมด &mdash; ปริมาณเรียก, Response Time, Error Rate, Connector Usage</p>
   </div>
 
+  <!-- API Version Selector -->
+  <div class="section-card fade-up" id="apiVersionSection" style="margin-bottom:20px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-size:.88rem;font-weight:700;">🔄 API Version</span>
+        <div style="display:flex;gap:4px;background:var(--bg2);padding:3px;border-radius:8px;border:1px solid var(--border);">
+          <button class="api-ver-btn" data-ver="v1" onclick="selectApiVersion('v1',this)" style="padding:6px 16px;border-radius:6px;font-size:.75rem;font-weight:600;cursor:pointer;border:none;background:none;color:var(--muted);font-family:inherit;transition:all .2s;">v1</button>
+          <button class="api-ver-btn" data-ver="v2" onclick="selectApiVersion('v2',this)" style="padding:6px 16px;border-radius:6px;font-size:.75rem;font-weight:600;cursor:pointer;border:none;background:none;color:var(--muted);font-family:inherit;transition:all .2s;">v2</button>
+          <button class="api-ver-btn active" data-ver="v3" onclick="selectApiVersion('v3',this)" style="padding:6px 16px;border-radius:6px;font-size:.75rem;font-weight:700;cursor:pointer;border:none;background:var(--card-bg);color:var(--blue);font-family:inherit;transition:all .2s;box-shadow:0 1px 3px rgba(0,0,0,.1);">v3 <span style="font-size:.6rem;background:var(--green-bg);color:var(--green);padding:1px 5px;border-radius:3px;margin-left:3px;">ล่าสุด</span></button>
+        </div>
+      </div>
+      <div id="apiVerStatus" style="font-size:.72rem;color:var(--green);font-weight:600;display:flex;align-items:center;gap:4px;">
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;"></span>
+        v3 — Stable (ใช้งานอยู่)
+      </div>
+    </div>
+
+    <!-- Deprecation Warnings -->
+    <div id="deprecationWarnings"></div>
+
+    <!-- Version Changelog -->
+    <div id="versionChangelog" style="margin-top:12px;">
+      <div style="font-size:.78rem;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;">📋 Release Notes — <span id="changelogVerLabel">v3</span></div>
+      <div id="changelogContent" style="font-size:.72rem;color:var(--text2);line-height:1.7;"></div>
+    </div>
+
+    <!-- Migration Guides -->
+    <div id="migrationGuides" style="margin-top:14px;display:none;">
+      <div style="font-size:.78rem;font-weight:700;margin-bottom:10px;">📖 คู่มือการย้ายเวอร์ชัน</div>
+      <div id="migrationContent" style="display:flex;gap:10px;flex-wrap:wrap;"></div>
+    </div>
+  </div>
+
   <!-- KPI Strip -->
   <div class="kpi-row fade-up">
     <div class="kpi-card">
@@ -1624,6 +1657,129 @@ function retryWebhook(btn) {
     btn.style.color = 'var(--green)';
   }, 1500);
 }
+
+// =======================
+// API Version Management
+// =======================
+var apiVersionData = {
+  v1: {
+    status: 'deprecated',
+    statusLabel: 'Deprecated — หยุดสนับสนุน 1 ม.ค. 2570',
+    statusColor: 'var(--red)',
+    changelog: [
+      '• เวอร์ชันแรก — รองรับ Thai OCR, eKYC พื้นฐาน',
+      '• REST API เบื้องต้น (JSON response)',
+      '• Rate limit: 1,000 req/วัน',
+      '• <strong style="color:var(--red);">⛔ หยุดอัปเดตความปลอดภัยแล้ว</strong>'
+    ],
+    deprecation: {
+      show: true,
+      level: 'critical',
+      message: '⛔ v1 ถูกยกเลิกแล้ว — หยุดสนับสนุนตั้งแต่ 1 ม.ค. 2570 กรุณาย้ายไป v3 ทันที เพื่อความปลอดภัยและประสิทธิภาพที่ดีขึ้น',
+    }
+  },
+  v2: {
+    status: 'maintenance',
+    statusLabel: 'Maintenance — รับเฉพาะ Security Patches',
+    statusColor: 'var(--orange)',
+    changelog: [
+      '• รองรับ Connector เพิ่มเติม: Bank Statement, Passport OCR',
+      '• Webhook callbacks + Retry mechanism',
+      '• Batch processing (สูงสุด 50 items)',
+      '• Rate limit: 5,000 req/วัน',
+      '• Improved error codes + Thai error messages'
+    ],
+    deprecation: {
+      show: true,
+      level: 'warning',
+      message: '⚠️ v2 อยู่ในโหมด Maintenance — จะได้รับเฉพาะ Security Patches เท่านั้น แนะนำให้เริ่มวางแผนย้ายไป v3 ภายใน Q3/2569',
+    }
+  },
+  v3: {
+    status: 'stable',
+    statusLabel: 'Stable (ใช้งานอยู่)',
+    statusColor: 'var(--green)',
+    changelog: [
+      '• <strong>ใหม่:</strong> Real-time Streaming API (WebSocket)',
+      '• <strong>ใหม่:</strong> AI-powered OCR accuracy boost (+15%)',
+      '• <strong>ใหม่:</strong> Multi-language support (TH/EN/CN/JP)',
+      '• Batch processing (สูงสุด 500 items)',
+      '• Rate limit: 50,000 req/วัน (Enterprise unlimited)',
+      '• GraphQL endpoint พร้อมใช้งาน',
+      '• Comprehensive SDK: Python, Node.js, Go, Java',
+      '• End-to-end encryption + mTLS support'
+    ],
+    deprecation: { show: false }
+  }
+};
+
+var migrationGuides = [
+  { from: 'v1', to: 'v2', label: 'v1 → v2 Migration Guide', desc: 'อัปเกรด Endpoint + Auth scheme' },
+  { from: 'v2', to: 'v3', label: 'v2 → v3 Migration Guide', desc: 'ย้ายไป GraphQL + WebSocket' },
+  { from: 'v1', to: 'v3', label: 'v1 → v3 Full Migration', desc: 'คู่มือย้ายครบทุกขั้นตอน' }
+];
+
+function selectApiVersion(ver, btn) {
+  // Update button styles
+  document.querySelectorAll('.api-ver-btn').forEach(function(b) {
+    b.style.background = 'none';
+    b.style.color = 'var(--muted)';
+    b.style.fontWeight = '600';
+    b.style.boxShadow = 'none';
+    b.classList.remove('active');
+  });
+  btn.style.background = 'var(--card-bg)';
+  btn.style.color = 'var(--blue)';
+  btn.style.fontWeight = '700';
+  btn.style.boxShadow = '0 1px 3px rgba(0,0,0,.1)';
+  btn.classList.add('active');
+
+  var data = apiVersionData[ver];
+
+  // Status
+  var statusEl = document.getElementById('apiVerStatus');
+  statusEl.innerHTML = '<span style="width:6px;height:6px;border-radius:50%;background:' + data.statusColor + ';display:inline-block;"></span> ' + ver + ' — ' + data.statusLabel;
+  statusEl.style.color = data.statusColor;
+
+  // Changelog
+  document.getElementById('changelogVerLabel').textContent = ver;
+  document.getElementById('changelogContent').innerHTML = data.changelog.join('<br>');
+
+  // Deprecation warning
+  var warnEl = document.getElementById('deprecationWarnings');
+  if (data.deprecation.show) {
+    var bgColor = data.deprecation.level === 'critical' ? 'var(--red-bg)' : 'var(--orange-bg)';
+    var borderColor = data.deprecation.level === 'critical' ? 'rgba(220,38,38,.3)' : 'rgba(217,119,6,.3)';
+    var textColor = data.deprecation.level === 'critical' ? 'var(--red)' : 'var(--orange)';
+    warnEl.innerHTML = '<div style="padding:12px 16px;background:' + bgColor + ';border:1px solid ' + borderColor + ';border-radius:8px;font-size:.75rem;color:' + textColor + ';font-weight:600;display:flex;align-items:center;gap:8px;">' + data.deprecation.message + '</div>';
+    warnEl.style.display = 'block';
+  } else {
+    warnEl.style.display = 'none';
+    warnEl.innerHTML = '';
+  }
+
+  // Migration guides (show for non-v3)
+  var migEl = document.getElementById('migrationGuides');
+  var migContent = document.getElementById('migrationContent');
+  if (ver !== 'v3') {
+    var relevant = migrationGuides.filter(function(g) { return g.from === ver; });
+    migContent.innerHTML = relevant.map(function(g) {
+      return '<div style="flex:1;min-width:200px;padding:12px 16px;border:1px solid var(--border);border-radius:8px;background:var(--bg2);cursor:pointer;transition:all .2s;" onmouseover="this.style.borderColor=\'var(--blue)\'" onmouseout="this.style.borderColor=\'var(--border)\'">' +
+        '<div style="font-size:.78rem;font-weight:700;color:var(--blue);margin-bottom:4px;">📖 ' + g.label + '</div>' +
+        '<div style="font-size:.68rem;color:var(--muted);">' + g.desc + '</div>' +
+        '</div>';
+    }).join('');
+    migEl.style.display = 'block';
+  } else {
+    migEl.style.display = 'none';
+  }
+}
+
+// Initialize with v3
+(function initApiVersion() {
+  var v3Btn = document.querySelector('.api-ver-btn[data-ver="v3"]');
+  if (v3Btn) selectApiVersion('v3', v3Btn);
+})();
 </script>
 
 </body>

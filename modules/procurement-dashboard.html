@@ -202,6 +202,13 @@ h1,h2,h3,h4,h5,h6,.card-title,.kpi-value,.page-title-area h1{text-rendering:opti
   .kpi-label{font-size:.62rem;}
   .card-header h3{font-size:.82rem;}
 }
+/* Data Freshness Badges */
+.data-freshness{position:absolute;top:6px;right:8px;font-size:.58rem;font-weight:700;padding:2px 7px;border-radius:10px;display:flex;align-items:center;gap:3px;pointer-events:none;}
+.data-freshness[data-freshness="fresh"]{background:var(--green-bg);color:var(--green);border:1px solid rgba(5,150,105,.15);}
+.data-freshness[data-freshness="recent"]{background:var(--blue-bg);color:var(--blue);border:1px solid rgba(37,99,235,.15);}
+.data-freshness[data-freshness="stale"]{background:var(--orange-bg);color:var(--orange);border:1px solid rgba(217,119,6,.15);}
+.data-freshness[data-freshness="offline"]{background:var(--red-bg);color:var(--red);border:1px solid rgba(220,38,38,.15);}
+
 @keyframes toastIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 .qa-action-btn{transition:all .2s;}
 .qa-action-btn:hover{transform:translateY(-2px);}
@@ -210,6 +217,12 @@ h1,h2,h3,h4,h5,h6,.card-title,.kpi-value,.page-title-area h1{text-rendering:opti
 </style>
 </head>
 <body>
+
+<!-- SPRINT-6: Offline Indicator -->
+<div id="offlineIndicator" role="status" style="display:none;background:var(--red-bg,#FEF2F2);border:1px solid var(--red,#DC2626);border-radius:10px;padding:10px 16px;margin:12px 28px;align-items:center;gap:8px;font-size:.78rem;font-weight:600;color:var(--red,#DC2626);">
+    <span>&#128225;</span> คุณกำลังออฟไลน์ — แสดงข้อมูลจากแคชล่าสุด
+    <span style="margin-left:auto;font-size:.65rem;padding:2px 8px;background:var(--red,#DC2626);color:#fff;border-radius:4px;">OFFLINE</span>
+</div>
 
 <!-- Dark Mode Toggle -->
 <button class="dark-toggle" onclick="toggleDark()" id="darkBtn" title="สลับโหมดมืด/สว่าง">
@@ -268,6 +281,39 @@ h1,h2,h3,h4,h5,h6,.card-title,.kpi-value,.page-title-area h1{text-rendering:opti
     </div>
   </div>
 
+  <!-- Real-time Dashboard Indicator Bar -->
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:18px;padding:10px 16px;background:var(--card-bg);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);" id="realtimeBar">
+    <!-- Last Updated + Countdown -->
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+      <div style="font-size:.72rem;color:var(--muted);display:flex;align-items:center;gap:6px;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        อัปเดตล่าสุด: <strong id="rtLastUpdated" style="color:var(--text);font-weight:700;">0 วินาทีที่แล้ว</strong>
+      </div>
+      <div style="font-size:.68rem;color:var(--muted);display:flex;align-items:center;gap:4px;" id="rtCountdownWrap">
+        รีเฟรชอัตโนมัติใน <span id="rtCountdown" style="font-weight:700;color:var(--blue);font-family:'Inter',sans-serif;">15</span> วินาที
+      </div>
+    </div>
+    <!-- WebSocket Status + Auto-Refresh Toggle -->
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <!-- WebSocket Status -->
+      <div id="wsStatus" style="display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:16px;font-size:.68rem;font-weight:600;background:var(--green-bg);color:var(--green);border:1px solid rgba(5,150,105,.2);">
+        <span id="wsDot" style="width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;"></span>
+        <span id="wsLabel">WebSocket เชื่อมต่อแล้ว</span>
+      </div>
+      <!-- Auto-Refresh Toggle -->
+      <div style="display:flex;align-items:center;gap:4px;">
+        <span style="font-size:.68rem;color:var(--muted);">รีเฟรช:</span>
+        <select id="rtRefreshInterval" onchange="setRefreshInterval(this.value)" style="padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-size:.68rem;background:var(--card-bg);color:var(--text);font-family:inherit;cursor:pointer;">
+          <option value="5">5 วินาที</option>
+          <option value="15" selected>15 วินาที</option>
+          <option value="30">30 วินาที</option>
+          <option value="60">1 นาที</option>
+          <option value="0">ปิด</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
   <!-- Quick Action Buttons -->
   <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;" id="quickActions">
     <a href="procurement-prpo.html" style="text-decoration:none;flex:1;min-width:180px;">
@@ -315,6 +361,7 @@ h1,h2,h3,h4,h5,h6,.card-title,.kpi-value,.page-title-area h1{text-rendering:opti
         </div>
       </div>
       <div class="kpi-spark" id="sparkPR"></div>
+      <div class="data-freshness" data-freshness="fresh" title="ข้อมูลเรียลไทม์">&#9679; สด</div>
     </div>
     <!-- KPI 2: Active POs -->
     <div class="kpi">
@@ -332,6 +379,7 @@ h1,h2,h3,h4,h5,h6,.card-title,.kpi-value,.page-title-area h1{text-rendering:opti
         </div>
       </div>
       <div class="kpi-spark" id="sparkPO"></div>
+      <div class="data-freshness" data-freshness="fresh" title="ข้อมูลเรียลไทม์">&#9679; สด</div>
     </div>
     <!-- KPI 3: Total Spend -->
     <div class="kpi">
@@ -349,6 +397,7 @@ h1,h2,h3,h4,h5,h6,.card-title,.kpi-value,.page-title-area h1{text-rendering:opti
         </div>
       </div>
       <div class="kpi-spark" id="sparkSpend"></div>
+      <div class="data-freshness" data-freshness="recent" title="อัปเดต 2 นาทีที่แล้ว">&#9679; ล่าสุด</div>
     </div>
     <!-- KPI 4: Avg Cycle Time -->
     <div class="kpi">
@@ -366,6 +415,7 @@ h1,h2,h3,h4,h5,h6,.card-title,.kpi-value,.page-title-area h1{text-rendering:opti
         </div>
       </div>
       <div class="kpi-spark" id="sparkCycle"></div>
+      <div class="data-freshness" data-freshness="recent" title="อัปเดต 5 นาทีที่แล้ว">&#9679; ล่าสุด</div>
     </div>
   </div>
 
@@ -993,16 +1043,104 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   }, 300);
 
-  // Auto-refresh simulation
-  setInterval(()=>{
-    const liveDot = document.querySelector('.live-dot');
-    if(liveDot){
-      liveDot.style.background = 'var(--green)';
-      setTimeout(()=>{liveDot.style.background='var(--green)';}, 200);
-    }
-  }, 30000);
+  // Initialize real-time indicator
+  initRealtimeIndicator();
 });
 
+
+// ========== Real-time Dashboard Indicator ==========
+var rtSecondsAgo = 0;
+var rtRefreshSec = 15;
+var rtCountdownSec = 15;
+var rtCountdownTimer = null;
+var wsSimConnected = true;
+
+function initRealtimeIndicator() {
+  rtSecondsAgo = 0;
+  rtCountdownSec = rtRefreshSec;
+  updateRtDisplay();
+  if (rtCountdownTimer) clearInterval(rtCountdownTimer);
+  rtCountdownTimer = setInterval(function() {
+    rtSecondsAgo++;
+    if (rtRefreshSec > 0) {
+      rtCountdownSec--;
+      if (rtCountdownSec <= 0) {
+        rtSecondsAgo = 0;
+        rtCountdownSec = rtRefreshSec;
+        simulateDataRefresh();
+      }
+    }
+    updateRtDisplay();
+    updateFreshnessBadges();
+  }, 1000);
+  setInterval(function() {
+    if (Math.random() < 0.05) simulateWsDisconnect();
+  }, 10000);
+}
+
+function updateRtDisplay() {
+  var el = document.getElementById('rtLastUpdated');
+  if (el) {
+    el.textContent = rtSecondsAgo < 60
+      ? rtSecondsAgo + ' วินาทีที่แล้ว'
+      : Math.floor(rtSecondsAgo / 60) + ' นาทีที่แล้ว';
+  }
+  var cdEl = document.getElementById('rtCountdown');
+  var cdWrap = document.getElementById('rtCountdownWrap');
+  if (cdEl && cdWrap) {
+    if (rtRefreshSec === 0) { cdWrap.style.display = 'none'; }
+    else { cdWrap.style.display = 'flex'; cdEl.textContent = rtCountdownSec; }
+  }
+}
+
+function updateFreshnessBadges() {
+  document.querySelectorAll('.data-freshness').forEach(function(badge) {
+    if (rtSecondsAgo < 10) {
+      badge.setAttribute('data-freshness', 'fresh'); badge.innerHTML = '&#9679; สด'; badge.title = 'ข้อมูลเรียลไทม์';
+    } else if (rtSecondsAgo < 60) {
+      badge.setAttribute('data-freshness', 'recent'); badge.innerHTML = '&#9679; ล่าสุด'; badge.title = 'อัปเดต ' + rtSecondsAgo + ' วินาทีที่แล้ว';
+    } else if (rtSecondsAgo < 300) {
+      badge.setAttribute('data-freshness', 'stale'); badge.innerHTML = '&#9679; เก่า'; badge.title = 'อัปเดต ' + Math.floor(rtSecondsAgo / 60) + ' นาทีที่แล้ว';
+    } else {
+      badge.setAttribute('data-freshness', 'offline'); badge.innerHTML = '&#9679; หมดอายุ'; badge.title = 'ข้อมูลไม่อัปเดต';
+    }
+  });
+}
+
+function setRefreshInterval(val) {
+  rtRefreshSec = parseInt(val);
+  rtCountdownSec = rtRefreshSec;
+  if (rtRefreshSec === 0) {
+    document.getElementById('rtCountdownWrap').style.display = 'none';
+    showToast('⏸️', 'Auto-Refresh', 'ปิดการรีเฟรชอัตโนมัติ');
+  } else {
+    document.getElementById('rtCountdownWrap').style.display = 'flex';
+    showToast('🔄', 'Auto-Refresh', 'ตั้งรีเฟรชทุก ' + val + ' วินาที');
+  }
+}
+
+function simulateDataRefresh() {
+  var bar = document.getElementById('realtimeBar');
+  if (bar) {
+    bar.style.borderColor = 'var(--green)';
+    bar.style.boxShadow = '0 0 8px rgba(5,150,105,.15)';
+    setTimeout(function() { bar.style.borderColor = 'var(--border)'; bar.style.boxShadow = 'var(--shadow)'; }, 600);
+  }
+}
+
+function simulateWsDisconnect() {
+  var dot = document.getElementById('wsDot'), label = document.getElementById('wsLabel'), status = document.getElementById('wsStatus');
+  if (dot && label && status) {
+    dot.style.background = 'var(--red)'; label.textContent = 'กำลังเชื่อมต่อใหม่...';
+    status.style.background = 'var(--red-bg)'; status.style.color = 'var(--red)'; status.style.borderColor = 'rgba(220,38,38,.2)';
+  }
+  setTimeout(function() {
+    if (dot && label && status) {
+      dot.style.background = 'var(--green)'; label.textContent = 'WebSocket เชื่อมต่อแล้ว';
+      status.style.background = 'var(--green-bg)'; status.style.color = 'var(--green)'; status.style.borderColor = 'rgba(5,150,105,.2)';
+    }
+  }, 2000 + Math.random() * 1500);
+}
 
 function showToast(icon, title, msg) {
   const t = document.createElement('div');
@@ -1011,6 +1149,8 @@ function showToast(icon, title, msg) {
   document.body.appendChild(t);
   setTimeout(function(){t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(function(){t.remove();},300);},3000);
 }
+// SPRINT-6: Offline Detection
+(function(){function u(){var i=document.getElementById('offlineIndicator');if(i)i.style.display=navigator.onLine?'none':'flex';}window.addEventListener('offline',u);window.addEventListener('online',u);u();})();
 </script>
 
 </body>

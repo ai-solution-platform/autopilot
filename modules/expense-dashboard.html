@@ -176,6 +176,12 @@ h1,h2,h3,h4,h5,h6,.card-title,.stat-value{text-rendering:optimizeLegibility;}
 <body>
 <button class="dark-toggle" onclick="toggleDark()">&#9790;</button>
 
+<!-- SPRINT-6: Offline Indicator -->
+<div id="offlineIndicator" role="status" style="display:none;background:var(--red-bg);border:1px solid var(--red);border-radius:10px;padding:10px 16px;margin:12px 24px;align-items:center;gap:8px;font-size:.78rem;font-weight:600;color:var(--red);">
+    <span>&#128225;</span> คุณกำลังออฟไลน์ — แสดงข้อมูลจากแคชล่าสุด
+    <span style="margin-left:auto;font-size:.65rem;padding:2px 8px;background:var(--red);color:#fff;border-radius:4px;">OFFLINE</span>
+</div>
+
 <div class="page">
   <div class="breadcrumb">
     <a href="#">ANTS Autopilot</a> <span>/</span>
@@ -537,6 +543,8 @@ h1,h2,h3,h4,h5,h6,.card-title,.stat-value{text-rendering:optimizeLegibility;}
 function toggleDark(){document.body.classList.toggle('dark');}
 function setPeriod(btn){document.querySelectorAll('.period-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
 function toggleDrill(el){el.classList.toggle('expanded');}
+// SPRINT-6: Offline Detection
+(function(){function u(){var i=document.getElementById('offlineIndicator');if(i)i.style.display=navigator.onLine?'none':'flex';}window.addEventListener('offline',u);window.addEventListener('online',u);u();})();
 </script>
 </body>
 </html>
