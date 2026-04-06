@@ -9,7 +9,7 @@
 :root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--green-d:#047857;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);--shadow2:0 4px 20px rgba(0,0,0,.08);--shadow3:0 12px 40px rgba(0,0,0,.12);--light:#94A3B8;--border2:#CBD5E1;}
 body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);--light:#64748B;--border2:#475569;}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;font-kerning:normal;font-feature-settings:"kern" 1;text-rendering:optimizeLegibility;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;overflow-x:hidden;font-kerning:normal;font-feature-settings:"kern" 1;text-rendering:optimizeLegibility;}
 h1,h2,h3,h4,h5,h6,.card-title{text-rendering:optimizeLegibility;}
 ::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
 
@@ -219,7 +219,7 @@ textarea.form-input{resize:vertical;min-height:60px;}
             <tr style="background:var(--bg2);">
               <th style="padding:10px 14px;text-align:left;font-size:.7rem;color:var(--muted);font-weight:600;border-bottom:1px solid var(--border);">วงเงิน</th>
               <th style="padding:10px 14px;text-align:center;font-size:.7rem;color:var(--muted);font-weight:600;border-bottom:1px solid var(--border);">ผู้อนุมัติ</th>
-              <th style="padding:10px 14px;text-align:center;font-size:.7rem;color:var(--muted);font-weight:600;border-bottom:1px solid var(--border);">ระ��ับ</th>
+              <th style="padding:10px 14px;text-align:center;font-size:.7rem;color:var(--muted);font-weight:600;border-bottom:1px solid var(--border);">ระดับ</th>
               <th style="padding:10px 14px;text-align:center;font-size:.7rem;color:var(--muted);font-weight:600;border-bottom:1px solid var(--border);">สถานะ</th>
             </tr>
           </thead>
@@ -244,7 +244,7 @@ textarea.form-input{resize:vertical;min-height:60px;}
             </tr>
             <tr style="border-bottom:1px solid var(--border);">
               <td style="padding:10px 14px;font-weight:600;">> &#3647;500,000</td>
-              <td style="padding:10px 14px;text-align:center;">��ัวหน้าแผนก + ผู้จัดการ + CFO</td>
+              <td style="padding:10px 14px;text-align:center;">หัวหน้าแผนก + ผู้จัดการ + CFO</td>
               <td style="padding:10px 14px;text-align:center;"><span style="background:var(--orange-bg);color:var(--orange);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:600;">Level 3</span></td>
               <td style="padding:10px 14px;text-align:center;"><span style="color:var(--orange);font-weight:700;">3 คน</span></td>
             </tr>
@@ -261,7 +261,7 @@ textarea.form-input{resize:vertical;min-height:60px;}
 
     <div class="filter-pills" id="filterPills">
       <button class="filter-pill active" data-filter="all" onclick="filterCards('all')">ทั้งหมด (11)</button>
-      <button class="filter-pill" data-filter="pr" onclick="filterCards('pr')">PR เท���านั้น (8)</button>
+      <button class="filter-pill" data-filter="pr" onclick="filterCards('pr')">PR เท่านั้น (8)</button>
       <button class="filter-pill" data-filter="po" onclick="filterCards('po')">PO เท่านั้น (3)</button>
     </div>
 

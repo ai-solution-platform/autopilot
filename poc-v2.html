@@ -594,9 +594,9 @@ body.training-mode .header{border-bottom:2px solid var(--orange);}
     </div>
     <div class="kpi-grid">
         <div class="kpi"><div class="kpi-label">📄 Documents Processed<span class="ctx-help" role="tooltip" aria-label="ช่วยเหลือ">?<span class="ctx-tip">จำนวนเอกสารทั้งหมดที่ระบบ AI ประมวลผลในเดือนนี้ รวม OCR, Matching และ Classification</span></span></div><div class="kpi-value" style="color:var(--blue);">1,247</div><div class="kpi-change up">↑ 23% vs last month</div></div>
-        <div class="kpi"><div class="kpi-label">⏱️ Time Saved<span class="ctx-help" role="tooltip" aria-label="ช่วยเหลือ">?<span class="ctx-tip">เวลาที่ประหยัดไ��้เป��ียบเทียบกับการทำงานแ��บ Manual คำนวณจากค่าเฉลี่ย 4.5 ชม./งาน</span></span></div><div class="kpi-value" style="color:var(--green);">892 hrs</div><div class="kpi-change up">↑ 156% vs manual</div></div>
+        <div class="kpi"><div class="kpi-label">⏱️ Time Saved<span class="ctx-help" role="tooltip" aria-label="ช่วยเหลือ">?<span class="ctx-tip">เวลาที่ประหยัดได้เปรียบเทียบกับการทำงานแบบ Manual คำนวณจากค่าเฉลี่ย 4.5 ชม./งาน</span></span></div><div class="kpi-value" style="color:var(--green);">892 hrs</div><div class="kpi-change up">↑ 156% vs manual</div></div>
         <div class="kpi"><div class="kpi-label">🎯 Accuracy Rate<span class="ctx-help" role="tooltip" aria-label="ช่วยเหลือ">?<span class="ctx-tip">ค่าเฉลี่ยความแม่นยำ OCR + AI Classification ตรวจสอบโดย Human Review</span></span></div><div class="kpi-value" style="color:var(--purple);">98.7%</div><div class="kpi-change up">↑ 2.1%</div></div>
-        <div class="kpi"><div class="kpi-label">💰 Cost Saved (est.)<span class="ctx-help" role="tooltip" aria-label="ช่วยเหลือ">?<span class="ctx-tip">ประมา��การค่าใช้จ่ายที่ประหยัดได้ต่อปี รวมค่าแรง ค่าพิมพ์ และค่าจัดเก็บเอกสาร</span></span></div><div class="kpi-value" style="color:var(--orange);">2.4M</div><div class="kpi-change up">↑ THB/year</div></div>
+        <div class="kpi"><div class="kpi-label">💰 Cost Saved (est.)<span class="ctx-help" role="tooltip" aria-label="ช่วยเหลือ">?<span class="ctx-tip">ประมาณการค่าใช้จ่ายที่ประหยัดได้ต่อปี รวมค่าแรง ค่าพิมพ์ และค่าจัดเก็บเอกสาร</span></span></div><div class="kpi-value" style="color:var(--orange);">2.4M</div><div class="kpi-change up">↑ THB/year</div></div>
     </div>
     <div class="grid-2">
         <div class="card"><div class="card-header"><span class="card-title">Processing Time: Manual vs AI</span><span class="text-xs text-muted">avg per task</span></div>
@@ -991,7 +991,7 @@ body.training-mode .header{border-bottom:2px solid var(--orange);}
 <div id="page-channels" class="page hidden">
     <div class="flex-between mb-16"><div><h2>Channel Connectors</h2><p class="text-sm text-muted">รับเอกสารอัตโนมัติจากทุกช่องทาง — Agentic AI สร้าง Task อัตโนมัติ</p></div>
         <button class="btn btn-primary btn-sm" onclick="showModal('addChannel')">+ Add Channel</button></div>
-    <div class="card mb-16" style="border-color:var(--purple);background:linear-gradient(135deg,#F5F3FF,#EFF6FF);">
+    <div class="card mb-16" style="border-color:var(--purple);background:linear-gradient(135deg,var(--purple-l,#F5F3FF),var(--blue-l,#EFF6FF));">
         <div style="display:flex;align-items:center;gap:16px;"><div style="font-size:2.5rem;">🤖</div><div style="flex:1;">
             <div style="font-weight:700;font-size:1.05rem;">Agentic AI — Document Intake Engine</div>
             <div class="text-sm text-muted mt-4">AI Agent รับเอกสารจากทุกช่องทาง วิเคราะห์ สร้าง Task เข้า Flow อัตโนมัติ 24/7</div>
@@ -1942,32 +1942,32 @@ body.training-mode .header{border-bottom:2px solid var(--orange);}
                       <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:4px;">อัตโนมัติ</span></td>
                       <td style="padding:8px 10px;font-family:'Inter',sans-serif;font-weight:600;">2.5 GB</td>
                       <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:4px;">สำเร็จ</span></td>
-                      <td style="padding:8px 10px;text-align:right;"><button class="btn btn-outline btn-sm" style="padding:3px 10px;font-size:.65rem;" onclick="if(confirm('ต้องการกู้คืนข้อมูลจาก 5 เม.ย. 2569 หรือไม่?')){showToast('🔄','Restore','กำลังกู้คืนข้อมูล...')}">🔄 กู้ค���น</button></td>
+                      <td style="padding:8px 10px;text-align:right;"><button class="btn btn-outline btn-sm" style="padding:3px 10px;font-size:.65rem;" onclick="if(confirm('ต้องการกู้คืนข้อมูลจาก 5 เม.ย. 2569 หรือไม่?')){showToast('🔄','Restore','กำลังกู้คืนข้อมูล...')}">🔄 กู้คืน</button></td>
                     </tr>
                     <tr style="border-bottom:1px solid var(--border);">
                       <td style="padding:8px 10px;">4 เม.ย. 2569, 02:00</td>
                       <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:4px;">อัตโนมัติ</span></td>
                       <td style="padding:8px 10px;font-family:'Inter',sans-serif;font-weight:600;">2.4 GB</td>
                       <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:4px;">สำเร็จ</span></td>
-                      <td style="padding:8px 10px;text-align:right;"><button class="btn btn-outline btn-sm" style="padding:3px 10px;font-size:.65rem;" onclick="if(confirm('ต้องการกู้คืนข้อมูลจาก 4 เม.ย. 2569 หรือไม่?')){showToast('🔄','Restore','กำลังกู้คืนข้อมูล...')}">🔄 กู��คืน</button></td>
+                      <td style="padding:8px 10px;text-align:right;"><button class="btn btn-outline btn-sm" style="padding:3px 10px;font-size:.65rem;" onclick="if(confirm('ต้องการกู้คืนข้อมูลจาก 4 เม.ย. 2569 หรือไม่?')){showToast('🔄','Restore','กำลังกู้คืนข้อมูล...')}">🔄 กู้คืน</button></td>
                     </tr>
                     <tr style="border-bottom:1px solid var(--border);">
                       <td style="padding:8px 10px;">3 เม.ย. 2569, 14:30</td>
                       <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--purple-bg);color:var(--purple);padding:2px 8px;border-radius:4px;">Manual</span></td>
                       <td style="padding:8px 10px;font-family:'Inter',sans-serif;font-weight:600;">2.4 GB</td>
-                      <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:4px;">สำเร็��</span></td>
+                      <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:4px;">สำเร็จ</span></td>
                       <td style="padding:8px 10px;text-align:right;"><button class="btn btn-outline btn-sm" style="padding:3px 10px;font-size:.65rem;" onclick="if(confirm('ต้องการกู้คืนข้อมูลจาก 3 เม.ย. 2569 หรือไม่?')){showToast('🔄','Restore','กำลังกู้คืนข้อมูล...')}">🔄 กู้คืน</button></td>
                     </tr>
                     <tr style="border-bottom:1px solid var(--border);">
-                      <td style="padding:8px 10px;">3 เ���.ย. 2569, 02:00</td>
+                      <td style="padding:8px 10px;">3 เม.ย. 2569, 02:00</td>
                       <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:4px;">อัตโนมัติ</span></td>
                       <td style="padding:8px 10px;font-family:'Inter',sans-serif;font-weight:600;">2.3 GB</td>
                       <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:4px;">สำเร็จ</span></td>
-                      <td style="padding:8px 10px;text-align:right;"><button class="btn btn-outline btn-sm" style="padding:3px 10px;font-size:.65rem;" onclick="if(confirm('ต้องการกู้คืนข้อมูลจาก 3 เม.ย. 2569 02:00 หรือไม่?')){showToast('🔄','Restore','กำลังกู้คืนข้อมูล...')}">🔄 กู้ค���น</button></td>
+                      <td style="padding:8px 10px;text-align:right;"><button class="btn btn-outline btn-sm" style="padding:3px 10px;font-size:.65rem;" onclick="if(confirm('ต้องการกู้คืนข้อมูลจาก 3 เม.ย. 2569 02:00 หรือไม่?')){showToast('🔄','Restore','กำลังกู้คืนข้อมูล...')}">🔄 กู้คืน</button></td>
                     </tr>
                     <tr style="border-bottom:1px solid var(--border);">
                       <td style="padding:8px 10px;">2 เม.ย. 2569, 02:00</td>
-                      <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:4px;">อัตโ��มัติ</span></td>
+                      <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:4px;">อัตโนมัติ</span></td>
                       <td style="padding:8px 10px;font-family:'Inter',sans-serif;font-weight:600;">2.3 GB</td>
                       <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--red-bg);color:var(--red);padding:2px 8px;border-radius:4px;">ล้มเหลว</span></td>
                       <td style="padding:8px 10px;text-align:right;font-size:.65rem;color:var(--muted);">Disk full — แก้ไขแล้ว</td>
@@ -1976,7 +1976,7 @@ body.training-mode .header{border-bottom:2px solid var(--orange);}
                       <td style="padding:8px 10px;">1 เม.ย. 2569, 02:00</td>
                       <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:4px;">อัตโนมัติ</span></td>
                       <td style="padding:8px 10px;font-family:'Inter',sans-serif;font-weight:600;">2.2 GB</td>
-                      <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:4px;">สำเร��จ</span></td>
+                      <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:4px;">สำเร็จ</span></td>
                       <td style="padding:8px 10px;text-align:right;"><button class="btn btn-outline btn-sm" style="padding:3px 10px;font-size:.65rem;" onclick="if(confirm('ต้องการกู้คืนข้อมูลจาก 1 เม.ย. 2569 หรือไม่?')){showToast('🔄','Restore','กำลังกู้คืนข้อมูล...')}">🔄 กู้คืน</button></td>
                     </tr>
                   </tbody>
@@ -1988,7 +1988,7 @@ body.training-mode .header{border-bottom:2px solid var(--orange);}
         </div>
 
         <!-- CROSS-036: Approval Delegation System Enhancement -->
-        <div class="card settings-card" data-settings-keywords="approval delegation proxy มอบหมาย อนุมัติ ตัวแทน" role="region" aria-label="���ะบบมอบหมายอนุมัติ">
+        <div class="card settings-card" data-settings-keywords="approval delegation proxy มอบหมาย อนุมัติ ตัวแทน" role="region" aria-label="ระบบมอบหมายอนุมัติ">
             <div class="card-title">&#128101; มอบหมายการอนุมัติ (Approval Delegation)</div>
             <div style="font-size:.78rem;color:var(--muted);margin-bottom:12px;">มอบหมายสิทธิ์อนุมัติให้ผู้อื่นเมื่อไม่อยู่ หรือตั้งค่าระบบอัตโนมัติ</div>
             <div style="border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px;">
@@ -2050,15 +2050,15 @@ body.training-mode .header{border-bottom:2px solid var(--orange);}
             <div style="font-size:.72rem;font-weight:700;">อัปโหลดไฟล์</div>
         </div>
         <div class="migration-step" id="migStep2" style="flex:1;text-align:center;position:relative;z-index:1;">
-            <div style="width:36px;height:36px;border-radius:50%;background:var(--border);color:var(--muted);display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-weight:800;font-size:.85rem;" aria-label="ขั้นตอน��ี่ 2">2</div>
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--border);color:var(--muted);display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-weight:800;font-size:.85rem;" aria-label="ขั้นตอนที่ 2">2</div>
             <div style="font-size:.72rem;font-weight:700;color:var(--muted);">แมปฟิลด์</div>
         </div>
         <div class="migration-step" id="migStep3" style="flex:1;text-align:center;position:relative;z-index:1;">
-            <div style="width:36px;height:36px;border-radius:50%;background:var(--border);color:var(--muted);display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-weight:800;font-size:.85rem;" aria-label="ขั้นต���นที่ 3">3</div>
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--border);color:var(--muted);display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-weight:800;font-size:.85rem;" aria-label="ขั้นตอนที่ 3">3</div>
             <div style="font-size:.72rem;font-weight:700;color:var(--muted);">ตรวจสอบ</div>
         </div>
         <div class="migration-step" id="migStep4" style="flex:1;text-align:center;position:relative;z-index:1;">
-            <div style="width:36px;height:36px;border-radius:50%;background:var(--border);color:var(--muted);display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-weight:800;font-size:.85rem;" aria-label="ขั้นตอนที�� 4">4</div>
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--border);color:var(--muted);display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-weight:800;font-size:.85rem;" aria-label="ขั้นตอนที่ 4">4</div>
             <div style="font-size:.72rem;font-weight:700;color:var(--muted);">นำเข้า</div>
         </div>
     </div>
@@ -2080,7 +2080,7 @@ body.training-mode .header{border-bottom:2px solid var(--orange);}
             <div style="font-size:.78rem;font-weight:700;margin-bottom:8px;">เลือกประเภทข้อมูล:</div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
                 <button class="btn btn-outline btn-sm" onclick="this.classList.toggle('btn-primary');this.classList.toggle('btn-outline');" aria-label="เลือกประเภท Vendor">🏢 Vendor</button>
-                <button class="btn btn-outline btn-sm" onclick="this.classList.toggle('btn-primary');this.classList.toggle('btn-outline');" aria-label="เลือกประเภท Product">��� Product</button>
+                <button class="btn btn-outline btn-sm" onclick="this.classList.toggle('btn-primary');this.classList.toggle('btn-outline');" aria-label="เลือกประเภท Product">📦 Product</button>
                 <button class="btn btn-outline btn-sm" onclick="this.classList.toggle('btn-primary');this.classList.toggle('btn-outline');" aria-label="เลือกประเภท Customer">👥 Customer</button>
                 <button class="btn btn-outline btn-sm" onclick="this.classList.toggle('btn-primary');this.classList.toggle('btn-outline');" aria-label="เลือกประเภท Chart of Accounts">📊 Chart of Accounts</button>
                 <button class="btn btn-outline btn-sm" onclick="this.classList.toggle('btn-primary');this.classList.toggle('btn-outline');" aria-label="เลือกประเภท Expense Category">💰 Expense Category</button>
@@ -2090,16 +2090,16 @@ body.training-mode .header{border-bottom:2px solid var(--orange);}
 
     <!-- Step 2: Field Mapping -->
     <div class="card" id="migPanel2" style="display:none;">
-        <div class="card-title">🔗 ข��้นตอนที่ 2: แมปฟิลด์ (Field Mapping)</div>
+        <div class="card-title">🔗 ขั้นตอนที่ 2: แมปฟิลด์ (Field Mapping)</div>
         <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px;">จับคู่คอลัมน์จากไฟล์ของคุณกับฟิลด์ในระบบ</p>
         <table class="data-table" aria-label="ตารางแมปฟิลด์">
-            <thead><tr><th>คอลัมน์จากไ��ล์</th><th>→</th><th>ฟิ��ด์ในระบบ</th><th>ตัวอย่างข้อมูล</th><th>ส���านะ</th></tr></thead>
+            <thead><tr><th>คอลัมน์จากไฟล์</th><th>→</th><th>ฟิลด์ในระบบ</th><th>ตัวอย่างข้อมูล</th><th>สถานะ</th></tr></thead>
             <tbody>
                 <tr><td style="font-weight:600;">Company Name</td><td>→</td><td><select class="form-input" style="padding:4px 8px;font-size:.75rem;" aria-label="แมปฟิลด์ Company Name"><option>ชื่อบริษัท</option><option>ชื่อ Vendor</option><option>-- ข้าม --</option></select></td><td style="color:var(--muted);font-size:.72rem;">บริษัท ABC จำกัด</td><td><span style="color:var(--green);font-size:.75rem;font-weight:700;">✓ แมปแล้ว</span></td></tr>
-                <tr><td style="font-weight:600;">Tax ID</td><td>���</td><td><select class="form-input" style="padding:4px 8px;font-size:.75rem;" aria-label="แมปฟิลด์ Tax ID"><option>เลขประจำตัวผู้เสียภาษี</option><option>-- ���้าม --</option></select></td><td style="color:var(--muted);font-size:.72rem;">0-1234-56789-01-2</td><td><span style="color:var(--green);font-size:.75rem;font-weight:700;">✓ แมปแล้ว</span></td></tr>
+                <tr><td style="font-weight:600;">Tax ID</td><td>→</td><td><select class="form-input" style="padding:4px 8px;font-size:.75rem;" aria-label="แมปฟิลด์ Tax ID"><option>เลขประจำตัวผู้เสียภาษี</option><option>-- ข้าม --</option></select></td><td style="color:var(--muted);font-size:.72rem;">0-1234-56789-01-2</td><td><span style="color:var(--green);font-size:.75rem;font-weight:700;">✓ แมปแล้ว</span></td></tr>
                 <tr><td style="font-weight:600;">Address</td><td>→</td><td><select class="form-input" style="padding:4px 8px;font-size:.75rem;" aria-label="แมปฟิลด์ Address"><option>ที่อยู่</option><option>-- ข้าม --</option></select></td><td style="color:var(--muted);font-size:.72rem;">123/45 ถ.สุขุมวิท...</td><td><span style="color:var(--green);font-size:.75rem;font-weight:700;">✓ แมปแล้ว</span></td></tr>
                 <tr><td style="font-weight:600;">Phone</td><td>→</td><td><select class="form-input" style="padding:4px 8px;font-size:.75rem;" aria-label="แมปฟิลด์ Phone"><option>เบอร์โทรศัพท์</option><option>-- ข้าม --</option></select></td><td style="color:var(--muted);font-size:.72rem;">02-123-4567</td><td><span style="color:var(--orange);font-size:.75rem;font-weight:700;">⚠ ตรวจสอบ</span></td></tr>
-                <tr><td style="font-weight:600;">Email</td><td>���</td><td><select class="form-input" style="padding:4px 8px;font-size:.75rem;" aria-label="แมปฟิลด์ Email"><option>อีเมล</option><option>-- ข้าม --</option></select></td><td style="color:var(--muted);font-size:.72rem;">info@abc.co.th</td><td><span style="color:var(--green);font-size:.75rem;font-weight:700;">✓ แมปแล้ว</span></td></tr>
+                <tr><td style="font-weight:600;">Email</td><td>→</td><td><select class="form-input" style="padding:4px 8px;font-size:.75rem;" aria-label="แมปฟิลด์ Email"><option>อีเมล</option><option>-- ข้าม --</option></select></td><td style="color:var(--muted);font-size:.72rem;">info@abc.co.th</td><td><span style="color:var(--green);font-size:.75rem;font-weight:700;">✓ แมปแล้ว</span></td></tr>
             </tbody>
         </table>
         <div style="display:flex;gap:8px;margin-top:12px;">
@@ -2114,7 +2114,7 @@ body.training-mode .header{border-bottom:2px solid var(--orange);}
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;">
             <div style="padding:14px;background:var(--green-l);border-radius:10px;text-align:center;">
                 <div style="font-size:1.4rem;font-weight:800;color:var(--green);">142</div>
-                <div style="font-size:.68rem;font-weight:600;color:var(--green);">✓ ผ่���น</div>
+                <div style="font-size:.68rem;font-weight:600;color:var(--green);">✓ ผ่าน</div>
             </div>
             <div style="padding:14px;background:var(--orange-l);border-radius:10px;text-align:center;">
                 <div style="font-size:1.4rem;font-weight:800;color:var(--orange);">8</div>
@@ -2154,7 +2154,7 @@ body.training-mode .header{border-bottom:2px solid var(--orange);}
             <div id="migProgressText" style="font-size:.78rem;color:var(--muted);margin-bottom:16px;">คลิก "เริ่มนำเข้า" เพื่อดำเนินการ</div>
             <div style="display:flex;gap:8px;justify-content:center;">
                 <button class="btn btn-outline btn-sm" onclick="advanceMigration(3)">← ย้อนกลับ</button>
-                <button class="btn btn-primary" onclick="runMigrationImport()" aria-label="เริ���มนำเข้าข้อมูล">🚀 เริ่มนำเข้า</button>
+                <button class="btn btn-primary" onclick="runMigrationImport()" aria-label="เริ่มนำเข้าข้อมูล">🚀 เริ่มนำเข้า</button>
             </div>
         </div>
     </div>
@@ -2162,7 +2162,7 @@ body.training-mode .header{border-bottom:2px solid var(--orange);}
 
 <!-- ════ CROSS-041: BATCH EXPORT/IMPORT ════ -->
 <div id="page-batchExportImport" class="page hidden" role="main" aria-label="นำเข้าส่งออกข้อมูลเป็นกลุ่ม">
-    <h2 class="mb-16">📤 นำเข้า/���่งออกข้อมูลเป็นกลุ่ม (Batch Export/Import)</h2>
+    <h2 class="mb-16">📤 นำเข้า/ส่งออกข้อมูลเป็นกลุ่ม (Batch Export/Import)</h2>
     <p class="text-sm text-muted mb-16">จัดการข้อมูลข้ามโมดูลพร้อมกัน — Export & Import หลายรายการในครั้งเดียว</p>
     <div class="grid-2">
         <div class="card">
@@ -2655,7 +2655,7 @@ function addFavStarsToSidebar(){
 // ═══ UNDO/REDO INDICATOR ═══
 let undoStack=[],redoStack=[];
 function pushUndo(action){undoStack.push(action);if(undoStack.length>20)undoStack.shift();redoStack=[];updateUndoUI();}
-function doUndo(){if(!undoStack.length)return;const a=undoStack.pop();redoStack.push(a);updateUndoUI();showToast('↩','Undo',a.label||'การดำเ��ินการถูกย้อนกลับ');}
+function doUndo(){if(!undoStack.length)return;const a=undoStack.pop();redoStack.push(a);updateUndoUI();showToast('↩','Undo',a.label||'การดำเนินการถูกย้อนกลับ');}
 function doRedo(){if(!redoStack.length)return;const a=redoStack.pop();undoStack.push(a);updateUndoUI();showToast('↪','Redo',a.label||'ทำซ้ำการดำเนินการ');}
 function updateUndoUI(){document.getElementById('undoBtn').disabled=!undoStack.length;document.getElementById('redoBtn').disabled=!redoStack.length;}
 

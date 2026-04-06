@@ -11,7 +11,7 @@
 body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);}
 
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;transition:background .3s,color .3s;font-kerning:normal;font-feature-settings:"kern" 1;text-rendering:optimizeLegibility;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;overflow-x:hidden;transition:background .3s,color .3s;font-kerning:normal;font-feature-settings:"kern" 1;text-rendering:optimizeLegibility;}
 h1,h2,h3,h4,h5,h6,.card-title,.kpi-value,.page-title-area h1{text-rendering:optimizeLegibility;}
 .kpi,.card{contain:layout style;}
 .kpi:hover{will-change:transform;}
@@ -858,7 +858,7 @@ function renderInsights(){
 function renderPendingApprovals(){
   const items = [
     {id:'PR-2569-0478',requester:'สมชาย ว.',dept:'ฝ่ายผลิต',amount:'฿187,500',days:1.8,type:'PR',ai:'แนะนำอนุมัติ',aiConf:94},
-    {id:'PR-2569-0475',requester:'นภัสสร ศ.',dept:'���่ายบัญชี',amount:'฿45,200',days:0.5,type:'PR',ai:'แนะนำอนุมัติ',aiConf:96},
+    {id:'PR-2569-0475',requester:'นภัสสร ศ.',dept:'ฝ่ายบัญชี',amount:'฿45,200',days:0.5,type:'PR',ai:'แนะนำอนุมัติ',aiConf:96},
     {id:'PO-2569-0312',requester:'สุรศักดิ์ ท.',dept:'ฝ่าย IT',amount:'฿520,000',days:0.7,type:'PO',ai:'ผ่าน 3 quotes',aiConf:95},
     {id:'PR-2569-0477',requester:'นิติ พ.',dept:'ฝ่ายผลิต',amount:'฿92,000',days:0.3,type:'PR',ai:'เร่งด่วน',aiConf:91},
     {id:'PR-2569-0480',requester:'วรรณิสา เ.',dept:'ฝ่ายจัดซื้อ',amount:'฿124,000',days:3.1,type:'PR',ai:'ราคาสูงกว่าตลาด',aiConf:42},

@@ -38,6 +38,12 @@ body.dark {
   --text: #F8FAFC;
   --text-dim: #94A3B8;
   --border: #475569;
+  --blue-bg: rgba(37,99,235,0.15);
+  --green-bg: rgba(5,150,105,0.15);
+  --orange-bg: rgba(234,88,12,0.15);
+  --red-bg: rgba(220,38,38,0.15);
+  --purple-bg: rgba(124,58,237,0.15);
+  --amber-bg: rgba(217,119,6,0.15);
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -1721,7 +1727,7 @@ h1,h2,h3,h4,h5,h6,.card-title{text-rendering:optimizeLegibility;}
 
   <!-- Thai OCR Confidence Display -->
   <div class="logistics-fields" id="ocrConfidenceSection">
-    <h3>&#129302; ระดับความมั่���ใจ OCR ต่อฟิลด์ (Thai Document OCR)</h3>
+    <h3>&#129302; ระดับความมั่นใจ OCR ต่อฟิลด์ (Thai Document OCR)</h3>
     <div class="confidence-grid" id="confidenceGrid">
       <div class="confidence-item conf-high"><div class="field-name">เลขที่ Tracking</div><div class="field-value">KEX-2569040612345</div><div class="conf-bar"><div class="fill" style="width:98%"></div></div><div class="conf-pct">98.2%</div></div>
       <div class="confidence-item conf-high"><div class="field-name">น้ำหนัก (Weight)</div><div class="field-value">12.5 กก.</div><div class="conf-bar"><div class="fill" style="width:96%"></div></div><div class="conf-pct">96.1%</div></div>
@@ -1761,7 +1767,7 @@ h1,h2,h3,h4,h5,h6,.card-title{text-rendering:optimizeLegibility;}
     <h3>&#9998; แก้ไขข้อความไทย (Manual Correction)</h3>
     <div style="font-size:.72rem;color:var(--text-dim);margin-bottom:12px;">OCR อาจอ่านภาษาไทยผิดพลาดบางตัว -- แก้ไขได้ที่นี่</div>
     <div class="correction-row">
-      <span class="original">บจก. สยามเทค โ���ลูชัร</span>
+      <span class="original">บจก. สยามเทค โซลูชัน</span>
       <span class="arrow">&#8594;</span>
       <span class="corrected"><input value="บจก. สยามเทค โซลูชัน"></span>
       <span class="status-tag manual">&#9998; แก้ไขแล้ว</span>
@@ -1773,7 +1779,7 @@ h1,h2,h3,h4,h5,h6,.card-title{text-rendering:optimizeLegibility;}
       <span class="status-tag manual">&#9998; แก้ไขแล้ว</span>
     </div>
     <div class="correction-row">
-      <span class="original">��.สุขุมวิท แขวงคลองเตย</span>
+      <span class="original">ถ.สุขุมวิท แขวงคลองเตย</span>
       <span class="arrow">&#8594;</span>
       <span class="corrected"><input value="ถ.สุขุมวิท แขวงคลองเตย"></span>
       <span class="status-tag auto">&#10003; ถูกต้อง</span>
@@ -1866,7 +1872,7 @@ h1,h2,h3,h4,h5,h6,.card-title{text-rendering:optimizeLegibility;}
       </div>
     </div>
     <div style="margin-top:14px;display:flex;gap:8px;align-items:center;">
-      <button class="action-btn btn-primary" style="font-size:.78rem;padding:8px 16px;" onclick="showToast('เริ่ม Batch OCR สำหรับเอกสารที่เหลื���')">&#9654; เริ่ม Batch OCR</button>
+      <button class="action-btn btn-primary" style="font-size:.78rem;padding:8px 16px;" onclick="showToast('เริ่ม Batch OCR สำหรับเอกสารที่เหลือ')">&#9654; เริ่ม Batch OCR</button>
       <button class="action-btn btn-outline" style="font-size:.78rem;padding:8px 16px;" onclick="showToast('อัพโหลดไฟล์เพิ่มเติม')">&#10133; เพิ่มเอกสาร</button>
       <span style="margin-left:auto;font-size:.68rem;color:var(--text-dim);">2/5 เสร็จสิ้น &bull; 1 กำลังดำเนินการ &bull; 2 รอคิว</span>
     </div>

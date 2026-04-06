@@ -13,7 +13,7 @@
 body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);--cyan-bg:rgba(8,145,178,0.15);}
 
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:var(--bg);color:var(--text);line-height:1.6;transition:background .3s,color .3s;font-kerning:normal;font-feature-settings:"kern" 1;text-rendering:optimizeLegibility;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;transition:background .3s,color .3s;font-kerning:normal;font-feature-settings:"kern" 1;text-rendering:optimizeLegibility;}
 h1,h2,h3,h4,h5,h6,.card-title,.section-title,.page-title{text-rendering:optimizeLegibility;}
 .card,.kpi-card,.chart-section{contain:layout style;}
 .kpi-card:hover,.card:hover{will-change:transform;}
@@ -1953,7 +1953,7 @@ const issuesData = [
   {id:'FIN-004',module:'Finance Verification',desc:'3-way Matching (PO, GR, Invoice) — discrepancy highlighting (แก้ไขแล้ว)',users:141600,pct:'35.4%',severity:'High',groups:'C',status:'Resolved'},
   {id:'FIN-005',module:'Finance Cases',desc:'SLA Tracking indicators in finance-cases (แก้ไขแล้ว)',users:136000,pct:'34.0%',severity:'High',groups:'C,D',status:'Resolved'},
   {id:'FIN-006',module:'Finance Verification',desc:'WHT (ภาษีหัก ณ ที่จ่าย) Calculator in sales-dashboard (แก้ไขแล้ว)',users:131200,pct:'32.8%',severity:'High',groups:'C,D',status:'Resolved'},
-  {id:'CONN-004',module:'Connector Hub',desc:'Connection health monitoring (แก้��ขแล้ว Wave 2)',users:127200,pct:'31.8%',severity:'High',groups:'B,C',status:'Resolved'},
+  {id:'CONN-004',module:'Connector Hub',desc:'Connection health monitoring (แก้ไขแล้ว Wave 2)',users:127200,pct:'31.8%',severity:'High',groups:'B,C',status:'Resolved'},
   {id:'CONN-005',module:'API Dashboard',desc:'API Versioning — API dashboard enhanced (แก้ไขแล้ว)',users:122000,pct:'30.5%',severity:'High',groups:'A,B',status:'Resolved'},
   {id:'PROC-011',module:'Procurement Analytics',desc:'Dashboard Real-time indicator in finance-analytics (แก้ไขแล้ว)',users:108000,pct:'27.0%',severity:'High',groups:'B,C',status:'Resolved'},
   {id:'EXP-007',module:'Expense Tasks/Claims',desc:'Per Diem Calculator (แก้ไขแล้ว Wave 1 - EX-011)',users:135200,pct:'33.8%',severity:'High',groups:'C,D',status:'Resolved'},

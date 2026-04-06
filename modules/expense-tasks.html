@@ -9,7 +9,7 @@
 :root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--cyan-bg:#ECFEFF;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
 body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);--cyan-bg:rgba(8,145,178,0.15);}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s;font-size:14px;font-kerning:normal;font-feature-settings:"kern" 1;text-rendering:optimizeLegibility;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s;font-size:14px;font-kerning:normal;font-feature-settings:"kern" 1;text-rendering:optimizeLegibility;}
 h1,h2,h3,h4,h5,h6,.card-title{text-rendering:optimizeLegibility;}
 ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 .dark-toggle{position:fixed;top:16px;right:16px;z-index:9999;width:42px;height:42px;border-radius:50%;border:1px solid var(--border);background:var(--card-bg);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:all .2s;}
@@ -599,18 +599,18 @@ tr:hover td{background:var(--bg2);}
           </select>
         </div>
         <div class="form-group">
-          <label>&#128205; จังหวัดปลายทา���</label>
+          <label>&#128205; จังหวัดปลายทาง</label>
           <select id="mileageTo">
-            <option value="เชียงใหม่">เช��ยงใหม่</option>
+            <option value="เชียงใหม่">เชียงใหม่</option>
             <option value="กรุงเทพฯ">กรุงเทพมหานคร</option>
             <option value="นครราชสีมา">นครราชสีมา</option>
             <option value="ขอนแก่น">ขอนแก่น</option>
             <option value="ภูเก็ต">ภูเก็ต</option>
             <option value="ชลบุรี">ชลบุรี</option>
             <option value="สงขลา">สงขลา</option>
-            <option value="อุดรธานี">��ุดรธานี</option>
-            <option value="เชียงราย">เชียง��าย</option>
-            <option value="สุราษฎร์ธ��นี">สุราษฎร์ธานี</option>
+            <option value="อุดรธานี">อุดรธานี</option>
+            <option value="เชียงราย">เชียงราย</option>
+            <option value="สุราษฎร์ธานี">สุราษฎร์ธานี</option>
           </select>
         </div>
         <div class="form-group">
@@ -626,7 +626,7 @@ tr:hover td{background:var(--bg2);}
 
       <!-- Result -->
       <div class="mileage-result" id="mileageResult">
-        <div class="result-row"><span class="result-label">&#128205; เส้นทา���</span><span class="result-value" id="mileageRoute">กรุงเทพฯ &#10132; เชียงใหม่</span></div>
+        <div class="result-row"><span class="result-label">&#128205; เส้นทาง</span><span class="result-value" id="mileageRoute">กรุงเทพฯ &#10132; เชียงใหม่</span></div>
         <div class="result-row"><span class="result-label">&#128207; ระยะทาง</span><span class="result-value" id="mileageDist">688 กม.</span></div>
         <div class="result-row"><span class="result-label">&#128663; ประเภทรถ</span><span class="result-value" id="mileageVehicle">รถยนต์ส่วนตัว (4 บาท/กม.)</span></div>
         <div class="result-row"><span class="result-label">&#128338; เวลาประมาณ</span><span class="result-value" id="mileageTime">~7 ชม.</span></div>
@@ -652,7 +652,7 @@ tr:hover td{background:var(--bg2);}
             <tbody id="tripLogBody">
               <tr>
                 <td>5 เม.ย. 2569</td>
-                <td>กร��งเทพฯ &#10132; นครราชสีมา</td>
+                <td>กรุงเทพฯ &#10132; นครราชสีมา</td>
                 <td style="font-family:'Inter';">259 กม.</td>
                 <td>รถยนต์ส่วนตัว</td>
                 <td style="font-weight:700;font-family:'Inter';color:var(--blue);">&#3647;1,036</td>
@@ -662,7 +662,7 @@ tr:hover td{background:var(--bg2);}
                 <td>3 เม.ย. 2569</td>
                 <td>กรุงเทพฯ &#10132; ชลบุรี</td>
                 <td style="font-family:'Inter';">82 กม.</td>
-                <td>รถยนต์ส��วนตัว</td>
+                <td>รถยนต์ส่วนตัว</td>
                 <td style="font-weight:700;font-family:'Inter';color:var(--blue);">&#3647;328</td>
                 <td><span class="status status-approved">&#9989; อนุมัติ</span></td>
               </tr>
@@ -676,11 +676,11 @@ tr:hover td{background:var(--bg2);}
               </tr>
               <tr>
                 <td>28 มี.ค. 2569</td>
-                <td>กรุ��เทพฯ &#10132; ภูเก็ต</td>
+                <td>กรุงเทพฯ &#10132; ภูเก็ต</td>
                 <td style="font-family:'Inter';">862 กม.</td>
                 <td>รถบริษัท</td>
                 <td style="font-weight:700;font-family:'Inter';color:var(--muted);">&#3647;0</td>
-                <td><span class="status status-approved">&#9989; อนุม���ติ</span></td>
+                <td><span class="status status-approved">&#9989; อนุมัติ</span></td>
               </tr>
             </tbody>
           </table>

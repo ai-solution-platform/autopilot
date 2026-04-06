@@ -9,7 +9,7 @@
 :root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--border2:#CBD5E1;--text:#0F172A;--text2:#475569;--muted:#64748B;--light:#94A3B8;--blue:#2563EB;--blue-bg:#EFF6FF;--blue-l:#EFF6FF;--blue-d:#1D4ED8;--purple:#7C3AED;--purple-l:#F5F3FF;--purple-bg:#F5F3FF;--cyan:#0891B2;--cyan-l:#ECFEFF;--green:#059669;--green-l:#ECFDF5;--green-bg:#ECFDF5;--green-d:#047857;--orange:#D97706;--orange-l:#FFFBEB;--orange-bg:#FFFBEB;--red:#DC2626;--red-l:#FEF2F2;--red-bg:#FEF2F2;--pink:#DB2777;--white:#FFFFFF;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--sh:0 1px 3px rgba(0,0,0,.05);--sh2:0 4px 20px rgba(0,0,0,.08);--sh3:0 12px 40px rgba(0,0,0,.12);--shadow:0 1px 3px rgba(0,0,0,0.05);}
 body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--border2:#475569;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--light:#64748B;--white:#1E293B;--blue-l:rgba(37,99,235,0.15);--blue-bg:rgba(37,99,235,0.15);--purple-l:rgba(124,58,237,0.15);--purple-bg:rgba(124,58,237,0.15);--green-l:rgba(5,150,105,0.15);--green-bg:rgba(5,150,105,0.15);--orange-l:rgba(217,119,6,0.15);--orange-bg:rgba(217,119,6,0.15);--red-l:rgba(220,38,38,0.15);--red-bg:rgba(220,38,38,0.15);}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;transition:background .3s,color .3s;font-kerning:normal;font-feature-settings:"kern" 1;text-rendering:optimizeLegibility;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;overflow-x:hidden;transition:background .3s,color .3s;font-kerning:normal;font-feature-settings:"kern" 1;text-rendering:optimizeLegibility;}
 h1,h2,h3,h4,h5,h6,.card-title{text-rendering:optimizeLegibility;}
 .dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:all .2s;}
 .dark-toggle:hover{box-shadow:var(--sh2);transform:scale(1.1);}
@@ -740,12 +740,12 @@ h1,h2,h3,h4,h5,h6,.card-title{text-rendering:optimizeLegibility;}
 
   <!-- Weight/Dimension Calculator -->
   <div class="card dim-calc" style="margin-top:20px;">
-    <h3>&#128207; เครื่องคำนวณน้ำห��ักเชิงปริมาตร</h3>
+    <h3>&#128207; เครื่องคำนวณน้ำหนักเชิงปริมาตร</h3>
     <div class="dim-form">
       <div class="form-group"><label class="form-label">กว้าง (ซม.)</label><input type="number" class="form-input" id="dimW" value="40" min="1" onchange="calcDimWeight()"></div>
       <div class="form-group"><label class="form-label">ยาว (ซม.)</label><input type="number" class="form-input" id="dimL" value="50" min="1" onchange="calcDimWeight()"></div>
       <div class="form-group"><label class="form-label">สูง (ซม.)</label><input type="number" class="form-input" id="dimH" value="30" min="1" onchange="calcDimWeight()"></div>
-      <div class="form-group"><label class="form-label">น้��หนักจริง (กก.)</label><input type="number" class="form-input" id="dimActual" value="8" min="0.1" step="0.1" onchange="calcDimWeight()"></div>
+      <div class="form-group"><label class="form-label">น้ำหนักจริง (กก.)</label><input type="number" class="form-input" id="dimActual" value="8" min="0.1" step="0.1" onchange="calcDimWeight()"></div>
       <div class="form-group"><label class="form-label">ตัวหาร</label><select class="form-input form-select" id="dimDivisor" onchange="calcDimWeight()"><option value="5000">5000 (มาตรฐาน)</option><option value="6000">6000 (ไปรษณีย์)</option></select></div>
     </div>
     <div class="dim-result" id="dimResult">
@@ -761,11 +761,11 @@ h1,h2,h3,h4,h5,h6,.card-title{text-rendering:optimizeLegibility;}
     <h3>&#128176; Landed Cost Breakdown (ค่าส่ง + ศุลกากร + ประกัน)</h3>
     <div style="font-size:.72rem;color:var(--muted);margin-bottom:12px;">ต้นทุนรวมทั้งหมดที่จะเกิดขึ้นจนสินค้าถึงคลัง &bull; พ.ศ. 2569</div>
     <div class="landed-items">
-      <div class="landed-item"><div class="dot" style="background:var(--blue);"></div><div class="label">ค่าข��ส่ง (Shipping)</div><div class="value">&#3647;2,450</div></div>
+      <div class="landed-item"><div class="dot" style="background:var(--blue);"></div><div class="label">ค่าขนส่ง (Shipping)</div><div class="value">&#3647;2,450</div></div>
       <div class="landed-item"><div class="dot" style="background:var(--purple);"></div><div class="label">ค่าอากรศุลกากร (Customs Duty)</div><div class="value">&#3647;1,200</div></div>
       <div class="landed-item"><div class="dot" style="background:var(--orange);"></div><div class="label">ภาษีมูลค่าเพิ่ม (VAT 7%)</div><div class="value">&#3647;845</div></div>
       <div class="landed-item"><div class="dot" style="background:var(--green);"></div><div class="label">ค่าประกันสินค้า (Insurance)</div><div class="value">&#3647;350</div></div>
-      <div class="landed-item"><div class="dot" style="background:var(--cyan);"></div><div class="label">ค่า���ำเนินพิธีศุลกากร (Customs Clearance)</div><div class="value">&#3647;500</div></div>
+      <div class="landed-item"><div class="dot" style="background:var(--cyan);"></div><div class="label">ค่าดำเนินพิธีศุลกากร (Customs Clearance)</div><div class="value">&#3647;500</div></div>
       <div class="landed-item"><div class="dot" style="background:var(--muted);"></div><div class="label">ค่าขนส่งภายในประเทศ (Inland Transport)</div><div class="value">&#3647;300</div></div>
     </div>
     <div class="landed-total">
