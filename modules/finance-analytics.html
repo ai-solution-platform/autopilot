@@ -175,27 +175,13 @@ svg text{font-family:'Inter','Noto Sans Thai',sans-serif;}
 </style>
 </head>
 <body>
-<button class="dark-toggle" onclick="document.body.classList.toggle('dark');this.textContent=document.body.classList.contains('dark')?'\u2600':'\u263D'">&#9789;</button>
+<!-- Redundant elements removed — app shell provides header, breadcrumb, dark toggle -->
 
 <!-- SPRINT-6: Offline Indicator -->
 <div id="offlineIndicator" role="status" style="display:none;background:var(--red-bg,#FEF2F2);border:1px solid var(--red,#DC2626);border-radius:10px;padding:10px 16px;margin:12px 32px;align-items:center;gap:8px;font-size:.78rem;font-weight:600;color:var(--red,#DC2626);">
     <span>&#128225;</span> คุณกำลังออฟไลน์ — แสดงข้อมูลจากแคชล่าสุด
     <span style="margin-left:auto;font-size:.65rem;padding:2px 8px;background:var(--red,#DC2626);color:#fff;border-radius:4px;">OFFLINE</span>
 </div>
-
-<nav class="header">
-    <div class="header-brand">
-        <div class="logo">A2</div>
-        <h1>Team Analytics</h1>
-    </div>
-    <div class="header-breadcrumb">
-        <a href="#">Autopilot v2</a> / <a href="finance-cases.html">Finance Doc Hub</a> / <span style="color:var(--text);font-weight:500;">Team Analytics</span>
-    </div>
-    <div class="header-meta">
-        <span>&#128197; เมษายน พ.ศ. 2569</span>
-        <div class="avatar">&#3611;&#3617;</div>
-    </div>
-</nav>
 
 <div class="dashboard">
     <!-- Real-time Update Indicator -->

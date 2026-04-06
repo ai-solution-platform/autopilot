@@ -133,24 +133,13 @@ tr:hover td{background:var(--bg2);}
 </style>
 </head>
 <body>
-<button class="dark-toggle" onclick="toggleDark()">&#9790;</button>
+<!-- Redundant elements removed — app shell provides header, breadcrumb, dark toggle -->
 
 <div class="page">
-  <div class="breadcrumb">
-    <a href="#" onclick="event.preventDefault();window.parent.postMessage({action:'navigate',target:'home'},'*')">&#127968; &#3627;&#3609;&#3657;&#3634;&#3627;&#3621;&#3633;&#3585;</a> <span>&gt;</span>
-    <a href="#" onclick="event.preventDefault();window.parent.postMessage({action:'navigate',target:'expense-dashboard'},'*')">Expense &amp; Receipt</a> <span>&gt;</span>
-    <span>Approval Queue</span>
-  </div>
-
-  <div class="page-header">
-    <div>
-      <div class="page-title"><h1>&#9989; Expense Approval Queue</h1></div>
-      <div class="page-subtitle">จัดการอนุมัติค่าใช้จ่าย — รองรับ Multi-level, Delegation, Auto-escalation</div>
-    </div>
-    <div style="display:flex;gap:8px;">
-      <button class="btn btn-secondary" onclick="toggleDelegation()">&#128101; ตั้งค่า Delegation</button>
-      <button class="btn btn-secondary" onclick="toggleEscalation()">&#9881; กฎ Escalation</button>
-    </div>
+  <!-- Action buttons (kept from page-header) -->
+  <div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:16px;gap:8px;">
+    <button class="btn btn-secondary" onclick="toggleDelegation()">&#128101; ตั้งค่า Delegation</button>
+    <button class="btn btn-secondary" onclick="toggleEscalation()">&#9881; กฎ Escalation</button>
   </div>
 
   <!-- Stats -->

@@ -1019,34 +1019,15 @@ a.connector-link {
 </style>
 </head>
 <body>
-<button class="dark-toggle" onclick="toggleDark()">🌙</button>
-
-<!-- Header -->
-<div class="header">
-  <div class="header-brand">
-    <div class="logo">A</div>
-    <div>
-      <h1>Autopilot v2</h1>
-      <span>Connector Hub &mdash; Integration Management</span>
-    </div>
-  </div>
-  <div class="header-actions">
-    <div class="search-bar">
+<!-- Main -->
+<div class="main">
+  <!-- Search & Actions -->
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+    <div class="search-bar" style="flex:1;">
       <span>🔍</span>
       <input type="text" id="searchInput" placeholder="ค้นหา connector..." oninput="filterConnectors()">
     </div>
     <button class="btn btn-primary" onclick="openWizard()">➕ เพิ่ม Connector ใหม่</button>
-  </div>
-</div>
-
-<!-- Main -->
-<div class="main">
-  <div class="breadcrumb"><a href="../poc-app/v2.html">Autopilot v2</a><span class="sep">/</span>Connectors</div>
-
-  <!-- Page Title -->
-  <div class="page-title fade-up">
-    <h2>🔗 Connector Hub</h2>
-    <p>ศูนย์กลางจัดการ Connectors ทั้งหมด &mdash; OCR, eKYC, Banking, Documents, Communication, Cloud Storage</p>
   </div>
 
 

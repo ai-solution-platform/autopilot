@@ -181,7 +181,7 @@ h1,h2,h3,h4,h5,h6,.card-title,.stat-value{text-rendering:optimizeLegibility;}
 </style>
 </head>
 <body>
-<button class="dark-toggle" onclick="toggleDark()">&#9790;</button>
+<!-- Redundant elements removed — app shell provides header, breadcrumb, dark toggle -->
 
 <!-- SPRINT-6: Offline Indicator -->
 <div id="offlineIndicator" role="status" style="display:none;background:var(--red-bg);border:1px solid var(--red);border-radius:10px;padding:10px 16px;margin:12px 24px;align-items:center;gap:8px;font-size:.78rem;font-weight:600;color:var(--red);">
@@ -190,27 +190,10 @@ h1,h2,h3,h4,h5,h6,.card-title,.stat-value{text-rendering:optimizeLegibility;}
 </div>
 
 <div class="page">
-  <div class="breadcrumb">
-    <a href="#">ANTS Autopilot</a> <span>/</span>
-    <a href="#">Expense & Receipt</a> <span>/</span>
-    <span>Dashboard</span>
-  </div>
-
-  <!-- User Bar -->
-  <div class="user-bar">
-    <div class="user-info">
-      <div class="user-avatar">สช</div>
-      <div>
-        <div class="user-name">สมชาย ใจดี</div>
-        <div class="user-role">Marketing Manager</div>
-        <div class="user-team">Team Marketing</div>
-      </div>
-    </div>
-    <div class="header-actions">
-      <span class="brand-tag">&#9889; ANTS Autopilot v2</span>
-      <a href="expense-receipt-ocr.html" class="btn btn-primary">&#128247; สแกนใบเสร็จ</a>
-      <a href="expense-tasks.html" class="btn btn-secondary">&#128203; Claims</a>
-    </div>
+  <!-- Action buttons (moved from removed user-bar) -->
+  <div class="header-actions" style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+    <a href="expense-receipt-ocr.html" class="btn btn-primary">&#128247; สแกนใบเสร็จ</a>
+    <a href="expense-tasks.html" class="btn btn-secondary">&#128203; Claims</a>
   </div>
 
   <!-- Period Selector -->

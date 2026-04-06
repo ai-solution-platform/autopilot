@@ -976,37 +976,17 @@ body.dark .header{background:rgba(15,23,42,0.85);border-bottom-color:rgba(51,65,
 </style>
 </head>
 <body>
-<button class="dark-toggle" onclick="toggleDark()" aria-label="Toggle dark mode"></button>
-<nav class="breadcrumb" style="max-width:1200px;margin:0 auto;padding:12px 24px 0;">
-  <a href="index.html">Autopilot v2</a>
-  <span class="sep">/</span>
-  <a href="connector-hub.html">Connectors</a>
-  <span class="sep">/</span>
-  <span>Global OCR Providers</span>
-</nav>
+<!-- Main Content -->
+<div class="container">
 
-
-<!-- Header -->
-<div class="header">
-  <div class="header-brand">
-    <div class="logo">A</div>
-    <div>
-      <h1>Autopilot v2</h1>
-      <span>Global OCR Providers Connector</span>
-    </div>
-  </div>
-  <div class="header-nav">
+  <!-- Tab Navigation -->
+  <div style="display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;">
     <button class="nav-btn active" onclick="switchTab('providers')">Providers</button>
     <button class="nav-btn" onclick="switchTab('comparison')">Comparison</button>
     <button class="nav-btn" onclick="switchTab('pipeline')">Pipeline</button>
     <button class="nav-btn" onclick="switchTab('ab-testing')">A/B Testing</button>
     <button class="nav-btn" onclick="switchTab('health')">Health</button>
   </div>
-  <div class="header-badge">ANTS AI Solution Hub</div>
-</div>
-
-<!-- Main Content -->
-<div class="container">
 
   <!-- Page Title -->
   <div class="page-title animate-in">

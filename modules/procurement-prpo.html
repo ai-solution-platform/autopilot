@@ -324,30 +324,14 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
   </div>
 </div>
 
-<button class="dark-toggle" onclick="toggleDark()">🌙</button>
-
 <div class="page-wrap">
-  <!-- User Context Bar -->
-  <div class="user-bar">
-    <div class="user-info">
-      <div class="user-avatar">AC</div>
-      <div>
-        <div class="user-name">สวัสดี Artit C. | ผู้จัดการฝ่ายจัดซื้อ</div>
-        <div class="user-role">แผนกจัดซื้อ · ออนไลน์ · <span id="globalAutoSave" style="color:var(--green);font-weight:600;">💾 บันทึกอัตโนมัติเปิดใช้งาน</span></div>
-      </div>
-    </div>
+  <!-- View Toggle (moved from user-bar) -->
+  <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
     <div class="view-toggle">
       <button class="view-btn active" onclick="setView('my')">PR ของฉัน</button>
       <button class="view-btn" onclick="setView('team')">PR ของทีม</button>
       <button class="view-btn" onclick="setView('all')">ทั้งหมด</button>
     </div>
-  </div>
-
-  <!-- Breadcrumb -->
-  <div class="breadcrumb">
-    <a href="../poc-v2.html">Autopilot v2</a> <span>/</span>
-    <a href="#">Procurement</a> <span>/</span>
-    <span>PR / PO Management</span>
   </div>
 
   <!-- KPI Cards — 4 per row compact -->

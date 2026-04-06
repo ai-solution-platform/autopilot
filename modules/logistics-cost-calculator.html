@@ -302,26 +302,14 @@ h1,h2,h3,h4,h5,h6,.card-title{text-rendering:optimizeLegibility;}
 </style>
 </head>
 <body>
-<!-- Dark Mode Toggle -->
-<button class="dark-toggle" onclick="toggleDark()">&#127769;</button>
-
 <div class="page">
-  <!-- Header -->
+  <!-- Header Actions -->
   <div class="page-header">
-    <div class="breadcrumb">
-      <a href="#" onclick="event.preventDefault();window.parent.postMessage({action:'navigate',target:'home'},'*')">&#127968; &#3627;&#3609;&#3657;&#3634;&#3627;&#3621;&#3633;&#3585;</a>
-      <span>&gt;</span>
-      <a href="#" onclick="event.preventDefault();window.parent.postMessage({action:'navigate',target:'logistics'},'*')">Logistics FX</a>
-      <span>&gt;</span>
-      <span>Landed Cost Calculator</span>
-    </div>
     <div class="page-title-row">
       <div>
-        <div class="page-title">&#128230; Landed Cost Calculator</div>
         <div class="page-subtitle">คำนวณต้นทุนนำเข้าสินค้าแบบครบวงจร &#183; Multi-User Task System</div>
       </div>
       <div class="header-actions">
-        <div class="brand-tag">&#9889; ANTS &#8212; AI Solution Hub</div>
         <button class="btn btn-secondary no-print" onclick="exportPDF()">&#128196; PDF</button>
         <button class="btn btn-green no-print" onclick="exportExcel()">&#128202; Excel</button>
       </div>

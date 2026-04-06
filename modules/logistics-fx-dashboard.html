@@ -885,33 +885,7 @@ h1,h2,h3,h4,h5,h6,.card-title,.kpi-value{text-rendering:optimizeLegibility;}
     <span style="margin-left:auto;font-size:.65rem;padding:2px 8px;background:var(--red,#DC2626);color:#fff;border-radius:4px;">OFFLINE</span>
 </div>
 
-<!-- ── DARK TOGGLE ──────────────────────────────────────── -->
-<button id="darkBtn" title="สลับโหมดสีเข้ม" onclick="toggleDark()">🌙</button>
-
-<!-- ── TOP BAR ──────────────────────────────────────────── -->
-<header class="top-bar">
-  <div class="top-bar-left">
-    <div class="logo">AP</div>
-    <div>
-      <div class="top-bar-title">Autopilot v2</div>
-      <div class="top-bar-sub">แดชบอร์ดอัตราแลกเปลี่ยนโลจิสติกส์</div>
-    </div>
-  </div>
-  <div class="top-bar-right">
-    <div class="badge-live"><span class="dot"></span>ข้อมูลสด</div>
-    <div class="update-time">อัพเดท 10:45 น.</div>
-    <div class="user-pill">👤 คุณปีเตอร์ · โลจิสติกส์</div>
-  </div>
-</header>
-
-<!-- ── BREADCRUMB ───────────────────────────────────────── -->
-<nav class="breadcrumb">
-  <a href="#">Autopilot v2</a>
-  <span class="sep">/</span>
-  <a href="#">Logistics FX</a>
-  <span class="sep">/</span>
-  <span>แดชบอร์ด</span>
-</nav>
+<!-- Redundant elements removed — app shell provides header, breadcrumb, dark toggle -->
 
 <!-- ── MAIN ─────────────────────────────────────────────── -->
 <main class="main">
@@ -1586,13 +1560,15 @@ function executeTransfer(){
 /* ── DARK MODE ──────────────────────────────────────────── */
 function toggleDark() {
   const isDark = document.body.classList.toggle('dark');
-  document.getElementById('darkBtn').textContent = isDark ? '☀️' : '🌙';
+  const btn = document.getElementById('darkBtn');
+  if (btn) btn.textContent = isDark ? '☀️' : '🌙';
   localStorage.setItem('fx-dark', isDark ? '1' : '0');
 }
 (function () {
   if (localStorage.getItem('fx-dark') === '1') {
     document.body.classList.add('dark');
-    document.getElementById('darkBtn').textContent = '☀️';
+    const btn = document.getElementById('darkBtn');
+    if (btn) btn.textContent = '☀️';
   }
 })();
 
