@@ -3524,32 +3524,43 @@ function runMigrationImport(){
 }
 
 // ═══ CROSS-042: GUIDED TOUR ═══
+function stopGuidedTour(){
+    var o=document.getElementById('guidedTourOverlay');if(o)o.remove();
+    var t=document.getElementById('guidedTourTooltip');if(t)t.remove();
+    window.removeEventListener('keydown',guidedTourEsc);
+}
+function guidedTourEsc(e){if(e.key==='Escape')stopGuidedTour();}
 function startGuidedTour(){
+    stopGuidedTour();
     var steps=[
-        {target:'.sidebar-logo',text:'🏠 เมนูด้านซ้ายเป็นทางเข้าหลักไปยังทุกโมดูล'},
-        {target:'.header-right',text:'🔍 แถบด้านบนมีปุ่มค้นหา, แจ้งเตือน, โหมดมืด และโปรไฟล์'},
-        {target:'.quick-actions-bar',text:'⚡ Quick Actions ช่วยเข้าถึงงานที่ใช้บ่อยได้เร็วขึ้น'},
-        {target:'#mainContent',text:'📊 พื้นที่หลักแสดง Dashboard, Tasks และโมดูลต่างๆ'},
-        {target:'.sidebar-footer',text:'⚙️ ตั้งค่ารูปแบบวันที่ และดูแพ็กเกจปัจจุบันได้ที่นี่'}
+        {target:'.sidebar-logo',text:'🏠 เมนูด้านซ้ายเป็นทางเข้าหลักไปยังทุกโมดูล คลิกเพื่อเปิดแต่ละโมดูล'},
+        {target:'.header-right',text:'🔍 แถบด้านบนมีปุ่มค้นหา (Ctrl+K), แจ้งเตือน, โหมดมืด, AI Chat และโปรไฟล์'},
+        {target:'.module-frame',text:'📊 พื้นที่หลักแสดง Module ที่เลือก — Home, Dashboard, Tasks และอื่นๆ'},
+        {target:'.ai-chat-bubble',text:'🤖 AI Assistant ช่วยตอบคำถามและแนะนำการใช้งานในทุกหน้า กด Ctrl+Shift+Space'},
+        {target:'.nav-section',text:'📂 แต่ละหมวดมี sub-menu — Procurement, Expense, Finance, Logistics, Sales, Connectors'}
     ];
     var overlay=document.createElement('div');
     overlay.id='guidedTourOverlay';
-    overlay.style.cssText='position:fixed;inset:0;z-index:99998;background:rgba(0,0,0,0.55);transition:opacity .3s;';
+    overlay.style.cssText='position:fixed;inset:0;z-index:99998;background:rgba(0,0,0,0.55);transition:opacity .3s;cursor:pointer;';
     overlay.setAttribute('role','dialog');
-    overlay.setAttribute('aria-label','ทัวร์แนะนำการใช้งาน');
+    overlay.setAttribute('aria-label','ทัวร์แนะนำการใช้งาน — คลิกที่ใดก็ได้หรือกด Escape เพื่อปิด');
+    overlay.addEventListener('click',function(){stopGuidedTour();showToast('ℹ️','Tour','ปิดทัวร์แล้ว — กด 🎯 เพื่อเริ่มใหม่');});
     document.body.appendChild(overlay);
+    window.addEventListener('keydown',guidedTourEsc);
 
     var tooltip=document.createElement('div');
     tooltip.id='guidedTourTooltip';
     tooltip.style.cssText='position:fixed;z-index:99999;background:var(--white,#fff);border:2px solid var(--blue,#2563EB);border-radius:14px;padding:18px 20px;max-width:340px;box-shadow:0 12px 40px rgba(0,0,0,.2);font-family:inherit;';
+    tooltip.addEventListener('click',function(e){e.stopPropagation();});
     document.body.appendChild(tooltip);
 
     var idx=0;
     function showStep(i){
-        if(i>=steps.length){overlay.remove();tooltip.remove();showToast('🎉','Tour','ทัวร์แนะนำเสร็จสิ้น! ลองใช้งานได้เลย');return;}
+        if(i>=steps.length){stopGuidedTour();showToast('🎉','Tour','ทัวร์แนะนำเสร็จสิ้น! ลองใช้งานได้เลย');return;}
         var el=document.querySelector(steps[i].target);
-        var r=el?el.getBoundingClientRect():{top:200,left:200,width:100,height:40};
-        tooltip.innerHTML='<div style="font-size:.82rem;font-weight:600;margin-bottom:8px;">'+steps[i].text+'</div><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:.68rem;color:var(--muted,#64748B);">ขั้นตอน '+(i+1)+'/'+steps.length+'</span><div style="display:flex;gap:6px;"><button onclick="document.getElementById(\'guidedTourOverlay\').remove();this.closest(\'#guidedTourTooltip\').remove();" style="padding:4px 12px;border-radius:6px;border:1px solid var(--border,#E2E8F0);background:none;cursor:pointer;font-size:.72rem;font-family:inherit;">ข้าม</button><button onclick="guidedTourNext()" style="padding:4px 12px;border-radius:6px;border:none;background:var(--grad,linear-gradient(135deg,#2563EB,#7C3AED));color:#fff;cursor:pointer;font-size:.72rem;font-weight:700;font-family:inherit;" aria-label="ขั้นตอนถัดไป">'+(i<steps.length-1?'ถัดไป →':'เสร็จสิ้น ✓')+'</button></div></div>';
+        if(!el){showStep(i+1);return;}
+        var r=el.getBoundingClientRect();
+        tooltip.innerHTML='<div style="font-size:.82rem;font-weight:600;margin-bottom:8px;">'+steps[i].text+'</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;"><span style="font-size:.68rem;color:var(--muted,#64748B);">ขั้นตอน '+(i+1)+'/'+steps.length+' · คลิกพื้นหลังหรือ Esc เพื่อปิด</span><div style="display:flex;gap:6px;"><button onclick="stopGuidedTour()" style="padding:4px 12px;border-radius:6px;border:1px solid var(--border,#E2E8F0);background:none;cursor:pointer;font-size:.72rem;font-family:inherit;">ปิด ✕</button><button onclick="guidedTourNext()" style="padding:4px 12px;border-radius:6px;border:none;background:var(--grad,linear-gradient(135deg,#2563EB,#7C3AED));color:#fff;cursor:pointer;font-size:.72rem;font-weight:700;font-family:inherit;" aria-label="ขั้นตอนถัดไป">'+(i<steps.length-1?'ถัดไป →':'เสร็จสิ้น ✓')+'</button></div></div>';
         tooltip.style.top=Math.min(r.top+r.height+12,window.innerHeight-160)+'px';
         tooltip.style.left=Math.min(Math.max(r.left,12),window.innerWidth-360)+'px';
         idx=i;
