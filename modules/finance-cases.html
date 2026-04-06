@@ -167,6 +167,10 @@ tbody tr:hover{background:var(--blue-bg);}
 .status-done{background:var(--green-bg);color:var(--green);}
 .status-rejected{background:var(--red-bg);color:var(--red);}
 
+.status{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:100px;font-size:0.68rem;font-weight:600;}
+.status-approved{background:var(--green-bg);color:var(--green);}
+.status-pending{background:var(--orange-bg);color:var(--orange);}
+
 /* Monthly Closing Workflow */
 .closing-panel{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px;display:none;}
 .closing-panel.visible{display:block;}
@@ -387,7 +391,7 @@ tbody tr:hover{background:var(--blue-bg);}
     <div class="toolbar-actions">
       <button class="btn btn-outline btn-sm" onclick="toggleClosing()">&#128197; ปิดบัญชีรายเดือน</button>
       <button class="btn btn-outline btn-sm" onclick="exportCases()">&#128229; ส่งออก</button>
-      <button class="btn btn-primary btn-sm">+ เพิ่มเอกสารใหม่</button>
+      <button class="btn btn-primary btn-sm" onclick="showToast('เปิดฟอร์มเพิ่มเอกสารใหม่')">+ เพิ่มเอกสารใหม่</button>
     </div>
   </div>
 
@@ -419,7 +423,7 @@ tbody tr:hover{background:var(--blue-bg);}
 
   <!-- Batch Operations Toolbar -->
   <div class="batch-toolbar" id="batchToolbar">
-    <input type="checkbox" checked onchange="toggleBatchAll(this)">
+    <input type="checkbox" checked onchange="toggleSelectAll(this)">
     <span>เลือกแล้ว <span class="sel-count" id="batchCount">0</span> รายการ</span>
     <div class="batch-actions">
       <button class="btn btn-sm btn-green" onclick="batchApprove()">&#9989; อนุมัติทั้งหมด</button>
@@ -756,8 +760,10 @@ tbody tr:hover{background:var(--blue-bg);}
 <script>
 function toggleDark(){
   document.body.classList.toggle('dark');
+  localStorage.setItem('darkMode', document.body.classList.contains('dark'));
   const btn=document.querySelector('.dark-toggle');if(btn)btn.textContent=document.body.classList.contains('dark')?'\u2600':'\u263D';
 }
+(function(){if(localStorage.getItem('darkMode')==='true') document.body.classList.add('dark')})();
 
 function switchView(el, view){
   document.querySelectorAll('.view-tab').forEach(t=>t.classList.remove('active'));

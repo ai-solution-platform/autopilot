@@ -530,7 +530,11 @@ h1,h2,h3,h4,h5,h6,.card-title,.stat-value{text-rendering:optimizeLegibility;}
 </div>
 
 <script>
-function toggleDark(){document.body.classList.toggle('dark');}
+function toggleDark(){
+  document.body.classList.toggle('dark');
+  localStorage.setItem('darkMode', document.body.classList.contains('dark'));
+}
+(function(){if(localStorage.getItem('darkMode')==='true') document.body.classList.add('dark')})();
 function setPeriod(btn){document.querySelectorAll('.period-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
 function toggleDrill(el){el.classList.toggle('expanded');}
 // SPRINT-6: Offline Detection

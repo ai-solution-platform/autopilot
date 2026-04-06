@@ -29,6 +29,9 @@
   --radius:    12px;
   --sh1:       0 1px 3px rgba(0,0,0,.06);
   --sh2:       0 4px 16px rgba(0,0,0,.09);
+  --green-bg:  #ECFDF5;
+  --orange-bg: #FFFBEB;
+  --red-bg:    #FEF2F2;
 }
 body.dark {
   --bg:        #0F172A;
@@ -41,6 +44,9 @@ body.dark {
   --blue-lt:   rgba(37,99,235,.18);
   --green-lt:  rgba(5,150,105,.18);
   --red-lt:    rgba(220,38,38,.18);
+  --green-bg:  rgba(5,150,105,.15);
+  --orange-bg: rgba(217,119,6,.15);
+  --red-bg:    rgba(220,38,38,.15);
 }
 
 /* ── RESET ───────────────────────────────────────────────── */
@@ -1134,7 +1140,7 @@ h1,h2,h3,h4,h5,h6,.card-title,.kpi-value{text-rendering:optimizeLegibility;}
       </div>
       <div class="alert-body">
         <div class="alert-pair-select">
-          <button class="pair-btn active">USD/THB</button>
+          <button class="pair-btn active" onclick="setActivePair(this)">USD/THB</button>
           <button class="pair-btn" onclick="setActivePair(this)">EUR/THB</button>
           <button class="pair-btn" onclick="setActivePair(this)">JPY/THB</button>
           <button class="pair-btn" onclick="setActivePair(this)">CNY/THB</button>
