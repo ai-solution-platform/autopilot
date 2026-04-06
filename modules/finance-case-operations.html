@@ -371,47 +371,122 @@ tbody tr:hover{background:var(--blue-bg);}
 
   <!-- Two Column: Monthly Closing + Integration -->
   <div class="two-col">
-    <!-- Monthly Closing Checklist -->
+    <!-- Monthly Closing Checklist (Enhanced) -->
     <div class="closing-section fade-up" id="closingSection">
       <div class="closing-header">
         <h3>&#128197; ปิดบัญชีรายเดือน - เมษายน พ.ศ. 2569</h3>
-        <span style="font-size:0.72rem;color:var(--muted);">กำหนด: 30 เม.ย. 2569</span>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:0.72rem;color:var(--muted);">กำหนด: 30 เม.ย. 2569</span>
+          <span style="font-size:0.62rem;font-weight:700;padding:2px 8px;border-radius:6px;background:var(--orange-bg);color:var(--orange);">&#9203; เหลือ 24 วัน</span>
+        </div>
       </div>
+
+      <!-- Automated Pre-Checks -->
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:12px;">
+        <div style="font-size:.72rem;font-weight:700;margin-bottom:8px;">&#129302; ตรวจสอบอัตโนมัติ (Automated Pre-Checks)</div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
+          <div style="padding:6px 8px;border-radius:5px;background:var(--green-bg);font-size:.62rem;display:flex;align-items:center;gap:4px;">
+            <span style="font-weight:700;color:var(--green);">&#9989; Invoice Matched</span><span style="color:var(--muted);">312/312</span>
+          </div>
+          <div style="padding:6px 8px;border-radius:5px;background:var(--green-bg);font-size:.62rem;display:flex;align-items:center;gap:4px;">
+            <span style="font-weight:700;color:var(--green);">&#9989; Expense Approved</span><span style="color:var(--muted);">89/89</span>
+          </div>
+          <div style="padding:6px 8px;border-radius:5px;background:var(--orange-bg);font-size:.62rem;display:flex;align-items:center;gap:4px;">
+            <span style="font-weight:700;color:var(--orange);">&#9888; AR Outstanding</span><span style="color:var(--muted);">3 รายการ</span>
+          </div>
+          <div style="padding:6px 8px;border-radius:5px;background:var(--green-bg);font-size:.62rem;display:flex;align-items:center;gap:4px;">
+            <span style="font-weight:700;color:var(--green);">&#9989; Bank Reconciled</span><span style="color:var(--muted);">100%</span>
+          </div>
+        </div>
+      </div>
+
       <div class="closing-list">
         <div class="closing-item checked" onclick="toggleClosingItem(this)">
           <div class="ci-check">&#10003;</div>
           <div class="ci-info"><div class="ci-title">1. รวบรวมเอกสารทั้งหมด</div><div class="ci-sub">Invoice 142 + Receipt 89 + Tax 52 + Contract 29 = 312 ฉบับ</div></div>
-          <span class="ci-status" style="background:var(--green-bg);color:var(--green);">&#9989; เสร็จ</span>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+            <span style="font-size:.55rem;font-weight:700;color:var(--muted);background:var(--bg3);padding:1px 5px;border-radius:3px;">10 เม.ย.</span>
+            <span style="font-size:.55rem;font-weight:700;padding:1px 5px;border-radius:3px;background:var(--green-bg);color:var(--green);">สมชาย &#10003;</span>
+            <span class="ci-status" style="background:var(--green-bg);color:var(--green);">&#9989; เสร็จ</span>
+          </div>
         </div>
         <div class="closing-item checked" onclick="toggleClosingItem(this)">
           <div class="ci-check">&#10003;</div>
           <div class="ci-info"><div class="ci-title">2. ตรวจสอบเอกสารทั้งหมด</div><div class="ci-sub">ผ่าน 258/312 | ไม่ผ่าน 7 | กำลังตรวจ 47</div></div>
-          <span class="ci-status" style="background:var(--orange-bg);color:var(--orange);">&#9203; 83%</span>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+            <span style="font-size:.55rem;font-weight:700;color:var(--muted);background:var(--bg3);padding:1px 5px;border-radius:3px;">15 เม.ย.</span>
+            <span style="font-size:.55rem;font-weight:700;padding:1px 5px;border-radius:3px;background:var(--green-bg);color:var(--green);">วิภา &#10003;</span>
+            <span class="ci-status" style="background:var(--orange-bg);color:var(--orange);">&#9203; 83%</span>
+          </div>
         </div>
         <div class="closing-item" onclick="toggleClosingItem(this)">
           <div class="ci-check"></div>
           <div class="ci-info"><div class="ci-title">3. กระทบยอดกับระบบบัญชี</div><div class="ci-sub">Express 180 | PEAK 82 | Prosoft 50</div></div>
-          <span class="ci-status" style="background:var(--blue-bg);color:var(--blue);">&#128260; กำลังทำ</span>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+            <span style="font-size:.55rem;font-weight:700;color:var(--orange);background:var(--orange-bg);padding:1px 5px;border-radius:3px;">20 เม.ย.</span>
+            <span style="font-size:.55rem;font-weight:700;padding:1px 5px;border-radius:3px;background:var(--bg3);color:var(--muted);">ปรีชา — รอ</span>
+            <span class="ci-status" style="background:var(--blue-bg);color:var(--blue);">&#128260; กำลังทำ</span>
+          </div>
         </div>
         <div class="closing-item" onclick="toggleClosingItem(this)">
           <div class="ci-check"></div>
           <div class="ci-info"><div class="ci-title">4. ส่ง e-Tax Invoice กรมสรรพากร</div><div class="ci-sub">ใบกำกับภาษีอิเล็กทรอนิกส์ 52 ฉบับ</div></div>
-          <span class="ci-status" style="background:var(--bg3);color:var(--muted);">&#9203; รอ</span>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+            <span style="font-size:.55rem;font-weight:700;color:var(--muted);background:var(--bg3);padding:1px 5px;border-radius:3px;">25 เม.ย.</span>
+            <span style="font-size:.55rem;font-weight:700;padding:1px 5px;border-radius:3px;background:var(--bg3);color:var(--muted);">auto</span>
+            <span class="ci-status" style="background:var(--bg3);color:var(--muted);">&#9203; รอ</span>
+          </div>
         </div>
         <div class="closing-item" onclick="toggleClosingItem(this)">
           <div class="ci-check"></div>
           <div class="ci-info"><div class="ci-title">5. ส่งรายงานให้ผู้จัดการอนุมัติ</div><div class="ci-sub">รายงานปิดบัญชีประจำเดือน</div></div>
-          <span class="ci-status" style="background:var(--bg3);color:var(--muted);">&#9203; รอ</span>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+            <span style="font-size:.55rem;font-weight:700;color:var(--muted);background:var(--bg3);padding:1px 5px;border-radius:3px;">28 เม.ย.</span>
+            <span style="font-size:.55rem;font-weight:700;padding:1px 5px;border-radius:3px;background:var(--bg3);color:var(--muted);">ผจก. — รอ</span>
+            <span class="ci-status" style="background:var(--bg3);color:var(--muted);">&#9203; รอ</span>
+          </div>
         </div>
         <div class="closing-item" onclick="toggleClosingItem(this)">
           <div class="ci-check"></div>
           <div class="ci-info"><div class="ci-title">6. ปิดงวดบัญชีในระบบ</div><div class="ci-sub">ปิด Express + PEAK + Prosoft</div></div>
-          <span class="ci-status" style="background:var(--bg3);color:var(--muted);">&#9203; รอ</span>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+            <span style="font-size:.55rem;font-weight:700;color:var(--red);background:var(--red-bg);padding:1px 5px;border-radius:3px;">30 เม.ย.</span>
+            <span style="font-size:.55rem;font-weight:700;padding:1px 5px;border-radius:3px;background:var(--bg3);color:var(--muted);">ระบบ</span>
+            <span class="ci-status" style="background:var(--bg3);color:var(--muted);">&#9203; รอ</span>
+          </div>
         </div>
       </div>
       <div class="closing-progress-bar">
         <div class="cpb-track"><div class="cpb-fill" id="closingFill" style="width:33%;"></div></div>
         <span class="cpb-text" id="closingPct">33%</span>
+      </div>
+
+      <!-- Sign-off Summary -->
+      <div style="margin-top:10px;border:1px solid var(--border);border-radius:8px;padding:10px 14px;background:var(--bg2);">
+        <div style="font-size:.72rem;font-weight:700;margin-bottom:8px;">&#128203; การลงนามอนุมัติ (Sign-off)</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+          <div style="display:flex;align-items:center;gap:4px;padding:4px 10px;background:var(--green-bg);border-radius:5px;font-size:.65rem;">
+            <span style="width:18px;height:18px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.5rem;font-weight:800;">&#10003;</span>
+            <div><span style="font-weight:700;color:var(--green);">สมชาย</span> <span style="color:var(--muted);">8 เม.ย.</span></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:4px;padding:4px 10px;background:var(--green-bg);border-radius:5px;font-size:.65rem;">
+            <span style="width:18px;height:18px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.5rem;font-weight:800;">&#10003;</span>
+            <div><span style="font-weight:700;color:var(--green);">วิภา</span> <span style="color:var(--muted);">9 เม.ย.</span></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:4px;padding:4px 10px;background:var(--bg3);border-radius:5px;font-size:.65rem;">
+            <span style="width:18px;height:18px;border-radius:50%;background:var(--border);color:var(--muted);display:flex;align-items:center;justify-content:center;font-size:.5rem;">&#9203;</span>
+            <div><span style="font-weight:700;color:var(--muted);">ปรีชา</span> <span style="color:var(--muted);">รอ</span></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:4px;padding:4px 10px;background:var(--bg3);border-radius:5px;font-size:.65rem;">
+            <span style="width:18px;height:18px;border-radius:50%;background:var(--border);color:var(--muted);display:flex;align-items:center;justify-content:center;font-size:.5rem;">&#9203;</span>
+            <div><span style="font-weight:700;color:var(--muted);">ธนากาน</span> <span style="color:var(--muted);">รอ</span></div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="font-size:.62rem;color:var(--muted);">อนุมัติ:</div>
+          <div style="flex:1;height:5px;background:var(--bg3);border-radius:3px;overflow:hidden;"><div style="width:50%;height:100%;background:var(--green);border-radius:3px;"></div></div>
+          <div style="font-size:.62rem;font-weight:700;color:var(--green);">2/4</div>
+        </div>
       </div>
     </div>
 

@@ -408,6 +408,74 @@ h1,h2,h3,h4,h5,h6,.card-title,.kpi-value{text-rendering:optimizeLegibility;}
 </div>
 </div>
 
+<!-- Document Auto-Numbering Configuration -->
+<div class="card" style="margin-bottom:20px;">
+<div class="card-header">
+<h3>&#128290; ตั้งค่าเลขที่เอกสารอัตโนมัติ (Auto-Numbering)</h3>
+<span class="badge badge-blue">ตั้งค่า</span>
+</div>
+<div style="font-size:.75rem;color:var(--muted);margin-bottom:16px;">กำหนดรูปแบบเลขที่เอกสารสำหรับใบเสนอราคา, ใบแจ้งหนี้ และเอกสารอื่นๆ</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+<div style="border:1px solid var(--border);border-radius:10px;padding:16px;">
+<div style="font-weight:700;font-size:.82rem;margin-bottom:12px;">&#128203; รูปแบบเลขที่เอกสาร (Prefix Pattern)</div>
+<div style="display:flex;flex-direction:column;gap:10px;">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;">
+<div><div style="font-weight:600;font-size:.78rem;">&#128196; ใบเสนอราคา (Quotation)</div><div style="font-size:.68rem;color:var(--muted);margin-top:2px;">Pattern: <code style="background:var(--bg3);padding:1px 4px;border-radius:3px;">QT-{YYYY}-{NNNN}</code></div></div>
+<div style="text-align:right;"><div style="font-size:.68rem;color:var(--muted);">ตัวอย่าง:</div><div style="font-weight:700;font-size:.82rem;color:var(--blue);font-family:'Inter',sans-serif;">QT-2569-0042</div></div>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;">
+<div><div style="font-weight:600;font-size:.78rem;">&#128203; ใบแจ้งหนี้ (Invoice)</div><div style="font-size:.68rem;color:var(--muted);margin-top:2px;">Pattern: <code style="background:var(--bg3);padding:1px 4px;border-radius:3px;">INV-{YYYY}-{NNNN}</code></div></div>
+<div style="text-align:right;"><div style="font-size:.68rem;color:var(--muted);">ตัวอย่าง:</div><div style="font-weight:700;font-size:.82rem;color:var(--green);font-family:'Inter',sans-serif;">INV-2569-0187</div></div>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;">
+<div><div style="font-weight:600;font-size:.78rem;">&#128176; ใบกำกับภาษี (Tax Invoice)</div><div style="font-size:.68rem;color:var(--muted);margin-top:2px;">Pattern: <code style="background:var(--bg3);padding:1px 4px;border-radius:3px;">TI-{YYYY}-{NNNN}</code></div></div>
+<div style="text-align:right;"><div style="font-size:.68rem;color:var(--muted);">ตัวอย่าง:</div><div style="font-weight:700;font-size:.82rem;color:var(--purple);font-family:'Inter',sans-serif;">TI-2569-0312</div></div>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;">
+<div><div style="font-weight:600;font-size:.78rem;">&#128195; ใบวางบิล (Billing Note)</div><div style="font-size:.68rem;color:var(--muted);margin-top:2px;">Pattern: <code style="background:var(--bg3);padding:1px 4px;border-radius:3px;">BN-{YYYY}-{NNNN}</code></div></div>
+<div style="text-align:right;"><div style="font-size:.68rem;color:var(--muted);">ตัวอย่าง:</div><div style="font-weight:700;font-size:.82rem;color:var(--orange);font-family:'Inter',sans-serif;">BN-2569-0098</div></div>
+</div>
+</div>
+</div>
+<div style="border:1px solid var(--border);border-radius:10px;padding:16px;">
+<div style="font-weight:700;font-size:.82rem;margin-bottom:12px;">&#9881; ตัวเลือกการตั้งค่า</div>
+<div style="margin-bottom:12px;">
+<label style="font-size:.72rem;font-weight:600;color:var(--muted);display:block;margin-bottom:4px;">เลือกประเภทเอกสาร</label>
+<select id="docTypeSelect" style="width:100%;padding:7px 12px;border:1px solid var(--border);border-radius:8px;background:var(--card-bg);color:var(--text);font-family:inherit;font-size:.78rem;" onchange="updateAutoNumPreview()">
+<option value="QT">ใบเสนอราคา (QT)</option>
+<option value="INV">ใบแจ้งหนี้ (INV)</option>
+<option value="TI">ใบกำกับภาษี (TI)</option>
+<option value="BN">ใบวางบิล (BN)</option>
+<option value="CN">ใบลดหนี้ (CN)</option>
+<option value="DN">ใบเพิ่มหนี้ (DN)</option>
+<option value="OR">ใบเสร็จ (OR)</option>
+</select>
+</div>
+<div style="margin-bottom:12px;">
+<label style="font-size:.72rem;font-weight:600;color:var(--muted);display:block;margin-bottom:4px;">รหัสสาขา (Branch Code)</label>
+<select id="branchCodeSelect" style="width:100%;padding:7px 12px;border:1px solid var(--border);border-radius:8px;background:var(--card-bg);color:var(--text);font-family:inherit;font-size:.78rem;" onchange="updateAutoNumPreview()">
+<option value="">ไม่ใช้รหัสสาขา</option>
+<option value="HQ">HQ — สำนักงานใหญ่</option>
+<option value="BKK">BKK — กรุงเทพฯ</option>
+<option value="CNX">CNX — เชียงใหม่</option>
+<option value="HKT">HKT — ภูเก็ต</option>
+</select>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;font-size:.78rem;margin-bottom:12px;">
+<span>&#128260; รีเซ็ตเลขรันตามปีงบประมาณ</span>
+<label style="position:relative;display:inline-block;width:40px;height:22px;cursor:pointer;"><input type="checkbox" checked id="fiscalYearReset" onchange="updateAutoNumPreview()" style="opacity:0;width:0;height:0;"><span style="position:absolute;cursor:pointer;inset:0;background:var(--green);border-radius:22px;transition:.2s;"></span></label>
+</div>
+<div style="font-size:.65rem;color:var(--muted);margin-bottom:12px;">เลขรันจะเริ่มที่ 0001 ทุกต้นปีงบประมาณ (ม.ค.)</div>
+<div style="background:var(--blue-bg);border:1px solid rgba(37,99,235,0.2);border-radius:8px;padding:12px;margin-bottom:12px;">
+<div style="font-size:.68rem;color:var(--muted);margin-bottom:4px;">&#128270; ตัวอย่างเลขที่ถัดไป (Auto-increment Preview)</div>
+<div id="autoNumPreview" style="font-size:1.1rem;font-weight:800;color:var(--blue);font-family:'Inter',sans-serif;">QT-2569-0043</div>
+<div style="font-size:.62rem;color:var(--muted);margin-top:4px;">เลขรันปัจจุบัน: 0042 &#8594; ถัดไป: 0043</div>
+</div>
+<button onclick="showToast('&#128290; บันทึกการตั้งค่าเลขที่เอกสารแล้ว')" style="width:100%;padding:8px;border:none;border-radius:8px;background:var(--blue);color:#fff;font-family:inherit;font-size:.78rem;font-weight:600;cursor:pointer;">&#128190; บันทึกการตั้งค่า</button>
+</div>
+</div>
+</div>
+
 <div class="grid-2">
 <!-- WHT Calculator -->
 <div class="card">
@@ -628,6 +696,18 @@ function openTemplatePreview(type){
   document.getElementById('templatePreviewModal').style.display='block';
 }
 function closeTemplatePreview(){document.getElementById('templatePreviewModal').style.display='none';}
+
+// Auto-Numbering Preview
+var autoNumCounters = {QT:42,INV:187,TI:312,BN:98,CN:23,DN:15,OR:56};
+function updateAutoNumPreview(){
+  var docType = document.getElementById('docTypeSelect').value;
+  var branch = document.getElementById('branchCodeSelect').value;
+  var next = (autoNumCounters[docType]||0) + 1;
+  var numStr = ('0000' + next).slice(-4);
+  var preview = docType + (branch ? '-' + branch : '') + '-2569-' + numStr;
+  document.getElementById('autoNumPreview').textContent = preview;
+}
+
 // SPRINT-6: Offline Detection
 (function(){function u(){var i=document.getElementById('offlineIndicator');if(i)i.style.display=navigator.onLine?'none':'flex';}window.addEventListener('offline',u);window.addEventListener('online',u);u();})();
 </script>

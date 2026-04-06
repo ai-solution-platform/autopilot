@@ -301,6 +301,24 @@ select.form-input{cursor:pointer;}
 .notif-filter-tab:hover{color:var(--text);}
 .notif-filter-tab.active{background:var(--blue-l);color:var(--blue);font-weight:600;}
 
+/* Session Timeout Warning */
+.session-timeout-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:3000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
+.session-timeout-overlay.show{opacity:1;pointer-events:all;}
+.session-timeout-dialog{background:var(--white);border:1px solid var(--border);border-radius:18px;padding:32px;max-width:420px;width:90%;box-shadow:var(--sh3);text-align:center;transform:scale(.95);transition:transform .3s;}
+.session-timeout-overlay.show .session-timeout-dialog{transform:scale(1);}
+.session-timeout-icon{font-size:3rem;margin-bottom:12px;}
+.session-timeout-title{font-size:1.1rem;font-weight:700;margin-bottom:8px;}
+.session-timeout-msg{font-size:.85rem;color:var(--muted);margin-bottom:6px;line-height:1.6;}
+.session-timeout-countdown{font-size:2rem;font-weight:800;color:var(--red);font-family:'Inter',sans-serif;margin:12px 0;}
+.session-timeout-actions{display:flex;gap:10px;justify-content:center;margin-top:16px;}
+
+/* Notification Pulse */
+@keyframes notifPulse{0%{box-shadow:0 0 0 0 rgba(37,99,235,.4);}70%{box-shadow:0 0 0 8px rgba(37,99,235,0);}100%{box-shadow:0 0 0 0 rgba(37,99,235,0);}}
+.notif-item.new-notif{animation:notifPulse 1.5s ease-out;}
+.notif-badge-count{position:absolute;top:4px;right:4px;min-width:16px;height:16px;background:var(--red);color:#fff;font-size:.58rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid var(--white);line-height:1;}
+.notif-mute-btn{border:none;background:none;cursor:pointer;font-size:1rem;padding:4px;border-radius:6px;transition:all .15s;color:var(--muted);}
+.notif-mute-btn:hover{background:var(--bg);color:var(--text);}
+
 /* Date Format Toggle */
 .date-format-toggle{display:flex;align-items:center;gap:8px;padding:8px 12px;margin-bottom:4px;}
 .date-format-toggle .dft-label{font-size:.65rem;color:var(--muted);font-weight:500;}
@@ -518,9 +536,9 @@ body.training-mode .header{border-bottom:2px solid var(--orange);}
         </div>
         <div class="search-input" style="width:220px;cursor:pointer;" onclick="openCmdPalette()"><span>🔍</span><input placeholder="ค้นหา... (Ctrl+K)" style="cursor:pointer;" readonly /></div>
         <div style="position:relative;">
-            <button class="header-btn" onclick="toggleNotif()">🔔<span class="dot"></span></button>
+            <button class="header-btn" onclick="toggleNotif()" style="position:relative;">🔔<span class="notif-badge-count" id="notifBadge">3</span></button>
             <div class="notif-panel" id="notifPanel">
-                <div class="notif-header">Notifications <span class="text-xs text-muted">3 new</span></div>
+                <div class="notif-header">Notifications <span style="display:flex;align-items:center;gap:6px;"><span class="text-xs text-muted" id="notifCountLabel">3 new</span><button class="notif-mute-btn" id="notifMuteBtn" onclick="toggleNotifSound(event)" title="ปิด/เปิดเสียงแจ้งเตือน">🔔</button></span></div>
                 <div class="notif-filters">
                     <button class="notif-filter-tab active" onclick="filterNotifs('all',this)">ทั้งหมด</button>
                     <button class="notif-filter-tab" onclick="filterNotifs('urgent',this)">🔴 เร่งด่วน</button>
@@ -2203,6 +2221,20 @@ body.training-mode .header{border-bottom:2px solid var(--orange);}
 <div class="toast-container" id="toastContainer"></div>
 <div class="chart-tip" id="chartTip"></div>
 
+<!-- Session Timeout Warning -->
+<div class="session-timeout-overlay" id="sessionTimeoutOverlay">
+  <div class="session-timeout-dialog">
+    <div class="session-timeout-icon">&#9203;</div>
+    <div class="session-timeout-title">&#3648;&#3595;&#3626;&#3594;&#3633;&#3609;&#3651;&#3585;&#3621;&#3657;&#3627;&#3617;&#3604;&#3629;&#3634;&#3618;&#3640;</div>
+    <div class="session-timeout-msg">&#3588;&#3640;&#3603;&#3652;&#3617;&#3656;&#3652;&#3604;&#3657;&#3651;&#3594;&#3657;&#3591;&#3634;&#3609;&#3619;&#3632;&#3610;&#3610;&#3617;&#3634;&#3626;&#3633;&#3585;&#3614;&#3633;&#3585; &#3619;&#3632;&#3610;&#3610;&#3592;&#3632;&#3629;&#3629;&#3585;&#3592;&#3634;&#3585;&#3619;&#3632;&#3610;&#3610;&#3650;&#3604;&#3618;&#3629;&#3633;&#3605;&#3650;&#3609;&#3617;&#3633;&#3605;&#3636;&#3651;&#3609;</div>
+    <div class="session-timeout-countdown" id="sessionCountdown">5:00</div>
+    <div class="session-timeout-actions">
+      <button class="btn btn-primary" onclick="extendSession()">&#128260; &#3605;&#3656;&#3629;&#3629;&#3634;&#3618;&#3640;&#3648;&#3595;&#3626;&#3594;&#3633;&#3609;</button>
+      <button class="btn btn-outline" onclick="sessionLogout()" style="border:1px solid var(--border);color:var(--text2);">&#128682; &#3629;&#3629;&#3585;&#3592;&#3634;&#3585;&#3619;&#3632;&#3610;&#3610;</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // ═══ DARK MODE ═══
 function toggleDark(){document.body.classList.toggle('dark');const d=document.body.classList.contains('dark');localStorage.setItem('darkMode',d);document.querySelector('.dark-toggle').textContent=d?'☀️':'🌙';}
@@ -3682,6 +3714,133 @@ var saveCount = 0;
       }
     }
   });
+})();
+
+// ═══ SESSION TIMEOUT WARNING ═══
+(function() {
+  var SESSION_IDLE_LIMIT = 25 * 60 * 1000; // 25 minutes
+  var COUNTDOWN_DURATION = 5 * 60; // 5 minutes in seconds
+  var idleTimer = null;
+  var countdownTimer = null;
+  var countdownSeconds = COUNTDOWN_DURATION;
+
+  // Store session start
+  if (!sessionStorage.getItem('sessionStart')) {
+    sessionStorage.setItem('sessionStart', Date.now().toString());
+  }
+
+  function resetIdleTimer() {
+    clearTimeout(idleTimer);
+    // If countdown is showing, close it
+    var overlay = document.getElementById('sessionTimeoutOverlay');
+    if (overlay && overlay.classList.contains('show')) return; // don't reset while dialog open
+    idleTimer = setTimeout(showSessionWarning, SESSION_IDLE_LIMIT);
+  }
+
+  function showSessionWarning() {
+    countdownSeconds = COUNTDOWN_DURATION;
+    var overlay = document.getElementById('sessionTimeoutOverlay');
+    if (overlay) overlay.classList.add('show');
+    updateCountdownDisplay();
+    countdownTimer = setInterval(function() {
+      countdownSeconds--;
+      if (countdownSeconds <= 0) {
+        clearInterval(countdownTimer);
+        sessionLogout();
+        return;
+      }
+      updateCountdownDisplay();
+    }, 1000);
+  }
+
+  function updateCountdownDisplay() {
+    var el = document.getElementById('sessionCountdown');
+    if (!el) return;
+    var m = Math.floor(countdownSeconds / 60);
+    var s = countdownSeconds % 60;
+    el.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+    if (countdownSeconds <= 60) el.style.color = 'var(--red)';
+    else el.style.color = 'var(--orange)';
+  }
+
+  window.extendSession = function() {
+    clearInterval(countdownTimer);
+    var overlay = document.getElementById('sessionTimeoutOverlay');
+    if (overlay) overlay.classList.remove('show');
+    sessionStorage.setItem('sessionStart', Date.now().toString());
+    resetIdleTimer();
+    showToast('\u2705', '\u0E40\u0E0B\u0E2A\u0E0A\u0E31\u0E19\u0E15\u0E48\u0E2D\u0E2D\u0E32\u0E22\u0E38', '\u0E40\u0E0B\u0E2A\u0E0A\u0E31\u0E19\u0E44\u0E14\u0E49\u0E23\u0E31\u0E1A\u0E01\u0E32\u0E23\u0E15\u0E48\u0E2D\u0E2D\u0E32\u0E22\u0E38\u0E41\u0E25\u0E49\u0E27');
+  };
+
+  window.sessionLogout = function() {
+    clearInterval(countdownTimer);
+    sessionStorage.clear();
+    var overlay = document.getElementById('sessionTimeoutOverlay');
+    if (overlay) overlay.classList.remove('show');
+    showToast('\uD83D\uDEAA', '\u0E2D\u0E2D\u0E01\u0E08\u0E32\u0E01\u0E23\u0E30\u0E1A\u0E1A', '\u0E01\u0E33\u0E25\u0E31\u0E07\u0E2D\u0E2D\u0E01\u0E08\u0E32\u0E01\u0E23\u0E30\u0E1A\u0E1A...');
+  };
+
+  // Reset on user interaction
+  ['mousemove','mousedown','keypress','touchstart','scroll','click'].forEach(function(evt) {
+    document.addEventListener(evt, function() {
+      var overlay = document.getElementById('sessionTimeoutOverlay');
+      if (!overlay || !overlay.classList.contains('show')) {
+        resetIdleTimer();
+      }
+    }, { passive: true });
+  });
+
+  resetIdleTimer();
+})();
+
+// ═══ NOTIFICATION SOUND TOGGLE ═══
+(function() {
+  var muted = localStorage.getItem('notifSoundMuted') === 'true';
+  var muteBtn = document.getElementById('notifMuteBtn');
+  var badge = document.getElementById('notifBadge');
+
+  function updateMuteUI() {
+    if (muteBtn) {
+      muteBtn.textContent = muted ? '\uD83D\uDD07' : '\uD83D\uDD14';
+      muteBtn.title = muted ? '\u0E40\u0E1B\u0E34\u0E14\u0E40\u0E2A\u0E35\u0E22\u0E07\u0E41\u0E08\u0E49\u0E07\u0E40\u0E15\u0E37\u0E2D\u0E19' : '\u0E1B\u0E34\u0E14\u0E40\u0E2A\u0E35\u0E22\u0E07\u0E41\u0E08\u0E49\u0E07\u0E40\u0E15\u0E37\u0E2D\u0E19';
+    }
+  }
+
+  window.toggleNotifSound = function(e) {
+    if (e) e.stopPropagation();
+    muted = !muted;
+    localStorage.setItem('notifSoundMuted', muted.toString());
+    updateMuteUI();
+    showToast(muted ? '\uD83D\uDD07' : '\uD83D\uDD14', '\u0E40\u0E2A\u0E35\u0E22\u0E07\u0E41\u0E08\u0E49\u0E07\u0E40\u0E15\u0E37\u0E2D\u0E19', muted ? '\u0E1B\u0E34\u0E14\u0E40\u0E2A\u0E35\u0E22\u0E07\u0E41\u0E08\u0E49\u0E07\u0E40\u0E15\u0E37\u0E2D\u0E19\u0E41\u0E25\u0E49\u0E27' : '\u0E40\u0E1B\u0E34\u0E14\u0E40\u0E2A\u0E35\u0E22\u0E07\u0E41\u0E08\u0E49\u0E07\u0E40\u0E15\u0E37\u0E2D\u0E19\u0E41\u0E25\u0E49\u0E27');
+  };
+
+  window.updateNotifBadge = function(count) {
+    if (badge) {
+      badge.textContent = count;
+      badge.style.display = count > 0 ? 'flex' : 'none';
+    }
+    var label = document.getElementById('notifCountLabel');
+    if (label) label.textContent = count + ' new';
+  };
+
+  // Add pulse animation to new notifications
+  window.addNotification = function(iconBg, icon, text, time, type) {
+    var panel = document.getElementById('notifPanel');
+    if (!panel) return;
+    var items = panel.querySelectorAll('.notif-item');
+    var newItem = document.createElement('div');
+    newItem.className = 'notif-item new-notif';
+    newItem.setAttribute('data-notif-type', type || 'info');
+    newItem.innerHTML = '<div class="notif-icon" style="background:' + iconBg + ';">' + icon + '</div><div><div class="notif-text">' + text + '</div><div class="notif-time">' + (time || 'just now') + '</div></div>';
+    var firstItem = panel.querySelector('.notif-item');
+    if (firstItem) panel.insertBefore(newItem, firstItem);
+    else panel.appendChild(newItem);
+    // Update badge
+    var currentCount = parseInt(badge ? badge.textContent : '0') || 0;
+    updateNotifBadge(currentCount + 1);
+  };
+
+  updateMuteUI();
 })();
 
 // Auto-load Home on startup
