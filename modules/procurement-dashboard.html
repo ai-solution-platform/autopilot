@@ -548,7 +548,7 @@ h1,h2,h3,h4,h5,h6,.card-title,.kpi-value,.page-title-area h1{text-rendering:opti
 function toggleDark(){
   document.body.classList.toggle('dark');
   const isDark = document.body.classList.contains('dark');
-  localStorage.setItem('procurement-dark', isDark ? '1' : '0');
+  localStorage.setItem('darkMode', isDark ? 'true' : 'false');
   const btn = document.getElementById('darkBtn');
   if (btn) btn.innerHTML = isDark
     ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2m-9-11h2m18 0h2m-4.22-6.78l-1.42 1.42M6.34 17.66l-1.42 1.42m0-14.14l1.42 1.42m11.32 11.32l1.42 1.42"/></svg>'
@@ -556,7 +556,7 @@ function toggleDark(){
   // Re-render charts with new colors
   renderAllCharts();
 }
-if(localStorage.getItem('procurement-dark')==='1'){document.body.classList.add('dark');toggleDark();toggleDark();}
+if(localStorage.getItem('darkMode')==='true'){document.body.classList.add('dark');}
 
 // ========== View Toggle ==========
 function setView(btn, view){
@@ -971,10 +971,18 @@ function renderAllCharts(){
 // ========== Init ==========
 document.addEventListener('DOMContentLoaded', function(){
   // Apply saved dark mode
-  if(localStorage.getItem('procurement-dark')==='1'){
+  if(localStorage.getItem('darkMode')==='true'){
     document.body.classList.add('dark');
     const btn = document.getElementById('darkBtn');
     if (btn) btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2m-9-11h2m18 0h2m-4.22-6.78l-1.42 1.42M6.34 17.66l-1.42 1.42m0-14.14l1.42 1.42m11.32 11.32l1.42 1.42"/></svg>';
+  }
+  // Inherit dark mode from parent iframe
+  if (window.parent !== window) {
+    try {
+      if (window.parent.document.body.classList.contains('dark')) {
+        document.body.classList.add('dark');
+      }
+    } catch(e) {}
   }
   renderAllCharts();
 

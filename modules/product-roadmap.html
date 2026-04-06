@@ -664,13 +664,15 @@ function showToast(icon, title, msg) {
 
 // ===== DARK MODE =====
 (function() {
-  if (localStorage.getItem('autopilot-dark') === '1' || window.parent !== window) {
+  if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('dark');
+  // Inherit dark mode from parent iframe
+  if (window.parent !== window) {
     try {
-      var p = window.parent.document.body;
-      if (p && p.classList.contains('dark')) document.body.classList.add('dark');
+      if (window.parent.document.body.classList.contains('dark')) {
+        document.body.classList.add('dark');
+      }
     } catch(e) {}
   }
-  if (localStorage.getItem('autopilot-dark') === '1') document.body.classList.add('dark');
 })();
 
 // ===== INIT =====
