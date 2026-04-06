@@ -50,7 +50,11 @@ body {
   overflow-x: hidden;
   font-size: 14px;
   transition: background .3s, color .3s;
+  font-kerning: normal;
+  font-feature-settings: "kern" 1;
+  text-rendering: optimizeLegibility;
 }
+h1,h2,h3,h4,h5,h6,.card-title{text-rendering:optimizeLegibility;}
 .dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:all .2s;}
 .dark-toggle:hover{box-shadow:var(--shadow2);transform:scale(1.1);}
 .breadcrumb-nav{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-dim);max-width:1200px;margin:0 auto;padding:12px 24px 0;}
@@ -1545,28 +1549,65 @@ body {
     <label>&#128197; วันที่: <strong id="assignedDate">5 เม.ย. 2569</strong></label>
   </div>
 
-  <!-- Thai Document Type Selector -->
+  <!-- Thai Document Type Selector (Enhanced with Thai freight doc types) -->
   <div class="thai-doc-selector" id="thaiDocSelector">
     <button class="thai-doc-btn active" onclick="selectThaiDocType(this,'freight')">
       <span class="doc-icon">&#128196;</span>
-      <div>Bill of Lading<span class="doc-label-th">ใบตราส่งสินค้า</span></div>
+      <div>&#3651;&#3610;&#3605;&#3619;&#3634;&#3626;&#3656;&#3591;<span class="doc-label-th">Bill of Lading (B/L)</span></div>
     </button>
-    <button class="thai-doc-btn" onclick="selectThaiDocType(this,'delivery')">
+    <button class="thai-doc-btn" onclick="selectThaiDocType(this,'waybill')">
+      <span class="doc-icon">&#128666;</span>
+      <div>&#3651;&#3610;&#3586;&#3609;&#3626;&#3656;&#3591;<span class="doc-label-th">Waybill / &#3651;&#3610;&#3619;&#3633;&#3610;&#3586;&#3609;&#3626;&#3656;&#3591;&#3626;&#3636;&#3609;&#3588;&#3657;&#3634;</span></div>
+    </button>
+    <button class="thai-doc-btn" onclick="selectThaiDocType(this,'transport')">
       <span class="doc-icon">&#128230;</span>
-      <div>Delivery Note<span class="doc-label-th">ใบส่งมอบสินค้า</span></div>
+      <div>&#3651;&#3610;&#3585;&#3635;&#3585;&#3633;&#3610;&#3585;&#3634;&#3619;&#3586;&#3609;&#3626;&#3656;&#3591;<span class="doc-label-th">Transport Invoice / &#3588;&#3656;&#3634;&#3586;&#3609;&#3626;&#3656;&#3591;</span></div>
     </button>
     <button class="thai-doc-btn" onclick="selectThaiDocType(this,'customs')">
       <span class="doc-icon">&#128220;</span>
-      <div>Customs Declaration<span class="doc-label-th">ใบขนสินค้า กรมศุลกากร</span></div>
+      <div>&#3651;&#3610;&#3586;&#3609;&#3626;&#3636;&#3609;&#3588;&#3657;&#3634;<span class="doc-label-th">Customs Declaration &#3585;&#3619;&#3617;&#3624;&#3640;&#3621;&#3585;&#3634;&#3585;&#3619;</span></div>
     </button>
     <button class="thai-doc-btn" onclick="selectThaiDocType(this,'invoice')">
       <span class="doc-icon">&#128176;</span>
-      <div>Tax Invoice<span class="doc-label-th">ใบกำกับภาษี</span></div>
+      <div>Tax Invoice<span class="doc-label-th">&#3651;&#3610;&#3585;&#3635;&#3585;&#3633;&#3610;&#3616;&#3634;&#3625;&#3637;</span></div>
+    </button>
+    <button class="thai-doc-btn" onclick="selectThaiDocType(this,'delivery')">
+      <span class="doc-icon">&#128230;</span>
+      <div>Delivery Note<span class="doc-label-th">&#3651;&#3610;&#3626;&#3656;&#3591;&#3617;&#3629;&#3610;&#3626;&#3636;&#3609;&#3588;&#3657;&#3634;</span></div>
     </button>
     <button class="thai-doc-btn" onclick="selectThaiDocType(this,'packing')">
       <span class="doc-icon">&#128230;</span>
-      <div>Packing List<span class="doc-label-th">ใบรายการบรรจุ</span></div>
+      <div>Packing List<span class="doc-label-th">&#3651;&#3610;&#3619;&#3634;&#3618;&#3585;&#3634;&#3619;&#3610;&#3619;&#3619;&#3592;&#3640;</span></div>
     </button>
+  </div>
+
+  <!-- Thai Carrier Name Extraction -->
+  <div class="logistics-fields" style="margin-bottom:16px;">
+    <h3>&#128666; &#3605;&#3619;&#3623;&#3592;&#3592;&#3633;&#3610;&#3612;&#3641;&#3657;&#3651;&#3627;&#3657;&#3610;&#3619;&#3636;&#3585;&#3634;&#3619;&#3586;&#3609;&#3626;&#3656;&#3591;&#3652;&#3607;&#3618; (Thai Carrier Detection)</h3>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
+      <div style="padding:10px 16px;background:var(--green);color:#fff;border-radius:8px;font-size:.78rem;font-weight:700;display:flex;align-items:center;gap:6px;">&#9989; Kerry Express</div>
+      <div style="padding:10px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;font-size:.78rem;font-weight:600;color:var(--text-dim);cursor:pointer;">Flash Express</div>
+      <div style="padding:10px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;font-size:.78rem;font-weight:600;color:var(--text-dim);cursor:pointer;">J&T Express</div>
+      <div style="padding:10px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;font-size:.78rem;font-weight:600;color:var(--text-dim);cursor:pointer;">&#3652;&#3611;&#3619;&#3625;&#3603;&#3637;&#3618;&#3660;&#3652;&#3607;&#3618; / EMS</div>
+      <div style="padding:10px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;font-size:.78rem;font-weight:600;color:var(--text-dim);cursor:pointer;">BEST Express</div>
+      <div style="padding:10px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;font-size:.78rem;font-weight:600;color:var(--text-dim);cursor:pointer;">DHL Express TH</div>
+      <div style="padding:10px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;font-size:.78rem;font-weight:600;color:var(--text-dim);cursor:pointer;">SCG Logistics</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+      <div style="padding:12px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;">
+        <div style="font-size:.65rem;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">&#3612;&#3641;&#3657;&#3651;&#3627;&#3657;&#3610;&#3619;&#3636;&#3585;&#3634;&#3619; (&#3605;&#3619;&#3623;&#3592;&#3592;&#3633;&#3610; AI)</div>
+        <div style="font-size:.92rem;font-weight:700;">Kerry Express (Thailand)</div>
+        <span style="display:inline-block;margin-top:4px;padding:2px 8px;background:rgba(5,150,105,.08);border:1px solid rgba(5,150,105,.2);border-radius:8px;font-size:9px;color:var(--green);font-weight:600;">&#3588;&#3623;&#3634;&#3617;&#3617;&#3633;&#3656;&#3609;&#3651;&#3592; 96.8%</span>
+      </div>
+      <div style="padding:12px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;">
+        <div style="font-size:.65rem;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">&#3648;&#3621;&#3586;&#3651;&#3610;&#3629;&#3609;&#3640;&#3597;&#3634;&#3605;&#3586;&#3609;&#3626;&#3656;&#3591;</div>
+        <div style="font-size:.92rem;font-weight:700;font-family:'Inter',sans-serif;">TH-TRANS-2565-04521</div>
+      </div>
+      <div style="padding:12px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;">
+        <div style="font-size:.65rem;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">&#3611;&#3619;&#3632;&#3648;&#3616;&#3607;&#3610;&#3619;&#3636;&#3585;&#3634;&#3619;</div>
+        <div style="font-size:.92rem;font-weight:700;">&#3604;&#3656;&#3623;&#3609;&#3614;&#3636;&#3648;&#3624;&#3625; (1-2 &#3623;&#3633;&#3609;&#3607;&#3635;&#3585;&#3634;&#3619;)</div>
+      </div>
+    </div>
   </div>
 
   <!-- Upload Zone -->

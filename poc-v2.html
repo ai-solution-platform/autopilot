@@ -384,6 +384,7 @@ body.training-mode .header{border-bottom:2px solid var(--orange);}
 .usage-bar-label{display:flex;justify-content:space-between;font-size:.75rem;margin-bottom:4px;}
 .usage-bar{width:100%;height:8px;background:var(--bg);border-radius:4px;overflow:hidden;}
 .usage-fill{height:100%;border-radius:4px;transition:width .4s ease;}
+.hover-border-blue{transition:all .15s;}.hover-border-blue:hover{border-color:var(--blue) !important;box-shadow:0 4px 12px rgba(0,0,0,.06);}
 </style>
 </head>
 <body>
@@ -1160,7 +1161,7 @@ body.training-mode .header{border-bottom:2px solid var(--orange);}
     <div class="grid-2">
         <div class="card"><div class="card-title">💳 Top Up Tokens</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;">
-                <div style="border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:all .15s;" onclick="showModal('topup','100K')" onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='var(--border)'"><div style="font-weight:700;font-size:1.1rem;">100K</div><div class="text-xs text-muted">Tokens</div><div style="font-weight:700;color:var(--blue);margin-top:4px;">฿2,500</div></div>
+                <div style="border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:all .15s;" onclick="showModal('topup','100K')" class="hover-border-blue"><div style="font-weight:700;font-size:1.1rem;">100K</div><div class="text-xs text-muted">Tokens</div><div style="font-weight:700;color:var(--blue);margin-top:4px;">฿2,500</div></div>
                 <div style="border:2px solid var(--purple);border-radius:10px;padding:16px;text-align:center;cursor:pointer;background:var(--purple-l);" onclick="showModal('topup','1M')"><div style="font-weight:700;font-size:1.1rem;">1M</div><div class="text-xs text-muted">Tokens ⭐</div><div style="font-weight:700;color:var(--purple);margin-top:4px;">฿16,500</div></div>
             </div>
         </div>
@@ -1355,6 +1356,378 @@ body.training-mode .header{border-bottom:2px solid var(--orange);}
             </div>
             <div class="form-group"><label class="form-label">IP Whitelist</label><input class="form-input" placeholder="e.g., 203.150.x.x/24" /></div>
             <button class="btn btn-primary btn-sm mt-8" onclick="showToast('✅','Saved','Security settings updated')">บันทึก</button>
+        </div>
+
+        <!-- SPRINT-4: LINE Official Account Integration -->
+        <div class="card settings-card" data-settings-keywords="line official messaging api liff qr ไลน์ แชท ข้อความ" role="region" aria-label="LINE Official Account Integration" style="grid-column:1/-1;">
+            <div class="card-title">💬 LINE Official Account Integration</div>
+            <div style="font-size:.78rem;color:var(--muted);margin-bottom:14px;">เชื่อมต่อ LINE Messaging API สำหรับแจ้งเตือนและอนุมัติผ่าน LINE</div>
+
+            <!-- Connection Status -->
+            <div style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--green-l);border:1px solid var(--green);border-radius:10px;margin-bottom:16px;">
+                <span style="font-size:1.2rem;">✅</span>
+                <div style="flex:1;">
+                    <div style="font-size:.82rem;font-weight:700;color:var(--green);">เชื่อมต่อ LINE Official Account สำเร็จ</div>
+                    <div style="font-size:.68rem;color:var(--muted);">@autopilot-ants | Followers: 1,247 | เชื่อมต่อเมื่อ 15 มี.ค. 2569</div>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="showToast('🔄','LINE','กำลังรีเฟรชการเชื่อมต่อ...')">🔄 รีเฟรช</button>
+            </div>
+
+            <!-- LINE Messaging API Config -->
+            <div style="border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px;">
+                <div style="font-size:.78rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px;">🔑 LINE Messaging API Configuration</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">Channel ID</label>
+                        <div style="display:flex;gap:6px;"><input class="form-input" value="1657832490" style="font-family:'Inter',monospace;font-size:.75rem;" readonly><button class="btn btn-outline btn-sm" onclick="showToast('📋','Copied','คัดลอก Channel ID แล้ว')">📋</button></div>
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">Channel Secret</label>
+                        <div style="display:flex;gap:6px;"><input class="form-input" value="●●●●●●●●●●●●a3f8" type="password" style="font-family:'Inter',monospace;font-size:.75rem;" readonly><button class="btn btn-outline btn-sm" onclick="showToast('👁️','Secret','แสดง/ซ่อน Secret')">👁️</button></div>
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">Channel Access Token</label>
+                        <div style="display:flex;gap:6px;"><input class="form-input" value="●●●●●●●●●●●●●●●●●●●●●●●●x7k2" type="password" style="font-family:'Inter',monospace;font-size:.75rem;" readonly><button class="btn btn-outline btn-sm" onclick="showToast('🔄','Token','Regenerate Token สำเร็จ')">🔄</button></div>
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">Webhook URL</label>
+                        <div style="display:flex;gap:6px;"><input class="form-input" value="https://api.autopilot.ai/line/webhook" style="font-family:'Inter',monospace;font-size:.75rem;" readonly><button class="btn btn-outline btn-sm" onclick="showToast('📋','Copied','คัดลอก Webhook URL แล้ว')">📋</button></div>
+                    </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;margin-top:10px;font-size:.72rem;color:var(--green);font-weight:600;">
+                    <span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;"></span> Webhook Verified — Last ping: 2 นาทีที่แล้ว
+                </div>
+            </div>
+
+            <!-- LINE Notification Toggles Per Event -->
+            <div style="border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px;">
+                <div style="font-size:.78rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px;">🔔 การแจ้งเตือนผ่าน LINE ตามประเภทเหตุการณ์</div>
+                <div style="display:grid;gap:8px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg);border-radius:8px;font-size:.78rem;">
+                        <span>📋 ค่าใช้จ่ายใหม่ถูกส่งเข้าระบบ (Expense Submitted)</span>
+                        <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg);border-radius:8px;font-size:.78rem;">
+                        <span>✅ รอการอนุมัติ (Approval Needed)</span>
+                        <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg);border-radius:8px;font-size:.78rem;">
+                        <span>💰 การชำระเงินเสร็จสิ้น (Payment Completed)</span>
+                        <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg);border-radius:8px;font-size:.78rem;">
+                        <span>📄 เอกสารพร้อมตรวจสอบ (Document Ready for Review)</span>
+                        <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
+                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg);border-radius:8px;font-size:.78rem;">
+                        <span>🚚 สถานะการจัดส่งอัปเดต (Shipment Status Update)</span>
+                        <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg);border-radius:8px;font-size:.78rem;">
+                        <span>🔴 SLA เกินกำหนด (SLA Overdue Alert)</span>
+                        <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg);border-radius:8px;font-size:.78rem;">
+                        <span>📊 สรุปรายวัน (Daily Summary Report)</span>
+                        <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LINE LIFF QR Code -->
+            <div style="border:1px solid var(--border);border-radius:10px;padding:16px;">
+                <div style="font-size:.78rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px;">📱 LINE LIFF App — อนุมัติด่วนผ่านมือถือ</div>
+                <div style="display:grid;grid-template-columns:160px 1fr;gap:20px;align-items:start;">
+                    <!-- QR Code Placeholder -->
+                    <div style="text-align:center;">
+                        <div style="width:140px;height:140px;background:var(--bg);border:2px dashed var(--border);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 8px;">
+                            <svg width="100" height="100" viewBox="0 0 100 100">
+                                <rect x="5" y="5" width="25" height="25" rx="3" fill="var(--text)" opacity=".8"/>
+                                <rect x="10" y="10" width="15" height="15" rx="2" fill="var(--white)"/>
+                                <rect x="13" y="13" width="9" height="9" rx="1" fill="var(--text)" opacity=".8"/>
+                                <rect x="70" y="5" width="25" height="25" rx="3" fill="var(--text)" opacity=".8"/>
+                                <rect x="75" y="10" width="15" height="15" rx="2" fill="var(--white)"/>
+                                <rect x="78" y="13" width="9" height="9" rx="1" fill="var(--text)" opacity=".8"/>
+                                <rect x="5" y="70" width="25" height="25" rx="3" fill="var(--text)" opacity=".8"/>
+                                <rect x="10" y="75" width="15" height="15" rx="2" fill="var(--white)"/>
+                                <rect x="13" y="78" width="9" height="9" rx="1" fill="var(--text)" opacity=".8"/>
+                                <rect x="35" y="5" width="6" height="6" rx="1" fill="var(--text)" opacity=".5"/>
+                                <rect x="45" y="5" width="6" height="6" rx="1" fill="var(--text)" opacity=".5"/>
+                                <rect x="55" y="5" width="6" height="6" rx="1" fill="var(--text)" opacity=".5"/>
+                                <rect x="35" y="15" width="6" height="6" rx="1" fill="var(--text)" opacity=".4"/>
+                                <rect x="50" y="15" width="6" height="6" rx="1" fill="var(--text)" opacity=".6"/>
+                                <rect x="35" y="35" width="6" height="6" rx="1" fill="var(--text)" opacity=".5"/>
+                                <rect x="45" y="40" width="6" height="6" rx="1" fill="var(--text)" opacity=".5"/>
+                                <rect x="55" y="35" width="6" height="6" rx="1" fill="var(--text)" opacity=".4"/>
+                                <rect x="65" y="40" width="6" height="6" rx="1" fill="var(--text)" opacity=".6"/>
+                                <rect x="35" y="50" width="6" height="6" rx="1" fill="var(--text)" opacity=".5"/>
+                                <rect x="50" y="50" width="6" height="6" rx="1" fill="var(--text)" opacity=".4"/>
+                                <rect x="65" y="55" width="6" height="6" rx="1" fill="var(--text)" opacity=".5"/>
+                                <rect x="75" y="50" width="6" height="6" rx="1" fill="var(--text)" opacity=".6"/>
+                                <rect x="85" y="45" width="6" height="6" rx="1" fill="var(--text)" opacity=".5"/>
+                                <rect x="40" y="65" width="6" height="6" rx="1" fill="var(--text)" opacity=".5"/>
+                                <rect x="55" y="70" width="6" height="6" rx="1" fill="var(--text)" opacity=".4"/>
+                                <rect x="70" y="70" width="6" height="6" rx="1" fill="var(--text)" opacity=".6"/>
+                                <rect x="80" y="75" width="6" height="6" rx="1" fill="var(--text)" opacity=".5"/>
+                                <rect x="85" y="85" width="6" height="6" rx="1" fill="var(--text)" opacity=".5"/>
+                                <rect x="55" y="85" width="6" height="6" rx="1" fill="var(--text)" opacity=".4"/>
+                            </svg>
+                        </div>
+                        <div style="font-size:.68rem;color:var(--muted);">สแกน QR เพื่อเปิด LIFF App</div>
+                    </div>
+                    <div>
+                        <div style="font-size:.78rem;color:var(--text2);line-height:1.8;margin-bottom:12px;">
+                            <div><strong>LIFF ID:</strong> <span style="font-family:'Inter',monospace;">1657832490-abcdefgh</span></div>
+                            <div><strong>LIFF URL:</strong> <span style="font-family:'Inter',monospace;">https://liff.line.me/1657832490-abcdefgh</span></div>
+                            <div><strong>สถานะ:</strong> <span style="color:var(--green);font-weight:700;">Active</span></div>
+                        </div>
+                        <div style="font-size:.72rem;color:var(--muted);margin-bottom:12px;">ฟีเจอร์ LIFF App:</div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:.72rem;">
+                            <div style="padding:6px 10px;background:var(--blue-l);border-radius:6px;color:var(--blue);font-weight:600;">✅ Quick Approve</div>
+                            <div style="padding:6px 10px;background:var(--green-l);border-radius:6px;color:var(--green);font-weight:600;">📄 ดูเอกสาร</div>
+                            <div style="padding:6px 10px;background:var(--purple-l);border-radius:6px;color:var(--purple);font-weight:600;">💬 แชทกับทีม</div>
+                            <div style="padding:6px 10px;background:var(--orange-l);border-radius:6px;color:var(--orange);font-weight:600;">📊 ดูรายงาน</div>
+                        </div>
+                        <div style="display:flex;gap:8px;margin-top:12px;">
+                            <button class="btn btn-primary btn-sm" onclick="showToast('📱','LIFF','ส่ง QR Code ผ่าน LINE แล้ว')">📤 ส่ง QR ผ่าน LINE</button>
+                            <button class="btn btn-outline btn-sm" onclick="showToast('📋','LIFF','คัดลอก LIFF URL แล้ว')">📋 คัดลอก URL</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary btn-sm mt-12" onclick="showToast('💬','LINE','บันทึกการตั้งค่า LINE Official Account แล้ว')">💾 บันทึกการตั้งค่า LINE</button>
+        </div>
+
+        <!-- SPRINT-4: 2FA / SSO Full UI -->
+        <div class="card settings-card" data-settings-keywords="2fa two-factor authentication sso saml oauth openid session security ยืนยันตัวตน สองชั้น" role="region" aria-label="2FA และ SSO Configuration" style="grid-column:1/-1;">
+            <div class="card-title">🔐 การยืนยันตัวตนสองชั้น & Single Sign-On (2FA / SSO)</div>
+            <div style="font-size:.78rem;color:var(--muted);margin-bottom:16px;">ตั้งค่าการยืนยันตัวตนแบบสองชั้นและเชื่อมต่อ SSO Provider สำหรับความปลอดภัยระดับองค์กร</div>
+
+            <!-- 2FA Setup Wizard -->
+            <div style="border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:16px;">
+                <div style="font-size:.82rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+                    🔑 Two-Factor Authentication (2FA)
+                    <span style="font-size:.6rem;font-weight:700;background:var(--green-l);color:var(--green);padding:2px 8px;border-radius:4px;">เปิดใช้งานแล้ว</span>
+                </div>
+                <!-- 2FA Wizard Steps -->
+                <div style="display:flex;gap:0;margin-bottom:16px;position:relative;">
+                    <div style="position:absolute;top:14px;left:50px;right:50px;height:2px;background:var(--green);z-index:0;"></div>
+                    <div style="flex:1;text-align:center;position:relative;z-index:1;">
+                        <div style="width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 4px;font-size:.7rem;font-weight:800;">✓</div>
+                        <div style="font-size:.65rem;font-weight:600;color:var(--green);">เลือกวิธี</div>
+                    </div>
+                    <div style="flex:1;text-align:center;position:relative;z-index:1;">
+                        <div style="width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 4px;font-size:.7rem;font-weight:800;">✓</div>
+                        <div style="font-size:.65rem;font-weight:600;color:var(--green);">สแกน QR</div>
+                    </div>
+                    <div style="flex:1;text-align:center;position:relative;z-index:1;">
+                        <div style="width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 4px;font-size:.7rem;font-weight:800;">✓</div>
+                        <div style="font-size:.65rem;font-weight:600;color:var(--green);">ยืนยัน OTP</div>
+                    </div>
+                    <div style="flex:1;text-align:center;position:relative;z-index:1;">
+                        <div style="width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 4px;font-size:.7rem;font-weight:800;">✓</div>
+                        <div style="font-size:.65rem;font-weight:600;color:var(--green);">เสร็จสิ้น</div>
+                    </div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+                    <!-- Authenticator App -->
+                    <div style="border:1px solid var(--green);border-radius:10px;padding:14px;background:var(--green-l);">
+                        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+                            <span style="font-size:.82rem;font-weight:700;">📱 Authenticator App</span>
+                            <span style="font-size:.6rem;font-weight:700;background:var(--green);color:#fff;padding:2px 8px;border-radius:4px;">หลัก</span>
+                        </div>
+                        <!-- QR Code for Authenticator -->
+                        <div style="width:120px;height:120px;background:var(--white);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;">
+                            <svg width="90" height="90" viewBox="0 0 90 90">
+                                <rect x="5" y="5" width="22" height="22" rx="2" fill="var(--text)" opacity=".85"/>
+                                <rect x="9" y="9" width="14" height="14" rx="1" fill="var(--white)"/>
+                                <rect x="12" y="12" width="8" height="8" fill="var(--text)" opacity=".85"/>
+                                <rect x="63" y="5" width="22" height="22" rx="2" fill="var(--text)" opacity=".85"/>
+                                <rect x="67" y="9" width="14" height="14" rx="1" fill="var(--white)"/>
+                                <rect x="70" y="12" width="8" height="8" fill="var(--text)" opacity=".85"/>
+                                <rect x="5" y="63" width="22" height="22" rx="2" fill="var(--text)" opacity=".85"/>
+                                <rect x="9" y="67" width="14" height="14" rx="1" fill="var(--white)"/>
+                                <rect x="12" y="70" width="8" height="8" fill="var(--text)" opacity=".85"/>
+                                <rect x="33" y="8" width="5" height="5" fill="var(--text)" opacity=".5"/>
+                                <rect x="42" y="8" width="5" height="5" fill="var(--text)" opacity=".4"/>
+                                <rect x="52" y="8" width="5" height="5" fill="var(--text)" opacity=".6"/>
+                                <rect x="33" y="18" width="5" height="5" fill="var(--text)" opacity=".4"/>
+                                <rect x="45" y="20" width="5" height="5" fill="var(--text)" opacity=".5"/>
+                                <rect x="33" y="33" width="5" height="5" fill="var(--text)" opacity=".5"/>
+                                <rect x="42" y="38" width="5" height="5" fill="var(--text)" opacity=".6"/>
+                                <rect x="52" y="33" width="5" height="5" fill="var(--text)" opacity=".4"/>
+                                <rect x="62" y="38" width="5" height="5" fill="var(--text)" opacity=".5"/>
+                                <rect x="72" y="33" width="5" height="5" fill="var(--text)" opacity=".4"/>
+                                <rect x="33" y="48" width="5" height="5" fill="var(--text)" opacity=".5"/>
+                                <rect x="48" y="48" width="5" height="5" fill="var(--text)" opacity=".6"/>
+                                <rect x="62" y="52" width="5" height="5" fill="var(--text)" opacity=".4"/>
+                                <rect x="72" y="48" width="5" height="5" fill="var(--text)" opacity=".5"/>
+                                <rect x="82" y="42" width="5" height="5" fill="var(--text)" opacity=".5"/>
+                                <rect x="38" y="62" width="5" height="5" fill="var(--text)" opacity=".5"/>
+                                <rect x="52" y="68" width="5" height="5" fill="var(--text)" opacity=".4"/>
+                                <rect x="68" y="68" width="5" height="5" fill="var(--text)" opacity=".6"/>
+                                <rect x="78" y="72" width="5" height="5" fill="var(--text)" opacity=".5"/>
+                                <rect x="82" y="82" width="5" height="5" fill="var(--text)" opacity=".5"/>
+                            </svg>
+                        </div>
+                        <div style="font-size:.68rem;color:var(--muted);text-align:center;margin-bottom:6px;">สแกนด้วย Google Authenticator / Authy</div>
+                        <div style="font-size:.65rem;color:var(--text2);text-align:center;font-family:'Inter',monospace;background:var(--bg);padding:4px 8px;border-radius:4px;word-break:break-all;">JBSWY3DPEHPK3PXP</div>
+                        <div style="text-align:center;margin-top:8px;">
+                            <button class="btn btn-outline btn-sm" onclick="showToast('🔄','2FA','สร้าง QR Code ใหม่แล้ว')">🔄 สร้าง QR ใหม่</button>
+                        </div>
+                    </div>
+                    <!-- SMS Backup -->
+                    <div style="border:1px solid var(--border);border-radius:10px;padding:14px;">
+                        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+                            <span style="font-size:.82rem;font-weight:700;">📲 SMS Backup</span>
+                            <span style="font-size:.6rem;font-weight:700;background:var(--blue-l);color:var(--blue);padding:2px 8px;border-radius:4px;">สำรอง</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">เบอร์โทรศัพท์สำหรับ OTP</label>
+                            <input class="form-input" value="081-234-5678" placeholder="08x-xxx-xxxx">
+                        </div>
+                        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-size:.78rem;">
+                            <span>เปิดใช้ SMS เป็นตัวเลือกสำรอง</span>
+                            <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                        </div>
+                        <button class="btn btn-outline btn-sm" onclick="showToast('📲','SMS','ส่ง OTP ทดสอบไปยัง 081-xxx-5678')">📲 ทดสอบส่ง OTP</button>
+                        <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:12px;">
+                            <div style="font-size:.75rem;font-weight:600;margin-bottom:8px;">🔐 Recovery Codes</div>
+                            <div style="font-size:.68rem;color:var(--muted);margin-bottom:8px;">เก็บรหัสกู้คืนไว้ในที่ปลอดภัย — ใช้เมื่อเข้าถึง 2FA ไม่ได้</div>
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-family:'Inter',monospace;font-size:.68rem;background:var(--bg);padding:8px;border-radius:6px;">
+                                <span>AB12-CD34-EF56</span><span>GH78-IJ90-KL12</span>
+                                <span>MN34-OP56-QR78</span><span>ST90-UV12-WX34</span>
+                                <span>YZ56-AB78-CD90</span><span style="color:var(--muted);text-decoration:line-through;">EF12-GH34-IJ56</span>
+                            </div>
+                            <button class="btn btn-outline btn-sm mt-8" onclick="showToast('🔐','Recovery','สร้าง Recovery Codes ชุดใหม่แล้ว')">🔄 สร้างรหัสใหม่</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SSO Configuration Panel -->
+            <div style="border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:16px;">
+                <div style="font-size:.82rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+                    🔗 Single Sign-On (SSO) Configuration
+                </div>
+                <!-- SSO Protocol Selector -->
+                <div style="display:flex;gap:8px;margin-bottom:14px;">
+                    <div style="flex:1;padding:10px 14px;border:2px solid var(--blue);border-radius:8px;background:var(--blue-l);text-align:center;cursor:pointer;">
+                        <div style="font-size:.82rem;font-weight:700;color:var(--blue);">SAML 2.0</div>
+                        <div style="font-size:.62rem;color:var(--muted);">Enterprise Standard</div>
+                    </div>
+                    <div style="flex:1;padding:10px 14px;border:1px solid var(--border);border-radius:8px;text-align:center;cursor:pointer;transition:border-color .15s;" class="hover-border-blue">
+                        <div style="font-size:.82rem;font-weight:700;">OAuth 2.0</div>
+                        <div style="font-size:.62rem;color:var(--muted);">Authorization</div>
+                    </div>
+                    <div style="flex:1;padding:10px 14px;border:1px solid var(--border);border-radius:8px;text-align:center;cursor:pointer;transition:border-color .15s;" class="hover-border-blue">
+                        <div style="font-size:.82rem;font-weight:700;">OpenID Connect</div>
+                        <div style="font-size:.62rem;color:var(--muted);">Identity Layer</div>
+                    </div>
+                </div>
+                <!-- SSO Providers with Logos -->
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px;">
+                    <!-- Google Workspace -->
+                    <div style="border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;transition:all .15s;cursor:pointer;" class="hover-border-blue">
+                        <div style="font-size:2rem;margin-bottom:6px;">
+                            <svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#4285F4"/><text x="16" y="21" text-anchor="middle" fill="white" font-size="14" font-weight="bold">G</text></svg>
+                        </div>
+                        <div style="font-size:.82rem;font-weight:700;">Google Workspace</div>
+                        <div style="font-size:.65rem;color:var(--red);font-weight:600;margin-top:4px;">● ไม่ได้เชื่อมต่อ</div>
+                        <button class="btn btn-outline btn-sm mt-8" onclick="showToast('🔗','SSO','กำลังเชื่อมต่อ Google Workspace...')">เชื่อมต่อ</button>
+                    </div>
+                    <!-- Microsoft Azure AD -->
+                    <div style="border:2px solid var(--green);border-radius:10px;padding:14px;text-align:center;background:var(--green-l);">
+                        <div style="font-size:2rem;margin-bottom:6px;">
+                            <svg width="32" height="32" viewBox="0 0 32 32"><rect width="14" height="14" x="2" y="2" fill="#F25022" rx="1"/><rect width="14" height="14" x="16" y="2" fill="#7FBA00" rx="1"/><rect width="14" height="14" x="2" y="16" fill="#00A4EF" rx="1"/><rect width="14" height="14" x="16" y="16" fill="#FFB900" rx="1"/></svg>
+                        </div>
+                        <div style="font-size:.82rem;font-weight:700;">Microsoft Azure AD</div>
+                        <div style="font-size:.65rem;color:var(--green);font-weight:600;margin-top:4px;">● เชื่อมต่อแล้ว</div>
+                        <div style="font-size:.62rem;color:var(--muted);margin-top:2px;">Tenant: autopilot-ants.onmicrosoft.com</div>
+                        <button class="btn btn-outline btn-sm mt-8" onclick="showToast('⚙️','Azure AD','เปิดหน้าตั้งค่า Azure AD')">ตั้งค่า</button>
+                    </div>
+                    <!-- Okta -->
+                    <div style="border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;transition:all .15s;cursor:pointer;" class="hover-border-blue">
+                        <div style="font-size:2rem;margin-bottom:6px;">
+                            <svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#007DC1"/><circle cx="16" cy="16" r="7" fill="white"/></svg>
+                        </div>
+                        <div style="font-size:.82rem;font-weight:700;">Okta</div>
+                        <div style="font-size:.65rem;color:var(--red);font-weight:600;margin-top:4px;">● ไม่ได้เชื่อมต่อ</div>
+                        <button class="btn btn-outline btn-sm mt-8" onclick="showToast('🔗','SSO','กำลังเชื่อมต่อ Okta...')">เชื่อมต่อ</button>
+                    </div>
+                </div>
+                <!-- SAML Configuration Fields -->
+                <div style="border:1px solid var(--border);border-radius:8px;padding:14px;background:var(--bg);">
+                    <div style="font-size:.75rem;font-weight:700;margin-bottom:10px;">⚙️ SAML 2.0 Configuration (Azure AD)</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                        <div class="form-group" style="margin-bottom:0;"><label class="form-label">Entity ID</label><input class="form-input" value="https://autopilot.ai/saml/metadata" style="font-family:'Inter',monospace;font-size:.72rem;" readonly></div>
+                        <div class="form-group" style="margin-bottom:0;"><label class="form-label">ACS URL</label><input class="form-input" value="https://autopilot.ai/saml/acs" style="font-family:'Inter',monospace;font-size:.72rem;" readonly></div>
+                        <div class="form-group" style="margin-bottom:0;"><label class="form-label">IdP SSO URL</label><input class="form-input" value="https://login.microsoftonline.com/.../saml2" style="font-family:'Inter',monospace;font-size:.72rem;"></div>
+                        <div class="form-group" style="margin-bottom:0;"><label class="form-label">IdP Certificate</label><input class="form-input" value="autopilot-azuread-cert.pem (อัปโหลดแล้ว)" style="font-size:.72rem;" readonly></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Session Management Table -->
+            <div style="border:1px solid var(--border);border-radius:10px;padding:16px;">
+                <div style="font-size:.82rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+                    🖥️ การจัดการ Session ที่ใช้งานอยู่
+                    <span style="font-size:.62rem;font-weight:700;background:var(--blue-l);color:var(--blue);padding:2px 8px;border-radius:4px;">4 เซสชัน</span>
+                </div>
+                <div style="overflow-x:auto;">
+                    <table style="width:100%;border-collapse:collapse;font-size:.78rem;">
+                        <thead>
+                            <tr style="border-bottom:2px solid var(--border);">
+                                <th style="padding:8px 10px;text-align:left;font-size:.68rem;font-weight:700;color:var(--muted);letter-spacing:.3px;">อุปกรณ์</th>
+                                <th style="padding:8px 10px;text-align:left;font-size:.68rem;font-weight:700;color:var(--muted);">IP Address</th>
+                                <th style="padding:8px 10px;text-align:left;font-size:.68rem;font-weight:700;color:var(--muted);">ที่ตั้ง</th>
+                                <th style="padding:8px 10px;text-align:left;font-size:.68rem;font-weight:700;color:var(--muted);">เข้าสู่ระบบ</th>
+                                <th style="padding:8px 10px;text-align:left;font-size:.68rem;font-weight:700;color:var(--muted);">สถานะ</th>
+                                <th style="padding:8px 10px;text-align:right;font-size:.68rem;font-weight:700;color:var(--muted);">จัดการ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom:1px solid var(--border);">
+                                <td style="padding:8px 10px;">💻 Chrome — macOS Sequoia</td>
+                                <td style="padding:8px 10px;font-family:'Inter',monospace;font-size:.72rem;">203.150.44.12</td>
+                                <td style="padding:8px 10px;">กรุงเทพฯ, TH</td>
+                                <td style="padding:8px 10px;">6 เม.ย. 2569, 09:15</td>
+                                <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--green-l);color:var(--green);padding:2px 8px;border-radius:4px;">🟢 ปัจจุบัน</span></td>
+                                <td style="padding:8px 10px;text-align:right;font-size:.68rem;color:var(--muted);">เซสชันนี้</td>
+                            </tr>
+                            <tr style="border-bottom:1px solid var(--border);">
+                                <td style="padding:8px 10px;">📱 Safari — iPhone 15 Pro</td>
+                                <td style="padding:8px 10px;font-family:'Inter',monospace;font-size:.72rem;">203.150.44.15</td>
+                                <td style="padding:8px 10px;">กรุงเทพฯ, TH</td>
+                                <td style="padding:8px 10px;">6 เม.ย. 2569, 08:30</td>
+                                <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--blue-l);color:var(--blue);padding:2px 8px;border-radius:4px;">🔵 Active</span></td>
+                                <td style="padding:8px 10px;text-align:right;"><button class="btn btn-danger btn-sm" style="padding:3px 10px;font-size:.65rem;" onclick="showToast('🔒','Session','เพิกถอน Session iPhone แล้ว')">เพิกถอน</button></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid var(--border);">
+                                <td style="padding:8px 10px;">💻 Firefox — Windows 11</td>
+                                <td style="padding:8px 10px;font-family:'Inter',monospace;font-size:.72rem;">58.137.22.89</td>
+                                <td style="padding:8px 10px;">เชียงใหม่, TH</td>
+                                <td style="padding:8px 10px;">5 เม.ย. 2569, 14:22</td>
+                                <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--orange-l);color:var(--orange);padding:2px 8px;border-radius:4px;">🟡 2 ชม.ที่แล้ว</span></td>
+                                <td style="padding:8px 10px;text-align:right;"><button class="btn btn-danger btn-sm" style="padding:3px 10px;font-size:.65rem;" onclick="showToast('🔒','Session','เพิกถอน Session Firefox แล้ว')">เพิกถอน</button></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:8px 10px;">📱 LINE LIFF — Android</td>
+                                <td style="padding:8px 10px;font-family:'Inter',monospace;font-size:.72rem;">171.96.178.45</td>
+                                <td style="padding:8px 10px;">นนทบุรี, TH</td>
+                                <td style="padding:8px 10px;">4 เม.ย. 2569, 16:45</td>
+                                <td style="padding:8px 10px;"><span style="font-size:.62rem;font-weight:700;background:var(--red-l);color:var(--red);padding:2px 8px;border-radius:4px;">🔴 หมดอายุ</span></td>
+                                <td style="padding:8px 10px;text-align:right;"><button class="btn btn-danger btn-sm" style="padding:3px 10px;font-size:.65rem;" onclick="showToast('🔒','Session','เพิกถอน Session LINE LIFF แล้ว')">เพิกถอน</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:14px;">
+                    <button class="btn btn-danger btn-sm" onclick="showToast('🔒','Sessions','ออกจากระบบอุปกรณ์อื่นทั้งหมดแล้ว')">🚫 เพิกถอนทุก Session (ยกเว้นปัจจุบัน)</button>
+                    <button class="btn btn-outline btn-sm" onclick="showToast('📋','Sessions','ส่งออกประวัติ Session แล้ว')">📋 ส่งออกประวัติ</button>
+                </div>
+            </div>
+            <button class="btn btn-primary btn-sm mt-12" onclick="showToast('🔐','Security','บันทึกการตั้งค่าความปลอดภัยแล้ว')">💾 บันทึกการตั้งค่า 2FA/SSO</button>
         </div>
 
         <!-- CROSS-036: Approval Delegation System Enhancement -->

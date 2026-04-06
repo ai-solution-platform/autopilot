@@ -9,7 +9,8 @@
 :root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--cyan-bg:#ECFEFF;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
 body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);--cyan-bg:rgba(8,145,178,0.15);}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s;font-size:14px;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s;font-size:14px;font-kerning:normal;font-feature-settings:"kern" 1;text-rendering:optimizeLegibility;}
+h1,h2,h3,h4,h5,h6,.card-title{text-rendering:optimizeLegibility;}
 ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 .dark-toggle{position:fixed;top:16px;right:16px;z-index:9999;width:42px;height:42px;border-radius:50%;border:1px solid var(--border);background:var(--card-bg);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:all .2s;}
 .dark-toggle:hover{transform:scale(1.1);}
@@ -203,6 +204,16 @@ tr:hover td{background:var(--bg2);}
 </style>
 </head>
 <body>
+
+<!-- SPRINT-6: Offline Indicator -->
+<div id="expOfflineIndicator" role="status" aria-label="สถานะการเชื่อมต่อ" style="display:none;background:var(--red-bg,#FEF2F2);border:1px solid var(--red,#DC2626);border-radius:10px;padding:10px 16px;margin:12px 24px 0;align-items:center;gap:8px;font-size:.78rem;font-weight:600;color:var(--red,#DC2626);">
+    <span>&#128225;</span> คุณกำลังออฟไลน์ — ข้อมูลเคลมจะถูกบันทึกไว้ในเครื่อง
+    <span style="margin-left:auto;font-size:.65rem;padding:2px 8px;background:var(--red,#DC2626);color:#fff;border-radius:4px;">OFFLINE</span>
+</div>
+<!-- SPRINT-6: Last Saved Indicator -->
+<div id="expLastSaved" style="display:none;padding:6px 24px;font-size:.68rem;color:var(--muted,#64748B);align-items:center;gap:6px;">
+    <span>&#128190;</span> <span id="expLastSavedText">ข้อมูลบันทึกล่าสุด: เพิ่งบันทึก</span>
+</div>
 
 <!-- Loading Skeleton -->
 <div class="skeleton-overlay" id="skeletonOverlay">
@@ -666,6 +677,81 @@ setTimeout(function(){
   var overlay=document.getElementById('skeletonOverlay');
   if(overlay) overlay.classList.add('hidden');
 },500);
+
+// ═══ SPRINT-6: Offline Detection ═══
+(function(){
+  function updateOffline(){
+    var ind=document.getElementById('expOfflineIndicator');
+    if(ind) ind.style.display=navigator.onLine?'none':'flex';
+  }
+  window.addEventListener('offline',updateOffline);
+  window.addEventListener('online',updateOffline);
+  updateOffline();
+})();
+
+// ═══ SPRINT-6: localStorage Form Draft Caching ═══
+(function(){
+  var DRAFT_KEY='autopilot_expense_form_draft';
+  var savedEl=document.getElementById('expLastSaved');
+  var savedTextEl=document.getElementById('expLastSavedText');
+  var lastSaveTime=null;
+
+  function saveDraft(){
+    try{
+      var inputs=document.querySelectorAll('input:not([type=checkbox]):not([type=radio]),select,textarea');
+      var data={};
+      inputs.forEach(function(el,i){
+        var key=el.id||el.name||('field_'+i);
+        data[key]=el.value;
+      });
+      data._timestamp=Date.now();
+      localStorage.setItem(DRAFT_KEY,JSON.stringify(data));
+      lastSaveTime=Date.now();
+      updateLastSaved();
+      if(savedEl) savedEl.style.display='flex';
+    }catch(e){}
+  }
+
+  function updateLastSaved(){
+    if(!savedTextEl||!lastSaveTime) return;
+    var diff=Math.floor((Date.now()-lastSaveTime)/60000);
+    if(diff<1) savedTextEl.textContent='ข้อมูลบันทึกล่าสุด: เพิ่งบันทึก';
+    else savedTextEl.textContent='ข้อมูลบันทึกล่าสุด: '+diff+' นาทีที่แล้ว';
+  }
+
+  setInterval(saveDraft,30000);
+  setInterval(updateLastSaved,60000);
+
+  document.addEventListener('input',function(e){
+    if(e.target.matches('input,select,textarea')){
+      clearTimeout(window._expDraftTimer);
+      window._expDraftTimer=setTimeout(saveDraft,2000);
+    }
+  });
+
+  try{
+    var saved=localStorage.getItem(DRAFT_KEY);
+    if(saved){
+      var d=JSON.parse(saved);
+      lastSaveTime=d._timestamp||Date.now();
+      updateLastSaved();
+      if(savedEl) savedEl.style.display='flex';
+    }
+  }catch(e){}
+})();
+
+// ═══ SPRINT-6: Service Worker Registration (PWA-ready, commented out) ═══
+/*
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('/sw.js').then(function(reg){
+      console.log('[SW] Registered scope:',reg.scope);
+    }).catch(function(err){
+      console.log('[SW] Registration failed:',err);
+    });
+  });
+}
+*/
 </script>
 </body>
 </html>

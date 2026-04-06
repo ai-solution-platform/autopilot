@@ -52,7 +52,13 @@ body {
   font-size: 14px;
   min-height: 100vh;
   transition: background .3s, color .3s;
+  font-kerning: normal;
+  font-feature-settings: "kern" 1;
+  text-rendering: optimizeLegibility;
 }
+h1,h2,h3,h4,h5,h6,.card-title,.kpi-value{text-rendering:optimizeLegibility;}
+.card,.kpi{contain:layout style;}
+.card:hover,.kpi:hover{will-change:transform;}
 
 /* ── DARK-MODE TOGGLE ────────────────────────────────────── */
 #darkBtn {

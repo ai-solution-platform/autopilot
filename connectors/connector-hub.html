@@ -71,6 +71,9 @@ body {
   overflow-x: hidden;
   font-size: 14px;
   transition: background 0.3s, color 0.3s;
+  font-kerning: normal;
+  font-feature-settings: "kern" 1;
+  text-rendering: optimizeLegibility;
 }
 
 /* Scrollbar */
@@ -1012,6 +1015,7 @@ a.connector-link {
 .toggle-slider:before { content:''; position:absolute; height:14px; width:14px; left:2px; bottom:2px; background:white; border-radius:50%; transition:.3s; }
 .toggle-switch input:checked + .toggle-slider { background:var(--green); }
 .toggle-switch input:checked + .toggle-slider:before { transform:translateX(16px); }
+.hover-border-blue{transition:all .2s;}.hover-border-blue:hover{border-color:var(--blue) !important;}
 </style>
 </head>
 <body>
@@ -1562,15 +1566,15 @@ a.connector-link {
         <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;">
           <div style="font-weight:700;font-size:14px;margin-bottom:12px;">📚 เอกสารและ API Reference</div>
           <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
-            <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);text-decoration:none;color:var(--text);transition:all .2s;" onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='var(--border)'">
+            <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);text-decoration:none;color:var(--text);transition:all .2s;" class="hover-border-blue">
               <span style="font-size:18px;">📖</span>
               <div><strong style="font-size:13px;">Getting Started Guide</strong><div style="font-size:10px;color:var(--text-dim);">เริ่มต้นสร้าง Connector ใน 15 นาที</div></div>
             </a>
-            <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);text-decoration:none;color:var(--text);transition:all .2s;" onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='var(--border)'">
+            <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);text-decoration:none;color:var(--text);transition:all .2s;" class="hover-border-blue">
               <span style="font-size:18px;">🔗</span>
               <div><strong style="font-size:13px;">API Reference (OpenAPI 3.0)</strong><div style="font-size:10px;color:var(--text-dim);">REST API Endpoints, Authentication, Webhooks</div></div>
             </a>
-            <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);text-decoration:none;color:var(--text);transition:all .2s;" onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='var(--border)'">
+            <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);text-decoration:none;color:var(--text);transition:all .2s;" class="hover-border-blue">
               <span style="font-size:18px;">🧪</span>
               <div><strong style="font-size:13px;">Testing Guide & Examples</strong><div style="font-size:10px;color:var(--text-dim);">ตัวอย่างการทดสอบและ Mock Data</div></div>
             </a>

@@ -230,6 +230,7 @@ select.form-input{cursor:pointer;}
 
 @media(max-width:1024px){.kpi-grid{grid-template-columns:1fr 1fr;}.grid-2,.grid-3{grid-template-columns:1fr;}.ocr-viewer{grid-template-columns:1fr;}}
 @media(max-width:768px){.sidebar{transform:translateX(-100%);}.main-wrap{margin-left:0;}.kpi-grid{grid-template-columns:1fr;}}
+.hover-border-blue{transition:all .15s;}.hover-border-blue:hover{border-color:var(--blue) !important;}
 </style>
 </head>
 <body>
@@ -506,10 +507,10 @@ select.form-input{cursor:pointer;}
     <div class="grid-2">
         <div class="card"><div class="card-title">💳 Top Up Tokens</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;">
-                <div style="border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:all .15s;" onclick="showModal('topup','100K')" onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='var(--border)'"><div style="font-weight:700;font-size:1.1rem;">100K</div><div class="text-xs text-muted">Tokens</div><div style="font-weight:700;color:var(--blue);margin-top:4px;">฿2,500</div></div>
-                <div style="border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:all .15s;" onclick="showModal('topup','500K')" onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='var(--border)'"><div style="font-weight:700;font-size:1.1rem;">500K</div><div class="text-xs text-muted">Tokens</div><div style="font-weight:700;color:var(--blue);margin-top:4px;">฿9,900</div></div>
+                <div style="border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:all .15s;" onclick="showModal('topup','100K')" class="hover-border-blue"><div style="font-weight:700;font-size:1.1rem;">100K</div><div class="text-xs text-muted">Tokens</div><div style="font-weight:700;color:var(--blue);margin-top:4px;">฿2,500</div></div>
+                <div style="border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:all .15s;" onclick="showModal('topup','500K')" class="hover-border-blue"><div style="font-weight:700;font-size:1.1rem;">500K</div><div class="text-xs text-muted">Tokens</div><div style="font-weight:700;color:var(--blue);margin-top:4px;">฿9,900</div></div>
                 <div style="border:2px solid var(--purple);border-radius:10px;padding:16px;text-align:center;cursor:pointer;background:var(--purple-l);" onclick="showModal('topup','1M')"><div style="font-weight:700;font-size:1.1rem;">1M</div><div class="text-xs text-muted">Tokens ⭐ Best Value</div><div style="font-weight:700;color:var(--purple);margin-top:4px;">฿16,500</div></div>
-                <div style="border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:all .15s;" onclick="showModal('topup','Custom')" onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='var(--border)'"><div style="font-weight:700;font-size:1.1rem;">Custom</div><div class="text-xs text-muted">Amount</div><div style="font-weight:700;color:var(--muted);margin-top:4px;">Contact Sales</div></div>
+                <div style="border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:all .15s;" onclick="showModal('topup','Custom')" class="hover-border-blue"><div style="font-weight:700;font-size:1.1rem;">Custom</div><div class="text-xs text-muted">Amount</div><div style="font-weight:700;color:var(--muted);margin-top:4px;">Contact Sales</div></div>
             </div>
         </div>
         <div class="card"><div class="card-title">📐 Subscription Plans</div>

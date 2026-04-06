@@ -9,7 +9,8 @@
 :root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--cyan-bg:#ECFEFF;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
 body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);--cyan-bg:rgba(8,145,178,0.15);}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;font-kerning:normal;font-feature-settings:"kern" 1;text-rendering:optimizeLegibility;}
+h1,h2,h3,h4,h5,h6,.card-title{text-rendering:optimizeLegibility;}
 ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 
 .dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);}
@@ -264,21 +265,76 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
     </div>
   </div>
 
-  <!-- OCR Accuracy Banner EX-001 -->
-  <div class="accuracy-banner">
+  <!-- OCR Model Selector -->
+  <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px 20px;margin-bottom:16px;box-shadow:var(--shadow);">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:1.1rem;">&#129302;</span>
+        <div>
+          <div style="font-size:.82rem;font-weight:700;">เลือกโมเดล OCR</div>
+          <div style="font-size:.68rem;color:var(--muted);">เลือกเอนจิน OCR ที่เหมาะกับเอกสารของคุณ</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <select id="ocrModelSelect" onchange="updateOCRModel()" style="padding:8px 14px;border:1px solid var(--border);border-radius:8px;background:var(--card-bg);color:var(--text);font-family:inherit;font-size:.78rem;font-weight:600;outline:none;cursor:pointer;">
+          <option value="ants" selected>&#127919; ANTS Thai OCR v3.2 (แนะนำ)</option>
+          <option value="google">&#9729; Google Vision AI</option>
+          <option value="tesseract">&#128295; Tesseract Thai</option>
+        </select>
+        <div id="ocrModelInfo" style="padding:6px 12px;background:var(--green-bg);border:1px solid var(--green);border-radius:8px;font-size:.72rem;font-weight:600;color:var(--green);">
+          &#9989; ความแม่นยำ: 94.2% | เทมเพลต: 47 ร้านค้า
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OCR Accuracy Banner EX-001 (Interactive) -->
+  <div class="accuracy-banner" id="accuracyBanner" style="cursor:pointer;" onclick="toggleAccuracyDetail()">
     <div class="acc-left">
       <div>
-        <div class="accuracy-badge">94.2%</div>
+        <div class="accuracy-badge" id="accBadge">94.2%</div>
         <div class="accuracy-label">ความแม่นยำ OCR</div>
       </div>
       <div>
-        <div style="font-size:.78rem;font-weight:600;color:var(--green);">ระบบอ่านใบเสร็จไทย v3.2</div>
-        <div class="accuracy-sub">ปรับปรุงล่าสุด: 1 เม.ย. 2569 | รองรับเทมเพลต 47 ร้านค้า</div>
+        <div style="font-size:.78rem;font-weight:600;color:var(--green);" id="accModelName">ระบบอ่านใบเสร็จไทย v3.2 — ANTS Thai OCR</div>
+        <div class="accuracy-sub">ปรับปรุงล่าสุด: 1 เม.ย. 2569 | รองรับเทมเพลต 47 ร้านค้า | คลิกเพื่อดูรายละเอียด</div>
       </div>
     </div>
     <div>
-      <div class="accuracy-bar"><div class="accuracy-fill" style="width:94.2%"></div></div>
+      <div class="accuracy-bar"><div class="accuracy-fill" id="accFill" style="width:94.2%"></div></div>
       <div style="font-size:.62rem;color:var(--muted);text-align:right;margin-top:2px;">เป้าหมาย: 95%</div>
+    </div>
+  </div>
+  <!-- Accuracy Detail Panel -->
+  <div id="accuracyDetail" style="display:none;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:20px;box-shadow:var(--shadow);">
+    <div style="font-size:.88rem;font-weight:700;margin-bottom:14px;">&#128200; รายละเอียดความแม่นยำ OCR</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px;">
+      <div style="text-align:center;padding:12px;background:var(--green-bg);border-radius:10px;">
+        <div style="font-size:1.3rem;font-weight:800;color:var(--green);font-family:'Inter';">94.2%</div>
+        <div style="font-size:.68rem;color:var(--green);font-weight:600;">ความแม่นยำรวม</div>
+      </div>
+      <div style="text-align:center;padding:12px;background:var(--blue-bg);border-radius:10px;">
+        <div style="font-size:1.3rem;font-weight:800;color:var(--blue);font-family:'Inter';">97.8%</div>
+        <div style="font-size:.68rem;color:var(--blue);font-weight:600;">ตัวเลข/จำนวนเงิน</div>
+      </div>
+      <div style="text-align:center;padding:12px;background:var(--purple-bg);border-radius:10px;">
+        <div style="font-size:1.3rem;font-weight:800;color:var(--purple);font-family:'Inter';">91.5%</div>
+        <div style="font-size:.68rem;color:var(--purple);font-weight:600;">ชื่อ/ที่อยู่ไทย</div>
+      </div>
+      <div style="text-align:center;padding:12px;background:var(--orange-bg);border-radius:10px;">
+        <div style="font-size:1.3rem;font-weight:800;color:var(--orange);font-family:'Inter';">88.3%</div>
+        <div style="font-size:.68rem;color:var(--orange);font-weight:600;">ที่อยู่ยาว/หมายเหตุ</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="padding:10px;background:var(--bg2);border-radius:8px;border:1px solid var(--border);">
+        <div style="font-size:.72rem;font-weight:600;color:var(--muted);margin-bottom:6px;">สแกนทั้งหมดเดือนนี้</div>
+        <div style="font-size:1.1rem;font-weight:800;font-family:'Inter';">1,248 ใบเสร็จ</div>
+      </div>
+      <div style="padding:10px;background:var(--bg2);border-radius:8px;border:1px solid var(--border);">
+        <div style="font-size:.72rem;font-weight:600;color:var(--muted);margin-bottom:6px;">ได้รับ Feedback แก้ไข</div>
+        <div style="font-size:1.1rem;font-weight:800;font-family:'Inter';">73 ครั้ง <span style="font-size:.72rem;color:var(--green);font-weight:600;">(ปรับปรุงแล้ว)</span></div>
+      </div>
     </div>
   </div>
 
@@ -594,6 +650,38 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
       <p style="font-size:.78rem;color:var(--muted);">กรุณาตรวจสอบช่องที่มีเครื่องหมาย &#9888; และแก้ไขข้อมูลให้ถูกต้องก่อนส่ง</p>
     </div>
 
+    <!-- OCR Training Feedback Loop EX-001 -->
+    <div class="card">
+      <div class="card-title">&#129302; ช่วย AI เรียนรู้ — ระบุความถูกต้องรายฟิลด์</div>
+      <p style="font-size:.78rem;color:var(--muted);margin-bottom:14px;">กดปุ่ม &#9989; ถูกต้อง หรือ &#10060; ไม่ถูกต้อง เพื่อช่วย OCR เรียนรู้และปรับปรุงความแม่นยำ</p>
+      <div style="display:flex;flex-direction:column;gap:8px;" id="feedbackList">
+        <div class="feedback-row" style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;">
+          <div style="flex:1;"><span style="font-size:.68rem;color:var(--muted);font-weight:600;">ชื่อร้านค้า</span><div style="font-size:.82rem;font-weight:600;">7-Eleven สาขา อโศก</div></div>
+          <button onclick="markFeedback(this,'correct')" style="padding:5px 12px;border-radius:6px;border:1px solid var(--green);background:var(--green-bg);color:var(--green);font-size:.72rem;font-weight:700;cursor:pointer;font-family:inherit;">&#9989; ถูกต้อง</button>
+          <button onclick="markFeedback(this,'incorrect')" style="padding:5px 12px;border-radius:6px;border:1px solid var(--red);background:var(--red-bg);color:var(--red);font-size:.72rem;font-weight:700;cursor:pointer;font-family:inherit;">&#10060; ไม่ถูกต้อง</button>
+        </div>
+        <div class="feedback-row" style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;">
+          <div style="flex:1;"><span style="font-size:.68rem;color:var(--muted);font-weight:600;">เลขผู้เสียภาษี</span><div style="font-size:.82rem;font-weight:600;font-family:'Inter';">0105556123456</div></div>
+          <button onclick="markFeedback(this,'correct')" style="padding:5px 12px;border-radius:6px;border:1px solid var(--green);background:var(--green-bg);color:var(--green);font-size:.72rem;font-weight:700;cursor:pointer;font-family:inherit;">&#9989; ถูกต้อง</button>
+          <button onclick="markFeedback(this,'incorrect')" style="padding:5px 12px;border-radius:6px;border:1px solid var(--red);background:var(--red-bg);color:var(--red);font-size:.72rem;font-weight:700;cursor:pointer;font-family:inherit;">&#10060; ไม่ถูกต้อง</button>
+        </div>
+        <div class="feedback-row" style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;">
+          <div style="flex:1;"><span style="font-size:.68rem;color:var(--muted);font-weight:600;">ยอดรวมสุทธิ</span><div style="font-size:.82rem;font-weight:600;color:var(--blue);font-family:'Inter';">&#3647;1,250.00</div></div>
+          <button onclick="markFeedback(this,'correct')" style="padding:5px 12px;border-radius:6px;border:1px solid var(--green);background:var(--green-bg);color:var(--green);font-size:.72rem;font-weight:700;cursor:pointer;font-family:inherit;">&#9989; ถูกต้อง</button>
+          <button onclick="markFeedback(this,'incorrect')" style="padding:5px 12px;border-radius:6px;border:1px solid var(--red);background:var(--red-bg);color:var(--red);font-size:.72rem;font-weight:700;cursor:pointer;font-family:inherit;">&#10060; ไม่ถูกต้อง</button>
+        </div>
+        <div class="feedback-row" style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--orange-bg);border:1px solid var(--orange);border-radius:8px;">
+          <div style="flex:1;"><span style="font-size:.68rem;color:var(--muted);font-weight:600;">ที่อยู่ร้านค้า</span><div style="font-size:.82rem;font-weight:600;">3/15 ถ.สุขุมวิท ซ.21 แขว...</div></div>
+          <button onclick="markFeedback(this,'correct')" style="padding:5px 12px;border-radius:6px;border:1px solid var(--green);background:var(--green-bg);color:var(--green);font-size:.72rem;font-weight:700;cursor:pointer;font-family:inherit;">&#9989; ถูกต้อง</button>
+          <button onclick="markFeedback(this,'incorrect')" style="padding:5px 12px;border-radius:6px;border:1px solid var(--red);background:var(--red-bg);color:var(--red);font-size:.72rem;font-weight:700;cursor:pointer;font-family:inherit;">&#10060; ไม่ถูกต้อง</button>
+        </div>
+      </div>
+      <div style="margin-top:12px;display:flex;align-items:center;justify-content:space-between;">
+        <div style="font-size:.72rem;color:var(--muted);" id="feedbackStatus">รอการตรวจสอบ 4 ฟิลด์</div>
+        <button class="btn btn-primary btn-sm" onclick="submitFeedback()">&#128228; ส่ง Feedback ทั้งหมด</button>
+      </div>
+    </div>
+
     <!-- OCR Complete CTA -->
     <div class="ocr-complete-cta">
       <div class="cta-text">&#9989; OCR อ่านสำเร็จ — พร้อมสร้างเคลมค่าใช้จ่าย</div>
@@ -743,6 +831,50 @@ function updateExchangeRate(){
         var sampleAmount=1250;
         document.getElementById('convertedText').textContent='\u0E3F'+(sampleAmount*rate).toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2});
     }
+}
+
+// ═══ OCR Model Selection ═══
+function updateOCRModel(){
+  var model=document.getElementById('ocrModelSelect').value;
+  var info=document.getElementById('ocrModelInfo');
+  var badge=document.getElementById('accBadge');
+  var fill=document.getElementById('accFill');
+  var name=document.getElementById('accModelName');
+  var models={
+    ants:{acc:'94.2%',label:'\u2705 ความแม่นยำ: 94.2% | เทมเพลต: 47 ร้านค้า',name:'ระบบอ่านใบเสร็จไทย v3.2 — ANTS Thai OCR',color:'var(--green)'},
+    google:{acc:'92.8%',label:'\u2705 ความแม่นยำ: 92.8% | Cloud API',name:'Google Vision AI — Cloud OCR',color:'var(--blue)'},
+    tesseract:{acc:'87.5%',label:'\u26A0 ความแม่นยำ: 87.5% | Open Source',name:'Tesseract Thai — Open Source OCR',color:'var(--orange)'}
+  };
+  var m=models[model];
+  info.textContent=m.label;
+  info.style.color=m.color;
+  info.style.borderColor=m.color;
+  badge.textContent=m.acc;
+  fill.style.width=m.acc;
+  name.textContent=m.name;
+}
+function toggleAccuracyDetail(){
+  var d=document.getElementById('accuracyDetail');
+  d.style.display=d.style.display==='none'?'block':'none';
+}
+// ═══ OCR Training Feedback ═══
+function markFeedback(btn,type){
+  var row=btn.closest('.feedback-row')||btn.parentElement;
+  row.querySelectorAll('button').forEach(function(b){b.style.opacity='.4';});
+  btn.style.opacity='1';
+  if(type==='correct'){
+    row.style.borderColor='var(--green)';row.style.background='var(--green-bg)';
+  }else{
+    row.style.borderColor='var(--red)';row.style.background='var(--red-bg)';
+  }
+  var remaining=document.querySelectorAll('.feedback-row').length;
+  var marked=document.querySelectorAll('.feedback-row[style*="border-color"]').length;
+  document.getElementById('feedbackStatus').textContent='ตรวจสอบแล้ว '+marked+'/'+remaining+' ฟิลด์';
+}
+function submitFeedback(){
+  alert('ขอบคุณสำหรับ Feedback! ระบบจะนำข้อมูลไปปรับปรุงโมเดล OCR ในรอบถัดไป');
+  document.getElementById('feedbackStatus').textContent='\u2705 ส่ง Feedback สำเร็จแล้ว — ขอบคุณ!';
+  document.getElementById('feedbackStatus').style.color='var(--green)';
 }
 
 // ═══ CROSS-017: Accessibility ═══

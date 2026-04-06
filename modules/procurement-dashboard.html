@@ -11,7 +11,10 @@
 body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);}
 
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;transition:background .3s,color .3s;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;transition:background .3s,color .3s;font-kerning:normal;font-feature-settings:"kern" 1;text-rendering:optimizeLegibility;}
+h1,h2,h3,h4,h5,h6,.card-title,.kpi-value,.page-title-area h1{text-rendering:optimizeLegibility;}
+.kpi,.card{contain:layout style;}
+.kpi:hover{will-change:transform;}
 ::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 
 /* Dark Toggle */
@@ -200,6 +203,10 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
   .card-header h3{font-size:.82rem;}
 }
 @keyframes toastIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.qa-action-btn{transition:all .2s;}
+.qa-action-btn:hover{transform:translateY(-2px);}
+.hover-bg-blue{transition:background .15s;}
+.hover-bg-blue:hover{background:var(--blue-bg);}
 </style>
 </head>
 <body>
@@ -264,28 +271,28 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
   <!-- Quick Action Buttons -->
   <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;" id="quickActions">
     <a href="procurement-prpo.html" style="text-decoration:none;flex:1;min-width:180px;">
-      <div style="background:linear-gradient(135deg,#2563EB,#3B82F6);color:#fff;padding:14px 20px;border-radius:12px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;box-shadow:0 4px 12px rgba(37,99,235,.2);" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+      <div style="background:linear-gradient(135deg,var(--blue),#3B82F6);color:#fff;padding:14px 20px;border-radius:12px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;box-shadow:0 4px 12px rgba(37,99,235,.2);" class="qa-action-btn"
         <span style="font-size:1.4rem;">📄</span>
         <div><div style="font-weight:700;font-size:.85rem;">สร้าง PR ใหม่</div><div style="font-size:.68rem;opacity:.8;">ใบขอซื้อ</div></div>
       </div>
     </a>
     <a href="procurement-prpo.html" style="text-decoration:none;flex:1;min-width:180px;">
-      <div style="background:linear-gradient(135deg,#7C3AED,#8B5CF6);color:#fff;padding:14px 20px;border-radius:12px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;box-shadow:0 4px 12px rgba(124,58,237,.2);" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+      <div style="background:linear-gradient(135deg,var(--purple),#8B5CF6);color:#fff;padding:14px 20px;border-radius:12px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;box-shadow:0 4px 12px rgba(124,58,237,.2);" class="qa-action-btn"
         <span style="font-size:1.4rem;">📋</span>
         <div><div style="font-weight:700;font-size:.85rem;">สร้าง PO</div><div style="font-size:.68rem;opacity:.8;">ใบสั่งซื้อ</div></div>
       </div>
     </a>
     <a href="procurement-matching.html" style="text-decoration:none;flex:1;min-width:180px;">
-      <div style="background:linear-gradient(135deg,#059669,#10B981);color:#fff;padding:14px 20px;border-radius:12px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;box-shadow:0 4px 12px rgba(5,150,105,.2);" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+      <div style="background:linear-gradient(135deg,var(--green),#10B981);color:#fff;padding:14px 20px;border-radius:12px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;box-shadow:0 4px 12px rgba(5,150,105,.2);" class="qa-action-btn"
         <span style="font-size:1.4rem;">🔍</span>
         <div><div style="font-weight:700;font-size:.85rem;">ค้นหาเอกสาร</div><div style="font-size:.68rem;opacity:.8;">3-Way Match</div></div>
       </div>
     </a>
     <a href="procurement-approval.html" style="text-decoration:none;flex:1;min-width:180px;">
-      <div style="background:linear-gradient(135deg,#D97706,#F59E0B);color:#fff;padding:14px 20px;border-radius:12px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;box-shadow:0 4px 12px rgba(217,119,6,.2);position:relative;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+      <div style="background:linear-gradient(135deg,var(--orange),#F59E0B);color:#fff;padding:14px 20px;border-radius:12px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;box-shadow:0 4px 12px rgba(217,119,6,.2);position:relative;" class="qa-action-btn"
         <span style="font-size:1.4rem;">✅</span>
         <div><div style="font-weight:700;font-size:.85rem;">รออนุมัติ</div><div style="font-size:.68rem;opacity:.8;">11 รายการ</div></div>
-        <span style="position:absolute;top:8px;right:12px;background:#fff;color:#D97706;font-size:.65rem;font-weight:800;padding:2px 8px;border-radius:10px;">11</span>
+        <span style="position:absolute;top:8px;right:12px;background:#fff;color:var(--orange);font-size:.65rem;font-weight:800;padding:2px 8px;border-radius:10px;">11</span>
       </div>
     </a>
   </div>
@@ -399,8 +406,8 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
         <div class="chart-tooltip" id="lineTip"></div>
       </div>
       <div class="chart-legend">
-        <div class="legend-item"><div class="legend-dot" style="background:#2563EB;"></div>PR</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#059669;"></div>PO</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--blue);"></div>PR</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--green);"></div>PO</div>
       </div>
     </div>
 
@@ -843,7 +850,7 @@ function renderPendingApprovals(){
   el.innerHTML = items.map(item=>{
     const urgent = item.days > 2;
     const confColor = item.aiConf >= 90 ? 'var(--green)' : item.aiConf >= 70 ? 'var(--orange)' : 'var(--red)';
-    return `<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--border);transition:background .15s;cursor:pointer;" onmouseover="this.style.background='var(--blue-bg)'" onmouseout="this.style.background=''">
+    return `<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--border);transition:background .15s;cursor:pointer;" class="hover-bg-blue">
       <div style="width:36px;height:36px;border-radius:8px;background:${item.type==='PR'?'var(--blue-bg)':'var(--purple-bg)'};color:${item.type==='PR'?'var(--blue)':'var(--purple)'};display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;">${item.type}</div>
       <div style="flex:1;min-width:0;">
         <div style="font-size:.78rem;font-weight:600;">${item.id} — ${item.requester}</div>

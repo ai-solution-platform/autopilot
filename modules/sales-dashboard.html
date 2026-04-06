@@ -9,7 +9,10 @@
 :root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--cyan-bg:#ECFEFF;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
 body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);--cyan-bg:rgba(8,145,178,0.15);}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.6;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.6;font-kerning:normal;font-feature-settings:"kern" 1;text-rendering:optimizeLegibility;}
+h1,h2,h3,h4,h5,h6,.card-title,.kpi-value{text-rendering:optimizeLegibility;}
+.kpi-card,.card{contain:layout style;}
+.kpi-card:hover{will-change:transform;}
 ::-webkit-scrollbar{width:6px;height:6px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px;}
 
 .dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:all .2s;}
@@ -214,6 +217,32 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 <div class="t-desc">Receipt &#3614;&#3619;&#3657;&#3629;&#3617;&#3626;&#3635;&#3648;&#3609;&#3634; e-Tax</div>
 <div class="t-badge">&#3614;&#3619;&#3657;&#3629;&#3617;&#3651;&#3594;&#3657;&#3591;&#3634;&#3609;</div>
 </div>
+<div class="template-card" onclick="openTemplatePreview('taxinvoice')">
+<div class="t-icon">&#128176;</div>
+<div class="t-name">&#3651;&#3610;&#3585;&#3635;&#3585;&#3633;&#3610;&#3616;&#3634;&#3625;&#3637;</div>
+<div class="t-desc">Tax Invoice &#3605;&#3634;&#3617;&#3649;&#3610;&#3610; &#3585;&#3619;&#3617;&#3626;&#3619;&#3619;&#3614;&#3634;&#3585;&#3619;</div>
+<div class="t-badge" style="background:var(--blue-bg);color:var(--blue);">&#3651;&#3627;&#3617;&#3656;</div>
+</div>
+<div class="template-card" onclick="openTemplatePreview('debitnote')">
+<div class="t-icon">&#128200;</div>
+<div class="t-name">&#3651;&#3610;&#3648;&#3614;&#3636;&#3656;&#3617;&#3627;&#3609;&#3637;&#3657;</div>
+<div class="t-desc">Debit Note &#3649;&#3585;&#3657;&#3652;&#3586;&#3618;&#3629;&#3604;&#3648;&#3614;&#3636;&#3656;&#3617;</div>
+<div class="t-badge" style="background:var(--blue-bg);color:var(--blue);">&#3651;&#3627;&#3617;&#3656;</div>
+</div>
+<div class="template-card" onclick="openTemplatePreview('creditnote')">
+<div class="t-icon">&#128201;</div>
+<div class="t-name">&#3651;&#3610;&#3621;&#3604;&#3627;&#3609;&#3637;&#3657;</div>
+<div class="t-desc">Credit Note &#3649;&#3585;&#3657;&#3652;&#3586;&#3618;&#3629;&#3604;&#3621;&#3604;</div>
+<div class="t-badge" style="background:var(--blue-bg);color:var(--blue);">&#3651;&#3627;&#3617;&#3656;</div>
+</div>
+</div>
+</div>
+
+<!-- Template Preview Modal -->
+<div id="templatePreviewModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:9999;overflow-y:auto;padding:24px;" onclick="if(event.target===this)closeTemplatePreview()">
+<div style="max-width:800px;margin:0 auto;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:24px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.2);">
+<button onclick="closeTemplatePreview()" style="position:absolute;top:12px;right:12px;background:var(--bg3);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:1rem;color:var(--text);display:flex;align-items:center;justify-content:center;">&#10005;</button>
+<div id="templatePreviewContent"></div>
 </div>
 </div>
 
@@ -496,6 +525,103 @@ function showToast(icon,title,msg){
   document.body.appendChild(t);
   setTimeout(function(){t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(function(){t.remove();},300);},3000);
 }
+
+var TEMPLATE_DATA={
+taxinvoice:{
+  title:'\u{1F4B0} ตัวอย่างเทมเพลต — ใบกำกับภาษี (Tax Invoice)',
+  badge:'RD Compliant',
+  badgeColor:'var(--green)',
+  docTitle:'ใบกำกับภาษี / Tax Invoice',
+  docColor:'var(--blue)',
+  number:'TI-2569-0312',
+  numberLabel:'เลขที่ใบกำกับภาษี',
+  extra:[
+    {label:'เลขประจำตัวผู้เสียภาษี (ผู้ขาย)',value:'0-1234-56789-01-2'},
+    {label:'สำนักงานใหญ่/สาขา',value:'สำนักงานใหญ่'},
+    {label:'เลขประจำตัวผู้เสียภาษี (ผู้ซื้อ)',value:'0-9876-54321-09-8'},
+    {label:'ชื่อผู้ซื้อ',value:'บริษัท ABC Corporation จำกัด — สาขาที่ 00001'}
+  ],
+  items:[
+    {name:'ระบบ CRM Enterprise License',qty:'1',unit:'\u0E3F250,000.00',total:'\u0E3F250,000.00'},
+    {name:'บริการ Implementation & Customization',qty:'1',unit:'\u0E3F80,000.00',total:'\u0E3F80,000.00'},
+    {name:'ค่า Training (5 วัน)',qty:'1',unit:'\u0E3F25,000.00',total:'\u0E3F25,000.00'}
+  ],
+  subtotal:'\u0E3F355,000.00',vat:'\u0E3F24,850.00',total:'\u0E3F379,850.00',
+  totalText:'(สามแสนเจ็ดหมื่นเก้าพันแปดร้อยห้าสิบบาทถ้วน)',
+  note:'เอกสารนี้ออกเป็นต้นฉบับ ใช้สำหรับเครดิตภาษีซื้อตามประมวลรัษฎากร'
+},
+debitnote:{
+  title:'\u{1F4C8} ตัวอย่างเทมเพลต — ใบเพิ่มหนี้ (Debit Note)',
+  badge:'DN',
+  badgeColor:'var(--orange)',
+  docTitle:'ใบเพิ่มหนี้ / Debit Note',
+  docColor:'var(--orange)',
+  number:'DN-2569-0045',
+  numberLabel:'เลขที่ใบเพิ่มหนี้',
+  extra:[
+    {label:'เลขประจำตัวผู้เสียภาษี (ผู้ขาย)',value:'0-1234-56789-01-2'},
+    {label:'สำนักงานใหญ่/สาขา',value:'สำนักงานใหญ่'},
+    {label:'อ้างอิงใบกำกับภาษีเดิม',value:'TI-2569-0298 ลงวันที่ 15 มี.ค. 2569'},
+    {label:'เหตุผลในการออกใบเพิ่มหนี้',value:'ปรับราคาค่าบริการเพิ่มตามสัญญาเพิ่มเติม'}
+  ],
+  items:[
+    {name:'ค่าบริการเพิ่มเติม — Module Analytics',qty:'1',unit:'\u0E3F35,000.00',total:'\u0E3F35,000.00'},
+    {name:'ค่า Training เพิ่มเติม (2 วัน)',qty:'1',unit:'\u0E3F10,000.00',total:'\u0E3F10,000.00'}
+  ],
+  subtotal:'\u0E3F45,000.00',vat:'\u0E3F3,150.00',total:'\u0E3F48,150.00',
+  totalText:'(สี่หมื่นแปดพันหนึ่งร้อยห้าสิบบาทถ้วน)',
+  note:'ใบเพิ่มหนี้นี้ออกตามมาตรา 86/9 แห่งประมวลรัษฎากร'
+},
+creditnote:{
+  title:'\u{1F4C9} ตัวอย่างเทมเพลต — ใบลดหนี้ (Credit Note)',
+  badge:'CN',
+  badgeColor:'var(--purple)',
+  docTitle:'ใบลดหนี้ / Credit Note',
+  docColor:'var(--purple)',
+  number:'CN-2569-0023',
+  numberLabel:'เลขที่ใบลดหนี้',
+  extra:[
+    {label:'เลขประจำตัวผู้เสียภาษี (ผู้ขาย)',value:'0-1234-56789-01-2'},
+    {label:'สำนักงานใหญ่/สาขา',value:'สำนักงานใหญ่'},
+    {label:'อ้างอิงใบกำกับภาษีเดิม',value:'TI-2569-0280 ลงวันที่ 1 มี.ค. 2569'},
+    {label:'เหตุผลในการออกใบลดหนี้',value:'ส่วนลดตามเงื่อนไขสัญญา — ชำระก่อนกำหนด 2%'}
+  ],
+  items:[
+    {name:'ส่วนลดชำระก่อนกำหนด 2% ของ \u0E3F500,000',qty:'1',unit:'-\u0E3F10,000.00',total:'-\u0E3F10,000.00'},
+    {name:'คืนสินค้า — อุปกรณ์ชำรุด',qty:'1',unit:'-\u0E3F5,000.00',total:'-\u0E3F5,000.00'}
+  ],
+  subtotal:'-\u0E3F15,000.00',vat:'-\u0E3F1,050.00',total:'-\u0E3F16,050.00',
+  totalText:'(หนึ่งหมื่นหกพันห้าสิบบาทถ้วน)',
+  note:'ใบลดหนี้นี้ออกตามมาตรา 86/10 แห่งประมวลรัษฎากร'
+}
+};
+
+function openTemplatePreview(type){
+  var d=TEMPLATE_DATA[type];if(!d)return;
+  var c=document.getElementById('templatePreviewContent');
+  var rows=d.items.map(function(i){return '<tr><td style="padding:8px;border-bottom:1px solid var(--border);">'+i.name+'</td><td style="padding:8px;text-align:right;border-bottom:1px solid var(--border);">'+i.qty+'</td><td style="padding:8px;text-align:right;border-bottom:1px solid var(--border);">'+i.unit+'</td><td style="padding:8px;text-align:right;border-bottom:1px solid var(--border);">'+i.total+'</td></tr>';}).join('');
+  var extras=d.extra.map(function(e){return '<div style="padding:10px;background:var(--card-bg);border-radius:6px;border:1px solid var(--border);"><div style="font-size:.68rem;color:var(--muted);margin-bottom:2px;">'+e.label+'</div><div style="font-weight:600;font-size:.82rem;">'+e.value+'</div></div>';}).join('');
+  c.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;"><h3 style="font-size:.95rem;font-weight:700;">'+d.title+'</h3><span style="padding:4px 10px;border-radius:12px;font-size:.7rem;font-weight:600;background:'+d.badgeColor+';color:#fff;">'+d.badge+'</span></div>'
+    +'<div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px;font-size:.82rem;">'
+    +'<div style="text-align:center;margin-bottom:16px;"><div style="font-size:1.1rem;font-weight:800;">\u0E1A\u0E23\u0E34\u0E29\u0E31\u0E17 ANTS Intelligence \u0E08\u0E33\u0E01\u0E31\u0E14</div>'
+    +'<div style="font-size:.75rem;color:var(--muted);">123/45 \u0E16.\u0E2A\u0E38\u0E02\u0E38\u0E21\u0E27\u0E34\u0E17 \u0E41\u0E02\u0E27\u0E07\u0E04\u0E25\u0E2D\u0E07\u0E15\u0E31\u0E19\u0E40\u0E2B\u0E19\u0E37\u0E2D \u0E40\u0E02\u0E15\u0E04\u0E25\u0E2D\u0E07\u0E40\u0E15\u0E22 \u0E01\u0E23\u0E38\u0E07\u0E40\u0E17\u0E1E\u0E2F 10110</div>'
+    +'<div style="font-size:.75rem;color:var(--muted);">\u0E40\u0E25\u0E02\u0E1B\u0E23\u0E30\u0E08\u0E33\u0E15\u0E31\u0E27\u0E1C\u0E39\u0E49\u0E40\u0E2A\u0E35\u0E22\u0E20\u0E32\u0E29\u0E35: 0-1234-56789-01-2 | \u0E2A\u0E33\u0E19\u0E31\u0E01\u0E07\u0E32\u0E19\u0E43\u0E2B\u0E0D\u0E48</div>'
+    +'<div style="font-size:1rem;font-weight:800;color:'+d.docColor+';margin-top:10px;">'+d.docTitle+'</div></div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">'
+    +'<div style="padding:10px;background:var(--card-bg);border-radius:6px;border:1px solid var(--border);"><div style="font-size:.68rem;color:var(--muted);margin-bottom:2px;">'+d.numberLabel+'</div><div style="font-weight:600;">'+d.number+'</div></div>'
+    +'<div style="padding:10px;background:var(--card-bg);border-radius:6px;border:1px solid var(--border);"><div style="font-size:.68rem;color:var(--muted);margin-bottom:2px;">\u0E27\u0E31\u0E19\u0E17\u0E35\u0E48</div><div style="font-weight:600;">6 \u0E40\u0E21\u0E29\u0E32\u0E22\u0E19 \u0E1E.\u0E28. 2569</div></div>'
+    +extras+'</div>'
+    +'<table style="width:100%;border-collapse:collapse;font-size:.78rem;margin-bottom:12px;"><thead><tr style="background:var(--bg3);"><th style="padding:8px;text-align:left;font-weight:600;">\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23</th><th style="padding:8px;text-align:right;">\u0E08\u0E33\u0E19\u0E27\u0E19</th><th style="padding:8px;text-align:right;">\u0E23\u0E32\u0E04\u0E32/\u0E2B\u0E19\u0E48\u0E27\u0E22</th><th style="padding:8px;text-align:right;">\u0E23\u0E27\u0E21</th></tr></thead><tbody>'+rows+'</tbody></table>'
+    +'<div style="display:flex;justify-content:flex-end;"><div style="min-width:240px;">'
+    +'<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.78rem;"><span>\u0E23\u0E27\u0E21\u0E01\u0E48\u0E2D\u0E19 VAT</span><span style="font-weight:600;">'+d.subtotal+'</span></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.78rem;"><span>VAT 7%</span><span style="font-weight:600;">'+d.vat+'</span></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:6px 0;font-size:.88rem;font-weight:800;border-top:2px solid var(--text);margin-top:4px;"><span>\u0E23\u0E27\u0E21\u0E17\u0E31\u0E49\u0E07\u0E2A\u0E34\u0E49\u0E19</span><span style="color:'+d.docColor+';">'+d.total+'</span></div>'
+    +'</div></div>'
+    +'<div style="margin-top:12px;text-align:center;padding:10px;border-top:1px dashed var(--border);font-size:.72rem;color:var(--muted);">'+d.totalText+' \u2014 '+d.note+'</div>'
+    +'</div>';
+  document.getElementById('templatePreviewModal').style.display='block';
+}
+function closeTemplatePreview(){document.getElementById('templatePreviewModal').style.display='none';}
 </script>
 </body>
 </html>

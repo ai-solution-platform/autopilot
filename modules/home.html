@@ -9,7 +9,10 @@
 :root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--cyan-bg:#ECFEFF;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
 body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);--cyan-bg:rgba(8,145,178,0.15);}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;font-kerning:normal;font-feature-settings:"kern" 1;text-rendering:optimizeLegibility;}
+h1,h2,h3,h4,h5,h6,.card-title,.stat-value,.welcome-text h1{text-rendering:optimizeLegibility;}
+.stat-card,.card,.sidebar-card,.news-card{contain:layout style;}
+.stat-card:hover,.card:hover,.qa-btn:hover{will-change:transform;}
 ::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 
 .dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:all .2s;}
@@ -264,7 +267,7 @@ body.dark .onboarding-card{background:var(--blue-bg);border-color:var(--blue);}
 </div>
 
 <!-- CROSS-033: Training Mode Banner -->
-<div id="homeTrainingBanner" role="alert" aria-label="โหมดฝึกหัด" style="display:none;background:linear-gradient(135deg,#D97706,#F59E0B);border-radius:10px;padding:12px 20px;margin-bottom:12px;color:#fff;font-size:.82rem;font-weight:600;align-items:center;gap:10px;">
+<div id="homeTrainingBanner" role="alert" aria-label="โหมดฝึกหัด" style="display:none;background:linear-gradient(135deg,var(--orange),#F59E0B);border-radius:10px;padding:12px 20px;margin-bottom:12px;color:#fff;font-size:.82rem;font-weight:600;align-items:center;gap:10px;">
     <span style="font-size:1.2rem;">&#127891;</span>
     <div>
         <div>โหมดฝึกหัด (Training Mode) — ข้อมูลทั้งหมดเป็นตัวอย่าง</div>
@@ -606,18 +609,121 @@ body.dark .onboarding-card{background:var(--blue-bg);border-color:var(--blue);}
 </div>
 <div class="news-grid">
 <div class="news-card" onclick="showToast('&#128240;','บทความ','&#3648;&#3611;&#3636;&#3604;&#3610;&#3607;&#3588;&#3623;&#3634;&#3617;...')">
-<div class="news-thumb" style="background:linear-gradient(135deg,#2563EB,#06B6D4);"><span class="thumb-tag">AI และระบบอัตโนมัติ</span></div>
+<div class="news-thumb" style="background:linear-gradient(135deg,var(--blue),var(--cyan));"><span class="thumb-tag">AI และระบบอัตโนมัติ</span></div>
 <div class="news-body">
 <h4>&#3648;&#3607;&#3619;&#3609;&#3604;&#3660; AI &#3651;&#3609;&#3591;&#3634;&#3609; Back Office 2026</h4>
 <p>3 &#3648;&#3617;.&#3618;. 2569 | 8 &#3609;&#3634;&#3607;&#3637;</p>
 </div>
 </div>
 <div class="news-card" onclick="showToast('&#128240;','บทความ','&#3648;&#3611;&#3636;&#3604;&#3610;&#3607;&#3588;&#3623;&#3634;&#3617;...')">
-<div class="news-thumb" style="background:linear-gradient(135deg,#7C3AED,#EC4899);"><span class="thumb-tag">แนวปฏิบัติที่ดี</span></div>
+<div class="news-thumb" style="background:linear-gradient(135deg,var(--purple),#EC4899);"><span class="thumb-tag">แนวปฏิบัติที่ดี</span></div>
 <div class="news-body">
 <h4>&#3623;&#3636;&#3608;&#3637;&#3621;&#3604;&#3648;&#3623;&#3621;&#3634;&#3611;&#3636;&#3604;&#3591;&#3610; 50% &#3604;&#3657;&#3623;&#3618; Autopilot</h4>
 <p>1 &#3648;&#3617;.&#3618;. 2569 | 5 &#3609;&#3634;&#3607;&#3637;</p>
 </div>
+</div>
+</div>
+</div>
+
+<!-- Help Center -->
+<div class="card animate-in">
+<div class="card-header">
+<div class="card-title"><span class="icon">&#128218;</span> ศูนย์ช่วยเหลือ (Help Center)</div>
+<a class="card-link" href="javascript:void(0)" onclick="showToast('&#128218;','Help Center','เปิดศูนย์ช่วยเหลือเต็มรูปแบบ...')">เปิดทั้งหมด &#8594;</a>
+</div>
+<div class="module-grid" style="grid-template-columns:repeat(2,1fr);">
+<a class="module-link" href="javascript:void(0)" onclick="showToast('&#128214;','คู่มือ','เปิดคู่มือการใช้งาน...')">
+<div class="ml-icon" style="background:var(--blue-bg);color:var(--blue);">&#128214;</div>
+คู่มือการใช้งาน
+</a>
+<a class="module-link" href="javascript:void(0)" onclick="showToast('&#127909;','วิดีโอ','เปิดวิดีโอสอนการใช้งาน...')">
+<div class="ml-icon" style="background:var(--purple-bg);color:var(--purple);">&#127909;</div>
+วิดีโอสอนการใช้งาน
+</a>
+<a class="module-link" href="javascript:void(0)" onclick="showToast('&#10067;','FAQ','เปิดคำถามที่พบบ่อย...')">
+<div class="ml-icon" style="background:var(--green-bg);color:var(--green);">&#10067;</div>
+FAQ คำถามที่พบบ่อย
+</a>
+<a class="module-link" href="javascript:void(0)" onclick="showToast('&#128222;','Support','เปิดช่องทางติดต่อ Support...')">
+<div class="ml-icon" style="background:var(--orange-bg);color:var(--orange);">&#128222;</div>
+ติดต่อ Support
+</a>
+</div>
+</div>
+
+<!-- Keyboard Shortcuts Reference -->
+<div class="card animate-in">
+<div class="card-header">
+<div class="card-title"><span class="icon">&#9000;</span> คีย์ลัด (Keyboard Shortcuts)</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg2);border-radius:8px;font-size:.78rem;">
+<span style="color:var(--text2);">ค้นหาด่วน</span>
+<kbd style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:.72rem;font-weight:700;font-family:inherit;color:var(--text);">Ctrl+K</kbd>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg2);border-radius:8px;font-size:.78rem;">
+<span style="color:var(--text2);">เลิกทำ</span>
+<kbd style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:.72rem;font-weight:700;font-family:inherit;color:var(--text);">Ctrl+Z</kbd>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg2);border-radius:8px;font-size:.78rem;">
+<span style="color:var(--text2);">ทำซ้ำ</span>
+<kbd style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:.72rem;font-weight:700;font-family:inherit;color:var(--text);">Ctrl+Y</kbd>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg2);border-radius:8px;font-size:.78rem;">
+<span style="color:var(--text2);">บันทึก</span>
+<kbd style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:.72rem;font-weight:700;font-family:inherit;color:var(--text);">Ctrl+S</kbd>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg2);border-radius:8px;font-size:.78rem;">
+<span style="color:var(--text2);">สร้างใหม่</span>
+<kbd style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:.72rem;font-weight:700;font-family:inherit;color:var(--text);">Ctrl+N</kbd>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg2);border-radius:8px;font-size:.78rem;">
+<span style="color:var(--text2);">��ลับโหมดมืด</span>
+<kbd style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:.72rem;font-weight:700;font-family:inherit;color:var(--text);">Ctrl+D</kbd>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg2);border-radius:8px;font-size:.78rem;">
+<span style="color:var(--text2);">นำทางกลับ</span>
+<kbd style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:.72rem;font-weight:700;font-family:inherit;color:var(--text);">Alt+&#8592;</kbd>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg2);border-radius:8px;font-size:.78rem;">
+<span style="color:var(--text2);">ปิดหน้าต่าง</span>
+<kbd style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:.72rem;font-weight:700;font-family:inherit;color:var(--text);">Esc</kbd>
+</div>
+</div>
+</div>
+
+<!-- What's New Changelog -->
+<div class="card animate-in">
+<div class="card-header">
+<div class="card-title"><span class="icon">&#128227;</span> What's New — การอัปเดตล่าสุด</div>
+<a class="card-link" href="javascript:void(0)" onclick="showToast('&#128227;','Changelog','เปิดประวัติการอัปเดตทั้งหมด...')">ดูทั้งหมด &#8594;</a>
+</div>
+<div class="release-item">
+<span class="release-version">v2.8.1</span>
+<div class="release-content">
+<h4>Sprint 6: Performance & Polish — Thai font kerning, page load optimization, PWA-ready hints</h4>
+<div class="release-date">6 เม.ย. 2569 | ใหม่</div>
+</div>
+</div>
+<div class="release-item">
+<span class="release-version">v2.8.0</span>
+<div class="release-content">
+<h4>Sprint 5: Thai Sentiment Analysis, Survey Conditional Logic, Offline Indicators</h4>
+<div class="release-date">28 มี.ค. 2569</div>
+</div>
+</div>
+<div class="release-item">
+<span class="release-version">v2.7.5</span>
+<div class="release-content">
+<h4>Sprint 4: Mobile Responsive Wave 2, Dark Mode, Guided Tours</h4>
+<div class="release-date">15 มี.ค. 2569</div>
+</div>
+</div>
+<div class="release-item">
+<span class="release-version">v2.7.0</span>
+<div class="release-content">
+<h4>Sprint 3: Global Search Ctrl+K, Undo/Redo, Thai Error Messages</h4>
+<div class="release-date">1 มี.ค. 2569</div>
 </div>
 </div>
 </div>
@@ -721,22 +827,22 @@ body.dark .onboarding-card{background:var(--blue-bg);border-color:var(--blue);}
 </div>
 <div style="display:flex;flex-direction:column;gap:8px;">
 <div style="display:flex;align-items:center;gap:10px;font-size:.82rem;">
-<div style="width:28px;height:28px;border-radius:50%;background:#2563EB;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;">&#3626;&#3617;</div>
+<div style="width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;">&#3626;&#3617;</div>
 <div style="flex:1;">&#3626;&#3617;&#3594;&#3634;&#3618; &#3585;. <span style="color:var(--green);font-size:.68rem;">&#9679; ออนไลน์</span></div>
 <span style="font-size:.68rem;color:var(--muted);">5 งาน</span>
 </div>
 <div style="display:flex;align-items:center;gap:10px;font-size:.82rem;">
-<div style="width:28px;height:28px;border-radius:50%;background:#7C3AED;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;">&#3626;&#3623;</div>
+<div style="width:28px;height:28px;border-radius:50%;background:var(--purple);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;">&#3626;&#3623;</div>
 <div style="flex:1;">&#3626;&#3640;&#3623;&#3619;&#3619;&#3603;&#3634; &#3607;. <span style="color:var(--green);font-size:.68rem;">&#9679; ออนไลน์</span></div>
 <span style="font-size:.68rem;color:var(--muted);">3 งาน</span>
 </div>
 <div style="display:flex;align-items:center;gap:10px;font-size:.82rem;">
-<div style="width:28px;height:28px;border-radius:50%;background:#059669;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;">&#3603;&#3600;</div>
+<div style="width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;">&#3603;&#3600;</div>
 <div style="flex:1;">&#3603;&#3633;&#3600;&#3614;&#3591;&#3625;&#3660; &#3626;. <span style="color:var(--muted);font-size:.68rem;">&#9679; ไม่อยู่</span></div>
 <span style="font-size:.68rem;color:var(--muted);">2 งาน</span>
 </div>
 <div style="display:flex;align-items:center;gap:10px;font-size:.82rem;">
-<div style="width:28px;height:28px;border-radius:50%;background:#D97706;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;">&#3614;&#3619;</div>
+<div style="width:28px;height:28px;border-radius:50%;background:var(--orange);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;">&#3614;&#3619;</div>
 <div style="flex:1;">&#3614;&#3619;&#3607;&#3636;&#3614;&#3618;&#3660; &#3619;. <span style="color:var(--green);font-size:.68rem;">&#9679; ออนไลน์</span></div>
 <span style="font-size:.68rem;color:var(--muted);">4 งาน</span>
 </div>
@@ -904,6 +1010,20 @@ function homeGuidedTour(){
     window.homeGuidedTourNext=function(){show(idx+1);};
     show(0);
 }
+
+// ═══ SPRINT-6: Service Worker Registration (PWA-ready, commented out) ═══
+// Uncomment the following block to activate offline caching via Service Worker:
+/*
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('/sw.js').then(function(reg){
+      console.log('[SW] Registered scope:',reg.scope);
+    }).catch(function(err){
+      console.log('[SW] Registration failed:',err);
+    });
+  });
+}
+*/
 
 // ═══ CROSS-017: Accessibility enhancements ═══
 (function(){

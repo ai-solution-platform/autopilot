@@ -9,7 +9,8 @@
 :root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--cyan-bg:#ECFEFF;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
 body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);--cyan-bg:rgba(8,145,178,0.15);}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;font-size:14px;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;font-size:14px;font-kerning:normal;font-feature-settings:"kern" 1;text-rendering:optimizeLegibility;}
+h1,h2,h3,h4,h5,h6,.card-title{text-rendering:optimizeLegibility;}
 ::-webkit-scrollbar{width:6px;height:6px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px;}
 .dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);}
 
@@ -48,12 +49,14 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 .kanban-col-count{font-size:.68rem;font-weight:600;padding:2px 8px;border-radius:8px;background:var(--bg3);color:var(--muted);}
 .kanban-col-value{font-size:.68rem;font-weight:700;color:var(--text2);}
 .kanban-col-body{padding:10px;display:flex;flex-direction:column;gap:8px;min-height:200px;}
-.kanban-col-body.drag-over{background:var(--blue-bg);border:2px dashed var(--blue);border-radius:0 0 10px 10px;}
+.kanban-col-body.drag-over{background:var(--blue-bg);border:2px dashed var(--blue);border-radius:0 0 10px 10px;box-shadow:inset 0 0 16px rgba(37,99,235,.08);transition:all .2s ease;}
 
 /* Deal Card */
-.deal-card{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:12px;cursor:grab;transition:all .2s;box-shadow:var(--shadow);}
-.deal-card:hover{border-color:var(--blue);box-shadow:0 4px 12px rgba(37,99,235,.1);}
-.deal-card.dragging{opacity:.5;transform:rotate(2deg);}
+.deal-card{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:12px;cursor:grab;transition:all .25s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow);}
+.deal-card:hover{border-color:var(--blue);box-shadow:0 4px 12px rgba(37,99,235,.1);transform:translateY(-1px);}
+.deal-card.dragging{opacity:.4;transform:rotate(2deg) scale(.95);border:2px dashed var(--blue);box-shadow:none;}
+.deal-card.deal-dropping{animation:dealDrop .35s ease;}
+@keyframes dealDrop{0%{opacity:0;transform:translateY(-12px) scale(.95);}60%{transform:translateY(3px) scale(1.02);}100%{opacity:1;transform:translateY(0) scale(1);}}
 .deal-card .dc-name{font-size:.82rem;font-weight:600;margin-bottom:4px;}
 .deal-card .dc-company{font-size:.7rem;color:var(--muted);margin-bottom:6px;}
 .deal-card .dc-value{font-size:.85rem;font-weight:800;color:var(--blue);font-family:'Inter',sans-serif;margin-bottom:6px;}
@@ -157,10 +160,10 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 <div class="filter-bar">
 <span style="font-size:.82rem;font-weight:600;margin-right:4px;">&#3585;&#3619;&#3629;&#3591;:</span>
 <button class="filter-btn active" onclick="filterMember('all',this)">&#3607;&#3640;&#3585;&#3588;&#3609;</button>
-<button class="filter-btn" onclick="filterMember('somchai',this)"><div class="avatar" style="background:#2563EB;">&#3626;&#3617;</div> &#3626;&#3617;&#3594;&#3634;&#3618; &#3585;.</button>
-<button class="filter-btn" onclick="filterMember('suwanna',this)"><div class="avatar" style="background:#7C3AED;">&#3626;&#3623;</div> &#3626;&#3640;&#3623;&#3619;&#3619;&#3603;&#3634; &#3607;.</button>
-<button class="filter-btn" onclick="filterMember('natthapong',this)"><div class="avatar" style="background:#059669;">&#3603;&#3600;</div> &#3603;&#3633;&#3600;&#3614;&#3591;&#3625;&#3660; &#3626;.</button>
-<button class="filter-btn" onclick="filterMember('pornthip',this)"><div class="avatar" style="background:#D97706;">&#3614;&#3619;</div> &#3614;&#3619;&#3607;&#3636;&#3614;&#3618;&#3660; &#3619;.</button>
+<button class="filter-btn" onclick="filterMember('somchai',this)"><div class="avatar" style="background:var(--blue);">&#3626;&#3617;</div> &#3626;&#3617;&#3594;&#3634;&#3618; &#3585;.</button>
+<button class="filter-btn" onclick="filterMember('suwanna',this)"><div class="avatar" style="background:var(--purple);">&#3626;&#3623;</div> &#3626;&#3640;&#3623;&#3619;&#3619;&#3603;&#3634; &#3607;.</button>
+<button class="filter-btn" onclick="filterMember('natthapong',this)"><div class="avatar" style="background:var(--green);">&#3603;&#3600;</div> &#3603;&#3633;&#3600;&#3614;&#3591;&#3625;&#3660; &#3626;.</button>
+<button class="filter-btn" onclick="filterMember('pornthip',this)"><div class="avatar" style="background:var(--orange);">&#3614;&#3619;</div> &#3614;&#3619;&#3607;&#3636;&#3614;&#3618;&#3660; &#3619;.</button>
 </div>
 
 <!-- KPI -->
@@ -202,7 +205,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 <div class="dc-company">MNO Manufacturing</div>
 <div class="dc-value">&#3647;1,800,000</div>
 <div class="dc-footer">
-<div class="dc-rep"><div class="dc-rep-dot" style="background:#2563EB;">&#3626;&#3617;</div> &#3626;&#3617;&#3594;&#3634;&#3618;</div>
+<div class="dc-rep"><div class="dc-rep-dot" style="background:var(--blue);">&#3626;&#3617;</div> &#3626;&#3617;&#3594;&#3634;&#3618;</div>
 <div class="dc-actions">
 <button class="dc-btn" title="&#3626;&#3619;&#3657;&#3634;&#3591;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;" onclick="showToast('&#128203;','Auto-Generate','&#3585;&#3635;&#3621;&#3633;&#3591;&#3626;&#3619;&#3657;&#3634;&#3591;&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634;&#3592;&#3634;&#3585;&#3586;&#3657;&#3629;&#3617;&#3641;&#3621; Pipeline...')">&#128203;</button>
 <button class="dc-btn" title="&#3604;&#3641;&#3619;&#3634;&#3618;&#3621;&#3632;&#3648;&#3629;&#3637;&#3618;&#3604;">&#128065;&#65039;</button>
@@ -214,7 +217,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 <div class="dc-company">PQR Tech</div>
 <div class="dc-value">&#3647;650,000</div>
 <div class="dc-footer">
-<div class="dc-rep"><div class="dc-rep-dot" style="background:#7C3AED;">&#3626;&#3623;</div> &#3626;&#3640;&#3623;&#3619;&#3619;&#3603;&#3634;</div>
+<div class="dc-rep"><div class="dc-rep-dot" style="background:var(--purple);">&#3626;&#3623;</div> &#3626;&#3640;&#3623;&#3619;&#3619;&#3603;&#3634;</div>
 <div class="dc-actions"><button class="dc-btn" onclick="showToast('&#128203;','Auto-Generate','&#3585;&#3635;&#3621;&#3633;&#3591;&#3626;&#3619;&#3657;&#3634;&#3591;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;...')">&#128203;</button><button class="dc-btn">&#128065;&#65039;</button></div>
 </div>
 </div>
@@ -234,7 +237,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 <div class="dc-company">GHI Holdings</div>
 <div class="dc-value">&#3647;890,000</div>
 <div class="dc-footer">
-<div class="dc-rep"><div class="dc-rep-dot" style="background:#059669;">&#3603;&#3600;</div> &#3603;&#3633;&#3600;&#3614;&#3591;&#3625;&#3660;</div>
+<div class="dc-rep"><div class="dc-rep-dot" style="background:var(--green);">&#3603;&#3600;</div> &#3603;&#3633;&#3600;&#3614;&#3591;&#3625;&#3660;</div>
 <div class="dc-actions"><button class="dc-btn" onclick="showToast('&#128203;','Auto-Generate','&#3585;&#3635;&#3621;&#3633;&#3591;&#3626;&#3619;&#3657;&#3634;&#3591;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;...')">&#128203;</button><button class="dc-btn">&#128065;&#65039;</button></div>
 </div>
 </div>
@@ -243,7 +246,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 <div class="dc-company">STU Corp</div>
 <div class="dc-value">&#3647;520,000</div>
 <div class="dc-footer">
-<div class="dc-rep"><div class="dc-rep-dot" style="background:#D97706;">&#3614;&#3619;</div> &#3614;&#3619;&#3607;&#3636;&#3614;&#3618;&#3660;</div>
+<div class="dc-rep"><div class="dc-rep-dot" style="background:var(--orange);">&#3614;&#3619;</div> &#3614;&#3619;&#3607;&#3636;&#3614;&#3618;&#3660;</div>
 <div class="dc-actions"><button class="dc-btn" onclick="showToast('&#128203;','Auto-Generate','&#3585;&#3635;&#3621;&#3633;&#3591;&#3626;&#3619;&#3657;&#3634;&#3591;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;...')">&#128203;</button><button class="dc-btn">&#128065;&#65039;</button></div>
 </div>
 </div>
@@ -263,7 +266,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 <div class="dc-company">ABC Corporation</div>
 <div class="dc-value">&#3647;2,500,000</div>
 <div class="dc-footer">
-<div class="dc-rep"><div class="dc-rep-dot" style="background:#2563EB;">&#3626;&#3617;</div> &#3626;&#3617;&#3594;&#3634;&#3618;</div>
+<div class="dc-rep"><div class="dc-rep-dot" style="background:var(--blue);">&#3626;&#3617;</div> &#3626;&#3617;&#3594;&#3634;&#3618;</div>
 <div class="dc-actions"><button class="dc-btn" onclick="showToast('&#128203;','Auto-Generate','&#3626;&#3619;&#3657;&#3634;&#3591;&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634; QT-2569-0157 &#3629;&#3633;&#3605;&#3650;&#3609;&#3617;&#3633;&#3605;&#3636;&#3592;&#3634;&#3585; Pipeline!')">&#128203;</button><button class="dc-btn">&#128065;&#65039;</button></div>
 </div>
 </div>
@@ -272,7 +275,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 <div class="dc-company">XYZ Trading</div>
 <div class="dc-value">&#3647;1,300,000</div>
 <div class="dc-footer">
-<div class="dc-rep"><div class="dc-rep-dot" style="background:#7C3AED;">&#3626;&#3623;</div> &#3626;&#3640;&#3623;&#3619;&#3619;&#3603;&#3634;</div>
+<div class="dc-rep"><div class="dc-rep-dot" style="background:var(--purple);">&#3626;&#3623;</div> &#3626;&#3640;&#3623;&#3619;&#3619;&#3603;&#3634;</div>
 <div class="dc-actions"><button class="dc-btn" onclick="showToast('&#128203;','Auto-Generate','&#3626;&#3619;&#3657;&#3634;&#3591;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;...')">&#128203;</button><button class="dc-btn">&#128065;&#65039;</button></div>
 </div>
 </div>
@@ -292,7 +295,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 <div class="dc-company">DEF Industries</div>
 <div class="dc-value">&#3647;1,200,000</div>
 <div class="dc-footer">
-<div class="dc-rep"><div class="dc-rep-dot" style="background:#059669;">&#3603;&#3600;</div> &#3603;&#3633;&#3600;&#3614;&#3591;&#3625;&#3660;</div>
+<div class="dc-rep"><div class="dc-rep-dot" style="background:var(--green);">&#3603;&#3600;</div> &#3603;&#3633;&#3600;&#3614;&#3591;&#3625;&#3660;</div>
 <div class="dc-actions"><button class="dc-btn" onclick="showToast('&#128203;','Auto-Generate','&#3626;&#3619;&#3657;&#3634;&#3591;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;...')">&#128203;</button><button class="dc-btn">&#128065;&#65039;</button></div>
 </div>
 </div>
@@ -312,7 +315,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 <div class="dc-company">JKL Manufacturing</div>
 <div class="dc-value">&#3647;680,000</div>
 <div class="dc-footer">
-<div class="dc-rep"><div class="dc-rep-dot" style="background:#D97706;">&#3614;&#3619;</div> &#3614;&#3619;&#3607;&#3636;&#3614;&#3618;&#3660;</div>
+<div class="dc-rep"><div class="dc-rep-dot" style="background:var(--orange);">&#3614;&#3619;</div> &#3614;&#3619;&#3607;&#3636;&#3614;&#3618;&#3660;</div>
 <div class="dc-actions"><button class="dc-btn" onclick="showToast('&#128203;','Auto-Generate','&#3626;&#3619;&#3657;&#3634;&#3591;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;...')">&#128203;</button><button class="dc-btn">&#128065;&#65039;</button></div>
 </div>
 </div>
@@ -321,7 +324,7 @@ body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:
 <div class="dc-company">VWX Bank</div>
 <div class="dc-value">&#3647;620,000</div>
 <div class="dc-footer">
-<div class="dc-rep"><div class="dc-rep-dot" style="background:#2563EB;">&#3626;&#3617;</div> &#3626;&#3617;&#3594;&#3634;&#3618;</div>
+<div class="dc-rep"><div class="dc-rep-dot" style="background:var(--blue);">&#3626;&#3617;</div> &#3626;&#3617;&#3594;&#3634;&#3618;</div>
 <div class="dc-actions"><button class="dc-btn" onclick="showToast('&#128203;','Auto-Generate','&#3626;&#3619;&#3657;&#3634;&#3591;&#3648;&#3629;&#3585;&#3626;&#3634;&#3619;...')">&#128203;</button><button class="dc-btn">&#128065;&#65039;</button></div>
 </div>
 </div>
@@ -433,10 +436,24 @@ function onDrop(e,col){
     var hint=col.querySelector('.drag-hint');
     col.insertBefore(draggedCard,hint);
     draggedCard.classList.remove('dragging');
+    draggedCard.classList.add('deal-dropping');
+    var card=draggedCard;
+    setTimeout(function(){card.classList.remove('deal-dropping');},350);
     var stage=col.closest('.kanban-col').getAttribute('data-stage');
+    updateStageCounts();
     showToast('&#9989;','&#3618;&#3657;&#3634;&#3618; Stage','&#3618;&#3657;&#3634;&#3618;&#3604;&#3637;&#3621;&#3652;&#3611; Stage: '+stage+' &#3626;&#3635;&#3648;&#3619;&#3655;&#3592;');
     draggedCard=null;
   }
+}
+
+function updateStageCounts(){
+  document.querySelectorAll('.kanban-col').forEach(function(col){
+    var cards=col.querySelectorAll('.deal-card');
+    var count=0;
+    cards.forEach(function(c){if(c.style.display!=='none')count++;});
+    var badge=col.querySelector('.kanban-col-count');
+    if(badge)badge.textContent=count;
+  });
 }
 
 function filterMember(member,btn){
@@ -516,7 +533,11 @@ function showToast(icon,title,msg){
         lastDropTarget.classList.remove('drag-over');
         var hint=lastDropTarget.querySelector('.drag-hint');
         lastDropTarget.insertBefore(touchCard,hint);
+        touchCard.classList.add('deal-dropping');
+        var c=touchCard;
+        setTimeout(function(){c.classList.remove('deal-dropping');},350);
         var stage=lastDropTarget.closest('.kanban-col').getAttribute('data-stage');
+        updateStageCounts();
         showToast('\u2705','\u0e22\u0e49\u0e32\u0e22 Stage','\u0e22\u0e49\u0e32\u0e22\u0e14\u0e35\u0e25\u0e44\u0e1b Stage: '+stage+' \u0e2a\u0e33\u0e40\u0e23\u0e47\u0e08');
         lastDropTarget=null;
       }

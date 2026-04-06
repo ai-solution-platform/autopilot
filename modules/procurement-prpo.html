@@ -9,7 +9,8 @@
 :root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
 body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh;font-kerning:normal;font-feature-settings:"kern" 1;text-rendering:optimizeLegibility;}
+h1,h2,h3,h4,h5,h6,.card-title{text-rendering:optimizeLegibility;}
 ::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 
 .dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);}
@@ -281,9 +282,26 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
 .page-wrap>*:nth-child(3){animation-delay:.1s;}
 .page-wrap>*:nth-child(4){animation-delay:.15s;}
 .page-wrap>*:nth-child(5){animation-delay:.2s;}
+.hover-bg-blue{transition:background .15s;}.hover-bg-blue:hover{background:var(--blue-bg);}
+.hover-border-blue{transition:all .2s;}.hover-border-blue:hover{border-color:var(--blue) !important;}
+.template-hover-blue{transition:all .2s;}.template-hover-blue:hover{border-color:var(--blue) !important;background:var(--blue-bg) !important;}
+.template-hover-purple{transition:all .2s;}.template-hover-purple:hover{border-color:var(--purple) !important;background:var(--purple-bg) !important;}
+.template-hover-cyan{transition:all .2s;}.template-hover-cyan:hover{border-color:var(--cyan) !important;background:rgba(8,145,178,0.08) !important;}
+.template-hover-green{transition:all .2s;}.template-hover-green:hover{border-color:var(--green) !important;background:var(--green-bg) !important;}
+.template-hover-orange{transition:all .2s;}.template-hover-orange:hover{border-color:var(--orange) !important;background:var(--orange-bg) !important;}
 </style>
 </head>
 <body>
+
+<!-- SPRINT-6: Offline Indicator -->
+<div id="prpoOfflineIndicator" role="status" aria-label="สถานะการเชื่อมต่อ" style="display:none;background:var(--red-bg,#FEF2F2);border:1px solid var(--red,#DC2626);border-radius:10px;padding:10px 16px;margin:12px 24px 0;align-items:center;gap:8px;font-size:.78rem;font-weight:600;color:var(--red,#DC2626);">
+    <span>&#128225;</span> คุณกำลังออฟไลน์ — ข้อมูลฟอร์มจะถูกบันทึกไว้ในเครื่อง
+    <span style="margin-left:auto;font-size:.65rem;padding:2px 8px;background:var(--red,#DC2626);color:#fff;border-radius:4px;">OFFLINE</span>
+</div>
+<!-- SPRINT-6: Last Saved Indicator -->
+<div id="prpoLastSaved" style="display:none;padding:6px 24px;font-size:.68rem;color:var(--muted,#64748B);display:flex;align-items:center;gap:6px;">
+    <span>&#128190;</span> <span id="prpoLastSavedText">ข้อมูลบันทึกล่าสุด: เพิ่งบันทึก</span>
+</div>
 
 <!-- Loading Skeleton Overlay -->
 <div class="skeleton-overlay" id="skeletonOverlay">
@@ -420,9 +438,9 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
       <div style="position:relative;display:inline-block;">
         <button class="btn btn-outline" onclick="toggleExportMenu('prExportMenu')">📥 ส่งออก ▾</button>
         <div id="prExportMenu" style="display:none;position:absolute;top:100%;right:0;margin-top:4px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.1);z-index:50;min-width:140px;">
-          <div style="padding:8px 14px;cursor:pointer;font-size:.8rem;border-radius:8px 8px 0 0;transition:background .15s;" onmouseover="this.style.background='var(--blue-bg)'" onmouseout="this.style.background=''" onclick="showToast('กำลังส่งออก PDF...');toggleExportMenu('prExportMenu')">📄 ส่งออก PDF</div>
-          <div style="padding:8px 14px;cursor:pointer;font-size:.8rem;transition:background .15s;" onmouseover="this.style.background='var(--blue-bg)'" onmouseout="this.style.background=''" onclick="showToast('กำลังส่งออก Excel...');toggleExportMenu('prExportMenu')">📊 ส่งออก Excel</div>
-          <div style="padding:8px 14px;cursor:pointer;font-size:.8rem;border-radius:0 0 8px 8px;transition:background .15s;" onmouseover="this.style.background='var(--blue-bg)'" onmouseout="this.style.background=''" onclick="showToast('กำลังส่งออก CSV...');toggleExportMenu('prExportMenu')">📝 ส่งออก CSV</div>
+          <div style="padding:8px 14px;cursor:pointer;font-size:.8rem;border-radius:8px 8px 0 0;transition:background .15s;" class="hover-bg-blue" onclick="showToast('กำลังส่งออก PDF...');toggleExportMenu('prExportMenu')">📄 ส่งออก PDF</div>
+          <div style="padding:8px 14px;cursor:pointer;font-size:.8rem;transition:background .15s;" class="hover-bg-blue" onclick="showToast('กำลังส่งออก Excel...');toggleExportMenu('prExportMenu')">📊 ส่งออก Excel</div>
+          <div style="padding:8px 14px;cursor:pointer;font-size:.8rem;border-radius:0 0 8px 8px;transition:background .15s;" class="hover-bg-blue" onclick="showToast('กำลังส่งออก CSV...');toggleExportMenu('prExportMenu')">📝 ส่งออก CSV</div>
         </div>
       </div>
       <button class="btn btn-primary" onclick="openModal('prCreateModal')">+ สร้าง PR ใหม่</button>
@@ -571,7 +589,7 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
         </div>
         <div class="form-group full">
           <label class="form-label">เอกสารประกอบ</label>
-          <div style="padding:20px;border:2px dashed var(--border);border-radius:8px;text-align:center;color:var(--muted);font-size:.8rem;cursor:pointer;" onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='var(--border)'">📎 ลากไฟล์มาวาง หรือ คลิกเพื่อเลือก</div>
+          <div style="padding:20px;border:2px dashed var(--border);border-radius:8px;text-align:center;color:var(--muted);font-size:.8rem;cursor:pointer;" class="hover-border-blue">📎 ลากไฟล์มาวาง หรือ คลิกเพื่อเลือก</div>
         </div>
       </div>
     </div>
@@ -591,7 +609,7 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
     </div>
     <div class="modal-body">
       <div style="display:grid;gap:10px;" id="templateList">
-        <div class="template-card" onclick="applyTemplate('office')" style="padding:14px 18px;border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;background:var(--card-bg);" onmouseover="this.style.borderColor='var(--blue)';this.style.background='var(--blue-bg)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--card-bg)'">
+        <div class="template-card" onclick="applyTemplate('office')" style="padding:14px 18px;border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;background:var(--card-bg);" class="template-hover-blue">
           <div style="display:flex;align-items:center;gap:10px;">
             <span style="font-size:1.4rem;">🖊️</span>
             <div style="flex:1;">
@@ -601,7 +619,7 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
             </div>
           </div>
         </div>
-        <div class="template-card" onclick="applyTemplate('raw')" style="padding:14px 18px;border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;background:var(--card-bg);" onmouseover="this.style.borderColor='var(--purple)';this.style.background='var(--purple-bg)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--card-bg)'">
+        <div class="template-card" onclick="applyTemplate('raw')" style="padding:14px 18px;border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;background:var(--card-bg);" class="template-hover-purple">
           <div style="display:flex;align-items:center;gap:10px;">
             <span style="font-size:1.4rem;">🏭</span>
             <div style="flex:1;">
@@ -611,7 +629,7 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
             </div>
           </div>
         </div>
-        <div class="template-card" onclick="applyTemplate('it')" style="padding:14px 18px;border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;background:var(--card-bg);" onmouseover="this.style.borderColor='var(--cyan)';this.style.background='rgba(8,145,178,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--card-bg)'">
+        <div class="template-card" onclick="applyTemplate('it')" style="padding:14px 18px;border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;background:var(--card-bg);" class="template-hover-cyan">
           <div style="display:flex;align-items:center;gap:10px;">
             <span style="font-size:1.4rem;">💻</span>
             <div style="flex:1;">
@@ -621,7 +639,7 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
             </div>
           </div>
         </div>
-        <div class="template-card" onclick="applyTemplate('mro')" style="padding:14px 18px;border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;background:var(--card-bg);" onmouseover="this.style.borderColor='var(--green)';this.style.background='var(--green-bg)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--card-bg)'">
+        <div class="template-card" onclick="applyTemplate('mro')" style="padding:14px 18px;border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;background:var(--card-bg);" class="template-hover-green">
           <div style="display:flex;align-items:center;gap:10px;">
             <span style="font-size:1.4rem;">🔧</span>
             <div style="flex:1;">
@@ -631,7 +649,7 @@ body.dark .status-sent{background:rgba(8,145,178,0.15);}
             </div>
           </div>
         </div>
-        <div class="template-card" onclick="applyTemplate('event')" style="padding:14px 18px;border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;background:var(--card-bg);" onmouseover="this.style.borderColor='var(--orange)';this.style.background='var(--orange-bg)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--card-bg)'">
+        <div class="template-card" onclick="applyTemplate('event')" style="padding:14px 18px;border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;background:var(--card-bg);" class="template-hover-orange">
           <div style="display:flex;align-items:center;gap:10px;">
             <span style="font-size:1.4rem;">🎪</span>
             <div style="flex:1;">
@@ -1111,7 +1129,7 @@ function renderVendorSelector(){
   const container=document.getElementById('vendorSelector');
   container.innerHTML=VENDORS.map(v=>{
     const scoreClass=v.score>=4.3?'high':v.score>=3.9?'mid':'low';
-    return `<div style="padding:10px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .2s;background:var(--card-bg);" onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='var(--border)'" onclick="this.style.borderColor='var(--blue)';this.style.background='var(--blue-bg)'">
+    return `<div style="padding:10px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .2s;background:var(--card-bg);" class="hover-border-blue" onclick="this.style.borderColor='var(--blue)';this.style.background='var(--blue-bg)'">
       <div style="font-size:.82rem;font-weight:600;">${v.short}</div>
       <div style="font-size:.7rem;color:var(--muted);margin-top:2px;">${v.code} · <span class="vendor-score ${scoreClass}">★ ${v.score}</span> · ${v.tasks} งาน · ฿${fmt(v.spend)}</div>
     </div>`;
@@ -1454,6 +1472,85 @@ setTimeout(function(){
   var overlay=document.getElementById('skeletonOverlay');
   if(overlay) overlay.classList.add('hidden');
 },600);
+
+// ═══ SPRINT-6: Offline Detection ═══
+(function(){
+  function updateOffline(){
+    var ind=document.getElementById('prpoOfflineIndicator');
+    if(ind) ind.style.display=navigator.onLine?'none':'flex';
+  }
+  window.addEventListener('offline',updateOffline);
+  window.addEventListener('online',updateOffline);
+  updateOffline();
+})();
+
+// ═══ SPRINT-6: localStorage Form Draft Caching ═══
+(function(){
+  var DRAFT_KEY='autopilot_prpo_form_draft';
+  var savedEl=document.getElementById('prpoLastSaved');
+  var savedTextEl=document.getElementById('prpoLastSavedText');
+  var lastSaveTime=null;
+
+  function saveDraft(){
+    try{
+      var inputs=document.querySelectorAll('input:not([type=checkbox]):not([type=radio]),select,textarea');
+      var data={};
+      inputs.forEach(function(el,i){
+        var key=el.id||el.name||('field_'+i);
+        data[key]=el.value;
+      });
+      data._timestamp=Date.now();
+      localStorage.setItem(DRAFT_KEY,JSON.stringify(data));
+      lastSaveTime=Date.now();
+      updateLastSaved();
+      if(savedEl) savedEl.style.display='flex';
+    }catch(e){}
+  }
+
+  function updateLastSaved(){
+    if(!savedTextEl||!lastSaveTime) return;
+    var diff=Math.floor((Date.now()-lastSaveTime)/60000);
+    if(diff<1) savedTextEl.textContent='ข้อมูลบันทึกล่าสุด: เพิ่งบันทึก';
+    else savedTextEl.textContent='ข้อมูลบันทึกล่าสุด: '+diff+' นาทีที่แล้ว';
+  }
+
+  // Auto-save every 30 seconds
+  setInterval(saveDraft,30000);
+  // Update time display every minute
+  setInterval(updateLastSaved,60000);
+
+  // Listen for input changes
+  document.addEventListener('input',function(e){
+    if(e.target.matches('input,select,textarea')){
+      clearTimeout(window._prpoDraftTimer);
+      window._prpoDraftTimer=setTimeout(saveDraft,2000);
+    }
+  });
+
+  // Restore draft on load
+  try{
+    var saved=localStorage.getItem(DRAFT_KEY);
+    if(saved){
+      var d=JSON.parse(saved);
+      lastSaveTime=d._timestamp||Date.now();
+      updateLastSaved();
+      if(savedEl) savedEl.style.display='flex';
+    }
+  }catch(e){}
+})();
+
+// ═══ SPRINT-6: Service Worker Registration (PWA-ready, commented out) ═══
+/*
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('/sw.js').then(function(reg){
+      console.log('[SW] Registered scope:',reg.scope);
+    }).catch(function(err){
+      console.log('[SW] Registration failed:',err);
+    });
+  });
+}
+*/
 </script>
 
 </body>

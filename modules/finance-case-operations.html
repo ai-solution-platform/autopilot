@@ -13,7 +13,8 @@ body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#3
 
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh;line-height:1.5;transition:background 0.3s,color 0.3s;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh;line-height:1.5;transition:background 0.3s,color 0.3s;font-kerning:normal;font-feature-settings:"kern" 1;text-rendering:optimizeLegibility;}
+h1,h2,h3,h4,h5,h6,.card-title{text-rendering:optimizeLegibility;}
 
 ::-webkit-scrollbar{width:6px;height:6px;}
 ::-webkit-scrollbar-track{background:var(--bg2);}
@@ -443,6 +444,275 @@ tbody tr:hover{background:var(--blue-bg);}
     </div>
   </div>
 
+  <!-- SPRINT-4: Enhanced Sync Configuration -->
+  <div class="integration-panel fade-up" id="syncConfigSection">
+    <h3>&#9881; ตั้งค่าการซิงค์ระบบบัญชี (Sync Configuration)</h3>
+
+    <!-- Sync Config Tabs -->
+    <div style="display:flex;gap:0;background:var(--bg2);border-radius:10px;padding:3px;border:1px solid var(--border);margin-bottom:16px;">
+      <button class="btn btn-sm sync-sys-tab active" style="flex:1;background:var(--blue);color:#fff;border-radius:8px;" onclick="switchSyncTab(this,'express')">&#128187; Express</button>
+      <button class="btn btn-sm sync-sys-tab" style="flex:1;background:transparent;color:var(--muted);border-radius:8px;" onclick="switchSyncTab(this,'peak')">&#128202; PEAK</button>
+      <button class="btn btn-sm sync-sys-tab" style="flex:1;background:transparent;color:var(--muted);border-radius:8px;" onclick="switchSyncTab(this,'prosoft')">&#128200; Prosoft</button>
+    </div>
+
+    <!-- Express Config -->
+    <div id="syncTab-express" class="sync-tab-content">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+        <div style="border:1px solid var(--border);border-radius:10px;padding:16px;">
+          <div style="font-size:.78rem;font-weight:700;margin-bottom:12px;">&#128279; การเชื่อมต่อ Express Accounting</div>
+          <div style="margin-bottom:8px;"><label style="font-size:.72rem;font-weight:600;color:var(--muted);display:block;margin-bottom:4px;">API Endpoint</label><input style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.72rem;background:var(--bg2);color:var(--text);" value="https://api.express-accounting.co.th/v2"></div>
+          <div style="margin-bottom:8px;"><label style="font-size:.72rem;font-weight:600;color:var(--muted);display:block;margin-bottom:4px;">API Key</label><input type="password" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.72rem;background:var(--bg2);color:var(--text);" value="exp_live_k8f2m9x3a7b1"></div>
+          <div style="margin-bottom:8px;"><label style="font-size:.72rem;font-weight:600;color:var(--muted);display:block;margin-bottom:4px;">Company Code</label><input style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:.72rem;background:var(--bg2);color:var(--text);" value="TSC-001"></div>
+          <div style="display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--green);font-weight:600;margin-top:8px;">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;"></span> เชื่อมต่อสำเร็จ &#8212; Latency: 45ms
+          </div>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:10px;padding:16px;">
+          <div style="font-size:.78rem;font-weight:700;margin-bottom:12px;">&#128339; ตารางการซิงค์ (Sync Schedule)</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:2px solid var(--blue);border-radius:8px;background:var(--blue-bg);font-size:.78rem;cursor:pointer;">
+              <input type="radio" name="syncScheduleExpress" checked> <strong>Real-time</strong> <span style="color:var(--muted);font-size:.68rem;">&#8212; ซิงค์ทันทีเมื่อมีการเปลี่ยนแปลง</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:.78rem;cursor:pointer;">
+              <input type="radio" name="syncScheduleExpress"> <strong>รายชั่วโมง</strong> <span style="color:var(--muted);font-size:.68rem;">&#8212; ซิงค์ทุก 1 ชั่วโมง</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:.78rem;cursor:pointer;">
+              <input type="radio" name="syncScheduleExpress"> <strong>รายวัน</strong> <span style="color:var(--muted);font-size:.68rem;">&#8212; ซิงค์เวลา 06:00 น. ทุกวัน</span>
+            </label>
+          </div>
+          <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:12px;">
+            <div style="font-size:.75rem;font-weight:700;margin-bottom:8px;">&#9888;&#65039; การจัดการข้อมูลขัดแย้ง (Conflict Resolution)</div>
+            <select style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:.75rem;background:var(--bg2);color:var(--text);font-family:inherit;cursor:pointer;">
+              <option selected>&#128260; เขียนทับข้อมูลเก่า (Overwrite)</option>
+              <option>&#9203; ข้ามรายการที่ขัดแย้ง (Skip)</option>
+              <option>&#128101; ส่งให้ตรวจสอบด้วยตนเอง (Manual Review)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Field Mapping -->
+      <div style="border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+          <div style="font-size:.78rem;font-weight:700;">&#128260; การแมปฟิลด์ &#8212; Autopilot &#8594; Express</div>
+          <button class="btn btn-sm btn-outline" onclick="showToast('เพิ่มฟิลด์แมปใหม่','info')">+ เพิ่มแมป</button>
+        </div>
+        <table style="width:100%;border-collapse:collapse;font-size:.78rem;">
+          <thead>
+            <tr style="border-bottom:2px solid var(--border);">
+              <th style="padding:8px 10px;text-align:left;font-size:.68rem;font-weight:700;color:var(--muted);">ฟิลด์ Autopilot (Source)</th>
+              <th style="padding:8px 10px;text-align:center;font-size:.68rem;font-weight:700;color:var(--muted);">&#8594;</th>
+              <th style="padding:8px 10px;text-align:left;font-size:.68rem;font-weight:700;color:var(--muted);">ฟิลด์ Express (Target)</th>
+              <th style="padding:8px 10px;text-align:center;font-size:.68rem;font-weight:700;color:var(--muted);">สถานะ</th>
+              <th style="padding:8px 10px;text-align:right;font-size:.68rem;font-weight:700;color:var(--muted);">จัดการ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:8px 10px;"><span style="font-family:'Inter',monospace;font-size:.72rem;background:var(--blue-bg);padding:2px 8px;border-radius:4px;color:var(--blue);">invoice_number</span></td>
+              <td style="padding:8px 10px;text-align:center;color:var(--muted);">&#8594;</td>
+              <td style="padding:8px 10px;"><span style="font-family:'Inter',monospace;font-size:.72rem;background:var(--green-bg);padding:2px 8px;border-radius:4px;color:var(--green);">doc_no</span></td>
+              <td style="padding:8px 10px;text-align:center;"><span style="font-size:.62rem;font-weight:700;background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:4px;">&#9989; แมปแล้ว</span></td>
+              <td style="padding:8px 10px;text-align:right;"><button class="btn btn-sm btn-outline" style="padding:2px 8px;font-size:.65rem;" onclick="showToast('แก้ไขแมป invoice_number','info')">&#9998;</button></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:8px 10px;"><span style="font-family:'Inter',monospace;font-size:.72rem;background:var(--blue-bg);padding:2px 8px;border-radius:4px;color:var(--blue);">vendor_name</span></td>
+              <td style="padding:8px 10px;text-align:center;color:var(--muted);">&#8594;</td>
+              <td style="padding:8px 10px;"><span style="font-family:'Inter',monospace;font-size:.72rem;background:var(--green-bg);padding:2px 8px;border-radius:4px;color:var(--green);">contact_name</span></td>
+              <td style="padding:8px 10px;text-align:center;"><span style="font-size:.62rem;font-weight:700;background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:4px;">&#9989; แมปแล้ว</span></td>
+              <td style="padding:8px 10px;text-align:right;"><button class="btn btn-sm btn-outline" style="padding:2px 8px;font-size:.65rem;" onclick="showToast('แก้ไขแมป vendor_name','info')">&#9998;</button></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:8px 10px;"><span style="font-family:'Inter',monospace;font-size:.72rem;background:var(--blue-bg);padding:2px 8px;border-radius:4px;color:var(--blue);">total_amount</span></td>
+              <td style="padding:8px 10px;text-align:center;color:var(--muted);">&#8594;</td>
+              <td style="padding:8px 10px;"><span style="font-family:'Inter',monospace;font-size:.72rem;background:var(--green-bg);padding:2px 8px;border-radius:4px;color:var(--green);">net_amount</span></td>
+              <td style="padding:8px 10px;text-align:center;"><span style="font-size:.62rem;font-weight:700;background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:4px;">&#9989; แมปแล้ว</span></td>
+              <td style="padding:8px 10px;text-align:right;"><button class="btn btn-sm btn-outline" style="padding:2px 8px;font-size:.65rem;" onclick="showToast('แก้ไขแมป total_amount','info')">&#9998;</button></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:8px 10px;"><span style="font-family:'Inter',monospace;font-size:.72rem;background:var(--blue-bg);padding:2px 8px;border-radius:4px;color:var(--blue);">tax_id</span></td>
+              <td style="padding:8px 10px;text-align:center;color:var(--muted);">&#8594;</td>
+              <td style="padding:8px 10px;"><span style="font-family:'Inter',monospace;font-size:.72rem;background:var(--green-bg);padding:2px 8px;border-radius:4px;color:var(--green);">tax_no</span></td>
+              <td style="padding:8px 10px;text-align:center;"><span style="font-size:.62rem;font-weight:700;background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:4px;">&#9989; แมปแล้ว</span></td>
+              <td style="padding:8px 10px;text-align:right;"><button class="btn btn-sm btn-outline" style="padding:2px 8px;font-size:.65rem;" onclick="showToast('แก้ไขแมป tax_id','info')">&#9998;</button></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:8px 10px;"><span style="font-family:'Inter',monospace;font-size:.72rem;background:var(--blue-bg);padding:2px 8px;border-radius:4px;color:var(--blue);">payment_date</span></td>
+              <td style="padding:8px 10px;text-align:center;color:var(--muted);">&#8594;</td>
+              <td style="padding:8px 10px;"><span style="font-family:'Inter',monospace;font-size:.72rem;background:var(--orange-bg);padding:2px 8px;border-radius:4px;color:var(--orange);">due_date</span></td>
+              <td style="padding:8px 10px;text-align:center;"><span style="font-size:.62rem;font-weight:700;background:var(--orange-bg);color:var(--orange);padding:2px 8px;border-radius:4px;">&#9888; ต้องแปลงรูปแบบ</span></td>
+              <td style="padding:8px 10px;text-align:right;"><button class="btn btn-sm btn-outline" style="padding:2px 8px;font-size:.65rem;" onclick="showToast('แก้ไขแมป payment_date','info')">&#9998;</button></td>
+            </tr>
+            <tr>
+              <td style="padding:8px 10px;"><span style="font-family:'Inter',monospace;font-size:.72rem;background:var(--blue-bg);padding:2px 8px;border-radius:4px;color:var(--blue);">department</span></td>
+              <td style="padding:8px 10px;text-align:center;color:var(--muted);">&#8594;</td>
+              <td style="padding:8px 10px;"><span style="font-family:'Inter',monospace;font-size:.72rem;background:var(--red-bg);padding:2px 8px;border-radius:4px;color:var(--red);">&#8212;</span></td>
+              <td style="padding:8px 10px;text-align:center;"><span style="font-size:.62rem;font-weight:700;background:var(--red-bg);color:var(--red);padding:2px 8px;border-radius:4px;">&#10060; ยังไม่แมป</span></td>
+              <td style="padding:8px 10px;text-align:right;"><button class="btn btn-sm btn-primary" style="padding:2px 8px;font-size:.65rem;" onclick="showToast('เลือกฟิลด์ปลายทาง','info')">&#128279; แมป</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Sync History Log -->
+      <div style="border:1px solid var(--border);border-radius:10px;padding:16px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+          <div style="font-size:.78rem;font-weight:700;">&#128203; ประวัติการซิงค์ (Sync History)</div>
+          <button class="btn btn-sm btn-outline" onclick="showToast('ดูประวัติทั้งหมด','info')">ดูทั้งหมด &#8594;</button>
+        </div>
+        <table style="width:100%;border-collapse:collapse;font-size:.78rem;">
+          <thead>
+            <tr style="border-bottom:2px solid var(--border);">
+              <th style="padding:8px 10px;text-align:left;font-size:.68rem;font-weight:700;color:var(--muted);">วันเวลา</th>
+              <th style="padding:8px 10px;text-align:left;font-size:.68rem;font-weight:700;color:var(--muted);">ประเภท</th>
+              <th style="padding:8px 10px;text-align:center;font-size:.68rem;font-weight:700;color:var(--muted);">รายการ</th>
+              <th style="padding:8px 10px;text-align:center;font-size:.68rem;font-weight:700;color:var(--muted);">สำเร็จ</th>
+              <th style="padding:8px 10px;text-align:center;font-size:.68rem;font-weight:700;color:var(--muted);">ล้มเหลว</th>
+              <th style="padding:8px 10px;text-align:center;font-size:.68rem;font-weight:700;color:var(--muted);">สถานะ</th>
+              <th style="padding:8px 10px;text-align:right;font-size:.68rem;font-weight:700;color:var(--muted);">เวลา</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:8px 10px;">6 เม.ย. 2569, 14:30</td>
+              <td style="padding:8px 10px;"><span style="font-size:.68rem;font-weight:600;background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:4px;">Real-time</span></td>
+              <td style="padding:8px 10px;text-align:center;font-weight:700;">12</td>
+              <td style="padding:8px 10px;text-align:center;color:var(--green);font-weight:700;">12</td>
+              <td style="padding:8px 10px;text-align:center;color:var(--muted);">0</td>
+              <td style="padding:8px 10px;text-align:center;"><span style="font-size:.62rem;font-weight:700;background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:4px;">&#9989; สำเร็จ</span></td>
+              <td style="padding:8px 10px;text-align:right;font-size:.72rem;color:var(--muted);">1.2 วินาที</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:8px 10px;">6 เม.ย. 2569, 13:15</td>
+              <td style="padding:8px 10px;"><span style="font-size:.68rem;font-weight:600;background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:4px;">Real-time</span></td>
+              <td style="padding:8px 10px;text-align:center;font-weight:700;">8</td>
+              <td style="padding:8px 10px;text-align:center;color:var(--green);font-weight:700;">7</td>
+              <td style="padding:8px 10px;text-align:center;color:var(--red);font-weight:700;">1</td>
+              <td style="padding:8px 10px;text-align:center;"><span style="font-size:.62rem;font-weight:700;background:var(--orange-bg);color:var(--orange);padding:2px 8px;border-radius:4px;">&#9888; บางส่วน</span></td>
+              <td style="padding:8px 10px;text-align:right;font-size:.72rem;color:var(--muted);">0.8 วินาที</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:8px 10px;">6 เม.ย. 2569, 06:00</td>
+              <td style="padding:8px 10px;"><span style="font-size:.68rem;font-weight:600;background:var(--purple-bg);color:var(--purple);padding:2px 8px;border-radius:4px;">Scheduled</span></td>
+              <td style="padding:8px 10px;text-align:center;font-weight:700;">180</td>
+              <td style="padding:8px 10px;text-align:center;color:var(--green);font-weight:700;">180</td>
+              <td style="padding:8px 10px;text-align:center;color:var(--muted);">0</td>
+              <td style="padding:8px 10px;text-align:center;"><span style="font-size:.62rem;font-weight:700;background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:4px;">&#9989; สำเร็จ</span></td>
+              <td style="padding:8px 10px;text-align:right;font-size:.72rem;color:var(--muted);">12.4 วินาที</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:8px 10px;">5 เม.ย. 2569, 06:00</td>
+              <td style="padding:8px 10px;"><span style="font-size:.68rem;font-weight:600;background:var(--purple-bg);color:var(--purple);padding:2px 8px;border-radius:4px;">Scheduled</span></td>
+              <td style="padding:8px 10px;text-align:center;font-weight:700;">175</td>
+              <td style="padding:8px 10px;text-align:center;color:var(--green);font-weight:700;">173</td>
+              <td style="padding:8px 10px;text-align:center;color:var(--red);font-weight:700;">2</td>
+              <td style="padding:8px 10px;text-align:center;"><span style="font-size:.62rem;font-weight:700;background:var(--orange-bg);color:var(--orange);padding:2px 8px;border-radius:4px;">&#9888; บางส่วน</span></td>
+              <td style="padding:8px 10px;text-align:right;font-size:.72rem;color:var(--muted);">11.8 วินาที</td>
+            </tr>
+            <tr>
+              <td style="padding:8px 10px;">4 เม.ย. 2569, 06:00</td>
+              <td style="padding:8px 10px;"><span style="font-size:.68rem;font-weight:600;background:var(--purple-bg);color:var(--purple);padding:2px 8px;border-radius:4px;">Scheduled</span></td>
+              <td style="padding:8px 10px;text-align:center;font-weight:700;">168</td>
+              <td style="padding:8px 10px;text-align:center;color:var(--green);font-weight:700;">168</td>
+              <td style="padding:8px 10px;text-align:center;color:var(--muted);">0</td>
+              <td style="padding:8px 10px;text-align:center;"><span style="font-size:.62rem;font-weight:700;background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:4px;">&#9989; สำเร็จ</span></td>
+              <td style="padding:8px 10px;text-align:right;font-size:.72rem;color:var(--muted);">10.2 วินาที</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:14px;">
+        <button class="btn btn-primary btn-sm" onclick="showToast('บันทึกการตั้งค่า Express แล้ว','success')">&#128190; บันทึกการตั้งค่า</button>
+        <button class="btn btn-green btn-sm" onclick="showToast('ซิงค์ Express ด้วยตนเอง...','info')">&#128259; ซิงค์ตอนนี้</button>
+        <button class="btn btn-outline btn-sm" onclick="showToast('ทดสอบการเชื่อมต่อ Express...','info')">&#128268; ทดสอบการเชื่อมต่อ</button>
+      </div>
+    </div>
+
+    <!-- PEAK Config -->
+    <div id="syncTab-peak" class="sync-tab-content" style="display:none;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+        <div style="border:1px solid var(--border);border-radius:10px;padding:16px;">
+          <div style="font-size:.78rem;font-weight:700;margin-bottom:12px;">&#128279; การเชื่อมต่อ PEAK Accounting</div>
+          <div style="margin-bottom:8px;"><label style="font-size:.72rem;font-weight:600;color:var(--muted);display:block;margin-bottom:4px;">API Endpoint</label><input style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.72rem;background:var(--bg2);color:var(--text);" value="https://api.peakaccount.com/v1"></div>
+          <div style="margin-bottom:8px;"><label style="font-size:.72rem;font-weight:600;color:var(--muted);display:block;margin-bottom:4px;">API Key</label><input type="password" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.72rem;background:var(--bg2);color:var(--text);" value="peak_prod_m3k7n2p8q1"></div>
+          <div style="margin-bottom:8px;"><label style="font-size:.72rem;font-weight:600;color:var(--muted);display:block;margin-bottom:4px;">บริษัท</label><input style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:.72rem;background:var(--bg2);color:var(--text);" value="บริษัท ไทยสตีลเคเบิล จำกัด (มหาชน)"></div>
+          <div style="display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--green);font-weight:600;margin-top:8px;">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;"></span> เชื่อมต่อสำเร็จ &#8212; Latency: 62ms
+          </div>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:10px;padding:16px;">
+          <div style="font-size:.78rem;font-weight:700;margin-bottom:12px;">&#128339; ตารางการซิงค์ (Sync Schedule)</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:.78rem;cursor:pointer;">
+              <input type="radio" name="syncSchedulePeak"> <strong>Real-time</strong>
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:2px solid var(--blue);border-radius:8px;background:var(--blue-bg);font-size:.78rem;cursor:pointer;">
+              <input type="radio" name="syncSchedulePeak" checked> <strong>รายชั่วโมง</strong>
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:.78rem;cursor:pointer;">
+              <input type="radio" name="syncSchedulePeak"> <strong>รายวัน</strong>
+            </label>
+          </div>
+          <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:12px;">
+            <div style="font-size:.75rem;font-weight:700;margin-bottom:8px;">&#9888;&#65039; การจัดการข้อมูลขัดแย้ง</div>
+            <select style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:.75rem;background:var(--bg2);color:var(--text);font-family:inherit;cursor:pointer;">
+              <option>&#128260; เขียนทับข้อมูลเก่า (Overwrite)</option>
+              <option selected>&#128101; ส่งให้ตรวจสอบด้วยตนเอง (Manual Review)</option>
+              <option>&#9203; ข้ามรายการที่ขัดแย้ง (Skip)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-primary btn-sm" onclick="showToast('บันทึกการตั้งค่า PEAK แล้ว','success')">&#128190; บันทึก</button>
+        <button class="btn btn-green btn-sm" onclick="showToast('ซิงค์ PEAK ด้วยตนเอง...','info')">&#128259; ซิงค์ตอนนี้</button>
+        <button class="btn btn-outline btn-sm" onclick="showToast('ทดสอบการเชื่อมต่อ PEAK...','info')">&#128268; ทดสอบ</button>
+      </div>
+    </div>
+
+    <!-- Prosoft Config -->
+    <div id="syncTab-prosoft" class="sync-tab-content" style="display:none;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+        <div style="border:1px solid var(--border);border-radius:10px;padding:16px;">
+          <div style="font-size:.78rem;font-weight:700;margin-bottom:12px;">&#128279; การเชื่อมต่อ Prosoft Accounting</div>
+          <div style="margin-bottom:8px;"><label style="font-size:.72rem;font-weight:600;color:var(--muted);display:block;margin-bottom:4px;">API Endpoint</label><input style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.72rem;background:var(--bg2);color:var(--text);" value="https://api.prosoft.co.th/ibiz/v3"></div>
+          <div style="margin-bottom:8px;"><label style="font-size:.72rem;font-weight:600;color:var(--muted);display:block;margin-bottom:4px;">API Key</label><input type="password" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Inter',monospace;font-size:.72rem;background:var(--bg2);color:var(--text);" value="psf_live_h5j9r3t6w2"></div>
+          <div style="margin-bottom:8px;"><label style="font-size:.72rem;font-weight:600;color:var(--muted);display:block;margin-bottom:4px;">Database Name</label><input style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:.72rem;background:var(--bg2);color:var(--text);" value="TSC_MAIN_2569"></div>
+          <div style="display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--orange);font-weight:600;margin-top:8px;">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--orange);display:inline-block;animation:pulse 2s infinite;"></span> กำลังซิงค์... (84%)
+          </div>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:10px;padding:16px;">
+          <div style="font-size:.78rem;font-weight:700;margin-bottom:12px;">&#128339; ตารางการซิงค์</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:.78rem;cursor:pointer;">
+              <input type="radio" name="syncScheduleProsoft"> <strong>Real-time</strong>
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:.78rem;cursor:pointer;">
+              <input type="radio" name="syncScheduleProsoft"> <strong>รายชั่วโมง</strong>
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:2px solid var(--blue);border-radius:8px;background:var(--blue-bg);font-size:.78rem;cursor:pointer;">
+              <input type="radio" name="syncScheduleProsoft" checked> <strong>รายวัน</strong>
+            </label>
+          </div>
+          <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:12px;">
+            <div style="font-size:.75rem;font-weight:700;margin-bottom:8px;">&#9888;&#65039; การจัดการข้อมูลขัดแย้ง</div>
+            <select style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:.75rem;background:var(--bg2);color:var(--text);font-family:inherit;cursor:pointer;">
+              <option>&#128260; เขียนทับ (Overwrite)</option>
+              <option>&#128101; ตรวจสอบด้วยตนเอง (Manual Review)</option>
+              <option selected>&#9203; ข้ามรายการ (Skip)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-primary btn-sm" onclick="showToast('บันทึกการตั้งค่า Prosoft แล้ว','success')">&#128190; บันทึก</button>
+        <button class="btn btn-green btn-sm" onclick="showToast('ซิงค์ Prosoft ด้วยตนเอง...','info')">&#128259; ซิงค์ตอนนี้</button>
+        <button class="btn btn-outline btn-sm" onclick="showToast('ทดสอบการเชื่อมต่อ Prosoft...','info')">&#128268; ทดสอบ</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Document Routing Rules -->
   <div class="routing-panel fade-up" id="routingSection">
     <h3>&#128269; กฎการส่งต่อเอกสาร (Document Routing Rules)</h3>
@@ -548,6 +818,14 @@ function toggleClosingItem(el){
     document.getElementById('closingFill').style.width = pct+'%';
     document.getElementById('closingPct').textContent = pct+'%';
     if(pct===100) showToast('ปิดบัญชีรายเดือนเสร็จสมบูรณ์!','success');
+}
+
+function switchSyncTab(btn, system){
+    document.querySelectorAll('.sync-sys-tab').forEach(t=>{t.style.background='transparent';t.style.color='var(--muted)';t.classList.remove('active');});
+    btn.style.background='var(--blue)';btn.style.color='#fff';btn.classList.add('active');
+    document.querySelectorAll('.sync-tab-content').forEach(c=>c.style.display='none');
+    var el=document.getElementById('syncTab-'+system);
+    if(el)el.style.display='block';
 }
 
 function showToast(msg, type){

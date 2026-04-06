@@ -14,7 +14,10 @@ body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#3
 
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh;transition:background 0.3s,color 0.3s;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh;transition:background 0.3s,color 0.3s;font-kerning:normal;font-feature-settings:"kern" 1;text-rendering:optimizeLegibility;}
+h1,h2,h3,h4,h5,h6,.card-title,.kpi-value{text-rendering:optimizeLegibility;}
+.card,.kpi{contain:layout style;}
+.card:hover,.kpi:hover{will-change:transform;}
 
 ::-webkit-scrollbar{width:6px;}
 ::-webkit-scrollbar-track{background:var(--bg2);}
@@ -297,8 +300,8 @@ svg text{font-family:'Inter','Noto Sans Thai',sans-serif;}
             </thead>
             <tbody>
                 <tr>
-                    <td><span class="rank-badge" style="background:linear-gradient(135deg,#F59E0B,#D97706);">1</span></td>
-                    <td><div class="officer-cell"><div class="avatar" style="background:#2563EB;">&#3611;&#3617;</div><div class="info"><div class="name">ปรีชา ม.</div><div class="role">Senior Officer</div></div></div></td>
+                    <td><span class="rank-badge" style="background:linear-gradient(135deg,#F59E0B,var(--orange));">1</span></td>
+                    <td><div class="officer-cell"><div class="avatar" style="background:var(--blue);">&#3611;&#3617;</div><div class="info"><div class="name">ปรีชา ม.</div><div class="role">Senior Officer</div></div></div></td>
                     <td style="font-weight:700;color:var(--text);">24</td>
                     <td>18</td>
                     <td>6</td>
@@ -309,7 +312,7 @@ svg text{font-family:'Inter','Noto Sans Thai',sans-serif;}
                 </tr>
                 <tr>
                     <td><span class="rank-badge" style="background:linear-gradient(135deg,#94A3B8,#64748B);">2</span></td>
-                    <td><div class="officer-cell"><div class="avatar" style="background:#7C3AED;">&#3626;&#3585;</div><div class="info"><div class="name">สมศักดิ์ ก.</div><div class="role">Senior Officer</div></div></div></td>
+                    <td><div class="officer-cell"><div class="avatar" style="background:var(--purple);">&#3626;&#3585;</div><div class="info"><div class="name">สมศักดิ์ ก.</div><div class="role">Senior Officer</div></div></div></td>
                     <td style="font-weight:700;color:var(--text);">22</td>
                     <td>16</td>
                     <td>5</td>
@@ -320,7 +323,7 @@ svg text{font-family:'Inter','Noto Sans Thai',sans-serif;}
                 </tr>
                 <tr>
                     <td><span class="rank-badge" style="background:linear-gradient(135deg,#CD7F32,#A0522D);">3</span></td>
-                    <td><div class="officer-cell"><div class="avatar" style="background:#059669;">&#3623;&#3614;</div><div class="info"><div class="name">วิภา พ.</div><div class="role">Officer</div></div></div></td>
+                    <td><div class="officer-cell"><div class="avatar" style="background:var(--green);">&#3623;&#3614;</div><div class="info"><div class="name">วิภา พ.</div><div class="role">Officer</div></div></div></td>
                     <td style="font-weight:700;color:var(--text);">21</td>
                     <td>14</td>
                     <td>6</td>
@@ -331,7 +334,7 @@ svg text{font-family:'Inter','Noto Sans Thai',sans-serif;}
                 </tr>
                 <tr>
                     <td><span class="rank-badge" style="background:var(--bg3);color:var(--muted);">4</span></td>
-                    <td><div class="officer-cell"><div class="avatar" style="background:#D97706;">&#3609;&#3626;</div><div class="info"><div class="name">นิตยา ส.</div><div class="role">Officer</div></div></div></td>
+                    <td><div class="officer-cell"><div class="avatar" style="background:var(--orange);">&#3609;&#3626;</div><div class="info"><div class="name">นิตยา ส.</div><div class="role">Officer</div></div></div></td>
                     <td style="font-weight:700;color:var(--text);">20</td>
                     <td>15</td>
                     <td>5</td>
@@ -342,7 +345,7 @@ svg text{font-family:'Inter','Noto Sans Thai',sans-serif;}
                 </tr>
                 <tr>
                     <td><span class="rank-badge" style="background:var(--bg3);color:var(--muted);">5</span></td>
-                    <td><div class="officer-cell"><div class="avatar" style="background:#DC2626;">&#3608;&#3611;</div><div class="info"><div class="name">ธนากร ป.</div><div class="role">Junior Officer</div></div></div></td>
+                    <td><div class="officer-cell"><div class="avatar" style="background:var(--red);">&#3608;&#3611;</div><div class="info"><div class="name">ธนากร ป.</div><div class="role">Junior Officer</div></div></div></td>
                     <td style="font-weight:700;color:var(--text);">18</td>
                     <td>12</td>
                     <td>5</td>
