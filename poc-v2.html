@@ -403,6 +403,49 @@ body.training-mode .header{border-bottom:2px solid var(--orange);}
 .usage-bar{width:100%;height:8px;background:var(--bg);border-radius:4px;overflow:hidden;}
 .usage-fill{height:100%;border-radius:4px;transition:width .4s ease;}
 .hover-border-blue{transition:all .15s;}.hover-border-blue:hover{border-color:var(--blue) !important;box-shadow:0 4px 12px rgba(0,0,0,.06);}
+/* ═══ AI CHAT ASSISTANT ═══ */
+.ai-chat-bubble{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:var(--grad);color:#fff;border:none;cursor:pointer;font-size:1.5rem;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(37,99,235,.35);z-index:900;transition:transform .2s,box-shadow .2s;animation:chatPulse 2s ease 1s 3;}
+.ai-chat-bubble:hover{transform:scale(1.1);box-shadow:0 8px 32px rgba(37,99,235,.45);}
+@keyframes chatPulse{0%,100%{box-shadow:0 6px 24px rgba(37,99,235,.35);}50%{box-shadow:0 6px 24px rgba(37,99,235,.35),0 0 0 12px rgba(37,99,235,.12);}}
+.chat-icon{line-height:1;}
+.chat-badge{position:absolute;top:-2px;right:-2px;min-width:20px;height:20px;border-radius:10px;background:var(--red);color:#fff;font-size:.65rem;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 5px;border:2px solid var(--bg);transition:transform .2s;}
+.ai-chat-panel{position:fixed;bottom:92px;right:24px;width:380px;max-height:540px;background:var(--white);border:1px solid var(--border);border-radius:16px;box-shadow:0 12px 48px rgba(0,0,0,.15);z-index:901;display:flex;flex-direction:column;opacity:0;transform:translateY(20px) scale(.96);pointer-events:none;transition:opacity .25s ease,transform .25s ease;}
+.ai-chat-panel.open{opacity:1;transform:translateY(0) scale(1);pointer-events:all;}
+.chat-header{background:var(--grad);color:#fff;padding:14px 16px;border-radius:16px 16px 0 0;display:flex;align-items:center;justify-content:space-between;}
+.chat-header-left{display:flex;align-items:center;gap:10px;}
+.chat-avatar{font-size:1.4rem;line-height:1;}
+.chat-title{font-size:.88rem;font-weight:700;color:#fff;}
+.chat-context{font-size:.66rem;opacity:.8;margin-top:1px;color:#fff;}
+.chat-header-actions{display:flex;gap:4px;}
+.chat-header-actions button{background:rgba(255,255,255,.15);border:none;color:#fff;width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:.85rem;transition:background .15s;display:flex;align-items:center;justify-content:center;}
+.chat-header-actions button:hover{background:rgba(255,255,255,.3);}
+.chat-quick-prompts{display:flex;gap:6px;padding:10px 14px;overflow-x:auto;border-bottom:1px solid var(--border);flex-shrink:0;}
+.chat-quick-prompts::-webkit-scrollbar{height:3px;}
+.chat-quick-prompts::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.qp-chip{white-space:nowrap;padding:6px 12px;border-radius:20px;font-size:.72rem;font-weight:500;border:1px solid var(--border);background:var(--white);color:var(--text2);cursor:pointer;transition:all .15s;font-family:inherit;flex-shrink:0;}
+.qp-chip:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-l);}
+.chat-messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;min-height:200px;}
+.chat-msg{max-width:85%;padding:10px 14px;border-radius:14px;font-size:.8rem;line-height:1.6;word-break:break-word;animation:slideUp .2s ease;}
+.chat-msg.user{align-self:flex-end;background:var(--grad);color:#fff;border-bottom-right-radius:4px;}
+.chat-msg.ai{align-self:flex-start;background:var(--bg);color:var(--text);border:1px solid var(--border);border-bottom-left-radius:4px;}
+.chat-msg.ai .msg-action{display:inline-block;margin-top:6px;padding:3px 10px;border-radius:6px;font-size:.7rem;font-weight:600;background:var(--blue-l);color:var(--blue);cursor:pointer;transition:all .15s;border:none;font-family:inherit;}
+.chat-msg.ai .msg-action:hover{background:var(--blue);color:#fff;}
+.typing-dots{display:flex;gap:4px;padding:10px 14px;align-self:flex-start;}
+.typing-dots span{width:8px;height:8px;border-radius:50%;background:var(--light);animation:typeBounce .6s ease-in-out infinite;}
+.typing-dots span:nth-child(2){animation-delay:.15s;}
+.typing-dots span:nth-child(3){animation-delay:.3s;}
+@keyframes typeBounce{0%,100%{transform:translateY(0);opacity:.4;}50%{transform:translateY(-6px);opacity:1;}}
+.chat-input-area{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--border);flex-shrink:0;}
+.chat-input-area input{flex:1;padding:9px 14px;border:1px solid var(--border);border-radius:10px;font-family:inherit;font-size:.82rem;background:var(--bg);color:var(--text);outline:none;transition:border-color .15s;}
+.chat-input-area input:focus{border-color:var(--blue);}
+.chat-send{width:38px;height:38px;border-radius:10px;background:var(--grad);color:#fff;border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:transform .15s,box-shadow .15s;flex-shrink:0;}
+.chat-send:hover{transform:scale(1.05);box-shadow:0 4px 12px rgba(37,99,235,.25);}
+body.dark .chat-msg.ai{background:var(--bg2);border-color:var(--border);}
+body.dark .qp-chip{background:var(--bg2);border-color:var(--border);color:var(--text2);}
+body.dark .chat-input-area input{background:var(--bg2);border-color:var(--border);}
+body.dark .ai-chat-bubble{box-shadow:0 6px 24px rgba(37,99,235,.5);}
+body.dark .chat-badge{border-color:var(--bg);}
+@media(max-width:768px){.ai-chat-panel{width:calc(100vw - 24px);right:12px;bottom:84px;max-height:70vh;}.ai-chat-bubble{bottom:16px;right:16px;width:50px;height:50px;font-size:1.3rem;}}
 </style>
 </head>
 <body>
@@ -497,8 +540,7 @@ body.training-mode .header{border-bottom:2px solid var(--orange);}
     </div>
 
     <div class="nav-section"><div class="nav-label">📊 Insights</div>
-        <button class="nav-item" onclick="loadModule('modules/customer-feedback.html','Customer Feedback')"><span class="icon">🎯</span>Customer Feedback<span class="badge green">512K</span></button>
-        <button class="nav-item" onclick="loadModule('modules/product-roadmap.html','Product Roadmap')"><span class="icon">🗺️</span>Product Roadmap<span class="badge" style="background:#7C3AED22;color:#7C3AED;">v2.0</span></button>
+        <button class="nav-item" onclick="loadModule('modules/insights-roadmap.html','Insights & Roadmap')"><span class="icon">💡</span>Insights & Roadmap</button>
     </div>
 
     <div class="nav-section"><div class="nav-label">System</div>
@@ -2506,6 +2548,9 @@ function loadModule(url, title){
 
     // ── Recently Visited: store in localStorage ──
     addRecentVisited(url, title);
+
+    // ── Update AI Chat context ──
+    if(typeof updateChatContext==='function') updateChatContext(title);
 }
 
 // ═══ RECENTLY VISITED ═══
@@ -2578,8 +2623,7 @@ const CMD_ITEMS=[
     {cat:'Pages',icon:'🏢',label:'Vendor Management',action:()=>loadModule('modules/vendor-management.html','Vendor Management'),keys:'ผู้จำหน่าย vendor'},
     {cat:'Pages',icon:'📊',label:'API Dashboard',action:()=>loadModule('connectors/api-dashboard.html','API Usage Dashboard'),keys:'api'},
     {cat:'Pages',icon:'🌐',label:'Connector Hub',action:()=>loadModule('connectors/connector-hub.html','Connector Hub'),keys:'connector เชื่อมต่อ'},
-    {cat:'Pages',icon:'🎯',label:'Customer Feedback',action:()=>loadModule('modules/customer-feedback.html','Customer Feedback'),keys:'feedback ข้อเสนอแนะ'},
-    {cat:'Pages',icon:'🗺️',label:'Product Roadmap',action:()=>loadModule('modules/product-roadmap.html','Product Roadmap'),keys:'roadmap แผน'},
+    {cat:'Pages',icon:'💡',label:'Insights & Roadmap',action:()=>loadModule('modules/insights-roadmap.html','Insights & Roadmap'),keys:'feedback ข้อเสนอแนะ roadmap แผน insights'},
     {cat:'System',icon:'👥',label:'Users & Roles',action:()=>showPage('users'),keys:'ผู้ใช้ users roles สิทธิ์'},
     {cat:'System',icon:'🔗',label:'Channels',action:()=>showPage('channels'),keys:'ช่องทาง channels'},
     {cat:'System',icon:'💳',label:'Billing & Packages',action:()=>showPage('billing'),keys:'ชำระเงิน billing แพ็กเกจ'},
@@ -3866,8 +3910,237 @@ var saveCount = 0;
   updateMuteUI();
 })();
 
+// ═══ AI CHAT ASSISTANT ═══
+var chatOpen = false;
+var chatContext = 'Home';
+
+var modulePrompts = {
+  'Home': ['สรุปงานวันนี้', 'สถานะระบบทั้งหมด', 'งานที่ต้องทำด่วน'],
+  'Procurement': ['สร้าง PR ใหม่', 'เปรียบเทียบราคา Vendor', 'สรุปยอดจัดซื้อเดือนนี้', 'ตรวจสอบ 3-Way Match'],
+  'Expense': ['สแกนใบเสร็จ', 'สถานะการเบิกจ่าย', 'วิเคราะห์ค่าใช้จ่าย', 'สรุปรายงานค่าใช้จ่าย'],
+  'Finance': ['สรุปเคสการเงิน', 'สถานะกระทบยอด', 'ตรวจสอบเอกสาร', 'สถานะปิดบัญชี'],
+  'Sales': ['สร้างใบเสนอราคา', 'สถานะ Pipeline', 'วิเคราะห์ยอดขาย', 'ดู Product Catalog'],
+  'Logistics': ['คำนวณค่าขนส่ง', 'ติดตามสินค้า', 'อัตราแลกเปลี่ยนวันนี้', 'สแกนเอกสารขนส่ง'],
+  'Vendor': ['ค้นหา Vendor', 'เปรียบเทียบ Vendor', 'ประเมิน Vendor'],
+  'Connector': ['ตั้งค่า API', 'ทดสอบการเชื่อมต่อ', 'ดูสถิติ API'],
+  'Insights': ['สรุป Feedback', 'ดู Roadmap', 'แนะนำ Quick Win'],
+  'default': ['วิธีใช้งานระบบ', 'ค้นหาข้อมูล', 'ติดต่อทีมสนับสนุน']
+};
+
+var aiResponses = {
+  'สรุปงานวันนี้': '📋 <strong>สรุปงานวันนี้:</strong><br>• PR รออนุมัติ: <strong>3 รายการ</strong><br>• ใบเสร็จรอสแกน: <strong>5 ใบ</strong><br>• เคสการเงินรอดำเนินการ: <strong>2 เคส</strong><br>• ใบเสนอราคารอส่ง: <strong>1 รายการ</strong><br><br>ต้องการดูรายละเอียดส่วนไหนเพิ่มเติมไหมคะ?',
+  'สถานะระบบทั้งหมด': '🟢 <strong>สถานะระบบ Autopilot:</strong><br>• Procurement: <span style="color:var(--green)">ปกติ</span> — 12 PR เดือนนี้<br>• Expense: <span style="color:var(--green)">ปกติ</span> — OCR พร้อมใช้งาน<br>• Finance: <span style="color:var(--orange)">มีงานค้าง</span> — 2 เคสรอปิด<br>• Sales: <span style="color:var(--green)">ปกติ</span> — Pipeline ฿4.2M<br>• Logistics: <span style="color:var(--green)">ปกติ</span> — อัตราแลกเปลี่ยนอัปเดตแล้ว',
+  'งานที่ต้องทำด่วน': '🔴 <strong>งานด่วนที่ต้องทำ:</strong><br>1. อนุมัติ PR-2024-0047 (มูลค่า ฿156,000) — <strong>ใกล้ครบกำหนด</strong><br>2. ตรวจสอบ 3-Way Match สำหรับ PO-0892<br>3. ส่งใบเสนอราคา QT-0523 ให้ลูกค้า<br><button class="msg-action" onclick="loadModule(\'modules/procurement.html\',\'Procurement\')">ไปหน้า Procurement →</button>',
+  'สร้าง PR ใหม่': '📝 เพื่อสร้าง PR ใหม่ ให้ทำตามขั้นตอนนี้:<br>1. ไปที่ <strong>Procurement → Purchase Requests</strong><br>2. กด <strong>"+ สร้าง PR ใหม่"</strong><br>3. กรอกข้อมูล Vendor, รายการสินค้า, และงบประมาณ<br>4. แนบเอกสารประกอบ (ถ้ามี)<br>5. ส่งอนุมัติ<br><br><button class="msg-action" onclick="loadModule(\'modules/procurement.html\',\'Procurement\')">เปิดหน้า Procurement →</button>',
+  'เปรียบเทียบราคา Vendor': '📊 <strong>เปรียบเทียบราคา Vendor ล่าสุด:</strong><br>• สินค้า: กระดาษ A4 (500 แผ่น)<br>  - ABC Supply: <strong>฿89</strong>/รีม<br>  - Thai Paper Co: ฿95/รีม<br>  - Office Plus: ฿92/รีม<br><br>💡 <strong>แนะนำ:</strong> ABC Supply เสนอราคาต่ำสุด พร้อมส่วนลด 5% สำหรับออเดอร์ >100 รีม',
+  'สรุปยอดจัดซื้อเดือนนี้': '💰 <strong>สรุปยอดจัดซื้อเดือนนี้:</strong><br>• ยอดรวม: <strong>฿1,245,000</strong><br>• จำนวน PR: <strong>12 รายการ</strong><br>• PR อนุมัติแล้ว: 9 (75%)<br>• PR รออนุมัติ: 3<br>• Vendor ที่ใช้มากสุด: ABC Supply (5 ครั้ง)<br>• ประหยัดจากการเปรียบเทียบราคา: <span style="color:var(--green)"><strong>฿87,500</strong></span>',
+  'ตรวจสอบ 3-Way Match': '🔍 <strong>สถานะ 3-Way Match:</strong><br>• ✅ PO-0890 — Match สำเร็จ<br>• ✅ PO-0891 — Match สำเร็จ<br>• ⚠️ PO-0892 — <strong>ราคาไม่ตรง</strong> (ส่วนต่าง ฿2,300)<br>• ✅ PO-0893 — Match สำเร็จ<br><br>💡 PO-0892 ต้องตรวจสอบราคากับ Vendor อีกครั้ง',
+  'สแกนใบเสร็จ': '📸 <strong>สแกนใบเสร็จ:</strong><br>ระบบ OCR พร้อมสแกนใบเสร็จอัตโนมัติ<br>1. ลากไฟล์ภาพ/PDF ไปยัง Upload Zone<br>2. AI จะอ่านข้อมูล: ร้านค้า, วันที่, ยอดเงิน<br>3. ตรวจสอบและยืนยันข้อมูล<br><br>รองรับ: JPG, PNG, PDF (ภาษาไทย+อังกฤษ)<br><button class="msg-action" onclick="loadModule(\'modules/expense.html\',\'Expense\')">ไปหน้า Expense →</button>',
+  'สถานะการเบิกจ่าย': '📑 <strong>สถานะการเบิกจ่ายของคุณ:</strong><br>• EXP-0045: ค่าเดินทาง ฿3,200 — <span style="color:var(--green)">อนุมัติแล้ว</span><br>• EXP-0046: ค่าอาหาร ฿1,850 — <span style="color:var(--orange)">รอผู้จัดการอนุมัติ</span><br>• EXP-0047: ค่าอุปกรณ์ ฿12,500 — <span style="color:var(--blue)">กำลังตรวจสอบ</span>',
+  'วิเคราะห์ค่าใช้จ่าย': '📈 <strong>วิเคราะห์ค่าใช้จ่าย Q1/2026:</strong><br>• ค่าเดินทาง: ฿45,200 (↑12% จาก Q4)<br>• ค่าอาหาร/เครื่องดื่ม: ฿28,900 (↓5%)<br>• ค่าอุปกรณ์สำนักงาน: ฿67,300 (↑8%)<br>• อื่นๆ: ฿15,600<br><br>💡 <strong>แนะนำ:</strong> ค่าเดินทางเพิ่มขึ้น ลองพิจารณาใช้ระบบประชุมออนไลน์เพิ่มเติม',
+  'สรุปรายงานค่าใช้จ่าย': '📄 <strong>สรุปรายงานค่าใช้จ่ายเดือนนี้:</strong><br>• ยอดรวม: <strong>฿157,000</strong><br>• จำนวนรายการ: 23 รายการ<br>• เบิกจ่ายแล้ว: ฿98,000 (62%)<br>• รออนุมัติ: ฿59,000 (38%)<br>• หมวดสูงสุด: อุปกรณ์สำนักงาน',
+  'สรุปเคสการเงิน': '🏦 <strong>สรุปเคสการเงิน:</strong><br>• เคสเปิดอยู่: <strong>8 เคส</strong><br>• รอดำเนินการ: 2 เคส<br>• กำลังดำเนินการ: 4 เคส<br>• รอปิด: 2 เคส<br>• SLA เฉลี่ย: 2.3 วัน (เป้า: 3 วัน) ✅',
+  'สถานะกระทบยอด': '🔄 <strong>สถานะกระทบยอด:</strong><br>• บัญชีธนาคาร: ✅ กระทบยอดแล้ว (เมื่อวาน)<br>• บัญชีลูกหนี้: ⚠️ รอกระทบยอด<br>• บัญชีเจ้าหนี้: ✅ กระทบยอดแล้ว<br>• Petty Cash: ✅ ตรงกัน',
+  'ตรวจสอบเอกสาร': '📋 <strong>เอกสารที่ต้องตรวจสอบ:</strong><br>• ใบแจ้งหนี้ #INV-2026-0089 — รอตรวจสอบ<br>• ใบกำกับภาษี #TAX-0234 — รอลงนาม<br>• สัญญา #CON-0056 — รอทบทวน<br><button class="msg-action" onclick="loadModule(\'modules/finance.html\',\'Finance\')">เปิดหน้า Finance →</button>',
+  'สถานะปิดบัญชี': '📅 <strong>สถานะปิดบัญชีประจำเดือน:</strong><br>• ขั้นตอน 1: รวบรวมเอกสาร ✅<br>• ขั้นตอน 2: กระทบยอด ✅<br>• ขั้นตอน 3: ปรับปรุงรายการ 🔄 กำลังดำเนินการ<br>• ขั้นตอน 4: ตรวจสอบ ⏳ รอ<br>• ขั้นตอน 5: ปิดบัญชี ⏳ รอ<br><br>คาดว่าจะปิดได้ภายใน <strong>2 วันทำการ</strong>',
+  'สร้างใบเสนอราคา': '📝 <strong>สร้างใบเสนอราคาใหม่:</strong><br>1. ไปที่ Sales → Quotations<br>2. เลือกลูกค้าจาก CRM<br>3. เพิ่มรายการสินค้า/บริการ<br>4. ตั้งราคาและส่วนลด<br>5. ส่งให้ลูกค้าอนุมัติ<br><button class="msg-action" onclick="loadModule(\'modules/sales.html\',\'Sales\')">เปิดหน้า Sales →</button>',
+  'สถานะ Pipeline': '📊 <strong>Sales Pipeline:</strong><br>• Prospect: 12 deals (฿2.1M)<br>• Qualified: 8 deals (฿3.4M)<br>• Proposal: 5 deals (฿4.2M)<br>• Negotiation: 3 deals (฿1.8M)<br>• Won: 15 deals (฿6.7M) 🎉<br><br>Win Rate เดือนนี้: <strong>68%</strong>',
+  'วิเคราะห์ยอดขาย': '📈 <strong>วิเคราะห์ยอดขาย:</strong><br>• ยอดขายเดือนนี้: <strong>฿2,450,000</strong> (↑15%)<br>• เป้าหมาย: ฿2,800,000 (ทำได้ 87%)<br>• ลูกค้าใหม่: 8 ราย<br>• สินค้าขายดี: Premium Package<br><br>💡 เหลืออีก ฿350,000 จะถึงเป้า — มี 3 deals ใน Pipeline ที่มีโอกาสสูง',
+  'คำนวณค่าขนส่ง': '🚚 <strong>คำนวณค่าขนส่ง:</strong><br>กรุณาระบุข้อมูล:<br>• ต้นทาง → ปลายทาง<br>• น้ำหนัก/ปริมาตร<br>• ประเภทสินค้า<br><br>หรือไปที่หน้า Logistics เพื่อใช้เครื่องมือคำนวณอัตโนมัติ<br><button class="msg-action" onclick="loadModule(\'modules/logistics.html\',\'Logistics\')">เปิดหน้า Logistics →</button>',
+  'ติดตามสินค้า': '📦 <strong>ติดตามสินค้าล่าสุด:</strong><br>• SHP-0234: กรุงเทพ → เชียงใหม่ — <span style="color:var(--blue)">กำลังขนส่ง</span> (คาด: พรุ่งนี้)<br>• SHP-0235: กรุงเทพ → ภูเก็ต — <span style="color:var(--green)">ส่งถึงแล้ว</span><br>• SHP-0236: กรุงเทพ → ขอนแก่น — <span style="color:var(--orange)">เตรียมจัดส่ง</span>',
+  'อัตราแลกเปลี่ยนวันนี้': '💱 <strong>อัตราแลกเปลี่ยนวันนี้:</strong><br>• USD/THB: <strong>34.25</strong> (↓0.12)<br>• EUR/THB: <strong>37.80</strong> (↑0.05)<br>• JPY/THB: <strong>0.228</strong> (↓0.001)<br>• CNY/THB: <strong>4.72</strong> (→)<br><br>อัปเดตล่าสุด: 09:30 น.',
+  'ค้นหา Vendor': '🔍 พิมพ์ชื่อ Vendor ที่ต้องการค้นหา หรือไปที่หน้า Vendor Portal:<br><button class="msg-action" onclick="loadModule(\'modules/vendor.html\',\'Vendor Portal\')">เปิด Vendor Portal →</button>',
+  'เปรียบเทียบ Vendor': '⚖️ <strong>เปรียบเทียบ Vendor:</strong><br>ไปที่ Vendor Portal → เลือก Vendor 2-3 รายที่ต้องการเปรียบเทียบ ระบบจะแสดง:<br>• ราคาสินค้า/บริการ<br>• คะแนนประเมิน<br>• ประวัติการส่งมอบ<br>• เงื่อนไขการชำระเงิน',
+  'ตั้งค่า API': '🔌 <strong>ตั้งค่า API Connection:</strong><br>1. ไปที่ Connector Hub<br>2. เลือก Service ที่ต้องการเชื่อมต่อ<br>3. กรอก API Key / OAuth credentials<br>4. ทดสอบการเชื่อมต่อ<br>5. เปิดใช้งาน Sync<br><button class="msg-action" onclick="loadModule(\'modules/connector.html\',\'API Connector Hub\')">เปิด Connector Hub →</button>',
+  'สรุป Feedback': '💬 <strong>สรุป Feedback ล่าสุด:</strong><br>• Feedback ทั้งหมด: 47 รายการ<br>• ⭐ คะแนนเฉลี่ย: 4.2/5<br>• หัวข้อยอดนิยม: ปรับปรุง UI (12), เพิ่มรายงาน (8), แก้ Bug (5)<br>• Quick Win ที่แนะนำ: ปรับหน้า Dashboard ให้โหลดเร็วขึ้น',
+  'วิธีใช้งานระบบ': '📖 <strong>คู่มือการใช้งาน Autopilot v2:</strong><br><br>🏠 <strong>หน้าหลัก</strong> — ดู Dashboard สรุปภาพรวม<br>🛒 <strong>Procurement</strong> — จัดซื้อ, สร้าง PR/PO<br>🧾 <strong>Expense</strong> — เบิกจ่าย, สแกนใบเสร็จ OCR<br>🏦 <strong>Finance</strong> — การเงิน, ปิดบัญชี<br>📊 <strong>Sales</strong> — ขาย, ใบเสนอราคา<br>🚚 <strong>Logistics</strong> — ขนส่ง, Freight<br>🔗 <strong>Connector</strong> — เชื่อมต่อ API<br><br>มีคำถามเพิ่มเติมถามได้เลยนะคะ!',
+  'ค้นหาข้อมูล': '🔍 พิมพ์คำค้นหาที่ต้องการ เช่น:<br>• ชื่อเอกสาร (PR-xxxx, PO-xxxx)<br>• ชื่อ Vendor<br>• หมายเลขใบเสร็จ<br>• ชื่อลูกค้า<br><br>หรือใช้ <strong>Ctrl+K</strong> เพื่อค้นหาด่วนในระบบ',
+  'ติดต่อทีมสนับสนุน': '📞 <strong>ติดต่อทีมสนับสนุน:</strong><br>• 📧 Email: support@ants-autopilot.com<br>• 💬 LINE: @ants-support<br>• 📱 โทร: 02-xxx-xxxx (จ-ศ 9:00-18:00)<br>• 🎫 สร้าง Ticket: ไปที่ Settings → Support<br><br>ทีมงานพร้อมช่วยเหลือทุกปัญหาคะ!'
+};
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  var panel = document.getElementById('chatPanel');
+  var badge = document.getElementById('chatBadge');
+  if (chatOpen) {
+    panel.classList.add('open');
+    if (badge) badge.style.display = 'none';
+    document.getElementById('chatInput').focus();
+  } else {
+    panel.classList.remove('open');
+  }
+}
+
+function updateChatContext(moduleTitle) {
+  var title = moduleTitle || 'Home';
+  var contextMap = {
+    'Home': 'Home', 'Procurement': 'Procurement', 'Expense': 'Expense',
+    'Finance': 'Finance', 'Sales': 'Sales', 'Logistics': 'Logistics',
+    'Vendor': 'Vendor', 'Connector': 'Connector', 'Insights': 'Insights'
+  };
+  var ctx = 'default';
+  for (var key in contextMap) {
+    if (title.toLowerCase().indexOf(key.toLowerCase()) !== -1) { ctx = key; break; }
+  }
+  chatContext = ctx;
+  var contextLabel = document.getElementById('chatContext');
+  var contextNames = {
+    'Home': 'หน้าหลัก', 'Procurement': 'จัดซื้อจัดจ้าง', 'Expense': 'ค่าใช้จ่าย',
+    'Finance': 'การเงิน', 'Sales': 'การขาย', 'Logistics': 'โลจิสติกส์',
+    'Vendor': 'Vendor Portal', 'Connector': 'API Connector', 'Insights': 'Insights',
+    'default': 'ทั่วไป'
+  };
+  if (contextLabel) contextLabel.textContent = contextNames[ctx] || 'ทั่วไป';
+  renderQuickPrompts(ctx);
+}
+
+function renderQuickPrompts(context) {
+  var container = document.getElementById('quickPrompts');
+  if (!container) return;
+  var prompts = modulePrompts[context] || modulePrompts['default'];
+  var html = '';
+  for (var i = 0; i < prompts.length; i++) {
+    html += '<button class="qp-chip" onclick="sendQuickPrompt(\'' + prompts[i].replace(/'/g, "\\'") + '\')">' + prompts[i] + '</button>';
+  }
+  container.innerHTML = html;
+}
+
+function sendQuickPrompt(text) {
+  document.getElementById('chatInput').value = text;
+  sendChat();
+}
+
+function sendChat() {
+  var input = document.getElementById('chatInput');
+  var text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  addMessage('user', text);
+  simulateAIResponse(text);
+}
+
+function addMessage(role, text) {
+  var container = document.getElementById('chatMessages');
+  var div = document.createElement('div');
+  div.className = 'chat-msg ' + role;
+  div.innerHTML = text;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function simulateAIResponse(userText) {
+  var container = document.getElementById('chatMessages');
+  // Show typing indicator
+  var typing = document.createElement('div');
+  typing.className = 'typing-dots';
+  typing.id = 'typingIndicator';
+  typing.innerHTML = '<span></span><span></span><span></span>';
+  container.appendChild(typing);
+  container.scrollTop = container.scrollHeight;
+
+  var delay = 800 + Math.random() * 1200;
+  setTimeout(function() {
+    var indicator = document.getElementById('typingIndicator');
+    if (indicator) indicator.remove();
+
+    // Find matching response
+    var response = '';
+    var lowerText = userText.toLowerCase();
+
+    // Exact match first
+    if (aiResponses[userText]) {
+      response = aiResponses[userText];
+    } else {
+      // Fuzzy match
+      for (var key in aiResponses) {
+        if (lowerText.indexOf(key.toLowerCase()) !== -1 || key.toLowerCase().indexOf(lowerText) !== -1) {
+          response = aiResponses[key];
+          break;
+        }
+      }
+    }
+
+    // Context-aware fallback
+    if (!response) {
+      var contextNames = {
+        'Home': 'หน้าหลัก', 'Procurement': 'จัดซื้อจัดจ้าง', 'Expense': 'ค่าใช้จ่าย',
+        'Finance': 'การเงิน', 'Sales': 'การขาย', 'Logistics': 'โลจิสติกส์',
+        'Vendor': 'Vendor Portal', 'Connector': 'API Connector', 'Insights': 'Insights'
+      };
+      var ctxName = contextNames[chatContext] || 'ระบบ';
+      response = '🤖 ขอบคุณสำหรับคำถามคะ!<br><br>คุณกำลังอยู่ในโมดูล <strong>' + ctxName + '</strong> — ดิฉันสามารถช่วยได้เรื่อง:<br>';
+      var prompts = modulePrompts[chatContext] || modulePrompts['default'];
+      for (var i = 0; i < prompts.length; i++) {
+        response += '• ' + prompts[i] + '<br>';
+      }
+      response += '<br>ลองกดปุ่มด้านบนเพื่อเริ่มต้น หรือพิมพ์คำถามเพิ่มเติมได้เลยคะ!';
+    }
+
+    addMessage('ai', response);
+  }, delay);
+}
+
+function clearChat() {
+  var container = document.getElementById('chatMessages');
+  container.innerHTML = '';
+  addMessage('ai', '🤖 สวัสดีค่ะ! ดิฉัน <strong>ANTS AI Assistant</strong><br><br>พร้อมช่วยเหลือคุณทุกเรื่องเกี่ยวกับระบบ Autopilot ค่ะ ลองถามอะไรก็ได้เลยนะคะ!');
+}
+
+// Keyboard shortcut: Ctrl+Shift+Space
+document.addEventListener('keydown', function(e) {
+  if (e.ctrlKey && e.shiftKey && e.code === 'Space') {
+    e.preventDefault();
+    toggleChat();
+  }
+});
+
+// Initialize chat on load
+(function initChat() {
+  renderQuickPrompts('Home');
+  // Add welcome message
+  setTimeout(function() {
+    addMessage('ai', '🤖 สวัสดีค่ะ! ดิฉัน <strong>ANTS AI Assistant</strong><br><br>พร้อมช่วยเหลือคุณทุกเรื่องเกี่ยวกับระบบ Autopilot ค่ะ เช่น:<br>• สรุปงานประจำวัน<br>• ช่วยสร้างเอกสาร<br>• ค้นหาข้อมูลในระบบ<br>• วิเคราะห์ข้อมูลเบื้องต้น<br><br>กด <strong>Ctrl+Shift+Space</strong> เพื่อเปิด/ปิดแชทได้คะ!');
+  }, 500);
+})();
+
 // Auto-load Home on startup
 loadModule('modules/home.html','Home');
 </script>
+
+<!-- AI Chat Assistant -->
+<button class="ai-chat-bubble" onclick="toggleChat()" title="AI Assistant (Ctrl+Shift+Space)">
+  <span class="chat-icon">🤖</span>
+  <span class="chat-badge" id="chatBadge">3</span>
+</button>
+
+<div class="ai-chat-panel" id="chatPanel">
+  <div class="chat-header">
+    <div class="chat-header-left">
+      <span class="chat-avatar">🤖</span>
+      <div>
+        <div class="chat-title">ANTS AI Assistant</div>
+        <div class="chat-context" id="chatContext">หน้าหลัก</div>
+      </div>
+    </div>
+    <div class="chat-header-actions">
+      <button onclick="clearChat()" title="ล้างแชท">🗑️</button>
+      <button onclick="toggleChat()" title="ปิด">✕</button>
+    </div>
+  </div>
+
+  <div class="chat-quick-prompts" id="quickPrompts">
+    <!-- Dynamic quick prompt chips -->
+  </div>
+
+  <div class="chat-messages" id="chatMessages">
+    <!-- Messages rendered here -->
+  </div>
+
+  <div class="chat-input-area">
+    <input type="text" id="chatInput" placeholder="ถามอะไรก็ได้... (Ctrl+Shift+Space)" onkeydown="if(event.key==='Enter')sendChat()">
+    <button onclick="sendChat()" class="chat-send">➤</button>
+  </div>
+</div>
+
 </body>
 </html>

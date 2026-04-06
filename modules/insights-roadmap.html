@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Insights & Roadmap | ANTS Autopilot v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root{--bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--card-bg:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--text2:#475569;--muted:#64748B;--blue:#2563EB;--blue-bg:#EFF6FF;--purple:#7C3AED;--purple-bg:#F5F3FF;--green:#059669;--green-bg:#ECFDF5;--orange:#D97706;--orange-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;--cyan:#0891B2;--cyan-bg:#ECFEFF;--grad:linear-gradient(135deg,#2563EB,#7C3AED);--radius:12px;--shadow:0 1px 3px rgba(0,0,0,0.05);}
+body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);--cyan-bg:rgba(8,145,178,0.15);}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans Thai','Inter',sans-serif;font-size:14px;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;transition:background .3s,color .3s;font-kerning:normal;font-feature-settings:"kern" 1;text-rendering:optimizeLegibility;}
+h1,h2,h3,h4,h5,h6,.card-title,.section-title{text-rendering:optimizeLegibility;}
+.container{max-width:1280px;margin:0 auto;padding:20px 24px 40px;}
+
+.dark-toggle{position:fixed;top:16px;right:16px;z-index:1000;width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--card-bg);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:all .2s;}
+.dark-toggle:hover{transform:scale(1.1);box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+
+/* Tabs */
+.tab-nav{display:flex;gap:4px;margin-bottom:24px;overflow-x:auto;border-bottom:2px solid var(--border);padding-bottom:0;}
+.tab-btn{padding:10px 18px;font-size:0.85rem;font-weight:600;border:none;background:none;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;white-space:nowrap;font-family:inherit;}
+.tab-btn:hover{color:var(--text);background:var(--bg2);border-radius:8px 8px 0 0;}
+.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);background:var(--blue-bg);border-radius:8px 8px 0 0;}
+.tab-content{display:none;animation:fadeIn .3s;}
+.tab-content.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* Section */
+.section-title{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.section-title .icon{font-size:1.2rem;}
+
+/* Hero Banner */
+.hero-banner{background:var(--grad);border-radius:var(--radius);padding:32px 36px;color:#fff;margin-bottom:24px;position:relative;overflow:hidden;}
+.hero-banner::after{content:'';position:absolute;top:-50%;right:-10%;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,0.07);}
+.hero-banner h2{font-size:1.5rem;font-weight:800;margin-bottom:6px;}
+.hero-banner p{font-size:0.9rem;opacity:0.9;}
+
+/* KPI Grid */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
+.kpi-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);transition:all .2s;display:flex;align-items:center;gap:14px;}
+.kpi-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.08);}
+.kpi-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.kpi-icon.blue{background:var(--blue-bg);color:var(--blue);}
+.kpi-icon.green{background:var(--green-bg);color:var(--green);}
+.kpi-icon.purple{background:var(--purple-bg);color:var(--purple);}
+.kpi-icon.orange{background:var(--orange-bg);color:var(--orange);}
+.kpi-icon.cyan{background:var(--cyan-bg);color:var(--cyan);}
+.kpi-label{font-size:0.75rem;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.03em;}
+.kpi-value{font-size:1.5rem;font-weight:800;color:var(--text);line-height:1.2;}
+.kpi-sub{font-size:0.72rem;color:var(--muted);margin-top:2px;}
+
+/* Card */
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;box-shadow:var(--shadow);margin-bottom:24px;}
+.card-title{font-size:1rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+
+/* Grids */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;}
+
+/* Badge */
+.badge{display:inline-flex;align-items:center;padding:2px 10px;border-radius:999px;font-size:0.72rem;font-weight:700;white-space:nowrap;}
+.badge-green{background:var(--green-bg);color:var(--green);}
+.badge-blue{background:var(--blue-bg);color:var(--blue);}
+.badge-purple{background:var(--purple-bg);color:var(--purple);}
+.badge-orange{background:var(--orange-bg);color:var(--orange);}
+.badge-red{background:var(--red-bg);color:var(--red);}
+.badge-cyan{background:var(--cyan-bg);color:var(--cyan);}
+
+/* Heatmap */
+.heatmap-compact{width:100%;border-collapse:collapse;font-size:0.78rem;}
+.heatmap-compact th{background:var(--bg2);padding:8px 10px;text-align:left;font-weight:600;color:var(--muted);font-size:0.72rem;text-transform:uppercase;border-bottom:2px solid var(--border);}
+.heatmap-compact td{padding:7px 10px;border-bottom:1px solid var(--border);}
+.heatmap-compact tr:hover{background:var(--bg2);}
+.score-cell{font-weight:700;text-align:center;border-radius:6px;padding:3px 8px !important;font-size:0.75rem;}
+.score-high{background:var(--green-bg);color:var(--green);}
+.score-mid{background:var(--orange-bg);color:var(--orange);}
+.score-low{background:var(--red-bg);color:var(--red);}
+
+/* Roadmap Timeline */
+.roadmap-timeline{position:relative;padding-left:32px;margin-bottom:24px;}
+.roadmap-timeline::before{content:'';position:absolute;left:14px;top:0;bottom:0;width:3px;background:var(--grad);border-radius:2px;}
+.timeline-phase{position:relative;margin-bottom:28px;}
+.timeline-phase:last-child{margin-bottom:0;}
+.timeline-dot{position:absolute;left:-26px;top:4px;width:18px;height:18px;border-radius:50%;background:var(--blue);border:3px solid var(--card-bg);box-shadow:0 0 0 2px var(--blue);}
+.timeline-dot.purple{background:var(--purple);box-shadow:0 0 0 2px var(--purple);}
+.timeline-dot.green{background:var(--green);box-shadow:0 0 0 2px var(--green);}
+.timeline-quarter{font-size:0.75rem;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;}
+.timeline-quarter.purple{color:var(--purple);}
+.timeline-quarter.green{color:var(--green);}
+.timeline-title{font-size:1rem;font-weight:700;margin-bottom:8px;}
+.timeline-items{list-style:none;padding:0;}
+.timeline-items li{font-size:0.82rem;color:var(--text2);padding:4px 0;display:flex;align-items:center;gap:8px;}
+.timeline-items li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--muted);flex-shrink:0;}
+
+/* Feature Pipeline */
+.feature-item{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:10px;display:flex;align-items:center;gap:14px;transition:all .2s;}
+.feature-item:hover{box-shadow:0 4px 16px rgba(0,0,0,0.06);transform:translateY(-1px);}
+.feature-votes{background:var(--blue-bg);color:var(--blue);font-weight:800;font-size:0.85rem;min-width:48px;height:48px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;}
+.feature-votes small{font-size:0.58rem;font-weight:500;opacity:0.7;}
+.feature-info{flex:1;min-width:0;}
+.feature-name{font-weight:700;font-size:0.88rem;margin-bottom:3px;}
+.feature-desc{font-size:0.75rem;color:var(--muted);}
+.feature-tags{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;}
+.priority-high{background:var(--red-bg);color:var(--red);padding:2px 8px;border-radius:999px;font-size:0.65rem;font-weight:700;}
+.priority-mid{background:var(--orange-bg);color:var(--orange);padding:2px 8px;border-radius:999px;font-size:0.65rem;font-weight:700;}
+.priority-low{background:var(--bg3);color:var(--muted);padding:2px 8px;border-radius:999px;font-size:0.65rem;font-weight:700;}
+.status-pending{background:var(--cyan-bg);color:var(--cyan);padding:2px 8px;border-radius:999px;font-size:0.65rem;font-weight:700;}
+
+/* Quick Win */
+.qw-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
+.qw-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;display:flex;gap:10px;align-items:flex-start;transition:all .2s;}
+.qw-card:hover{box-shadow:0 4px 12px rgba(0,0,0,0.06);}
+.qw-num{width:28px;height:28px;border-radius:8px;background:var(--green-bg);color:var(--green);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.78rem;flex-shrink:0;}
+.qw-body{flex:1;}
+.qw-title{font-weight:700;font-size:0.85rem;margin-bottom:2px;}
+.qw-desc{font-size:0.75rem;color:var(--muted);}
+
+/* Tech Debt */
+.debt-item{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--border);}
+.debt-item:last-child{border-bottom:none;}
+.debt-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.debt-info{flex:1;}
+.debt-name{font-weight:700;font-size:0.85rem;}
+.debt-desc{font-size:0.73rem;color:var(--muted);}
+.debt-effort{font-size:0.68rem;font-weight:700;padding:3px 10px;border-radius:999px;}
+
+/* Feedback Form */
+.feedback-form{max-width:700px;}
+.form-group{margin-bottom:18px;}
+.form-group label{display:block;font-weight:600;font-size:0.85rem;margin-bottom:6px;}
+.form-group select,.form-group input,.form-group textarea{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--card-bg);color:var(--text);font-size:0.88rem;font-family:inherit;transition:border-color .2s;}
+.form-group select:focus,.form-group input:focus,.form-group textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-bg);}
+.form-group textarea{min-height:120px;resize:vertical;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+
+.star-rating{display:flex;gap:4px;margin-bottom:4px;}
+.star-rating .star{font-size:1.6rem;cursor:pointer;color:var(--border);transition:color .15s;}
+.star-rating .star.active{color:#F59E0B;}
+.star-rating .star:hover{color:#F59E0B;}
+
+.drop-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:32px;text-align:center;color:var(--muted);font-size:0.85rem;cursor:pointer;transition:all .2s;}
+.drop-zone:hover,.drop-zone.dragover{border-color:var(--blue);background:var(--blue-bg);color:var(--blue);}
+.drop-zone input{display:none;}
+
+.btn-primary{padding:10px 28px;background:var(--grad);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:0.9rem;cursor:pointer;font-family:inherit;transition:all .2s;}
+.btn-primary:hover{opacity:0.9;transform:translateY(-1px);}
+
+/* Recent Feedback List */
+.feedback-list{list-style:none;padding:0;}
+.feedback-list li{padding:10px 0;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:10px;font-size:0.82rem;}
+.feedback-list li:last-child{border-bottom:none;}
+.fb-stars{color:#F59E0B;flex-shrink:0;font-size:0.75rem;}
+.fb-text{flex:1;color:var(--text2);}
+.fb-date{font-size:0.7rem;color:var(--muted);white-space:nowrap;}
+
+/* Sentiment */
+.sentiment-bar{display:flex;height:24px;border-radius:12px;overflow:hidden;margin-bottom:8px;}
+.sentiment-pos{background:var(--green);transition:width .8s;}
+.sentiment-neu{background:var(--orange);transition:width .8s;}
+.sentiment-neg{background:var(--red);transition:width .8s;}
+.sentiment-legend{display:flex;gap:16px;font-size:0.75rem;color:var(--muted);}
+.sentiment-legend span::before{content:'';display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:middle;}
+.legend-pos::before{background:var(--green);}
+.legend-neu::before{background:var(--orange);}
+.legend-neg::before{background:var(--red);}
+
+/* Accordion */
+.accordion{margin-bottom:12px;}
+.accordion-header{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:0.88rem;transition:all .2s;}
+.accordion-header:hover{background:var(--bg3);}
+.accordion-header .arrow{transition:transform .2s;font-size:0.8rem;}
+.accordion-header.open .arrow{transform:rotate(180deg);}
+.accordion-body{display:none;padding:14px 18px;border:1px solid var(--border);border-top:none;border-radius:0 0 10px 10px;font-size:0.82rem;color:var(--text2);line-height:1.8;}
+.accordion-body.open{display:block;}
+
+/* QA Summary */
+.qa-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;}
+.qa-card{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;}
+.qa-round{font-size:0.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:4px;}
+.qa-label{font-size:0.82rem;font-weight:700;color:var(--text);margin-bottom:2px;}
+.qa-desc{font-size:0.7rem;color:var(--muted);}
+.qa-status{margin-top:6px;font-size:0.68rem;font-weight:700;padding:2px 10px;border-radius:999px;display:inline-block;}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--text);color:var(--bg);padding:12px 24px;border-radius:10px;font-size:0.85rem;font-weight:600;opacity:0;transform:translateY(20px);transition:all .3s;z-index:9999;pointer-events:none;}
+.toast.show{opacity:1;transform:translateY(0);}
+
+/* Sparkline area */
+.sparkline-wrap{margin-top:12px;}
+.sparkline-wrap svg{width:100%;display:block;}
+
+/* Download link */
+.download-link{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;background:var(--blue-bg);color:var(--blue);border-radius:8px;font-weight:700;font-size:0.85rem;text-decoration:none;transition:all .2s;border:1px solid transparent;}
+.download-link:hover{border-color:var(--blue);background:var(--blue);;color:#fff;}
+
+/* Responsive */
+@media(max-width:900px){
+  .kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .grid-2,.qw-grid{grid-template-columns:1fr;}
+  .qa-grid{grid-template-columns:repeat(2,1fr);}
+  .form-row{grid-template-columns:1fr;}
+  .tab-nav{gap:2px;}
+  .tab-btn{padding:8px 12px;font-size:0.78rem;}
+}
+@media(max-width:768px){
+  .container{padding:16px;}
+  .kpi-card{padding:12px 14px;gap:10px;}
+  .kpi-icon{width:40px;height:40px;font-size:1.1rem;}
+  .kpi-value{font-size:1.2rem;}
+  .card{padding:16px;}
+  .hero-banner{padding:24px 20px;}
+  .hero-banner h2{font-size:1.2rem;}
+  .tab-nav{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap;padding-bottom:0;}
+  .tab-btn{flex-shrink:0;white-space:nowrap;padding:8px 14px;font-size:.78rem;}
+}
+@media(max-width:600px){
+  .container{padding:12px;}
+  .kpi-grid{grid-template-columns:1fr;}
+  .qa-grid{grid-template-columns:1fr 1fr;}
+  .qw-grid{grid-template-columns:1fr;}
+  .kpi-value{font-size:1rem;}
+}
+</style>
+</head>
+<body>
+<button class="dark-toggle" onclick="toggleDark()">🌙</button>
+<div class="toast" id="toast"></div>
+
+<div class="container">
+
+<!-- Tab Navigation -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('overview')">📊 ภาพรวม</button>
+  <button class="tab-btn" onclick="switchTab('future')">🚀 แผนอนาคต</button>
+  <button class="tab-btn" onclick="switchTab('feedback')">💬 Feedback</button>
+  <button class="tab-btn" onclick="switchTab('history')">📁 ประวัติ</button>
+</div>
+
+<!-- ============================================ -->
+<!-- TAB 1: ภาพรวม (Overview) -->
+<!-- ============================================ -->
+<div class="tab-content active" id="tab-overview">
+
+  <div class="hero-banner">
+    <h2>ANTS Autopilot v2 — Platform Health Dashboard</h2>
+    <p>สถานะระบบ ณ เมษายน พ.ศ. 2569 | ข้อมูลรวบรวมจาก 6 Sprints และ 4 QA Rounds</p>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-icon blue">⭐</div>
+      <div>
+        <div class="kpi-label">คะแนนความพึงพอใจ</div>
+        <div class="kpi-value">4.35<span style="font-size:0.7rem;font-weight:500;color:var(--muted)">/5.0</span></div>
+        <div class="kpi-sub">★★★★☆ จากผู้ใช้ 512 คน</div>
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon green">✅</div>
+      <div>
+        <div class="kpi-label">ปัญหาที่แก้ไขแล้ว</div>
+        <div class="kpi-value">120<span style="font-size:0.7rem;font-weight:500;color:var(--muted)">/120</span></div>
+        <div class="kpi-sub">100% แก้ไขครบทั้งหมด ✅</div>
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon purple">🔄</div>
+      <div>
+        <div class="kpi-label">QA Rounds สำเร็จ</div>
+        <div class="kpi-value">4 <span style="font-size:0.7rem;font-weight:500;color:var(--muted)">รอบ</span></div>
+        <div class="kpi-sub">ผ่านทุกรอบ ไม่มี Blocker</div>
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon cyan">📦</div>
+      <div>
+        <div class="kpi-label">Modules ทั้งหมด</div>
+        <div class="kpi-value">28 <span style="font-size:0.7rem;font-weight:500;color:var(--muted)">+ 11</span></div>
+        <div class="kpi-sub">28 Modules + 11 Connectors</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Satisfaction Trend Sparkline -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">📈 แนวโน้มความพึงพอใจ (6 Sprints)</div>
+      <div class="sparkline-wrap">
+        <svg viewBox="0 0 400 120" preserveAspectRatio="none" style="height:120px;">
+          <defs>
+            <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#2563EB" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#2563EB" stop-opacity="0.02"/>
+            </linearGradient>
+          </defs>
+          <!-- Area -->
+          <path d="M0,90 L67,72 L133,60 L200,48 L267,30 L333,18 L400,12 L400,120 L0,120 Z" fill="url(#sparkGrad)"/>
+          <!-- Line -->
+          <polyline points="0,90 67,72 133,60 200,48 267,30 333,18 400,12" fill="none" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Dots -->
+          <circle cx="0" cy="90" r="4" fill="#2563EB"/>
+          <circle cx="67" cy="72" r="4" fill="#2563EB"/>
+          <circle cx="133" cy="60" r="4" fill="#2563EB"/>
+          <circle cx="200" cy="48" r="4" fill="#2563EB"/>
+          <circle cx="267" cy="30" r="4" fill="#2563EB"/>
+          <circle cx="333" cy="18" r="4" fill="#2563EB"/>
+          <circle cx="400" cy="12" r="4" fill="#7C3AED"/>
+          <!-- Labels -->
+          <text x="0" y="106" font-size="9" fill="#64748B" font-family="Inter">S1</text>
+          <text x="61" y="106" font-size="9" fill="#64748B" font-family="Inter">S2</text>
+          <text x="127" y="106" font-size="9" fill="#64748B" font-family="Inter">S3</text>
+          <text x="194" y="106" font-size="9" fill="#64748B" font-family="Inter">S4</text>
+          <text x="261" y="106" font-size="9" fill="#64748B" font-family="Inter">S5</text>
+          <text x="327" y="106" font-size="9" fill="#64748B" font-family="Inter">S6</text>
+          <text x="388" y="106" font-size="9" fill="#7C3AED" font-weight="700" font-family="Inter">Now</text>
+          <!-- Score labels -->
+          <text x="0" y="84" font-size="8" fill="#2563EB" font-weight="600" font-family="Inter">3.2</text>
+          <text x="61" y="66" font-size="8" fill="#2563EB" font-weight="600" font-family="Inter">3.5</text>
+          <text x="127" y="54" font-size="8" fill="#2563EB" font-weight="600" font-family="Inter">3.7</text>
+          <text x="194" y="42" font-size="8" fill="#2563EB" font-weight="600" font-family="Inter">3.9</text>
+          <text x="261" y="24" font-size="8" fill="#2563EB" font-weight="600" font-family="Inter">4.1</text>
+          <text x="327" y="12" font-size="8" fill="#2563EB" font-weight="600" font-family="Inter">4.3</text>
+          <text x="388" y="6" font-size="8" fill="#7C3AED" font-weight="700" font-family="Inter">4.35</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Sentiment Summary compact -->
+    <div class="card">
+      <div class="card-title">💬 สรุป Sentiment ผู้ใช้</div>
+      <div style="margin-bottom:12px;">
+        <div class="sentiment-bar">
+          <div class="sentiment-pos" style="width:68%"></div>
+          <div class="sentiment-neu" style="width:22%"></div>
+          <div class="sentiment-neg" style="width:10%"></div>
+        </div>
+        <div class="sentiment-legend">
+          <span class="legend-pos">เชิงบวก 68%</span>
+          <span class="legend-neu">กลาง 22%</span>
+          <span class="legend-neg">เชิงลบ 10%</span>
+        </div>
+      </div>
+      <p style="font-size:0.78rem;color:var(--muted);line-height:1.7;">คำที่พบบ่อย: <span class="badge badge-blue">ใช้ง่าย</span> <span class="badge badge-green">รวดเร็ว</span> <span class="badge badge-purple">ครบถ้วน</span> <span class="badge badge-orange">อยากให้มี Mobile</span></p>
+    </div>
+  </div>
+
+  <!-- Module Health Heatmap (compact) -->
+  <div class="card">
+    <div class="card-title">🗺️ Module Health Heatmap</div>
+    <div style="overflow-x:auto;">
+      <table class="heatmap-compact">
+        <thead>
+          <tr><th>Module</th><th>UI/UX</th><th>Performance</th><th>Stability</th><th>Overall</th></tr>
+        </thead>
+        <tbody>
+          <tr><td style="font-weight:600;">Dashboard</td><td class="score-cell score-high">4.5</td><td class="score-cell score-high">4.6</td><td class="score-cell score-high">4.7</td><td class="score-cell score-high">4.6</td></tr>
+          <tr><td style="font-weight:600;">HR & Payroll</td><td class="score-cell score-high">4.3</td><td class="score-cell score-high">4.4</td><td class="score-cell score-high">4.5</td><td class="score-cell score-high">4.4</td></tr>
+          <tr><td style="font-weight:600;">Inventory</td><td class="score-cell score-high">4.2</td><td class="score-cell score-high">4.3</td><td class="score-cell score-high">4.5</td><td class="score-cell score-high">4.3</td></tr>
+          <tr><td style="font-weight:600;">Finance</td><td class="score-cell score-high">4.4</td><td class="score-cell score-high">4.3</td><td class="score-cell score-high">4.6</td><td class="score-cell score-high">4.4</td></tr>
+          <tr><td style="font-weight:600;">Sales & CRM</td><td class="score-cell score-high">4.1</td><td class="score-cell score-mid">4.0</td><td class="score-cell score-high">4.3</td><td class="score-cell score-high">4.1</td></tr>
+          <tr><td style="font-weight:600;">Procurement</td><td class="score-cell score-high">4.3</td><td class="score-cell score-high">4.2</td><td class="score-cell score-high">4.4</td><td class="score-cell score-high">4.3</td></tr>
+          <tr><td style="font-weight:600;">Logistics</td><td class="score-cell score-mid">3.9</td><td class="score-cell score-high">4.1</td><td class="score-cell score-high">4.2</td><td class="score-cell score-high">4.1</td></tr>
+          <tr><td style="font-weight:600;">Connectors</td><td class="score-cell score-high">4.2</td><td class="score-cell score-high">4.4</td><td class="score-cell score-high">4.5</td><td class="score-cell score-high">4.4</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================ -->
+<!-- TAB 2: แผนอนาคต (Future Planning) -->
+<!-- ============================================ -->
+<div class="tab-content" id="tab-future">
+
+  <div class="hero-banner" style="background:linear-gradient(135deg,#7C3AED,#2563EB,#0891B2);">
+    <h2>🚀 What's Next — Phase 2 Roadmap</h2>
+    <p>แผนพัฒนาต่อยอดจากฐานที่แข็งแกร่ง | เป้าหมาย: ทำให้ ANTS Autopilot v2 เป็น #1 ERP Platform ในประเทศไทย</p>
+  </div>
+
+  <!-- Roadmap Timeline -->
+  <div class="section-title"><span class="icon">🗓️</span> แผนพัฒนา Phase 2 (พ.ศ. 2569)</div>
+  <div class="card">
+    <div class="roadmap-timeline">
+      <div class="timeline-phase">
+        <div class="timeline-dot"></div>
+        <div class="timeline-quarter">Q2/2569 — เมษายน - มิถุนายน</div>
+        <div class="timeline-title">Advanced AI Integration & Real-time Analytics</div>
+        <ul class="timeline-items">
+          <li>AI-powered Predictive Analytics สำหรับ Sales Forecasting</li>
+          <li>Smart Document Processing ด้วย GPT-based OCR</li>
+          <li>Real-time Dashboard พร้อม WebSocket live updates</li>
+          <li>AI Chatbot ช่วยตอบคำถามผู้ใช้อัตโนมัติ</li>
+          <li>Anomaly Detection สำหรับข้อมูลการเงิน</li>
+        </ul>
+      </div>
+      <div class="timeline-phase">
+        <div class="timeline-dot purple"></div>
+        <div class="timeline-quarter purple">Q3/2569 — กรกฎาคม - กันยายน</div>
+        <div class="timeline-title">Mobile App, Offline Mode & Multi-language</div>
+        <ul class="timeline-items">
+          <li>ANTS Mobile App (iOS & Android) ด้วย React Native</li>
+          <li>Offline Mode สำหรับงาน Inventory & Logistics</li>
+          <li>รองรับหลายภาษา: English, 中文, 日本語</li>
+          <li>Push Notifications สำหรับ Approval Workflow</li>
+          <li>Biometric Authentication (Face ID / Fingerprint)</li>
+        </ul>
+      </div>
+      <div class="timeline-phase">
+        <div class="timeline-dot green"></div>
+        <div class="timeline-quarter green">Q4/2569 — ตุลาคม - ธันวาคม</div>
+        <div class="timeline-title">Marketplace & Third-party Plugins</div>
+        <ul class="timeline-items">
+          <li>ANTS Marketplace สำหรับ Third-party Plugins</li>
+          <li>Plugin SDK สำหรับ Developer Community</li>
+          <li>Pre-built Integrations: Shopee, Lazada, LINE OA</li>
+          <li>Custom Report Builder แบบ Drag & Drop</li>
+          <li>White-label Solution สำหรับ Partners</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature Request Pipeline -->
+  <div class="section-title"><span class="icon">💡</span> Feature Request Pipeline (จากผู้ใช้จริง)</div>
+
+  <div class="feature-item">
+    <div class="feature-votes">47<small>votes</small></div>
+    <div class="feature-info">
+      <div class="feature-name">Mobile App สำหรับ Approval & Notification</div>
+      <div class="feature-desc">ผู้ใช้ต้องการอนุมัติเอกสาร PR/PO จากมือถือ และรับแจ้งเตือนแบบ Real-time</div>
+      <div class="feature-tags">
+        <span class="priority-high">สูง</span>
+        <span class="status-pending">รอดำเนินการ</span>
+        <span class="badge badge-purple">Q3/2569</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="feature-item">
+    <div class="feature-votes">38<small>votes</small></div>
+    <div class="feature-info">
+      <div class="feature-name">AI-powered Report Generation</div>
+      <div class="feature-desc">สร้าง Report อัตโนมัติด้วย AI พร้อมวิเคราะห์แนวโน้มและ Insight</div>
+      <div class="feature-tags">
+        <span class="priority-high">สูง</span>
+        <span class="status-pending">รอดำเนินการ</span>
+        <span class="badge badge-blue">Q2/2569</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="feature-item">
+    <div class="feature-votes">31<small>votes</small></div>
+    <div class="feature-info">
+      <div class="feature-name">Offline Data Entry สำหรับ Warehouse</div>
+      <div class="feature-desc">ทำงานได้แม้ไม่มีอินเทอร์เน็ต แล้ว Sync อัตโนมัติเมื่อกลับออนไลน์</div>
+      <div class="feature-tags">
+        <span class="priority-high">สูง</span>
+        <span class="status-pending">รอดำเนินการ</span>
+        <span class="badge badge-purple">Q3/2569</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="feature-item">
+    <div class="feature-votes">24<small>votes</small></div>
+    <div class="feature-info">
+      <div class="feature-name">Custom Dashboard Builder (Drag & Drop)</div>
+      <div class="feature-desc">ให้ผู้ใช้สร้าง Dashboard ของตัวเองได้ โดยเลือก Widget ที่ต้องการ</div>
+      <div class="feature-tags">
+        <span class="priority-mid">กลาง</span>
+        <span class="status-pending">รอดำเนินการ</span>
+        <span class="badge badge-green" style="background:var(--green-bg);color:var(--green);">Q4/2569</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="feature-item">
+    <div class="feature-votes">19<small>votes</small></div>
+    <div class="feature-info">
+      <div class="feature-name">LINE OA Integration สำหรับ CRM</div>
+      <div class="feature-desc">เชื่อมต่อ LINE Official Account เพื่อส่งข้อมูลลูกค้าเข้าระบบ CRM อัตโนมัติ</div>
+      <div class="feature-tags">
+        <span class="priority-mid">กลาง</span>
+        <span class="status-pending">รอดำเนินการ</span>
+        <span class="badge badge-green" style="background:var(--green-bg);color:var(--green);">Q4/2569</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="feature-item">
+    <div class="feature-votes">12<small>votes</small></div>
+    <div class="feature-info">
+      <div class="feature-name">Dark Mode Scheduling (ตั้งเวลาเปิด-ปิด)</div>
+      <div class="feature-desc">ตั้งเวลา Dark Mode อัตโนมัติ เช่น เปิดเวลา 18:00 ปิดเวลา 06:00</div>
+      <div class="feature-tags">
+        <span class="priority-low">ต่ำ</span>
+        <span class="status-pending">รอดำเนินการ</span>
+        <span class="badge badge-blue">Backlog</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Wins -->
+  <div class="section-title" style="margin-top:32px;"><span class="icon">⚡</span> Quick Wins — ปรับปรุงได้เลย</div>
+  <div class="qw-grid">
+    <div class="qw-card">
+      <div class="qw-num">1</div>
+      <div class="qw-body">
+        <div class="qw-title">Keyboard Shortcuts ทุกหน้า</div>
+        <div class="qw-desc">เพิ่ม hotkey สำหรับ Save, Search, Navigate เพื่อเพิ่มประสิทธิภาพ</div>
+      </div>
+    </div>
+    <div class="qw-card">
+      <div class="qw-num">2</div>
+      <div class="qw-body">
+        <div class="qw-title">Bulk Export เป็น Excel/PDF</div>
+        <div class="qw-desc">ส่งออกข้อมูลหลายรายการพร้อมกันในทุก Module</div>
+      </div>
+    </div>
+    <div class="qw-card">
+      <div class="qw-num">3</div>
+      <div class="qw-body">
+        <div class="qw-title">ปรับ Loading Speed ใน Inventory</div>
+        <div class="qw-desc">Lazy loading + Virtual scroll สำหรับรายการ 10,000+ items</div>
+      </div>
+    </div>
+    <div class="qw-card">
+      <div class="qw-num">4</div>
+      <div class="qw-body">
+        <div class="qw-title">Tooltip Help ในทุก Field</div>
+        <div class="qw-desc">เพิ่ม contextual help tooltip สำหรับ Field ที่ซับซ้อน</div>
+      </div>
+    </div>
+    <div class="qw-card">
+      <div class="qw-num">5</div>
+      <div class="qw-body">
+        <div class="qw-title">Notification Preferences</div>
+        <div class="qw-desc">ให้ผู้ใช้เลือกได้ว่าต้องการรับแจ้งเตือนอะไรบ้าง</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tech Debt -->
+  <div class="section-title"><span class="icon">🔧</span> Technical Debt & Improvements Planned</div>
+  <div class="card">
+    <div class="debt-item">
+      <div class="debt-icon" style="background:var(--red-bg);color:var(--red);">🗄️</div>
+      <div class="debt-info">
+        <div class="debt-name">Database Query Optimization</div>
+        <div class="debt-desc">ปรับปรุง slow queries ใน Report module — ลดเวลา response จาก 3s เหลือ < 500ms</div>
+      </div>
+      <span class="debt-effort" style="background:var(--orange-bg);color:var(--orange);">M</span>
+    </div>
+    <div class="debt-item">
+      <div class="debt-icon" style="background:var(--blue-bg);color:var(--blue);">🧪</div>
+      <div class="debt-info">
+        <div class="debt-name">Unit Test Coverage เพิ่มเป็น 85%</div>
+        <div class="debt-desc">เพิ่ม test coverage จาก 62% เป็น 85% ใน Core Modules ทั้งหมด</div>
+      </div>
+      <span class="debt-effort" style="background:var(--red-bg);color:var(--red);">L</span>
+    </div>
+    <div class="debt-item">
+      <div class="debt-icon" style="background:var(--green-bg);color:var(--green);">📦</div>
+      <div class="debt-info">
+        <div class="debt-name">Dependency Updates & Security Patches</div>
+        <div class="debt-desc">อัปเดต outdated packages 23 รายการ และปิด vulnerability 5 รายการ</div>
+      </div>
+      <span class="debt-effort" style="background:var(--green-bg);color:var(--green);">S</span>
+    </div>
+    <div class="debt-item">
+      <div class="debt-icon" style="background:var(--purple-bg);color:var(--purple);">🏗️</div>
+      <div class="debt-info">
+        <div class="debt-name">Migrate to Microservices Architecture</div>
+        <div class="debt-desc">แยก Monolith เป็น Microservices สำหรับ Scale ในระยะยาว</div>
+      </div>
+      <span class="debt-effort" style="background:var(--red-bg);color:var(--red);">XL</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================ -->
+<!-- TAB 3: Feedback -->
+<!-- ============================================ -->
+<div class="tab-content" id="tab-feedback">
+
+  <div class="section-title"><span class="icon">✉️</span> ส่ง Feedback ใหม่</div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="feedback-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>ชื่อผู้ใช้</label>
+            <input type="text" placeholder="ชื่อ-นามสกุล" id="fbName">
+          </div>
+          <div class="form-group">
+            <label>แผนก / ตำแหน่ง</label>
+            <input type="text" placeholder="เช่น ฝ่ายบัญชี" id="fbDept">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Module ที่เกี่ยวข้อง</label>
+          <select id="fbModule">
+            <option value="">-- เลือก Module --</option>
+            <option>Dashboard</option>
+            <option>HR & Payroll</option>
+            <option>Inventory</option>
+            <option>Finance</option>
+            <option>Sales & CRM</option>
+            <option>Procurement</option>
+            <option>Logistics</option>
+            <option>Connectors</option>
+            <option>อื่น ๆ</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>ให้คะแนนความพึงพอใจ</label>
+          <div class="star-rating" id="starRating">
+            <span class="star" data-v="1">★</span>
+            <span class="star" data-v="2">★</span>
+            <span class="star" data-v="3">★</span>
+            <span class="star" data-v="4">★</span>
+            <span class="star" data-v="5">★</span>
+          </div>
+          <div style="font-size:0.72rem;color:var(--muted);" id="starLabel">กรุณาเลือกคะแนน</div>
+        </div>
+        <div class="form-group">
+          <label>รายละเอียด Feedback</label>
+          <textarea placeholder="บอกเราว่าคุณชอบอะไร หรืออยากให้ปรับปรุงอะไร..." id="fbText"></textarea>
+        </div>
+        <div class="form-group">
+          <label>แนบไฟล์ (Screenshot / Document)</label>
+          <div class="drop-zone" id="dropZone">
+            <input type="file" id="fileInput" multiple accept="image/*,.pdf,.doc,.docx">
+            📎 ลากไฟล์มาวางที่นี่ หรือ <strong>คลิกเพื่อเลือก</strong>
+            <div style="font-size:0.72rem;color:var(--muted);margin-top:4px;">รองรับ: PNG, JPG, PDF, DOC (สูงสุด 10MB)</div>
+          </div>
+          <div id="fileList" style="margin-top:8px;font-size:0.78rem;color:var(--text2);"></div>
+        </div>
+        <button class="btn-primary" onclick="submitFeedback()">📤 ส่ง Feedback</button>
+      </div>
+    </div>
+
+    <!-- Recent Feedback + Sentiment -->
+    <div>
+      <div class="card">
+        <div class="card-title">📋 Feedback ล่าสุด</div>
+        <ul class="feedback-list">
+          <li><span class="fb-stars">★★★★★</span><span class="fb-text">ระบบ Payroll ทำงานเร็วมาก ลด error ได้เยอะ</span><span class="fb-date">3 เม.ย. 69</span></li>
+          <li><span class="fb-stars">★★★★☆</span><span class="fb-text">Dashboard ดีมาก แต่อยากได้ filter เพิ่มอีกหน่อย</span><span class="fb-date">2 เม.ย. 69</span></li>
+          <li><span class="fb-stars">★★★★★</span><span class="fb-text">Inventory scanning เร็วขึ้นมากหลังจากอัปเดต Sprint 6</span><span class="fb-date">1 เม.ย. 69</span></li>
+          <li><span class="fb-stars">★★★★☆</span><span class="fb-text">อยากให้มี Mobile app สำหรับ approve PR/PO ด้วย</span><span class="fb-date">31 มี.ค. 69</span></li>
+          <li><span class="fb-stars">★★★★★</span><span class="fb-text">Finance module ครบถ้วน ใช้แทน Excel ได้เลย</span><span class="fb-date">30 มี.ค. 69</span></li>
+          <li><span class="fb-stars">★★★☆☆</span><span class="fb-text">Report generation ช้าไปหน่อยเวลาดึงข้อมูลเยอะ</span><span class="fb-date">29 มี.ค. 69</span></li>
+          <li><span class="fb-stars">★★★★★</span><span class="fb-text">Connector Hub เชื่อมต่อ API ได้ง่ายมาก</span><span class="fb-date">28 มี.ค. 69</span></li>
+          <li><span class="fb-stars">★★★★☆</span><span class="fb-text">Logistics FX ช่วยคำนวณค่าขนส่งได้แม่นยำ</span><span class="fb-date">27 มี.ค. 69</span></li>
+          <li><span class="fb-stars">★★★★★</span><span class="fb-text">ใช้ง่าย ไม่ต้อง train เยอะ พนักงานใหม่เรียนรู้เร็ว</span><span class="fb-date">26 มี.ค. 69</span></li>
+          <li><span class="fb-stars">★★★★☆</span><span class="fb-text">Procurement matching ช่วยลด manual work ได้ 80%</span><span class="fb-date">25 มี.ค. 69</span></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🧠 Thai Sentiment Analysis</div>
+        <div style="margin-bottom:12px;">
+          <div class="sentiment-bar">
+            <div class="sentiment-pos" style="width:68%"></div>
+            <div class="sentiment-neu" style="width:22%"></div>
+            <div class="sentiment-neg" style="width:10%"></div>
+          </div>
+          <div class="sentiment-legend">
+            <span class="legend-pos">เชิงบวก 68%</span>
+            <span class="legend-neu">กลาง 22%</span>
+            <span class="legend-neg">เชิงลบ 10%</span>
+          </div>
+        </div>
+        <div style="font-size:0.78rem;color:var(--text2);line-height:1.8;">
+          <strong>Top Positive:</strong> ใช้ง่าย, รวดเร็ว, ครบถ้วน, แม่นยำ<br>
+          <strong>Top Concerns:</strong> Mobile app, Report ช้า, Filter เพิ่มเติม<br>
+          <strong>NPS Score:</strong> <span style="font-weight:800;color:var(--green);">+62</span> (Promoters 72% | Passives 18% | Detractors 10%)
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================ -->
+<!-- TAB 4: ประวัติ (Archive/History) -->
+<!-- ============================================ -->
+<div class="tab-content" id="tab-history">
+
+  <div class="hero-banner" style="background:linear-gradient(135deg,#059669,#0891B2);padding:24px 36px;">
+    <h2>📁 120 ปัญหาแก้ไขแล้วทั้งหมด ใน 6 Sprints</h2>
+    <p>ทุกปัญหาที่รายงานได้รับการแก้ไขเรียบร้อย 100% | ไม่มี Blocker คงค้าง</p>
+  </div>
+
+  <!-- Sprint Accordions -->
+  <div class="section-title"><span class="icon">🏃</span> สรุปตาม Sprint</div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span>Sprint 1 — Foundation Setup <span class="badge badge-green" style="margin-left:8px;">18 รายการ</span></span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="accordion-body">
+      แก้ไข 18 รายการ: Setup โครงสร้างพื้นฐาน, Database schema, Authentication flow, User management พื้นฐาน, และ UI framework เริ่มต้น
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span>Sprint 2 — Core Modules <span class="badge badge-green" style="margin-left:8px;">22 รายการ</span></span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="accordion-body">
+      แก้ไข 22 รายการ: HR & Payroll module, Inventory management, Finance dashboard, Report generation พื้นฐาน, และ Data import/export
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span>Sprint 3 — Advanced Features <span class="badge badge-green" style="margin-left:8px;">24 รายการ</span></span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="accordion-body">
+      แก้ไข 24 รายการ: Sales & CRM, Procurement workflow, 3-Way Matching, Expense management, Receipt OCR, และ Approval workflow
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span>Sprint 4 — Integrations <span class="badge badge-green" style="margin-left:8px;">20 รายการ</span></span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="accordion-body">
+      แก้ไข 20 รายการ: Connector Hub, API Dashboard, Logistics FX, Vendor Management, และ External API integrations ทั้งหมด
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span>Sprint 5 — Polish & Performance <span class="badge badge-green" style="margin-left:8px;">20 รายการ</span></span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="accordion-body">
+      แก้ไข 20 รายการ: Performance optimization, UI/UX polish, Responsive design, Accessibility improvements, และ Edge case handling
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span>Sprint 6 — Final QA & Launch <span class="badge badge-green" style="margin-left:8px;">16 รายการ</span></span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="accordion-body">
+      แก้ไข 16 รายการ: Final bug fixes จาก QA Round 3-4, Security hardening, Load testing fixes, Documentation, และ Production deployment prep
+    </div>
+  </div>
+
+  <!-- QA Rounds Summary -->
+  <div class="section-title" style="margin-top:32px;"><span class="icon">🧪</span> QA Rounds Summary</div>
+  <div class="qa-grid">
+    <div class="qa-card">
+      <div class="qa-round">Round 1</div>
+      <div class="qa-label">Smoke Test</div>
+      <div class="qa-desc">ทดสอบ Core flow ทั้งหมด 28 modules</div>
+      <div class="qa-status" style="background:var(--green-bg);color:var(--green);">PASS</div>
+    </div>
+    <div class="qa-card">
+      <div class="qa-round">Round 2</div>
+      <div class="qa-label">Regression Test</div>
+      <div class="qa-desc">ทดสอบ Edge cases + Cross-module</div>
+      <div class="qa-status" style="background:var(--green-bg);color:var(--green);">PASS</div>
+    </div>
+    <div class="qa-card">
+      <div class="qa-round">Round 3</div>
+      <div class="qa-label">Performance Test</div>
+      <div class="qa-desc">Load test 1,000 concurrent users</div>
+      <div class="qa-status" style="background:var(--green-bg);color:var(--green);">PASS</div>
+    </div>
+    <div class="qa-card">
+      <div class="qa-round">Round 4</div>
+      <div class="qa-label">UAT Sign-off</div>
+      <div class="qa-desc">User Acceptance Test โดย Stakeholders</div>
+      <div class="qa-status" style="background:var(--green-bg);color:var(--green);">PASS</div>
+    </div>
+  </div>
+
+  <!-- Download Report -->
+  <div class="card" style="text-align:center;padding:28px;">
+    <p style="font-size:0.88rem;font-weight:600;margin-bottom:12px;">ดาวน์โหลดรายงานฉบับเต็ม</p>
+    <a href="#" class="download-link" onclick="showToast('กำลังเตรียมไฟล์รายงาน...');return false;">📥 ดาวน์โหลด Full QA Report (PDF)</a>
+  </div>
+
+</div>
+
+</div><!-- end .container -->
+
+<script>
+// ===== Tab Switching =====
+function switchTab(tabId){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+tabId).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// ===== Dark Mode =====
+function toggleDark(){
+  document.body.classList.toggle('dark');
+  const isDark=document.body.classList.contains('dark');
+  localStorage.setItem('darkMode',isDark);
+  var dt=document.querySelector('.dark-toggle');
+  if(dt) dt.textContent=isDark?'☀️':'🌙';
+  showToast(isDark?'เปิด Dark Mode':'ปิด Dark Mode');
+}
+(function(){
+  if(localStorage.getItem('darkMode')==='true'){
+    document.body.classList.add('dark');
+    var dt=document.querySelector('.dark-toggle');
+    if(dt) dt.textContent='☀️';
+  }
+})();
+
+// ===== Toast =====
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// ===== Star Rating =====
+(function(){
+  const labels=['','แย่มาก','ไม่ดี','พอใช้','ดี','ดีมาก'];
+  let selected=0;
+  const stars=document.querySelectorAll('#starRating .star');
+  const label=document.getElementById('starLabel');
+  stars.forEach(s=>{
+    s.addEventListener('click',function(){
+      selected=parseInt(this.dataset.v);
+      stars.forEach((st,i)=>{
+        st.classList.toggle('active',i<selected);
+      });
+      label.textContent=labels[selected]+' ('+selected+'/5)';
+    });
+    s.addEventListener('mouseenter',function(){
+      const v=parseInt(this.dataset.v);
+      stars.forEach((st,i)=>{
+        st.classList.toggle('active',i<v);
+      });
+    });
+    s.addEventListener('mouseleave',function(){
+      stars.forEach((st,i)=>{
+        st.classList.toggle('active',i<selected);
+      });
+    });
+  });
+})();
+
+// ===== File Drop Zone =====
+(function(){
+  const dz=document.getElementById('dropZone');
+  const fi=document.getElementById('fileInput');
+  const fl=document.getElementById('fileList');
+  if(!dz) return;
+  dz.addEventListener('click',()=>fi.click());
+  dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('dragover');});
+  dz.addEventListener('dragleave',()=>dz.classList.remove('dragover'));
+  dz.addEventListener('drop',e=>{
+    e.preventDefault();dz.classList.remove('dragover');
+    handleFiles(e.dataTransfer.files);
+  });
+  fi.addEventListener('change',()=>handleFiles(fi.files));
+  function handleFiles(files){
+    fl.innerHTML='';
+    Array.from(files).forEach(f=>{
+      fl.innerHTML+='<div>📎 '+f.name+' ('+Math.round(f.size/1024)+' KB)</div>';
+    });
+  }
+})();
+
+// ===== Submit Feedback =====
+function submitFeedback(){
+  const name=document.getElementById('fbName').value;
+  const text=document.getElementById('fbText').value;
+  if(!name||!text){showToast('กรุณากรอกชื่อและรายละเอียด');return;}
+  showToast('ส่ง Feedback สำเร็จ! ขอบคุณ '+name);
+  document.getElementById('fbName').value='';
+  document.getElementById('fbDept').value='';
+  document.getElementById('fbText').value='';
+  document.getElementById('fbModule').selectedIndex=0;
+  document.getElementById('fileList').innerHTML='';
+  document.querySelectorAll('#starRating .star').forEach(s=>s.classList.remove('active'));
+  document.getElementById('starLabel').textContent='กรุณาเลือกคะแนน';
+}
+
+// ===== Accordion =====
+function toggleAccordion(el){
+  el.classList.toggle('open');
+  const body=el.nextElementSibling;
+  body.classList.toggle('open');
+}
+</script>
+</body>
+</html>

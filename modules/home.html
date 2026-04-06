@@ -10,247 +10,130 @@
 body.dark{--bg:#0F172A;--bg2:#1E293B;--bg3:#334155;--card-bg:#1E293B;--border:#334155;--text:#F8FAFC;--text2:#CBD5E1;--muted:#94A3B8;--blue-bg:rgba(37,99,235,0.15);--purple-bg:rgba(124,58,237,0.15);--green-bg:rgba(5,150,105,0.15);--orange-bg:rgba(217,119,6,0.15);--red-bg:rgba(220,38,38,0.15);--cyan-bg:rgba(8,145,178,0.15);}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Noto Sans Thai','Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;overflow-x:hidden;font-kerning:normal;font-feature-settings:"kern" 1;text-rendering:optimizeLegibility;}
-h1,h2,h3,h4,h5,h6,.card-title,.stat-value,.welcome-text h1{text-rendering:optimizeLegibility;}
-.stat-card,.card,.sidebar-card,.news-card{contain:layout style;}
-.stat-card:hover,.card:hover,.qa-btn:hover{will-change:transform;}
+h1,h2,h3,h4,h5,h6{text-rendering:optimizeLegibility;}
 ::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 
-.dark-toggle{position:fixed;top:12px;right:12px;z-index:999;background:var(--card-bg);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:all .2s;}
-.dark-toggle:hover{transform:scale(1.1);}
+.page{max-width:1320px;margin:0 auto;padding:16px 20px;}
 
-.page{max-width:1320px;margin:0 auto;padding:24px;}
+/* ── Row 1: Welcome + KPI Strip ── */
+.welcome-strip{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 18px;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:12px;flex-wrap:wrap;min-height:56px;}
+.welcome-left{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.welcome-avatar{width:36px;height:36px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:800;color:#fff;flex-shrink:0;}
+.welcome-info{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.welcome-info .name{font-size:.92rem;font-weight:700;}
+.welcome-info .role-badge{font-size:.62rem;font-weight:700;padding:2px 8px;border-radius:10px;background:var(--purple-bg);color:var(--purple);}
+.welcome-info .last-login{font-size:.68rem;color:var(--muted);font-weight:400;}
+.welcome-controls{display:flex;align-items:center;gap:6px;}
+.welcome-controls .role-dd{padding:4px 10px;border:1px solid var(--border);border-radius:8px;background:var(--card-bg);color:var(--text);font-family:inherit;font-size:.72rem;font-weight:500;cursor:pointer;outline:none;}
+.welcome-controls .role-dd:focus{border-color:var(--blue);}
+.icon-btn{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:var(--card-bg);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.85rem;transition:all .15s;}
+.icon-btn:hover{background:var(--bg2);color:var(--text);}
 
-.breadcrumb{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--muted);margin-bottom:12px;}
-.breadcrumb a{color:var(--blue);text-decoration:none;font-weight:500;}
-.breadcrumb .sep{color:var(--border);}
+/* Onboarding thin bar */
+.onboarding-bar{height:3px;background:var(--bg3);border-radius:2px;margin-bottom:12px;overflow:hidden;}
+.onboarding-bar .fill{height:100%;background:var(--grad);border-radius:2px;transition:width .5s ease;}
 
-/* Welcome Banner */
-.welcome-banner{background:var(--grad);border-radius:16px;padding:32px 36px;color:#fff;margin-bottom:24px;position:relative;overflow:hidden;}
-.welcome-banner::before{content:'';position:absolute;top:-40%;right:-5%;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,0.07);}
-.welcome-row{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1;flex-wrap:wrap;gap:16px;}
-.welcome-left{display:flex;align-items:center;gap:16px;}
-.welcome-avatar{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:800;border:2px solid rgba(255,255,255,0.4);flex-shrink:0;}
-.welcome-text h1{font-size:1.4rem;font-weight:800;margin-bottom:2px;}
-.welcome-text p{font-size:.82rem;opacity:.85;font-weight:400;}
-.welcome-meta{display:flex;align-items:center;gap:16px;margin-top:8px;}
-.welcome-meta .meta-item{display:flex;align-items:center;gap:5px;font-size:.72rem;opacity:.8;font-weight:500;}
-.welcome-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
-.welcome-plan{background:rgba(255,255,255,0.18);padding:4px 14px;border-radius:20px;font-size:.72rem;font-weight:700;letter-spacing:.5px;backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.2);}
-.welcome-date{font-size:.72rem;opacity:.7;text-align:right;}
+/* KPI pills */
+.kpi-strip{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.kpi-pill{display:flex;align-items:center;gap:5px;padding:6px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;font-size:.75rem;font-weight:600;white-space:nowrap;cursor:default;transition:all .15s;}
+.kpi-pill:hover{border-color:var(--blue);background:var(--blue-bg);}
+.kpi-pill .kpi-icon{font-size:.85rem;}
+.kpi-pill .kpi-val{font-weight:800;color:var(--text);}
+.kpi-pill.alert{border-color:var(--red);background:var(--red-bg);animation:pulse-border 2s infinite;}
+@keyframes pulse-border{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,0);}50%{box-shadow:0 0 0 3px rgba(220,38,38,0.15);}}
 
-/* Role Selector */
-.role-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
-.role-selector{display:flex;align-items:center;gap:8px;}
-.role-selector label{font-size:.78rem;font-weight:600;color:var(--text2);}
-.role-select{padding:7px 14px;border:1px solid var(--border);border-radius:10px;background:var(--card-bg);color:var(--text);font-family:inherit;font-size:.82rem;font-weight:500;cursor:pointer;outline:none;}
-.role-select:focus{border-color:var(--blue);}
-.customize-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:var(--card-bg);color:var(--blue);border:1.5px solid var(--blue);border-radius:10px;font-family:inherit;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;}
-.customize-btn:hover{background:var(--blue-bg);}
-.customize-btn.active{background:var(--blue);color:#fff;}
+/* ── Row 2: Quick Actions Grid ── */
+.actions-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:14px;}
+.action-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:14px 8px;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:all .2s;text-align:center;min-height:78px;}
+.action-card:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 4px 16px rgba(37,99,235,0.1);}
+.action-card .ac-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;}
+.action-card .ac-label{font-size:.72rem;font-weight:600;color:var(--text2);line-height:1.2;}
 
-/* Quick Actions */
-.quick-actions{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
-.qa-btn{display:flex;align-items:center;gap:8px;padding:10px 18px;background:var(--card-bg);border:1px solid var(--border);border-radius:10px;font-family:inherit;font-size:.82rem;font-weight:600;color:var(--text2);cursor:pointer;transition:all .2s;box-shadow:var(--shadow);}
-.qa-btn:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-1px);box-shadow:0 4px 12px rgba(37,99,235,0.1);}
-.qa-btn .qa-icon{font-size:1.1rem;}
-
-/* Stats Row */
-.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px;}
-.stat-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);transition:all .25s;position:relative;overflow:hidden;cursor:default;}
-.stat-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.08);}
-.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
-.stat-card:nth-child(1)::before{background:var(--blue);}
-.stat-card:nth-child(2)::before{background:var(--purple);}
-.stat-card:nth-child(3)::before{background:var(--orange);}
-.stat-card:nth-child(4)::before{background:var(--cyan);}
-.stat-card:nth-child(5)::before{background:var(--green);}
-.stat-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;margin-bottom:10px;}
-.stat-card:nth-child(1) .stat-icon{background:var(--blue-bg);color:var(--blue);}
-.stat-card:nth-child(2) .stat-icon{background:var(--purple-bg);color:var(--purple);}
-.stat-card:nth-child(3) .stat-icon{background:var(--orange-bg);color:var(--orange);}
-.stat-card:nth-child(4) .stat-icon{background:var(--cyan-bg);color:var(--cyan);}
-.stat-card:nth-child(5) .stat-icon{background:var(--green-bg);color:var(--green);}
-.stat-label{font-size:.72rem;color:var(--muted);font-weight:500;margin-bottom:4px;}
-.stat-value{font-size:1.35rem;font-weight:800;line-height:1.2;display:flex;align-items:center;gap:8px;}
-.stat-sub{font-size:.68rem;color:var(--muted);margin-top:4px;}
-/* Trend arrows */
-.trend{display:inline-flex;align-items:center;gap:3px;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:8px;}
-.trend.up{color:var(--green);background:var(--green-bg);}
-.trend.down{color:var(--red);background:var(--red-bg);}
-/* KPI Alert glow */
-.stat-card.alert-active{border-color:var(--red);box-shadow:0 0 12px rgba(220,38,38,0.25);}
-.stat-card.alert-active::after{content:'';position:absolute;top:8px;right:8px;width:8px;height:8px;border-radius:50%;background:var(--red);animation:pulse-alert 1.5s infinite;}
-@keyframes pulse-alert{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.3);}}
-/* Drag handle for edit mode */
-.drag-handle{display:none;position:absolute;top:8px;left:8px;cursor:grab;color:var(--muted);font-size:.85rem;}
-body.edit-mode .drag-handle{display:block;}
-body.edit-mode .stat-card{border:2px dashed var(--blue);cursor:move;}
-
-/* Main Layout */
-.main-layout{display:grid;grid-template-columns:1fr 340px;gap:20px;}
-
-/* Cards */
-.card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:20px;position:relative;}
-.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
-.card-title{font-size:.95rem;font-weight:700;display:flex;align-items:center;gap:8px;}
-.card-title .icon{font-size:1.1rem;}
-.card-badge{font-size:.68rem;font-weight:600;padding:2px 10px;border-radius:12px;background:var(--blue-bg);color:var(--blue);}
-.card-link{font-size:.75rem;font-weight:600;color:var(--blue);text-decoration:none;cursor:pointer;}
+/* ── Row 3: Main 3-column ── */
+.main-grid{display:grid;grid-template-columns:40% 35% 25%;gap:14px;margin-bottom:14px;}
+.col-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow);display:flex;flex-direction:column;max-height:420px;}
+.col-card .card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-shrink:0;}
+.col-card .card-title{font-size:.85rem;font-weight:700;display:flex;align-items:center;gap:6px;}
+.col-card .card-title .icon{font-size:.95rem;}
+.card-badge{font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:10px;background:var(--blue-bg);color:var(--blue);}
+.card-link{font-size:.68rem;font-weight:600;color:var(--blue);text-decoration:none;cursor:pointer;}
 .card-link:hover{text-decoration:underline;}
+.scroll-area{overflow-y:auto;flex:1;padding-right:4px;}
 
-/* Notification Categories */
-.notif-tabs{display:flex;gap:0;margin-bottom:12px;border-bottom:2px solid var(--border);}
-.notif-tab{padding:8px 16px;font-size:.78rem;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;position:relative;}
-.notif-tab.active{color:var(--blue);border-bottom-color:var(--blue);}
-.notif-tab .ntab-badge{position:absolute;top:2px;right:2px;min-width:16px;height:16px;border-radius:8px;font-size:.58rem;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 4px;}
-.ntab-urgent{background:var(--red);color:#fff;}
-.ntab-info{background:var(--blue);color:#fff;}
-.ntab-system{background:var(--muted);color:#fff;}
+/* Activity feed */
+.feed-item{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);}
+.feed-item:last-child{border-bottom:none;}
+.feed-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;}
+.feed-body{flex:1;min-width:0;}
+.feed-body p{font-size:.75rem;font-weight:500;color:var(--text2);line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.feed-body .feed-time{font-size:.62rem;color:var(--muted);margin-top:1px;}
 
-.notif-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:8px;margin-bottom:6px;cursor:pointer;transition:all .15s;border:1px solid transparent;}
+/* Notifications */
+.notif-item{display:flex;align-items:flex-start;gap:8px;padding:8px;border-radius:8px;margin-bottom:4px;cursor:pointer;transition:all .12s;border:1px solid transparent;}
 .notif-item:hover{background:var(--bg2);border-color:var(--border);}
-.notif-item.unread{background:var(--blue-bg);border-color:rgba(37,99,235,0.2);}
-.notif-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
-.notif-content{flex:1;}
-.notif-content p{font-size:.78rem;font-weight:500;color:var(--text2);line-height:1.4;}
-.notif-content .notif-time{font-size:.65rem;color:var(--muted);margin-top:2px;}
-.notif-content .notif-tag{display:inline-block;font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:4px;margin-left:6px;}
+.notif-item.unread{background:var(--blue-bg);border-color:rgba(37,99,235,0.15);}
+.notif-icon{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.78rem;flex-shrink:0;}
+.notif-body{flex:1;min-width:0;}
+.notif-body p{font-size:.73rem;font-weight:500;color:var(--text2);line-height:1.3;}
+.notif-body .n-time{font-size:.6rem;color:var(--muted);margin-top:1px;}
+.notif-tag{display:inline-block;font-size:.55rem;font-weight:700;padding:1px 5px;border-radius:3px;margin-left:4px;}
 
-/* Onboarding */
-.onboarding-card{border:1px solid var(--blue);border-left:4px solid var(--blue);background:var(--blue-bg);}
-body.dark .onboarding-card{background:var(--blue-bg);border-color:var(--blue);}
-.progress-bar-track{width:100%;height:10px;background:var(--bg3);border-radius:6px;overflow:hidden;margin-bottom:12px;}
-.progress-bar-fill{height:100%;border-radius:6px;background:var(--grad);transition:width .6s ease;}
-.progress-label{font-size:.8rem;font-weight:700;color:var(--blue);margin-bottom:8px;}
-.checklist{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
-.checklist li{display:flex;align-items:center;gap:8px;font-size:.82rem;font-weight:500;color:var(--text2);}
-.checklist li.done{color:var(--muted);text-decoration:line-through;opacity:.7;}
-.btn-primary{display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:var(--grad);color:#fff;border:none;border-radius:10px;font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 12px rgba(37,99,235,0.25);}
-.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,0.35);}
+/* Mini calendar */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;margin-bottom:8px;}
+.cal-hd{font-size:.58rem;font-weight:700;color:var(--muted);text-align:center;padding:3px;}
+.cal-d{font-size:.65rem;text-align:center;padding:4px 2px;border-radius:4px;cursor:pointer;transition:all .1s;}
+.cal-d:hover{background:var(--blue-bg);}
+.cal-d.today{background:var(--blue);color:#fff;font-weight:700;}
+.cal-d.has-event{position:relative;}
+.cal-d.has-event::after{content:'';width:3px;height:3px;border-radius:50%;background:var(--red);position:absolute;bottom:1px;left:50%;transform:translateX(-50%);}
+.cal-d.other{color:var(--muted);opacity:.35;}
 
-/* Daily Summary */
-.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.summary-item{padding:14px;background:var(--bg2);border-radius:10px;border:1px solid var(--border);}
-.summary-item .s-label{font-size:.72rem;color:var(--muted);font-weight:500;margin-bottom:4px;}
-.summary-item .s-value{font-size:1.1rem;font-weight:800;display:flex;align-items:center;gap:6px;}
-.summary-item .s-detail{font-size:.68rem;color:var(--muted);margin-top:3px;}
+/* Recently visited pills */
+.recent-pills{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;}
+.r-pill{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;font-size:.68rem;font-weight:500;color:var(--text2);cursor:pointer;transition:all .12s;}
+.r-pill:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-bg);}
+.r-pill .rp-icon{font-size:.75rem;}
 
-/* Calendar Widget */
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:12px;}
-.cal-header{font-size:.65rem;font-weight:700;color:var(--muted);text-align:center;padding:4px;}
-.cal-day{font-size:.72rem;text-align:center;padding:6px 2px;border-radius:6px;cursor:pointer;transition:all .15s;}
-.cal-day:hover{background:var(--blue-bg);}
-.cal-day.today{background:var(--blue);color:#fff;font-weight:700;}
-.cal-day.has-event{position:relative;}
-.cal-day.has-event::after{content:'';width:4px;height:4px;border-radius:50%;background:var(--red);position:absolute;bottom:2px;left:50%;transform:translateX(-50%);}
-.cal-day.other{color:var(--muted);opacity:.4;}
-.cal-event{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;border-left:3px solid;margin-bottom:6px;font-size:.78rem;background:var(--bg2);}
+/* ── Row 4: System Status Strip ── */
+.status-strip{display:flex;align-items:center;justify-content:center;gap:20px;padding:8px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;flex-wrap:wrap;}
+.status-item{display:flex;align-items:center;gap:5px;font-size:.68rem;color:var(--muted);font-weight:500;}
+.status-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.status-dot.ok{background:var(--green);}
+.status-dot.warn{background:var(--orange);}
 
-/* Recently Visited */
-.recent-list{display:flex;flex-direction:column;gap:6px;}
-.recent-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;cursor:pointer;transition:all .15s;font-size:.82rem;color:var(--text2);}
-.recent-item:hover{background:var(--blue-bg);color:var(--blue);}
-.recent-item .ri-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;background:var(--bg3);}
-.recent-item .ri-time{font-size:.65rem;color:var(--muted);margin-left:auto;white-space:nowrap;}
+/* Footer help links */
+.footer-row{display:flex;align-items:center;justify-content:center;gap:16px;padding:10px 0;margin-top:8px;}
+.footer-link{display:flex;align-items:center;gap:4px;font-size:.68rem;color:var(--muted);text-decoration:none;cursor:pointer;transition:color .15s;}
+.footer-link:hover{color:var(--blue);}
+.footer-copy{font-size:.62rem;color:var(--muted);text-align:center;padding:4px 0;}
 
-/* Sidebar card */
-.sidebar-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:16px;}
-.sidebar-card .card-header{margin-bottom:12px;}
-
-/* Release items */
-.release-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
-.release-item:last-child{border-bottom:none;}
-.release-version{font-size:.68rem;font-weight:700;background:var(--purple-bg);color:var(--purple);padding:3px 10px;border-radius:8px;white-space:nowrap;flex-shrink:0;}
-.release-content h4{font-size:.82rem;font-weight:600;margin-bottom:2px;}
-.release-content .release-date{font-size:.7rem;color:var(--muted);}
-
-/* News Grid */
-.news-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-.news-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:all .2s;}
-.news-card:hover{border-color:var(--blue);transform:translateY(-2px);}
-.news-thumb{height:100px;display:flex;align-items:flex-end;padding:10px;position:relative;}
-.news-thumb .thumb-tag{background:rgba(0,0,0,.5);color:#fff;padding:2px 8px;border-radius:6px;font-size:.65rem;font-weight:600;}
-.news-body{padding:12px;}
-.news-body h4{font-size:.82rem;font-weight:600;margin-bottom:4px;}
-.news-body p{font-size:.7rem;color:var(--muted);}
-
-/* KPI Alert Settings */
-.alert-config{display:flex;flex-direction:column;gap:10px;}
-.alert-row{display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg2);border-radius:8px;border:1px solid var(--border);}
-.alert-row .a-name{flex:1;font-size:.82rem;font-weight:500;}
-.alert-row select,.alert-row input[type=number]{padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card-bg);color:var(--text);font-family:inherit;font-size:.78rem;width:100px;outline:none;}
-.alert-row input[type=number]:focus,.alert-row select:focus{border-color:var(--blue);}
-
-/* Token bar */
-.token-bar{display:flex;align-items:center;gap:8px;margin-top:4px;}
-.token-track{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;}
-.token-fill{height:100%;border-radius:3px;background:var(--cyan);transition:width .5s ease;}
-.token-text{font-size:.65rem;color:var(--muted);font-weight:600;white-space:nowrap;}
-
-/* Dismiss btn */
-.dismiss-btn{position:absolute;top:12px;right:12px;width:24px;height:24px;border-radius:50%;border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:all .2s;}
-.dismiss-btn:hover{background:var(--bg3);color:var(--text);}
-
-/* Module cards */
-.module-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px;}
-.module-link{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text2);transition:all .15s;font-size:.82rem;font-weight:500;}
-.module-link:hover{border-color:var(--blue);background:var(--blue-bg);color:var(--blue);}
-.module-link .ml-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
-
-/* Toast */
+/* Toast animation */
 @keyframes toastIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-@keyframes fadeInUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
-.animate-in{animation:fadeInUp .4s ease both;}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.animate-in{animation:fadeInUp .35s ease both;}
 
-/* Modal */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:10000;display:none;align-items:center;justify-content:center;}
-.modal-overlay.active{display:flex;}
-.modal{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;width:90%;max-width:600px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2);}
-.modal-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 16px;border-bottom:1px solid var(--border);}
-.modal-header h3{font-size:1.05rem;font-weight:700;display:flex;align-items:center;gap:8px;}
-.modal-close{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg2);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all .2s;}
-.modal-close:hover{background:var(--red-bg);color:var(--red);}
-.modal-body{padding:24px;}
-.modal-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:flex-end;gap:10px;}
+/* Edit mode */
+body.edit-mode .action-card{border:2px dashed var(--blue);cursor:move;}
 
-/* Responsive */
-@media(max-width:1200px){.main-layout{grid-template-columns:1fr;}.stats-row{grid-template-columns:repeat(3,1fr);}}
+/* ── Responsive ── */
+@media(max-width:1100px){
+  .main-grid{grid-template-columns:1fr 1fr;}
+  .main-grid .col-card:nth-child(3){grid-column:1/-1;}
+  .actions-grid{grid-template-columns:repeat(3,1fr);}
+}
 @media(max-width:768px){
-  .page{padding:16px;}
-  .stats-row{grid-template-columns:repeat(2,1fr);}
-  .quick-actions{flex-direction:column;}
-  .quick-actions .qa-btn{width:100%;justify-content:center;}
-  .module-grid{grid-template-columns:1fr 1fr;}
-  .news-grid{grid-template-columns:1fr;}
-  .summary-grid{grid-template-columns:1fr;}
-  .welcome-banner{padding:20px;border-radius:12px;}
-  .welcome-row{flex-direction:column;align-items:flex-start;}
-  .welcome-right{align-items:flex-start;}
-  .welcome-text h1{font-size:1.15rem;}
-  .welcome-avatar{width:44px;height:44px;font-size:1.2rem;}
-  .card{padding:16px;}
-  .card-header{flex-wrap:wrap;gap:8px;}
-  .notif-tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;}
-  .notif-tab{white-space:nowrap;padding:8px 12px;font-size:.72rem;}
-  .stat-card{padding:14px;}
-  .stat-value{font-size:1.15rem;}
-  .role-bar{flex-direction:column;align-items:flex-start;}
-  .role-selector{width:100%;}
-  .role-select{width:100%;}
-  .customize-btn{width:100%;justify-content:center;}
-  .modal-box{width:95%;margin:20px auto;}
-  .chart-area svg{max-width:100%;height:auto;}
+  .page{padding:12px;}
+  .welcome-strip{flex-direction:column;align-items:flex-start;gap:8px;}
+  .kpi-strip{width:100%;}
+  .actions-grid{grid-template-columns:repeat(3,1fr);}
+  .main-grid{grid-template-columns:1fr;}
+  .col-card{max-height:320px;}
+  .status-strip{gap:12px;}
 }
 @media(max-width:480px){
-  .page{padding:12px;}
-  .stats-row{grid-template-columns:1fr;}
-  .module-grid{grid-template-columns:1fr;}
-  .welcome-text h1{font-size:1rem;}
-  .welcome-meta{flex-wrap:wrap;gap:8px;}
-  .stat-value{font-size:1rem;}
-  .stat-label{font-size:.68rem;}
-  .card-title{font-size:.85rem;}
-  .qa-btn{font-size:.78rem;padding:8px 14px;}
+  .actions-grid{grid-template-columns:repeat(2,1fr);}
+  .kpi-strip{gap:4px;}
+  .kpi-pill{padding:4px 8px;font-size:.68rem;}
 }
 </style>
 </head>
@@ -258,885 +141,319 @@ body.dark .onboarding-card{background:var(--blue-bg);border-color:var(--blue);}
 
 <div class="page">
 
-<!-- CROSS-013: Offline Status Indicator -->
-<div id="homeOfflineIndicator" role="status" aria-label="สถานะการเชื่อมต่อ" style="display:none;background:var(--red-bg,#FEF2F2);border:1px solid var(--red,#DC2626);border-radius:10px;padding:10px 16px;margin-bottom:12px;align-items:center;gap:8px;font-size:.78rem;font-weight:600;color:var(--red,#DC2626);">
-    <span>&#128225;</span> คุณกำลังออฟไลน์ — แสดงข้อมูลจากแคชล่าสุด
-    <span style="margin-left:auto;font-size:.65rem;padding:2px 8px;background:var(--red,#DC2626);color:#fff;border-radius:4px;">OFFLINE</span>
+<!-- Offline indicator -->
+<div id="homeOfflineIndicator" role="status" aria-label="สถานะการเชื่อมต่อ" style="display:none;background:var(--red-bg);border:1px solid var(--red);border-radius:8px;padding:8px 14px;margin-bottom:8px;align-items:center;gap:8px;font-size:.75rem;font-weight:600;color:var(--red);">
+  <span>&#128225;</span> คุณกำลังออฟไลน์ — แสดงข้อมูลจากแคชล่าสุด
+  <span style="margin-left:auto;font-size:.6rem;padding:2px 6px;background:var(--red);color:#fff;border-radius:4px;">OFFLINE</span>
 </div>
 
-<!-- CROSS-033: Training Mode Banner -->
-<div id="homeTrainingBanner" role="alert" aria-label="โหมดฝึกหัด" style="display:none;background:linear-gradient(135deg,var(--orange),#F59E0B);border-radius:10px;padding:12px 20px;margin-bottom:12px;color:#fff;font-size:.82rem;font-weight:600;align-items:center;gap:10px;">
-    <span style="font-size:1.2rem;">&#127891;</span>
-    <div>
-        <div>โหมดฝึกหัด (Training Mode) — ข้อมูลทั้งหมดเป็นตัวอย่าง</div>
-        <div style="font-size:.68rem;opacity:.85;font-weight:400;margin-top:2px;">การกระทำทั้งหมดจะไม่ส่งผลต่อระบบจริง | คลิก Settings เพื่อปิดโหมดนี้</div>
+<!-- Training mode -->
+<div id="homeTrainingBanner" role="alert" style="display:none;background:linear-gradient(135deg,var(--orange),#F59E0B);border-radius:8px;padding:8px 16px;margin-bottom:8px;color:#fff;font-size:.75rem;font-weight:600;align-items:center;gap:8px;">
+  <span>&#127891;</span> โหมดฝึกหัด — ข้อมูลเป็นตัวอย่างเท่านั้น
+  <span style="margin-left:auto;padding:2px 8px;border:1px solid rgba(255,255,255,.4);border-radius:5px;font-size:.6rem;font-weight:700;">SANDBOX</span>
+</div>
+
+<!-- Onboarding thin progress bar -->
+<div class="onboarding-bar" title="การตั้งค่าสำเร็จ 85%"><div class="fill" style="width:85%;"></div></div>
+
+<!-- ═══ ROW 1: Welcome + KPI Strip ═══ -->
+<div class="welcome-strip animate-in">
+  <div class="welcome-left">
+    <div class="welcome-avatar">&#3626;</div>
+    <div class="welcome-info">
+      <span class="name">สวัสดี, สมชาย</span>
+      <span class="role-badge">ผู้จัดการ</span>
+      <span class="last-login">เข้าสู่ระบบล่าสุด: 5 เม.ย. 2569, 17:42 น.</span>
     </div>
-    <span style="margin-left:auto;padding:3px 10px;border:1px solid rgba(255,255,255,.4);border-radius:6px;font-size:.65rem;font-weight:700;">SANDBOX</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+    <div class="kpi-strip">
+      <div class="kpi-pill" onclick="navigate('tasks')"><span class="kpi-icon">&#128203;</span> งานค้าง <span class="kpi-val">12</span></div>
+      <div class="kpi-pill alert" onclick="navigate('approvals')"><span class="kpi-icon">&#9200;</span> อนุมัติรอ <span class="kpi-val">5</span></div>
+      <div class="kpi-pill" onclick="navigate('quotations')"><span class="kpi-icon">&#128176;</span> ใบเสนอราคา <span class="kpi-val">8</span></div>
+      <div class="kpi-pill" onclick="navigate('finance-cases')"><span class="kpi-icon">&#128178;</span> เคสการเงิน <span class="kpi-val">3</span></div>
+      <div class="kpi-pill" onclick="navigate('score')"><span class="kpi-icon">&#11088;</span> คะแนน <span class="kpi-val">4.35/5</span></div>
+    </div>
+    <div class="welcome-controls">
+      <select class="role-dd" id="roleSelect" onchange="switchRole(this.value)" title="เปลี่ยนมุมมอง">
+        <option value="manager">ผู้จัดการ</option>
+        <option value="staff">พนักงาน</option>
+        <option value="executive">ผู้บริหาร</option>
+      </select>
+      <button class="icon-btn" id="editBtn" onclick="toggleEditMode()" title="ปรับแต่ง Dashboard">&#9881;&#65039;</button>
+      <button class="icon-btn" onclick="toggleDark()" title="สลับโหมดมืด/สว่าง" id="darkBtn">&#127769;</button>
+    </div>
+  </div>
 </div>
 
-<!-- Welcome Banner -->
-<div class="welcome-banner animate-in">
-<div class="welcome-row">
-<div class="welcome-left">
-<div class="welcome-avatar">&#3608;</div>
-<div class="welcome-text">
-<h1>&#3626;&#3623;&#3633;&#3626;&#3604;&#3637;, &#3608;&#3609;&#3634;&#3585;&#3634;&#3609; &#128075;</h1>
-<p>&#3618;&#3636;&#3609;&#3604;&#3637;&#3605;&#3657;&#3629;&#3609;&#3619;&#3633;&#3610;&#3585;&#3621;&#3633;&#3610;&#3648;&#3586;&#3657;&#3634;&#3626;&#3641;&#3656; Autopilot v2 — ANTS AI Solution Hub</p>
-<div class="welcome-meta">
-<div class="meta-item"><span class="meta-icon">&#127970;</span> ANTS Intelligence Co., Ltd.</div>
-<div class="meta-item"><span class="meta-icon">&#128293;</span> เข้าใช้งานติดต่อกัน: 12 &#3623;&#3633;&#3609;&#3605;&#3636;&#3604;&#3605;&#3656;&#3629;&#3585;&#3633;&#3609;</div>
-<div class="meta-item"><span class="meta-icon">&#128336;</span> &#3648;&#3586;&#3657;&#3634;&#3651;&#3594;&#3657;&#3591;&#3634;&#3609;&#3621;&#3656;&#3634;&#3626;&#3640;&#3604;: 5 &#3648;&#3617;.&#3618;. 2569, 17:42 &#3609;.</div>
-</div>
-</div>
-</div>
-<div class="welcome-right">
-<div class="welcome-plan">&#9733; แพ็กเกจองค์กร</div>
-<div class="welcome-date">&#3623;&#3633;&#3609;&#3592;&#3633;&#3609;&#3607;&#3619;&#3660;&#3607;&#3637;&#3656; 6 &#3648;&#3617;&#3625;&#3634;&#3618;&#3609; &#3614;.&#3624;. 2569</div>
-</div>
-</div>
-</div>
-
-<!-- Role Selector + Customize Dashboard -->
-<div class="role-bar">
-<div class="role-selector">
-<label>&#128100; &#3617;&#3640;&#3617;&#3617;&#3629;&#3591;:</label>
-<select class="role-select" id="roleSelect" onchange="switchRole(this.value)">
-<option value="manager">มุมมองผู้จัดการ</option>
-<option value="staff">มุมมองพนักงาน</option>
-<option value="executive">มุมมองผู้บริหาร</option>
-</select>
-</div>
-<button class="customize-btn" id="customizeBtn" onclick="toggleEditMode()">
-&#9881;&#65039; &#3611;&#3619;&#3633;&#3610;&#3649;&#3605;&#3656;&#3591; Dashboard
-</button>
-<!-- CROSS-042: Guided Tour Start Button -->
-<button class="customize-btn" onclick="homeGuidedTour()" aria-label="เริ่มทัวร์แนะนำ" style="border-color:var(--purple,#7C3AED);color:var(--purple,#7C3AED);">
-&#127919; ทัวร์แนะนำ
-</button>
+<!-- ═══ ROW 2: Quick Actions ═══ -->
+<div class="actions-grid animate-in">
+  <div class="action-card" onclick="navigate('scan-receipt')">
+    <div class="ac-icon" style="background:var(--blue-bg);color:var(--blue);">&#128247;</div>
+    <div class="ac-label">สแกนใบเสร็จ</div>
+  </div>
+  <div class="action-card" onclick="navigate('create-pr')">
+    <div class="ac-icon" style="background:var(--purple-bg);color:var(--purple);">&#128230;</div>
+    <div class="ac-label">สร้าง PR</div>
+  </div>
+  <div class="action-card" onclick="navigate('create-quotation')">
+    <div class="ac-icon" style="background:var(--green-bg);color:var(--green);">&#128203;</div>
+    <div class="ac-label">สร้างใบเสนอราคา</div>
+  </div>
+  <div class="action-card" onclick="navigate('finance-case')">
+    <div class="ac-icon" style="background:var(--orange-bg);color:var(--orange);">&#128178;</div>
+    <div class="ac-label">เปิดเคสการเงิน</div>
+  </div>
+  <div class="action-card" onclick="navigate('track-product')">
+    <div class="ac-icon" style="background:var(--cyan-bg);color:var(--cyan);">&#128666;</div>
+    <div class="ac-label">ติดตามสินค้า</div>
+  </div>
+  <div class="action-card" onclick="navigate('reports')">
+    <div class="ac-icon" style="background:var(--red-bg);color:var(--red);">&#128202;</div>
+    <div class="ac-label">ดูรายงาน</div>
+  </div>
 </div>
 
-<!-- Quick Action Buttons -->
-<div class="quick-actions">
-<button class="qa-btn" onclick="showToast('&#128203;','การดำเนินการด่วน','&#3626;&#3619;&#3657;&#3634;&#3591;&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634;&#3651;&#3627;&#3617;&#3656;...')"><span class="qa-icon">&#128203;</span> &#3626;&#3619;&#3657;&#3634;&#3591;&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634;</button>
-<button class="qa-btn" onclick="showToast('&#128230;','การดำเนินการด่วน','&#3648;&#3614;&#3636;&#3656;&#3617; Expense &#3651;&#3627;&#3617;&#3656;...')"><span class="qa-icon">&#128230;</span> &#3648;&#3614;&#3636;&#3656;&#3617;&#3588;&#3656;&#3634;&#3651;&#3594;&#3657;&#3592;&#3656;&#3634;&#3618;</button>
-<button class="qa-btn" onclick="showToast('&#9989;','การดำเนินการด่วน','&#3648;&#3611;&#3636;&#3604;&#3627;&#3609;&#3657;&#3634;&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;...')"><span class="qa-icon">&#9989;</span> &#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;&#3619;&#3634;&#3618;&#3585;&#3634;&#3619;</button>
-<button class="qa-btn" onclick="showToast('&#128202;','การดำเนินการด่วน','&#3648;&#3611;&#3636;&#3604;&#3619;&#3634;&#3618;&#3591;&#3634;&#3609;...')"><span class="qa-icon">&#128202;</span> &#3604;&#3641;&#3619;&#3634;&#3618;&#3591;&#3634;&#3609;</button>
-<button class="qa-btn" onclick="showToast('&#128176;','การดำเนินการด่วน','เปิดท่อส่งการขาย...')"><span class="qa-icon">&#128176;</span> ท่อส่งการขาย</button>
-<button class="qa-btn" onclick="showToast('&#128101;','การดำเนินการด่วน','&#3648;&#3611;&#3636;&#3604; Vendor...')"><span class="qa-icon">&#128101;</span> &#3592;&#3633;&#3604;&#3585;&#3634;&#3619; Vendor</button>
-</div>
+<!-- ═══ ROW 3: Main Content 3-Column ═══ -->
+<div class="main-grid">
 
-<!-- Quick Stats Row with Trend Arrows + KPI Alert -->
-<div class="stats-row" id="widgetArea">
-<div class="stat-card animate-in" draggable="false">
-<span class="drag-handle">&#9776;</span>
-<div class="stat-icon">&#128230;</div>
-<div class="stat-label">โมดูลที่ใช้งาน</div>
-<div class="stat-value">5 <span class="trend up">&#8593; +1</span></div>
-<div class="stat-sub">ค่าใช้จ่าย, จัดซื้อ, การเงิน, โลจิสติกส์, ขาย</div>
-</div>
-<div class="stat-card animate-in" draggable="false">
-<span class="drag-handle">&#9776;</span>
-<div class="stat-icon">&#128203;</div>
-<div class="stat-label">งานวันนี้</div>
-<div class="stat-value">12 <span class="trend up">&#8593; +15%</span></div>
-<div class="stat-sub">3 เร่งด่วน, 9 ปกติ</div>
-</div>
-<div class="stat-card animate-in alert-active" draggable="false">
-<span class="drag-handle">&#9776;</span>
-<div class="stat-icon">&#9200;</div>
-<div class="stat-label">รออนุมัติ</div>
-<div class="stat-value" style="color:var(--orange);">8 <span class="trend down">&#8593; +33%</span></div>
-<div class="stat-sub">&#9888;&#65039; &#3648;&#3585;&#3636;&#3609;&#3648;&#3585;&#3603;&#3601;&#3660;&#3607;&#3637;&#3656;&#3605;&#3633;&#3657;&#3591;&#3652;&#3623;&#3657; (5 &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;)</div>
-</div>
-<div class="stat-card animate-in" draggable="false">
-<span class="drag-handle">&#9776;</span>
-<div class="stat-icon">&#129302;</div>
-<div class="stat-label">AI Tokens &#3607;&#3637;&#3656;&#3648;&#3627;&#3621;&#3639;&#3629;</div>
-<div class="stat-value">847K <span class="trend up">&#8593; &#3614;&#3629;</span></div>
-<div class="token-bar">
-<div class="token-track"><div class="token-fill" style="width:84.7%;"></div></div>
-<span class="token-text">/ 1M</span>
-</div>
-</div>
-<div class="stat-card animate-in" draggable="false">
-<span class="drag-handle">&#9776;</span>
-<div class="stat-icon">&#128101;</div>
-<div class="stat-label">ทีมออนไลน์</div>
-<div class="stat-value">14<span style="font-size:.85rem;font-weight:500;color:var(--muted);">/22</span> <span class="trend up">&#8593; +4</span></div>
-<div class="stat-sub">63.6% ออนไลน์ขณะนี้</div>
-</div>
-</div>
+  <!-- Column 1: Activity Feed (40%) -->
+  <div class="col-card animate-in">
+    <div class="card-header">
+      <div class="card-title"><span class="icon">&#128200;</span> กิจกรรมล่าสุด</div>
+      <a class="card-link" href="javascript:void(0)" onclick="navigate('activity')">ดูทั้งหมด &#8594;</a>
+    </div>
+    <div class="scroll-area">
+      <div class="feed-item">
+        <div class="feed-icon" style="background:var(--green-bg);color:var(--green);">&#9989;</div>
+        <div class="feed-body">
+          <p><strong>QT-0156</strong> ใบเสนอราคาอนุมัติแล้ว — ฿485,000</p>
+          <div class="feed-time">5 นาทีที่แล้ว</div>
+        </div>
+      </div>
+      <div class="feed-item">
+        <div class="feed-icon" style="background:var(--blue-bg);color:var(--blue);">&#128230;</div>
+        <div class="feed-body">
+          <p><strong>PO-0042</strong> สร้างใบสั่งซื้อใหม่ รอผู้จัดการอนุมัติ</p>
+          <div class="feed-time">12 นาทีที่แล้ว</div>
+        </div>
+      </div>
+      <div class="feed-item">
+        <div class="feed-icon" style="background:var(--purple-bg);color:var(--purple);">&#128640;</div>
+        <div class="feed-body">
+          <p><strong>v2.8.1</strong> อัปเดตใหม่: Thai font kerning, page load optimization</p>
+          <div class="feed-time">30 นาทีที่แล้ว</div>
+        </div>
+      </div>
+      <div class="feed-item">
+        <div class="feed-icon" style="background:var(--orange-bg);color:var(--orange);">&#128176;</div>
+        <div class="feed-body">
+          <p><strong>Deal ABC Corp</strong> ใกล้ปิดดีลภายใน 2 วัน — ฿1.2M</p>
+          <div class="feed-time">1 ชั่วโมงที่แล้ว</div>
+        </div>
+      </div>
+      <div class="feed-item">
+        <div class="feed-icon" style="background:var(--cyan-bg);color:var(--cyan);">&#128202;</div>
+        <div class="feed-body">
+          <p>รายงานยอดขายประจำสัปดาห์พร้อมแล้ว</p>
+          <div class="feed-time">2 ชั่วโมงที่แล้ว</div>
+        </div>
+      </div>
+      <div class="feed-item">
+        <div class="feed-icon" style="background:var(--green-bg);color:var(--green);">&#128101;</div>
+        <div class="feed-body">
+          <p>สมชาย ก. สร้างใบเสร็จ EXP-0031 เรียบร้อยแล้ว</p>
+          <div class="feed-time">3 ชั่วโมงที่แล้ว</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<!-- Main Layout -->
-<div class="main-layout">
+  <!-- Column 2: Notifications (35%) -->
+  <div class="col-card animate-in" style="animation-delay:.05s;">
+    <div class="card-header">
+      <div class="card-title"><span class="icon">&#128276;</span> การแจ้งเตือน</div>
+      <span class="card-badge">3 ใหม่</span>
+    </div>
+    <div class="scroll-area">
+      <div class="notif-item unread" onclick="navigate('invoice/INV-0089')">
+        <div class="notif-icon" style="background:var(--red-bg);color:var(--red);">&#128680;</div>
+        <div class="notif-body">
+          <p><strong>ใบแจ้งหนี้ INV-0089</strong> ครบกำหนดชำระวันพรุ่งนี้ <span class="notif-tag" style="background:var(--red-bg);color:var(--red);">เร่งด่วน</span></p>
+          <div class="n-time">5 นาทีที่แล้ว</div>
+        </div>
+      </div>
+      <div class="notif-item unread" onclick="navigate('po/PO-0042')">
+        <div class="notif-icon" style="background:var(--orange-bg);color:var(--orange);">&#9888;&#65039;</div>
+        <div class="notif-body">
+          <p><strong>PO-0042</strong> รออนุมัติ มูลค่า ฿325,000 <span class="notif-tag" style="background:var(--orange-bg);color:var(--orange);">รออนุมัติ</span></p>
+          <div class="n-time">12 นาทีที่แล้ว</div>
+        </div>
+      </div>
+      <div class="notif-item unread" onclick="navigate('deal/abc-corp')">
+        <div class="notif-icon" style="background:var(--red-bg);color:var(--red);">&#128176;</div>
+        <div class="notif-body">
+          <p><strong>Deal ABC Corp</strong> ใกล้ปิดดีลภายใน 2 วัน ฿1.2M</p>
+          <div class="n-time">30 นาทีที่แล้ว</div>
+        </div>
+      </div>
+      <div class="notif-item" onclick="navigate('reports/weekly')">
+        <div class="notif-icon" style="background:var(--blue-bg);color:var(--blue);">&#128202;</div>
+        <div class="notif-body">
+          <p>รายงานยอดขายประจำสัปดาห์พร้อมแล้ว</p>
+          <div class="n-time">1 ชั่วโมงที่แล้ว</div>
+        </div>
+      </div>
+      <div class="notif-item" onclick="navigate('system/maintenance')">
+        <div class="notif-icon" style="background:var(--bg3);color:var(--muted);">&#9881;&#65039;</div>
+        <div class="notif-body">
+          <p>ปิดปรับปรุงชั่วคราว 8 เม.ย. 2569 02:00-04:00 น.</p>
+          <div class="n-time">เมื่อวาน</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<!-- Left Column -->
-<div class="main-content">
-
-<!-- Daily/Weekly Summary -->
-<div class="card animate-in">
-<div class="card-header">
-<div class="card-title"><span class="icon">&#128200;</span> &#3626;&#3619;&#3640;&#3611;&#3611;&#3619;&#3632;&#3592;&#3635;&#3623;&#3633;&#3609; — 6 &#3648;&#3617;.&#3618;. 2569</div>
-<span class="card-badge">&#3623;&#3633;&#3609;&#3609;&#3637;&#3657;</span>
-</div>
-<div class="summary-grid">
-<div class="summary-item">
-<div class="s-label">&#128176; &#3618;&#3629;&#3604;&#3586;&#3634;&#3618;&#3623;&#3633;&#3609;&#3609;&#3637;&#3657;</div>
-<div class="s-value">&#3647;485,000 <span class="trend up">&#8593; +22%</span></div>
-<div class="s-detail">&#3592;&#3634;&#3585; 3 &#3604;&#3637;&#3621; | &#3648;&#3611;&#3657;&#3634;&#3627;&#3617;&#3634;&#3618; &#3647;400K</div>
-</div>
-<div class="summary-item">
-<div class="s-label">&#128203; &#3648;&#3629;&#3585;&#3626;&#3634;&#3619;&#3607;&#3637;&#3656;&#3626;&#3619;&#3657;&#3634;&#3591;</div>
-<div class="s-value">7 &#3593;&#3610;&#3633;&#3610; <span class="trend up">&#8593; +2</span></div>
-<div class="s-detail">3 &#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634;, 2 Invoice, 2 &#3651;&#3610;&#3648;&#3626;&#3619;&#3655;&#3592;</div>
-</div>
-<div class="summary-item">
-<div class="s-label">&#9989; &#3591;&#3634;&#3609;&#3607;&#3637;&#3656;&#3648;&#3626;&#3619;&#3655;&#3592;</div>
-<div class="s-value">8/12 <span class="trend up">&#8593; 67%</span></div>
-<div class="s-detail">&#3588;&#3591;&#3648;&#3627;&#3621;&#3639;&#3629; 4 &#3619;&#3634;&#3618;&#3585;&#3634;&#3619;</div>
-</div>
-<div class="summary-item">
-<div class="s-label">&#128276; &#3649;&#3592;&#3657;&#3591;&#3648;&#3605;&#3639;&#3629;&#3609;&#3626;&#3635;&#3588;&#3633;&#3597;</div>
-<div class="s-value">3 <span class="trend down" style="color:var(--red);">&#9888;&#65039; &#3648;&#3619;&#3656;&#3591;&#3604;&#3656;&#3623;&#3609;</span></div>
-<div class="s-detail">2 &#3651;&#3610;&#3649;&#3592;&#3657;&#3591;&#3627;&#3609;&#3637;&#3657;&#3651;&#3585;&#3621;&#3657;&#3585;&#3635;&#3627;&#3609;&#3604;, 1 &#3619;&#3629;&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;</div>
-</div>
-</div>
-</div>
-
-<!-- Getting Started -->
-<div class="card onboarding-card animate-in" id="onboarding-card">
-<button class="dismiss-btn" onclick="document.getElementById('onboarding-card').style.display='none'" title="&#3611;&#3636;&#3604;">&#10005;</button>
-<div class="card-header">
-<div class="card-title"><span class="icon">&#127919;</span> เริ่มต้นใช้งาน</div>
-<span class="card-badge">สำเร็จ 85%</span>
-</div>
-<div class="progress-label">ความคืบหน้าการตั้งค่า: 85%</div>
-<div class="progress-bar-track">
-<div class="progress-bar-fill" style="width:85%;"></div>
-</div>
-<ul class="checklist">
-<li class="done"><span class="check">&#9989;</span> &#3626;&#3619;&#3657;&#3634;&#3591;&#3610;&#3633;&#3597;&#3594;&#3637;&#3612;&#3641;&#3657;&#3651;&#3594;&#3657;&#3591;&#3634;&#3609;</li>
-<li class="done"><span class="check">&#9989;</span> &#3605;&#3633;&#3657;&#3591;&#3588;&#3656;&#3634;&#3650;&#3611;&#3619;&#3652;&#3615;&#3621;&#3660;&#3610;&#3619;&#3636;&#3625;&#3633;&#3607;</li>
-<li class="done"><span class="check">&#9989;</span> &#3648;&#3611;&#3636;&#3604;&#3651;&#3594;&#3657;&#3591;&#3634;&#3609; Module &#3649;&#3619;&#3585;</li>
-<li class="done"><span class="check">&#9989;</span> &#3609;&#3635;&#3648;&#3586;&#3657;&#3634;&#3586;&#3657;&#3629;&#3617;&#3641;&#3621; Vendor</li>
-<li><span class="check">&#11036;</span> &#3648;&#3594;&#3639;&#3656;&#3629;&#3617;&#3605;&#3656;&#3629; LINE Official Channel</li>
-<li><span class="check">&#11036;</span> &#3605;&#3633;&#3657;&#3591;&#3588;&#3656;&#3634; Approval Workflow</li>
-</ul>
-<button class="btn-primary" onclick="showToast('&#127919;','Setup','&#3585;&#3635;&#3621;&#3633;&#3591;&#3648;&#3611;&#3636;&#3604;&#3627;&#3609;&#3657;&#3634; Setup...')">&#3604;&#3635;&#3648;&#3609;&#3636;&#3609;&#3585;&#3634;&#3619;&#3605;&#3656;&#3629; &#8594;</button>
-</div>
-
-<!-- Notifications with Categories -->
-<div class="card animate-in">
-<div class="card-header">
-<div class="card-title"><span class="icon">&#128276;</span> &#3585;&#3634;&#3619;&#3649;&#3592;&#3657;&#3591;&#3648;&#3605;&#3639;&#3629;&#3609;</div>
-<a class="card-link" href="javascript:void(0)" onclick="showToast('&#128276;','การแจ้งเตือน','&#3648;&#3611;&#3636;&#3604;&#3585;&#3634;&#3619;&#3649;&#3592;&#3657;&#3591;&#3648;&#3605;&#3639;&#3629;&#3609;&#3607;&#3633;&#3657;&#3591;&#3627;&#3617;&#3604;...')">&#3604;&#3641;&#3607;&#3633;&#3657;&#3591;&#3627;&#3617;&#3604; &#8594;</a>
-</div>
-
-<!-- Notification Tabs -->
-<div class="notif-tabs">
-<div class="notif-tab active" onclick="switchNotifTab('urgent',this)">
-&#3648;&#3619;&#3656;&#3591;&#3604;&#3656;&#3623;&#3609;
-<span class="ntab-badge ntab-urgent">3</span>
-</div>
-<div class="notif-tab" onclick="switchNotifTab('info',this)">
-&#3586;&#3657;&#3629;&#3617;&#3641;&#3621;
-<span class="ntab-badge ntab-info">5</span>
-</div>
-<div class="notif-tab" onclick="switchNotifTab('system',this)">
-&#3619;&#3632;&#3610;&#3610;
-<span class="ntab-badge ntab-system">2</span>
-</div>
-</div>
-
-<!-- Urgent -->
-<div class="notif-category" id="notif-urgent">
-<div class="notif-item unread">
-<div class="notif-icon" style="background:var(--red-bg);color:var(--red);">&#128680;</div>
-<div class="notif-content">
-<p><strong>&#3651;&#3610;&#3649;&#3592;&#3657;&#3591;&#3627;&#3609;&#3637;&#3657; INV-0089</strong> &#3588;&#3619;&#3610;&#3585;&#3635;&#3627;&#3609;&#3604;&#3594;&#3635;&#3619;&#3632;&#3623;&#3633;&#3609;&#3614;&#3619;&#3640;&#3656;&#3591;&#3609;&#3637;&#3657; <span class="notif-tag" style="background:var(--red-bg);color:var(--red);">&#3648;&#3619;&#3656;&#3591;&#3604;&#3656;&#3623;&#3609;</span></p>
-<div class="notif-time">5 &#3609;&#3634;&#3607;&#3637;&#3607;&#3637;&#3656;&#3649;&#3621;&#3657;&#3623;</div>
-</div>
-</div>
-<div class="notif-item unread">
-<div class="notif-icon" style="background:var(--orange-bg);color:var(--orange);">&#9888;&#65039;</div>
-<div class="notif-content">
-<p><strong>PO-0042 &#3619;&#3629;&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;</strong> &#3617;&#3641;&#3621;&#3588;&#3656;&#3634; &#3647;325,000 &#3619;&#3629;&#3612;&#3641;&#3657;&#3592;&#3633;&#3604;&#3585;&#3634;&#3619;&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636; <span class="notif-tag" style="background:var(--orange-bg);color:var(--orange);">&#3619;&#3629;&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;</span></p>
-<div class="notif-time">12 &#3609;&#3634;&#3607;&#3637;&#3607;&#3637;&#3656;&#3649;&#3621;&#3657;&#3623;</div>
-</div>
-</div>
-<div class="notif-item unread">
-<div class="notif-icon" style="background:var(--red-bg);color:var(--red);">&#128176;</div>
-<div class="notif-content">
-<p><strong>Deal &#3610;&#3619;&#3636;&#3625;&#3633;&#3607; ABC</strong> &#3651;&#3585;&#3621;&#3657;&#3611;&#3636;&#3604;&#3604;&#3637;&#3621;&#3616;&#3634;&#3618;&#3651;&#3609; 2 &#3623;&#3633;&#3609; &#3617;&#3641;&#3621;&#3588;&#3656;&#3634; &#3647;1.2M <span class="notif-tag" style="background:var(--red-bg);color:var(--red);">&#3648;&#3619;&#3656;&#3591;&#3604;&#3656;&#3623;&#3609;</span></p>
-<div class="notif-time">30 &#3609;&#3634;&#3607;&#3637;&#3607;&#3637;&#3656;&#3649;&#3621;&#3657;&#3623;</div>
-</div>
-</div>
-</div>
-
-<!-- Info (hidden initially) -->
-<div class="notif-category" id="notif-info" style="display:none;">
-<div class="notif-item">
-<div class="notif-icon" style="background:var(--blue-bg);color:var(--blue);">&#128202;</div>
-<div class="notif-content">
-<p>&#3619;&#3634;&#3618;&#3591;&#3634;&#3609;&#3618;&#3629;&#3604;&#3586;&#3634;&#3618;&#3611;&#3619;&#3632;&#3592;&#3635;&#3626;&#3633;&#3611;&#3604;&#3634;&#3627;&#3660;&#3614;&#3619;&#3657;&#3629;&#3617;&#3649;&#3621;&#3657;&#3623;</p>
-<div class="notif-time">1 &#3594;&#3633;&#3656;&#3623;&#3650;&#3617;&#3591;&#3607;&#3637;&#3656;&#3649;&#3621;&#3657;&#3623;</div>
-</div>
-</div>
-<div class="notif-item">
-<div class="notif-icon" style="background:var(--green-bg);color:var(--green);">&#9989;</div>
-<div class="notif-content">
-<p>&#3626;&#3617;&#3594;&#3634;&#3618; &#3585;. &#3626;&#3619;&#3657;&#3634;&#3591;&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634; QT-0156 &#3648;&#3619;&#3637;&#3618;&#3610;&#3619;&#3657;&#3629;&#3618;&#3649;&#3621;&#3657;&#3623;</p>
-<div class="notif-time">2 &#3594;&#3633;&#3656;&#3623;&#3650;&#3617;&#3591;&#3607;&#3637;&#3656;&#3649;&#3621;&#3657;&#3623;</div>
-</div>
-</div>
-<div class="notif-item">
-<div class="notif-icon" style="background:var(--purple-bg);color:var(--purple);">&#128640;</div>
-<div class="notif-content">
-<p>&#3621;&#3641;&#3585;&#3588;&#3657;&#3634;&#3651;&#3627;&#3617;&#3656;&#3626;&#3609;&#3651;&#3592; Package Enterprise</p>
-<div class="notif-time">3 &#3594;&#3633;&#3656;&#3623;&#3650;&#3617;&#3591;&#3607;&#3637;&#3656;&#3649;&#3621;&#3657;&#3623;</div>
-</div>
-</div>
-<div class="notif-item">
-<div class="notif-icon" style="background:var(--cyan-bg);color:var(--cyan);">&#128172;</div>
-<div class="notif-content">
-<p>&#3614;&#3619;&#3607;&#3636;&#3614;&#3618;&#3660; &#3619;. &#3649;&#3626;&#3604;&#3591;&#3588;&#3623;&#3634;&#3617;&#3588;&#3636;&#3604;&#3648;&#3627;&#3655;&#3609;&#3651;&#3609; Deal XYZ Corp</p>
-<div class="notif-time">4 &#3594;&#3633;&#3656;&#3623;&#3650;&#3617;&#3591;&#3607;&#3637;&#3656;&#3649;&#3621;&#3657;&#3623;</div>
-</div>
-</div>
-<div class="notif-item">
-<div class="notif-icon" style="background:var(--blue-bg);color:var(--blue);">&#128203;</div>
-<div class="notif-content">
-<p>EXP-0031 &#3652;&#3604;&#3657;&#3619;&#3633;&#3610;&#3585;&#3634;&#3619;&#3629;&#3609;&#3640;&#3617;&#3633;&#3605;&#3636;&#3648;&#3619;&#3637;&#3618;&#3610;&#3619;&#3657;&#3629;&#3618;&#3649;&#3621;&#3657;&#3623;</p>
-<div class="notif-time">5 &#3594;&#3633;&#3656;&#3623;&#3650;&#3617;&#3591;&#3607;&#3637;&#3656;&#3649;&#3621;&#3657;&#3623;</div>
-</div>
-</div>
-</div>
-
-<!-- System (hidden initially) -->
-<div class="notif-category" id="notif-system" style="display:none;">
-<div class="notif-item">
-<div class="notif-icon" style="background:var(--bg3);color:var(--muted);">&#9881;&#65039;</div>
-<div class="notif-content">
-<p>&#3619;&#3632;&#3610;&#3610;&#3592;&#3632;&#3611;&#3636;&#3604;&#3611;&#3619;&#3633;&#3610;&#3611;&#3619;&#3640;&#3591;&#3594;&#3633;&#3656;&#3623;&#3588;&#3619;&#3634;&#3623; &#3623;&#3633;&#3609;&#3607;&#3637;&#3656; 8 &#3648;&#3617;.&#3618;. 2569 02:00-04:00 &#3609;.</p>
-<div class="notif-time">&#3648;&#3617;&#3639;&#3656;&#3629;&#3623;&#3634;&#3609;</div>
-</div>
-</div>
-<div class="notif-item">
-<div class="notif-icon" style="background:var(--bg3);color:var(--muted);">&#128274;</div>
-<div class="notif-content">
-<p>&#3629;&#3633;&#3611;&#3648;&#3604;&#3605; Security Patch v2.8.1 &#3626;&#3635;&#3648;&#3619;&#3655;&#3592;&#3649;&#3621;&#3657;&#3623;</p>
-<div class="notif-time">2 &#3623;&#3633;&#3609;&#3607;&#3637;&#3656;&#3649;&#3621;&#3657;&#3623;</div>
-</div>
-</div>
-</div>
-</div>
-
-<!-- What's New -->
-<div class="card animate-in">
-<div class="card-header">
-<div class="card-title"><span class="icon">&#128640;</span> มีอะไรใหม่</div>
-<a class="card-link" href="javascript:void(0)">&#3604;&#3641;&#3607;&#3633;&#3657;&#3591;&#3627;&#3617;&#3604; &#8594;</a>
-</div>
-<div class="release-item">
-<span class="release-version">v2.8.0</span>
-<div class="release-content">
-<h4>AI Anomaly Detection &#3651;&#3609;&#3619;&#3632;&#3610;&#3610; Expense</h4>
-<div class="release-date">5 &#3648;&#3617;.&#3618;. 2569</div>
-</div>
-</div>
-<div class="release-item">
-<span class="release-version">v2.7.5</span>
-<div class="release-content">
-<h4>3-Way Match &#3629;&#3633;&#3605;&#3650;&#3609;&#3617;&#3633;&#3605;&#3636; &#3626;&#3635;&#3627;&#3619;&#3633;&#3610; Procurement</h4>
-<div class="release-date">28 &#3617;&#3637;.&#3588;. 2569</div>
-</div>
-</div>
-<div class="release-item">
-<span class="release-version">v2.7.0</span>
-<div class="release-content">
-<h4>&#3649;&#3610;&#3610;&#3615;&#3629;&#3619;&#3660;&#3617;&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634;/&#3651;&#3610;&#3649;&#3592;&#3657;&#3591;&#3627;&#3609;&#3637;&#3657;&#3616;&#3634;&#3625;&#3634;&#3652;&#3607;&#3618;</h4>
-<div class="release-date">15 &#3617;&#3637;.&#3588;. 2569</div>
-</div>
-</div>
-</div>
-
-<!-- Module Quick Access -->
-<div class="card animate-in">
-<div class="card-header">
-<div class="card-title"><span class="icon">&#128204;</span> &#3648;&#3586;&#3657;&#3634;&#3606;&#3638;&#3591;&#3604;&#3656;&#3623;&#3609;</div>
-</div>
-<div class="module-grid">
-<a class="module-link" href="#">
-<div class="ml-icon" style="background:var(--blue-bg);color:var(--blue);">&#128176;</div>
-สร้างเอกสารขาย
-</a>
-<a class="module-link" href="#">
-<div class="ml-icon" style="background:var(--purple-bg);color:var(--purple);">&#128230;</div>
-ค่าใช้จ่าย
-</a>
-<a class="module-link" href="#">
-<div class="ml-icon" style="background:var(--green-bg);color:var(--green);">&#128722;</div>
-จัดซื้อจัดจ้าง
-</a>
-<a class="module-link" href="#">
-<div class="ml-icon" style="background:var(--orange-bg);color:var(--orange);">&#128178;</div>
-การเงิน
-</a>
-<a class="module-link" href="#">
-<div class="ml-icon" style="background:var(--cyan-bg);color:var(--cyan);">&#128666;</div>
-โลจิสติกส์
-</a>
-<a class="module-link" href="#">
-<div class="ml-icon" style="background:var(--red-bg);color:var(--red);">&#128202;</div>
-วิเคราะห์ข้อมูล
-</a>
-</div>
-</div>
-
-<!-- News Grid -->
-<div class="card animate-in">
-<div class="card-header">
-<div class="card-title"><span class="icon">&#128240;</span> ข่าวสารและบทความ</div>
-</div>
-<div class="news-grid">
-<div class="news-card" onclick="showToast('&#128240;','บทความ','&#3648;&#3611;&#3636;&#3604;&#3610;&#3607;&#3588;&#3623;&#3634;&#3617;...')">
-<div class="news-thumb" style="background:linear-gradient(135deg,var(--blue),var(--cyan));"><span class="thumb-tag">AI และระบบอัตโนมัติ</span></div>
-<div class="news-body">
-<h4>&#3648;&#3607;&#3619;&#3609;&#3604;&#3660; AI &#3651;&#3609;&#3591;&#3634;&#3609; Back Office 2026</h4>
-<p>3 &#3648;&#3617;.&#3618;. 2569 | 8 &#3609;&#3634;&#3607;&#3637;</p>
-</div>
-</div>
-<div class="news-card" onclick="showToast('&#128240;','บทความ','&#3648;&#3611;&#3636;&#3604;&#3610;&#3607;&#3588;&#3623;&#3634;&#3617;...')">
-<div class="news-thumb" style="background:linear-gradient(135deg,var(--purple),#EC4899);"><span class="thumb-tag">แนวปฏิบัติที่ดี</span></div>
-<div class="news-body">
-<h4>&#3623;&#3636;&#3608;&#3637;&#3621;&#3604;&#3648;&#3623;&#3621;&#3634;&#3611;&#3636;&#3604;&#3591;&#3610; 50% &#3604;&#3657;&#3623;&#3618; Autopilot</h4>
-<p>1 &#3648;&#3617;.&#3618;. 2569 | 5 &#3609;&#3634;&#3607;&#3637;</p>
-</div>
-</div>
-</div>
-</div>
-
-<!-- Help Center -->
-<div class="card animate-in">
-<div class="card-header">
-<div class="card-title"><span class="icon">&#128218;</span> ศูนย์ช่วยเหลือ (Help Center)</div>
-<a class="card-link" href="javascript:void(0)" onclick="showToast('&#128218;','Help Center','เปิดศูนย์ช่วยเหลือเต็มรูปแบบ...')">เปิดทั้งหมด &#8594;</a>
-</div>
-<div class="module-grid" style="grid-template-columns:repeat(2,1fr);">
-<a class="module-link" href="javascript:void(0)" onclick="showToast('&#128214;','คู่มือ','เปิดคู่มือการใช้งาน...')">
-<div class="ml-icon" style="background:var(--blue-bg);color:var(--blue);">&#128214;</div>
-คู่มือการใช้งาน
-</a>
-<a class="module-link" href="javascript:void(0)" onclick="showToast('&#127909;','วิดีโอ','เปิดวิดีโอสอนการใช้งาน...')">
-<div class="ml-icon" style="background:var(--purple-bg);color:var(--purple);">&#127909;</div>
-วิดีโอสอนการใช้งาน
-</a>
-<a class="module-link" href="javascript:void(0)" onclick="showToast('&#10067;','FAQ','เปิดคำถามที่พบบ่อย...')">
-<div class="ml-icon" style="background:var(--green-bg);color:var(--green);">&#10067;</div>
-FAQ คำถามที่พบบ่อย
-</a>
-<a class="module-link" href="javascript:void(0)" onclick="showToast('&#128222;','Support','เปิดช่องทางติดต่อ Support...')">
-<div class="ml-icon" style="background:var(--orange-bg);color:var(--orange);">&#128222;</div>
-ติดต่อ Support
-</a>
-</div>
-</div>
-
-<!-- Keyboard Shortcuts Reference -->
-<div class="card animate-in">
-<div class="card-header">
-<div class="card-title"><span class="icon">&#9000;</span> คีย์ลัด (Keyboard Shortcuts)</div>
-</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg2);border-radius:8px;font-size:.78rem;">
-<span style="color:var(--text2);">ค้นหาด่วน</span>
-<kbd style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:.72rem;font-weight:700;font-family:inherit;color:var(--text);">Ctrl+K</kbd>
-</div>
-<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg2);border-radius:8px;font-size:.78rem;">
-<span style="color:var(--text2);">เลิกทำ</span>
-<kbd style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:.72rem;font-weight:700;font-family:inherit;color:var(--text);">Ctrl+Z</kbd>
-</div>
-<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg2);border-radius:8px;font-size:.78rem;">
-<span style="color:var(--text2);">ทำซ้ำ</span>
-<kbd style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:.72rem;font-weight:700;font-family:inherit;color:var(--text);">Ctrl+Y</kbd>
-</div>
-<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg2);border-radius:8px;font-size:.78rem;">
-<span style="color:var(--text2);">บันทึก</span>
-<kbd style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:.72rem;font-weight:700;font-family:inherit;color:var(--text);">Ctrl+S</kbd>
-</div>
-<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg2);border-radius:8px;font-size:.78rem;">
-<span style="color:var(--text2);">สร้างใหม่</span>
-<kbd style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:.72rem;font-weight:700;font-family:inherit;color:var(--text);">Ctrl+N</kbd>
-</div>
-<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg2);border-radius:8px;font-size:.78rem;">
-<span style="color:var(--text2);">สลับโหมดมืด</span>
-<kbd style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:.72rem;font-weight:700;font-family:inherit;color:var(--text);">Ctrl+D</kbd>
-</div>
-<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg2);border-radius:8px;font-size:.78rem;">
-<span style="color:var(--text2);">นำทางกลับ</span>
-<kbd style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:.72rem;font-weight:700;font-family:inherit;color:var(--text);">Alt+&#8592;</kbd>
-</div>
-<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg2);border-radius:8px;font-size:.78rem;">
-<span style="color:var(--text2);">ปิดหน้าต่าง</span>
-<kbd style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:.72rem;font-weight:700;font-family:inherit;color:var(--text);">Esc</kbd>
-</div>
-</div>
-</div>
-
-<!-- Video Tutorials Section -->
-<div class="card animate-in">
-<div class="card-header">
-<div class="card-title"><span class="icon">&#127909;</span> วิดีโอสอนการใช้งาน</div>
-<a class="card-link" href="javascript:void(0)" onclick="showToast('&#127909;','วิดีโอ','เปิดคลังวิดีโอทั้งหมด...')">ดูทั้งหมด &#8594;</a>
-</div>
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
-
-<div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:all .2s;" onclick="showToast('&#127909;','Getting Started','กำลังเปิดวิดีโอ...')" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 12px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='none';this.style.boxShadow='none';">
-<div style="position:relative;background:linear-gradient(135deg,#2563EB,#7C3AED);height:100px;display:flex;align-items:center;justify-content:center;">
-<div style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);border:2px solid rgba(255,255,255,0.4);font-size:1rem;color:#fff;">&#9654;</div>
-<div style="position:absolute;bottom:6px;right:8px;background:rgba(0,0,0,0.7);color:#fff;padding:2px 6px;border-radius:4px;font-size:.6rem;font-weight:600;">12:30</div>
-</div>
-<div style="padding:10px 12px;">
-<div style="font-weight:700;font-size:.78rem;margin-bottom:3px;">เริ่มต้นใช้งาน Autopilot v2</div>
-<div style="font-size:.65rem;color:var(--muted);margin-bottom:6px;">แนะนำระบบทั้งหมดสำหรับผู้ใช้ใหม่</div>
-<div style="display:flex;gap:6px;">
-<span style="font-size:.58rem;font-weight:700;padding:2px 6px;border-radius:4px;background:var(--green-bg);color:var(--green);">เริ่มต้น</span>
-<span style="font-size:.58rem;font-weight:700;padding:2px 6px;border-radius:4px;background:var(--bg3);color:var(--muted);">12 นาที</span>
-</div>
-</div>
-</div>
-
-<div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:all .2s;" onclick="showToast('&#127909;','Procurement','กำลังเปิดวิดีโอ...')" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 12px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='none';this.style.boxShadow='none';">
-<div style="position:relative;background:linear-gradient(135deg,#059669,#0D9488);height:100px;display:flex;align-items:center;justify-content:center;">
-<div style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);border:2px solid rgba(255,255,255,0.4);font-size:1rem;color:#fff;">&#9654;</div>
-<div style="position:absolute;bottom:6px;right:8px;background:rgba(0,0,0,0.7);color:#fff;padding:2px 6px;border-radius:4px;font-size:.6rem;font-weight:600;">18:45</div>
-</div>
-<div style="padding:10px 12px;">
-<div style="font-weight:700;font-size:.78rem;margin-bottom:3px;">ระบบจัดซื้อ (Procurement)</div>
-<div style="font-size:.65rem;color:var(--muted);margin-bottom:6px;">สร้าง PR/PO และอนุมัติอัตโนมัติ</div>
-<div style="display:flex;gap:6px;">
-<span style="font-size:.58rem;font-weight:700;padding:2px 6px;border-radius:4px;background:var(--blue-bg);color:var(--blue);">ปานกลาง</span>
-<span style="font-size:.58rem;font-weight:700;padding:2px 6px;border-radius:4px;background:var(--bg3);color:var(--muted);">18 นาที</span>
-</div>
-</div>
-</div>
-
-<div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:all .2s;" onclick="showToast('&#127909;','Expense','กำลังเปิดวิดีโอ...')" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 12px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='none';this.style.boxShadow='none';">
-<div style="position:relative;background:linear-gradient(135deg,#D97706,#EA580C);height:100px;display:flex;align-items:center;justify-content:center;">
-<div style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);border:2px solid rgba(255,255,255,0.4);font-size:1rem;color:#fff;">&#9654;</div>
-<div style="position:absolute;bottom:6px;right:8px;background:rgba(0,0,0,0.7);color:#fff;padding:2px 6px;border-radius:4px;font-size:.6rem;font-weight:600;">15:20</div>
-</div>
-<div style="padding:10px 12px;">
-<div style="font-weight:700;font-size:.78rem;margin-bottom:3px;">ระบบค่าใช้จ่าย (Expense)</div>
-<div style="font-size:.65rem;color:var(--muted);margin-bottom:6px;">สแกนใบเสร็จ OCR และเบิกค่าใช้จ่าย</div>
-<div style="display:flex;gap:6px;">
-<span style="font-size:.58rem;font-weight:700;padding:2px 6px;border-radius:4px;background:var(--green-bg);color:var(--green);">เริ่มต้น</span>
-<span style="font-size:.58rem;font-weight:700;padding:2px 6px;border-radius:4px;background:var(--bg3);color:var(--muted);">15 นาที</span>
-</div>
-</div>
-</div>
-
-<div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:all .2s;" onclick="showToast('&#127909;','Finance','กำลังเปิดวิดีโอ...')" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 12px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='none';this.style.boxShadow='none';">
-<div style="position:relative;background:linear-gradient(135deg,#7C3AED,#DB2777);height:100px;display:flex;align-items:center;justify-content:center;">
-<div style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);border:2px solid rgba(255,255,255,0.4);font-size:1rem;color:#fff;">&#9654;</div>
-<div style="position:absolute;bottom:6px;right:8px;background:rgba(0,0,0,0.7);color:#fff;padding:2px 6px;border-radius:4px;font-size:.6rem;font-weight:600;">22:10</div>
-</div>
-<div style="padding:10px 12px;">
-<div style="font-weight:700;font-size:.78rem;margin-bottom:3px;">ระบบการเงิน (Finance)</div>
-<div style="font-size:.65rem;color:var(--muted);margin-bottom:6px;">จัดการเอกสาร, กระทบยอด, ปิดบัญชี</div>
-<div style="display:flex;gap:6px;">
-<span style="font-size:.58rem;font-weight:700;padding:2px 6px;border-radius:4px;background:var(--orange-bg);color:var(--orange);">ขั้นสูง</span>
-<span style="font-size:.58rem;font-weight:700;padding:2px 6px;border-radius:4px;background:var(--bg3);color:var(--muted);">22 นาที</span>
-</div>
-</div>
-</div>
-
-<div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:all .2s;" onclick="showToast('&#127909;','Connectors','กำลังเปิดวิดีโอ...')" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 12px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='none';this.style.boxShadow='none';">
-<div style="position:relative;background:linear-gradient(135deg,#0891B2,#2563EB);height:100px;display:flex;align-items:center;justify-content:center;">
-<div style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);border:2px solid rgba(255,255,255,0.4);font-size:1rem;color:#fff;">&#9654;</div>
-<div style="position:absolute;bottom:6px;right:8px;background:rgba(0,0,0,0.7);color:#fff;padding:2px 6px;border-radius:4px;font-size:.6rem;font-weight:600;">14:55</div>
-</div>
-<div style="padding:10px 12px;">
-<div style="font-weight:700;font-size:.78rem;margin-bottom:3px;">Connectors & API</div>
-<div style="font-size:.65rem;color:var(--muted);margin-bottom:6px;">ตั้งค่า OCR, eKYC และ Webhook</div>
-<div style="display:flex;gap:6px;">
-<span style="font-size:.58rem;font-weight:700;padding:2px 6px;border-radius:4px;background:var(--blue-bg);color:var(--blue);">ปานกลาง</span>
-<span style="font-size:.58rem;font-weight:700;padding:2px 6px;border-radius:4px;background:var(--bg3);color:var(--muted);">14 นาที</span>
-</div>
-</div>
-</div>
-
-<div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:all .2s;" onclick="showToast('&#127909;','Admin','กำลังเปิดวิดีโอ...')" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 12px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='none';this.style.boxShadow='none';">
-<div style="position:relative;background:linear-gradient(135deg,#DC2626,#EA580C);height:100px;display:flex;align-items:center;justify-content:center;">
-<div style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);border:2px solid rgba(255,255,255,0.4);font-size:1rem;color:#fff;">&#9654;</div>
-<div style="position:absolute;bottom:6px;right:8px;background:rgba(0,0,0,0.7);color:#fff;padding:2px 6px;border-radius:4px;font-size:.6rem;font-weight:600;">20:00</div>
-</div>
-<div style="padding:10px 12px;">
-<div style="font-weight:700;font-size:.78rem;margin-bottom:3px;">การจัดการระบบ (Admin)</div>
-<div style="font-size:.65rem;color:var(--muted);margin-bottom:6px;">Users, Roles, Security และ Settings</div>
-<div style="display:flex;gap:6px;">
-<span style="font-size:.58rem;font-weight:700;padding:2px 6px;border-radius:4px;background:var(--orange-bg);color:var(--orange);">ขั้นสูง</span>
-<span style="font-size:.58rem;font-weight:700;padding:2px 6px;border-radius:4px;background:var(--bg3);color:var(--muted);">20 นาที</span>
-</div>
-</div>
-</div>
+  <!-- Column 3: Mini Calendar + Recently Visited (25%) -->
+  <div class="col-card animate-in" style="animation-delay:.1s;">
+    <div class="card-header">
+      <div class="card-title"><span class="icon">&#128197;</span> ปฏิทิน เม.ย. 2569</div>
+    </div>
+    <div class="cal-grid">
+      <div class="cal-hd">อา</div><div class="cal-hd">จ</div><div class="cal-hd">อ</div><div class="cal-hd">พ</div><div class="cal-hd">พฤ</div><div class="cal-hd">ศ</div><div class="cal-hd">ส</div>
+      <div class="cal-d other">30</div><div class="cal-d other">31</div><div class="cal-d">1</div><div class="cal-d">2</div><div class="cal-d has-event">3</div><div class="cal-d">4</div><div class="cal-d">5</div>
+      <div class="cal-d today">6</div><div class="cal-d has-event">7</div><div class="cal-d has-event">8</div><div class="cal-d">9</div><div class="cal-d has-event">10</div><div class="cal-d">11</div><div class="cal-d">12</div>
+      <div class="cal-d">13</div><div class="cal-d">14</div><div class="cal-d has-event">15</div><div class="cal-d">16</div><div class="cal-d">17</div><div class="cal-d">18</div><div class="cal-d">19</div>
+      <div class="cal-d">20</div><div class="cal-d">21</div><div class="cal-d">22</div><div class="cal-d">23</div><div class="cal-d">24</div><div class="cal-d">25</div><div class="cal-d">26</div>
+      <div class="cal-d">27</div><div class="cal-d">28</div><div class="cal-d">29</div><div class="cal-d">30</div><div class="cal-d other">1</div><div class="cal-d other">2</div><div class="cal-d other">3</div>
+    </div>
+    <div style="font-size:.72rem;font-weight:600;color:var(--text);margin:6px 0 4px;">กำหนดการสำคัญ</div>
+    <div style="display:flex;flex-direction:column;gap:3px;font-size:.68rem;color:var(--text2);">
+      <div style="display:flex;align-items:center;gap:4px;"><span style="color:var(--red);">&#9679;</span> ปิดดีล ABC — 7 เม.ย.</div>
+      <div style="display:flex;align-items:center;gap:4px;"><span style="color:var(--blue);">&#9679;</span> ประชุมทีมขาย — 8 เม.ย.</div>
+      <div style="display:flex;align-items:center;gap:4px;"><span style="color:var(--orange);">&#9679;</span> ส่งใบเสนอราคา XYZ — 10 เม.ย.</div>
+      <div style="display:flex;align-items:center;gap:4px;"><span style="color:var(--green);">&#9679;</span> ปิดงบประจำเดือน — 15 เม.ย.</div>
+    </div>
+    <div style="font-size:.72rem;font-weight:600;color:var(--text);margin:12px 0 4px;">&#128337; เข้าถึงล่าสุด</div>
+    <div class="recent-pills">
+      <div class="r-pill" onclick="navigate('sales-pipeline')"><span class="rp-icon">&#128176;</span> ท่อส่งการขาย</div>
+      <div class="r-pill" onclick="navigate('quotation/QT-0156')"><span class="rp-icon">&#128203;</span> QT-0156</div>
+      <div class="r-pill" onclick="navigate('expense-report')"><span class="rp-icon">&#128230;</span> ค่าใช้จ่าย มี.ค.</div>
+      <div class="r-pill" onclick="navigate('analytics')"><span class="rp-icon">&#128202;</span> วิเคราะห์การขาย</div>
+      <div class="r-pill" onclick="navigate('product-catalog')"><span class="rp-icon">&#128722;</span> แคตตาล็อกสินค้า</div>
+    </div>
+  </div>
 
 </div>
+
+<!-- ═══ ROW 4: System Status Strip ═══ -->
+<div class="status-strip animate-in">
+  <div class="status-item"><span class="status-dot ok"></span> ระบบ: ปกติ</div>
+  <div class="status-item"><span class="status-dot ok"></span> API: 99.9% Uptime</div>
+  <div class="status-item"><span class="status-dot ok"></span> อัปเดทล่าสุด: 5 นาทีที่แล้ว</div>
+  <div class="status-item"><span class="status-dot ok"></span> เวอร์ชัน: 2.0</div>
 </div>
 
-<!-- What's New Changelog -->
-<div class="card animate-in">
-<div class="card-header">
-<div class="card-title"><span class="icon">&#128227;</span> What's New — การอัปเดตล่าสุด</div>
-<a class="card-link" href="javascript:void(0)" onclick="showToast('&#128227;','Changelog','เปิดประวัติการอัปเดตทั้งหมด...')">ดูทั้งหมด &#8594;</a>
+<!-- Footer: compact help links -->
+<div class="footer-row">
+  <a class="footer-link" href="javascript:void(0)" onclick="navigate('help/docs')">&#128214; คู่มือ</a>
+  <a class="footer-link" href="javascript:void(0)" onclick="navigate('help/faq')">&#10067; FAQ</a>
+  <a class="footer-link" href="javascript:void(0)" onclick="navigate('help/support')">&#128222; Support</a>
 </div>
-<div class="release-item">
-<span class="release-version">v2.8.1</span>
-<div class="release-content">
-<h4>Sprint 6: Performance & Polish — Thai font kerning, page load optimization, PWA-ready hints</h4>
-<div class="release-date">6 เม.ย. 2569 | ใหม่</div>
-</div>
-</div>
-<div class="release-item">
-<span class="release-version">v2.8.0</span>
-<div class="release-content">
-<h4>Sprint 5: Thai Sentiment Analysis, Survey Conditional Logic, Offline Indicators</h4>
-<div class="release-date">28 มี.ค. 2569</div>
-</div>
-</div>
-<div class="release-item">
-<span class="release-version">v2.7.5</span>
-<div class="release-content">
-<h4>Sprint 4: Mobile Responsive Wave 2, Dark Mode, Guided Tours</h4>
-<div class="release-date">15 มี.ค. 2569</div>
-</div>
-</div>
-<div class="release-item">
-<span class="release-version">v2.7.0</span>
-<div class="release-content">
-<h4>Sprint 3: Global Search Ctrl+K, Undo/Redo, Thai Error Messages</h4>
-<div class="release-date">1 มี.ค. 2569</div>
-</div>
-</div>
-</div>
-
-</div><!-- end main-content -->
-
-<!-- Right Sidebar -->
-<div class="sidebar">
-
-<!-- Calendar Widget -->
-<div class="sidebar-card">
-<div class="card-header">
-<div class="card-title"><span class="icon">&#128197;</span> &#3611;&#3599;&#3636;&#3607;&#3636;&#3609; &#3648;&#3617;.&#3618;. 2569</div>
-</div>
-<div class="cal-grid">
-<div class="cal-header">&#3629;&#3634;</div><div class="cal-header">&#3592;</div><div class="cal-header">&#3629;</div><div class="cal-header">&#3614;</div><div class="cal-header">&#3614;&#3620;</div><div class="cal-header">&#3624;</div><div class="cal-header">&#3626;</div>
-<div class="cal-day other">30</div><div class="cal-day other">31</div><div class="cal-day">1</div><div class="cal-day">2</div><div class="cal-day has-event">3</div><div class="cal-day">4</div><div class="cal-day">5</div>
-<div class="cal-day today">6</div><div class="cal-day has-event">7</div><div class="cal-day has-event">8</div><div class="cal-day">9</div><div class="cal-day has-event">10</div><div class="cal-day">11</div><div class="cal-day">12</div>
-<div class="cal-day">13</div><div class="cal-day">14</div><div class="cal-day has-event">15</div><div class="cal-day">16</div><div class="cal-day">17</div><div class="cal-day">18</div><div class="cal-day">19</div>
-<div class="cal-day">20</div><div class="cal-day">21</div><div class="cal-day">22</div><div class="cal-day">23</div><div class="cal-day">24</div><div class="cal-day">25</div><div class="cal-day">26</div>
-<div class="cal-day">27</div><div class="cal-day">28</div><div class="cal-day">29</div><div class="cal-day">30</div><div class="cal-day other">1</div><div class="cal-day other">2</div><div class="cal-day other">3</div>
-</div>
-<div style="font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:8px;">&#3585;&#3635;&#3627;&#3609;&#3604;&#3585;&#3634;&#3619;&#3626;&#3635;&#3588;&#3633;&#3597;</div>
-<div class="cal-event" style="border-color:var(--red);"><span>&#128308;</span> &#3611;&#3636;&#3604;&#3604;&#3637;&#3621; ABC Corp — 7 &#3648;&#3617;.&#3618;.</div>
-<div class="cal-event" style="border-color:var(--blue);"><span>&#128309;</span> &#3611;&#3619;&#3632;&#3594;&#3640;&#3617;&#3607;&#3637;&#3617;&#3586;&#3634;&#3618; — 8 &#3648;&#3617;.&#3618;.</div>
-<div class="cal-event" style="border-color:var(--orange);"><span>&#128992;</span> &#3626;&#3656;&#3591;&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634; XYZ — 10 &#3648;&#3617;.&#3618;.</div>
-<div class="cal-event" style="border-color:var(--green);"><span>&#128994;</span> &#3611;&#3636;&#3604;&#3591;&#3610;&#3611;&#3619;&#3632;&#3592;&#3635;&#3648;&#3604;&#3639;&#3629;&#3609; — 15 &#3648;&#3617;.&#3618;.</div>
-</div>
-
-<!-- Recently Visited -->
-<div class="sidebar-card">
-<div class="card-header">
-<div class="card-title"><span class="icon">&#128337;</span> &#3648;&#3586;&#3657;&#3634;&#3594;&#3617;&#3621;&#3656;&#3634;&#3626;&#3640;&#3604;</div>
-</div>
-<div class="recent-list">
-<div class="recent-item" onclick="showToast('&#128337;','นำทาง','&#3648;&#3611;&#3636;&#3604;&#3627;&#3609;&#3657;&#3634; Sales Pipeline...')">
-<div class="ri-icon" style="background:var(--blue-bg);color:var(--blue);">&#128176;</div>
-<span>ท่อส่งการขาย (Sales Pipeline)</span>
-<span class="ri-time">5 &#3609;&#3634;&#3607;&#3637;&#3607;&#3637;&#3656;&#3649;&#3621;&#3657;&#3623;</span>
-</div>
-<div class="recent-item" onclick="showToast('&#128337;','นำทาง','&#3648;&#3611;&#3636;&#3604;&#3627;&#3609;&#3657;&#3634; &#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634; QT-0156...')">
-<div class="ri-icon" style="background:var(--green-bg);color:var(--green);">&#128203;</div>
-<span>&#3651;&#3610;&#3648;&#3626;&#3609;&#3629;&#3619;&#3634;&#3588;&#3634; QT-0156</span>
-<span class="ri-time">12 &#3609;&#3634;&#3607;&#3637;&#3607;&#3637;&#3656;&#3649;&#3621;&#3657;&#3623;</span>
-</div>
-<div class="recent-item" onclick="showToast('&#128337;','นำทาง','&#3648;&#3611;&#3636;&#3604;&#3627;&#3609;&#3657;&#3634; Expense Report...')">
-<div class="ri-icon" style="background:var(--purple-bg);color:var(--purple);">&#128230;</div>
-<span>รายงานค่าใช้จ่าย มี.ค. 69</span>
-<span class="ri-time">1 &#3594;&#3617;.</span>
-</div>
-<div class="recent-item" onclick="showToast('&#128337;','นำทาง','&#3648;&#3611;&#3636;&#3604;&#3627;&#3609;&#3657;&#3634; Analytics...')">
-<div class="ri-icon" style="background:var(--orange-bg);color:var(--orange);">&#128202;</div>
-<span>วิเคราะห์การขาย</span>
-<span class="ri-time">2 &#3594;&#3617;.</span>
-</div>
-<div class="recent-item" onclick="showToast('&#128337;','นำทาง','&#3648;&#3611;&#3636;&#3604;&#3627;&#3609;&#3657;&#3634; Product Catalog...')">
-<div class="ri-icon" style="background:var(--cyan-bg);color:var(--cyan);">&#128722;</div>
-<span>แคตตาล็อกสินค้า</span>
-<span class="ri-time">3 &#3594;&#3617;.</span>
-</div>
-</div>
-</div>
-
-<!-- KPI Alert Threshold Settings -->
-<div class="sidebar-card">
-<div class="card-header">
-<div class="card-title"><span class="icon">&#128276;</span> KPI Alert &#3648;&#3585;&#3603;&#3601;&#3660;&#3649;&#3592;&#3657;&#3591;&#3648;&#3605;&#3639;&#3629;&#3609;</div>
-</div>
-<div class="alert-config">
-<div class="alert-row">
-<span class="a-name">รออนุมัติ</span>
-<select onchange="showToast('&#9881;&#65039;','Alert','&#3610;&#3633;&#3609;&#3607;&#3638;&#3585;&#3648;&#3585;&#3603;&#3601;&#3660;&#3649;&#3621;&#3657;&#3623;')">
-<option>&#3617;&#3634;&#3585;&#3585;&#3623;&#3656;&#3634;</option>
-<option selected>&#3617;&#3634;&#3585;&#3585;&#3623;&#3656;&#3634; 5</option>
-<option>&#3617;&#3634;&#3585;&#3585;&#3623;&#3656;&#3634; 10</option>
-</select>
-</div>
-<div class="alert-row">
-<span class="a-name">AI Tokens &#3605;&#3656;&#3635;&#3585;&#3623;&#3656;&#3634;</span>
-<select onchange="showToast('&#9881;&#65039;','Alert','&#3610;&#3633;&#3609;&#3607;&#3638;&#3585;&#3648;&#3585;&#3603;&#3601;&#3660;&#3649;&#3621;&#3657;&#3623;')">
-<option>10%</option>
-<option selected>20%</option>
-<option>30%</option>
-</select>
-</div>
-<div class="alert-row">
-<span class="a-name">Win Rate &#3605;&#3656;&#3635;&#3585;&#3623;&#3656;&#3634;</span>
-<select onchange="showToast('&#9881;&#65039;','Alert','&#3610;&#3633;&#3609;&#3607;&#3638;&#3585;&#3648;&#3585;&#3603;&#3601;&#3660;&#3649;&#3621;&#3657;&#3623;')">
-<option>20%</option>
-<option>30%</option>
-<option selected>35%</option>
-</select>
-</div>
-</div>
-</div>
-
-<!-- Team Status (Manager View) -->
-<div class="sidebar-card" id="manager-widget">
-<div class="card-header">
-<div class="card-title"><span class="icon">&#128101;</span> &#3607;&#3637;&#3617;&#3591;&#3634;&#3609;&#3623;&#3633;&#3609;&#3609;&#3637;&#3657;</div>
-</div>
-<div style="display:flex;flex-direction:column;gap:8px;">
-<div style="display:flex;align-items:center;gap:10px;font-size:.82rem;">
-<div style="width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;">&#3626;&#3617;</div>
-<div style="flex:1;">&#3626;&#3617;&#3594;&#3634;&#3618; &#3585;. <span style="color:var(--green);font-size:.68rem;">&#9679; ออนไลน์</span></div>
-<span style="font-size:.68rem;color:var(--muted);">5 งาน</span>
-</div>
-<div style="display:flex;align-items:center;gap:10px;font-size:.82rem;">
-<div style="width:28px;height:28px;border-radius:50%;background:var(--purple);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;">&#3626;&#3623;</div>
-<div style="flex:1;">&#3626;&#3640;&#3623;&#3619;&#3619;&#3603;&#3634; &#3607;. <span style="color:var(--green);font-size:.68rem;">&#9679; ออนไลน์</span></div>
-<span style="font-size:.68rem;color:var(--muted);">3 งาน</span>
-</div>
-<div style="display:flex;align-items:center;gap:10px;font-size:.82rem;">
-<div style="width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;">&#3603;&#3600;</div>
-<div style="flex:1;">&#3603;&#3633;&#3600;&#3614;&#3591;&#3625;&#3660; &#3626;. <span style="color:var(--muted);font-size:.68rem;">&#9679; ไม่อยู่</span></div>
-<span style="font-size:.68rem;color:var(--muted);">2 งาน</span>
-</div>
-<div style="display:flex;align-items:center;gap:10px;font-size:.82rem;">
-<div style="width:28px;height:28px;border-radius:50%;background:var(--orange);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;">&#3614;&#3619;</div>
-<div style="flex:1;">&#3614;&#3619;&#3607;&#3636;&#3614;&#3618;&#3660; &#3619;. <span style="color:var(--green);font-size:.68rem;">&#9679; ออนไลน์</span></div>
-<span style="font-size:.68rem;color:var(--muted);">4 งาน</span>
-</div>
-</div>
-</div>
-
-</div><!-- end sidebar -->
-
-</div><!-- end main-layout -->
+<div class="footer-copy">ANTS Autopilot v2.0 | &copy; 2569 ANTS AI Solution Hub | Build: Wave 6</div>
 
 </div><!-- end page -->
 
-<!-- KPI Alert Modal -->
-<div class="modal-overlay" id="modal-alert-config">
-<div class="modal">
-<div class="modal-header"><h3>&#128276; &#3605;&#3633;&#3657;&#3591;&#3588;&#3656;&#3634;&#3648;&#3585;&#3603;&#3601;&#3660; KPI Alert</h3><button class="modal-close" onclick="closeModal('modal-alert-config')">&#10005;</button></div>
-<div class="modal-body">
-<p style="font-size:.82rem;color:var(--text2);margin-bottom:16px;">&#3619;&#3632;&#3610;&#3610;&#3592;&#3632;&#3649;&#3592;&#3657;&#3591;&#3648;&#3605;&#3639;&#3629;&#3609;&#3648;&#3617;&#3639;&#3656;&#3629; KPI &#3606;&#3638;&#3591;&#3648;&#3585;&#3603;&#3601;&#3660;&#3607;&#3637;&#3656;&#3605;&#3633;&#3657;&#3591;&#3652;&#3623;&#3657; &#3614;&#3619;&#3657;&#3629;&#3617;&#3649;&#3592;&#3657;&#3591;&#3612;&#3656;&#3634;&#3609; LINE, Email &#3649;&#3621;&#3632; In-App</p>
-<div class="alert-config">
-<div class="alert-row">
-<span class="a-name">รออนุมัติ เกิน</span>
-<input type="number" value="5" min="1" max="50">
-</div>
-<div class="alert-row">
-<span class="a-name">Token &#3648;&#3627;&#3621;&#3639;&#3629;&#3605;&#3656;&#3635;&#3585;&#3623;&#3656;&#3634; (%)</span>
-<input type="number" value="20" min="5" max="50">
-</div>
-<div class="alert-row">
-<span class="a-name">Win Rate &#3605;&#3656;&#3635;&#3585;&#3623;&#3656;&#3634; (%)</span>
-<input type="number" value="35" min="10" max="80">
-</div>
-</div>
-</div>
-<div class="modal-footer">
-<button style="padding:10px 24px;background:var(--grad);color:#fff;border:none;border-radius:10px;font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;" onclick="closeModal('modal-alert-config');showToast('&#9989;','&#3610;&#3633;&#3609;&#3607;&#3638;&#3585;&#3649;&#3621;&#3657;&#3623;','&#3629;&#3633;&#3611;&#3648;&#3604;&#3605;&#3648;&#3585;&#3603;&#3601;&#3660; KPI Alert &#3626;&#3635;&#3648;&#3619;&#3655;&#3592;')">&#3610;&#3633;&#3609;&#3607;&#3638;&#3585;</button>
-</div>
-</div>
-</div>
-
 <script>
+/* ── Dark Mode ── */
 function toggleDark(){
   document.body.classList.toggle('dark');
   localStorage.setItem('darkMode', document.body.classList.contains('dark'));
+  var btn=document.getElementById('darkBtn');
+  btn.textContent=document.body.classList.contains('dark')?'\u2600\uFE0F':'\uD83C\uDF19';
 }
-(function(){if(localStorage.getItem('darkMode')==='true') document.body.classList.add('dark')})();
+(function(){
+  if(localStorage.getItem('darkMode')==='true'){
+    document.body.classList.add('dark');
+    var btn=document.getElementById('darkBtn');
+    if(btn) btn.textContent='\u2600\uFE0F';
+  }
+})();
 
+/* ── Edit Mode ── */
 function toggleEditMode(){
   document.body.classList.toggle('edit-mode');
-  var btn=document.getElementById('customizeBtn');
-  btn.classList.toggle('active');
+  var btn=document.getElementById('editBtn');
   if(document.body.classList.contains('edit-mode')){
-    btn.innerHTML='&#9989; &#3610;&#3633;&#3609;&#3607;&#3638;&#3585;&#3585;&#3634;&#3619;&#3605;&#3633;&#3657;&#3591;&#3588;&#3656;&#3634;';
-    document.querySelectorAll('.stat-card').forEach(function(c){c.setAttribute('draggable','true');});
-    showToast('&#9881;&#65039;','โหมดแก้ไข','&#3588;&#3640;&#3603;&#3626;&#3634;&#3617;&#3634;&#3619;&#3606;&#3621;&#3634;&#3585; Widget &#3648;&#3614;&#3639;&#3656;&#3629;&#3592;&#3633;&#3604;&#3648;&#3619;&#3637;&#3618;&#3591;&#3651;&#3627;&#3617;&#3656;&#3652;&#3604;&#3657;');
+    btn.style.background='var(--blue)';
+    btn.style.color='#fff';
+    btn.style.borderColor='var(--blue)';
+    showToast('\u2699\uFE0F','โหมดแก้ไข','คุณสามารถจัดเรียง Widget ได้');
   }else{
-    btn.innerHTML='&#9881;&#65039; &#3611;&#3619;&#3633;&#3610;&#3649;&#3605;&#3656;&#3591; Dashboard';
-    document.querySelectorAll('.stat-card').forEach(function(c){c.setAttribute('draggable','false');});
-    showToast('&#9989;','&#3610;&#3633;&#3609;&#3607;&#3638;&#3585;&#3649;&#3621;&#3657;&#3623;','เค้าโครงแดชบอร์ด &#3652;&#3604;&#3657;&#3619;&#3633;&#3610;&#3585;&#3634;&#3619;&#3610;&#3633;&#3609;&#3607;&#3638;&#3585;');
+    btn.style.background='';
+    btn.style.color='';
+    btn.style.borderColor='';
+    showToast('\u2705','บันทึกแล้ว','เค้าโครงแดชบอร์ดได้รับการบันทึก');
   }
 }
 
+/* ── Role Switcher ── */
 function switchRole(role){
-  var mw=document.getElementById('manager-widget');
-  if(role==='staff'){
-    mw.style.display='none';
-    showToast('&#128100;','มุมมองพนักงาน','แสดงข้อมูลสำหรับพนักงาน');
-  }else{
-    mw.style.display='';
-    showToast('&#128100;',role==='executive'?'มุมมองผู้บริหาร':'มุมมองผู้จัดการ','เปลี่ยนมุมมองแล้ว');
-  }
+  var badge=document.querySelector('.role-badge');
+  var labels={manager:'ผู้จัดการ',staff:'พนักงาน',executive:'ผู้บริหาร'};
+  badge.textContent=labels[role]||role;
+  showToast('\uD83D\uDC64','เปลี่ยนมุมมอง','แสดงมุมมอง'+labels[role]);
 }
 
-function switchNotifTab(tab,el){
-  document.querySelectorAll('.notif-tab').forEach(function(t){t.classList.remove('active');});
-  el.classList.add('active');
-  document.querySelectorAll('.notif-category').forEach(function(c){c.style.display='none';});
-  document.getElementById('notif-'+tab).style.display='';
+/* ── Navigation via postMessage ── */
+function navigate(target){
+  window.parent.postMessage({type:'navigate',target:target},'*');
+  showToast('\uD83D\uDE80','นำทาง','กำลังเปิด '+target+'...');
 }
 
-function openModal(id){document.getElementById(id).classList.add('active');}
-function closeModal(id){document.getElementById(id).classList.remove('active');}
-
+/* ── Toast ── */
 function showToast(icon,title,msg){
   var t=document.createElement('div');
-  t.style.cssText='position:fixed;bottom:24px;right:24px;background:var(--card-bg,#fff);color:var(--text,#0F172A);border:1px solid var(--border,#E2E8F0);padding:14px 20px;border-radius:12px;font-size:.82rem;font-weight:500;z-index:99999;box-shadow:0 8px 32px rgba(0,0,0,.15);display:flex;align-items:center;gap:10px;font-family:inherit;max-width:380px;animation:toastIn .4s ease;';
-  t.innerHTML=(icon?'<span style="font-size:1.2rem;">'+icon+'</span>':'')+'<div>'+(title?'<strong>'+title+'</strong> ':'')+msg+'</div>';
+  t.style.cssText='position:fixed;bottom:20px;right:20px;background:var(--card-bg,#fff);color:var(--text,#0F172A);border:1px solid var(--border,#E2E8F0);padding:12px 16px;border-radius:10px;font-size:.78rem;font-weight:500;z-index:99999;box-shadow:0 8px 32px rgba(0,0,0,.12);display:flex;align-items:center;gap:8px;font-family:inherit;max-width:360px;animation:toastIn .35s ease;';
+  t.innerHTML=(icon?'<span style="font-size:1.1rem;">'+icon+'</span>':'')+'<div>'+(title?'<strong>'+title+'</strong> ':'')+msg+'</div>';
   document.body.appendChild(t);
   setTimeout(function(){t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(function(){t.remove();},300);},3000);
 }
 
-// Drag-and-drop for widgets in edit mode
-var dragSrc=null;
-document.querySelectorAll('.stat-card').forEach(function(card){
-  card.addEventListener('dragstart',function(e){
-    if(!document.body.classList.contains('edit-mode'))return;
-    dragSrc=this;
-    this.style.opacity='.5';
-  });
-  card.addEventListener('dragover',function(e){
-    if(!document.body.classList.contains('edit-mode'))return;
-    e.preventDefault();
-    this.style.borderColor='var(--blue)';
-  });
-  card.addEventListener('dragleave',function(){this.style.borderColor='';});
-  card.addEventListener('drop',function(e){
-    e.preventDefault();
-    this.style.borderColor='';
-    if(dragSrc!==this){
-      var parent=this.parentNode;
-      var all=Array.from(parent.children);
-      var from=all.indexOf(dragSrc);
-      var to=all.indexOf(this);
-      if(from<to){parent.insertBefore(dragSrc,this.nextSibling);}
-      else{parent.insertBefore(dragSrc,this);}
-    }
-  });
-  card.addEventListener('dragend',function(){this.style.opacity='1';});
-});
-
-// ═══ CROSS-013: Offline Detection ═══
+/* ── Offline Detection ── */
 (function(){
-    function updateOfflineStatus(){
-        var ind=document.getElementById('homeOfflineIndicator');
-        if(ind){ind.style.display=navigator.onLine?'none':'flex';}
-    }
-    window.addEventListener('offline',updateOfflineStatus);
-    window.addEventListener('online',updateOfflineStatus);
-    updateOfflineStatus();
+  function updateOfflineStatus(){
+    var ind=document.getElementById('homeOfflineIndicator');
+    if(ind) ind.style.display=navigator.onLine?'none':'flex';
+  }
+  window.addEventListener('offline',updateOfflineStatus);
+  window.addEventListener('online',updateOfflineStatus);
+  updateOfflineStatus();
 })();
 
-// ═══ CROSS-033: Training Mode Check ═══
+/* ── Training Mode Check ── */
 (function(){
-    // Check parent frame for training mode
-    try{
-        if(window.parent && window.parent.document.body.classList.contains('training-mode')){
-            var b=document.getElementById('homeTrainingBanner');
-            if(b) b.style.display='flex';
-        }
-    }catch(e){}
+  try{
+    if(window.parent && window.parent.document.body.classList.contains('training-mode')){
+      var b=document.getElementById('homeTrainingBanner');
+      if(b) b.style.display='flex';
+    }
+  }catch(e){}
 })();
 
-// ═══ CROSS-042: Home Guided Tour ═══
-function homeGuidedTour(){
-    var steps=[
-        {sel:'.welcome-banner',msg:'&#127968; แบนเนอร์ต้อนรับ แสดงข้อมูลโปรไฟล์และสถิติการเข้าใช้งาน'},
-        {sel:'.role-bar',msg:'&#128100; เปลี่ยนมุมมองตามบทบาท เช่น ผู้จัดการ, พนักงาน, ผู้บริหาร'},
-        {sel:'.quick-actions',msg:'&#9889; ปุ่มดำเนินการด่วน เข้าถึงงานที่ใช้บ่อยได้ทันที'},
-        {sel:'.stats-row',msg:'&#128200; สถิติภาพรวม แสดง KPI หลักแบบเรียลไทม์'},
-        {sel:'.main-layout',msg:'&#128203; เนื้อหาหลัก แสดงสรุปรายวัน การแจ้งเตือน และกิจกรรมล่าสุด'}
-    ];
-    var idx=0;
-    var overlay=document.createElement('div');
-    overlay.style.cssText='position:fixed;inset:0;z-index:99998;background:rgba(0,0,0,.5);';
-    document.body.appendChild(overlay);
-    var tip=document.createElement('div');
-    tip.style.cssText='position:fixed;z-index:99999;background:var(--card-bg,#fff);border:2px solid var(--blue,#2563EB);border-radius:12px;padding:16px;max-width:320px;box-shadow:0 12px 40px rgba(0,0,0,.2);font-family:inherit;color:var(--text,#0F172A);';
-    tip.setAttribute('role','dialog');
-    tip.setAttribute('aria-label','ทัวร์แนะนำ');
-    document.body.appendChild(tip);
-    function show(i){
-        if(i>=steps.length){overlay.remove();tip.remove();showToast('&#127881;','ทัวร์เสร็จสิ้น','คุณพร้อมใช้งานแล้ว!');return;}
-        var el=document.querySelector(steps[i].sel);
-        var r=el?el.getBoundingClientRect():{top:100,left:100,width:200,height:40};
-        tip.innerHTML='<div style="font-size:.82rem;margin-bottom:10px;">'+steps[i].msg+'</div><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:.65rem;color:var(--muted,#64748B);">'+(i+1)+'/'+steps.length+'</span><div><button onclick="this.closest(\'div\').closest(\'div\').closest(\'div\').remove();document.querySelector(\'div[style*=inset]\').remove();" style="padding:3px 10px;border:1px solid var(--border,#E2E8F0);border-radius:6px;background:none;cursor:pointer;font-size:.7rem;font-family:inherit;margin-right:6px;">ข้าม</button><button onclick="homeGuidedTourNext()" style="padding:3px 10px;border:none;border-radius:6px;background:var(--grad,linear-gradient(135deg,#2563EB,#7C3AED));color:#fff;cursor:pointer;font-size:.7rem;font-weight:700;font-family:inherit;">'+(i<steps.length-1?'ถัดไป &#8594;':'เสร็จสิ้น &#10003;')+'</button></div></div>';
-        tip.style.top=Math.min(r.bottom+10,window.innerHeight-140)+'px';
-        tip.style.left=Math.min(Math.max(r.left,8),window.innerWidth-340)+'px';
-        idx=i;
-    }
-    window.homeGuidedTourNext=function(){show(idx+1);};
-    show(0);
-}
-
-// ═══ SPRINT-6: Service Worker Registration (PWA-ready, commented out) ═══
-// Uncomment the following block to activate offline caching via Service Worker:
-/*
-if('serviceWorker' in navigator){
-  window.addEventListener('load',function(){
-    navigator.serviceWorker.register('/sw.js').then(function(reg){
-      console.log('[SW] Registered scope:',reg.scope);
-    }).catch(function(err){
-      console.log('[SW] Registration failed:',err);
+/* ── Accessibility ── */
+(function(){
+  document.querySelectorAll('.action-card,.kpi-pill,.r-pill,.icon-btn').forEach(function(el){
+    el.setAttribute('tabindex','0');
+    el.addEventListener('keydown',function(e){
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click();}
     });
   });
-}
-*/
-
-// ═══ CROSS-017: Accessibility enhancements ═══
-(function(){
-    document.querySelectorAll('.qa-btn,.stat-card,.customize-btn').forEach(function(el){
-        el.setAttribute('tabindex','0');
-        el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click();}});
-    });
-    var s=document.createElement('style');
-    s.textContent='.qa-btn:focus-visible,.customize-btn:focus-visible,.stat-card:focus-visible{outline:2px solid var(--blue,#2563EB);outline-offset:2px;}';
-    document.head.appendChild(s);
+  var s=document.createElement('style');
+  s.textContent='.action-card:focus-visible,.kpi-pill:focus-visible,.icon-btn:focus-visible,.r-pill:focus-visible{outline:2px solid var(--blue,#2563EB);outline-offset:2px;}';
+  document.head.appendChild(s);
 })();
 </script>
-
-<!-- Footer -->
-<div style="font-size:.68rem;color:var(--muted);text-align:center;padding:12px;border-top:1px solid var(--border);margin-top:24px;">
-  ANTS Autopilot v2.0 | &copy; 2569 ANTS AI Solution Hub | Build: Wave 6
-</div>
 
 </body>
 </html>
