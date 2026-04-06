@@ -135,6 +135,88 @@ body.edit-mode .action-card{border:2px dashed var(--blue);cursor:move;}
   .kpi-strip{gap:4px;}
   .kpi-pill{padding:4px 8px;font-size:.68rem;}
 }
+
+/* ── Row 4: What's New / Release Notes ── */
+.release-section{margin-bottom:14px;}
+.release-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.release-header .section-title{font-size:.88rem;font-weight:700;display:flex;align-items:center;gap:6px;}
+.release-scroll{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;}
+.release-scroll::-webkit-scrollbar{height:4px;}
+.release-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+.release-scroll::-webkit-scrollbar-thumb:hover{background:var(--muted);}
+.release-card{min-width:240px;max-width:260px;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;flex-shrink:0;cursor:default;transition:all .2s;position:relative;overflow:hidden;}
+.release-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:var(--radius) 0 0 var(--radius);}
+.release-card.type-feature::before{background:var(--blue);}
+.release-card.type-fix::before{background:var(--green);}
+.release-card.type-coming::before{background:var(--purple);}
+.release-card.type-tip::before{background:var(--orange);}
+.release-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.08);}
+body.dark .release-card:hover{box-shadow:0 6px 20px rgba(0,0,0,0.25);}
+.release-badge{display:inline-flex;align-items:center;gap:4px;font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:8px;margin-bottom:8px;}
+.release-badge.feature{background:var(--blue-bg);color:var(--blue);}
+.release-badge.fix{background:var(--green-bg);color:var(--green);}
+.release-badge.coming{background:var(--purple-bg);color:var(--purple);}
+.release-badge.tip{background:var(--orange-bg);color:var(--orange);}
+.release-card .rc-title{font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.3;}
+.release-card .rc-desc{font-size:.7rem;color:var(--text2);line-height:1.4;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.release-card .rc-date{font-size:.62rem;color:var(--muted);font-weight:500;}
+
+/* ── Row 5: Module Spotlight + Upsell ── */
+.spotlight-row{display:grid;grid-template-columns:60% 40%;gap:14px;margin-bottom:14px;}
+.spotlight-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
+.spotlight-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad);}
+.spotlight-badge{display:inline-flex;align-items:center;gap:4px;font-size:.58rem;font-weight:700;padding:2px 8px;border-radius:8px;background:var(--blue-bg);color:var(--blue);margin-bottom:10px;}
+.spotlight-module{display:flex;align-items:flex-start;gap:14px;}
+.spotlight-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;background:var(--blue-bg);}
+.spotlight-info{flex:1;}
+.spotlight-info .sp-name{font-size:.95rem;font-weight:800;color:var(--text);margin-bottom:6px;}
+.spotlight-info .sp-desc{font-size:.72rem;color:var(--text2);line-height:1.4;margin-bottom:10px;}
+.spotlight-features{list-style:none;margin-bottom:14px;}
+.spotlight-features li{font-size:.72rem;color:var(--text2);padding:3px 0;display:flex;align-items:center;gap:6px;}
+.spotlight-features li::before{content:'\\2713';color:var(--green);font-weight:700;font-size:.7rem;}
+.spotlight-cta{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:var(--grad);color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:.75rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.spotlight-cta:hover{opacity:.9;transform:translateY(-1px);}
+.spotlight-dots{display:flex;align-items:center;gap:6px;margin-top:12px;}
+.spotlight-dots .dot{width:8px;height:8px;border-radius:50%;background:var(--border);cursor:pointer;transition:all .2s;}
+.spotlight-dots .dot.active{background:var(--blue);width:20px;border-radius:4px;}
+.upsell-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;}
+.upsell-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(135deg,#F59E0B,#D97706,#7C3AED);}
+.upsell-header{font-size:1rem;font-weight:800;margin-bottom:4px;background:linear-gradient(135deg,#F59E0B,#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.upsell-price{font-size:1.3rem;font-weight:800;color:var(--text);margin:8px 0 2px;}
+.upsell-price-sub{font-size:.65rem;color:var(--muted);margin-bottom:12px;}
+.upsell-features{list-style:none;text-align:left;margin-bottom:16px;width:100%;}
+.upsell-features li{font-size:.72rem;color:var(--text2);padding:4px 0;display:flex;align-items:center;gap:6px;}
+.upsell-features li .uf-icon{font-size:.8rem;}
+.upsell-cta{display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:linear-gradient(135deg,#F59E0B,#7C3AED);color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s;width:100%;justify-content:center;}
+.upsell-cta:hover{opacity:.9;transform:translateY(-1px);}
+.upsell-trial{font-size:.65rem;color:var(--muted);margin-top:6px;}
+
+/* ── Row 6: Tips Strip ── */
+.tips-strip{display:flex;align-items:center;gap:10px;padding:10px 18px;background:var(--card-bg);border:1px solid var(--border);border-radius:10px;margin-bottom:14px;min-height:42px;position:relative;overflow:hidden;}
+.tips-icon{font-size:.9rem;flex-shrink:0;}
+.tips-text{font-size:.75rem;font-weight:500;color:var(--text2);flex:1;transition:opacity .4s ease,transform .4s ease;}
+.tips-text.fade-out{opacity:0;transform:translateY(-8px);}
+.tips-text.fade-in{opacity:0;transform:translateY(8px);}
+.tips-label{font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:6px;background:var(--orange-bg);color:var(--orange);flex-shrink:0;}
+.tips-dots{display:flex;gap:4px;flex-shrink:0;}
+.tips-dots .td{width:6px;height:6px;border-radius:50%;background:var(--border);transition:all .2s;}
+.tips-dots .td.active{background:var(--orange);width:14px;border-radius:3px;}
+
+/* Spotlight transition */
+.spotlight-module{transition:opacity .4s ease,transform .4s ease;}
+.spotlight-module.fade-out{opacity:0;transform:translateX(-10px);}
+
+/* Responsive for new sections */
+@media(max-width:1100px){
+  .spotlight-row{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:768px){
+  .spotlight-row{grid-template-columns:1fr;}
+  .release-card{min-width:200px;}
+}
+@media(max-width:480px){
+  .release-card{min-width:180px;}
+}
 </style>
 </head>
 <body>
@@ -346,7 +428,108 @@ body.edit-mode .action-card{border:2px dashed var(--blue);cursor:move;}
 
 </div>
 
-<!-- ═══ ROW 4: System Status Strip ═══ -->
+<!-- ═══ ROW 4: What's New / Release Notes ═══ -->
+<div class="release-section animate-in">
+  <div class="release-header">
+    <div class="section-title">&#128226; อัปเดตล่าสุด</div>
+    <a class="card-link" href="javascript:void(0)" onclick="navigate('changelog')">ดูทั้งหมด &#8594;</a>
+  </div>
+  <div class="release-scroll">
+    <div class="release-card type-feature">
+      <div class="release-badge feature">&#128640; New Feature</div>
+      <div class="rc-title">AI Chat Assistant</div>
+      <div class="rc-desc">ผู้ช่วย AI พร้อมใช้งานในทุก module แล้ว กด Ctrl+Shift+Space</div>
+      <div class="rc-date">6 เม.ย. 2569</div>
+    </div>
+    <div class="release-card type-feature">
+      <div class="release-badge feature">&#127912; New Feature</div>
+      <div class="rc-title">Home Dashboard ใหม่</div>
+      <div class="rc-desc">ออกแบบใหม่ให้ compact ดูข้อมูลสำคัญได้ทันที</div>
+      <div class="rc-date">6 เม.ย. 2569</div>
+    </div>
+    <div class="release-card type-tip">
+      <div class="release-badge tip">&#128161; Tips</div>
+      <div class="rc-title">Insights &amp; Roadmap</div>
+      <div class="rc-desc">รวม Customer Feedback + Product Roadmap ไว้ที่เดียว</div>
+      <div class="rc-date">6 เม.ย. 2569</div>
+    </div>
+    <div class="release-card type-fix">
+      <div class="release-badge fix">&#128295; Bug Fix</div>
+      <div class="rc-title">QA Round 1-4 สำเร็จ</div>
+      <div class="rc-desc">แก้ไข 64 issues: dark mode, Thai encoding, CSS vars</div>
+      <div class="rc-date">5 เม.ย. 2569</div>
+    </div>
+    <div class="release-card type-coming">
+      <div class="release-badge coming">&#128202; Coming Soon</div>
+      <div class="rc-title">Advanced Analytics</div>
+      <div class="rc-desc">AI Forecasting และ Real-time Dashboard (Q2/2569)</div>
+      <div class="rc-date">เร็วๆ นี้</div>
+    </div>
+    <div class="release-card type-coming">
+      <div class="release-badge coming">&#127970; Coming Soon</div>
+      <div class="rc-title">Multi-branch</div>
+      <div class="rc-desc">รองรับหลายสาขา พร้อม Role-based Access (Q3/2569)</div>
+      <div class="rc-date">เร็วๆ นี้</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ROW 5: Module Spotlight + Upsell ═══ -->
+<div class="spotlight-row animate-in">
+  <!-- Left: Module Spotlight -->
+  <div class="spotlight-card">
+    <div class="spotlight-badge">&#10024; Module แนะนำ</div>
+    <div class="spotlight-module" id="spotlightContent">
+      <div class="spotlight-icon" id="spotlightIcon" style="background:var(--blue-bg);">&#129302;</div>
+      <div class="spotlight-info">
+        <div class="sp-name" id="spotlightName">AI Chat Assistant</div>
+        <div class="sp-desc" id="spotlightDesc">ผู้ช่วย AI อัจฉริยะที่เข้าใจบริบทของทุก module ช่วยตอบคำถาม สร้างเอกสาร และวิเคราะห์ข้อมูลได้ทันที</div>
+        <ul class="spotlight-features" id="spotlightFeatures">
+          <li>ตอบคำถามเกี่ยวกับข้อมูลใน module ได้ทันที</li>
+          <li>สร้าง PR, ใบเสนอราคา, รายงานอัตโนมัติ</li>
+          <li>รองรับภาษาไทยและอังกฤษ</li>
+        </ul>
+        <button class="spotlight-cta" id="spotlightCta" onclick="navigate('ai-chat')">เปิดใช้งาน &#8594;</button>
+      </div>
+    </div>
+    <div class="spotlight-dots" id="spotlightDots">
+      <div class="dot active" onclick="setSpotlight(0)"></div>
+      <div class="dot" onclick="setSpotlight(1)"></div>
+      <div class="dot" onclick="setSpotlight(2)"></div>
+      <div class="dot" onclick="setSpotlight(3)"></div>
+    </div>
+  </div>
+
+  <!-- Right: Upsell -->
+  <div class="upsell-card">
+    <div style="font-size:1.3rem;margin-bottom:4px;">&#127775;</div>
+    <div class="upsell-header">Autopilot Pro</div>
+    <div class="upsell-price">&#3647;2,990<span style="font-size:.7rem;font-weight:500;color:var(--muted);">/เดือน</span></div>
+    <div class="upsell-price-sub">ปลดล็อกทุกฟีเจอร์ระดับ Pro</div>
+    <ul class="upsell-features">
+      <li><span class="uf-icon">&#129504;</span> AI Insights — วิเคราะห์เชิงลึกอัตโนมัติ</li>
+      <li><span class="uf-icon">&#9889;</span> Priority Support — ตอบภายใน 1 ชม.</li>
+      <li><span class="uf-icon">&#128268;</span> Custom Connectors — เชื่อมต่อระบบเฉพาะทาง</li>
+    </ul>
+    <button class="upsell-cta" onclick="navigate('upgrade-pro')">อัปเกรดเป็น Pro</button>
+    <div class="upsell-trial">ทดลองฟรี 14 วัน ไม่ต้องใส่บัตรเครดิต</div>
+  </div>
+</div>
+
+<!-- ═══ ROW 6: Tips Strip ═══ -->
+<div class="tips-strip animate-in">
+  <span class="tips-label">TIP</span>
+  <span class="tips-icon">&#128161;</span>
+  <span class="tips-text" id="tipsText">กด Ctrl+K เพื่อค้นหาทุกอย่างในระบบ</span>
+  <div class="tips-dots" id="tipsDots">
+    <div class="td active"></div>
+    <div class="td"></div>
+    <div class="td"></div>
+    <div class="td"></div>
+  </div>
+</div>
+
+<!-- ═══ ROW 7: System Status Strip ═══ -->
 <div class="status-strip animate-in">
   <div class="status-item"><span class="status-dot ok"></span> ระบบ: ปกติ</div>
   <div class="status-item"><span class="status-dot ok"></span> API: 99.9% Uptime</div>
@@ -360,7 +543,7 @@ body.edit-mode .action-card{border:2px dashed var(--blue);cursor:move;}
   <a class="footer-link" href="javascript:void(0)" onclick="navigate('help/faq')">&#10067; FAQ</a>
   <a class="footer-link" href="javascript:void(0)" onclick="navigate('help/support')">&#128222; Support</a>
 </div>
-<div class="footer-copy">ANTS Autopilot v2.0 | &copy; 2569 ANTS AI Solution Hub | Build: Wave 6</div>
+<div class="footer-copy">ANTS Autopilot v2.0 | &copy; 2569 ANTS AI Solution Hub | Build: Wave 7 | QA Rounds 1-4 Complete</div>
 
 </div><!-- end page -->
 
@@ -452,6 +635,73 @@ function showToast(icon,title,msg){
   var s=document.createElement('style');
   s.textContent='.action-card:focus-visible,.kpi-pill:focus-visible,.icon-btn:focus-visible,.r-pill:focus-visible{outline:2px solid var(--blue,#2563EB);outline-offset:2px;}';
   document.head.appendChild(s);
+})();
+
+/* ── Module Spotlight Rotation ── */
+(function(){
+  var modules=[
+    {icon:'\uD83E\uDD16',name:'AI Chat Assistant',desc:'ผู้ช่วย AI อัจฉริยะที่เข้าใจบริบทของทุก module ช่วยตอบคำถาม สร้างเอกสาร และวิเคราะห์ข้อมูลได้ทันที',features:['ตอบคำถามเกี่ยวกับข้อมูลใน module ได้ทันที','สร้าง PR, ใบเสนอราคา, รายงานอัตโนมัติ','รองรับภาษาไทยและอังกฤษ'],target:'ai-chat',bg:'var(--blue-bg)'},
+    {icon:'\uD83D\uDCCB',name:'Procurement Dashboard',desc:'ระบบจัดซื้อครบวงจร ตั้งแต่สร้าง PR จนถึงรับสินค้า ติดตามสถานะทุกขั้นตอนแบบ Real-time',features:['สร้าง PR/PO อัตโนมัติจาก Template','ติดตามสถานะจัดซื้อแบบ Real-time','เปรียบเทียบราคา Vendor อัตโนมัติ'],target:'procurement',bg:'var(--purple-bg)'},
+    {icon:'\uD83D\uDCB0',name:'Expense & Receipt OCR',desc:'สแกนใบเสร็จอัจฉริยะด้วย AI OCR รองรับใบเสร็จไทย อ่านข้อมูลแม่นยำ จัดหมวดหมู่อัตโนมัติ',features:['สแกนใบเสร็จภาษาไทยแม่นยำ 99%','จัดหมวดหมู่ค่าใช้จ่ายอัตโนมัติ','เชื่อมต่อระบบบัญชีโดยตรง'],target:'expense-ocr',bg:'var(--green-bg)'},
+    {icon:'\uD83D\uDD17',name:'Connector Hub',desc:'ศูนย์กลางเชื่อมต่อกว่า 50+ ระบบภายนอก ทั้ง ERP, CRM, Accounting และอื่นๆ แบบ Low-code',features:['เชื่อมต่อ 50+ ระบบ รวมถึง SAP, Oracle','ตั้งค่าแบบ Low-code ไม่ต้องเขียนโค้ด','Sync ข้อมูลแบบ Real-time หรือ Scheduled'],target:'connector-hub',bg:'var(--cyan-bg)'}
+  ];
+  var current=0;
+  var timer;
+
+  window.setSpotlight=function(idx){
+    current=idx;
+    var m=modules[idx];
+    var content=document.getElementById('spotlightContent');
+    content.classList.add('fade-out');
+    setTimeout(function(){
+      document.getElementById('spotlightIcon').textContent=m.icon;
+      document.getElementById('spotlightIcon').style.background=m.bg;
+      document.getElementById('spotlightName').textContent=m.name;
+      document.getElementById('spotlightDesc').textContent=m.desc;
+      var fl=document.getElementById('spotlightFeatures');
+      fl.innerHTML='';
+      m.features.forEach(function(f){var li=document.createElement('li');li.textContent=f;fl.appendChild(li);});
+      document.getElementById('spotlightCta').setAttribute('onclick',"navigate('"+m.target+"')");
+      var dots=document.querySelectorAll('#spotlightDots .dot');
+      dots.forEach(function(d,i){d.classList.toggle('active',i===idx);});
+      content.classList.remove('fade-out');
+    },300);
+    clearInterval(timer);
+    timer=setInterval(nextSpotlight,8000);
+  };
+
+  function nextSpotlight(){
+    current=(current+1)%modules.length;
+    window.setSpotlight(current);
+  }
+  timer=setInterval(nextSpotlight,8000);
+})();
+
+/* ── Tips Auto-Rotation ── */
+(function(){
+  var tips=[
+    'กด Ctrl+K เพื่อค้นหาทุกอย่างในระบบ',
+    'ลากวาง Pipeline cards เพื่อย้ายสถานะ Deal',
+    'AI Chat สามารถช่วยสร้าง PR, ใบเสนอราคาได้',
+    'เปิด Dark Mode ด้วยปุ่ม \uD83C\uDF19 ที่มุมขวาบน'
+  ];
+  var idx=0;
+  var el=document.getElementById('tipsText');
+  var dotsEl=document.getElementById('tipsDots');
+  if(!el||!dotsEl) return;
+
+  setInterval(function(){
+    el.classList.add('fade-out');
+    setTimeout(function(){
+      idx=(idx+1)%tips.length;
+      el.textContent=tips[idx];
+      el.classList.remove('fade-out');
+      el.classList.add('fade-in');
+      var dots=dotsEl.querySelectorAll('.td');
+      dots.forEach(function(d,i){d.classList.toggle('active',i===idx);});
+      setTimeout(function(){el.classList.remove('fade-in');},50);
+    },400);
+  },5000);
 })();
 </script>
 
