@@ -210,22 +210,26 @@
             </h1>
             <p class="text-lg sm:text-xl md:text-2xl font-semibold mb-3" style="color:var(--text-primary)">Universal AI Back Office Platform</p>
             <p class="text-sm sm:text-base md:text-lg mb-10 max-w-3xl mx-auto" style="color:var(--text-secondary)">
-                AI Back Office Platform ที่ทำงานเอกสารแทนคนได้ทั้ง flow &mdash; 6 Modules ครอบคลุมทุกงาน Back Office
+                AI Back Office Platform ที่ทำงานเอกสารแทนคนได้ทั้ง flow &mdash; 6 Modules + AI Chat Assistant + 10 AI Connectors
             </p>
 
             <!-- Stats -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 max-w-3xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-12 max-w-4xl mx-auto">
                 <div class="glass-card p-5">
                     <div class="text-3xl font-black gradient-text stat-num" data-count="6">0</div>
                     <div class="text-xs mt-1" style="color:var(--text-muted)">Industry Modules</div>
                 </div>
                 <div class="glass-card p-5">
-                    <div class="text-3xl font-black gradient-text stat-num" data-count="500" data-suffix="M+">0</div>
-                    <div class="text-xs mt-1" style="color:var(--text-muted)">Back Office Workers</div>
+                    <div class="text-3xl font-black gradient-text stat-num" data-count="10">0</div>
+                    <div class="text-xs mt-1" style="color:var(--text-muted)">AI Connectors</div>
                 </div>
                 <div class="glass-card p-5">
-                    <div class="text-3xl font-black gradient-text stat-num" data-count="65" data-suffix="%">0</div>
-                    <div class="text-xs mt-1" style="color:var(--text-muted)">เวลาที่ใช้กับเอกสาร</div>
+                    <div class="text-2xl font-black gradient-text">AI Chat</div>
+                    <div class="text-xs mt-1" style="color:var(--text-muted)">Context-Aware Assistant</div>
+                </div>
+                <div class="glass-card p-5">
+                    <div class="text-3xl font-black gradient-text stat-num" data-count="500" data-suffix="M+">0</div>
+                    <div class="text-xs mt-1" style="color:var(--text-muted)">Back Office Workers</div>
                 </div>
                 <div class="glass-card p-5">
                     <div class="text-2xl font-black gradient-text stat-num" data-prefix="$" data-count="400" data-suffix="B">0</div>
@@ -237,7 +241,7 @@
                 Explore Platform
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
             </a>
-            <p class="mt-8 text-xs" style="color:var(--text-muted)">Prepared by <strong>ANTS</strong> <strong>ANTS</strong> &mdash; ANTS — AI Solution Hubmdash; AI Solution Hub</p>
+            <p class="mt-8 text-xs" style="color:var(--text-muted)">Prepared by <strong>ANTS</strong> &mdash; AI Solution Hub</p>
         </div>
     </div>
 </section>
@@ -357,8 +361,8 @@
     <div class="max-w-6xl mx-auto px-4">
         <div class="section-fade">
             <p class="text-xs font-bold tracking-widest uppercase mb-3 gradient-text">03 &mdash; Modules</p>
-            <h2 class="text-3xl md:text-5xl font-black mb-4" style="color:var(--text-primary)">6 Industry Modules</h2>
-            <p class="text-base mb-16 max-w-2xl" style="color:var(--text-secondary)">แต่ละ Module ออกแบบมาเฉพาะสำหรับงาน Back Office แต่ละประเภท เลือกใช้ได้ตามความต้องการ</p>
+            <h2 class="text-3xl md:text-5xl font-black mb-4" style="color:var(--text-primary)">6 Modules + AI Chat + 10 Connectors</h2>
+            <p class="text-base mb-16 max-w-2xl" style="color:var(--text-secondary)">แต่ละ Module ออกแบบมาเฉพาะสำหรับงาน Back Office แต่ละประเภท พร้อม AI Chat Assistant และ AI Connectors ครบวงจร</p>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Module 1: Quotation Autopilot -->
@@ -480,6 +484,45 @@
                     <div class="flex items-center gap-1 text-xs font-semibold text-primary-600 module-arrow">
                         ดู Module <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
                     </div>
+                </div>
+            </div>
+
+            <!-- AI Chat Assistant + Connectors -->
+            <div class="grid md:grid-cols-2 gap-6 mt-6">
+                <div class="glass-card p-7 relative overflow-hidden" style="border:1px solid rgba(6,182,212,0.3);">
+                    <div class="absolute top-3 right-3"><span class="best-tag" style="background:linear-gradient(135deg,#06B6D4,#3B82F6);">NEW</span></div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-cyan-100 flex items-center justify-center text-2xl">🤖</div>
+                        <div>
+                            <h3 class="font-bold text-base" style="color:var(--text-primary)">AI Chat Assistant</h3>
+                            <p class="text-xs" style="color:var(--text-muted)">ผู้ช่วย AI ที่เข้าใจบริบททุก Module</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm mb-4" style="color:var(--text-secondary)">
+                        <li class="flex items-start gap-2"><span class="text-cyan-500">&#8226;</span> Context-aware &mdash; เปลี่ยน Module ก็เปลี่ยนบริบทอัตโนมัติ</li>
+                        <li class="flex items-start gap-2"><span class="text-cyan-500">&#8226;</span> ถาม ค้นหา สรุป วิเคราะห์ ด้วยภาษาธรรมชาติ</li>
+                        <li class="flex items-start gap-2"><span class="text-cyan-500">&#8226;</span> Proactive Suggestions ตามงานที่กำลังทำ</li>
+                        <li class="flex items-start gap-2"><span class="text-cyan-500">&#8226;</span> Embedded ทุกหน้า &mdash; ไม่ต้องติดตั้งเพิ่ม</li>
+                    </ul>
+                    <div class="text-xs font-semibold text-cyan-600">Key Differentiator &mdash; จุดแข็งที่สร้างความแตกต่าง</div>
+                </div>
+
+                <div class="glass-card p-7 relative overflow-hidden" style="border:1px solid rgba(139,92,246,0.3);">
+                    <div class="absolute top-3 right-3"><span class="best-tag" style="background:linear-gradient(135deg,#8B5CF6,#EC4899);">10 APIs</span></div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-2xl">🔗</div>
+                        <div>
+                            <h3 class="font-bold text-base" style="color:var(--text-primary)">AI Connectors</h3>
+                            <p class="text-xs" style="color:var(--text-muted)">Pre-built AI pipelines สำหรับเอกสารไทย</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm mb-4" style="color:var(--text-secondary)">
+                        <li class="flex items-start gap-2"><span class="text-purple-500">&#8226;</span> Thai OCR (6 providers) + Global OCR (7 providers)</li>
+                        <li class="flex items-start gap-2"><span class="text-purple-500">&#8226;</span> eKYC Thai ID, Passport/Visa, Vehicle Registration</li>
+                        <li class="flex items-start gap-2"><span class="text-purple-500">&#8226;</span> Fraud Detection (8 AI methods), Bank Statement Parser</li>
+                        <li class="flex items-start gap-2"><span class="text-purple-500">&#8226;</span> Smart Routing &mdash; เลือก Engine ที่เหมาะที่สุดอัตโนมัติ</li>
+                    </ul>
+                    <div class="text-xs font-semibold text-purple-600">24+ Connector APIs &mdash; Plug &amp; Play ได้ทันที</div>
                 </div>
             </div>
         </div>
@@ -606,7 +649,7 @@
             <p class="text-base mb-16 max-w-2xl" style="color:var(--text-secondary)">สถาปัตยกรรมระบบแบบ Modular ที่รองรับการขยายได้อย่างยืดหยุ่น</p>
 
             <div class="glass-card p-6 md:p-10 overflow-x-auto">
-                <svg viewBox="0 0 800 500" class="w-full" style="min-width:600px;max-height:500px;">
+                <svg viewBox="0 0 800 540" class="w-full" style="min-width:600px;max-height:540px;">
                     <defs>
                         <linearGradient id="archGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                             <stop offset="0%" style="stop-color:#2563eb"/>
@@ -679,29 +722,39 @@
                     <text x="712" y="319" text-anchor="middle" class="arch-sub">Doc Hub</text>
 
                     <!-- Arrow down -->
-                    <line x1="400" y1="329" x2="400" y2="360" class="arch-arrow"/>
+                    <line x1="400" y1="329" x2="400" y2="345" class="arch-arrow"/>
 
-                    <!-- Layer 5: Case Inventory -->
-                    <rect x="200" y="360" width="400" height="44" class="arch-box" style="stroke:url(#archGrad);stroke-width:2"/>
-                    <text x="400" y="381" text-anchor="middle" class="arch-text" style="font-size:13px">Case Inventory</text>
-                    <text x="400" y="396" text-anchor="middle" class="arch-sub" style="font-size:10px">Status Tracking + Checklist + SLA + Audit Trail</text>
+                    <!-- Layer 4b: AI Chat + Connectors -->
+                    <rect x="30" y="345" width="360" height="36" class="arch-box" style="stroke:rgba(6,182,212,0.5);stroke-width:2"/>
+                    <text x="210" y="367" text-anchor="middle" class="arch-text" style="font-size:11px;fill:#06B6D4">🤖 AI Chat Assistant — Context-Aware</text>
+
+                    <rect x="410" y="345" width="360" height="36" class="arch-box" style="stroke:rgba(139,92,246,0.5);stroke-width:2"/>
+                    <text x="590" y="367" text-anchor="middle" class="arch-text" style="font-size:11px;fill:#8B5CF6">🔗 10 AI Connectors — Smart Routing</text>
 
                     <!-- Arrow down -->
-                    <line x1="400" y1="404" x2="400" y2="435" class="arch-arrow"/>
+                    <line x1="400" y1="381" x2="400" y2="400" class="arch-arrow"/>
+
+                    <!-- Layer 5: Case Inventory -->
+                    <rect x="200" y="400" width="400" height="44" class="arch-box" style="stroke:url(#archGrad);stroke-width:2"/>
+                    <text x="400" y="421" text-anchor="middle" class="arch-text" style="font-size:13px">Case Inventory</text>
+                    <text x="400" y="436" text-anchor="middle" class="arch-sub" style="font-size:10px">Status Tracking + Checklist + SLA + Audit Trail</text>
+
+                    <!-- Arrow down -->
+                    <line x1="400" y1="444" x2="400" y2="465" class="arch-arrow"/>
 
                     <!-- Layer 6: Output -->
-                    <text x="400" y="450" text-anchor="middle" class="arch-text" style="font-size:13px;font-weight:700">Output Layer</text>
-                    <rect x="100" y="458" width="120" height="36" class="arch-box"/>
-                    <text x="160" y="480" text-anchor="middle" class="arch-text" style="font-size:10px">Reports/PDF</text>
+                    <text x="400" y="480" text-anchor="middle" class="arch-text" style="font-size:13px;font-weight:700">Output Layer</text>
+                    <rect x="100" y="488" width="120" height="36" class="arch-box"/>
+                    <text x="160" y="510" text-anchor="middle" class="arch-text" style="font-size:10px">Reports/PDF</text>
 
-                    <rect x="240" y="458" width="120" height="36" class="arch-box"/>
-                    <text x="300" y="480" text-anchor="middle" class="arch-text" style="font-size:10px">Documents</text>
+                    <rect x="240" y="488" width="120" height="36" class="arch-box"/>
+                    <text x="300" y="510" text-anchor="middle" class="arch-text" style="font-size:10px">Documents</text>
 
-                    <rect x="380" y="458" width="120" height="36" class="arch-box"/>
-                    <text x="440" y="480" text-anchor="middle" class="arch-text" style="font-size:10px">Notifications</text>
+                    <rect x="380" y="488" width="120" height="36" class="arch-box"/>
+                    <text x="440" y="510" text-anchor="middle" class="arch-text" style="font-size:10px">Notifications</text>
 
-                    <rect x="520" y="458" width="120" height="36" class="arch-box"/>
-                    <text x="580" y="480" text-anchor="middle" class="arch-text" style="font-size:10px">ERP/API</text>
+                    <rect x="520" y="488" width="120" height="36" class="arch-box"/>
+                    <text x="580" y="510" text-anchor="middle" class="arch-text" style="font-size:10px">ERP/API</text>
                 </svg>
             </div>
         </div>
@@ -733,10 +786,10 @@
                     <h3 class="font-bold text-base mb-2" style="color:var(--text-primary)">LLM Integration</h3>
                     <p class="text-sm mb-3" style="color:var(--text-secondary)">Multi-model Support</p>
                     <div class="space-y-1 text-xs" style="color:var(--text-muted)">
-                        <div>Claude (Anthropic)</div>
-                        <div>GPT-4o (OpenAI)</div>
+                        <div>Claude Opus/Sonnet (Anthropic)</div>
+                        <div>GPT-4.1 (OpenAI)</div>
                         <div>Local LLM (Llama/Qwen)</div>
-                        <div>Model Router</div>
+                        <div>Model Router + AI Chat</div>
                     </div>
                 </div>
                 <div class="glass-card p-7 text-center">
@@ -786,7 +839,7 @@
                     </div>
                     <div class="space-y-2 text-sm mb-6" style="color:var(--text-secondary)">
                         <p><strong>Cloud:</strong> AWS / GCP / Azure</p>
-                        <p><strong>AI:</strong> OpenAI GPT-4o / Claude Sonnet / LLM APIs</p>
+                        <p><strong>AI:</strong> OpenAI GPT-4.1 / Claude Opus &amp; Sonnet / LLM APIs</p>
                     </div>
                     <h4 class="font-bold text-xs uppercase tracking-wider mb-3 text-green-600">Advantages</h4>
                     <ul class="space-y-2 text-sm mb-6" style="color:var(--text-secondary)">
@@ -1102,14 +1155,14 @@
                     <p class="text-sm" style="color:var(--text-secondary)">เลือกใช้เฉพาะ Module ที่ต้องการ เพิ่มทีหลังได้ ไม่ต้องซื้อทั้ง Platform</p>
                 </div>
                 <div class="glass-card p-7 text-center">
-                    <div class="text-4xl mb-4">🔄</div>
-                    <h3 class="font-bold text-base mb-2" style="color:var(--text-primary)">Data Flywheel</h3>
-                    <p class="text-sm" style="color:var(--text-secondary)">AI ฉลาดขึ้นเรื่อยๆ จากข้อมูลจริงขององค์กร ยิ่งใช้ยิ่งแม่นยำ</p>
+                    <div class="text-4xl mb-4">🤖</div>
+                    <h3 class="font-bold text-base mb-2" style="color:var(--text-primary)">AI Chat Assistant</h3>
+                    <p class="text-sm" style="color:var(--text-secondary)">ผู้ช่วย AI ที่เข้าใจบริบททุก Module ถาม สรุป วิเคราะห์ได้ทันที ไม่ต้องออกจากหน้างาน</p>
                 </div>
                 <div class="glass-card p-7 text-center">
-                    <div class="text-4xl mb-4">🖥️</div>
-                    <h3 class="font-bold text-base mb-2" style="color:var(--text-primary)">Hardware Option</h3>
-                    <p class="text-sm" style="color:var(--text-secondary)">GIGABYTE AI TOP ATOM สำหรับองค์กรที่ต้องการ On-premise AI + Data Sovereignty</p>
+                    <div class="text-4xl mb-4">🔗</div>
+                    <h3 class="font-bold text-base mb-2" style="color:var(--text-primary)">10 AI Connectors</h3>
+                    <p class="text-sm" style="color:var(--text-secondary)">Pre-built OCR, eKYC, Fraud Detection, Parsers สำหรับเอกสารไทย + GIGABYTE AI TOP ATOM option</p>
                 </div>
             </div>
         </div>
@@ -1145,7 +1198,7 @@
             <div class="glass-card p-10 max-w-xl mx-auto" style="background:linear-gradient(135deg,var(--bg-glass),var(--bg-glass))">
                 <h3 class="text-2xl font-black mb-3 gradient-text">ติดต่อเรา</h3>
                 <p class="text-lg font-bold mb-2" style="color:var(--text-primary)">ANTS</p>
-                <p class="text-sm mb-6" style="color:var(--text-secondary)">ANTS — AI Solution Hub</p>
+                <p class="text-sm mb-6" style="color:var(--text-secondary)">AI Solution Hub &mdash; 6 Modules + AI Chat Assistant + 10 AI Connectors</p>
                 <a href="https://ai-solution-platform.github.io/autopilot" target="_blank" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-primary-600 to-accent-600 text-white font-semibold text-sm shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
                     ดู Live POC
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
@@ -1153,7 +1206,7 @@
                 <p class="text-xs mt-4" style="color:var(--text-muted)">ai-solution-platform.github.io/autopilot</p>
             </div>
 
-            <p class="mt-16 text-xs" style="color:var(--text-muted)">&copy; 2026 ANTS ANTS &mdash; ANTS — AI Solution Hubmdash; AI Solution Hub. All rights reserved.</p>
+            <p class="mt-16 text-xs" style="color:var(--text-muted)">&copy; 2026 ANTS &mdash; AI Solution Hub. All rights reserved. | 6 Modules + AI Chat + 10 Connectors</p>
         </div>
     </div>
 </section>

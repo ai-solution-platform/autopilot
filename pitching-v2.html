@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="th" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,16 +20,17 @@ tailwind.config = {
 }
 </script>
 <style>
-:root {
-    --bg: #0B0F1A;
-    --bg2: #111827;
-    --bg3: #1F2937;
-    --surface: rgba(17,24,39,0.8);
+/* ── Light Mode (Default) ── */
+:root, [data-theme="light"] {
+    --bg: #ffffff;
+    --bg2: #f8fafc;
+    --bg3: #f1f5f9;
+    --surface: rgba(255,255,255,0.8);
     --surface-border: rgba(99,102,241,0.15);
-    --border: rgba(148,163,184,0.12);
-    --text: #F1F5F9;
-    --text2: #CBD5E1;
-    --text-muted: #64748B;
+    --border: rgba(148,163,184,0.2);
+    --text: #0f172a;
+    --text2: #475569;
+    --text-muted: #94a3b8;
     --accent: #6366F1;
     --accent2: #8B5CF6;
     --accent3: #06B6D4;
@@ -40,8 +41,43 @@ tailwind.config = {
     --grad2: linear-gradient(135deg, #06B6D4, #3B82F6);
     --grad3: linear-gradient(135deg, #8B5CF6, #EC4899);
     --grad4: linear-gradient(135deg, #10B981, #06B6D4);
+    --glow-blue: 0 0 60px rgba(59,130,246,0.08);
+    --glow-purple: 0 0 60px rgba(139,92,246,0.08);
+    --glass-bg: rgba(255,255,255,0.6);
+    --glass-border: rgba(148,163,184,0.2);
+    --glass-shadow: 0 8px 32px rgba(0,0,0,0.06);
+    --glass-hover-shadow: 0 16px 48px rgba(0,0,0,0.1);
+    --nav-bg: rgba(255,255,255,0.85);
+    --nav-border: rgba(148,163,184,0.15);
+    --arch-bg: rgba(241,245,249,0.8);
+    --dot-bg: rgba(148,163,184,0.25);
+    --btn-bg: rgba(241,245,249,0.8);
+    --btn-border: rgba(148,163,184,0.2);
+}
+
+/* ── Dark Mode ── */
+[data-theme="dark"] {
+    --bg: #0B0F1A;
+    --bg2: #111827;
+    --bg3: #1F2937;
+    --surface: rgba(17,24,39,0.8);
+    --surface-border: rgba(99,102,241,0.15);
+    --border: rgba(148,163,184,0.12);
+    --text: #F1F5F9;
+    --text2: #CBD5E1;
+    --text-muted: #64748B;
     --glow-blue: 0 0 60px rgba(59,130,246,0.15);
     --glow-purple: 0 0 60px rgba(139,92,246,0.15);
+    --glass-bg: rgba(17,24,39,0.6);
+    --glass-border: rgba(148,163,184,0.1);
+    --glass-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    --glass-hover-shadow: 0 16px 48px rgba(0,0,0,0.4);
+    --nav-bg: rgba(11,15,26,0.85);
+    --nav-border: rgba(148,163,184,0.08);
+    --arch-bg: rgba(17,24,39,0.5);
+    --dot-bg: rgba(148,163,184,0.2);
+    --btn-bg: rgba(31,41,55,0.6);
+    --btn-border: rgba(148,163,184,0.15);
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -122,16 +158,16 @@ h3 { font-size:1.15rem; font-weight:600; margin-bottom:8px; }
 
 /* ── Glass Card ── */
 .glass {
-    background:rgba(17,24,39,0.6);
+    background:var(--glass-bg);
     backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
-    border:1px solid rgba(148,163,184,0.1);
+    border:1px solid var(--glass-border);
     border-radius:16px;
-    box-shadow:0 8px 32px rgba(0,0,0,0.3);
+    box-shadow:var(--glass-shadow);
     transition:transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 .glass:hover {
     transform:translateY(-4px);
-    box-shadow:0 16px 48px rgba(0,0,0,0.4);
+    box-shadow:var(--glass-hover-shadow);
     border-color:rgba(139,92,246,0.25);
 }
 
@@ -173,15 +209,15 @@ h3 { font-size:1.15rem; font-weight:600; margin-bottom:8px; }
     position:fixed; bottom:0; left:0; right:0; z-index:100;
     display:flex; align-items:center; justify-content:center; gap:16px;
     padding:14px 32px;
-    background:rgba(11,15,26,0.85);
+    background:var(--nav-bg);
     backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
-    border-top:1px solid rgba(148,163,184,0.08);
+    border-top:1px solid var(--nav-border);
 }
 
 .nav-btn {
     width:40px; height:40px; border-radius:10px;
-    border:1px solid rgba(148,163,184,0.15);
-    background:rgba(31,41,55,0.6);
+    border:1px solid var(--btn-border);
+    background:var(--btn-bg);
     color:var(--text); cursor:pointer;
     display:flex; align-items:center; justify-content:center;
     font-size:1.1rem; transition:all 0.2s ease;
@@ -194,7 +230,7 @@ h3 { font-size:1.15rem; font-weight:600; margin-bottom:8px; }
 .dots { display:flex; gap:6px; }
 .dot {
     width:8px; height:8px; border-radius:50%;
-    background:rgba(148,163,184,0.2);
+    background:var(--dot-bg);
     cursor:pointer; border:none; padding:0;
     transition:all 0.3s ease;
 }
@@ -219,8 +255,8 @@ h3 { font-size:1.15rem; font-weight:600; margin-bottom:8px; }
 .arch-box {
     padding:12px 20px; border-radius:12px; text-align:center;
     font-size:0.82rem; font-weight:600;
-    border:1px solid rgba(148,163,184,0.1);
-    background:rgba(17,24,39,0.5);
+    border:1px solid var(--glass-border);
+    background:var(--arch-bg);
 }
 
 /* ── Timeline ── */
@@ -228,6 +264,22 @@ h3 { font-size:1.15rem; font-weight:600; margin-bottom:8px; }
 .timeline::before { content:''; position:absolute; left:11px; top:0; bottom:0; width:2px; background:linear-gradient(to bottom, #3B82F6, #8B5CF6, #EC4899); }
 .tl-item { position:relative; margin-bottom:28px; }
 .tl-dot { position:absolute; left:-27px; top:4px; width:14px; height:14px; border-radius:50%; border:3px solid var(--bg); }
+
+/* ── Theme Toggle ── */
+.theme-toggle {
+    position:fixed; top:16px; right:16px; z-index:150;
+    width:40px; height:40px; border-radius:50%;
+    background:var(--glass-bg); border:1px solid var(--glass-border);
+    backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+    font-size:1.2rem; transition:all 0.3s ease;
+    box-shadow:var(--glass-shadow);
+}
+.theme-toggle:hover { transform:scale(1.1); }
+
+/* ── Smooth transitions ── */
+html { transition:background 0.4s, color 0.4s; }
+body { transition:background 0.4s, color 0.4s; }
 
 /* ── Pricing ── */
 .price-card { text-align:center; padding:32px 24px; position:relative; overflow:hidden; }
@@ -258,6 +310,7 @@ h3 { font-size:1.15rem; font-weight:600; margin-bottom:8px; }
 <body>
 
 <div id="progressBar"></div>
+<button class="theme-toggle" id="themeToggle" title="Toggle Light/Dark Mode">☀️</button>
 
 <div class="deck">
 
@@ -284,9 +337,11 @@ h3 { font-size:1.15rem; font-weight:600; margin-bottom:8px; }
             <div class="glass" style="padding:12px 24px;display:inline-flex;align-items:center;gap:8px;">
                 <span style="font-size:0.85rem;color:var(--text-muted);">6 Modules</span>
                 <span style="color:rgba(139,92,246,0.4);">|</span>
-                <span style="font-size:0.85rem;color:var(--text-muted);">1 Platform</span>
+                <span style="font-size:0.85rem;color:var(--text-muted);">10 AI Connectors</span>
                 <span style="color:rgba(139,92,246,0.4);">|</span>
-                <span style="font-size:0.85rem;color:var(--text-muted);">Infinite Scale</span>
+                <span style="font-size:0.85rem;color:var(--text-muted);">AI Chat Assistant</span>
+                <span style="color:rgba(139,92,246,0.4);">|</span>
+                <span style="font-size:0.85rem;color:var(--text-muted);">1 Platform</span>
             </div>
         </div>
         <p style="margin-top:40px;font-size:0.78rem;color:var(--text-muted);letter-spacing:1px;">APRIL 2026</p>
@@ -379,8 +434,8 @@ h3 { font-size:1.15rem; font-weight:600; margin-bottom:8px; }
             <div class="glass" style="display:inline-flex;padding:16px 32px;gap:32px;flex-wrap:wrap;justify-content:center;">
                 <span style="font-size:0.85rem;color:var(--text2);">&#9889; <strong>1 Platform</strong></span>
                 <span style="font-size:0.85rem;color:var(--text2);">&#128230; <strong>6 Modules</strong></span>
-                <span style="font-size:0.85rem;color:var(--text2);">&#127757; <strong>Unlimited Scale</strong></span>
-                <span style="font-size:0.85rem;color:var(--text2);">&#129302; <strong>AI-First</strong></span>
+                <span style="font-size:0.85rem;color:var(--text2);">&#128268; <strong>10 AI Connectors</strong></span>
+                <span style="font-size:0.85rem;color:var(--text2);">&#129302; <strong>AI Chat Assistant</strong></span>
             </div>
         </div>
     </div>
@@ -432,6 +487,18 @@ h3 { font-size:1.15rem; font-weight:600; margin-bottom:8px; }
                     <div class="arch-box" style="border-top:2px solid #F59E0B;font-size:0.75rem;">&#128209; Sales Doc</div>
                     <div class="arch-box" style="border-top:2px solid #EF4444;font-size:0.75rem;">&#128230; PO/PR</div>
                     <div class="arch-box" style="border-top:2px solid #EC4899;font-size:0.75rem;">&#127974; Finance Hub</div>
+                </div>
+
+                <!-- AI Chat + Connectors -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">
+                    <div class="glass" style="padding:10px;text-align:center;border:1px solid rgba(16,185,129,0.3);background:rgba(16,185,129,0.08);">
+                        <div style="font-size:0.78rem;font-weight:700;color:#10B981;">&#129302; AI Chat Assistant</div>
+                        <div style="font-size:0.65rem;color:var(--text-muted);">Context-aware ทุก Module</div>
+                    </div>
+                    <div class="glass" style="padding:10px;text-align:center;border:1px solid rgba(6,182,212,0.3);background:rgba(6,182,212,0.08);">
+                        <div style="font-size:0.78rem;font-weight:700;color:#06B6D4;">&#128268; 10 AI Connectors</div>
+                        <div style="font-size:0.65rem;color:var(--text-muted);">OCR, eKYC, Fraud, Parsers</div>
+                    </div>
                 </div>
             </div>
 
@@ -494,7 +561,7 @@ h3 { font-size:1.15rem; font-weight:600; margin-bottom:8px; }
                     </div>
                 </div>
                 <div style="margin-top:16px;padding:10px 16px;background:rgba(16,185,129,0.1);border-radius:10px;border:1px solid rgba(16,185,129,0.2);">
-                    <span style="font-size:0.78rem;color:var(--success);font-weight:600;">&#9989; Currently Live in POC</span>
+                    <span style="font-size:0.78rem;color:var(--success);font-weight:600;">&#9989; Live — POC Verified, 6 QA Rounds Passed</span>
                 </div>
             </div>
         </div>
@@ -848,7 +915,149 @@ h3 { font-size:1.15rem; font-weight:600; margin-bottom:8px; }
 </div>
 
 <!-- ============================================================ -->
-<!-- SLIDE 11: AI TECHNOLOGY -->
+<!-- SLIDE 11: AI CHAT ASSISTANT -->
+<!-- ============================================================ -->
+<div class="slide">
+    <div class="orb orb-cyan" style="width:350px;height:350px;top:-50px;left:-50px;"></div>
+    <div class="orb orb-purple" style="width:200px;height:200px;bottom:10%;right:5%;"></div>
+    <div style="position:relative;z-index:1;">
+        <div class="tag">Key Differentiator</div>
+        <h2>&#129302; AI Chat <span class="grad2">Assistant</span></h2>
+        <p class="sub" style="margin-bottom:32px;">ผู้ช่วย AI ที่เข้าใจบริบทของทุก Module — ถาม ค้นหา สรุป วิเคราะห์ ได้ทันที</p>
+
+        <div class="g2 stagger">
+            <div class="glass" style="padding:28px;">
+                <h3 style="margin-bottom:16px;font-size:1.1rem;">Context-Aware Intelligence</h3>
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                    <div style="display:flex;align-items:center;gap:12px;padding:12px;background:rgba(6,182,212,0.05);border-radius:10px;">
+                        <span style="font-size:1.5rem;">&#128172;</span>
+                        <div>
+                            <div style="font-size:0.88rem;font-weight:600;">Smart Context Switching</div>
+                            <div style="font-size:0.75rem;color:var(--text-muted);">เปลี่ยน Module ก็เปลี่ยนบริบทให้อัตโนมัติ — ถามเรื่อง Expense ก็ตอบเรื่อง Expense</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:12px;padding:12px;background:rgba(139,92,246,0.05);border-radius:10px;">
+                        <span style="font-size:1.5rem;">&#128161;</span>
+                        <div>
+                            <div style="font-size:0.88rem;font-weight:600;">Proactive Suggestions</div>
+                            <div style="font-size:0.75rem;color:var(--text-muted);">แนะนำคำถามที่เกี่ยวข้องกับงานที่กำลังทำ ช่วยให้ทำงานเร็วขึ้น</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:12px;padding:12px;background:rgba(16,185,129,0.05);border-radius:10px;">
+                        <span style="font-size:1.5rem;">&#128202;</span>
+                        <div>
+                            <div style="font-size:0.88rem;font-weight:600;">Data Analysis on Demand</div>
+                            <div style="font-size:0.75rem;color:var(--text-muted);">สรุปข้อมูล, วิเคราะห์แนวโน้ม, ค้นหาเอกสาร ด้วยภาษาธรรมชาติ</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:12px;">
+                <div class="glass" style="padding:24px;text-align:center;">
+                    <div style="font-size:2.5rem;margin-bottom:8px;">&#129302;</div>
+                    <h3 style="margin-bottom:4px;">Available Everywhere</h3>
+                    <p style="font-size:0.82rem;color:var(--text-muted);">ปุ่ม Chat ลอยอยู่ทุกหน้า — พร้อมช่วยทันทีไม่ต้องออกจากงานที่ทำ</p>
+                </div>
+                <div class="glass" style="padding:20px;">
+                    <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:10px;">ตัวอย่างคำถามที่ถามได้:</div>
+                    <div style="display:flex;flex-direction:column;gap:6px;">
+                        <div style="font-size:0.82rem;padding:8px 12px;background:rgba(59,130,246,0.08);border-radius:8px;color:var(--text2);">&#128172; "สรุปค่าใช้จ่ายเดือนนี้ให้หน่อย"</div>
+                        <div style="font-size:0.82rem;padding:8px 12px;background:rgba(139,92,246,0.08);border-radius:8px;color:var(--text2);">&#128172; "เคสไหนใกล้ครบ SLA?"</div>
+                        <div style="font-size:0.82rem;padding:8px 12px;background:rgba(6,182,212,0.08);border-radius:8px;color:var(--text2);">&#128172; "เปรียบเทียบ Vendor A vs B"</div>
+                        <div style="font-size:0.82rem;padding:8px 12px;background:rgba(16,185,129,0.08);border-radius:8px;color:var(--text2);">&#128172; "สร้างใบเสนอราคาสำหรับลูกค้า X"</div>
+                    </div>
+                </div>
+                <div class="glass" style="padding:16px;text-align:center;border:1px solid rgba(16,185,129,0.2);">
+                    <span style="font-size:0.85rem;color:var(--success);font-weight:600;">&#9989; Embedded in Platform — ไม่ต้องติดตั้งเพิ่ม</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 12: AI CONNECTORS -->
+<!-- ============================================================ -->
+<div class="slide">
+    <div class="orb orb-pink" style="width:300px;height:300px;top:5%;right:-50px;"></div>
+    <div style="position:relative;z-index:1;">
+        <div class="tag">AI Infrastructure</div>
+        <h2>&#128268; 10 AI <span class="grad3">Connectors</span></h2>
+        <p class="sub" style="margin-bottom:28px;">Pre-built AI pipelines สำหรับเอกสารทุกประเภทในไทย — plug & play ได้ทันที</p>
+
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:20px;" class="stagger">
+            <div class="glass" style="padding:16px 10px;text-align:center;">
+                <div style="font-size:1.3rem;margin-bottom:4px;">&#127481;&#127469;</div>
+                <div style="font-size:0.72rem;font-weight:600;">Thai OCR</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);">6 providers</div>
+            </div>
+            <div class="glass" style="padding:16px 10px;text-align:center;">
+                <div style="font-size:1.3rem;margin-bottom:4px;">&#127760;</div>
+                <div style="font-size:0.72rem;font-weight:600;">Global OCR</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);">7 providers</div>
+            </div>
+            <div class="glass" style="padding:16px 10px;text-align:center;">
+                <div style="font-size:1.3rem;margin-bottom:4px;">&#128100;</div>
+                <div style="font-size:0.72rem;font-weight:600;">eKYC</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);">Thai ID + Face</div>
+            </div>
+            <div class="glass" style="padding:16px 10px;text-align:center;">
+                <div style="font-size:1.3rem;margin-bottom:4px;">&#128721;</div>
+                <div style="font-size:0.72rem;font-weight:600;">Fraud Detection</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);">8 AI methods</div>
+            </div>
+            <div class="glass" style="padding:16px 10px;text-align:center;">
+                <div style="font-size:1.3rem;margin-bottom:4px;">&#127974;</div>
+                <div style="font-size:0.72rem;font-weight:600;">Bank Statement</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);">8 Thai banks</div>
+            </div>
+            <div class="glass" style="padding:16px 10px;text-align:center;">
+                <div style="font-size:1.3rem;margin-bottom:4px;">&#129534;</div>
+                <div style="font-size:0.72rem;font-weight:600;">Receipt/Invoice</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);">10 doc types</div>
+            </div>
+            <div class="glass" style="padding:16px 10px;text-align:center;">
+                <div style="font-size:1.3rem;margin-bottom:4px;">&#127970;</div>
+                <div style="font-size:0.72rem;font-weight:600;">Gov Documents</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);">ทะเบียนบ้าน+โฉนด</div>
+            </div>
+            <div class="glass" style="padding:16px 10px;text-align:center;">
+                <div style="font-size:1.3rem;margin-bottom:4px;">&#128706;</div>
+                <div style="font-size:0.72rem;font-weight:600;">Passport/Visa</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);">MRZ + Face</div>
+            </div>
+            <div class="glass" style="padding:16px 10px;text-align:center;">
+                <div style="font-size:1.3rem;margin-bottom:4px;">&#128663;</div>
+                <div style="font-size:0.72rem;font-weight:600;">Vehicle Reg</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);">ทะเบียนรถ+พ.ร.บ.</div>
+            </div>
+            <div class="glass" style="padding:16px 10px;text-align:center;">
+                <div style="font-size:1.3rem;margin-bottom:4px;">&#128268;</div>
+                <div style="font-size:0.72rem;font-weight:600;">Connector Hub</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);">24 APIs, routing</div>
+            </div>
+        </div>
+
+        <div class="g3 stagger">
+            <div class="glass" style="padding:20px;text-align:center;">
+                <div class="stat-big grad" style="font-size:2rem;">24+</div>
+                <div class="stat-label">AI Connector APIs</div>
+            </div>
+            <div class="glass" style="padding:20px;text-align:center;">
+                <div class="stat-big grad2" style="font-size:2rem;">Smart Routing</div>
+                <div class="stat-label">เลือก Engine ที่เหมาะที่สุดอัตโนมัติ</div>
+            </div>
+            <div class="glass" style="padding:20px;text-align:center;">
+                <div class="stat-big grad3" style="font-size:2rem;">Plug & Play</div>
+                <div class="stat-label">เชื่อมต่อ Module ไหนก็ได้ทันที</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 13: AI TECHNOLOGY -->
 <!-- ============================================================ -->
 <div class="slide">
     <div class="orb orb-blue" style="width:350px;height:350px;bottom:-50px;right:-50px;"></div>
@@ -892,11 +1101,11 @@ h3 { font-size:1.15rem; font-weight:600; margin-bottom:8px; }
                 </div>
                 <div style="display:flex;flex-direction:column;gap:8px;">
                     <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(139,92,246,0.05);border-radius:8px;">
-                        <span style="font-size:0.82rem;">Claude (Anthropic)</span>
+                        <span style="font-size:0.82rem;">Claude Opus/Sonnet (Anthropic)</span>
                         <span style="font-size:0.72rem;padding:2px 8px;background:rgba(139,92,246,0.15);border-radius:4px;color:#8B5CF6;">Best Quality</span>
                     </div>
                     <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(59,130,246,0.05);border-radius:8px;">
-                        <span style="font-size:0.82rem;">GPT-4o (OpenAI)</span>
+                        <span style="font-size:0.82rem;">GPT-4.1 (OpenAI)</span>
                         <span style="font-size:0.72rem;padding:2px 8px;background:rgba(59,130,246,0.15);border-radius:4px;color:#3B82F6;">Fast</span>
                     </div>
                     <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(16,185,129,0.05);border-radius:8px;">
@@ -1055,22 +1264,22 @@ h3 { font-size:1.15rem; font-weight:600; margin-bottom:8px; }
                     <tbody>
                         <tr>
                             <td><span style="font-weight:700;">&#128994; Starter</span></td>
-                            <td><span style="font-weight:700;color:#10B981;">29,900 THB</span></td>
-                            <td>1 module</td>
+                            <td><span style="font-weight:700;color:#10B981;">9,900-19,900 THB</span></td>
+                            <td>Per module (5 users)</td>
                             <td>500 docs</td>
-                            <td>Email + Chat</td>
+                            <td>Email + AI Chat</td>
                         </tr>
                         <tr style="background:rgba(99,102,241,0.05);">
                             <td><span style="font-weight:700;">&#128309; Business</span></td>
-                            <td><span style="font-weight:700;color:#3B82F6;">79,900 THB</span></td>
-                            <td>3 modules</td>
+                            <td><span style="font-weight:700;color:#3B82F6;">29,900-49,900 THB</span></td>
+                            <td>Per module (25 users)</td>
                             <td>3,000 docs</td>
                             <td>Priority + CSM</td>
                         </tr>
                         <tr>
                             <td><span style="font-weight:700;">&#128995; Enterprise</span></td>
                             <td><span style="font-weight:700;color:#8B5CF6;">Custom</span></td>
-                            <td>All 6 modules</td>
+                            <td>All 6 modules + Connectors</td>
                             <td>Unlimited</td>
                             <td>Dedicated + SLA</td>
                         </tr>
@@ -1104,7 +1313,7 @@ h3 { font-size:1.15rem; font-weight:600; margin-bottom:8px; }
         </div>
 
         <div class="glass" style="padding:16px 24px;margin-top:20px;text-align:center;border:1px solid rgba(16,185,129,0.2);">
-            <span style="font-size:0.88rem;color:var(--success);font-weight:600;">&#128184; Full Platform Bundle: เริ่มต้น 149,900 THB/mo — ลด 25% จากราคารวมรายโมดูล</span>
+            <span style="font-size:0.88rem;color:var(--success);font-weight:600;">&#128184; Full Platform Bundle: Starter 59,900 / Business 149,900 THB/mo — รวม 6 Modules + AI Chat + 10 Connectors</span>
         </div>
     </div>
 </div>
@@ -1129,7 +1338,7 @@ h3 { font-size:1.15rem; font-weight:600; margin-bottom:8px; }
                             <span style="font-size:0.72rem;color:var(--text-muted);">M1-6</span>
                         </div>
                         <h3 style="font-size:1rem;">Thailand Launch</h3>
-                        <p style="font-size:0.82rem;color:var(--text2);line-height:1.5;">Quotation + Expense modules<br/>Target: 50 enterprises</p>
+                        <p style="font-size:0.82rem;color:var(--text2);line-height:1.5;">6 Modules + AI Chat + 10 Connectors<br/>Target: 50 enterprises</p>
                     </div>
                 </div>
 
@@ -1247,7 +1456,7 @@ h3 { font-size:1.15rem; font-weight:600; margin-bottom:8px; }
             <div style="padding:16px 32px;background:var(--grad1);border-radius:12px;font-weight:700;font-size:1rem;color:#fff;cursor:pointer;box-shadow:0 8px 24px rgba(59,130,246,0.3);">
                 &#128640; ทดลองใช้ฟรี 14 วัน
             </div>
-            <div style="padding:16px 32px;border:1px solid rgba(148,163,184,0.2);border-radius:12px;font-weight:600;font-size:1rem;color:var(--text2);cursor:pointer;background:rgba(17,24,39,0.5);">
+            <div style="padding:16px 32px;border:1px solid var(--glass-border);border-radius:12px;font-weight:600;font-size:1rem;color:var(--text2);cursor:pointer;background:var(--glass-bg);">
                 &#128197; นัด Live Demo
             </div>
         </div>
@@ -1273,7 +1482,7 @@ h3 { font-size:1.15rem; font-weight:600; margin-bottom:8px; }
 
         <div style="margin-top:32px;">
             <div style="font-size:0.78rem;color:var(--text-muted);">ANTS — AI Solution Hub</div>
-            <div style="font-size:0.68rem;color:var(--text-muted);margin-top:4px;">Autopilot v2 — AI Back Office Platform | April 2026</div>
+            <div style="font-size:0.68rem;color:var(--text-muted);margin-top:4px;">Autopilot v2 — AI Back Office Platform | 6 Modules + AI Chat + 10 Connectors | April 2026</div>
         </div>
     </div>
 </div>
@@ -1283,7 +1492,7 @@ h3 { font-size:1.15rem; font-weight:600; margin-bottom:8px; }
 <!-- ── Navigation Bar ── -->
 <div class="nav-bar">
     <button class="nav-btn" id="prevBtn" disabled>&#8592;</button>
-    <div class="slide-counter"><span id="cur">1</span> / <span id="tot">15</span></div>
+    <div class="slide-counter"><span id="cur">1</span> / <span id="tot">17</span></div>
     <div class="dots" id="dots"></div>
     <button class="nav-btn" id="nextBtn">&#8594;</button>
 </div>
@@ -1361,6 +1570,21 @@ document.getElementById('prevBtn').addEventListener('mousedown', e => {
 
 // Init progress bar
 document.getElementById('progressBar').style.width = (1 / total * 100) + '%';
+
+// ── Theme Toggle ──
+var themeBtn = document.getElementById('themeToggle');
+function setTheme(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    localStorage.setItem('pitchTheme', t);
+    themeBtn.textContent = t === 'dark' ? '☀️' : '🌙';
+}
+themeBtn.addEventListener('click', function() {
+    var cur = document.documentElement.getAttribute('data-theme') || 'light';
+    setTheme(cur === 'dark' ? 'light' : 'dark');
+});
+// Init from localStorage or default light
+var savedTheme = localStorage.getItem('pitchTheme') || 'light';
+setTheme(savedTheme);
 </script>
 </body>
 </html>
